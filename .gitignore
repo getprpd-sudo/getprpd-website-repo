@@ -1,0 +1,24 @@
+# Raw originals — never deploy these (large files, not web-served)
+_raw_originals/
+
+# 360 spin assets — section is hidden until reshoot, not needed on live site
+assets/360/
+
+# 3D model — not referenced anywhere on live site
+assets/models/
+
+# Nested git repo clone (accident — real repo is this folder)
+GetPRPD Website/
+
+# Dev-only files — no need to deploy these
+dish-preview.html
+360-shoot-guide.html
+apps-script.gs
+GOOGLE_SHEETS_SETUP.md
+README.md
+
+# OS / editor clutter
+.DS_Store
+Thumbs.db
+*.swp
+.claude/
