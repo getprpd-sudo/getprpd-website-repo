@@ -297,9 +297,14 @@ if (form) {
       document.querySelector('.form-progress').style.display = 'none';
       progressFill.style.width = '100%';
 
-      // TikTok Pixel — fire conversion event on successful form submission
+      // TikTok Pixel — fire conversion events on successful form submission
       if (typeof ttq !== 'undefined') {
-        ttq.track('CompleteRegistration');
+        ttq.track('CompleteRegistration', {
+          contents: [{ content_id: 'prpd-intake-form', content_name: 'PRPD Intake Form' }]
+        });
+        ttq.track('Lead', {
+          contents: [{ content_id: 'prpd-intake-form', content_name: 'PRPD Intake Form' }]
+        });
       }
 
     } catch (err) {
