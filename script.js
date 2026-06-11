@@ -184,25 +184,9 @@ function validateStep(step) {
   }
 
   if (step === 2) {
-    ['fitnessGoalVal', 'trainingDaysVal'].forEach(id => {
-      const el = document.getElementById(id);
-      if (!el.value) {
-        const groupId = id.replace('Val', '');
-        const group = document.getElementById(groupId);
-        if (group) {
-          group.style.outline = '1.5px solid rgba(224,112,112,0.6)';
-          group.style.borderRadius = '12px';
-          group.style.padding = '6px';
-          setTimeout(() => { group.style.outline = ''; group.style.padding = ''; }, 2000);
-        }
-        valid = false;
-      }
-    });
-  }
-
-  if (step === 3) {
-    if (!document.getElementById('halalPrefVal').value) {
-      const group = document.getElementById('halalPref');
+    const el = document.getElementById('fitnessGoalVal');
+    if (!el.value) {
+      const group = document.getElementById('fitnessGoal');
       if (group) {
         group.style.outline = '1.5px solid rgba(224,112,112,0.6)';
         group.style.borderRadius = '12px';
@@ -271,8 +255,6 @@ if (form) {
       referral:         document.getElementById('referral').value,
       referralInsight:  document.getElementById('referralInsight')?.value.trim() || '',
       fitnessGoal:      document.getElementById('fitnessGoalVal').value,
-      trainingDays:     document.getElementById('trainingDaysVal').value,
-      halalPref:        document.getElementById('halalPrefVal').value,
       restrictions:     selectedRestrictions,
       notes:            document.getElementById('notes').value.trim(),
       submittedAt:      new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' }),
