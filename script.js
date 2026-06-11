@@ -4,7 +4,7 @@
 
 // ── Google Apps Script endpoint
 // Replace this URL after you deploy the Apps Script (see README)
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzSZRlD1Aq0MKETNC4k9HDMEPjJfDMBVGFWKPTf3facS3XYEfSNG3XGC30cUkzS2l4C/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwIGyRrfmTy7xYB02oTcl_iUItsIMGjhD1DWtEHNfIKFiHK1MkUC6kUyDWA1-Ekkm9a/exec';
 
 // Capture ad/source attribution so paid leads can be traced in Google Sheets.
 const ATTRIBUTION_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
