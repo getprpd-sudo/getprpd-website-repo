@@ -6,6 +6,39 @@
 // Replace this URL after you deploy the Apps Script (see README)
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzSZRlD1Aq0MKETNC4k9HDMEPjJfDMBVGFWKPTf3facS3XYEfSNG3XGC30cUkzS2l4C/exec';
 
+// Capture ad/source attribution so paid leads can be traced in Google Sheets.
+const ATTRIBUTION_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+
+function captureAttribution() {
+  const params = new URLSearchParams(window.location.search);
+
+  ATTRIBUTION_KEYS.forEach(key => {
+    const value = params.get(key);
+    if (value) sessionStorage.setItem(key, value);
+  });
+
+  const landingPage = sessionStorage.getItem('landing_page');
+  if (!landingPage) sessionStorage.setItem('landing_page', window.location.href);
+
+  if (document.referrer && !sessionStorage.getItem('referrer')) {
+    sessionStorage.setItem('referrer', document.referrer);
+  }
+}
+
+function getAttributionData() {
+  return {
+    utmSource:   sessionStorage.getItem('utm_source') || '',
+    utmMedium:   sessionStorage.getItem('utm_medium') || '',
+    utmCampaign: sessionStorage.getItem('utm_campaign') || '',
+    utmContent:  sessionStorage.getItem('utm_content') || '',
+    utmTerm:     sessionStorage.getItem('utm_term') || '',
+    landingPage: sessionStorage.getItem('landing_page') || window.location.href,
+    referrer:    sessionStorage.getItem('referrer') || document.referrer || '',
+  };
+}
+
+captureAttribution();
+
 // ════════════════════════════════
 // NAV — scroll shrink
 // ════════════════════════════════
@@ -243,6 +276,7 @@ if (form) {
       restrictions:     selectedRestrictions,
       notes:            document.getElementById('notes').value.trim(),
       submittedAt:      new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' }),
+      ...getAttributionData(),
     };
 
     try {
@@ -262,6 +296,11 @@ if (form) {
       document.getElementById('formSuccess').style.display = 'block';
       document.querySelector('.form-progress').style.display = 'none';
       progressFill.style.width = '100%';
+
+      // TikTok Pixel — fire conversion event on successful form submission
+      if (typeof ttq !== 'undefined') {
+        ttq.track('CompleteRegistration');
+      }
 
     } catch (err) {
       console.error('Submission error:', err);
