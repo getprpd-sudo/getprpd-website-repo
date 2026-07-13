@@ -45,7 +45,22 @@
 html { scroll-behavior: smooth; }
 
 body {
-  background: var(--cream);
+  background-color: var(--cream);
+  background-image:
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0px,
+      transparent 46px,
+      rgba(30, 46, 30, 0.065) 46px,
+      rgba(30, 46, 30, 0.065) 48px
+    ),
+    repeating-linear-gradient(
+      45deg,
+      transparent 0px,
+      transparent 46px,
+      rgba(30, 46, 30, 0.038) 46px,
+      rgba(30, 46, 30, 0.038) 48px
+    );
   color: var(--text);
   font-family: var(--font-body);
   font-size: 17px;
@@ -1092,7 +1107,8 @@ img[src*="halal-cart-chicken"] { filter: brightness(1.28) saturate(1.1) contrast
   border: 1px solid rgba(255,255,255,0.09);
   border-radius: var(--radius-md);
   padding: 18px 24px;
-  max-width: 280px;
+  flex: 1 1 calc(50% - 8px);
+  max-width: calc(50% - 8px);
 }
 .form-aside-card__icon {
   color: var(--sage-light);

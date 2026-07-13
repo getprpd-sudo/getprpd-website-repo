@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Place Your Order | PRPD</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ═══════════════════════════════
+       ORDER PAGE
+    ═══════════════════════════════ */
+    body { padding-top: calc(var(--banner-h) + 72px); }
+
+    /* ── Page header ── */
+    .order-hero {
+      padding: 52px 0 36px;
+      text-align: center;
+    }
+    .order-hero h1 {
+      font-size: clamp(2.2rem, 4vw, 3rem);
+      font-weight: 700;
+      color: var(--green);
+      letter-spacing: -0.03em;
+      margin-bottom: 10px;
+    }
+    .order-hero__meta {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* ── Layout ── */
+    .order-layout {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 32px;
+      align-items: start;
+      padding-bottom: 100px;
+    }
+
+    /* ── Client info card ── */
+    .order-info-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 26px 28px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid rgba(30,46,30,0.07);
+      margin-bottom: 44px;
+    }
+    .order-info-card h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--green);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-size: 0.78rem;
+    }
+    .name-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .order-input {
+      width: 100%;
+      padding: 13px 16px;
+      border: 1.5px solid rgba(30,46,30,0.13);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--text);
+      background: var(--cream);
+      outline: none;
+      transition: border-color 0.18s;
+    }
+    .order-input:focus { border-color: var(--sage); }
+    .order-input.error { border-color: #E07070; background: #fff5f5; }
+    .order-input::placeholder { color: rgba(30,46,30,0.36); }
+    textarea.order-input { resize: none; height: 70px; line-height: 1.55; }
+
+    /* ── Menu section ── */
+    .menu-section { margin-bottom: 48px; }
+    .menu-section-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .menu-section-head h2 {
+      font-size: clamp(1.55rem, 2.4vw, 2rem);
+      font-weight: 700;
+      color: var(--green);
+      letter-spacing: -0.025em;
+    }
+
+    /* ── Dish grid ── */
+    .dish-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 18px;
+    }
+
+    /* ── Dish card ── */
+    .dish-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      border: 1.5px solid transparent;
+      transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+      display: flex;
+      flex-direction: column;
+      cursor: default;
+    }
+    .dish-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .dish-card.has-qty {
+      border-color: var(--sage);
+      box-shadow: 0 0 0 2px rgba(127,168,130,0.3), var(--shadow-sm);
+    }
+
+    /* Image */
+    .dish-img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      background: linear-gradient(135deg, var(--green) 0%, var(--green-mid) 100%);
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .dish-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      position: absolute; inset: 0;
+      display: block;
+      transition: opacity 0.3s;
+    }
+    .dish-img__bg {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: none;
+    }
+    .dish-img__bg span {
+      font-family: var(--font-brand);
+      font-size: 3rem;
+      color: rgba(236,231,223,0.14);
+      letter-spacing: 0.12em;
+    }
+
+    /* Body */
+    .dish-body {
+      padding: 15px 16px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+    .dish-name {
+      font-size: 0.97rem;
+      font-weight: 700;
+      color: var(--green);
+      line-height: 1.25;
+    }
+    .dish-macros {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .macro-chip {
+      font-size: 0.66rem;
+      font-weight: 700;
+      letter-spacing: 0.025em;
+      color: #3a6540;
+      background: linear-gradient(
+        160deg,
+        rgba(168, 196, 171, 0.28) 0%,
+        rgba(127, 168, 130, 0.08) 100%
+      );
+      border: 1.5px solid rgba(127, 168, 130, 0.52);
+      padding: 4px 11px;
+      border-radius: 100px;
+      white-space: nowrap;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.5),
+        0 2px 5px rgba(30, 46, 30, 0.07);
+    }
+    .dish-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+      padding-top: 4px;
+    }
+    .dish-price {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--green);
+    }
+
+    /* Qty controls */
+    .qty-ctrl {
+      display: flex;
+      align-items: center;
+      background: rgba(30,46,30,0.07);
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+    }
+    .qty-btn {
+      width: 32px; height: 32px;
+      border: none; background: transparent;
+      color: var(--green);
+      font-size: 1.15rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.14s;
+      line-height: 1;
+      user-select: none;
+    }
+    .qty-btn:hover { background: rgba(30,46,30,0.11); }
+    .qty-btn:active { background: rgba(30,46,30,0.2); }
+    .qty-val {
+      min-width: 24px;
+      text-align: center;
+      font-size: 0.93rem;
+      font-weight: 700;
+      color: var(--green);
+    }
+
+    /* ── Order summary sidebar ── */
+    .order-summary {
+      position: sticky;
+      top: calc(var(--banner-h) + 88px);
+      background: var(--green);
+      color: var(--cream);
+      border-radius: var(--radius-md);
+      padding: 26px;
+      box-shadow: var(--shadow-lg);
+    }
+    .order-summary h3 {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: rgba(236,231,223,0.55);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 18px;
+    }
+    .summary-items {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      min-height: 52px;
+      margin-bottom: 18px;
+    }
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 0.88rem;
+    }
+    .summary-item-name { color: rgba(236,231,223,0.75); flex: 1; line-height: 1.35; }
+    .summary-item-price { color: var(--cream); font-weight: 600; white-space: nowrap; }
+    .summary-empty { font-size: 0.83rem; color: rgba(236,231,223,0.38); font-style: italic; }
+    .summary-divider {
+      border: none;
+      border-top: 1px solid rgba(236,231,223,0.13);
+      margin: 0 0 16px;
+    }
+    .summary-total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .summary-total-label { font-size: 0.88rem; font-weight: 600; color: rgba(236,231,223,0.7); }
+    .summary-total-val { font-size: 1.4rem; font-weight: 700; color: var(--cream); }
+    #placeOrderBtn {
+      width: 100%;
+      justify-content: center;
+      background: var(--cream);
+      color: var(--green);
+      box-shadow: none;
+      font-size: 0.95rem;
+    }
+    #placeOrderBtn:hover {
+      background: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.16);
+    }
+    #placeOrderBtn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    .summary-note {
+      font-size: 0.73rem;
+      color: rgba(236,231,223,0.38);
+      text-align: center;
+      margin-top: 12px;
+      line-height: 1.45;
+    }
+
+    /* ── Success state ── */
+    .order-success {
+      display: none;
+      text-align: center;
+      padding: 72px 28px 100px;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+    .order-success.visible { display: block; }
+    .success-icon {
+      width: 68px; height: 68px;
+      background: var(--green);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 26px;
+    }
+    .success-icon svg { color: var(--cream); }
+    .order-success h2 {
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: var(--green);
+      letter-spacing: -0.025em;
+      margin-bottom: 12px;
+    }
+    .order-success p { color: var(--text-muted); line-height: 1.65; margin-bottom: 6px; }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .order-layout {
+        grid-template-columns: 1fr;
+      }
+      .order-summary { position: static; order: -1; }
+      .dish-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 560px) {
+      .dish-grid { grid-template-columns: 1fr; }
+      .name-row { grid-template-columns: 1fr; }
+      .order-info-card { padding: 20px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════ SERVICE BANNER ══════════ -->
+  <div class="service-banner" role="note" aria-label="Service area">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+    Currently serving the <strong>Dallas–Fort Worth</strong> metroplex only
+  </div>
+
+  <!-- ══════════ NAV ══════════ -->
+  <nav class="nav" id="nav">
+    <a href="/" class="nav__logo">
+      <span class="logo-mark">PRPD</span>
+      <span class="logo-sub">MEALS. PREPPED.</span>
+    </a>
+    <div class="nav__links">
+      <a href="/" class="nav__link">← Back to Site</a>
+    </div>
+  </nav>
+
+  <!-- ══════════ PAGE HEADER ══════════ -->
+  <section class="order-hero">
+    <div class="container">
+      <span class="section-label">Weekly Order</span>
+      <h1>Place Your Order</h1>
+      <p class="order-hero__meta" id="batchMeta"></p>
+    </div>
+  </section>
+
+  <!-- ══════════ ORDER FORM ══════════ -->
+  <div class="order-layout container" id="orderForm">
+
+    <!-- LEFT: info + menu -->
+    <div class="order-main">
+
+      <!-- Client info -->
+      <div class="order-info-card">
+        <h2>Your Info</h2>
+        <div class="name-row">
+          <input type="text" class="order-input" id="firstName" placeholder="First Name *" autocomplete="given-name" />
+          <input type="text" class="order-input" id="lastName"  placeholder="Last Name *"  autocomplete="family-name" />
+        </div>
+        <input type="tel" class="order-input" id="phone" placeholder="Phone Number *" autocomplete="tel" inputmode="tel" style="margin-bottom:12px;" />
+        <textarea class="order-input" id="orderNotes" placeholder="Special requests or notes (optional)..."></textarea>
+      </div>
+
+      <!-- ── Breakfasts ── -->
+      <div class="menu-section">
+        <div class="menu-section-head">
+          <span class="section-label">01</span>
+          <h2>Breakfasts</h2>
+        </div>
+        <div class="dish-grid" id="grid-breakfasts"></div>
+      </div>
+
+      <!-- ── Mains ── -->
+      <div class="menu-section">
+        <div class="menu-section-head">
+          <span class="section-label">02</span>
+          <h2>Mains</h2>
+        </div>
+        <div class="dish-grid" id="grid-mains"></div>
+      </div>
+
+      <!-- ── Desserts ── -->
+      <div class="menu-section">
+        <div class="menu-section-head">
+          <span class="section-label">03</span>
+          <h2>Desserts</h2>
+        </div>
+        <div class="dish-grid" id="grid-desserts"></div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: sticky summary -->
+    <aside>
+      <div class="order-summary">
+        <h3>Your Order</h3>
+        <div class="summary-items" id="summaryItems">
+          <p class="summary-empty">Add items from the menu.</p>
+        </div>
+        <hr class="summary-divider" />
+        <div class="summary-total-row">
+          <span class="summary-total-label">Estimated Total</span>
+          <span class="summary-total-val" id="summaryTotal">$0.00</span>
+        </div>
+        <button class="btn btn--primary" id="placeOrderBtn" onclick="submitOrder()">
+          <span id="btnText">Place Order →</span>
+          <span id="btnSpinner" style="display:none">Sending...</span>
+        </button>
+        <p class="summary-note">Exact total rounded up to the nearest dollar.<br>Payment via Zelle after confirmation.</p>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- ══════════ SUCCESS ══════════ -->
+  <div class="order-success" id="orderSuccess">
+    <div class="success-icon">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <h2>Order Received!</h2>
+    <p id="successMsg">Your order has been sent to PRPD.</p>
+    <p>Rida will confirm via text and send the details shortly.</p>
+    <p style="margin-top:22px; font-size:0.85rem; color:var(--text-muted)">
+      Delivery: <strong id="successDelivery"></strong>
+    </p>
+  </div>
+
+  <script>
+    // ════════════════════════════════════════
+    // CONFIG — update BATCH each week
+    // ════════════════════════════════════════
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwIGyRrfmTy7xYB02oTcl_iUItsIMGjhD1DWtEHNfIKFiHK1MkUC6kUyDWA1-Ekkm9a/exec';
+
+    const BATCH = {
+      number: 2,
+      deliveryDate: 'Saturday, July 19, 2026',
+    };
+
+    // ════════════════════════════════════════
+    // MENU — replace dishes each week
+    // Image paths: /assets/images/meals/filename.jpg
+    // Macros: { cal, protein, carbs, fat } — all numbers
+    // ════════════════════════════════════════
+    const MENU = {
+      breakfasts: [
+        { id: 'b1', name: 'Coming Soon', price: 10.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
+        { id: 'b2', name: 'Coming Soon', price: 10.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
+        { id: 'b3', name: 'Coming Soon', price: 10.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
+        { id: 'b4', name: 'Coming Soon', price: 10.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
+      ],
+      mains: [
+        { id: 'm1', name: 'Coming Soon', price: 10.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
+        { id: 'm2', name: 'Coming Soon', price: 10.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
+        { id: 'm3', name: 'Coming Soon', price: 10.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
+        { id: 'm4', name: 'Coming Soon', price: 10.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
+        { id: 'm5', name: 'Coming Soon', price: 10.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
+        { id: 'm6', name: 'Coming Soon', price: 13.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
+        { id: 'm7', name: 'Coming Soon', price: 13.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
+        { id: 'm8', name: 'Coming Soon', price: 10.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
+      ],
+      desserts: [
+        { id: 'd1', name: 'Coming Soon', price: 6.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
+        { id: 'd2', name: 'Coming Soon', price: 6.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
+        { id: 'd3', name: 'Coming Soon', price: 6.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
+      ],
+    };
+
+    // ════════════════════════════════════════
+    // STATE
+    // ════════════════════════════════════════
+    const cart = {};
+
+    function allDishes() {
+      return [...MENU.breakfasts, ...MENU.mains, ...MENU.desserts];
+    }
+
+    function sectionOf(id) {
+      for (const sec of ['breakfasts', 'mains', 'desserts']) {
+        if (MENU[sec].some(d => d.id === id)) return sec;
+      }
+      return '';
+    }
+
+    // ════════════════════════════════════════
+    // RENDER
+    // ════════════════════════════════════════
+    function renderMenu() {
+      document.getElementById('batchMeta').textContent =
+        `Batch ${BATCH.number}  ·  Delivery ${BATCH.deliveryDate}`;
+      document.getElementById('successDelivery').textContent = BATCH.deliveryDate;
+
+      ['breakfasts', 'mains', 'desserts'].forEach(section => {
+        const grid = document.getElementById('grid-' + section);
+        grid.innerHTML = MENU[section].map(dish => {
+          const m = dish.macros;
+          const chip = (val, label, unit) =>
+            `<span class="macro-chip">${val > 0 ? val + unit + ' ' + label : label}</span>`;
+          const macroHTML = `<div class="dish-macros">
+            ${chip(m.cal,     'cal',     ''  )}
+            ${chip(m.protein, 'protein', 'g' )}
+            ${chip(m.carbs,   'carbs',   'g' )}
+            ${chip(m.fiber,   'fiber',   'g' )}
+            ${chip(m.fat,     'fats',    'g' )}
+          </div>`;
+          return `
+            <div class="dish-card" id="card-${dish.id}">
+              <div class="dish-img">
+                <div class="dish-img__bg"><span>PRPD</span></div>
+                ${dish.image ? `<img src="${dish.image}" alt="${dish.name}" onerror="this.style.display='none'" loading="lazy" />` : ''}
+              </div>
+              <div class="dish-body">
+                <div class="dish-name">${dish.name}</div>
+                ${macroHTML}
+                <div class="dish-footer">
+                  <span class="dish-price">$${dish.price.toFixed(2)}</span>
+                  <div class="qty-ctrl">
+                    <button class="qty-btn" onclick="changeQty('${dish.id}', -1)" aria-label="Remove one">−</button>
+                    <span class="qty-val" id="qty-${dish.id}">0</span>
+                    <button class="qty-btn" onclick="changeQty('${dish.id}', 1)" aria-label="Add one">+</button>
+                  </div>
+                </div>
+              </div>
+            </div>`;
+        }).join('');
+      });
+    }
+
+    function changeQty(id, delta) {
+      cart[id] = Math.max(0, (cart[id] || 0) + delta);
+      document.getElementById('qty-' + id).textContent = cart[id];
+      document.getElementById('card-' + id).classList.toggle('has-qty', cart[id] > 0);
+      updateSummary();
+    }
+
+    function updateSummary() {
+      const ordered = allDishes().filter(d => (cart[d.id] || 0) > 0);
+      const container = document.getElementById('summaryItems');
+
+      if (ordered.length === 0) {
+        container.innerHTML = '<p class="summary-empty">Add items from the menu.</p>';
+      } else {
+        container.innerHTML = ordered.map(d => {
+          const qty = cart[d.id];
+          const sub = (qty * d.price).toFixed(2);
+          return `<div class="summary-item">
+            <span class="summary-item-name">${qty}× ${d.name}</span>
+            <span class="summary-item-price">$${sub}</span>
+          </div>`;
+        }).join('');
+      }
+
+      const total = ordered.reduce((s, d) => s + cart[d.id] * d.price, 0);
+      document.getElementById('summaryTotal').textContent = '$' + Math.ceil(total).toFixed(2);
+    }
+
+    // ════════════════════════════════════════
+    // NAV scroll shrink
+    // ════════════════════════════════════════
+    window.addEventListener('scroll', () => {
+      document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    const phoneInput = document.getElementById('phone');
+    phoneInput.addEventListener('input', () => {
+      let val = phoneInput.value.replace(/\D/g, '');
+      if (val.length >= 6) {
+        val = `(${val.slice(0,3)}) ${val.slice(3,6)}-${val.slice(6,10)}`;
+      } else if (val.length >= 3) {
+        val = `(${val.slice(0,3)}) ${val.slice(3)}`;
+      }
+      phoneInput.value = val;
+    });
+
+    // ════════════════════════════════════════
+    // SUBMIT
+    // ════════════════════════════════════════
+    async function submitOrder() {
+      const firstName = document.getElementById('firstName').value.trim();
+      const lastName  = document.getElementById('lastName').value.trim();
+      const phone     = document.getElementById('phone').value.trim();
+      const notes     = document.getElementById('orderNotes').value.trim();
+
+      // Validate required client info
+      let valid = true;
+      let firstInvalid = null;
+      [['firstName', firstName], ['lastName', lastName], ['phone', phone]].forEach(([id, val]) => {
+        const el = document.getElementById(id);
+        if (!val) {
+          el.classList.add('error');
+          el.addEventListener('input', () => el.classList.remove('error'), { once: true });
+          if (!firstInvalid) firstInvalid = el;
+          valid = false;
+        }
+      });
+      if (!valid) {
+        firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+      const phoneDigits = phone.replace(/\D/g, '');
+      if (phoneDigits.length !== 10) {
+        const el = document.getElementById('phone');
+        el.classList.add('error');
+        el.addEventListener('input', () => el.classList.remove('error'), { once: true });
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
+      // Must have at least one item
+      const ordered = allDishes().filter(d => (cart[d.id] || 0) > 0);
+      if (ordered.length === 0) {
+        alert('Please add at least one item to your order.');
+        return;
+      }
+
+      const btn = document.getElementById('placeOrderBtn');
+      btn.disabled = true;
+      document.getElementById('btnText').style.display    = 'none';
+      document.getElementById('btnSpinner').style.display = 'inline';
+
+      const exactTotal = ordered.reduce((s, d) => s + cart[d.id] * d.price, 0);
+
+      const payload = {
+        action: 'order',
+        batch: BATCH.number,
+        deliveryDate: BATCH.deliveryDate,
+        firstName,
+        lastName,
+        phone,
+        items: ordered.map(d => ({
+          id: d.id,
+          name: d.name,
+          section: sectionOf(d.id),
+          qty: cart[d.id],
+          unitPrice: d.price,
+          subtotal: parseFloat((cart[d.id] * d.price).toFixed(2)),
+        })),
+        exactTotal: parseFloat(exactTotal.toFixed(2)),
+        total: Math.ceil(exactTotal),
+        notes,
+        submittedAt: new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' }),
+      };
+
+      try {
+        await fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+
+        document.getElementById('orderForm').style.display = 'none';
+        document.getElementById('successMsg').textContent =
+          `Thanks, ${firstName}! Your order has been sent to PRPD.`;
+        document.getElementById('orderSuccess').classList.add('visible');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      } catch (err) {
+        console.error(err);
+        btn.disabled = false;
+        document.getElementById('btnText').style.display    = 'inline';
+        document.getElementById('btnSpinner').style.display = 'none';
+        alert('Something went wrong. Please DM @getprpd on Instagram.');
+      }
+    }
+
+    // ════════════════════════════════════════
+    // INIT
+    // ════════════════════════════════════════
+    renderMenu();
+  </script>
+
+</body>
+</html>
