@@ -178,21 +178,101 @@
     .macro-chip {
       font-size: 0.66rem;
       font-weight: 700;
-      letter-spacing: 0.025em;
-      color: #3a6540;
+      letter-spacing: 0.03em;
+      color: #1e3d22;
       background: linear-gradient(
-        160deg,
-        rgba(168, 196, 171, 0.28) 0%,
-        rgba(127, 168, 130, 0.08) 100%
+        180deg,
+        rgba(55, 100, 60, 0.22) 0%,
+        rgba(25, 65, 30, 0.13) 100%
       );
-      border: 1.5px solid rgba(127, 168, 130, 0.52);
+      border: 1.5px solid rgba(40, 90, 45, 0.5);
+      border-top-color: rgba(15, 55, 20, 0.65);
+      border-bottom-color: rgba(140, 190, 145, 0.5);
       padding: 4px 11px;
       border-radius: 100px;
       white-space: nowrap;
       box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.5),
-        0 2px 5px rgba(30, 46, 30, 0.07);
+        inset 0 2px 4px rgba(0, 0, 0, 0.14),
+        inset 0 1px 1px rgba(0, 0, 0, 0.08),
+        0 1px 0 rgba(255, 255, 255, 0.7);
     }
+    /* ── Global tier bar ── */
+    .tier-bar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 32px;
+      padding: 14px 20px;
+      background: var(--white);
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(30,46,30,0.08);
+      box-shadow: var(--shadow-sm);
+      flex-wrap: wrap;
+    }
+    .tier-bar__label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+    }
+    .tier-bar__ctrl {
+      display: flex;
+      background: rgba(30,46,30,0.09);
+      border-radius: 100px;
+      padding: 3px;
+      gap: 2px;
+    }
+    .tier-bar__btn {
+      padding: 7px 22px;
+      border: none;
+      border-radius: 100px;
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      background: transparent;
+      color: rgba(30,46,30,0.45);
+      transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+      letter-spacing: 0.02em;
+    }
+    .tier-bar__btn.active {
+      background: var(--green);
+      color: var(--cream);
+      box-shadow: 0 2px 6px rgba(30,46,30,0.22);
+    }
+    .tier-bar__note {
+      font-size: 0.74rem;
+      color: rgba(30,46,30,0.38);
+      font-style: italic;
+    }
+
+    /* ── Per-card tier toggle ── */
+    .card-tier {
+      display: flex;
+      background: rgba(30,46,30,0.08);
+      border-radius: 100px;
+      padding: 3px;
+      gap: 2px;
+      align-self: flex-start;
+    }
+    .card-tier__btn {
+      padding: 4px 13px;
+      border: none;
+      border-radius: 100px;
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      font-weight: 700;
+      cursor: pointer;
+      background: transparent;
+      color: rgba(30,46,30,0.42);
+      transition: background 0.14s, color 0.14s;
+      letter-spacing: 0.03em;
+    }
+    .card-tier__btn.active {
+      background: var(--green);
+      color: var(--cream);
+    }
+
     .dish-footer {
       display: flex;
       align-items: center;
@@ -397,6 +477,16 @@
         <textarea class="order-input" id="orderNotes" placeholder="Special requests or notes (optional)..."></textarea>
       </div>
 
+      <!-- ── Global tier toggle ── -->
+      <div class="tier-bar">
+        <span class="tier-bar__label">Meal tier:</span>
+        <div class="tier-bar__ctrl">
+          <button class="tier-bar__btn active" data-tier="lean" onclick="setAllTier('lean')">Lean</button>
+          <button class="tier-bar__btn" data-tier="bulk" onclick="setAllTier('bulk')">Bulk</button>
+        </div>
+        <span class="tier-bar__note">or switch individual meals below</span>
+      </div>
+
       <!-- ── Breakfasts ── -->
       <div class="menu-section">
         <div class="menu-section-head">
@@ -474,37 +564,42 @@
 
     // ════════════════════════════════════════
     // MENU — replace dishes each week
+    // category: 'standard' (chicken/breakfast) → lean $10.99 / bulk $13.99
+    //           'beef'     (beef/seafood)       → lean $13.99 / bulk $15.99
+    //           'dessert'                       → $6.99 (no tier)
     // Image paths: /assets/images/meals/filename.jpg
-    // Macros: { cal, protein, carbs, fat } — all numbers
+    // Macros: { cal, protein, carbs, fiber, fat } — all numbers
     // ════════════════════════════════════════
     const MENU = {
       breakfasts: [
-        { id: 'b1', name: 'Coming Soon', price: 10.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
-        { id: 'b2', name: 'Coming Soon', price: 10.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
-        { id: 'b3', name: 'Coming Soon', price: 10.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
-        { id: 'b4', name: 'Coming Soon', price: 10.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
+        { id: 'b1', name: 'Coming Soon', category: 'standard', leanPrice: 10.99, bulkPrice: 13.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
+        { id: 'b2', name: 'Coming Soon', category: 'standard', leanPrice: 10.99, bulkPrice: 13.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
+        { id: 'b3', name: 'Coming Soon', category: 'standard', leanPrice: 10.99, bulkPrice: 13.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
+        { id: 'b4', name: 'Coming Soon', category: 'standard', leanPrice: 10.99, bulkPrice: 13.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
       ],
       mains: [
-        { id: 'm1', name: 'Coming Soon', price: 10.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
-        { id: 'm2', name: 'Coming Soon', price: 10.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
-        { id: 'm3', name: 'Coming Soon', price: 10.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
-        { id: 'm4', name: 'Coming Soon', price: 10.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
-        { id: 'm5', name: 'Coming Soon', price: 10.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
-        { id: 'm6', name: 'Coming Soon', price: 13.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
-        { id: 'm7', name: 'Coming Soon', price: 13.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
-        { id: 'm8', name: 'Coming Soon', price: 10.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
+        { id: 'm1', name: 'Coming Soon', category: 'standard', leanPrice: 10.99, bulkPrice: 13.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
+        { id: 'm2', name: 'Coming Soon', category: 'standard', leanPrice: 10.99, bulkPrice: 13.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
+        { id: 'm3', name: 'Coming Soon', category: 'standard', leanPrice: 10.99, bulkPrice: 13.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
+        { id: 'm4', name: 'Coming Soon', category: 'standard', leanPrice: 10.99, bulkPrice: 13.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
+        { id: 'm5', name: 'Coming Soon', category: 'standard', leanPrice: 10.99, bulkPrice: 13.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
+        { id: 'm6', name: 'Coming Soon', category: 'beef',     leanPrice: 13.99, bulkPrice: 15.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
+        { id: 'm7', name: 'Coming Soon', category: 'beef',     leanPrice: 13.99, bulkPrice: 15.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
+        { id: 'm8', name: 'Coming Soon', category: 'standard', leanPrice: 10.99, bulkPrice: 13.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
       ],
       desserts: [
-        { id: 'd1', name: 'Coming Soon', price: 6.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
-        { id: 'd2', name: 'Coming Soon', price: 6.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
-        { id: 'd3', name: 'Coming Soon', price: 6.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
+        { id: 'd1', name: 'Coming Soon', category: 'dessert', leanPrice: 6.99, bulkPrice: 6.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
+        { id: 'd2', name: 'Coming Soon', category: 'dessert', leanPrice: 6.99, bulkPrice: 6.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
+        { id: 'd3', name: 'Coming Soon', category: 'dessert', leanPrice: 6.99, bulkPrice: 6.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
       ],
     };
 
     // ════════════════════════════════════════
     // STATE
     // ════════════════════════════════════════
-    const cart = {};
+    const cart = {};      // { [id]: qty }
+    const cardTier = {};  // { [id]: 'lean' | 'bulk' }
+    let globalTier = 'lean';
 
     function allDishes() {
       return [...MENU.breakfasts, ...MENU.mains, ...MENU.desserts];
@@ -515,6 +610,38 @@
         if (MENU[sec].some(d => d.id === id)) return sec;
       }
       return '';
+    }
+
+    function getTier(id) {
+      return cardTier[id] || 'lean';
+    }
+
+    function getPrice(dish, tier) {
+      if (dish.category === 'dessert') return dish.leanPrice;
+      return tier === 'bulk' ? dish.bulkPrice : dish.leanPrice;
+    }
+
+    function setAllTier(tier) {
+      globalTier = tier;
+      document.querySelectorAll('.tier-bar__btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.tier === tier);
+      });
+      allDishes().forEach(dish => {
+        if (dish.category !== 'dessert') setCardTier(dish.id, tier);
+      });
+    }
+
+    function setCardTier(id, tier) {
+      cardTier[id] = tier;
+      document.querySelectorAll(`.card-tier__btn[data-id="${id}"]`).forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.tier === tier);
+      });
+      const dish = allDishes().find(d => d.id === id);
+      if (dish) {
+        const priceEl = document.getElementById('price-' + id);
+        if (priceEl) priceEl.textContent = '$' + getPrice(dish, tier).toFixed(2);
+      }
+      updateSummary();
     }
 
     // ════════════════════════════════════════
@@ -532,12 +659,17 @@
           const chip = (val, label, unit) =>
             `<span class="macro-chip">${val > 0 ? val + unit + ' ' + label : label}</span>`;
           const macroHTML = `<div class="dish-macros">
-            ${chip(m.cal,     'cal',     ''  )}
-            ${chip(m.protein, 'protein', 'g' )}
-            ${chip(m.carbs,   'carbs',   'g' )}
-            ${chip(m.fiber,   'fiber',   'g' )}
-            ${chip(m.fat,     'fats',    'g' )}
+            ${chip(m.cal,     'Cal',     ''  )}
+            ${chip(m.protein, 'Protein', 'g' )}
+            ${chip(m.carbs,   'Carbs',   'g' )}
+            ${chip(m.fiber,   'Fiber',   'g' )}
+            ${chip(m.fat,     'Fats',    'g' )}
           </div>`;
+          const tierToggle = dish.category !== 'dessert' ? `
+            <div class="card-tier">
+              <button class="card-tier__btn active" data-id="${dish.id}" data-tier="lean" onclick="setCardTier('${dish.id}', 'lean')">Lean</button>
+              <button class="card-tier__btn" data-id="${dish.id}" data-tier="bulk" onclick="setCardTier('${dish.id}', 'bulk')">Bulk</button>
+            </div>` : '';
           return `
             <div class="dish-card" id="card-${dish.id}">
               <div class="dish-img">
@@ -547,8 +679,9 @@
               <div class="dish-body">
                 <div class="dish-name">${dish.name}</div>
                 ${macroHTML}
+                ${tierToggle}
                 <div class="dish-footer">
-                  <span class="dish-price">$${dish.price.toFixed(2)}</span>
+                  <span class="dish-price" id="price-${dish.id}">$${dish.leanPrice.toFixed(2)}</span>
                   <div class="qty-ctrl">
                     <button class="qty-btn" onclick="changeQty('${dish.id}', -1)" aria-label="Remove one">−</button>
                     <span class="qty-val" id="qty-${dish.id}">0</span>
@@ -576,16 +709,19 @@
         container.innerHTML = '<p class="summary-empty">Add items from the menu.</p>';
       } else {
         container.innerHTML = ordered.map(d => {
-          const qty = cart[d.id];
-          const sub = (qty * d.price).toFixed(2);
+          const qty   = cart[d.id];
+          const tier  = getTier(d.id);
+          const price = getPrice(d, tier);
+          const sub   = (qty * price).toFixed(2);
+          const tierLabel = d.category !== 'dessert' ? ` <span style="font-size:0.72rem;opacity:0.6;font-weight:500">(${tier})</span>` : '';
           return `<div class="summary-item">
-            <span class="summary-item-name">${qty}× ${d.name}</span>
+            <span class="summary-item-name">${qty}× ${d.name}${tierLabel}</span>
             <span class="summary-item-price">$${sub}</span>
           </div>`;
         }).join('');
       }
 
-      const total = ordered.reduce((s, d) => s + cart[d.id] * d.price, 0);
+      const total = ordered.reduce((s, d) => s + cart[d.id] * getPrice(d, getTier(d.id)), 0);
       document.getElementById('summaryTotal').textContent = '$' + Math.ceil(total).toFixed(2);
     }
 
@@ -653,7 +789,7 @@
       document.getElementById('btnText').style.display    = 'none';
       document.getElementById('btnSpinner').style.display = 'inline';
 
-      const exactTotal = ordered.reduce((s, d) => s + cart[d.id] * d.price, 0);
+      const exactTotal = ordered.reduce((s, d) => s + cart[d.id] * getPrice(d, getTier(d.id)), 0);
 
       const payload = {
         action: 'order',
@@ -662,14 +798,19 @@
         firstName,
         lastName,
         phone,
-        items: ordered.map(d => ({
-          id: d.id,
-          name: d.name,
-          section: sectionOf(d.id),
-          qty: cart[d.id],
-          unitPrice: d.price,
-          subtotal: parseFloat((cart[d.id] * d.price).toFixed(2)),
-        })),
+        items: ordered.map(d => {
+          const tier      = getTier(d.id);
+          const unitPrice = getPrice(d, tier);
+          return {
+            id: d.id,
+            name: d.name,
+            section: sectionOf(d.id),
+            tier: d.category !== 'dessert' ? tier : null,
+            qty: cart[d.id],
+            unitPrice,
+            subtotal: parseFloat((cart[d.id] * unitPrice).toFixed(2)),
+          };
+        }),
         exactTotal: parseFloat(exactTotal.toFixed(2)),
         total: Math.ceil(exactTotal),
         notes,
