@@ -4,7 +4,18 @@
 
 // ── Google Apps Script endpoint
 // Replace this URL after you deploy the Apps Script (see README)
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwIGyRrfmTy7xYB02oTcl_iUItsIMGjhD1DWtEHNfIKFiHK1MkUC6kUyDWA1-Ekkm9a/exec';
+const LEAD_API_URL = '/api/lead';
+let leadSubmissionId = null;
+
+function createLeadId() {
+  const dateStamp = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit',
+  }).format(new Date()).replace(/-/g, '');
+  const bytes = new Uint8Array(2);
+  crypto.getRandomValues(bytes);
+  const suffix = Array.from(bytes, byte => byte.toString(16).padStart(2, '0')).join('').toUpperCase();
+  return `PRPD-LEAD-${dateStamp}-${suffix}`;
+}
 
 // Capture ad/source attribution so paid leads can be traced in Google Sheets.
 const ATTRIBUTION_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
@@ -249,6 +260,8 @@ if (form) {
       .join(', ') || 'None selected';
 
     const data = {
+      action:           'lead',
+      leadId:           leadSubmissionId || (leadSubmissionId = createLeadId()),
       fullName:         document.getElementById('fullName').value.trim(),
       phone:            document.getElementById('phone').value.trim(),
       location:         document.getElementById('location').value.trim(),
@@ -262,16 +275,14 @@ if (form) {
     };
 
     try {
-      if (APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
-        console.log('Form data (dev mode):', data);
-        await new Promise(r => setTimeout(r, 800));
-      } else {
-        await fetch(APPS_SCRIPT_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
-        });
+      const response = await fetch(LEAD_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      const result = await response.json().catch(() => null);
+      if (!response.ok || !result || result.status !== 'success') {
+        throw new Error(result && result.message ? result.message : 'The intake could not be confirmed.');
       }
 
       form.style.display = 'none';

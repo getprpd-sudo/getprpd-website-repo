@@ -15,7 +15,6 @@ dish-preview.html
 360-shoot-guide.html
 apps-script.gs
 GOOGLE_SHEETS_SETUP.md
-README.md
 
 # OS / editor clutter
 .DS_Store
@@ -24,3 +23,10 @@ Thumbs.db
 .claude/
 
 .vercel
+
+# Server credentials - never commit or deploy
+*-website-*.json
+service-account*.json
+*API*KEY*.txt
+node_modules/
+.vercel/

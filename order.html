@@ -37,6 +37,19 @@
       letter-spacing: 0.05em;
       text-transform: uppercase;
     }
+    .order-cutoff {
+      display: inline-flex;
+      align-items: center;
+      margin-top: 14px;
+      padding: 8px 16px;
+      border-radius: 100px;
+      background: var(--green);
+      color: var(--cream);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      box-shadow: var(--shadow-sm);
+    }
 
     /* ── Layout ── */
     .order-layout {
@@ -87,6 +100,12 @@
     .order-input.error { border-color: #E07070; background: #fff5f5; }
     .order-input::placeholder { color: rgba(30,46,30,0.36); }
     textarea.order-input { resize: none; height: 70px; line-height: 1.55; }
+    .input-help {
+      margin: -4px 2px 14px;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      line-height: 1.45;
+    }
 
     /* ── Menu section ── */
     .menu-section { margin-bottom: 48px; }
@@ -131,7 +150,7 @@
     /* Image */
     .dish-img {
       width: 100%;
-      aspect-ratio: 4 / 3;
+      aspect-ratio: 1 / 1;
       background: linear-gradient(135deg, var(--green) 0%, var(--green-mid) 100%);
       position: relative;
       overflow: hidden;
@@ -140,9 +159,16 @@
     .dish-img img {
       width: 100%; height: 100%;
       object-fit: cover;
+      object-position: center center;
       position: absolute; inset: 0;
       display: block;
       transition: opacity 0.3s;
+    }
+    #card-b1 .dish-img img,
+    #card-b3 .dish-img img,
+    #card-m6 .dish-img img {
+      object-position: center 72%;
+      transform: scale(1.14);
     }
     .dish-img__bg {
       position: absolute; inset: 0;
@@ -169,6 +195,12 @@
       font-weight: 700;
       color: var(--green);
       line-height: 1.25;
+    }
+    .dish-desc {
+      font-size: 0.74rem;
+      color: rgba(30,46,30,0.52);
+      line-height: 1.4;
+      margin: 3px 0 5px;
     }
     .dish-macros {
       display: flex;
@@ -217,73 +249,108 @@
     }
     .tier-bar__ctrl {
       display: flex;
-      background: rgba(30,46,30,0.09);
-      border-radius: 100px;
-      padding: 3px;
-      gap: 2px;
+      gap: 6px;
     }
     .tier-bar__btn {
       padding: 7px 22px;
-      border: none;
       border-radius: 100px;
       font-family: var(--font-body);
       font-size: 0.82rem;
       font-weight: 700;
       cursor: pointer;
-      background: transparent;
-      color: rgba(30,46,30,0.45);
-      transition: background 0.15s, color 0.15s, box-shadow 0.15s;
       letter-spacing: 0.02em;
+      transition: all 0.15s;
+      color: #1e3d22;
+      background: linear-gradient(180deg, rgba(55,100,60,0.18) 0%, rgba(25,65,30,0.10) 100%);
+      border: 1.5px solid rgba(40,90,45,0.45);
+      border-top-color: rgba(15,55,20,0.6);
+      border-bottom-color: rgba(140,190,145,0.5);
+      box-shadow:
+        inset 0 2px 4px rgba(0,0,0,0.13),
+        inset 0 1px 1px rgba(0,0,0,0.07),
+        0 1px 0 rgba(255,255,255,0.65);
     }
     .tier-bar__btn.active {
-      background: var(--green);
       color: var(--cream);
-      box-shadow: 0 2px 6px rgba(30,46,30,0.22);
+      background: linear-gradient(180deg, #3a6b40 0%, var(--green) 100%);
+      border: 1.5px solid rgba(15,35,15,0.5);
+      border-top-color: rgba(110,160,115,0.35);
+      border-bottom-color: rgba(10,30,10,0.65);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.14),
+        0 2px 6px rgba(30,46,30,0.28),
+        0 1px 2px rgba(0,0,0,0.18);
     }
     .tier-bar__note {
       font-size: 0.74rem;
       color: rgba(30,46,30,0.38);
       font-style: italic;
     }
+    .price-guide {
+      flex: 1 0 100%;
+      display: grid;
+      grid-template-columns: auto repeat(3, minmax(0, 1fr));
+      align-items: center;
+      gap: 12px 18px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(30,46,30,0.09);
+    }
+    .price-guide__title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--green);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .price-guide__item {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 0;
+    }
+    .price-guide__item span {
+      font-size: 0.7rem;
+      color: rgba(30,46,30,0.5);
+    }
+    .price-guide__item strong {
+      font-size: 0.76rem;
+      color: var(--green);
+      line-height: 1.35;
+    }
 
     /* ── Per-card tier toggle ── */
-    .card-tier {
-      display: flex;
-      background: rgba(30,46,30,0.08);
-      border-radius: 100px;
-      padding: 3px;
-      gap: 2px;
-      align-self: flex-start;
+    .tier-order-list {
+      display: grid;
+      gap: 8px;
+      margin-top: auto;
+      padding-top: 6px;
     }
-    .card-tier__btn {
-      padding: 4px 13px;
-      border: none;
-      border-radius: 100px;
-      font-family: var(--font-body);
-      font-size: 0.7rem;
-      font-weight: 700;
-      cursor: pointer;
-      background: transparent;
-      color: rgba(30,46,30,0.42);
-      transition: background 0.14s, color 0.14s;
-      letter-spacing: 0.03em;
-    }
-    .card-tier__btn.active {
-      background: var(--green);
-      color: var(--cream);
-    }
-
-    .dish-footer {
+    .tier-order-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-top: auto;
-      padding-top: 4px;
+      gap: 10px;
+      min-height: 48px;
+      padding: 7px 8px 7px 11px;
+      border-radius: var(--radius-sm);
+      background: rgba(30,46,30,0.045);
+      border: 1px solid rgba(30,46,30,0.08);
     }
-    .dish-price {
-      font-size: 1rem;
+    .tier-order-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+    .tier-order-info strong {
+      font-size: 0.82rem;
       font-weight: 700;
       color: var(--green);
+    }
+    .tier-order-info span {
+      font-size: 0.68rem;
+      line-height: 1.35;
+      color: rgba(30,46,30,0.58);
     }
 
     /* Qty controls */
@@ -360,10 +427,51 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 18px;
+      margin: 16px 0 18px;
+    }
+    .summary-fee-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      color: rgba(236,231,223,0.7);
+      font-size: 0.82rem;
+      margin-bottom: 10px;
+    }
+    .summary-fee-row strong {
+      color: var(--cream);
+      font-weight: 650;
     }
     .summary-total-label { font-size: 0.88rem; font-weight: 600; color: rgba(236,231,223,0.7); }
     .summary-total-val { font-size: 1.4rem; font-weight: 700; color: var(--cream); }
+    .summary-policy {
+      display: grid;
+      gap: 8px;
+      margin: -4px 0 16px;
+    }
+    .summary-policy__line {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 9px 11px;
+      border-radius: 12px;
+      background: rgba(236,231,223,0.08);
+      color: rgba(236,231,223,0.72);
+      font-size: 0.76rem;
+      line-height: 1.35;
+    }
+    .summary-policy__line strong {
+      color: var(--cream);
+      white-space: nowrap;
+    }
+    .summary-policy__line.is-good {
+      background: rgba(127,168,130,0.2);
+      color: rgba(236,231,223,0.9);
+    }
+    .summary-policy__line.is-warning {
+      background: rgba(236,231,223,0.12);
+      color: rgba(236,231,223,0.82);
+    }
     #placeOrderBtn {
       width: 100%;
       justify-content: center;
@@ -416,6 +524,114 @@
       margin-bottom: 12px;
     }
     .order-success p { color: var(--text-muted); line-height: 1.65; margin-bottom: 6px; }
+    .order-closed {
+      display: none;
+      max-width: 620px;
+      margin: 28px auto 100px;
+      padding: 48px 34px;
+      border-radius: var(--radius-md);
+      background: var(--white);
+      border: 1px solid rgba(30,46,30,0.08);
+      box-shadow: var(--shadow-md);
+      text-align: center;
+    }
+    .order-closed.visible { display: block; }
+    .order-closed h2 {
+      margin-bottom: 12px;
+      color: var(--green);
+      font-size: 1.7rem;
+    }
+    .order-closed p {
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+    .order-closed__phone {
+      display: block;
+      margin-top: 8px;
+      color: var(--green);
+      font-size: 1.08rem;
+      font-weight: 700;
+    }
+    .order-closed__actions {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 22px;
+    }
+    .order-closed__action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 11px 22px;
+      border: 1.5px solid var(--green);
+      border-radius: var(--radius-pill);
+      color: var(--green);
+      font-weight: 700;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+    .order-closed__action:hover {
+      background: var(--green);
+      color: var(--cream);
+    }
+    .success-total {
+      max-width: 360px;
+      margin: 24px auto 18px;
+      padding: 16px 20px;
+      border-radius: var(--radius-sm);
+      background: var(--green);
+      color: var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .success-total span {
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+    .success-total strong {
+      font-size: 1.35rem;
+      white-space: nowrap;
+    }
+    .success-reference {
+      margin: 16px auto 0;
+      color: var(--green);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+    .success-order {
+      max-width: 520px;
+      margin: 24px auto 0;
+      padding: 20px;
+      border: 1px solid rgba(30,46,30,0.1);
+      border-radius: var(--radius-sm);
+      background: rgba(255,255,255,0.58);
+      text-align: left;
+    }
+    .success-order__item,
+    .success-order__row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 18px;
+      padding: 7px 0;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      line-height: 1.4;
+    }
+    .success-order__item strong,
+    .success-order__row strong {
+      color: var(--green);
+      white-space: nowrap;
+    }
+    .success-order__divider {
+      border: 0;
+      border-top: 1px solid rgba(30,46,30,0.1);
+      margin: 10px 0;
+    }
 
     /* ── Responsive ── */
     @media (max-width: 900px) {
@@ -429,6 +645,16 @@
       .dish-grid { grid-template-columns: 1fr; }
       .name-row { grid-template-columns: 1fr; }
       .order-info-card { padding: 20px 16px; }
+      .price-guide {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      .price-guide__item {
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 14px;
+      }
+      .price-guide__item strong { text-align: right; }
     }
   </style>
 </head>
@@ -457,6 +683,18 @@
       <span class="section-label">Weekly Order</span>
       <h1>Place Your Order</h1>
       <p class="order-hero__meta" id="batchMeta"></p>
+      <p class="order-cutoff" id="orderCutoff">Order cutoff: Wednesday at 5:00 PM CT</p>
+    </div>
+  </section>
+
+  <section class="order-closed container" id="orderClosed" aria-live="polite">
+    <h2>Orders are closed for this week.</h2>
+    <p>The Wednesday 5:00 PM cutoff has passed.</p>
+    <p>Forgot to order or have a question? Contact Rida directly.</p>
+    <a class="order-closed__phone" href="tel:+14695450781">(469) 545-0781</a>
+    <div class="order-closed__actions">
+      <a class="order-closed__action" href="tel:+14695450781">Call Rida</a>
+      <a class="order-closed__action" href="sms:+14695450781">Text Rida</a>
     </div>
   </section>
 
@@ -470,21 +708,32 @@
       <div class="order-info-card">
         <h2>Your Info</h2>
         <div class="name-row">
-          <input type="text" class="order-input" id="firstName" placeholder="First Name *" autocomplete="given-name" />
-          <input type="text" class="order-input" id="lastName"  placeholder="Last Name *"  autocomplete="family-name" />
+          <input type="text" class="order-input" id="firstName" placeholder="First Name *" autocomplete="given-name" required />
+          <input type="text" class="order-input" id="lastName"  placeholder="Last Name *"  autocomplete="family-name" required />
         </div>
-        <input type="tel" class="order-input" id="phone" placeholder="Phone Number *" autocomplete="tel" inputmode="tel" style="margin-bottom:12px;" />
+        <input type="tel" class="order-input" id="phone" placeholder="Phone Number *" autocomplete="tel" inputmode="tel" required />
+        <p class="input-help">Rida will use this number to confirm your order, delivery details, and payment.</p>
         <textarea class="order-input" id="orderNotes" placeholder="Special requests or notes (optional)..."></textarea>
       </div>
 
       <!-- ── Global tier toggle ── -->
       <div class="tier-bar">
-        <span class="tier-bar__label">Meal tier:</span>
-        <div class="tier-bar__ctrl">
-          <button class="tier-bar__btn active" data-tier="lean" onclick="setAllTier('lean')">Lean</button>
-          <button class="tier-bar__btn" data-tier="bulk" onclick="setAllTier('bulk')">Bulk</button>
+        <span class="tier-bar__label">Choose Lean, Bulk, or both on each meal.</span>
+        <div class="price-guide" aria-label="Meal pricing guide">
+          <span class="price-guide__title">Pricing at a glance</span>
+          <div class="price-guide__item">
+            <span>Chicken &amp; breakfast</span>
+            <strong>$10.99 Lean &middot; $12.99 Bulk</strong>
+          </div>
+          <div class="price-guide__item">
+            <span>Beef &amp; seafood</span>
+            <strong>$13.99 Lean &middot; $15.99 Bulk</strong>
+          </div>
+          <div class="price-guide__item">
+            <span>Desserts</span>
+            <strong>$6.99 each</strong>
+          </div>
         </div>
-        <span class="tier-bar__note">or switch individual meals below</span>
       </div>
 
       <!-- ── Breakfasts ── -->
@@ -524,9 +773,27 @@
           <p class="summary-empty">Add items from the menu.</p>
         </div>
         <hr class="summary-divider" />
+        <div class="summary-fee-row">
+          <span>Meals subtotal</span>
+          <strong id="mealSubtotalDisplay">$0.00</strong>
+        </div>
+        <div class="summary-fee-row">
+          <span>Delivery</span>
+          <strong id="deliveryFeeDisplay">&mdash;</strong>
+        </div>
         <div class="summary-total-row">
-          <span class="summary-total-label">Estimated Total</span>
+          <span class="summary-total-label">Total due</span>
           <span class="summary-total-val" id="summaryTotal">$0.00</span>
+        </div>
+        <div class="summary-policy" aria-live="polite">
+          <div class="summary-policy__line" id="minimumStatus">
+            <span>Add $60.00 more</span>
+            <strong>to meet the $60 minimum</strong>
+          </div>
+          <div class="summary-policy__line" id="deliveryStatus">
+            <span>Add $75.01 more</span>
+            <strong>for free delivery</strong>
+          </div>
         </div>
         <button class="btn btn--primary" id="placeOrderBtn" onclick="submitOrder()">
           <span id="btnText">Place Order →</span>
@@ -546,6 +813,17 @@
     <h2>Order Received!</h2>
     <p id="successMsg">Your order has been sent to PRPD.</p>
     <p>Rida will confirm via text and send the details shortly.</p>
+    <p class="success-reference">Order reference: <span id="successOrderId"></span></p>
+    <div class="success-order">
+      <div id="successOrderItems"></div>
+      <hr class="success-order__divider" />
+      <div class="success-order__row"><span>Meals subtotal</span><strong id="successSubtotal">$0.00</strong></div>
+      <div class="success-order__row"><span>Delivery</span><strong id="successDeliveryFee">$0.00</strong></div>
+    </div>
+    <div class="success-total">
+      <span>Your order total</span>
+      <strong id="successTotal">$0.00</strong>
+    </div>
     <p style="margin-top:22px; font-size:0.85rem; color:var(--text-muted)">
       Delivery: <strong id="successDelivery"></strong>
     </p>
@@ -555,51 +833,100 @@
     // ════════════════════════════════════════
     // CONFIG — update BATCH each week
     // ════════════════════════════════════════
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwIGyRrfmTy7xYB02oTcl_iUItsIMGjhD1DWtEHNfIKFiHK1MkUC6kUyDWA1-Ekkm9a/exec';
+    const ORDER_API_URL = '/api/order';
 
     const BATCH = {
       number: 2,
-      deliveryDate: 'Saturday, July 19, 2026',
+      deliveryDate: 'Saturday, July 18, 2026',
+      cutoffIso: '2026-07-15T17:00:00-05:00',
+      cutoffLabel: 'Wednesday at 5:00 PM CT',
     };
+    const MIN_ORDER_TOTAL = 60;
+    const FREE_DELIVERY_THRESHOLD = 75;
+    const DELIVERY_FEE = 6.99;
+    const MAX_QTY_PER_ITEM = 50;
+    const MAX_TOTAL_ITEMS = 250;
 
     // ════════════════════════════════════════
     // MENU — replace dishes each week
-    // category: 'standard' (chicken/breakfast) → lean $10.99 / bulk $13.99
+    // category: 'standard' (chicken/breakfast) → lean $10.99 / bulk $12.99
     //           'beef'     (beef/seafood)       → lean $13.99 / bulk $15.99
     //           'dessert'                       → $6.99 (no tier)
     // Image paths: /assets/images/meals/filename.jpg
     // Macros: { cal, protein, carbs, fiber, fat } — all numbers
     // ════════════════════════════════════════
     const MENU = {
+      // macros = lean tier | bulkMacros = bulk tier
+      // For dishes where the doc only listed Cal+P, C and F are back-calculated from calories.
       breakfasts: [
-        { id: 'b1', name: 'Coming Soon', category: 'standard', leanPrice: 10.99, bulkPrice: 13.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
-        { id: 'b2', name: 'Coming Soon', category: 'standard', leanPrice: 10.99, bulkPrice: 13.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
-        { id: 'b3', name: 'Coming Soon', category: 'standard', leanPrice: 10.99, bulkPrice: 13.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
-        { id: 'b4', name: 'Coming Soon', category: 'standard', leanPrice: 10.99, bulkPrice: 13.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
+        { id: 'b1', name: 'Egg Bites',                        category: 'standard', leanPrice: 10.99, bulkPrice: 12.99,
+          description: 'Baked egg and cottage cheese bites with melted mozz, spinach, and jalapeño, served with crispy garlic potato hash.',
+          macros:     { cal: 440, protein: 48, carbs: 24, fiber: 0, fat: 16 },
+          bulkMacros: { cal: 615, protein: 69, carbs: 30, fiber: 0, fat: 24 }, image: '/assets/images/meals/egg-bites.jpg' },
+        { id: 'b2', name: 'French Toast',                     category: 'standard', leanPrice: 10.99, bulkPrice: 12.99,
+          description: 'Thick-cut french toast cooked in butter with a rich custard of whole eggs, cottage cheese, and brown sugar. Served with strawberries, banana, and whipped cream.',
+          macros:     { cal: 520, protein: 40, carbs: 62, fiber: 3, fat: 12 },
+          bulkMacros: { cal: 650, protein: 52, carbs: 76, fiber: 4, fat: 14 }, image: '/assets/images/meals/french-toast.jpg?v=20260713' },
+        { id: 'b3', name: 'Breakfast Quesadilla',             category: 'standard', leanPrice: 10.99, bulkPrice: 12.99,
+          description: 'Grilled quesadilla loaded with seasoned shredded chicken, scrambled eggs, and melted mozz, served with Fage crema and salsa.',
+          macros:     { cal: 553, protein: 77, carbs: 26, fiber: 0, fat: 16 },
+          bulkMacros: { cal: 729, protein: 102, carbs: 32, fiber: 0, fat: 21 }, image: '/assets/images/meals/chicken-quesadillas.jpg' },
+        { id: 'b4', name: 'Grilled Cheese Breakfast Burrito', category: 'beef',     leanPrice: 13.99, bulkPrice: 15.99,
+          description: 'Saucy seasoned beef, scrambled eggs, and melted mozz wrapped tight in a grilled flour tortilla. Best reheated in the air fryer.',
+          macros:     { cal: 557, protein: 64, carbs: 32, fiber: 0, fat: 19 },
+          bulkMacros: { cal: 749, protein: 89, carbs: 40, fiber: 0, fat: 26 }, image: '' },
       ],
       mains: [
-        { id: 'm1', name: 'Coming Soon', category: 'standard', leanPrice: 10.99, bulkPrice: 13.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
-        { id: 'm2', name: 'Coming Soon', category: 'standard', leanPrice: 10.99, bulkPrice: 13.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
-        { id: 'm3', name: 'Coming Soon', category: 'standard', leanPrice: 10.99, bulkPrice: 13.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
-        { id: 'm4', name: 'Coming Soon', category: 'standard', leanPrice: 10.99, bulkPrice: 13.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
-        { id: 'm5', name: 'Coming Soon', category: 'standard', leanPrice: 10.99, bulkPrice: 13.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
-        { id: 'm6', name: 'Coming Soon', category: 'beef',     leanPrice: 13.99, bulkPrice: 15.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
-        { id: 'm7', name: 'Coming Soon', category: 'beef',     leanPrice: 13.99, bulkPrice: 15.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
-        { id: 'm8', name: 'Coming Soon', category: 'standard', leanPrice: 10.99, bulkPrice: 13.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
+        { id: 'm1', name: 'Butter Chicken',                   category: 'standard', leanPrice: 10.99, bulkPrice: 12.99,
+          description: 'Tender chicken thigh in a smooth, spiced tomato-yogurt butter sauce, served over basmati rice. Our most popular main.',
+          macros:     { cal: 484, protein: 57, carbs: 44, fiber: 0, fat: 12 },
+          bulkMacros: { cal: 600, protein: 76, carbs: 48, fiber: 0, fat: 15 }, image: '' },
+        { id: 'm2', name: 'Halal Cart Chicken + Yellow Rice', category: 'standard', leanPrice: 10.99, bulkPrice: 12.99,
+          description: 'NYC street cart-style chicken over turmeric yellow rice with white garlic sauce and hot sauce on the side.',
+          macros:     { cal: 500, protein: 58, carbs: 44, fiber: 0, fat: 11 },
+          bulkMacros: { cal: 605, protein: 78, carbs: 48, fiber: 0, fat: 14 }, image: '/assets/images/meals/halal-cart-chicken.jpg?v=20260713' },
+        { id: 'm3', name: 'Loaded Buffalo Chicken Potato',    category: 'standard', leanPrice: 10.99, bulkPrice: 12.99,
+          description: 'Buffalo-tossed diced chicken over crispy roasted potatoes and broccoli. Extra buffalo sauce cup included.',
+          macros:     { cal: 605, protein: 68, carbs: 48, fiber: 0, fat: 16 },
+          bulkMacros: { cal: 720, protein: 86, carbs: 52, fiber: 0, fat: 20 }, image: '' },
+        { id: 'm4', name: 'Peri Peri Drumsticks',             category: 'standard', leanPrice: 10.99, bulkPrice: 12.99,
+          description: 'Bone-in drumsticks marinated in a house-blended peri peri sauce, oven-roasted on a wire rack, and broiled until charred. Served with rice.',
+          macros:     { cal: 560, protein: 62, carbs: 42, fiber: 0, fat: 18 },
+          bulkMacros: { cal: 690, protein: 81, carbs: 45, fiber: 0, fat: 24 }, image: '' },
+        { id: 'm5', name: 'Mexican Streetcorn Chicken Bowl',  category: 'standard', leanPrice: 10.99, bulkPrice: 12.99,
+          description: 'Grilled chicken over rice with charred corn, jalapeño crema, cotija cheese, and fresh lime. Smoky, tangy, and bold.',
+          macros:     { cal: 530, protein: 54, carbs: 44, fiber: 0, fat: 10 },
+          bulkMacros: { cal: 660, protein: 73, carbs: 58, fiber: 0, fat: 12 }, image: '' },
+        { id: 'm6', name: 'Beef Seekh Kabab Shawarma',        category: 'beef',     leanPrice: 13.99, bulkPrice: 15.99,
+          description: 'Spiced ground beef seekh kababs oven-baked until charred and juicy, served over rice with a house dipping sauce.',
+          macros:     { cal: 505, protein: 48, carbs: 36, fiber: 0, fat: 18 },
+          bulkMacros: { cal: 605, protein: 60, carbs: 37, fiber: 0, fat: 23 }, image: '/assets/images/meals/beef-seekh-shawarma.jpg' },
+        { id: 'm7', name: 'Meatball Arrabbiata Pasta',        category: 'beef',     leanPrice: 13.99, bulkPrice: 15.99,
+          description: 'Baked beef meatballs tossed in a fiery crushed tomato arrabbiata sauce over high-protein pasta, topped with melted mozz.',
+          macros:     { cal: 660, protein: 72, carbs: 52, fiber: 0, fat: 20 },
+          bulkMacros: { cal: 775, protein: 86, carbs: 58, fiber: 0, fat: 24 }, image: '' },
+        { id: 'm8', name: 'Halal Boy Kibble',                 category: 'beef',     leanPrice: 13.99, bulkPrice: 15.99,
+          description: 'Saucy sweet chili ground beef over rice topped with fresh lettuce and mozz, served with mayo, ketchup, and mustard cups.',
+          macros:     { cal: 545, protein: 56, carbs: 46, fiber: 0, fat: 17 },
+          bulkMacros: { cal: 660, protein: 69, carbs: 50, fiber: 0, fat: 21 }, image: '' },
       ],
       desserts: [
-        { id: 'd1', name: 'Coming Soon', category: 'dessert', leanPrice: 6.99, bulkPrice: 6.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
-        { id: 'd2', name: 'Coming Soon', category: 'dessert', leanPrice: 6.99, bulkPrice: 6.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
-        { id: 'd3', name: 'Coming Soon', category: 'dessert', leanPrice: 6.99, bulkPrice: 6.99, macros: { cal: 0, protein: 0, carbs: 0, fiber: 0, fat: 0 }, image: '' },
+        { id: 'd1', name: 'Strawberry Cheesecake', category: 'dessert', leanPrice: 6.99, bulkPrice: 6.99,
+          description: 'Silky high-protein cheesecake filling topped with a sweet strawberry sauce. Creamy, light, and macro-friendly.',
+          macros: { cal: 280, protein: 24, carbs: 18, fiber: 4, fat: 6 }, image: '' },
+        { id: 'd2', name: 'Chocolate Oreo Mousse', category: 'dessert', leanPrice: 6.99, bulkPrice: 6.99,
+          description: 'Whipped Fage and protein mousse with SF cocoa, topped with a whole Oreo Thin and crushed cookie crumble. Rich and fluffy.',
+          macros: { cal: 281, protein: 38, carbs: 18, fiber: 0, fat: 6 }, image: '' },
+        { id: 'd3', name: 'High Protein Tiramisu', category: 'dessert', leanPrice: 6.99, bulkPrice: 6.99,
+          description: 'Layers of espresso-soaked ladyfingers and silky cottage cheese cream, dusted with cocoa and powdered sugar.',
+          macros: { cal: 295, protein: 38, carbs: 26, fiber: 0, fat: 6 }, image: '' },
       ],
     };
 
     // ════════════════════════════════════════
     // STATE
     // ════════════════════════════════════════
-    const cart = {};      // { [id]: qty }
-    const cardTier = {};  // { [id]: 'lean' | 'bulk' }
-    let globalTier = 'lean';
+    const cart = {}; // { "dishId:tier": qty }
 
     function allDishes() {
       return [...MENU.breakfasts, ...MENU.mains, ...MENU.desserts];
@@ -612,8 +939,28 @@
       return '';
     }
 
-    function getTier(id) {
-      return cardTier[id] || 'lean';
+    function cartKey(id, tier) {
+      return `${id}:${tier || 'single'}`;
+    }
+
+    function getQty(id, tier) {
+      return cart[cartKey(id, tier)] || 0;
+    }
+
+    function getOrderLines() {
+      return allDishes().flatMap(dish => {
+        const availableTiers = dish.category === 'dessert' ? [null] : ['lean', 'bulk'];
+        return availableTiers
+          .map(tier => ({ dish, tier, qty: getQty(dish.id, tier) }))
+          .filter(line => line.qty > 0);
+      });
+    }
+
+    function macroChipsHtml(m) {
+      const chip = (val, label, unit) =>
+        val > 0 ? `<span class="macro-chip">${val}${unit} ${label}</span>` : '';
+      return chip(m.cal, 'Cal', '') + chip(m.protein, 'Protein', 'g') +
+             chip(m.carbs, 'Carbs', 'g') + chip(m.fiber, 'Fiber', 'g') + chip(m.fat, 'Fats', 'g');
     }
 
     function getPrice(dish, tier) {
@@ -621,27 +968,25 @@
       return tier === 'bulk' ? dish.bulkPrice : dish.leanPrice;
     }
 
-    function setAllTier(tier) {
-      globalTier = tier;
-      document.querySelectorAll('.tier-bar__btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.tier === tier);
-      });
-      allDishes().forEach(dish => {
-        if (dish.category !== 'dessert') setCardTier(dish.id, tier);
-      });
-    }
-
-    function setCardTier(id, tier) {
-      cardTier[id] = tier;
-      document.querySelectorAll(`.card-tier__btn[data-id="${id}"]`).forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.tier === tier);
-      });
-      const dish = allDishes().find(d => d.id === id);
-      if (dish) {
-        const priceEl = document.getElementById('price-' + id);
-        if (priceEl) priceEl.textContent = '$' + getPrice(dish, tier).toFixed(2);
-      }
-      updateSummary();
+    function tierOrderRowHtml(dish, tier) {
+      const effectiveTier = dish.category === 'dessert' ? null : tier;
+      const macros = effectiveTier === 'bulk' && dish.bulkMacros ? dish.bulkMacros : dish.macros;
+      const label = dish.category === 'dessert' ? 'Dessert' : (tier === 'bulk' ? 'Bulk' : 'Lean');
+      const price = getPrice(dish, effectiveTier);
+      const keySuffix = effectiveTier || 'single';
+      const fiber = macros.fiber > 0 ? ` &middot; ${macros.fiber}g fiber` : '';
+      return `<div class="tier-order-row">
+        <div class="tier-order-info">
+          <strong>${label} &middot; $${price.toFixed(2)}</strong>
+          <span>${macros.cal} Cal &middot; ${macros.protein}g protein</span>
+          <span>${macros.carbs}g carbs &middot; ${macros.fat}g fats${fiber}</span>
+        </div>
+        <div class="qty-ctrl">
+          <button class="qty-btn" onclick="changeQty('${dish.id}', '${keySuffix}', -1)" aria-label="Remove one ${label.toLowerCase()} ${dish.name}">−</button>
+          <span class="qty-val" id="qty-${dish.id}-${keySuffix}">0</span>
+          <button class="qty-btn" onclick="changeQty('${dish.id}', '${keySuffix}', 1)" aria-label="Add one ${label.toLowerCase()} ${dish.name}">+</button>
+        </div>
+      </div>`;
     }
 
     // ════════════════════════════════════════
@@ -650,26 +995,15 @@
     function renderMenu() {
       document.getElementById('batchMeta').textContent =
         `Batch ${BATCH.number}  ·  Delivery ${BATCH.deliveryDate}`;
+      document.getElementById('orderCutoff').textContent = 'Order cutoff: ' + BATCH.cutoffLabel;
       document.getElementById('successDelivery').textContent = BATCH.deliveryDate;
 
       ['breakfasts', 'mains', 'desserts'].forEach(section => {
         const grid = document.getElementById('grid-' + section);
         grid.innerHTML = MENU[section].map(dish => {
-          const m = dish.macros;
-          const chip = (val, label, unit) =>
-            `<span class="macro-chip">${val > 0 ? val + unit + ' ' + label : label}</span>`;
-          const macroHTML = `<div class="dish-macros">
-            ${chip(m.cal,     'Cal',     ''  )}
-            ${chip(m.protein, 'Protein', 'g' )}
-            ${chip(m.carbs,   'Carbs',   'g' )}
-            ${chip(m.fiber,   'Fiber',   'g' )}
-            ${chip(m.fat,     'Fats',    'g' )}
-          </div>`;
-          const tierToggle = dish.category !== 'dessert' ? `
-            <div class="card-tier">
-              <button class="card-tier__btn active" data-id="${dish.id}" data-tier="lean" onclick="setCardTier('${dish.id}', 'lean')">Lean</button>
-              <button class="card-tier__btn" data-id="${dish.id}" data-tier="bulk" onclick="setCardTier('${dish.id}', 'bulk')">Bulk</button>
-            </div>` : '';
+          const orderRows = dish.category === 'dessert'
+            ? tierOrderRowHtml(dish, null)
+            : tierOrderRowHtml(dish, 'lean') + tierOrderRowHtml(dish, 'bulk');
           return `
             <div class="dish-card" id="card-${dish.id}">
               <div class="dish-img">
@@ -678,51 +1012,125 @@
               </div>
               <div class="dish-body">
                 <div class="dish-name">${dish.name}</div>
-                ${macroHTML}
-                ${tierToggle}
-                <div class="dish-footer">
-                  <span class="dish-price" id="price-${dish.id}">$${dish.leanPrice.toFixed(2)}</span>
-                  <div class="qty-ctrl">
-                    <button class="qty-btn" onclick="changeQty('${dish.id}', -1)" aria-label="Remove one">−</button>
-                    <span class="qty-val" id="qty-${dish.id}">0</span>
-                    <button class="qty-btn" onclick="changeQty('${dish.id}', 1)" aria-label="Add one">+</button>
-                  </div>
-                </div>
+                ${dish.description ? `<p class="dish-desc">${dish.description}</p>` : ''}
+                <div class="tier-order-list">${orderRows}</div>
               </div>
             </div>`;
         }).join('');
       });
     }
 
-    function changeQty(id, delta) {
-      cart[id] = Math.max(0, (cart[id] || 0) + delta);
-      document.getElementById('qty-' + id).textContent = cart[id];
-      document.getElementById('card-' + id).classList.toggle('has-qty', cart[id] > 0);
+    function isOrderingClosed() {
+      const cutoff = new Date(BATCH.cutoffIso);
+      return !Number.isNaN(cutoff.getTime()) && Date.now() >= cutoff.getTime();
+    }
+
+    function applyOrderAvailability() {
+      const closed = isOrderingClosed();
+      document.getElementById('orderForm').style.display = closed ? 'none' : '';
+      document.getElementById('orderClosed').classList.toggle('visible', closed);
+      return closed;
+    }
+
+    function createOrderId() {
+      const dateStamp = new Intl.DateTimeFormat('en-CA', {
+        timeZone: 'America/Chicago',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+      }).format(new Date()).replace(/-/g, '');
+      const randomBytes = new Uint8Array(2);
+      crypto.getRandomValues(randomBytes);
+      const suffix = Array.from(randomBytes, byte => byte.toString(16).padStart(2, '0')).join('').toUpperCase();
+      return `PRPD-B${BATCH.number}-${dateStamp}-${suffix}`;
+    }
+
+    function renderOrderConfirmation(orderLines, mealSubtotal, deliveryFee, roundedTotal, orderId) {
+      document.getElementById('successOrderId').textContent = orderId;
+      document.getElementById('successOrderItems').innerHTML = orderLines.map(({ dish, tier, qty }) => {
+        const tierLabel = dish.category === 'dessert' ? '' : ` (${tier === 'bulk' ? 'Bulk' : 'Lean'})`;
+        const subtotal = qty * getPrice(dish, tier);
+        return `<div class="success-order__item"><span>${qty}&times; ${dish.name}${tierLabel}</span><strong>$${subtotal.toFixed(2)}</strong></div>`;
+      }).join('');
+      document.getElementById('successSubtotal').textContent = '$' + mealSubtotal.toFixed(2);
+      document.getElementById('successDeliveryFee').textContent = deliveryFee > 0 ? '$' + deliveryFee.toFixed(2) : 'Free';
+      document.getElementById('successTotal').textContent = '$' + roundedTotal.toFixed(2);
+    }
+
+    function changeQty(id, tier, delta) {
+      const effectiveTier = tier === 'single' ? null : tier;
+      const key = cartKey(id, effectiveTier);
+      cart[key] = Math.min(MAX_QTY_PER_ITEM, Math.max(0, (cart[key] || 0) + delta));
+      document.getElementById(`qty-${id}-${tier}`).textContent = cart[key];
+      const hasAnyQty = getQty(id, null) > 0 || getQty(id, 'lean') > 0 || getQty(id, 'bulk') > 0;
+      document.getElementById('card-' + id).classList.toggle('has-qty', hasAnyQty);
       updateSummary();
     }
 
     function updateSummary() {
-      const ordered = allDishes().filter(d => (cart[d.id] || 0) > 0);
+      const ordered = getOrderLines();
       const container = document.getElementById('summaryItems');
 
       if (ordered.length === 0) {
         container.innerHTML = '<p class="summary-empty">Add items from the menu.</p>';
       } else {
-        container.innerHTML = ordered.map(d => {
-          const qty   = cart[d.id];
-          const tier  = getTier(d.id);
-          const price = getPrice(d, tier);
+        container.innerHTML = ordered.map(({ dish, tier, qty }) => {
+          const price = getPrice(dish, tier);
           const sub   = (qty * price).toFixed(2);
-          const tierLabel = d.category !== 'dessert' ? ` <span style="font-size:0.72rem;opacity:0.6;font-weight:500">(${tier})</span>` : '';
+          const tierLabel = dish.category !== 'dessert' ? ` <span style="font-size:0.72rem;opacity:0.6;font-weight:500">(${tier.toUpperCase()})</span>` : '';
           return `<div class="summary-item">
-            <span class="summary-item-name">${qty}× ${d.name}${tierLabel}</span>
+            <span class="summary-item-name">${qty}&times; ${dish.name}${tierLabel}</span>
             <span class="summary-item-price">$${sub}</span>
           </div>`;
         }).join('');
       }
 
-      const total = ordered.reduce((s, d) => s + cart[d.id] * getPrice(d, getTier(d.id)), 0);
-      document.getElementById('summaryTotal').textContent = '$' + Math.ceil(total).toFixed(2);
+      const mealSubtotal = getMealSubtotal(ordered);
+      const deliveryFee = getDeliveryFee(mealSubtotal);
+      const exactTotal = mealSubtotal + deliveryFee;
+      const roundedTotal = Math.ceil(exactTotal);
+      document.getElementById('mealSubtotalDisplay').textContent = '$' + mealSubtotal.toFixed(2);
+      document.getElementById('summaryTotal').textContent = '$' + roundedTotal.toFixed(2);
+      document.getElementById('deliveryFeeDisplay').textContent = mealSubtotal === 0
+        ? '—'
+        : deliveryFee > 0 ? '$' + deliveryFee.toFixed(2) : 'Free';
+      updateOrderPolicies(mealSubtotal);
+    }
+
+    function getMealSubtotal(ordered) {
+      return ordered.reduce((sum, line) => sum + line.qty * getPrice(line.dish, line.tier), 0);
+    }
+
+    function getDeliveryFee(mealSubtotal) {
+      if (mealSubtotal <= 0) return 0;
+      return mealSubtotal > FREE_DELIVERY_THRESHOLD ? 0 : DELIVERY_FEE;
+    }
+
+    function updateOrderPolicies(mealSubtotal) {
+      const minEl = document.getElementById('minimumStatus');
+      const deliveryEl = document.getElementById('deliveryStatus');
+
+      if (!minEl || !deliveryEl) return;
+
+      minEl.classList.toggle('is-good', mealSubtotal >= MIN_ORDER_TOTAL);
+      minEl.classList.toggle('is-warning', mealSubtotal > 0 && mealSubtotal < MIN_ORDER_TOTAL);
+      const amountToMinimum = Math.max(MIN_ORDER_TOTAL - mealSubtotal, 0);
+      minEl.querySelector('span').textContent = mealSubtotal >= MIN_ORDER_TOTAL
+        ? 'Order minimum met'
+        : 'Add $' + amountToMinimum.toFixed(2) + ' more';
+      minEl.querySelector('strong').textContent = mealSubtotal >= MIN_ORDER_TOTAL
+        ? 'Ready to order'
+        : 'to meet the $' + MIN_ORDER_TOTAL.toFixed(0) + ' minimum';
+
+      deliveryEl.classList.toggle('is-good', mealSubtotal > FREE_DELIVERY_THRESHOLD);
+      deliveryEl.classList.toggle('is-warning', mealSubtotal > 0 && mealSubtotal <= FREE_DELIVERY_THRESHOLD);
+      const amountToFreeDelivery = Math.max(FREE_DELIVERY_THRESHOLD + 0.01 - mealSubtotal, 0);
+      deliveryEl.querySelector('span').textContent = mealSubtotal > FREE_DELIVERY_THRESHOLD
+        ? 'Free delivery applied'
+        : 'Add $' + amountToFreeDelivery.toFixed(2) + ' more';
+      deliveryEl.querySelector('strong').textContent = mealSubtotal > FREE_DELIVERY_THRESHOLD
+        ? 'You save $' + DELIVERY_FEE.toFixed(2)
+        : 'for free delivery';
     }
 
     // ════════════════════════════════════════
@@ -747,6 +1155,11 @@
     // SUBMIT
     // ════════════════════════════════════════
     async function submitOrder() {
+      if (applyOrderAvailability()) {
+        alert('Orders are closed for this week. Please contact Rida if you need help.');
+        return;
+      }
+
       const firstName = document.getElementById('firstName').value.trim();
       const lastName  = document.getElementById('lastName').value.trim();
       const phone     = document.getElementById('phone').value.trim();
@@ -778,9 +1191,14 @@
       }
 
       // Must have at least one item
-      const ordered = allDishes().filter(d => (cart[d.id] || 0) > 0);
+      const ordered = getOrderLines();
       if (ordered.length === 0) {
         alert('Please add at least one item to your order.');
+        return;
+      }
+      const totalItems = ordered.reduce((sum, line) => sum + line.qty, 0);
+      if (totalItems > MAX_TOTAL_ITEMS) {
+        alert('Please text Rida directly for very large orders.');
         return;
       }
 
@@ -789,45 +1207,63 @@
       document.getElementById('btnText').style.display    = 'none';
       document.getElementById('btnSpinner').style.display = 'inline';
 
-      const exactTotal = ordered.reduce((s, d) => s + cart[d.id] * getPrice(d, getTier(d.id)), 0);
+      const mealSubtotal = getMealSubtotal(ordered);
+      const deliveryFee = getDeliveryFee(mealSubtotal);
+      const exactTotal = mealSubtotal + deliveryFee;
+      const roundedTotal = Math.ceil(exactTotal);
+      if (mealSubtotal < MIN_ORDER_TOTAL) {
+        alert('Minimum order is $60. Please add a few more items to place your order.');
+        btn.disabled = false;
+        document.getElementById('btnText').style.display    = 'inline';
+        document.getElementById('btnSpinner').style.display = 'none';
+        return;
+      }
+      const orderId = createOrderId();
 
       const payload = {
         action: 'order',
+        orderId,
         batch: BATCH.number,
         deliveryDate: BATCH.deliveryDate,
         firstName,
         lastName,
         phone,
-        items: ordered.map(d => {
-          const tier      = getTier(d.id);
-          const unitPrice = getPrice(d, tier);
+        items: ordered.map(({ dish, tier, qty }) => {
+          const unitPrice = getPrice(dish, tier);
           return {
-            id: d.id,
-            name: d.name,
-            section: sectionOf(d.id),
-            tier: d.category !== 'dessert' ? tier : null,
-            qty: cart[d.id],
+            id: dish.id,
+            name: dish.name,
+            category: dish.category,
+            section: sectionOf(dish.id),
+            tier: dish.category !== 'dessert' ? tier : null,
+            qty,
             unitPrice,
-            subtotal: parseFloat((cart[d.id] * unitPrice).toFixed(2)),
+            subtotal: parseFloat((qty * unitPrice).toFixed(2)),
           };
         }),
+        mealSubtotal: parseFloat(mealSubtotal.toFixed(2)),
+        deliveryFee: parseFloat(deliveryFee.toFixed(2)),
         exactTotal: parseFloat(exactTotal.toFixed(2)),
-        total: Math.ceil(exactTotal),
+        total: roundedTotal,
         notes,
         submittedAt: new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' }),
       };
 
       try {
-        await fetch(APPS_SCRIPT_URL, {
+        const response = await fetch(ORDER_API_URL, {
           method: 'POST',
-          mode: 'no-cors',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
         });
+        const result = await response.json().catch(() => null);
+        if (!response.ok || !result || result.status !== 'success') {
+          throw new Error(result && result.message ? result.message : 'The order could not be confirmed.');
+        }
 
         document.getElementById('orderForm').style.display = 'none';
         document.getElementById('successMsg').textContent =
           `Thanks, ${firstName}! Your order has been sent to PRPD.`;
+        renderOrderConfirmation(ordered, mealSubtotal, deliveryFee, roundedTotal, orderId);
         document.getElementById('orderSuccess').classList.add('visible');
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
@@ -836,7 +1272,7 @@
         btn.disabled = false;
         document.getElementById('btnText').style.display    = 'inline';
         document.getElementById('btnSpinner').style.display = 'none';
-        alert('Something went wrong. Please DM @getprpd on Instagram.');
+        alert(err.message || 'Something went wrong. Please text Rida at (469) 545-0781.');
       }
     }
 
@@ -844,6 +1280,8 @@
     // INIT
     // ════════════════════════════════════════
     renderMenu();
+    applyOrderAvailability();
+    setInterval(applyOrderAvailability, 60000);
   </script>
 
 </body>

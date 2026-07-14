@@ -1,0 +1,7 @@
+{
+  "name": "getprpd-website",
+  "private": true,
+  "dependencies": {
+    "google-auth-library": "^10.3.0"
+  }
+}
