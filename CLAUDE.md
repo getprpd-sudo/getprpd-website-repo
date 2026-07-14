@@ -15,8 +15,12 @@ See README.md for full context.
 - Both `getprpd.com` and `www.getprpd.com` must be aliased after each deploy if they drift
 
 ## Hard Rules
-- Never overwrite the Google Apps Script URL in script.js
+- Never point website forms back to Apps Script unless an intentional rollback is documented and tested
 - Never revert to Netlify
 - Never remove vercel.json
 - Never replace real PRPD food/founder photos with stock or AI images
 - Never remove phone validation from the form
+- Keep the required intake fields aligned with `/api/lead`: contact details, referral, fitness goal, training frequency, and halal preference
+- Update the weekly batch, menu, prices, macros, and policies only in `config/order-config.js`
+- Run `npm.cmd test` after order configuration or backend changes
+- Do not treat draft recipe targets as verified label macros; use the approval process in `operations/`

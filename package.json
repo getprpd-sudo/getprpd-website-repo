@@ -1,6 +1,9 @@
 {
   "name": "getprpd-website",
   "private": true,
+  "scripts": {
+    "test": "node --test"
+  },
   "dependencies": {
     "google-auth-library": "^10.3.0"
   }

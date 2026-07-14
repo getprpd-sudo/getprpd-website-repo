@@ -30,3 +30,6 @@ service-account*.json
 *API*KEY*.txt
 node_modules/
 .vercel/
+
+# Rendered source-review files and other disposable working output
+tmp/

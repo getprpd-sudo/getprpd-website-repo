@@ -164,6 +164,13 @@
       border-color: var(--sage);
       box-shadow: 0 0 0 2px rgba(127,168,130,0.3), var(--shadow-sm);
     }
+    .dish-card.is-unavailable {
+      opacity: 0.72;
+    }
+    .dish-card.is-unavailable:hover {
+      box-shadow: var(--shadow-sm);
+      transform: none;
+    }
 
     /* Image */
     .dish-img {
@@ -336,6 +343,19 @@
       gap: 8px;
       margin-top: auto;
       padding-top: 6px;
+    }
+    .sold-out-note {
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      background: rgba(30,46,30,0.08);
+      color: var(--green);
+      font-size: 0.8rem;
+      font-weight: 800;
+      text-transform: uppercase;
     }
     .tier-order-row {
       display: flex;
@@ -855,99 +875,15 @@
     </p>
   </div>
 
+  <script src="/config/order-config.js"></script>
   <script>
-    // ════════════════════════════════════════
-    // CONFIG — update BATCH each week
-    // ════════════════════════════════════════
     const ORDER_API_URL = '/api/order';
-
-    const BATCH = {
-      number: 2,
-      deliveryDate: 'Saturday, July 18, 2026',
-      cutoffIso: '2026-07-15T17:00:00-05:00',
-      cutoffLabel: 'Wednesday at 5:00 PM CT',
-    };
-    const MIN_ORDER_TOTAL = 60;
-    const FREE_DELIVERY_THRESHOLD = 75;
-    const DELIVERY_FEE = 6.99;
-    const MAX_QTY_PER_ITEM = 50;
-    const MAX_TOTAL_ITEMS = 250;
-
-    // ════════════════════════════════════════
-    // MENU — replace dishes each week
-    // category: 'standard' (chicken/breakfast) → lean $10.99 / bulk $12.99
-    //           'beef'     (beef/seafood)       → lean $13.99 / bulk $15.99
-    //           'dessert'                       → $6.99 (no tier)
-    // Image paths: /assets/images/meals/filename.jpg
-    // Macros: { cal, protein, carbs, fiber, fat } — all numbers
-    // ════════════════════════════════════════
-    const MENU = {
-      // macros = lean tier | bulkMacros = bulk tier
-      // For dishes where the doc only listed Cal+P, C and F are back-calculated from calories.
-      breakfasts: [
-        { id: 'b1', name: 'Egg Bites',                        category: 'standard', leanPrice: 10.99, bulkPrice: 12.99,
-          description: 'Baked egg and cottage cheese bites with melted mozz, spinach, and jalapeño, served with crispy garlic potato hash.',
-          macros:     { cal: 440, protein: 48, carbs: 24, fiber: 0, fat: 16 },
-          bulkMacros: { cal: 615, protein: 69, carbs: 30, fiber: 0, fat: 24 }, image: '/assets/images/meals/egg-bites.jpg' },
-        { id: 'b2', name: 'French Toast',                     category: 'standard', leanPrice: 10.99, bulkPrice: 12.99,
-          description: 'Thick-cut french toast cooked in butter with a rich custard of whole eggs, cottage cheese, and brown sugar. Served with strawberries, banana, and whipped cream.',
-          macros:     { cal: 520, protein: 40, carbs: 62, fiber: 3, fat: 12 },
-          bulkMacros: { cal: 650, protein: 52, carbs: 76, fiber: 4, fat: 14 }, image: '/assets/images/meals/french-toast.jpg?v=20260713' },
-        { id: 'b3', name: 'Breakfast Quesadilla',             category: 'standard', leanPrice: 10.99, bulkPrice: 12.99,
-          description: 'Grilled quesadilla loaded with seasoned shredded chicken, scrambled eggs, and melted mozz, served with Fage crema and salsa.',
-          macros:     { cal: 553, protein: 77, carbs: 26, fiber: 0, fat: 16 },
-          bulkMacros: { cal: 729, protein: 102, carbs: 32, fiber: 0, fat: 21 }, image: '/assets/images/meals/chicken-quesadillas.jpg' },
-        { id: 'b4', name: 'Grilled Cheese Breakfast Burrito', category: 'beef',     leanPrice: 13.99, bulkPrice: 15.99,
-          description: 'Saucy seasoned beef, scrambled eggs, and melted mozz wrapped tight in a grilled flour tortilla. Best reheated in the air fryer.',
-          macros:     { cal: 557, protein: 64, carbs: 32, fiber: 0, fat: 19 },
-          bulkMacros: { cal: 749, protein: 89, carbs: 40, fiber: 0, fat: 26 }, image: '' },
-      ],
-      mains: [
-        { id: 'm1', name: 'Butter Chicken',                   category: 'standard', leanPrice: 10.99, bulkPrice: 12.99,
-          description: 'Tender chicken thigh in a smooth, spiced tomato-yogurt butter sauce, served over basmati rice. Our most popular main.',
-          macros:     { cal: 484, protein: 57, carbs: 44, fiber: 0, fat: 12 },
-          bulkMacros: { cal: 600, protein: 76, carbs: 48, fiber: 0, fat: 15 }, image: '' },
-        { id: 'm2', name: 'Halal Cart Chicken + Yellow Rice', category: 'standard', leanPrice: 10.99, bulkPrice: 12.99,
-          description: 'NYC street cart-style chicken over turmeric yellow rice with white garlic sauce and hot sauce on the side.',
-          macros:     { cal: 500, protein: 58, carbs: 44, fiber: 0, fat: 11 },
-          bulkMacros: { cal: 605, protein: 78, carbs: 48, fiber: 0, fat: 14 }, image: '/assets/images/meals/halal-cart-chicken.jpg?v=20260713' },
-        { id: 'm3', name: 'Loaded Buffalo Chicken Potato',    category: 'standard', leanPrice: 10.99, bulkPrice: 12.99,
-          description: 'Buffalo-tossed diced chicken over crispy roasted potatoes and broccoli. Extra buffalo sauce cup included.',
-          macros:     { cal: 605, protein: 68, carbs: 48, fiber: 0, fat: 16 },
-          bulkMacros: { cal: 720, protein: 86, carbs: 52, fiber: 0, fat: 20 }, image: '' },
-        { id: 'm4', name: 'Peri Peri Drumsticks',             category: 'standard', leanPrice: 10.99, bulkPrice: 12.99,
-          description: 'Bone-in drumsticks marinated in a house-blended peri peri sauce, oven-roasted on a wire rack, and broiled until charred. Served with rice.',
-          macros:     { cal: 560, protein: 62, carbs: 42, fiber: 0, fat: 18 },
-          bulkMacros: { cal: 690, protein: 81, carbs: 45, fiber: 0, fat: 24 }, image: '' },
-        { id: 'm5', name: 'Mexican Streetcorn Chicken Bowl',  category: 'standard', leanPrice: 10.99, bulkPrice: 12.99,
-          description: 'Grilled chicken over rice with charred corn, jalapeño crema, cotija cheese, and fresh lime. Smoky, tangy, and bold.',
-          macros:     { cal: 530, protein: 54, carbs: 44, fiber: 0, fat: 10 },
-          bulkMacros: { cal: 660, protein: 73, carbs: 58, fiber: 0, fat: 12 }, image: '' },
-        { id: 'm6', name: 'Beef Seekh Kabab Shawarma',        category: 'beef',     leanPrice: 13.99, bulkPrice: 15.99,
-          description: 'Spiced ground beef seekh kababs oven-baked until charred and juicy, served over rice with a house dipping sauce.',
-          macros:     { cal: 505, protein: 48, carbs: 36, fiber: 0, fat: 18 },
-          bulkMacros: { cal: 605, protein: 60, carbs: 37, fiber: 0, fat: 23 }, image: '/assets/images/meals/beef-seekh-shawarma.jpg' },
-        { id: 'm7', name: 'Meatball Arrabbiata Pasta',        category: 'beef',     leanPrice: 13.99, bulkPrice: 15.99,
-          description: 'Baked beef meatballs tossed in a fiery crushed tomato arrabbiata sauce over high-protein pasta, topped with melted mozz.',
-          macros:     { cal: 660, protein: 72, carbs: 52, fiber: 0, fat: 20 },
-          bulkMacros: { cal: 775, protein: 86, carbs: 58, fiber: 0, fat: 24 }, image: '' },
-        { id: 'm8', name: 'Halal Boy Kibble',                 category: 'beef',     leanPrice: 13.99, bulkPrice: 15.99,
-          description: 'Saucy sweet chili ground beef over rice topped with fresh lettuce and mozz, served with mayo, ketchup, and mustard cups.',
-          macros:     { cal: 545, protein: 56, carbs: 46, fiber: 0, fat: 17 },
-          bulkMacros: { cal: 660, protein: 69, carbs: 50, fiber: 0, fat: 21 }, image: '' },
-      ],
-      desserts: [
-        { id: 'd1', name: 'Strawberry Cheesecake', category: 'dessert', leanPrice: 6.99, bulkPrice: 6.99,
-          description: 'Silky high-protein cheesecake filling topped with a sweet strawberry sauce. Creamy, light, and macro-friendly.',
-          macros: { cal: 280, protein: 24, carbs: 18, fiber: 4, fat: 6 }, image: '' },
-        { id: 'd2', name: 'Chocolate Oreo Mousse', category: 'dessert', leanPrice: 6.99, bulkPrice: 6.99,
-          description: 'Whipped Fage and protein mousse with SF cocoa, topped with a whole Oreo Thin and crushed cookie crumble. Rich and fluffy.',
-          macros: { cal: 281, protein: 38, carbs: 18, fiber: 0, fat: 6 }, image: '' },
-        { id: 'd3', name: 'High Protein Tiramisu', category: 'dessert', leanPrice: 6.99, bulkPrice: 6.99,
-          description: 'Layers of espresso-soaked ladyfingers and silky cottage cheese cream, dusted with cocoa and powdered sugar.',
-          macros: { cal: 295, protein: 38, carbs: 26, fiber: 0, fat: 6 }, image: '' },
-      ],
-    };
+    const { batch: BATCH, policies: POLICIES, prices: PRICES, menu: MENU } = window.PRPD_ORDER_CONFIG;
+    const MIN_ORDER_TOTAL = POLICIES.minimumOrder;
+    const FREE_DELIVERY_THRESHOLD = POLICIES.freeDeliveryThreshold;
+    const DELIVERY_FEE = POLICIES.deliveryFee;
+    const MAX_QTY_PER_ITEM = POLICIES.maxQtyPerItem;
+    const MAX_TOTAL_ITEMS = POLICIES.maxTotalItems;
 
     // ════════════════════════════════════════
     // STATE
@@ -990,8 +926,8 @@
     }
 
     function getPrice(dish, tier) {
-      if (dish.category === 'dessert') return dish.leanPrice;
-      return tier === 'bulk' ? dish.bulkPrice : dish.leanPrice;
+      const priceTier = dish.category === 'dessert' ? 'single' : tier;
+      return PRICES[dish.category][priceTier];
     }
 
     function tierOrderRowHtml(dish, tier) {
@@ -1027,11 +963,14 @@
       ['breakfasts', 'mains', 'desserts'].forEach(section => {
         const grid = document.getElementById('grid-' + section);
         grid.innerHTML = MENU[section].map(dish => {
-          const orderRows = dish.category === 'dessert'
-            ? tierOrderRowHtml(dish, null)
-            : tierOrderRowHtml(dish, 'lean') + tierOrderRowHtml(dish, 'bulk');
+          const available = dish.available !== false;
+          const orderRows = !available
+            ? '<div class="sold-out-note">Sold out for this batch</div>'
+            : dish.category === 'dessert'
+              ? tierOrderRowHtml(dish, null)
+              : tierOrderRowHtml(dish, 'lean') + tierOrderRowHtml(dish, 'bulk');
           return `
-            <div class="dish-card" id="card-${dish.id}">
+            <div class="dish-card${available ? '' : ' is-unavailable'}" id="card-${dish.id}">
               <div class="dish-img">
                 <div class="dish-img__bg"><span>PRPD</span></div>
                 ${dish.image ? `<img src="${dish.image}" alt="${dish.name}" onerror="this.style.display='none'" loading="lazy" />` : ''}
@@ -1065,7 +1004,7 @@
         month: '2-digit',
         day: '2-digit',
       }).format(new Date()).replace(/-/g, '');
-      const randomBytes = new Uint8Array(2);
+      const randomBytes = new Uint8Array(4);
       crypto.getRandomValues(randomBytes);
       const suffix = Array.from(randomBytes, byte => byte.toString(16).padStart(2, '0')).join('').toUpperCase();
       return `PRPD-B${BATCH.number}-${dateStamp}-${suffix}`;
@@ -1084,9 +1023,12 @@
     }
 
     function changeQty(id, tier, delta) {
+      const dish = allDishes().find(item => item.id === id);
+      if (!dish || dish.available === false) return;
       const effectiveTier = tier === 'single' ? null : tier;
       const key = cartKey(id, effectiveTier);
-      cart[key] = Math.min(MAX_QTY_PER_ITEM, Math.max(0, (cart[key] || 0) + delta));
+      const maxQty = dish.maxQty || MAX_QTY_PER_ITEM;
+      cart[key] = Math.min(maxQty, Math.max(0, (cart[key] || 0) + delta));
       document.getElementById(`qty-${id}-${tier}`).textContent = cart[key];
       const hasAnyQty = getQty(id, null) > 0 || getQty(id, 'lean') > 0 || getQty(id, 'bulk') > 0;
       document.getElementById('card-' + id).classList.toggle('has-qty', hasAnyQty);

@@ -2,8 +2,7 @@
    PRPD — script.js
    ═══════════════════════════════════════════ */
 
-// ── Google Apps Script endpoint
-// Replace this URL after you deploy the Apps Script (see README)
+// Same-domain Vercel lead endpoint.
 const LEAD_API_URL = '/api/lead';
 let leadSubmissionId = null;
 
@@ -11,7 +10,7 @@ function createLeadId() {
   const dateStamp = new Intl.DateTimeFormat('en-CA', {
     timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit',
   }).format(new Date()).replace(/-/g, '');
-  const bytes = new Uint8Array(2);
+  const bytes = new Uint8Array(4);
   crypto.getRandomValues(bytes);
   const suffix = Array.from(bytes, byte => byte.toString(16).padStart(2, '0')).join('').toUpperCase();
   return `PRPD-LEAD-${dateStamp}-${suffix}`;
@@ -195,9 +194,24 @@ function validateStep(step) {
   }
 
   if (step === 2) {
-    const el = document.getElementById('fitnessGoalVal');
+    ['fitnessGoalVal', 'trainingDaysVal'].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el.value) return;
+      const group = el.previousElementSibling;
+      if (group) {
+        group.style.outline = '1.5px solid rgba(224,112,112,0.6)';
+        group.style.borderRadius = '12px';
+        group.style.padding = '6px';
+        setTimeout(() => { group.style.outline = ''; group.style.padding = ''; }, 2000);
+      }
+      valid = false;
+    });
+  }
+
+  if (step === 3) {
+    const el = document.getElementById('halalPrefVal');
     if (!el.value) {
-      const group = document.getElementById('fitnessGoal');
+      const group = el.previousElementSibling;
       if (group) {
         group.style.outline = '1.5px solid rgba(224,112,112,0.6)';
         group.style.borderRadius = '12px';
@@ -268,6 +282,8 @@ if (form) {
       referral:         document.getElementById('referral').value,
       referralInsight:  document.getElementById('referralInsight')?.value.trim() || '',
       fitnessGoal:      document.getElementById('fitnessGoalVal').value,
+      trainingDays:     document.getElementById('trainingDaysVal').value,
+      halalPref:        document.getElementById('halalPrefVal').value,
       restrictions:     selectedRestrictions,
       notes:            document.getElementById('notes').value.trim(),
       submittedAt:      new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' }),

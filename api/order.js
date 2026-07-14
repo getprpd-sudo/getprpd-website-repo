@@ -1,4 +1,5 @@
 const { GoogleAuth } = require('google-auth-library');
+const ORDER_CONFIG = require('../config/order-config');
 
 const SHEET_ID = process.env.GOOGLE_SHEET_ID;
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
@@ -7,39 +8,26 @@ const GOOGLE_SERVICE_ACCOUNT_BASE64 = process.env.GOOGLE_SERVICE_ACCOUNT_BASE64;
 const NOTIFICATION_EMAIL = 'getprpd@gmail.com';
 const SENDER_EMAIL = 'PRPD Orders <orders@mail.getprpd.com>';
 
-const ORDER_CUTOFF = '2026-07-15T17:00:00-05:00';
-const BATCH_NUMBER = 2;
-const DELIVERY_DATE = 'Saturday, July 18, 2026';
-const MIN_ORDER_TOTAL = 60;
-const FREE_DELIVERY_THRESHOLD = 75;
-const DELIVERY_FEE = 6.99;
-const MAX_QTY_PER_ITEM = 50;
-const MAX_TOTAL_ITEMS = 250;
+const ORDER_CUTOFF = ORDER_CONFIG.batch.cutoffIso;
+const BATCH_NUMBER = ORDER_CONFIG.batch.number;
+const DELIVERY_DATE = ORDER_CONFIG.batch.deliveryDate;
+const MIN_ORDER_TOTAL = ORDER_CONFIG.policies.minimumOrder;
+const FREE_DELIVERY_THRESHOLD = ORDER_CONFIG.policies.freeDeliveryThreshold;
+const DELIVERY_FEE = ORDER_CONFIG.policies.deliveryFee;
+const MAX_QTY_PER_ITEM = ORDER_CONFIG.policies.maxQtyPerItem;
+const MAX_TOTAL_ITEMS = ORDER_CONFIG.policies.maxTotalItems;
 const MAX_BODY_BYTES = 50_000;
 
-const CATALOG = {
-  b1: ['Egg Bites', 'standard'],
-  b2: ['French Toast', 'standard'],
-  b3: ['Breakfast Quesadilla', 'standard'],
-  b4: ['Grilled Cheese Breakfast Burrito', 'beef'],
-  m1: ['Butter Chicken', 'standard'],
-  m2: ['Halal Cart Chicken + Yellow Rice', 'standard'],
-  m3: ['Loaded Buffalo Chicken Potato', 'standard'],
-  m4: ['Peri Peri Drumsticks', 'standard'],
-  m5: ['Mexican Streetcorn Chicken Bowl', 'standard'],
-  m6: ['Beef Seekh Kabab Shawarma', 'beef'],
-  m7: ['Meatball Arrabbiata Pasta', 'beef'],
-  m8: ['Halal Boy Kibble', 'beef'],
-  d1: ['Strawberry Cheesecake', 'dessert'],
-  d2: ['Chocolate Oreo Mousse', 'dessert'],
-  d3: ['High Protein Tiramisu', 'dessert'],
-};
-
-const PRICES = {
-  standard: { lean: 10.99, bulk: 12.99 },
-  beef: { lean: 13.99, bulk: 15.99 },
-  dessert: { single: 6.99 },
-};
+const PRICES = ORDER_CONFIG.prices;
+const CATALOG = Object.values(ORDER_CONFIG.menu).flat().reduce((catalog, dish) => {
+  catalog[dish.id] = {
+    name: dish.name,
+    category: dish.category,
+    available: dish.available !== false,
+    maxQty: dish.maxQty || MAX_QTY_PER_ITEM,
+  };
+  return catalog;
+}, {});
 
 function sendJson(response, status, body) {
   response.status(status).setHeader('Content-Type', 'application/json; charset=utf-8');
@@ -70,14 +58,15 @@ function normalizeItems(rawItems) {
     const catalogItem = CATALOG[id];
     if (!catalogItem) throw new Error('An unknown menu item was submitted.');
 
-    const [name, category] = catalogItem;
+    const { name, category, available, maxQty } = catalogItem;
+    if (!available) throw new Error(`${name} is sold out for this batch.`);
     const tier = category === 'dessert' ? 'single' : raw.tier === 'bulk' ? 'bulk' : 'lean';
     const qty = Math.floor(Number(raw.qty));
     if (!Number.isFinite(qty) || qty < 1) throw new Error(`Invalid quantity for ${name}.`);
 
     const key = `${id}:${tier}`;
     const nextQty = (combined.get(key)?.qty || 0) + qty;
-    if (nextQty > MAX_QTY_PER_ITEM) throw new Error(`Too many servings of ${name}.`);
+    if (nextQty > maxQty) throw new Error(`Too many servings of ${name}.`);
     combined.set(key, { id, name, category, tier, qty: nextQty });
   }
 
@@ -90,10 +79,15 @@ function normalizeItems(rawItems) {
   return items;
 }
 
+function isValidOrderId(orderId) {
+  const orderIdPattern = new RegExp(`^PRPD-B${BATCH_NUMBER}-\\d{8}-[A-F0-9]{4}(?:[A-F0-9]{4})?$`);
+  return orderIdPattern.test(orderId);
+}
+
 function validateAndBuildOrder(raw) {
   if (!raw || raw.action !== 'order') throw new Error('Invalid order request.');
   const orderId = safeText(raw.orderId, 50);
-  if (!/^PRPD-B2-\d{8}-[A-F0-9]{4}$/.test(orderId)) throw new Error('Invalid order reference.');
+  if (!isValidOrderId(orderId)) throw new Error('Invalid order reference.');
 
   const firstName = safeText(raw.firstName, 60);
   const lastName = safeText(raw.lastName, 60);
@@ -331,6 +325,11 @@ module.exports = async function handler(request, response) {
     return sendJson(response, 405, { status: 'error', message: 'Method not allowed.' });
   }
 
+  const contentType = String(request.headers['content-type'] || '').toLowerCase();
+  if (!contentType.includes('application/json')) {
+    return sendJson(response, 415, { status: 'error', message: 'JSON content is required.' });
+  }
+
   const contentLength = Number(request.headers['content-length'] || 0);
   if (contentLength > MAX_BODY_BYTES) {
     return sendJson(response, 413, { status: 'error', message: 'Order request is too large.' });
@@ -341,6 +340,9 @@ module.exports = async function handler(request, response) {
     raw = typeof request.body === 'string' ? JSON.parse(request.body) : request.body;
   } catch {
     return sendJson(response, 400, { status: 'error', message: 'Invalid JSON request.' });
+  }
+  if (Buffer.byteLength(JSON.stringify(raw || {}), 'utf8') > MAX_BODY_BYTES) {
+    return sendJson(response, 413, { status: 'error', message: 'Order request is too large.' });
   }
 
   let order;
@@ -389,6 +391,7 @@ module.exports = async function handler(request, response) {
 
 module.exports._test = {
   normalizeItems,
+  isValidOrderId,
   validateAndBuildOrder,
   paymentCounts,
   tierSummary,

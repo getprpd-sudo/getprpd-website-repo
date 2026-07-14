@@ -57,7 +57,17 @@ GitHub backup: `getprpd-sudo/getprpd-website-repo` (push via GitHub Desktop — 
 
 - `api/order.js` — direct Vercel order backend for Google Sheets and Resend
 - `api/lead.js` — direct Vercel intake backend for Google Sheets and Resend
+- `config/order-config.js` — single weekly source of truth for menu, macros, images, prices, delivery rules, and cutoff
 - `package.json` / `package-lock.json` — backend dependency lock
+
+### Operations
+
+- `operations/MASTER_PLAN.md` — prioritized website, recipe, cook-day, label, and compliance workstreams
+- `operations/STANDARD_RECIPE_TEMPLATE.md` — controlled production recipe and yield template
+- `operations/TIRAMISU_TEST_PLAN.md` — measured kitchen test needed before final tiramisu macros
+- `operations/STREETCORN_CHICKEN_TEST_PLAN.md` — yield, portion, storage, and reheating test for the new bowl
+- `operations/COOK_DAY_CHECKLIST.md` — post-cutoff through delivery-staging production checklist
+- `operations/LABEL_SYSTEM.md` — lower-ink label direction and automation requirements
 
 ### Supplemental Pages
 
@@ -110,7 +120,7 @@ Currently uploaded (as of July 13, 2026):
 - `steak.jpg` → not this week's menu
 - `sweet-chilli-chicken-thighs.jpg` → not this week's menu
 
-To add more dish images: drop the file in `assets/images/meals/`, then update the `image:` field in the MENU config in `order.html`.
+To add more dish images: drop the file in `assets/images/meals/`, then update the dish's `image:` field in `config/order-config.js`.
 
 Favicon:
 
@@ -136,9 +146,9 @@ Live at `https://getprpd.com/order` (Vercel rewrite: `/order` → `/order.html`)
 
 Not indexed by search engines (`noindex, nofollow`). Intended for existing customers being sent the link by Rida.
 
-### MENU Config
+### Shared Weekly Order Config
 
-The MENU config is a JavaScript object at the top of the inline `<script>` in `order.html`. Update it every week to reflect the current batch's dishes.
+The batch, menu, macros, images, prices, and order policies live in `config/order-config.js`. Both `order.html` and `api/order.js` consume this file. Update it once each week; do not recreate menu or pricing constants in either consumer.
 
 Shape of each dish entry:
 
@@ -147,12 +157,12 @@ Shape of each dish entry:
   id: 'b1',                    // unique ID: b1-b4 (breakfast), m1-m8 (mains), d1-d3 (desserts)
   name: 'Egg Bites',
   category: 'standard',        // 'standard' | 'beef' | 'dessert'
-  leanPrice: 10.99,
-  bulkPrice: 12.99,
   description: 'Short plain-English description. No em dashes.',
   macros:     { cal, protein, carbs, fiber, fat },  // lean tier macros
   bulkMacros: { cal, protein, carbs, fiber, fat },  // bulk tier macros
   image: '/assets/images/meals/egg-bites.jpg',      // '' if no photo yet
+  available: true,              // set false to show sold out and reject new orders
+  maxQty: 20,                   // optional dish-specific cap; omit for global cap
 }
 ```
 
@@ -172,16 +182,16 @@ Bulk is always $2 more than lean. Desserts have no tier toggle.
 - Delivery fee: `$6.99`
 - Free delivery: food subtotal over `$75`
 - Final amount due is rounded up to the nearest dollar after delivery is applied.
-- Apps Script recomputes these totals server-side; do not trust browser-submitted totals.
+- `/api/order` recomputes these totals server-side; do not trust browser-submitted totals.
 
 ### Order Cutoff + Confirmation
 
 - Orders automatically close at the batch `cutoffIso` time (Wednesday at 5:00 PM Central for the current batch).
 - The frontend replaces the menu with an orders-closed message after cutoff.
-- Apps Script independently rejects late orders using `ORDER_BATCH.cutoffIso`.
+- `/api/order` independently rejects late orders using the shared `batch.cutoffIso` value.
 - Successful confirmations show an itemized order, meal subtotal, delivery fee, total due, delivery date, and order reference.
-- Order references use `PRPD-B{batch}-{YYYYMMDD}-{4 hex characters}` and are saved in `Orders` column K and `Payment Log` column N.
-- Apps Script rejects a duplicate order reference before writing a second row.
+- New order references use `PRPD-B{batch}-{YYYYMMDD}-{8 hex characters}` and are saved in `Orders` column K and `Payment Log` column N. The API also accepts legacy 4-character references from pages that were already open during the migration.
+- `/api/order` rejects a duplicate order reference before writing a second row.
 
 ### Current Week (Batch 2 — Delivery Saturday July 18, 2026)
 
@@ -240,7 +250,7 @@ The `<img>` tag in each dish card uses `onerror="this.style.display='none'"`. If
 ```json
 {
   "action": "order",
-  "orderId": "PRPD-B2-20260713-A4F2",
+  "orderId": "PRPD-B2-20260713-A4F2C91D",
   "batch": 2,
   "deliveryDate": "Saturday, July 18, 2026",
   "firstName": "Jane",
@@ -382,13 +392,15 @@ Repo: `getprpd-sudo/getprpd-website-repo`
 
 ### Website intake form (index.html)
 
-Required fields (as of June 2026):
+Required fields (as of July 2026):
 
 - Full Name
 - Phone Number (exactly 10 digits)
 - Location
 - Referral source
 - Fitness Goal
+- Training Days per Week
+- Halal Preference
 
 Optional fields:
 
@@ -396,16 +408,12 @@ Optional fields:
 - Dietary restrictions (multi-select)
 - Notes
 
-Removed from form (June 2026 — too much friction):
-
-- Training Days per Week
-- Do you eat Halal? (redundant — all PRPD food is halal)
-
 Validation/spam:
 
 - Final submit re-checks all required steps
 - Phone must be exactly 10 digits
 - Honeypot field `hpWebsite` silently blocks obvious bots
+- `/api/lead` independently validates all required fields before writing to Sheets
 
 ### Attribution capture
 
@@ -415,7 +423,7 @@ Validation/spam:
 - `landing_page` (first URL visited)
 - `referrer` (document.referrer)
 
-These are sent with every form and order submission. Recommended TikTok ad URL format:
+These are sent with every website intake submission. Recommended TikTok ad URL format:
 
 ```
 https://getprpd.com/?utm_source=tiktok&utm_medium=paid&utm_campaign=dfw_launch&utm_content=original_video_1
@@ -488,7 +496,16 @@ Headers set in `vercel.json`:
 - `X-Frame-Options: DENY`
 - `X-Content-Type-Options: nosniff`
 - `Referrer-Policy: strict-origin-when-cross-origin`
+- `Strict-Transport-Security: max-age=31536000; includeSubDomains`
+- `Permissions-Policy: camera=(), microphone=(), geolocation=()`
 - Long cache for `/fonts/*` and `/assets/*`
+
+Search/indexing controls:
+
+- `robots.txt` allows the public site but excludes `/api/` and the private customer order page.
+- `sitemap.xml` lists the homepage and FAQ clean URL.
+- The homepage includes Organization and WebSite structured data using confirmed PRPD contact/social details.
+- `order.html` remains `noindex, nofollow` because it is sent directly to existing customers.
 
 Do not remove `vercel.json`.
 
@@ -542,14 +559,14 @@ Before major edits:
 - Check mobile layout
 - Preserve warm, premium, local, human brand direction
 
-When updating the weekly menu in `order.html`:
+When updating the weekly menu:
 
-1. Update the `BATCH` object (batch number, delivery date, cutoff ISO timestamp, and cutoff label)
-2. Replace the `MENU` config dishes with that week's offerings
-3. Set `image: '/assets/images/meals/filename.jpg'` only for dishes that have an uploaded photo in `assets/images/meals/`. Set `image: ''` for all others.
-4. Verify descriptions have no em dashes (they look AI-generated)
-5. Verify macros match the recipe doc
-6. Mirror the batch/cutoff constants in `api/order.js`
-7. Mirror dish IDs, names, categories, and prices in `api/order.js`
-8. Run the order validation tests and one labeled test submission when pricing logic changes
-9. Deploy to Vercel + alias both domains
+1. Update `config/order-config.js` only.
+2. Update its `batch` object (batch number, delivery date, cutoff ISO timestamp, and cutoff label).
+3. Replace the `menu` dishes with that week's offerings.
+4. Set `image: '/assets/images/meals/filename.jpg'` only for dishes that have an uploaded photo in `assets/images/meals/`. Set `image: ''` for all others.
+5. Verify descriptions have no em dashes (they look AI-generated).
+6. Verify macros match a Production Approved recipe.
+7. Use `available: false` or a dish-specific `maxQty` only when needed.
+8. Run `npm.cmd test` and one labeled test submission when pricing logic changes.
+9. Deploy to Vercel and alias both domains.

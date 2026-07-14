@@ -49,12 +49,14 @@ function validateLead(raw) {
     landingPage: safeText(raw.landingPage, 500),
     referrer: safeText(raw.referrer, 500),
   };
-  if (!/^PRPD-LEAD-\d{8}-[A-F0-9]{4}$/.test(lead.leadId)) throw new Error('Invalid lead reference.');
+  if (!/^PRPD-LEAD-\d{8}-[A-F0-9]{4}(?:[A-F0-9]{4})?$/.test(lead.leadId)) throw new Error('Invalid lead reference.');
   if (!lead.fullName) throw new Error('Full name is required.');
   if (lead.phone.replace(/\D/g, '').length !== 10) throw new Error('A valid 10-digit phone number is required.');
   if (!lead.location) throw new Error('Location is required.');
   if (!lead.referral) throw new Error('Referral source is required.');
   if (!lead.fitnessGoal) throw new Error('Fitness goal is required.');
+  if (!lead.trainingDays) throw new Error('Training frequency is required.');
+  if (!lead.halalPref) throw new Error('Halal preference is required.');
   lead.submittedAt = new Intl.DateTimeFormat('en-US', {
     timeZone: 'America/Chicago', dateStyle: 'short', timeStyle: 'medium',
   }).format(new Date());
@@ -116,6 +118,7 @@ async function sendLeadEmail(lead) {
     'New PRPD Lead', '', `Name: ${lead.fullName}`, `Phone: ${lead.phone}`,
     `Location: ${lead.location}`, `How they heard: ${lead.referral}`,
     `Mosque / Gym: ${lead.referralInsight || '-'}`, `Fitness Goal: ${lead.fitnessGoal}`,
+    `Training Days: ${lead.trainingDays}`, `Halal Preference: ${lead.halalPref}`,
     `Restrictions: ${lead.restrictions || '-'}`, `Notes: ${lead.notes || '-'}`, '',
     `Source: ${source}`, `Campaign: ${lead.utmCampaign || '-'}`,
     `Landing Page: ${lead.landingPage || '-'}`, `Lead reference: ${lead.leadId}`,
@@ -124,7 +127,7 @@ async function sendLeadEmail(lead) {
   const html = `<div style="font-family:Arial,sans-serif;color:#1E2E1E;line-height:1.55;max-width:620px">
     <h1 style="font-size:22px">New PRPD Lead</h1>
     <p><strong>${escapeHtml(lead.fullName)}</strong><br>${escapeHtml(lead.phone)}<br>${escapeHtml(lead.location)}</p>
-    <p>Fitness goal: <strong>${escapeHtml(lead.fitnessGoal)}</strong><br>How they heard: ${escapeHtml(lead.referral)}<br>Restrictions: ${escapeHtml(lead.restrictions || '-')}</p>
+    <p>Fitness goal: <strong>${escapeHtml(lead.fitnessGoal)}</strong><br>Training: ${escapeHtml(lead.trainingDays)}<br>Halal preference: ${escapeHtml(lead.halalPref)}<br>How they heard: ${escapeHtml(lead.referral)}<br>Restrictions: ${escapeHtml(lead.restrictions || '-')}</p>
     ${lead.notes ? `<p>Notes: ${escapeHtml(lead.notes)}</p>` : ''}
     <hr style="border:0;border-top:1px solid #d8d2c9">
     <p>Source: ${escapeHtml(source)}<br>Campaign: ${escapeHtml(lead.utmCampaign || '-')}<br>Reference: ${escapeHtml(lead.leadId)}</p>
@@ -149,6 +152,10 @@ module.exports = async function handler(request, response) {
     response.setHeader('Allow', 'POST');
     return sendJson(response, 405, { status: 'error', message: 'Method not allowed.' });
   }
+  const contentType = String(request.headers['content-type'] || '').toLowerCase();
+  if (!contentType.includes('application/json')) {
+    return sendJson(response, 415, { status: 'error', message: 'JSON content is required.' });
+  }
   if (Number(request.headers['content-length'] || 0) > MAX_BODY_BYTES) {
     return sendJson(response, 413, { status: 'error', message: 'Submission is too large.' });
   }
@@ -157,6 +164,9 @@ module.exports = async function handler(request, response) {
     raw = typeof request.body === 'string' ? JSON.parse(request.body) : request.body;
   } catch {
     return sendJson(response, 400, { status: 'error', message: 'Invalid JSON request.' });
+  }
+  if (Buffer.byteLength(JSON.stringify(raw || {}), 'utf8') > MAX_BODY_BYTES) {
+    return sendJson(response, 413, { status: 'error', message: 'Submission is too large.' });
   }
   let lead;
   try {
