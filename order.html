@@ -38,17 +38,35 @@
       text-transform: uppercase;
     }
     .order-cutoff {
-      display: inline-flex;
+      display: flex;
+      flex-direction: column;
       align-items: center;
-      margin-top: 14px;
-      padding: 8px 16px;
-      border-radius: 100px;
+      justify-content: center;
+      gap: 3px;
+      width: min(100%, 620px);
+      margin: 20px auto 0;
+      padding: 14px 22px 15px;
+      border: 2px solid rgba(127,168,130,0.55);
+      border-radius: var(--radius-sm);
       background: var(--green);
       color: var(--cream);
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      box-shadow: var(--shadow-sm);
+      box-shadow: 0 8px 24px rgba(30,46,30,0.16);
+    }
+    .order-cutoff__label {
+      color: var(--sage-light);
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .order-cutoff strong {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      line-height: 1.25;
+    }
+    .order-cutoff__note {
+      color: rgba(236,231,223,0.74);
+      font-size: 0.76rem;
+      line-height: 1.35;
     }
 
     /* ── Layout ── */
@@ -205,24 +223,18 @@
     .dish-macros {
       display: flex;
       flex-wrap: wrap;
-      gap: 5px;
+      gap: 6px;
     }
     .macro-chip {
-      font-size: 0.66rem;
-      font-weight: 700;
-      letter-spacing: 0.03em;
-      color: #1e3d22;
-      background: linear-gradient(
-        180deg,
-        rgba(55, 100, 60, 0.22) 0%,
-        rgba(25, 65, 30, 0.13) 100%
-      );
-      border: 1.5px solid rgba(40, 90, 45, 0.5);
-      border-top-color: rgba(15, 55, 20, 0.65);
-      border-bottom-color: rgba(140, 190, 145, 0.5);
-      padding: 4px 11px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--green);
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(30,46,30,0.2);
+      padding: 6px 10px;
       border-radius: 100px;
       white-space: nowrap;
+      box-shadow: 0 1px 3px rgba(30,46,30,0.06);
       box-shadow:
         inset 0 2px 4px rgba(0, 0, 0, 0.14),
         inset 0 1px 1px rgba(0, 0, 0, 0.08),
@@ -339,7 +351,7 @@
     .tier-order-info {
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 3px;
       min-width: 0;
     }
     .tier-order-info strong {
@@ -348,9 +360,15 @@
       color: var(--green);
     }
     .tier-order-info span {
-      font-size: 0.68rem;
-      line-height: 1.35;
-      color: rgba(30,46,30,0.58);
+      font-size: 0.75rem;
+      font-weight: 600;
+      line-height: 1.4;
+      color: rgba(30,46,30,0.72);
+    }
+    .tier-order-info span strong {
+      font-size: inherit;
+      font-weight: 800;
+      color: var(--green);
     }
 
     /* Qty controls */
@@ -642,6 +660,10 @@
       .dish-grid { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 560px) {
+      .order-cutoff {
+        width: 100%;
+        padding: 13px 16px 14px;
+      }
       .dish-grid { grid-template-columns: 1fr; }
       .name-row { grid-template-columns: 1fr; }
       .order-info-card { padding: 20px 16px; }
@@ -683,7 +705,11 @@
       <span class="section-label">Weekly Order</span>
       <h1>Place Your Order</h1>
       <p class="order-hero__meta" id="batchMeta"></p>
-      <p class="order-cutoff" id="orderCutoff">Order cutoff: Wednesday at 5:00 PM CT</p>
+      <div class="order-cutoff" role="note" aria-label="Weekly order deadline">
+        <span class="order-cutoff__label">Order deadline</span>
+        <strong id="orderCutoff">Wednesday at 5:00 PM CT</strong>
+        <span class="order-cutoff__note">Orders close automatically after this time.</span>
+      </div>
     </div>
   </section>
 
@@ -978,8 +1004,8 @@
       return `<div class="tier-order-row">
         <div class="tier-order-info">
           <strong>${label} &middot; $${price.toFixed(2)}</strong>
-          <span>${macros.cal} Cal &middot; ${macros.protein}g protein</span>
-          <span>${macros.carbs}g carbs &middot; ${macros.fat}g fats${fiber}</span>
+          <span><strong>${macros.cal}</strong> Calories &middot; <strong>${macros.protein}g</strong> Protein</span>
+          <span>${macros.carbs}g Carbs &middot; ${macros.fat}g Fat${fiber}</span>
         </div>
         <div class="qty-ctrl">
           <button class="qty-btn" onclick="changeQty('${dish.id}', '${keySuffix}', -1)" aria-label="Remove one ${label.toLowerCase()} ${dish.name}">−</button>
@@ -995,7 +1021,7 @@
     function renderMenu() {
       document.getElementById('batchMeta').textContent =
         `Batch ${BATCH.number}  ·  Delivery ${BATCH.deliveryDate}`;
-      document.getElementById('orderCutoff').textContent = 'Order cutoff: ' + BATCH.cutoffLabel;
+      document.getElementById('orderCutoff').textContent = BATCH.cutoffLabel;
       document.getElementById('successDelivery').textContent = BATCH.deliveryDate;
 
       ['breakfasts', 'mains', 'desserts'].forEach(section => {
