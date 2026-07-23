@@ -108,7 +108,36 @@
     $('#adImportRows').innerHTML = rows.length ? rows.map(row => `<tr><td>${escape((row.importedAt || '').slice(0,10))}</td><td>${escape(row.fileName)}</td><td>${escape(row.dateFrom || '-')} to ${escape(row.dateTo || '-')}</td><td class="number">${money(row.spend)}</td><td class="number">${integer(row.impressions)}</td><td class="number">${integer(row.clicks)}</td><td class="number">${integer(row.conversions)}</td><td><button class="text-btn" data-delete-import="${escape(row.id)}">Remove</button></td></tr>`).join('') : emptyRow(8, 'No TikTok report imported yet.');
   }
 
-  function renderAll() { renderGrowth(); renderFinance(); renderOutreach(); renderAdImports(); }
+  function renderBrief() {
+    const config = window.PRPD_ORDER_CONFIG?.batch || {};
+    const brief = Core.operatorBrief(model, {
+      now: new Date(),
+      batchNumber: config.number,
+      deliveryDate: config.deliveryDate,
+      cutoffIso: config.cutoffIso,
+      cutoffLabel: config.cutoffLabel,
+    });
+    $('#briefMetrics').innerHTML = [
+      metric(`Batch ${brief.batchNumber} orders`, brief.counts.orders),
+      metric('Meals recorded', brief.counts.meals),
+      metric('New leads (24h)', brief.counts.recentLeads),
+      metric('Missing-detail orders', brief.counts.incompleteOrders, brief.counts.incompleteOrders > 0),
+      metric('Current outstanding', money(brief.money.currentOutstanding), brief.money.currentOutstanding > 0),
+      metric('Consolidated outstanding', money(brief.money.consolidatedOutstanding), brief.money.consolidatedOutstanding > 0),
+    ].join('');
+    $('#briefActions').innerHTML = brief.actions.map((action, index) => (
+      `<article><strong>${index + 1}. ${escape(action.title)}</strong><p>${escape(action.detail)}</p></article>`
+    )).join('');
+    $('#briefMissingRows').innerHTML = brief.incompleteOrders.length
+      ? brief.incompleteOrders.map(order => `<tr><td>${escape(order.customer)}</td><td>${escape(order.missing.join(', '))}</td><td>${escape(order.orderId || '-')}</td></tr>`).join('')
+      : emptyRow(3, 'No missing order details in the current batch.');
+    $('#briefLeadRows').innerHTML = brief.leadFollowUps.length
+      ? brief.leadFollowUps.slice(0, 12).map(lead => `<tr><td>${escape(lead.name)}</td><td>${escape(lead.city || '-')}</td><td>${escape(lead.goal || '-')}</td><td class="number">${Math.round(lead.waitHours)}h</td></tr>`).join('')
+      : emptyRow(4, 'No recent unmatched leads.');
+    $('#briefMonitoring').innerHTML = `<strong>Connection scope:</strong> Sheets are connected. Resend records this brief's send result. TikTok conversion events are connected; read-only ad reporting authorization remains pending. Central website-error logging is the next monitoring layer.`;
+  }
+
+  function renderAll() { renderBrief(); renderGrowth(); renderFinance(); renderOutreach(); renderAdImports(); }
 
   async function saveState(message = 'Saved locally') {
     const response = await fetch('/api/business-state', { method:'POST', headers:{ 'Content-Type':'application/json' }, body:JSON.stringify(state) });

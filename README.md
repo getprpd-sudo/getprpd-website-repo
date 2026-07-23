@@ -68,6 +68,9 @@ GitHub backup: `getprpd-sudo/getprpd-website-repo` (push via GitHub Desktop — 
 - `api/tiktok-report.js` - planner-key-protected, read-only TikTok Marketing API reporting endpoint
 - `api/planner-orders.js` - protected current-batch planner endpoint: read-only sync plus validated, planner-key-protected manual order insertion
 - `api/business-data.js` - protected read-only reporting endpoint for the private Business Center, covering Orders, Payment Log, Website Leads, and Accounts Receivable
+- `api/operator-brief.js` - protected daily Operator Brief endpoint; reads controlled business ranges, sends one internal summary through Resend, and records successful sends in the `Automation Log` Sheet tab
+- `api/_business-data-source.js` - shared private Google Sheets reader used by protected reporting and automation endpoints
+- `api/_business-center-core.js` - shared tested calculations used by the local Business Center and server-side Operator Brief
 - `config/order-config.js` — single weekly source of truth for menu, macros, images, prices, delivery rules, and cutoff
 - `package.json` / `package-lock.json` — backend dependency lock
 
@@ -98,6 +101,7 @@ GitHub backup: `getprpd-sudo/getprpd-website-repo` (push via GitHub Desktop — 
 - `operations/MARKETING_GROWTH_PLAN.md` - current capacity-controlled paid, organic, referral, and physical marketing strategy
 - `operations/business-center.html` - private local Growth and Financial Center with current/historical batch reporting, separate consolidated receivables, DFW outreach, referral attribution, expenses, TikTok Marketing API sync, and CSV fallback
 - `operations/BUSINESS_CENTER_README.md` - Business Center security, access, calculation, and weekly-use guide
+- `operations/PRPD_AUTOMATION_ROADMAP.md` - staged PRPD Operator plan, automation boundaries, and implementation status
 - `operations/DFW_LOCAL_DISCOVERY_2026-07-22.md` - prioritized DFW partnership pipeline and official source links
 - `operations/archive/README.md` - completed design briefs and implementation handoffs; archive files are historical, not current operating authority
 

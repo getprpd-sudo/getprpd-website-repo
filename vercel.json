@@ -1,4 +1,7 @@
 {
+  "crons": [
+    { "path": "/api/operator-brief", "schedule": "0 14 * * *" }
+  ],
   "redirects": [
     { "source": "/index.html",   "destination": "/",        "permanent": true },
     { "source": "/order.html",   "destination": "/order",   "permanent": true },

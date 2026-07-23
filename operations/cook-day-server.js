@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const cookLogStore = require('./cook-log-store');
 const businessCenterStore = require('./business-center-store');
-const businessCenterCore = require('./business-center-core');
+const businessCenterCore = require('../api/_business-center-core');
 const { GoogleAuth } = require('google-auth-library');
 
 const ROOT = path.resolve(__dirname, '..');

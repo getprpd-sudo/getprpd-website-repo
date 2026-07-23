@@ -206,6 +206,143 @@
     return model.receivables.slice().sort((a, b) => b.balance - a.balance || b.agreed - a.agreed);
   }
 
+  function parseDate(value) {
+    const parsed = Date.parse(clean(value));
+    return Number.isFinite(parsed) ? parsed : 0;
+  }
+
+  function ageHours(value, nowMs) {
+    const timestamp = parseDate(value);
+    return timestamp ? Math.max(0, (nowMs - timestamp) / 3600000) : 0;
+  }
+
+  function operatorBrief(model, options = {}) {
+    const now = options.now instanceof Date ? options.now : new Date(options.now || Date.now());
+    const nowMs = now.getTime();
+    const latestBatch = Number(options.batchNumber) || model.batchIds[0] || 0;
+    const scoped = filterBatch(model, latestBatch);
+    const cutoffMs = parseDate(options.cutoffIso);
+    const cutoffHours = cutoffMs ? (cutoffMs - nowMs) / 3600000 : 0;
+    const orderPhones = new Set(model.orders.map(order => phone(order.Phone)).filter(Boolean));
+    const recentWindowMs = 24 * 3600000;
+    const followUpWindowMs = 14 * 24 * 3600000;
+    const recentLeads = model.leads.filter(lead => {
+      const timestamp = parseDate(lead['Submitted At']);
+      return timestamp && nowMs - timestamp >= 0 && nowMs - timestamp <= recentWindowMs;
+    });
+    const leadFollowUps = model.leads.filter((lead) => {
+      const timestamp = parseDate(lead['Submitted At']);
+      const leadPhone = phone(lead.Phone);
+      return timestamp && nowMs - timestamp >= 0 && nowMs - timestamp <= followUpWindowMs
+        && (!leadPhone || !orderPhones.has(leadPhone));
+    }).map(lead => ({
+      name: lead['Full Name'] || 'Unknown lead',
+      phone: lead.Phone,
+      city: lead.Location,
+      goal: lead['Fitness Goal'],
+      submittedAt: lead['Submitted At'],
+      waitHours: ageHours(lead['Submitted At'], nowMs),
+    })).sort((a, b) => b.waitHours - a.waitHours);
+    const recentOrders = scoped.orders.filter((order) => {
+      const timestamp = parseDate(order['Submitted At']);
+      return timestamp && nowMs - timestamp >= 0 && nowMs - timestamp <= recentWindowMs;
+    });
+    const incompleteOrders = scoped.orders.map((order) => {
+      const missing = [
+        ['phone', order.Phone],
+        ['email', order.Email],
+        ['address', order.Address],
+        ['city', order.City],
+        ['ZIP', order.ZIP],
+      ].filter(([, value]) => !clean(value)).map(([label]) => label);
+      return { orderId: order['Order ID'], customer: `${order['First Name']} ${order['Last Name']}`.trim() || 'Unknown', missing };
+    }).filter(order => order.missing.length);
+    const unpaid = scoped.payments.filter(payment => payment.balance > 0).map(payment => ({
+      customer: payment.Client || 'Unknown',
+      due: payment.due,
+      paid: payment.paid,
+      balance: payment.balance,
+      orderId: payment['Order ID'],
+    })).sort((a, b) => b.balance - a.balance);
+    const consolidated = model.receivables.filter(row => row.balance > 0).map(row => ({
+      customer: row['Client Account'] || 'Unknown',
+      batches: row['Covered Batches'],
+      balance: row.balance,
+    })).sort((a, b) => b.balance - a.balance);
+    const mealCount = scoped.orders.reduce((sum, order) => (
+      sum + parseItemLines(order.Items).reduce((lineSum, line) => lineSum + line.quantity, 0)
+    ), 0);
+    const actions = [];
+    if (incompleteOrders.length) actions.push({
+      priority: 'high',
+      title: `Complete ${incompleteOrders.length} order record${incompleteOrders.length === 1 ? '' : 's'}`,
+      detail: incompleteOrders.slice(0, 3).map(order => `${order.customer}: ${order.missing.join(', ')}`).join('; '),
+    });
+    if (unpaid.length || consolidated.length) actions.push({
+      priority: 'high',
+      title: `Review ${unpaid.length + consolidated.length} outstanding balance${unpaid.length + consolidated.length === 1 ? '' : 's'}`,
+      detail: `Current batch $${unpaid.reduce((sum, row) => sum + row.balance, 0).toFixed(2)}; consolidated $${consolidated.reduce((sum, row) => sum + row.balance, 0).toFixed(2)}.`,
+    });
+    if (leadFollowUps.length) actions.push({
+      priority: 'medium',
+      title: `Review ${leadFollowUps.length} recent lead${leadFollowUps.length === 1 ? '' : 's'} without a matched order`,
+      detail: leadFollowUps.slice(0, 3).map(lead => `${lead.name} (${Math.round(lead.waitHours)}h)`).join(', '),
+    });
+    if (!actions.length) actions.push({
+      priority: 'normal',
+      title: 'No urgent record exceptions',
+      detail: 'Review production volume and the current menu before making any customer-facing changes.',
+    });
+    actions.push({
+      priority: 'normal',
+      title: cutoffMs && cutoffHours > 0 ? 'Monitor orders before cutoff' : 'Use the reviewed order set for production',
+      detail: `${scoped.orders.length} orders and ${mealCount} meals are currently recorded for Batch ${latestBatch || '?'}.`,
+    });
+    return {
+      generatedAt: now.toISOString(),
+      batchNumber: latestBatch,
+      deliveryDate: clean(options.deliveryDate),
+      cutoff: {
+        iso: clean(options.cutoffIso),
+        label: clean(options.cutoffLabel),
+        state: !cutoffMs ? 'not-configured' : cutoffHours > 0 ? 'open' : 'closed',
+        hoursRemaining: cutoffMs ? cutoffHours : null,
+      },
+      counts: {
+        orders: scoped.orders.length,
+        meals: mealCount,
+        recentOrders: recentOrders.length,
+        recentLeads: recentLeads.length,
+        leadFollowUps: leadFollowUps.length,
+        incompleteOrders: incompleteOrders.length,
+      },
+      money: {
+        booked: financials(scoped).booked,
+        collected: financials(scoped).collected,
+        currentOutstanding: unpaid.reduce((sum, row) => sum + row.balance, 0),
+        consolidatedOutstanding: consolidated.reduce((sum, row) => sum + row.balance, 0),
+      },
+      recentLeads,
+      leadFollowUps,
+      recentOrders: recentOrders.map(order => ({
+        orderId: order['Order ID'],
+        customer: `${order['First Name']} ${order['Last Name']}`.trim() || 'Unknown',
+        total: order.revenue,
+        submittedAt: order['Submitted At'],
+      })),
+      incompleteOrders,
+      unpaid,
+      consolidated,
+      actions: actions.slice(0, 3),
+      monitoring: {
+        sheets: 'connected',
+        resend: 'send result is recorded when this brief is emailed',
+        tiktok: 'conversion events connected; reporting authorization pending',
+        website: 'order and lead API failures are not yet persisted in a central error log',
+      },
+    };
+  }
+
   function parseCsv(text) {
     const rows = []; let row = []; let field = ''; let quoted = false;
     for (let index = 0; index < String(text).length; index += 1) {
@@ -252,6 +389,6 @@
   return {
     ORDER_HEADERS, PAYMENT_HEADERS, LEAD_HEADERS, RECEIVABLE_HEADERS, DIRECT_COSTS, number, phone, batchNumber, normalizeOrders,
     standardRows, parseItemLines, orderCost, summarize, filterBatch, financials, sourceRows, referralRows, batchRows,
-    customerRows, receivableRows, parseCsv, importTikTokCsv,
+    customerRows, receivableRows, operatorBrief, parseCsv, importTikTokCsv,
   };
 }));

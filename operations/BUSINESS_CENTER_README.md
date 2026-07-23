@@ -6,6 +6,7 @@ Updated: July 22, 2026
 
 The Business Center is the private operating view for growth and cash visibility. It combines:
 
+- a Daily Brief view with current orders, meals, recent leads, missing order details, outstanding balances, and the three highest-priority internal actions;
 - read-only Google Sheets data from `Orders`, `Payment Log`, `Website Leads`, and `Accounts Receivable`;
 - booked revenue, collected cash, outstanding balances, estimated direct packed cost, and contribution;
 - source, UTM, referral-code, partner, and menu-email opt-in reporting;
@@ -37,7 +38,32 @@ The `All batches` view uses the union of batch numbers found in Orders, Payment 
 - Outreach notes, ad imports, and manual expenses are saved atomically to `operations/private-data/business-center/state.json`.
 - `operations/private-data/` is excluded from Git and Vercel.
 - No outreach email is sent automatically. The UI prepares a draft for Rida to review.
+- The scheduled Daily Operator Brief sends only one internal email to the configured notification address. It never contacts customers.
 - TikTok access tokens are read only by protected Vercel functions. They are never returned to the browser, saved in local Business Center state, or committed to Git.
+
+## Daily Operator Brief
+
+The first PRPD Operator automation is implemented in `api/operator-brief.js`.
+
+- Vercel calls it once daily at `0 14 * * *` UTC.
+- Vercel authenticates the scheduled request with `CRON_SECRET`.
+- The endpoint reads the same four controlled Google Sheets ranges as the Business Center.
+- Deterministic code calculates the brief; no model guesses order totals, balances, or customer status.
+- Resend sends the internal email from `operations@mail.getprpd.com`.
+- Successful sends are recorded in the Google Sheet tab `Automation Log`.
+- The date-based run ID and Resend idempotency key prevent duplicate daily emails.
+- A planner-key-authorized request can preview JSON without sending an email.
+
+The first version reports recent orders rather than attempting to infer edited-order history. Central website-error monitoring and Resend/TikTok delivery diagnostics remain later monitoring work.
+
+Required production variables:
+
+- `CRON_SECRET`
+- `GOOGLE_SHEET_ID`
+- `GOOGLE_SERVICE_ACCOUNT_BASE64` or `GOOGLE_SERVICE_ACCOUNT_JSON`
+- `RESEND_API_KEY`
+- `PRPD_PLANNER_KEY`
+- `NOTIFICATION_EMAIL` (optional; defaults to `getprpd@gmail.com`)
 
 ## TikTok Reporting
 
@@ -62,12 +88,13 @@ Pixel and Events API are a separate connection from reporting. The code now send
 ## Weekly Use
 
 1. Sync live data.
-2. Review booked versus collected revenue and outstanding balances.
-3. Confirm any unmatched menu item in the direct-cost warning.
-4. Sync the matching TikTok date range. Compare the first API result with a CSV export before relying on it.
-5. Compare spend, attributable orders, and collected revenue.
-6. Move only a few local targets forward at a time and save specific next-step notes.
-7. Enter delivery, marketing, equipment, software, or kitchen expenses only when they are not already inside meal direct cost.
+2. Review the Daily Brief and its three ranked actions.
+3. Review booked versus collected revenue and outstanding balances.
+4. Confirm any unmatched menu item in the direct-cost warning.
+5. Sync the matching TikTok date range. Compare the first API result with a CSV export before relying on it.
+6. Compare spend, attributable orders, and collected revenue.
+7. Move only a few local targets forward at a time and save specific next-step notes.
+8. Enter delivery, marketing, equipment, software, or kitchen expenses only when they are not already inside meal direct cost.
 
 ## Cost Model
 

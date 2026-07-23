@@ -44,6 +44,7 @@ Batch 3 contains 15 dishes and 27 tier calculations, not 27 separate dishes. The
 20. `MARKETING_GROWTH_PLAN.md` - capacity-controlled paid, organic, referral, and physical marketing plan with measurement rules.
 21. `BUSINESS_CENTER_README.md` - private growth, finance, outreach, ad-import, and data-security operating guide.
 22. `DFW_LOCAL_DISCOVERY_2026-07-22.md` - prioritized local gym, MSA, mosque, and fitness-center partnership list.
+23. `PRPD_AUTOMATION_ROADMAP.md` - current architecture and staged build sequence for the internal PRPD Operator, including human approval boundaries.
 
 ## Current Recipe Records
 
@@ -137,7 +138,9 @@ Selecting Generate opens Cook Mode first. It combines the reviewed live-order co
 ## Business Center
 
 - `business-center.html` - local growth, finance, attribution, outreach, expense, and ad-reporting UI.
-- `business-center-core.js` - tested order normalization, cost, attribution, referral, finance, and TikTok CSV calculations.
+- `../api/_business-center-core.js` - shared, tested order normalization, cost, attribution, referral, finance, Operator Brief, and TikTok CSV calculations used by the protected API and local Business Center.
+- `../api/_business-data-source.js` - private shared reader for the four controlled Google Sheets ranges used by reporting and automation.
+- `../api/operator-brief.js` - secured daily internal brief endpoint with Resend delivery, date-based idempotency, and the Google Sheets `Automation Log` ledger.
 - `business-center-store.js` - validated atomic local state for outreach, expenses, and ad imports.
 - `local-discovery-data.js` - reviewed DFW target list used by the outreach pipeline.
 - `../api/business-data.js` - key-protected, read-only reporting endpoint for Orders, Payment Log, Website Leads, and Accounts Receivable.

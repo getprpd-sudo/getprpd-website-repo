@@ -1,6 +1,6 @@
 const assert = require('node:assert/strict');
 const test = require('node:test');
-const Core = require('../operations/business-center-core');
+const Core = require('../api/_business-center-core');
 const Store = require('../operations/business-center-store');
 
 function samplePayload() {
@@ -52,6 +52,32 @@ test('source and referral summaries use UTM and partner fields', () => {
   const partner = Core.referralRows(model)[0];
   assert.equal(partner.partner, 'North Frisco Athletics');
   assert.equal(partner.code, 'GYM10');
+});
+
+test('operator brief prioritizes missing details, balances, and unmatched recent leads', () => {
+  const payload = samplePayload();
+  payload.leads.push([
+    '7/22/2026 10:00 AM', 'Website Form', 'New Lead', '4695550999', 'Prosper', 'TikTok', '',
+    'Fat Loss', '', '', '', '', 'tiktok', 'organic', '', '', '', '/order', '', 'LEAD-2',
+  ]);
+  payload.payments.push(['Batch 3','Saturday','','Jake Miller','Bulk',1,1,0,27,0,27,'','','ORDER-2','','']);
+  const model = Core.summarize(payload, { expenses:[], adImports:[] });
+  const brief = Core.operatorBrief(model, {
+    now: new Date('2026-07-23T14:00:00Z'),
+    batchNumber: 3,
+    deliveryDate: 'Saturday, July 25, 2026',
+    cutoffIso: '2026-07-22T17:00:00-05:00',
+    cutoffLabel: 'Wednesday at 5:00 PM CT',
+  });
+  assert.equal(brief.counts.orders, 2);
+  assert.equal(brief.counts.meals, 4);
+  assert.equal(brief.counts.recentLeads, 1);
+  assert.equal(brief.counts.incompleteOrders, 2);
+  assert.equal(brief.money.currentOutstanding, 27);
+  assert.equal(brief.money.consolidatedOutstanding, 1190);
+  assert.equal(brief.cutoff.state, 'closed');
+  assert.match(brief.actions[0].title, /Complete 2 order records/);
+  assert.match(brief.actions[1].title, /outstanding balances/);
 });
 
 test('TikTok CSV parser handles quoted campaign names and totals', () => {

@@ -34,11 +34,32 @@
     </section>
 
     <div class="tabs" role="tablist" aria-label="Business Center views">
+      <button class="tab" data-tab="brief" role="tab">Daily brief</button>
       <button class="tab active" data-tab="growth" role="tab">Growth</button>
       <button class="tab" data-tab="finance" role="tab">Finance</button>
       <button class="tab" data-tab="outreach" role="tab">Local outreach</button>
       <button class="tab" data-tab="sources" role="tab">Data sources</button>
     </div>
+
+    <section class="view" id="briefView">
+      <div class="section-heading"><div><p class="eyebrow">PRPD Operator</p><h2>Daily brief</h2></div><p>Facts and prioritized internal actions. No customer messages are sent from this view.</p></div>
+      <div class="metrics" id="briefMetrics"></div>
+      <section class="panel">
+        <div class="panel-heading"><h3>Top actions</h3><span>Ranked from current records</span></div>
+        <div class="action-grid" id="briefActions"></div>
+      </section>
+      <div class="two-column">
+        <section class="panel">
+          <div class="panel-heading"><h3>Missing order details</h3><span>Current batch</span></div>
+          <div class="table-wrap"><table><thead><tr><th>Customer</th><th>Missing</th><th>Order</th></tr></thead><tbody id="briefMissingRows"></tbody></table></div>
+        </section>
+        <section class="panel">
+          <div class="panel-heading"><h3>Lead follow-up review</h3><span>Last 14 days without a matched order</span></div>
+          <div class="table-wrap"><table><thead><tr><th>Lead</th><th>City</th><th>Goal</th><th>Age</th></tr></thead><tbody id="briefLeadRows"></tbody></table></div>
+        </section>
+      </div>
+      <div class="notice" id="briefMonitoring"></div>
+    </section>
 
     <section class="view active" id="growthView">
       <div class="section-heading"><div><p class="eyebrow">Acquisition</p><h2>Growth overview</h2></div><p>Leads are all-time. Orders and revenue follow the selected batch.</p></div>
@@ -137,8 +158,9 @@
     </form>
   </dialog>
 
-  <script src="/operations/business-center-core.js?v=20260722.2"></script>
+  <script src="/config/order-config.js?v=20260723.1"></script>
+  <script src="/api/_business-center-core.js?v=20260723.1"></script>
   <script src="/operations/local-discovery-data.js?v=20260722.1"></script>
-  <script src="/operations/business-center-app.js?v=20260722.2"></script>
+  <script src="/operations/business-center-app.js?v=20260723.1"></script>
 </body>
 </html>
