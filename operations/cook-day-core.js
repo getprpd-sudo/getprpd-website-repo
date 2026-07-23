@@ -319,7 +319,7 @@
     beef_90_raw: { factor: 0.75, label: 'estimated cooked yield after draining' },
     leg_quarter_raw: { factor: 0.75, label: 'estimated cooked bone-in weight; edible yield must be recorded' },
     ny_strip_raw: { factor: 0.75, label: 'estimated cooked yield' },
-    beef_strip_raw: { factor: 0.75, label: 'estimated cooked yield' },
+    beef_strips_raw: { factor: 0.76, label: 'estimated cooked yield' },
     shrimp_raw: { factor: 0.80, label: 'estimated cooked yield' },
     tilapia_raw: { factor: 0.80, label: 'estimated cooked yield' },
   };

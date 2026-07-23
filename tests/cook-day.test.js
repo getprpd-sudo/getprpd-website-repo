@@ -162,6 +162,16 @@ test('component plan exposes exact raw protein, dry rice, produce, and prep batc
   assert.ok(streetCorn.ingredients.some(item => item.key === 'cotija'));
 });
 
+test('component plan includes bulgogi beef strips in the grouped raw-protein pull', () => {
+  const plan = core.componentPlan([
+    { id: 'm6', name: 'Korean Bulgogi Beef Bowl', tier: 'lean', qty: 7 },
+  ], production, methods, { prpdExtraServings: 1, rawProteinBufferPct: 5 });
+  const beef = plan.proteinGroups.find(item => item.key === 'beef_strips_raw');
+  assert.ok(beef);
+  assert.equal(beef.bufferedAmount, 1512);
+  assert.equal(beef.expectedCookedAmount, 1149.1);
+});
+
 test('compatible chicken is seasoned once and split into labeled dish bowls', () => {
   const plan = core.componentPlan([
     { id: 'b3', name: 'Power Bowl', tier: 'lean', qty: 2 },
