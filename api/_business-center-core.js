@@ -21,7 +21,7 @@
   const RECEIVABLE_HEADERS = [
     'Client Account', 'Covered Batches', 'Amount Agreed', 'Amount Paid', 'Balance', 'Status', 'Last Updated', 'Notes',
   ];
-  const DEFAULT_PROFILE_EXEMPT_CUSTOMERS = Object.freeze(['Talal', 'Duaa']);
+  const DEFAULT_PROFILE_EXEMPT_CUSTOMERS = Object.freeze(['Talal Account', 'Duaa Hassan', 'Rida Khan']);
 
   const DIRECT_COSTS = Object.freeze({
     'high protein omelette|lean': 2.62, 'high protein omelette|bulk': 3.27,

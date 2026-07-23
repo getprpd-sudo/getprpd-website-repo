@@ -101,7 +101,7 @@ test('operator brief prioritizes missing details, balances, and unmatched recent
   assert.match(brief.actions[1].title, /outstanding balances/);
 });
 
-test('operator brief validates customer contact fields and exempts Talal and Duaa only from profile warnings', () => {
+test('operator brief validates customer contact fields and exempts internal family accounts only from profile warnings', () => {
   const payload = {
     orders: [
       Core.ORDER_HEADERS,
@@ -136,6 +136,16 @@ test('operator brief validates customer contact fields and exempts Talal and Dua
         ZIP: '',
         'Order ID': 'ORDER-DUAA',
       }),
+      orderRow({
+        'First Name': 'Rida',
+        'Last Name': 'Khan',
+        Phone: '',
+        Email: '',
+        Address: '',
+        City: '',
+        ZIP: '',
+        'Order ID': 'ORDER-RIDA',
+      }),
     ],
     payments: [Core.PAYMENT_HEADERS],
     leads: [Core.LEAD_HEADERS],
@@ -144,8 +154,8 @@ test('operator brief validates customer contact fields and exempts Talal and Dua
   const model = Core.summarize(payload, { expenses:[], adImports:[] });
   const brief = Core.operatorBrief(model, { now: new Date('2026-07-23T14:00:00Z'), batchNumber: 3 });
 
-  assert.equal(brief.counts.orders, 4);
-  assert.equal(brief.counts.meals, 4);
+  assert.equal(brief.counts.orders, 5);
+  assert.equal(brief.counts.meals, 5);
   assert.equal(brief.counts.incompleteOrders, 1);
   assert.equal(brief.incompleteOrders[0].customer, 'Needs Correction');
   assert.deepEqual(brief.incompleteOrders[0].missing, [
@@ -156,7 +166,7 @@ test('operator brief validates customer contact fields and exempts Talal and Dua
     '5-digit ZIP',
   ]);
   assert.match(brief.actions[0].detail, /Needs Correction/);
-  assert.doesNotMatch(brief.actions[0].detail, /Talal|Duaa/);
+  assert.doesNotMatch(brief.actions[0].detail, /Talal|Duaa|Rida/);
 });
 
 test('TikTok CSV parser handles quoted campaign names and totals', () => {

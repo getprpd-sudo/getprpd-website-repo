@@ -50,7 +50,7 @@ The first PRPD Operator automation is implemented in `api/operator-brief.js`.
 - The endpoint reads the same four controlled Google Sheets ranges as the Business Center.
 - Deterministic code calculates the brief; no model guesses order totals, balances, or customer status.
 - Customer-profile checks validate a 10-digit phone number, email shape, street address, city, and five-digit or ZIP+4 code instead of treating any nonblank cell as valid.
-- Talal and Duaa are permanent profile-check exceptions because their orders are handled internally. Their meals, revenue, payments, balances, production quantities, and receivables remain included.
+- The internal profiles Talal Account, Duaa Hassan, and Rida Khan are permanent profile-check exceptions because their orders are handled internally. Their meals, revenue, payments, balances, production quantities, and receivables remain included.
 - Resend sends the internal email from `operations@mail.getprpd.com`.
 - Successful sends are recorded in the Google Sheet tab `Automation Log`.
 - The date-based run ID and Resend idempotency key prevent duplicate daily emails.

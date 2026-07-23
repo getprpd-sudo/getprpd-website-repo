@@ -238,11 +238,12 @@ test('permanent no-label customers stay in production but leave the label count'
   const orders = [
     { customer: 'Talal', items: [{ id: 'x2', name: 'Premium NY Strip Steak', tier: 'bulk', qty: 4 }] },
     { customer: 'Duaa Hassan', items: [{ id: 'x1', name: 'BBQ Chicken Mac & Cheese', tier: 'lean', qty: 2 }] },
+    { customer: 'Rida Khan', items: [{ id: 'x1', name: 'BBQ Chicken Mac & Cheese', tier: 'lean', qty: 3 }] },
     { customer: 'Adeen Zafar', items: [{ id: 'x1', name: 'BBQ Chicken Mac & Cheese', tier: 'lean', qty: 1 }] },
   ];
   const eligible = core.labelEligibleOrders(orders, methods.labelExemptCustomers);
   assert.deepEqual(eligible.map(order => order.customer), ['Adeen Zafar']);
-  assert.equal(core.aggregateCounts(orders).reduce((sum, item) => sum + item.qty, 0), 7);
+  assert.equal(core.aggregateCounts(orders).reduce((sum, item) => sum + item.qty, 0), 10);
   assert.equal(core.aggregateCounts(eligible).reduce((sum, item) => sum + item.qty, 0), 1);
 });
 

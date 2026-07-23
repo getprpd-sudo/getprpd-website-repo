@@ -120,7 +120,7 @@ Implemented controls:
 - planner-key JSON preview that does not send email;
 - no customer messaging, record edits, ad changes, or AI-generated financial values.
 - structured validation for phone, email, street address, city, and ZIP rather than blank-cell checks;
-- a narrow Talal/Duaa profile-warning exception that does not remove their orders from production or financial reporting.
+- a narrow Talal/Duaa/Rida profile-warning exception that does not remove their orders from production or financial reporting.
 
 The current source data supports recent-order reporting but not a reliable audit trail of changed orders. Website-error aggregation and Resend/TikTok delivery-health monitoring remain future work.
 

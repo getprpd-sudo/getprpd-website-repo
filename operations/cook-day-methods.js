@@ -16,7 +16,7 @@
   const data = {
     version: '2026-07-20.1',
     batch: 3,
-    labelExemptCustomers: ['Talal', 'Duaa'],
+    labelExemptCustomers: ['Talal', 'Duaa', 'Rida'],
     sharedProteinSeasoning: [{
       id: 'neutral-chicken-base',
       name: 'PRPD neutral savory chicken base',
