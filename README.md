@@ -9,7 +9,7 @@ Live domains:
 - `https://getprpd.com`
 - `https://www.getprpd.com` (permanent redirect to `https://getprpd.com`)
 
-Host: Vercel (project: `rida-khan-s-projects/getprpd`, deployed via `vercel --prod`)
+Host: Vercel. The live domains temporarily remain on `rida-khan-s-projects/getprpd` while production secrets are migrated. The intended long-term project is the GitHub-connected `rida-khan-s-projects/getprpd-website-repo`.
 Registrar/DNS: GoDaddy
 
 Public brand ownership rule: Rida is the sole operator presented on the customer-facing website. The About section, order confirmations, FAQ, delivery language, and customer-contact copy should consistently describe Rida as handling orders, cook days, food preparation, and delivery.
@@ -523,9 +523,19 @@ Migration verification completed successfully on July 13, 2026. Both emails arri
 vercel --prod
 ```
 
-Or double-click `deploy.bat`. The custom domains are attached to the Vercel project, so a successful production deployment updates `getprpd.com` automatically. Do not deploy this workspace to the obsolete `getprpd-website-repo` Vercel project.
+Do not use `deploy.bat` until the migration below is complete because it depends on the local Vercel project link.
 
-Production project: `rida-khan-s-projects/getprpd` (`prj_We7VvuEJKEmwUxC46KSByvxzQOm8`). On July 15, 2026, `getprpd.com` and `www.getprpd.com` were consolidated onto this project. `www` permanently redirects to the apex domain.
+Current live bridge: `rida-khan-s-projects/getprpd` (`prj_We7VvuEJKEmwUxC46KSByvxzQOm8`). It currently owns the custom domains and the working Google Sheets, Resend, and planner secrets.
+
+Long-term production target: `rida-khan-s-projects/getprpd-website-repo` (`prj_StlJj0TqH3W2XA1vzZxyWRLx0tJo`). It is connected to `getprpd-sudo/getprpd-website-repo`, has the latest application build and TikTok configuration, and is the project that should own production after migration verification.
+
+Migration sequence:
+
+1. Recreate `GOOGLE_SERVICE_ACCOUNT_BASE64`, `RESEND_API_KEY`, and `PRPD_PLANNER_KEY` on `getprpd-website-repo`; `GOOGLE_SHEET_ID` is already present.
+2. Redeploy `getprpd-website-repo` and verify intake, orders, Sheets writes, Resend mail, planner sync, and TikTok Events API using its Vercel URL.
+3. Move `getprpd.com` and `www.getprpd.com` to `getprpd-website-repo`.
+4. Re-run the complete live test suite.
+5. Preserve `getprpd` as a rollback for 7-14 days, then delete it only after explicit approval.
 
 ### GitHub backup
 
@@ -676,10 +686,11 @@ Production abuse controls:
 - `/privacy` explains data collection, use, service providers, retention/security practices, and customer correction/deletion requests.
 - Full audit and rollback notes are in `SECURITY_AUDIT_2026-07-15.md`.
 
-Legacy Vercel project inventory:
+Vercel project inventory:
 
-- `getprpd-website-repo` is an obsolete static rollback artifact with five old deployments, no custom domain, no production environment variables, and no active backend.
-- It remains preserved until Rida explicitly approves deletion. Never deploy production updates to it.
+- `getprpd` is the temporary live bridge. It owns the domains and working business credentials, but it is not the intended long-term GitHub-connected project.
+- `getprpd-website-repo` is the long-term production target and GitHub-connected project. Its frontend is currently identical to the live site, but its backend migration must pass before domains move.
+- Never delete either project during migration. Delete `getprpd` only after the target project has served production successfully through the rollback window.
 
 Search/indexing controls:
 
