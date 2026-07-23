@@ -523,7 +523,7 @@ Migration verification completed successfully on July 13, 2026. Both emails arri
 vercel --prod
 ```
 
-Do not use `deploy.bat` until the local Vercel project link is intentionally restored to the production project.
+`deploy.bat` deterministically links this folder to `rida-khan-s-projects/getprpd` before deploying. It stops without deploying if that link fails.
 
 Production project: `rida-khan-s-projects/getprpd` (`prj_We7VvuEJKEmwUxC46KSByvxzQOm8`). It is the newer project, owns `getprpd.com` and `www.getprpd.com`, and contains the working Google Sheets, Resend, planner, and production security configuration.
 
