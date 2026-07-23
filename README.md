@@ -527,20 +527,21 @@ vercel --prod
 
 Production project: `rida-khan-s-projects/getprpd` (`prj_We7VvuEJKEmwUxC46KSByvxzQOm8`). It is the newer project, owns `getprpd.com` and `www.getprpd.com`, and contains the working Google Sheets, Resend, planner, and production security configuration.
 
-Duplicate project: `rida-khan-s-projects/getprpd-website-repo` (`prj_StlJj0TqH3W2XA1vzZxyWRLx0tJo`). It is older and is connected to `getprpd-sudo/getprpd-website-repo`, but the repository `main` branch is seven commits behind the local production code as of July 22, 2026. Its latest manually deployed frontend matches production, but it does not contain all production backend credentials and must not receive the custom domains.
+Duplicate project: `rida-khan-s-projects/getprpd-website-repo` (`prj_StlJj0TqH3W2XA1vzZxyWRLx0tJo`). It is older and is connected to the same canonical repository, but it does not contain all production backend credentials and must not receive the custom domains. Keep it only as a temporary rollback target.
 
 Consolidation sequence:
 
-1. Push the current reviewed code to the canonical GitHub repository. The private `aazim040607/getprpd-website-backup` branch remains the current off-machine backup until repository write access is corrected.
-2. Connect the production `getprpd` project to the up-to-date canonical repository.
+1. Completed July 23, 2026: pushed the reviewed code through commit `b6de15e` to `getprpd-sudo/getprpd-website-repo` on `main`. The private `aazim040607/getprpd-website-backup` branch remains a separate off-machine backup.
+2. Completed July 23, 2026: connected the production `getprpd` project to the canonical repository and verified the resulting production deployment on the custom domains.
 3. Add and verify the TikTok Events API access token on `getprpd`, then run browser and server event tests.
 4. Verify intake, orders, Sheets writes, Resend mail, planner sync, and TikTok Events API on `getprpd.com`.
 5. Preserve `getprpd-website-repo` as a rollback for 7-14 days, then delete it only after explicit approval.
 
 ### GitHub backup
 
-Push via GitHub Desktop (not terminal — CLI push blocked by `aazim040607` vs `getprpd-sudo` owner mismatch).
-Repo: `getprpd-sudo/getprpd-website-repo`
+Canonical repo: `getprpd-sudo/getprpd-website-repo`
+
+The GitHub CLI is authenticated as `getprpd-sudo`, so terminal pushes to the canonical repository work. The separate private backup remains at `aazim040607/getprpd-website-backup`.
 
 ---
 
@@ -689,7 +690,7 @@ Production abuse controls:
 Vercel project inventory:
 
 - `getprpd` is the canonical production project. It owns the domains and working business credentials.
-- `getprpd-website-repo` is an older GitHub-connected duplicate. Its manually deployed frontend is currently identical to production, but its GitHub `main` branch and backend configuration are incomplete.
+- `getprpd-website-repo` is an older GitHub-connected Vercel duplicate. Its frontend source now follows the same canonical `main` branch, but its backend configuration remains incomplete.
 - Never move the custom domains to the duplicate. Delete `getprpd-website-repo` only after the canonical repository connection and production verification are complete and the rollback window has passed.
 
 Search/indexing controls:
