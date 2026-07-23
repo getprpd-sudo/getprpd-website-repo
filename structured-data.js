@@ -9,7 +9,7 @@
         alternateName: 'Prepped',
         url: 'https://getprpd.com/',
         logo: 'https://getprpd.com/assets/images/favicon-512.png',
-        email: 'getprpd@gmail.com',
+        email: 'hello@getprpd.com',
         telephone: '+1-469-545-0781',
         description: 'DFW halal high-protein custom meal prep delivered fresh weekly.',
         areaServed: {

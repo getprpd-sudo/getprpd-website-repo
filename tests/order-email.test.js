@@ -38,7 +38,7 @@ test('customer confirmation sends an itemized, unpaid order receipt to the custo
     assert.equal(request.options.headers['Idempotency-Key'], 'order-customer-PRPD-B3-20260721-A1B2C3D4');
     const message = JSON.parse(request.options.body);
     assert.deepEqual(message.to, ['jane@example.com']);
-    assert.equal(message.reply_to, 'getprpd@gmail.com');
+    assert.equal(message.reply_to, 'hello@getprpd.com');
     assert.match(message.text, /2x High Protein Omelette \(Lean\) - \$21\.98/);
     assert.match(message.text, /Partner discount \(TEST15\): -\$15\.00/);
     assert.match(message.text, /Total due: \$52\.00/);

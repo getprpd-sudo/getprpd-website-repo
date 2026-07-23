@@ -13,6 +13,7 @@ const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const GOOGLE_SERVICE_ACCOUNT_JSON = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
 const GOOGLE_SERVICE_ACCOUNT_BASE64 = process.env.GOOGLE_SERVICE_ACCOUNT_BASE64;
 const NOTIFICATION_EMAIL = 'getprpd@gmail.com';
+const CUSTOMER_REPLY_EMAIL = 'hello@getprpd.com';
 const SENDER_EMAIL = 'PRPD Orders <orders@mail.getprpd.com>';
 
 const ORDER_CUTOFF = ORDER_CONFIG.batch.cutoffIso;
@@ -526,7 +527,7 @@ async function sendCustomerConfirmationEmail(order) {
   await sendResendEmail({
     from: SENDER_EMAIL,
     to: [order.email],
-    reply_to: NOTIFICATION_EMAIL,
+    reply_to: CUSTOMER_REPLY_EMAIL,
     subject: `PRPD Order Received - ${order.orderId}`,
     text,
     html,

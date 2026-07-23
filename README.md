@@ -655,7 +655,7 @@ Production environment variables (values are encrypted in Vercel and must never 
 - `TIKTOK_MARKETING_ACCESS_TOKEN`
 - `TIKTOK_ADVERTISER_ID`
 
-Resend verified sending domain: `mail.getprpd.com`. Website notifications use `orders@mail.getprpd.com` and `leads@mail.getprpd.com`; receiving is not required.
+Resend verified sending domain: `mail.getprpd.com`. Automated website messages send from `orders@mail.getprpd.com` and `leads@mail.getprpd.com`. Public contact links and customer receipt replies use the Namecheap mailbox `hello@getprpd.com`. Internal order, lead, and operator alerts continue going to `getprpd@gmail.com`.
 
 Migration verification completed July 13, 2026:
 
