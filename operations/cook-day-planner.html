@@ -1,0 +1,1699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+  <title>PRPD Cook-Day Planner</title>
+  <link rel="icon" href="/assets/images/favicon-32x32.png">
+  <style>
+    @font-face { font-family: Cathez; src: url('/fonts/Cathez.otf') format('opentype'); font-display: swap; }
+    :root {
+      --green: #1e2e1e;
+      --green-2: #304b33;
+      --sage: #7fa882;
+      --cream: #ece7df;
+      --paper: #faf8f4;
+      --ink: #182018;
+      --muted: #687269;
+      --line: #d8d5ce;
+      --warn: #8a4b20;
+      --warn-bg: #fff3e7;
+      --ok: #24643b;
+      --radius: 8px;
+      font-family: "DM Sans", Arial, sans-serif;
+      color: var(--ink);
+      background: var(--cream);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-width: 320px; }
+    button, input, textarea, select { font: inherit; }
+    button { cursor: pointer; }
+    .app-shell { min-height: 100vh; display: grid; grid-template-columns: 240px minmax(0,1fr); }
+    .sidebar { position: sticky; top: 0; height: 100vh; padding: 28px 20px; background: var(--green); color: var(--cream); }
+    .brand { margin-bottom: 34px; }
+    .brand strong { display: block; font-family: Cathez, Georgia, serif; font-size: 2.35rem; letter-spacing: .08em; }
+    .brand span { display: block; margin-top: 3px; font-size: .68rem; letter-spacing: .18em; color: #b7cdb9; }
+    .nav-btn { width: 100%; display: flex; align-items: center; gap: 10px; padding: 11px 12px; border: 0; border-radius: 6px; background: transparent; color: #cbd5ca; text-align: left; font-weight: 700; }
+    .nav-btn:hover, .nav-btn.active { color: white; background: rgba(255,255,255,.1); }
+    .nav-num { width: 24px; color: var(--sage); font-size: .75rem; }
+    .sidebar-note { position: absolute; left: 20px; right: 20px; bottom: 24px; color: #aebcad; font-size: .72rem; line-height: 1.55; }
+    main { padding: 34px clamp(20px,4vw,58px) 80px; max-width: 1500px; width: 100%; margin: 0 auto; }
+    .topbar { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; margin-bottom: 28px; }
+    .eyebrow { margin: 0 0 6px; color: var(--ok); font-size: .72rem; font-weight: 800; text-transform: uppercase; letter-spacing: .12em; }
+    h1 { margin: 0; font-family: Cathez, Georgia, serif; font-size: clamp(2.2rem,4vw,4rem); font-weight: 500; letter-spacing: 0; }
+    .subtitle { margin: 8px 0 0; color: var(--muted); line-height: 1.55; }
+    .actions { display: flex; gap: 9px; flex-wrap: wrap; justify-content: flex-end; }
+    .btn { min-height: 42px; padding: 10px 16px; border: 1px solid var(--green); border-radius: 999px; background: transparent; color: var(--green); font-weight: 800; }
+    .btn:hover { background: rgba(30,46,30,.06); }
+    .btn.primary { background: var(--green); color: white; }
+    .btn.primary:hover { background: var(--green-2); }
+    .btn.danger { border-color: #9c3b2b; color: #8a2e20; }
+    .card { background: var(--paper); border: 1px solid rgba(30,46,30,.12); border-radius: var(--radius); box-shadow: 0 12px 32px rgba(35,43,34,.06); }
+    .setup-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 18px; margin-bottom: 20px; }
+    .panel { padding: 22px; }
+    .panel h2, .section-head h2 { margin: 0 0 6px; font-size: 1.06rem; letter-spacing: 0; }
+    .panel-copy { margin: 0 0 18px; color: var(--muted); font-size: .84rem; line-height: 1.5; }
+    .field-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+    label { display: block; color: var(--muted); font-size: .72rem; font-weight: 800; }
+    input, textarea, select { width: 100%; margin-top: 6px; min-height: 42px; border: 1px solid var(--line); border-radius: 6px; background: white; color: var(--ink); padding: 10px 11px; }
+    textarea { min-height: 118px; resize: vertical; line-height: 1.4; }
+    input:focus, textarea:focus, select:focus { outline: 3px solid rgba(127,168,130,.24); border-color: var(--sage); }
+    .drop-zone { display: grid; place-items: center; min-height: 110px; padding: 18px; border: 1.5px dashed #9fa79f; border-radius: 7px; background: rgba(255,255,255,.45); text-align: center; }
+    .drop-zone strong { display: block; margin-bottom: 5px; }
+    .drop-zone span { color: var(--muted); font-size: .78rem; }
+    .drop-zone input { display: none; }
+    .import-actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+    .status { margin-top: 12px; padding: 10px 12px; border-radius: 6px; background: #eef5ee; color: var(--ok); font-size: .78rem; font-weight: 700; }
+    .status.warn { background: var(--warn-bg); color: var(--warn); }
+    [hidden] { display: none !important; }
+    .sync-block { padding: 16px; border: 1px solid #cad8ca; border-radius: 7px; background: #f1f6f0; }
+    .sync-block strong { display: block; margin-bottom: 5px; }
+    .sync-block p { margin: 0 0 12px; color: var(--muted); font-size: .78rem; line-height: 1.5; }
+    details.fallback { margin-top: 14px; border-top: 1px solid var(--line); padding-top: 12px; }
+    details.fallback summary { color: var(--green); cursor: pointer; font-size: .78rem; font-weight: 800; }
+    .order-review { margin: 18px 0 22px; overflow: hidden; }
+    .review-list { display: grid; gap: 10px; padding: 14px; background: #e8e5de; }
+    .review-card { padding: 16px; background: var(--paper); border: 1px solid rgba(30,46,30,.12); border-radius: 7px; }
+    .review-card.excluded { opacity: .58; background: #eeeae4; }
+    .review-head { display: flex; justify-content: space-between; gap: 18px; align-items: flex-start; }
+    .review-person { display: flex; align-items: flex-start; gap: 10px; }
+    .review-person input { width: 18px; min-height: 18px; margin: 2px 0 0; }
+    .review-person strong { display: block; }
+    .review-meta { display: block; margin-top: 3px; color: var(--muted); font-size: .7rem; }
+    .review-total { font-size: .9rem; font-weight: 900; white-space: nowrap; }
+    .review-items { display: grid; gap: 6px; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--line); }
+    .review-item { display: grid; grid-template-columns: 58px minmax(0,1fr); align-items: center; gap: 10px; font-size: .78rem; }
+    .review-item input { min-height: 34px; margin: 0; padding: 5px 7px; text-align: center; }
+    .manual-wrap { margin: 18px 0 22px; overflow: hidden; }
+    .manual-head { display: flex; justify-content: space-between; align-items: center; padding: 17px 20px; border-bottom: 1px solid var(--line); gap: 12px; }
+    .manual-head h2 { margin: 0; font-size: 1rem; }
+    .table-wrap { width: 100%; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: .79rem; }
+    th { padding: 10px 12px; color: var(--muted); background: #f0eee8; font-size: .68rem; text-align: left; text-transform: uppercase; letter-spacing: .06em; white-space: nowrap; }
+    td { padding: 10px 12px; border-top: 1px solid #e4e1db; vertical-align: top; }
+    tbody tr:hover { background: rgba(127,168,130,.06); }
+    .qty-input { width: 68px; min-height: 34px; margin: 0; padding: 6px 8px; text-align: center; }
+    .category-row td { padding: 8px 12px; background: #e5ebe3; color: var(--green); font-weight: 900; }
+    .generate-row { display: flex; justify-content: flex-end; margin-bottom: 28px; }
+    .results { display: none; }
+    .results.ready { display: block; }
+    .metric-grid { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 10px; margin-bottom: 18px; }
+    .metric { padding: 16px; background: var(--green); color: white; border-radius: 7px; }
+    .metric span { display: block; color: #b9cbb9; font-size: .68rem; font-weight: 800; text-transform: uppercase; }
+    .metric strong { display: block; margin-top: 5px; font-size: 1.65rem; }
+    .warning-list { margin-bottom: 18px; padding: 14px 18px; background: var(--warn-bg); border-left: 4px solid #c77939; border-radius: 4px; color: #713d1b; font-size: .8rem; line-height: 1.5; }
+    .warning-list ul { margin: 7px 0 0; padding-left: 18px; }
+    .view { display: none; }
+    .view.active { display: block; }
+    .section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 18px; margin: 26px 0 12px; }
+    .section-head p { margin: 0; color: var(--muted); font-size: .76rem; }
+    .section-card { padding: 0; overflow: hidden; }
+    .amount { font-variant-numeric: tabular-nums; font-weight: 800; white-space: nowrap; }
+    .muted { color: var(--muted); }
+    .confidence-low { color: var(--warn); font-weight: 800; }
+    .buy-input { width: 88px; min-height: 32px; margin: 0; padding: 5px 7px; }
+    .station-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px; }
+    .station-card { padding: 18px; }
+    .station-card h3 { margin: 0 0 12px; font-size: .95rem; }
+    .station-list { margin: 0; padding: 0; list-style: none; }
+    .station-list li { display: flex; justify-content: space-between; gap: 16px; padding: 7px 0; border-top: 1px solid #e4e1db; font-size: .78rem; }
+    .station-list small { display: block; margin-top: 2px; color: var(--muted); }
+    .flow { display: grid; gap: 10px; }
+    .flow-step { display: grid; grid-template-columns: 54px minmax(0,1fr); gap: 14px; padding: 16px; }
+    .flow-step strong:first-child { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: var(--green); color: white; }
+    .flow-step h3 { margin: 0 0 5px; font-size: .91rem; }
+    .flow-step p { margin: 0; color: var(--muted); font-size: .78rem; line-height: 1.5; }
+    .check-cell { min-width: 88px; height: 34px; border-bottom: 1px solid #9ba09a; }
+    .empty { padding: 30px; text-align: center; color: var(--muted); }
+    .runbook-banner { padding: 22px; margin-bottom: 14px; background: var(--green); color: white; }
+    .runbook-banner h2 { margin: 0 0 8px; font-size: 1.25rem; }
+    .runbook-banner p { margin: 0; color: #c8d5c8; line-height: 1.55; font-size: .82rem; }
+    .runbook-metrics { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 8px; margin-top: 16px; }
+    .runbook-metric { padding: 11px; border: 1px solid rgba(255,255,255,.2); border-radius: 6px; }
+    .runbook-metric span { display: block; color: #b8cbb9; font-size: .65rem; text-transform: uppercase; font-weight: 800; }
+    .runbook-metric strong { display: block; margin-top: 4px; font-size: 1.1rem; }
+    .runbook-jump { position: sticky; top: 8px; z-index: 20; display: flex; gap: 6px; overflow-x: auto; margin: 0 0 14px; padding: 8px; border: 1px solid var(--line); border-radius: var(--radius); background: rgba(250,248,244,.96); box-shadow: 0 6px 18px rgba(30,46,30,.08); backdrop-filter: blur(8px); }
+    .runbook-jump a { flex: 0 0 auto; padding: 7px 10px; border-radius: 5px; color: var(--green); font-size: .69rem; font-weight: 800; text-decoration: none; }
+    .runbook-jump a:hover, .runbook-jump a:focus-visible { color: white; background: var(--green); outline: none; }
+    #runbook-overview, #runbook-quantities, #runbook-prep, #runbook-thursday, #runbook-friday, #runbook-recipes { scroll-margin-top: 68px; }
+    .definition-callout { margin: 0 0 18px; padding: 14px 16px; border-left: 4px solid var(--sage); background: #eef3ec; border-radius: 5px; font-size: .78rem; line-height: 1.5; }
+    .prep-plan { margin-bottom: 20px; }
+    .prep-plan > h3 { margin: 0 0 5px; font-size: 1.02rem; }
+    .prep-plan > p { margin: 0 0 10px; color: var(--muted); font-size: .74rem; line-height: 1.5; }
+    .prep-plan-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
+    .prep-plan-card { padding: 16px; overflow: hidden; }
+    .prep-plan-card.wide { grid-column: 1 / -1; }
+    .prep-plan-card h4 { margin: 0 0 9px; color: var(--green); font-size: .82rem; }
+    .prep-plan-card table { font-size: .72rem; }
+    .prep-plan-card th, .prep-plan-card td { padding: 7px 8px; }
+    .prep-phase { margin-top: 18px; }
+    .prep-phase > h4 { margin: 0 0 9px; color: var(--green); font-size: .88rem; }
+    .prep-phase + .prep-phase { padding-top: 16px; border-top: 1px solid var(--line); }
+    .prep-batch-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
+    .prep-batch { padding: 15px; border-top: 4px solid var(--sage); }
+    .prep-batch h4 { margin: 0 0 3px; font-size: .86rem; }
+    .prep-batch .batch-type { color: var(--ok); font-size: .64rem; font-weight: 900; text-transform: uppercase; }
+    .prep-batch p { margin: 7px 0; color: var(--muted); font-size: .71rem; line-height: 1.45; }
+    .prep-batch ul { margin: 7px 0 0; padding-left: 18px; font-size: .72rem; line-height: 1.45; }
+    .prep-batch .measure-gap { margin-top: 9px; padding: 8px; background: var(--warn-bg); color: #713d1b; border-radius: 4px; font-size: .68rem; line-height: 1.4; }
+    .runbook-phase-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; margin-bottom: 18px; }
+    .runbook-phase { padding: 15px; }
+    .runbook-phase h3 { margin: 0 0 5px; font-size: .88rem; }
+    .runbook-phase p { margin: 0; color: var(--muted); font-size: .75rem; line-height: 1.5; }
+    .calendar-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; margin-bottom: 18px; }
+    .calendar-day { padding: 17px; border-top: 4px solid var(--sage); }
+    .calendar-day h3 { margin: 0 0 4px; font-size: 1rem; }
+    .calendar-day > p { margin: 0 0 10px; color: var(--muted); font-size: .75rem; line-height: 1.5; }
+    .calendar-dish { margin-top: 9px; padding-top: 9px; border-top: 1px solid var(--line); }
+    .calendar-dish strong { font-size: .75rem; }
+    .calendar-dish ul { margin: 5px 0 0; padding-left: 18px; font-size: .72rem; line-height: 1.45; }
+    .step-measures { display: block; margin-top: 5px; color: var(--green); font-size: .7rem; font-weight: 700; line-height: 1.45; }
+    .oven-plan { padding: 18px; margin-bottom: 18px; }
+    .oven-plan h3 { margin: 0 0 8px; font-size: .95rem; }
+    .oven-plan ol { margin: 0; padding-left: 20px; font-size: .78rem; line-height: 1.65; }
+    .workflow-section { margin-bottom: 18px; }
+    .workflow-section > h3 { margin: 0 0 10px; font-size: 1.02rem; }
+    .workflow-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
+    .workflow-stage { padding: 16px; border-top: 4px solid var(--sage); }
+    .workflow-stage.done { border-top-color: var(--ok); background: #f1f6ef; }
+    .stage-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+    .workflow-stage h4 { margin: 0 0 5px; font-size: .88rem; }
+    .stage-status { flex: 0 0 auto; padding: 4px 8px; border-radius: 999px; background: var(--green); color: #fff; font-size: .58rem; font-weight: 900; text-transform: uppercase; }
+    .workflow-stage .reason { margin: 0 0 9px; color: var(--muted); font-size: .72rem; line-height: 1.45; }
+    .workflow-stage .dish-list { margin: 0 0 8px; color: var(--green); font-size: .7rem; font-weight: 800; }
+    .workflow-stage ul { margin: 0; padding-left: 18px; font-size: .74rem; line-height: 1.5; }
+    .release { margin: 11px 0 0; padding: 9px 10px; border-left: 3px solid var(--ok); background: #eef3ec; color: var(--green); font-size: .7rem; line-height: 1.45; }
+    .prep-complete { margin-top: 16px; padding: 14px; border: 1px solid var(--line); border-radius: 6px; background: #f7f5ef; }
+    .prep-complete > strong { display: block; margin-bottom: 4px; font-size: .78rem; }
+    .prep-complete > span { display: block; margin-bottom: 10px; color: var(--muted); font-size: .68rem; line-height: 1.4; }
+    .prep-checks { display: flex; flex-wrap: wrap; gap: 8px; }
+    .check-option { display: inline-flex; align-items: center; gap: 7px; min-height: 38px; padding: 8px 11px; border: 1px solid var(--line); border-radius: 5px; background: #fff; color: var(--green); font-size: .72rem; font-weight: 800; cursor: pointer; }
+    .check-option input { width: 17px; height: 17px; margin: 0; accent-color: var(--green); }
+    .lane-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 10px; margin-bottom: 18px; }
+    .lane-card { padding: 16px; border-top: 4px solid var(--green); }
+    .lane-card h4 { margin: 0 0 7px; font-size: .86rem; }
+    .lane-card p { margin: 0; color: var(--muted); font-size: .72rem; line-height: 1.45; }
+    .lane-card .dish-list { margin-top: 8px; color: var(--green); font-size: .66rem; font-weight: 800; }
+    .equipment-plan { margin-bottom: 18px; padding: 18px; }
+    .equipment-plan h3 { margin: 0 0 5px; font-size: 1rem; }
+    .equipment-plan > p { margin: 0 0 10px; color: var(--muted); font-size: .72rem; }
+    .equipment-block { padding: 10px 0; border-top: 1px solid var(--line); font-size: .74rem; line-height: 1.5; }
+    .equipment-block:first-of-type { border-top: 0; }
+    .recipe-run-grid { display: grid; gap: 14px; }
+    .recipe-run { padding: 20px; break-inside: avoid; }
+    .recipe-run-head { display: flex; justify-content: space-between; gap: 18px; align-items: flex-start; }
+    .recipe-run h3 { margin: 0; font-size: 1.05rem; }
+    .recipe-run-count { color: var(--ok); font-size: .75rem; font-weight: 900; white-space: nowrap; }
+    .recipe-meta { margin: 8px 0 14px; color: var(--muted); font-size: .74rem; line-height: 1.55; }
+    .recipe-columns { display: grid; grid-template-columns: minmax(240px,.8fr) minmax(320px,1.2fr); gap: 20px; }
+    .recipe-columns h4 { margin: 0 0 8px; color: var(--green); font-size: .75rem; text-transform: uppercase; }
+    .batch-ingredients { margin: 0; padding: 0; list-style: none; columns: 2; column-gap: 18px; }
+    .batch-ingredients li { break-inside: avoid; padding: 4px 0; font-size: .72rem; line-height: 1.35; }
+    .method-steps { margin: 0; padding-left: 20px; }
+    .method-steps li { padding: 3px 0; font-size: .76rem; line-height: 1.45; }
+    .recipe-callout { margin-top: 14px; padding: 11px 13px; border-left: 3px solid var(--sage); background: #eef3ec; font-size: .74rem; line-height: 1.5; }
+    .cook-mode-shell { display:grid; grid-template-columns:minmax(0,1.4fr) minmax(260px,.6fr); gap:14px; }
+    .cook-mode-hero { padding:24px; color:white; background:var(--green); }
+    .cook-mode-hero .eyebrow { color:#a9c8aa; }
+    .cook-mode-hero h2 { margin:6px 0 8px; font-size:clamp(1.35rem,3vw,2.25rem); }
+    .cook-mode-hero p { color:#d4dfd3; line-height:1.55; }
+    .cook-progress { height:8px; overflow:hidden; margin:18px 0 8px; border-radius:999px; background:rgba(255,255,255,.15); }
+    .cook-progress span { display:block; height:100%; border-radius:inherit; background:#9bc59d; transition:width .25s ease; }
+    .cook-task-card { padding:22px; }
+    .cook-task-card h3 { margin:5px 0 10px; font-size:1.15rem; }
+    .cook-task-card p { margin:0; color:var(--muted); line-height:1.6; }
+    .cook-task-label { color:var(--ok); font-size:.68rem; font-weight:900; letter-spacing:.1em; text-transform:uppercase; }
+    .cook-task-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:18px; }
+    .cook-task-actions .btn { min-height:44px; }
+    .cook-side-stack { display:grid; align-content:start; gap:12px; }
+    .cook-side-card { padding:17px; }
+    .cook-side-card h3 { margin:0 0 8px; font-size:.84rem; }
+    .cook-side-card p, .cook-side-card li { color:var(--muted); font-size:.75rem; line-height:1.55; }
+    .cook-side-card ul { margin:8px 0 0; padding-left:18px; }
+    .phase-pills { display:flex; gap:6px; overflow-x:auto; margin:0 0 14px; padding-bottom:3px; }
+    .phase-pill { flex:0 0 auto; padding:8px 11px; border:1px solid var(--line); border-radius:999px; color:var(--muted); background:white; font-size:.68rem; font-weight:800; }
+    .phase-pill.active { color:white; border-color:var(--green); background:var(--green); }
+    .phase-pill.done { color:var(--green); border-color:#a7c3a8; background:#edf4ec; }
+    .cook-checkpoint { margin-top:14px; padding:12px; border-left:3px solid #d2a34b; background:#fff8e9; color:#72551c; font-size:.75rem; line-height:1.5; }
+    .cook-phase-list { display:grid; gap:7px; }
+    .cook-phase-step { width:100%; padding:9px 10px; border:1px solid var(--line); border-radius:5px; color:var(--muted); background:white; font:inherit; font-size:.7rem; font-weight:750; line-height:1.4; text-align:left; cursor:pointer; }
+    .cook-phase-step.current { color:white; border-color:var(--green); background:var(--green); }
+    .cook-phase-step.done { color:var(--green); border-color:#b7cbb7; background:#edf4ec; }
+    .cook-phase-step.done::before { content:'Done: '; font-weight:900; }
+    .cook-mode-detail { margin-top:14px; }
+    .cook-mode-detail-head { display:flex; align-items:flex-end; justify-content:space-between; gap:16px; margin:0 0 10px; }
+    .cook-mode-detail-head h3 { margin:0; font-size:1rem; }
+    .cook-mode-detail-head p { margin:4px 0 0; color:var(--muted); font-size:.72rem; }
+    .cook-dish-stack { display:grid; gap:10px; }
+    .cook-dish-detail { overflow:hidden; border:1px solid var(--line); border-radius:var(--radius); background:white; box-shadow:var(--shadow); }
+    .cook-dish-detail > summary { display:flex; align-items:center; justify-content:space-between; gap:14px; padding:14px 16px; cursor:pointer; list-style:none; }
+    .cook-dish-detail > summary::-webkit-details-marker { display:none; }
+    .cook-dish-detail > summary::after { content:'+'; flex:0 0 auto; color:var(--green); font-size:1.1rem; font-weight:900; }
+    .cook-dish-detail[open] > summary::after { content:'-'; }
+    .cook-dish-title { min-width:0; }
+    .cook-dish-title strong { display:block; color:var(--green); font-size:.86rem; }
+    .cook-dish-title span { display:block; margin-top:3px; color:var(--muted); font-size:.67rem; line-height:1.4; }
+    .cook-dish-body { padding:0 16px 16px; border-top:1px solid var(--line); }
+    .cook-plan-metrics { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:7px; margin:12px 0; }
+    .cook-plan-metric { padding:9px; border-radius:5px; background:#f1f4ef; }
+    .cook-plan-metric span { display:block; color:var(--muted); font-size:.58rem; font-weight:800; text-transform:uppercase; }
+    .cook-plan-metric strong { display:block; margin-top:3px; color:var(--green); font-size:.76rem; }
+    .cook-inline-columns { display:grid; grid-template-columns:minmax(220px,.8fr) minmax(280px,1.2fr); gap:16px; }
+    .cook-inline-columns h4, .cook-quick-log h4 { margin:0 0 7px; color:var(--green); font-size:.68rem; text-transform:uppercase; }
+    .cook-inline-columns ul, .cook-inline-columns ol { margin:0; padding-left:18px; }
+    .cook-inline-columns li { padding:3px 0; color:#344034; font-size:.7rem; line-height:1.4; }
+    .cook-quick-log { margin-top:14px; padding-top:12px; border-top:1px solid var(--line); }
+    .cook-quick-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; }
+    .cook-quick-grid label { color:var(--muted); font-size:.62rem; font-weight:750; }
+    .cook-quick-grid input { min-height:36px; margin-top:4px; padding:7px; }
+    .cook-plate-line { margin-top:12px; padding:10px 12px; border-left:3px solid var(--sage); background:#eef3ec; color:#354435; font-size:.7rem; line-height:1.5; }
+    .cook-count-board { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; }
+    .cook-count-chip { padding:10px; border:1px solid var(--line); border-radius:5px; background:white; }
+    .cook-count-chip strong { display:block; color:var(--green); font-size:.72rem; }
+    .cook-count-chip span { display:block; margin-top:3px; color:var(--muted); font-size:.64rem; line-height:1.35; }
+    .cook-simple-shell { max-width: 880px; margin: 0 auto; }
+    .cook-day-switch { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; margin-bottom: 12px; }
+    .cook-day-btn { min-height: 46px; padding: 10px 14px; border: 1px solid var(--line); border-radius: var(--radius); color: var(--green); background: white; font: inherit; font-size: .76rem; font-weight: 900; cursor: pointer; }
+    .cook-day-btn.active { color: white; border-color: var(--green); background: var(--green); }
+    .cook-day-btn span { display: block; margin-top: 2px; color: inherit; opacity: .72; font-size: .61rem; font-weight: 700; }
+    .cook-mode-hero.compact { padding: 18px 20px; }
+    .cook-mode-hero.compact h2 { font-size: clamp(1.15rem,2.4vw,1.65rem); }
+    .cook-mode-hero.compact p { margin: 4px 0 0; font-size: .76rem; }
+    .cook-action-deck { display: grid; gap: 9px; margin-top: 12px; }
+    .cook-action-card { width: 100%; padding: 15px 17px; border: 1px solid var(--line); border-radius: var(--radius); color: var(--muted); background: #f7f7f3; font: inherit; text-align: left; box-shadow: none; }
+    button.cook-action-card { cursor: pointer; }
+    button.cook-action-card:hover { border-color: #a9bea9; background: #f0f4ed; }
+    .cook-action-card.done { color: #587058; border-color: #bfd0be; background: #edf4ec; }
+    .cook-action-card.current { padding: 22px; color: var(--text); border: 2px solid var(--green); background: white; box-shadow: var(--shadow); }
+    .cook-action-card.upcoming { opacity: .72; }
+    .cook-action-card-head { display: flex; align-items: center; gap: 10px; }
+    .cook-action-number { display: inline-grid; place-items: center; flex: 0 0 27px; width: 27px; height: 27px; border-radius: 50%; color: var(--green); background: #e6eee3; font-size: .68rem; font-weight: 900; }
+    .cook-action-card.done .cook-action-number { color: white; background: var(--sage); }
+    .cook-action-card.current .cook-action-number { color: white; background: var(--green); }
+    .cook-action-card h3 { margin: 0; font-size: .9rem; line-height: 1.45; }
+    .cook-action-card.current h3 { margin-top: 10px; font-size: clamp(1.1rem,2.5vw,1.45rem); line-height: 1.35; }
+    .cook-action-state { margin-left: auto; font-size: .61rem; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
+    .cook-action-context { margin: 12px 0 0; color: var(--muted); font-size: .72rem; line-height: 1.55; }
+    .cook-action-context strong { color: var(--green); }
+    .cook-next-preview { margin: 10px 2px 0; color: var(--muted); font-size: .7rem; line-height: 1.45; }
+    .cook-queue-strip { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; margin:12px 0; }
+    .cook-queue-ticket { min-height:78px; padding:11px 12px; border:1px solid var(--line); border-radius:var(--radius); color:var(--muted); background:white; font:inherit; text-align:left; cursor:pointer; }
+    .cook-queue-ticket.current { color:white; border-color:var(--green); background:var(--green); }
+    .cook-queue-ticket span { display:block; margin-bottom:5px; font-size:.56rem; font-weight:900; letter-spacing:.09em; text-transform:uppercase; opacity:.72; }
+    .cook-queue-ticket strong { display:block; font-size:.7rem; line-height:1.35; }
+    .cook-start-checklist { margin-top:12px; padding:14px 16px; border-radius:var(--radius); background:#f1f4ef; }
+    .cook-start-checklist h4 { margin:0 0 7px; color:var(--green); font-size:.72rem; text-transform:uppercase; }
+    .cook-start-checklist ol { margin:0; padding-left:20px; }
+    .cook-start-checklist li { padding:3px 0; color:#344034; font-size:.72rem; line-height:1.5; }
+    .cook-pack-ticket { padding:17px; border:1px solid var(--line); border-radius:var(--radius); background:white; }
+    .cook-pack-head { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+    .cook-pack-head span { color:var(--muted); font-size:.59rem; font-weight:900; text-transform:uppercase; }
+    .cook-pack-head h3 { margin:3px 0 0; color:var(--green); font-size:1rem; }
+    .cook-pack-head > strong { color:var(--ok); font-size:.75rem; }
+    .cook-pack-ticket ol { margin:14px 0 0; padding-left:22px; columns:2; column-gap:24px; }
+    .cook-pack-ticket li { break-inside:avoid; padding:3px 0; color:#344034; font-size:.72rem; line-height:1.45; }
+    .cook-reference-drawer { overflow: hidden; margin-top: 12px; padding: 0; }
+    .cook-reference-drawer > summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 18px; cursor: pointer; list-style: none; }
+    .cook-reference-drawer > summary::-webkit-details-marker { display: none; }
+    .cook-reference-drawer > summary::after { content: '+'; flex: 0 0 auto; color: var(--green); font-size: 1.1rem; font-weight: 900; }
+    .cook-reference-drawer[open] > summary::after { content: '-'; }
+    .cook-reference-drawer > summary strong { display: block; color: var(--green); font-size: .82rem; }
+    .cook-reference-drawer > summary span { display: block; margin-top: 3px; color: var(--muted); font-size: .65rem; }
+    .cook-reference-body { padding: 0 18px 18px; border-top: 1px solid var(--line); }
+    .cook-reference-body .cook-mode-detail { margin-top: 16px; }
+    .cook-reference-body .cook-dish-detail { box-shadow: none; }
+    .cook-live-reference { margin-top: 12px; padding: 18px; border: 1px solid #afc5ae; border-radius: var(--radius); background: #f8faf6; box-shadow: var(--shadow); }
+    .cook-live-reference > .cook-mode-detail { margin-top: 0; }
+    .cook-live-reference .cook-mode-detail-head { align-items: flex-start; }
+    .cook-live-reference .cook-mode-detail-head::before { content: 'RECIPE CARDS'; flex: 0 0 auto; padding: 5px 8px; border-radius: 999px; color: white; background: var(--sage); font-size: .56rem; font-weight: 900; letter-spacing: .08em; }
+    .cook-prep-stack { display: grid; gap: 10px; }
+    .cook-prep-card { overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: white; }
+    .cook-prep-card > summary { display: flex; justify-content: space-between; gap: 12px; padding: 14px 16px; cursor: pointer; list-style: none; }
+    .cook-prep-card > summary::-webkit-details-marker { display: none; }
+    .cook-prep-card > summary::after { content: '+'; color: var(--green); font-size: 1.05rem; font-weight: 900; }
+    .cook-prep-card[open] > summary::after { content: '-'; }
+    .cook-prep-card h4 { margin: 0; color: var(--green); font-size: .84rem; }
+    .cook-prep-card summary span { display: block; margin-top: 3px; color: var(--muted); font-size: .65rem; line-height: 1.4; }
+    .cook-prep-card-body { padding: 0 16px 16px; border-top: 1px solid var(--line); }
+    .cook-prep-card-body p, .cook-prep-card-body li { color: #344034; font-size: .7rem; line-height: 1.5; }
+    .cook-prep-card-body ul, .cook-prep-card-body ol { margin: 10px 0 0; padding-left: 18px; }
+    .cook-prep-card-body .cook-plan-metrics { margin-top: 12px; }
+    .cook-tool-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .cook-mode-empty { padding:28px; text-align:center; color:var(--muted); }
+    .save-state { min-width: 190px; color: var(--muted); font-size: .7rem; font-weight: 800; text-align: right; align-self: center; }
+    .save-state.ok { color: var(--ok); }
+    .save-state.warn { color: var(--warn); }
+    .log-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; padding: 14px 16px; }
+    .log-toolbar p { margin: 0; color: var(--muted); font-size: .73rem; line-height: 1.45; }
+    .log-actions { display: flex; gap: 8px; flex-wrap: wrap; flex: 0 0 auto; }
+    .log-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 10px; }
+    .log-grid.compact { grid-template-columns: repeat(6,minmax(0,1fr)); }
+    .log-grid .wide { grid-column: span 2; }
+    .log-grid .full { grid-column: 1 / -1; }
+    .log-grid input, .log-grid textarea { margin-top: 5px; }
+    .log-grid textarea { min-height: 78px; }
+    .cook-log-intro { margin-bottom: 14px; padding: 18px; border-left: 4px solid var(--sage); }
+    .cook-log-intro h3 { margin: 0 0 6px; font-size: .95rem; }
+    .cook-log-intro p { margin: 0; color: var(--muted); font-size: .76rem; line-height: 1.5; }
+    .dish-log-grid { display: grid; gap: 14px; }
+    .dish-log { padding: 19px; }
+    .dish-log-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 14px; }
+    .dish-log-head h3 { margin: 0 0 4px; font-size: 1rem; }
+    .dish-log-head p { margin: 0; color: var(--muted); font-size: .72rem; }
+    .yield-readout { flex: 0 0 auto; padding: 8px 11px; border-radius: 5px; background: #eef3ec; color: var(--green); font-size: .7rem; font-weight: 900; }
+    .log-subhead { margin: 18px 0 8px; color: var(--green); font-size: .72rem; font-weight: 900; text-transform: uppercase; }
+    .log-input { min-width: 82px; min-height: 34px; margin: 0; padding: 6px 7px; }
+    .log-notes { min-width: 180px; min-height: 52px; margin: 0; padding: 7px; resize: vertical; }
+    .field-help { display: block; margin-top: 4px; color: #838a83; font-size: .61rem; font-weight: 500; line-height: 1.3; }
+    .autosave-note { display: block; margin-top: 5px; color: var(--muted); font-size: .64rem; }
+    .print-only { display: none; }
+    @media (max-width: 1050px) {
+      .app-shell { display: block; width: 100%; min-width: 0; }
+      .sidebar { position: static; width: 100%; max-width: 100vw; height: auto; display: flex; align-items: center; gap: 12px; overflow-x: auto; overflow-y: hidden; padding: 14px 16px; }
+      .brand { flex: 0 0 126px; min-width: 0; margin: 0; }
+      .brand strong { font-size: 1.65rem; }
+      .brand span { display: none; }
+      .nav-btn { flex: 0 0 auto; min-width: max-content; width: auto; }
+      .sidebar-note { display: none; }
+      .setup-grid { grid-template-columns: 1fr; }
+      .metric-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+      .cook-mode-shell { grid-template-columns:1fr; }
+      .cook-plan-metrics, .cook-count-board { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    }
+    @media (max-width: 650px) {
+      main { padding: 24px 14px 60px; }
+      .topbar { display: block; }
+      .actions { margin-top: 16px; justify-content: flex-start; }
+      .field-grid, .station-grid { grid-template-columns: 1fr; }
+      .metric-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+      .lane-grid { grid-template-columns: 1fr; }
+      .panel { padding: 17px; }
+      .review-head { display: block; }
+      .review-total { display: block; margin: 8px 0 0 28px; }
+      .runbook-metrics, .runbook-phase-grid, .recipe-columns, .calendar-grid, .workflow-grid, .prep-plan-grid, .prep-batch-grid, .log-grid, .log-grid.compact { grid-template-columns: 1fr; }
+      .log-grid .wide { grid-column: auto; }
+      .log-toolbar, .dish-log-head { display: block; }
+      .log-actions, .yield-readout { margin-top: 10px; }
+      .batch-ingredients { columns: 1; }
+      .cook-mode-detail-head { display:block; }
+      .cook-inline-columns, .cook-plan-metrics, .cook-count-board, .cook-quick-grid { grid-template-columns:1fr; }
+      .cook-action-card.current { padding: 18px; }
+      .cook-live-reference { padding: 14px; }
+      .cook-day-switch { grid-template-columns: 1fr; }
+      .cook-reference-drawer > summary { align-items: flex-start; }
+      .cook-queue-strip { grid-template-columns:1fr; }
+      .cook-queue-ticket { min-height:0; }
+      .cook-pack-ticket ol { columns:1; }
+    }
+    @media print {
+      @page { size: Letter; margin: .45in; }
+      :root { background: white; }
+      .sidebar, .actions, .setup-grid, .order-review, .manual-wrap, .generate-row, .warning-list, .screen-only, .runbook-jump, .log-toolbar { display: none !important; }
+      .app-shell { display: block; }
+      main { padding: 0; max-width: none; }
+      .topbar { margin-bottom: 12px; }
+      h1 { font-size: 25pt; }
+      .print-only { display: block; }
+      .results, .results.ready { display: block; }
+      .view { display: block !important; break-before: page; }
+      .view:first-of-type { break-before: auto; }
+      .metric-grid { grid-template-columns: repeat(5,1fr); }
+      .metric { background: white; color: black; border: 1px solid #555; padding: 8px; }
+      .metric span { color: #555; }
+      .metric strong { font-size: 15pt; }
+      .card { box-shadow: none; border-color: #888; }
+      .station-card, .flow-step { break-inside: avoid; }
+      th { background: #eee !important; color: black; }
+      td, th { padding: 5px 6px; }
+      body { font-size: 9pt; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><strong>PRPD</strong><span>COOK-DAY PLANNER</span></div>
+      <button class="nav-btn active" data-view="summary"><span class="nav-num">01</span>Summary</button>
+      <button class="nav-btn" data-view="runbook"><span class="nav-num">02</span>Runbook</button>
+      <button class="nav-btn" data-view="cookmode"><span class="nav-num">03</span>Cook Mode</button>
+      <button class="nav-btn" data-view="production"><span class="nav-num">04</span>Production</button>
+      <button class="nav-btn" data-view="stations"><span class="nav-num">04</span>Stations</button>
+      <button class="nav-btn" data-view="plating"><span class="nav-num">05</span>Plating</button>
+      <button class="nav-btn" data-view="flow"><span class="nav-num">06</span>Timing Log</button>
+      <button class="nav-btn" data-view="staging"><span class="nav-num">07</span>Staging</button>
+      <button class="nav-btn" data-view="cooklog"><span class="nav-num">08</span>Cook Log</button>
+      <button class="nav-btn" data-view="qc"><span class="nav-num">09</span>Quality &amp; Yield</button>
+      <a href="/operations/business-center" style="display:block;margin:18px 14px 0;color:#ece7df;font-weight:800;text-decoration:none">Business Center</a>
+      <p class="sidebar-note">Internal tool. Customer information stays in this browser session and is not uploaded.</p>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <div>
+          <p class="eyebrow" id="batchEyebrow">Batch</p>
+          <h1>Cook-Day Planner</h1>
+          <p class="subtitle" id="deliverySubtitle">Import final orders or enter counts manually.</p>
+        </div>
+        <div class="actions">
+          <span class="save-state" id="saveState">Cook log not loaded</span>
+          <button class="btn" id="saveBtn">Save setup</button>
+          <button class="btn" id="printBtn">Print packet</button>
+          <button class="btn danger" id="clearBtn">Clear</button>
+        </div>
+      </header>
+
+      <section class="setup-grid screen-only">
+        <div class="card panel">
+          <h2>Current orders</h2>
+          <p class="panel-copy">Pull the active batch directly from the private Google Sheet, then review every submission before production.</p>
+          <div class="sync-block">
+            <strong>Google Sheets live sync</strong>
+            <p>Read-only connection. Excluding or correcting an order here changes this packet only and never rewrites the source Sheet.</p>
+            <button class="btn primary" id="syncOrdersBtn">Sync current orders</button>
+          </div>
+          <details class="fallback">
+            <summary>CSV, pasted rows, or manual fallback</summary>
+            <label class="drop-zone" for="csvFile" style="margin-top:12px">
+              <span><strong>Choose Orders CSV</strong>Click here or drop the exported file</span>
+              <input type="file" id="csvFile" accept=".csv,text/csv">
+            </label>
+            <label style="margin-top:12px">Or paste copied Orders rows
+              <textarea id="pasteOrders" placeholder="Paste the header row and order rows here..."></textarea>
+            </label>
+            <div class="import-actions">
+              <button class="btn" id="importPasteBtn">Import pasted rows</button>
+              <button class="btn" id="manualOnlyBtn">Use manual counts</button>
+            </div>
+          </details>
+          <div class="status" id="importStatus">No orders imported yet.</div>
+        </div>
+
+        <div class="card panel">
+          <h2>Production setup</h2>
+          <p class="panel-copy">Production matches the sold customer meals exactly. Separate raw-protein and temporary dry-rice allowances cover measured production variation without creating automatic extra finished meals.</p>
+          <div class="field-grid">
+            <label>Cook date<input type="date" id="cookDate"></label>
+            <label>Pack complete by<input type="time" id="packTime" value="18:00"></label>
+            <label>Raw-protein reserve (%)<input type="number" id="rawProteinBufferPct" min="0" max="20" step="1" value="5"></label>
+            <label>Dry-rice planning allowance (%)<input type="number" id="riceBufferPct" min="0" max="30" step="1" value="15"></label>
+            <label>Expected cooked rice yield (x dry)<input type="number" id="riceYieldFactor" min="1" max="4" step="0.05" value="2.75"></label>
+            <label>Customer cups per weekly sauce<input type="number" id="customerSauceCups" min="0" max="100" step="1" value="30"></label>
+            <label>Kitchen-use cup equivalents per sauce<input type="number" id="kitchenSauceCups" min="0" max="100" step="1" value="10"></label>
+            <label>QC cups per weekly sauce<input type="number" id="qcSauceCups" min="0" max="10" step="1" value="1"></label>
+            <label>Team size<input type="number" id="teamSize" min="1" max="20" value="2"></label>
+            <label>Ovens<input type="number" id="ovens" min="0" max="10" value="1"></label>
+            <label>Rice cookers<input type="number" id="riceCookers" min="0" max="10" value="1"></label>
+            <label>Burners<input type="number" id="burners" min="0" max="20" value="4"></label>
+            <label>Refrigerator capacity note<input type="text" id="coldCapacity" placeholder="e.g. 8 shallow pans"></label>
+          </div>
+          <div class="prep-complete">
+            <strong>Completed before cook day</strong>
+            <span>Check only batches that are finished, counted, and held safely. The Friday plan will verify and skip them instead of making them again.</span>
+            <div class="prep-checks">
+              <label class="check-option"><input type="checkbox" id="prepDessertsDone"> Desserts</label>
+              <label class="check-option"><input type="checkbox" id="prepSaucesDone"> Weekly sauces</label>
+              <label class="check-option"><input type="checkbox" id="prepRiceDone"> Rice</label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card order-review screen-only" id="orderReview" hidden>
+        <div class="manual-head">
+          <div><h2>Review synced orders</h2><p class="panel-copy" style="margin:4px 0 0">Uncheck duplicates or tests. Correct an item quantity here without changing the Google Sheet.</p></div>
+          <span class="muted" id="reviewTotal">0 included</span>
+        </div>
+        <div class="review-list" id="reviewList"></div>
+      </section>
+
+      <section class="card manual-wrap screen-only">
+        <div class="manual-head">
+          <div><h2>Final dish counts</h2><p class="panel-copy" style="margin:4px 0 0">Imported counts remain editable for late approved orders or corrections.</p></div>
+          <span class="muted" id="manualTotal">0 meals</span>
+        </div>
+        <div class="table-wrap"><table><thead><tr><th>Meal</th><th>Lean</th><th>Bulk</th><th>Single</th></tr></thead><tbody id="manualCounts"></tbody></table></div>
+      </section>
+      <div class="generate-row screen-only"><button class="btn primary" id="generateBtn">Generate production packet</button></div>
+
+      <section class="results" id="results">
+        <p class="print-only" id="printMeta"></p>
+        <div class="metric-grid" id="metrics"></div>
+        <div class="warning-list" id="warnings"></div>
+
+        <div class="view active" data-panel="summary">
+          <div class="section-head"><div><h2>Final production count</h2><p>One line per dish and tier.</p></div></div>
+          <div class="card section-card"><div class="table-wrap"><table><thead><tr><th>Meal</th><th>Tier</th><th>Customer meals</th><th>Finished production</th><th>Recipe status</th></tr></thead><tbody id="countRows"></tbody></table></div></div>
+        </div>
+
+        <div class="view" data-panel="runbook">
+          <div class="section-head"><div><h2>Complete cook-day runbook</h2><p>Scaled recipes and the actual production order for every selected dish.</p></div></div>
+          <div id="runbookContent"></div>
+        </div>
+
+        <div class="view" data-panel="cookmode">
+          <div class="section-head"><div><h2>Kitchen Queue</h2><p>Choose Prep Day or Cook Day. Work only from Now; use Next and Later to see what is coming.</p></div></div>
+          <div id="cookModeContent" class="cook-mode-empty">Generate the production packet to start Cook Mode.</div>
+        </div>
+
+        <div class="view" data-panel="production">
+          <div class="section-head"><div><h2>Component and shopping quantities</h2><p>Base requirement, explicit buffer, on hand, and amount to buy.</p></div></div>
+          <div class="card section-card"><div class="table-wrap"><table><thead><tr><th>Station</th><th>Ingredient</th><th>Base</th><th>With buffer</th><th>On hand</th><th>Buy/prep</th><th>Confidence</th></tr></thead><tbody id="ingredientRows"></tbody></table></div></div>
+        </div>
+
+        <div class="view" data-panel="stations">
+          <div class="section-head"><div><h2>Station cards</h2><p>Group shared work once instead of repeating it by customer.</p></div></div>
+          <div class="station-grid" id="stationCards"></div>
+        </div>
+
+        <div class="view" data-panel="plating">
+          <div class="section-head"><div><h2>Plating matrix</h2><p>Per-container build from the audited recipe model.</p></div></div>
+          <div class="card section-card"><div class="table-wrap"><table><thead><tr><th>Meal</th><th>Tier</th><th>Qty</th><th>Per-container build</th><th>First 3</th><th>Mid-run</th><th>Final 3</th></tr></thead><tbody id="platingRows"></tbody></table></div></div>
+        </div>
+
+        <div class="view" data-panel="flow">
+          <div class="section-head"><div><h2>Production flow</h2><p>The live phase sequence generated from the reviewed orders, completed prep, team size, and equipment.</p></div></div>
+          <div class="flow" id="flowSteps"></div>
+        </div>
+
+        <div class="view" data-panel="staging">
+          <div class="section-head"><div><h2>Customer staging</h2><p>Available when orders were imported. Check only after dish-level reconciliation.</p></div></div>
+          <div class="card section-card"><div class="table-wrap"><table><thead><tr><th>Customer</th><th>Order</th><th>Notes</th><th>Bag check</th></tr></thead><tbody id="stagingRows"></tbody></table></div></div>
+        </div>
+
+        <div class="view" data-panel="cooklog">
+          <div class="section-head"><div><h2>Measured cook log</h2><p>Enter what actually happened. These values replace planning assumptions after review.</p></div></div>
+          <div class="card log-toolbar screen-only">
+            <p><strong>Automatic recovery:</strong> entries save in this browser and to a private project file. The previous project-file version is retained as a backup.</p>
+            <div class="log-actions">
+              <button class="btn" id="saveLogBtn">Save now</button>
+              <button class="btn" id="exportLogBtn">Export backup</button>
+              <label class="btn" for="importLogFile">Import backup</label>
+              <input type="file" id="importLogFile" accept="application/json,.json" hidden>
+              <button class="btn danger" id="clearLogBtn">Clear this cook log</button>
+            </div>
+          </div>
+          <div id="cookLogContent"></div>
+        </div>
+
+        <div class="view" data-panel="qc">
+          <div class="section-head"><div><h2>Quality control, food safety, and yield record</h2><p>Quality control means checking taste, temperature, portioning, and finished yield. Use the commercial kitchen's approved procedures where they are stricter.</p></div></div>
+          <div class="card section-card"><div class="table-wrap"><table><thead><tr><th>Checkpoint</th><th>Target</th><th>Time</th><th>Actual</th><th>Initials / action</th></tr></thead><tbody id="qcRows"></tbody></table></div></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/config/order-config.js?v=20260716.1"></script>
+  <script src="/operations/nutrition/production-data.js?v=20260720.1"></script>
+  <script src="/operations/cook-day-core.js?v=20260717.2"></script>
+  <script src="/operations/cook-day-methods.js?v=20260720.1"></script>
+  <script>
+    const BASE_CONFIG = window.PRPD_ORDER_CONFIG;
+    const DATA = window.PRPD_PRODUCTION_DATA;
+    const CORE = window.PRPD_COOK_DAY;
+    const METHODS = window.PRPD_COOK_METHODS;
+    const plannerOnlyMains = Object.entries(DATA.meals)
+      .filter(([, meal]) => meal.plannerOnly)
+      .map(([id, meal]) => ({ id, name: meal.name, category: 'standard', plannerOnly: true }));
+    const CONFIG = {
+      ...BASE_CONFIG,
+      menu: {
+        ...BASE_CONFIG.menu,
+        mains: [...BASE_CONFIG.menu.mains, ...plannerOnlyMains],
+      },
+    };
+    const state = { orders: [], importWarnings: [], counts: {}, ingredients: [], warnings: [], fetchedAt: '', cookLog: { fields: {}, updatedAt: '' }, cookMode: { index: 0, lastByDay: {}, tasks: [], phases: [], workflow: null, counts: [] } };
+    const $ = id => document.getElementById(id);
+    const dishes = Object.values(CONFIG.menu).flat();
+    const COOK_LOG_SCHEMA = 1;
+    let cookLogSaveTimer = null;
+
+    function cookLogBatchKey() {
+      return `batch:${CONFIG.batch.number}|delivery:${CONFIG.batch.deliveryDate}`.toLowerCase();
+    }
+    function cookLogStorageKey() { return `prpdCookDayLog:${cookLogBatchKey()}`; }
+    function setupStorageKey() { return `prpdCookDaySetup:${cookLogBatchKey()}`; }
+
+    function esc(value) {
+      return String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+    }
+    function tierLabel(tier) { return tier === 'bulk' ? 'Bulk' : tier === 'lean' ? 'Lean' : 'Single'; }
+    function formatAmount(value, unit) {
+      const amount = Number(value) || 0;
+      if (unit === 'g' && amount >= 1000) return `${(amount / 1000).toFixed(amount >= 10000 ? 1 : 2)} kg`;
+      if (unit === 'each') return `${Math.ceil(amount * 10) / 10} each`;
+      return `${Math.ceil(amount)} ${unit}`;
+    }
+    function formatPrepAmount(value, unit) {
+      if (unit === 'each') return `${Math.ceil(Number(value) || 0)} each`;
+      return formatAmount(value, unit);
+    }
+    function currentBuffer() {
+      return {
+        prpdExtraServings: 0,
+        rawProteinBufferPct: $('rawProteinBufferPct').value,
+        riceBufferPct: $('riceBufferPct').value,
+        riceYieldFactor: $('riceYieldFactor').value,
+      };
+    }
+    function currentSauceConfig() {
+      return {
+        ...METHODS.weeklySauces,
+        customerCupsPerSauce: $('customerSauceCups').value,
+        kitchenUseCupsPerSauce: $('kitchenSauceCups').value,
+        qcCupsPerSauce: $('qcSauceCups').value,
+      };
+    }
+    function currentWorkflowResources() {
+      return {
+        ovens: $('ovens').value,
+        burners: $('burners').value,
+        riceCookers: $('riceCookers').value,
+        teamSize: $('teamSize').value,
+        completedPrep: [
+          $('prepDessertsDone').checked ? 'desserts' : '',
+          $('prepSaucesDone').checked ? 'sauces' : '',
+          $('prepRiceDone').checked ? 'rice' : '',
+        ].filter(Boolean),
+      };
+    }
+    function bufferLabel() {
+      const buffer = currentBuffer();
+      const reserve = Number(buffer.rawProteinBufferPct) || 0;
+      const riceReserve = Number(buffer.riceBufferPct) || 0;
+      const riceYield = Number(buffer.riceYieldFactor) || 3;
+      return `exact customer meals + ${reserve}% raw-protein reserve + ${riceReserve}% temporary dry-rice allowance at ${riceYield}x yield`;
+    }
+    function dualAmount(item, value, roundCount = false) { return CORE.dualAmount(item, value, { roundCount }); }
+    function countKey(id, tier) { return `${id}:${tier}`; }
+    function validTiers(dish) { return dish.category === 'dessert' ? ['single'] : ['lean','bulk']; }
+
+    function renderManualCounts() {
+      const grouped = ['breakfasts','mains','desserts'];
+      $('manualCounts').innerHTML = grouped.map(group => {
+        const title = group[0].toUpperCase() + group.slice(1);
+        const rows = CONFIG.menu[group].map(dish => {
+          const inputs = ['lean','bulk','single'].map(tier => {
+            const enabled = validTiers(dish).includes(tier);
+            const value = state.counts[countKey(dish.id,tier)] || 0;
+            return `<td>${enabled ? `<input class="qty-input" type="number" min="0" max="500" step="1" value="${value}" data-count="${dish.id}:${tier}" aria-label="${esc(dish.name)} ${tier}">` : '<span class="muted">-</span>'}</td>`;
+          }).join('');
+          return `<tr><td><strong>${esc(dish.name)}</strong></td>${inputs}</tr>`;
+        }).join('');
+        return `<tr class="category-row"><td colspan="4">${title}</td></tr>${rows}`;
+      }).join('');
+      document.querySelectorAll('[data-count]').forEach(input => input.addEventListener('input', () => {
+        state.counts[input.dataset.count] = Math.max(0, Math.floor(Number(input.value) || 0));
+        updateManualTotal();
+      }));
+      updateManualTotal();
+    }
+
+    function updateManualTotal() {
+      const total = Object.values(state.counts).reduce((sum,value) => sum + (Number(value) || 0), 0);
+      $('manualTotal').textContent = `${total} meal${total === 1 ? '' : 's'}`;
+    }
+
+    function activeOrders() { return CORE.includedOrders(state.orders); }
+
+    function rebuildCountsFromOrders() {
+      state.counts = {};
+      for (const item of CORE.aggregateCounts(activeOrders())) state.counts[countKey(item.id,item.tier)] = item.qty;
+      renderManualCounts();
+    }
+
+    function preserveOrderReview(nextOrders) {
+      const previous = new Map(state.orders.map(order => [CORE.orderKey(order), order]));
+      return nextOrders.map(order => {
+        const prior = previous.get(CORE.orderKey(order));
+        if (!prior) return order;
+        const priorItems = new Map((prior.items || []).map(item => [`${item.id}:${item.tier}`, item]));
+        return {
+          ...order,
+          included: order.sourceStatus === 'active' && prior.included !== false,
+          items: order.items.map(item => ({ ...item, qty: priorItems.get(`${item.id}:${item.tier}`)?.qty ?? item.qty })),
+        };
+      });
+    }
+
+    function renderOrderReview() {
+      $('orderReview').hidden = state.orders.length === 0;
+      if (!state.orders.length) return;
+      $('reviewList').innerHTML = state.orders.map((order,orderIndex) => {
+        const orderKey = CORE.orderKey(order);
+        const included = order.included !== false;
+        const itemRows = order.items.map((item,itemIndex) => `<label class="review-item"><input type="number" min="0" max="500" step="1" value="${item.qty}" data-review-qty="${orderIndex}:${itemIndex}" aria-label="${esc(item.name)} quantity for ${esc(order.customer)}"><span>${esc(item.name)} <span class="muted">(${tierLabel(item.tier)})</span></span></label>`).join('');
+        const sourceLocked = order.sourceStatus && order.sourceStatus !== 'active';
+        return `<article class="review-card${included ? '' : ' excluded'}" data-review-card="${esc(orderKey)}"><div class="review-head"><label class="review-person"><input type="checkbox" data-review-include="${orderIndex}" ${included ? 'checked' : ''} ${sourceLocked ? 'disabled' : ''}><span><strong>${esc(order.customer)}</strong><span class="review-meta">${esc(order.submittedAt || 'No timestamp')} | ${esc(order.orderId || 'Legacy row without Order ID')}${sourceLocked ? ` | ${esc(order.sourceStatus.toUpperCase())}` : ''}</span></span></label><span class="review-total">${esc(order.total ? `$${String(order.total).replace(/^\$/,'')}` : '')}</span></div><div class="review-items">${itemRows}</div>${order.notes ? `<p class="panel-copy" style="margin:10px 0 0"><strong>Note:</strong> ${esc(order.notes)}</p>` : ''}</article>`;
+      }).join('');
+      document.querySelectorAll('[data-review-include]').forEach(input => input.addEventListener('change', () => {
+        state.orders[Number(input.dataset.reviewInclude)].included = input.checked;
+        rebuildCountsFromOrders();
+        renderOrderReview();
+      }));
+      document.querySelectorAll('[data-review-qty]').forEach(input => input.addEventListener('input', () => {
+        const [orderIndex,itemIndex] = input.dataset.reviewQty.split(':').map(Number);
+        state.orders[orderIndex].items[itemIndex].qty = Math.max(0, Math.floor(Number(input.value) || 0));
+        rebuildCountsFromOrders();
+        updateReviewTotal();
+      }));
+      updateReviewTotal();
+    }
+
+    function updateReviewTotal() {
+      const included = activeOrders();
+      const meals = included.flatMap(order => order.items).reduce((sum,item) => sum + Number(item.qty || 0), 0);
+      $('reviewTotal').textContent = `${included.length} included | ${meals} meals`;
+    }
+
+    function applyOrders(parsed, sourceLabel, fetchedAt = '') {
+      state.orders = preserveOrderReview(parsed.orders);
+      state.importWarnings = parsed.warnings;
+      state.fetchedAt = fetchedAt;
+      rebuildCountsFromOrders();
+      renderOrderReview();
+      $('importStatus').className = `status${parsed.warnings.length ? ' warn' : ''}`;
+      $('importStatus').textContent = `${sourceLabel}: ${parsed.orders.length} current order${parsed.orders.length === 1 ? '' : 's'} loaded for Batch ${CONFIG.batch.number}${parsed.warnings.length ? ` with ${parsed.warnings.length} warning(s)` : ''}.`;
+    }
+
+    function importText(text) {
+      try {
+        const parsed = CORE.rowsToOrders(text, CONFIG);
+        applyOrders(parsed, 'Manual import');
+      } catch (error) {
+        $('importStatus').className = 'status warn';
+        $('importStatus').textContent = error.message;
+      }
+    }
+
+    async function syncOrders() {
+      const button = $('syncOrdersBtn');
+      button.disabled = true;
+      button.textContent = 'Syncing...';
+      $('importStatus').className = 'status';
+      $('importStatus').textContent = 'Reading the current Orders tab...';
+      try {
+        const response = await fetch('/api/current-orders', { headers: { accept: 'application/json' }, cache: 'no-store' });
+        const payload = await response.json();
+        if (!response.ok) throw new Error(payload.error || 'Live sync failed.');
+        const parsed = CORE.arrayRowsToOrders(payload.rows, CONFIG);
+        applyOrders(parsed, 'Google Sheets sync', payload.fetchedAt || '');
+      } catch (error) {
+        $('importStatus').className = 'status warn';
+        $('importStatus').textContent = `${error.message} Use the CSV or pasted-row fallback if needed.`;
+      } finally {
+        button.disabled = false;
+        button.textContent = 'Sync current orders';
+      }
+    }
+
+    function selectedCounts() { return CORE.countsFromMap(state.counts, CONFIG).sort((a,b) => a.id.localeCompare(b.id) || a.tier.localeCompare(b.tier)); }
+
+    function generatePacket() {
+      const counts = selectedCounts();
+      if (!counts.length) {
+        $('importStatus').className = 'status warn';
+        $('importStatus').textContent = 'Add at least one meal before generating the packet.';
+        return;
+      }
+      const built = CORE.ingredientTotals(counts, DATA, currentBuffer());
+      state.ingredients = built.totals.sort((a,b) => a.station.localeCompare(b.station) || a.name.localeCompare(b.name));
+      state.warnings = [...state.importWarnings, ...built.warnings];
+      const labelOrders = CORE.labelEligibleOrders(activeOrders(), METHODS.labelExemptCustomers);
+      const summary = CORE.productionSummary(counts, activeOrders(), currentBuffer());
+      summary.labels = CORE.labelPlan(CORE.aggregateCounts(labelOrders), currentBuffer(), 4).totalLabels;
+      renderMetrics(summary);
+      renderWarnings(counts);
+      renderCounts(counts);
+      renderRunbook(counts);
+      renderCookMode(counts);
+      renderIngredients();
+      renderStations(counts);
+      renderPlating(counts);
+      renderFlow(counts);
+      renderStaging();
+      renderCookLog(counts);
+      renderQc(counts);
+      $('results').classList.add('ready');
+      $('printMeta').textContent = `Batch ${CONFIG.batch.number} | Delivery ${CONFIG.batch.deliveryDate} | Cook date ${$('cookDate').value || 'not set'} | Buffer ${bufferLabel()}`;
+      saveSetup();
+      activateView('cookmode');
+      document.querySelector('[data-panel="cookmode"]').scrollIntoView({behavior:'smooth', block:'start'});
+    }
+
+    function cookModeStorageKey() { return `prpdCookModeV4:${cookLogBatchKey()}`; }
+    function saveCookModeProgress() {
+      const current = state.cookMode.tasks[state.cookMode.index];
+      if (current?.phaseDay) state.cookMode.lastByDay[current.phaseDay] = state.cookMode.index;
+      localStorage.setItem(cookModeStorageKey(), JSON.stringify({ index:state.cookMode.index, ticketId:current?.ticketId || '', lastByDay:state.cookMode.lastByDay, updatedAt:new Date().toISOString() }));
+    }
+    function restoreCookModeProgress(tasks) {
+      try {
+        const saved = JSON.parse(localStorage.getItem(cookModeStorageKey()) || '{}');
+        state.cookMode.lastByDay = saved.lastByDay && typeof saved.lastByDay === 'object' ? saved.lastByDay : {};
+        const savedTicket = tasks.findIndex(task => task.ticketId === saved.ticketId);
+        const restoredIndex = savedTicket >= 0 ? savedTicket : Math.min(Math.max(0, Number(saved.index) || 0), Math.max(0,tasks.length - 1));
+        const restoredDay = tasks[restoredIndex]?.phaseDay;
+        if (restoredDay && !Number.isInteger(state.cookMode.lastByDay[restoredDay])) state.cookMode.lastByDay[restoredDay] = restoredIndex;
+        return restoredIndex;
+      } catch { return 0; }
+    }
+
+    function cookModeGroupedCounts(counts) {
+      return Object.values(counts.reduce((map,count) => {
+        (map[count.id] ||= { id:count.id, name:count.name, counts:[] }).counts.push(count);
+        return map;
+      }, {})).map(group => ({ ...group, method:METHODS.meals[group.id] }))
+        .sort((a,b) => (a.method?.phase || 99) - (b.method?.phase || 99) || (a.method?.order || 99) - (b.method?.order || 99));
+    }
+
+    function cookModeMethodText(group) {
+      const method = group.method || {};
+      return [...(method.equipment || []), ...(method.prepSteps || []), ...(method.steps || []), method.temperature || '', method.plating || ''].join(' ');
+    }
+
+    function buildCookModePhases(counts, workflow, componentPlan) {
+      const grouped = cookModeGroupedCounts(counts);
+      const prepByKey = Object.fromEntries(workflow.prepStages.map(phase => [phase.key, phase]));
+      const ticket = (ticketId, task, extras = {}) => ({ ticketId, task, ...extras });
+      const prepPhase = (key, title, reason, tickets) => ({
+        ...(prepByKey[key] || {}), title, reason, tasks:tickets, phaseDay:'prep', phaseDayLabel:'Prep Day', phaseKey:key,
+      });
+      const prepBatches = componentPlan.prepBatches || [];
+      const weeklySauces = CORE.weeklySaucePlan(activeOrders(), currentSauceConfig()).sauces;
+      const dessertGroups = grouped.filter(group => /^d/.test(group.id));
+      const labelOrders = CORE.labelEligibleOrders(activeOrders(), METHODS.labelExemptCustomers);
+      const labelPlan = CORE.labelPlan(CORE.aggregateCounts(labelOrders), currentBuffer(), 4);
+
+      const prepPhases = [
+        prepPhase('reconcile','1. Lock counts and stage packaging','Begin from one reviewed production count before ingredients are opened.',[
+          ticket('prep:reconcile','Verify the order count, production targets, containers, and cold-storage space',{ ticketKind:'reconcile', dishes:grouped.map(group => group.name), instructions:prepByKey.reconcile?.tasks || [] }),
+        ]),
+        prepPhase('desserts','2. Build and chill desserts','Finish the longest-chill products before raw-protein work.',dessertGroups.length
+          ? dessertGroups.map(group => ticket(`prep:dessert:${group.id}`,`Make, portion, and chill ${group.name}`,{ ticketKind:'dish', detailMode:'recipe', dishId:group.id, dishes:[group.name] }))
+          : [ticket('prep:dessert:none','Confirm that no desserts are required',{ ticketKind:'empty', dishes:[] })]),
+        prepPhase('sauces','3. Make sauces and cold components','Batch the two weekly sauces and dish-specific cold components before the hot line.',[
+          ...weeklySauces.map((sauce,index) => ticket(`prep:weekly-sauce:${index}`,`Make and portion ${sauce.name}`,{ ticketKind:'weekly-sauce', weeklySauce:sauce, dishes:[] })),
+          ...prepBatches.filter(batch => ['sauce','topping'].includes(batch.type)).map((batch,index) => ticket(`prep:sauce:${batch.dish}:${batch.name}:${index}`,`Prepare ${batch.dish}: ${batch.name}`,{ ticketKind:'prep-batch', prepBatch:batch, dishes:[batch.dish] })),
+        ]),
+        prepPhase('produce','4. Wash, cut, and kit produce','Pull produce once, then divide it into labeled dish kits before raw-protein work.',[
+          ticket('prep:produce:pull','Wash, cut, and divide the full produce pull',{ ticketKind:'produce-pull', dishes:[] }),
+          ...prepBatches.filter(batch => batch.type === 'side').map((batch,index) => ticket(`prep:side:${batch.dish}:${batch.name}:${index}`,`Prepare side: ${batch.dish} - ${batch.name}`,{ ticketKind:'prep-batch', prepBatch:batch, dishes:[batch.dish] })),
+        ]),
+        prepPhase('proteins','5. Season, split, and marinate proteins','Handle compatible chicken together, then separate every dish into a labeled bowl.',[
+          ...(componentPlan.seasoningGroups || []).map((group,index) => ticket(`prep:seasoning:${index}`,`Season the ${group.name} and divide it into labeled dish bowls`,{ ticketKind:'seasoning-group', seasoningGroup:group, dishes:group.allocations.map(item => item.dish) })),
+          ...prepBatches.filter(batch => batch.type === 'marinade').map((batch,index) => ticket(`prep:marinade:${batch.dish}:${batch.name}:${index}`,`Build distinct marinade: ${batch.dish} - ${batch.name}`,{ ticketKind:'prep-batch', prepBatch:batch, dishes:[batch.dish] })),
+        ]),
+        prepPhase('rice','6. Cook, divide, and rapid-cool rice','Combine only identical bases, then record the finished yield and cooling checkpoints.',(componentPlan.rice || []).length
+          ? componentPlan.rice.map((item,index) => ticket(`prep:rice:${item.dish}:${index}`,`Cook and cool the rice for ${item.dish}`,{ ticketKind:'rice', riceItem:item, dishes:[item.dish] }))
+          : [ticket('prep:rice:none','Confirm that no rice batch is required',{ ticketKind:'empty', dishes:[] })]),
+        prepPhase('labels','7. Print labels and close prep day','Friday starts with measured kits, labeled containers, and a reconciled cold room.',[
+          ticket('prep:labels','Print, count, and apply the customer label plan',{ ticketKind:'labels', labelPlan, dishes:grouped.map(group => group.name) }),
+        ]),
+      ];
+
+      const hotGroups = grouped.filter(group => !/^d/.test(group.id));
+      const breakfast = hotGroups.filter(group => /^b/.test(group.id));
+      const remaining = hotGroups.filter(group => !/^b/.test(group.id));
+      const chicken = remaining.filter(group => /chicken|poultry/i.test(cookModeMethodText(group)));
+      const beef = remaining.filter(group => !chicken.includes(group) && /beef|steak|seekh|meatball|bulgogi/i.test(cookModeMethodText(group)));
+      const other = remaining.filter(group => !chicken.includes(group) && !beef.includes(group));
+      const cookTicket = group => ticket(`cook:dish:${group.id}`,`Cook ${group.name} as one controlled batch`,{ ticketKind:'dish', detailMode:'recipe', dishId:group.id, dishes:[group.name], release:'Record the endpoint, finished yield, and destination pan before starting the next batch.' });
+      const assemblyTicket = group => ticket(`assemble:${group.id}`,`Assemble and reconcile ${group.name}`,{ ticketKind:'dish', detailMode:'assembly', dishId:group.id, dishes:[group.name], release:'Lean and Bulk container counts match the production target.' });
+      const cookPhase = (sourceIndex, phaseKey, title, reason, tickets) => ({ sourceIndex, phaseKey, title, reason, tasks:tickets, dishes:tickets.flatMap(item => item.dishes || []), phaseDay:'cook', phaseDayLabel:'Cook Day' });
+      const nonEmptyLine = (groups, emptyId, emptyCopy) => groups.length ? groups.map(cookTicket) : [ticket(emptyId,emptyCopy,{ticketKind:'empty',dishes:[]})];
+      const cookPhases = [
+        cookPhase(0,'cook-start','1. Open the kitchen','Lock the plan, preheat equipment, and create clear hot, cold, and cooling lanes.',[
+          ticket('cook:start','Preheat, stage scales and pans, verify counts, and pull only the first labeled batch',{ ticketKind:'startup', dishes:hotGroups.map(group => group.name), instructions:workflow.cookStages[0]?.tasks || [], release:workflow.cookStages[0]?.release || '' }),
+        ]),
+        cookPhase(2,'cook-breakfast','2. Breakfast line','Run each breakfast recipe as its own measured batch.',nonEmptyLine(breakfast,'cook:breakfast:none','Confirm that no breakfast production is required')),
+        cookPhase(3,'cook-chicken','3. Chicken line','Cook every labeled chicken bowl separately and release its yield before moving on.',nonEmptyLine(chicken,'cook:chicken:none','Confirm that no chicken production is required')),
+        cookPhase(4,'cook-beef','4. Beef and formed-protein line','Keep steak, ground beef, meatballs, and formed products as distinct controlled batches.',nonEmptyLine(beef,'cook:beef:none','Confirm that no beef production is required')),
+        cookPhase(5,'cook-other','5. Seafood and remaining hot line','Complete the remaining recipes without duplicating dishes already finished above.',nonEmptyLine(other,'cook:other:none','Confirm that no additional hot-line production is required')),
+        cookPhase(7,'cook-assembly','6. Assembly by dish and tier','Build one SKU at a time: Lean first, reset the line, then Bulk.',hotGroups.map(assemblyTicket)),
+        cookPhase(8,'cook-packout','7. Customer pack-out','Pack and verify one complete customer order before opening the next bag.',activeOrders().map((order,index) => ticket(`pack:${CORE.orderKey(order)}:${index}`,`Pack and verify ${order.customer}`,{ ticketKind:'packout', order, dishes:(order.items || []).map(item => item.name), release:'Every ordered meal, dessert, sauce, and customer note is reconciled before the bag closes.' }))),
+      ];
+      return [...prepPhases,...cookPhases].filter(phase => phase.tasks.length);
+    }
+
+    function renderCookMode(counts, preserveIndex = false) {
+      const workflow = CORE.buildWorkflow(counts, METHODS, currentWorkflowResources());
+      const componentPlan = CORE.componentPlan(counts, DATA, METHODS, currentBuffer());
+      const phases = buildCookModePhases(counts, workflow, componentPlan).map((phase,phaseIndex) => ({ ...phase, sourceIndex:phase.sourceIndex ?? phaseIndex }));
+      const tasks = phases.flatMap((phase, phaseIndex) => phase.tasks.map((taskItem, taskIndex) => ({
+        ...taskItem, phaseIndex, taskIndex, phaseTitle:phase.title, phaseReason:phase.reason,
+        phaseDay:phase.phaseDay, phaseDayLabel:phase.phaseDayLabel, phaseKey:phase.phaseKey,
+        sourceIndex:phase.sourceIndex, completed:phase.completed,
+        dishes:taskItem.dishes || [], release:taskItem.release || phase.release || '',
+      })));
+      state.cookMode.workflow = workflow;
+      state.cookMode.phases = phases;
+      state.cookMode.tasks = tasks;
+      state.cookMode.counts = counts;
+      if (!preserveIndex) state.cookMode.index = restoreCookModeProgress(tasks);
+      else state.cookMode.index = Math.min(state.cookMode.index, Math.max(0,tasks.length - 1));
+      paintCookMode();
+    }
+
+    function cookModeGroups(current) {
+      const relevant = new Set(current.dishes || []);
+      const hasDishFilter = Array.isArray(current.dishes);
+      return Object.values(state.cookMode.counts.reduce((map,count) => {
+        if (hasDishFilter && !relevant.has(count.name)) return map;
+        (map[count.id] ||= { id:count.id, name:count.name, counts:[] }).counts.push(count);
+        return map;
+      }, {})).map(group => ({ ...group, method:METHODS.meals[group.id] }))
+        .sort((a,b) => (a.method?.phase || 99) - (b.method?.phase || 99) || (a.method?.order || 99) - (b.method?.order || 99));
+    }
+
+    function cookQuickField(key, label, options = {}) {
+      const help = options.help ? `<small>${esc(options.help)}</small>` : '';
+      return `<label>${esc(label)}<input type="${options.type || 'number'}" min="0" step="${options.step || '1'}" data-cook-log-key="${esc(key)}">${help}</label>`;
+    }
+
+    function cookCountBoard(groups, planByKey) {
+      return `<div class="cook-count-board">${groups.map(group => {
+        const lines = group.counts.map(count => {
+          const plan = planByKey.get(countKey(count.id,count.tier));
+          return `${tierLabel(count.tier)}: ${plan.customer} customer / ${plan.total} planned`;
+        }).join(' | ');
+        return `<div class="cook-count-chip"><strong>${esc(group.name)}</strong><span>${esc(lines)}</span></div>`;
+      }).join('')}</div>`;
+    }
+
+    function cookModePackout() {
+      const orders = activeOrders();
+      if (!orders.length) return '<div class="cook-checkpoint"><strong>No imported customer orders.</strong> Use the Customer staging tab after orders are synced.</div>';
+      return `<div class="cook-count-board">${orders.map(order => {
+        const items = (order.items || []).map(item => `${item.qty}x ${item.name} (${tierLabel(item.tier)})`).join(', ');
+        return `<div class="cook-count-chip"><strong>${esc(order.customer)}</strong><span>${esc(items)}</span>${order.notes ? `<span>Note: ${esc(order.notes)}</span>` : ''}</div>`;
+      }).join('')}</div>`;
+    }
+
+    function cookModeSinglePackout(order) {
+      if (!order) return '<div class="cook-checkpoint"><strong>No customer order is attached to this ticket.</strong></div>';
+      const items = (order.items || []).map(item => `<li><strong>${esc(String(item.qty))}x ${esc(item.name)}</strong> - ${esc(tierLabel(item.tier))}</li>`).join('');
+      return `<article class="cook-pack-ticket"><div class="cook-pack-head"><div><span>Customer bag</span><h3>${esc(order.customer)}</h3></div><strong>${(order.items || []).reduce((sum,item) => sum + Number(item.qty || 0),0)} containers</strong></div><ol>${items || '<li>No parsed items are attached.</li>'}</ol>${order.notes ? `<div class="cook-checkpoint"><strong>Customer note:</strong> ${esc(order.notes)}</div>` : ''}</article>`;
+    }
+
+    function cookModeDishCard(group, context, cardIndex) {
+      const { planByKey, componentPlan, mode = 'recipe', openFirst = true } = context;
+      const method = group.method;
+      const customerCount = group.counts.reduce((sum,count) => sum + count.qty, 0);
+      const targetCount = group.counts.reduce((sum,count) => sum + (planByKey.get(countKey(count.id,count.tier))?.total || 0), 0);
+      const countText = group.counts.map(count => {
+        const plan = planByKey.get(countKey(count.id,count.tier));
+        return `${tierLabel(count.tier)} ${plan.customer}`;
+      }).join(' + ');
+      const proteins = componentPlan.proteins.filter(item => item.dishId === group.id);
+      const rice = componentPlan.rice.filter(item => item.dish === group.name);
+      const rawProtein = proteins.reduce((sum,item) => sum + item.bufferedAmount, 0);
+      const cookedProtein = proteins.reduce((sum,item) => sum + item.expectedCookedAmount, 0);
+      const dryRice = rice.reduce((sum,item) => sum + item.bufferedAmount, 0);
+      const cookedRice = rice.reduce((sum,item) => sum + item.expectedCookedAmount, 0);
+      const metrics = [
+        ['Customer meals', customerCount],
+        ['Finished target', targetCount],
+        rawProtein ? ['Raw protein', dualAmount({unit:'g'},rawProtein,true)] : null,
+        cookedProtein ? ['Expected cooked', dualAmount({unit:'g'},cookedProtein)] : null,
+        dryRice ? ['Dry rice', dualAmount({unit:'g'},dryRice,true)] : null,
+        cookedRice ? ['Expected rice', dualAmount({unit:'g'},cookedRice)] : null,
+      ].filter(Boolean).map(([label,value]) => `<div class="cook-plan-metric"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join('');
+      const quickLog = `<div class="cook-quick-log"><h4>Record actuals before release</h4><div class="cook-quick-grid">${cookQuickField(`dish:${group.id}:actual-raw-protein-g`,'Raw protein / starting mix (g)',{step:'0.1',help:rawProtein ? `Plan ${Math.round(rawProtein)} g` : 'Use when applicable'})}${cookQuickField(`dish:${group.id}:actual-cooked-protein-g`,'Cooked protein / finished mix (g)',{step:'0.1',help:cookedProtein ? `Plan ${Math.round(cookedProtein)} g` : 'Use when applicable'})}${cookQuickField(`dish:${group.id}:actual-dry-starch-g`,'Dry starch (g)',{step:'0.1',help:dryRice ? `Plan ${Math.round(dryRice)} g rice` : 'Use when applicable'})}${cookQuickField(`dish:${group.id}:actual-cooked-starch-g`,'Cooked starch (g)',{step:'0.1',help:cookedRice ? `Plan ${Math.round(cookedRice)} g rice` : 'Use when applicable'})}${cookQuickField(`dish:${group.id}:endpoint-f`,'Endpoint (F)',{step:'0.1'})}${cookQuickField(`dish:${group.id}:containers-produced`,'Containers produced',{help:`Target ${targetCount}`})}</div></div>`;
+      if (mode === 'assembly') {
+        const tierBuilds = group.counts.map(count => {
+          const build = DATA.meals[group.id]?.tiers[count.tier];
+          const plan = planByKey.get(countKey(count.id,count.tier));
+          const ingredients = build?.ingredients?.map(item => `${formatAmount(item.amount,item.unit)} ${item.name}`).join('; ') || 'Missing per-container build';
+          return `<li><strong>${tierLabel(count.tier)} x${plan.total}:</strong> ${esc(ingredients)}</li>`;
+        }).join('');
+        return `<details class="cook-dish-detail"${openFirst && cardIndex === 0 ? ' open' : ''}><summary><span class="cook-dish-title"><strong>${esc(group.name)}</strong><span>${esc(countText)} | ${targetCount} containers</span></span></summary><div class="cook-dish-body"><div class="cook-plan-metrics">${metrics}</div><div class="cook-plate-line"><strong>Assembly:</strong> ${esc(method?.plating || 'Use the audited per-container build below.')}</div><h4>Per-container builds</h4><ul>${tierBuilds}</ul>${quickLog}</div></details>`;
+      }
+      if (!method) return `<article class="cook-checkpoint"><strong>${esc(group.name)}:</strong> No controlled method is saved. Stop production for this dish.</article>`;
+      const batch = CORE.ingredientTotals(group.counts, DATA, currentBuffer()).totals.sort((a,b) => a.station.localeCompare(b.station) || a.name.localeCompare(b.name));
+      const byKey = Object.fromEntries(batch.map(item => [item.key,item]));
+      const ingredientLines = batch.map(item => `<li><strong>${esc(dualAmount(item,item.bufferedAmount,true))}</strong> ${esc(item.name)}</li>`).join('');
+      const methodLines = method.steps.map((step,index) => {
+        const refs = (method.stepIngredients?.[index] || []).map(key => byKey[key]).filter(Boolean);
+        const measures = refs.length ? `<span class="step-measures">Use: ${refs.map(item => `${esc(dualAmount(item,item.bufferedAmount,true))} ${esc(item.name)}`).join(' | ')}</span>` : '';
+        return `<li>${esc(step)}${measures}</li>`;
+      }).join('');
+      const recipe = mode === 'recipe' ? `<div class="cook-inline-columns"><div><h4>Exact scaled ingredients</h4><ul>${ingredientLines}</ul></div><div><h4>Step-by-step method</h4><ol>${methodLines}</ol></div></div>` : '';
+      return `<details class="cook-dish-detail"${openFirst && cardIndex === 0 ? ' open' : ''}><summary><span class="cook-dish-title"><strong>${esc(group.name)}</strong><span>${esc(countText)} | ${targetCount} finished</span></span></summary><div class="cook-dish-body"><div class="cook-plan-metrics">${metrics}</div>${recipe}<div class="cook-plate-line"><strong>Plate:</strong> ${esc(method.plating)}<br><strong>Hold / verify:</strong> ${esc(method.hold)}</div>${quickLog}</div></details>`;
+    }
+
+    function cookModePrepBatchCard(batch, cardIndex) {
+      const ingredients = (batch.ingredients || []).map(item => `<li><strong>${esc(dualAmount(item,item.bufferedAmount,true))}</strong> ${esc(item.name)}</li>`).join('');
+      const gaps = batch.unmeasured?.length ? `<div class="cook-checkpoint"><strong>Measure before scaling:</strong> ${esc(batch.unmeasured.join(' '))}</div>` : '';
+      const tierText = batch.displayText || String(batch.tiers || '').split(' + ').map(tierLabel).join(' + ');
+      return `<details class="cook-prep-card"${cardIndex === 0 ? ' open' : ''}><summary><div><h4>${esc(batch.dish)}: ${esc(batch.name)}</h4><span>${esc(tierText)}</span></div></summary><div class="cook-prep-card-body"><p><strong>Do:</strong> ${esc(batch.instruction || 'Prepare, label, and hold this component for its recipe card.')}</p><ul>${ingredients || '<li>No measured ingredient line is available.</li>'}</ul>${gaps}</div></details>`;
+    }
+
+    function cookModePrepDetail(current, groups, planByKey, componentPlan) {
+      const section = (title, copy, body) => `<section class="cook-mode-detail"><div class="cook-mode-detail-head"><div><h3>${esc(title)}</h3><p>${esc(copy)}</p></div></div>${body}</section>`;
+      if (current.phaseKey === 'reconcile') {
+        return section('Lock the production counts first', 'These numbers control every recipe below.', cookCountBoard(groups,planByKey));
+      }
+      if (current.phaseKey === 'labels') {
+        const labelPlan = current.labelPlan || { rows:[] };
+        const cards = labelPlan.rows.map(row => `<div class="cook-count-chip"><strong>${esc(row.name)} - ${tierLabel(row.tier)}</strong><span>${row.labels} customer labels | print ${row.sheets} sheet${row.sheets === 1 ? '' : 's'} | ${row.spareLabels} spare</span></div>`).join('');
+        return section('Print and apply the customer labels', 'Only customer meals receive labels; exempt internal orders remain unlabeled.', `<div class="cook-count-board">${cards || '<div class="cook-checkpoint">No customer labels are required.</div>'}</div>`);
+      }
+      if (current.phaseKey === 'desserts') {
+        return section('Dessert recipes', 'Make these first so they receive their full chill time. The first recipe is already open.', `<div class="cook-dish-stack">${groups.map((group,index) => cookModeDishCard(group,{planByKey,componentPlan,mode:'recipe'},index)).join('') || '<div class="cook-checkpoint">No desserts are ordered.</div>'}</div>`);
+      }
+      if (current.phaseKey === 'sauces') {
+        let batch = current.prepBatch;
+        if (current.weeklySauce) batch = {
+          dish:'Shared weekly sauce', displayText:`${current.weeklySauce.totalCups} cup-equivalents`, name:current.weeklySauce.name,
+          instruction:current.weeklySauce.steps.join(' '), ingredients:current.weeklySauce.ingredients.map(item => ({ ...item, bufferedAmount:item.totalGrams, unit:'g' })), unmeasured:[],
+        };
+        return section('Current sauce batch', 'Measure, mix, portion, count, and refrigerate this batch before advancing.', `<div class="cook-prep-stack">${batch ? cookModePrepBatchCard(batch,0) : '<div class="cook-checkpoint">No sauce batch is attached to this ticket.</div>'}</div>`);
+      }
+      if (current.phaseKey === 'produce') {
+        if (current.prepBatch) return section('Current side batch', 'Prepare and hold this side in its labeled dish container.', `<div class="cook-prep-stack">${cookModePrepBatchCard(current.prepBatch,0)}</div>`);
+        const produce = componentPlan.produce.map(item => `<li><strong>${esc(dualAmount(item,item.bufferedAmount,true))}</strong> ${esc(item.name)}</li>`).join('');
+        return section('Full produce pull', 'Wash everything first, then divide it into labeled dish kits before raw-protein work.', `<div class="cook-prep-stack"><details class="cook-prep-card" open><summary><div><h4>Produce to pull</h4><span>Wash before raw-protein work</span></div></summary><div class="cook-prep-card-body"><ul>${produce || '<li>No produce is required.</li>'}</ul></div></details></div>`);
+      }
+      if (current.phaseKey === 'proteins') {
+        if (current.prepBatch) return section('Current distinct marinade', 'Measure this recipe separately; do not add it to the compatible chicken base.', `<div class="cook-prep-stack">${cookModePrepBatchCard(current.prepBatch,0)}</div>`);
+        const seasoningCards = [current.seasoningGroup].filter(Boolean).map((group,index) => {
+          const base = group.baseSeasoning.map(item => `<li><strong>${esc(String(item.grams))} g</strong> ${esc(item.name)}</li>`).join('');
+          const splits = group.allocations.map(item => {
+            const finish = item.finishSeasoning.length ? item.finishSeasoning.map(spice => `${spice.grams} g ${spice.name}`).join(' + ') : 'No additional dry seasoning';
+            return `<li><strong>${esc(item.dish)}:</strong> ${esc(dualAmount(item,item.bufferedAmount,true))}; then ${esc(finish)}. ${esc(item.finishNote)}</li>`;
+          }).join('');
+          return `<details class="cook-prep-card"${index === 0 ? ' open' : ''}><summary><div><h4>${esc(group.name)}</h4><span>${esc(dualAmount({unit:'g'},group.totalRaw,true))} compatible raw chicken</span></div></summary><div class="cook-prep-card-body"><p>${esc(group.note)}</p><h4>Season the combined batch with</h4><ul>${base}</ul><h4>Then divide into labeled bowls</h4><ul>${splits}</ul></div></details>`;
+        }).join('');
+        return section('Compatible protein seasoning ticket', 'Season the combined base once, record it, then divide it into the exact labeled dish bowls below.', `<div class="cook-prep-stack">${seasoningCards || '<div class="cook-checkpoint">No seasoning group is attached to this ticket.</div>'}</div>`);
+      }
+      if (current.phaseKey === 'rice') {
+        const item = current.riceItem;
+        const riceCard = item ? `<details class="cook-prep-card" open><summary><div><h4>${esc(item.dish)}</h4><span>${esc(String(item.tiers || '').split(' + ').map(tierLabel).join(' + '))}</span></div></summary><div class="cook-prep-card-body"><div class="cook-plan-metrics"><div class="cook-plan-metric"><span>Dry rice</span><strong>${esc(dualAmount(item,item.bufferedAmount,true))}</strong></div><div class="cook-plan-metric"><span>Expected cooked</span><strong>${esc(dualAmount(item,item.expectedCookedAmount))}</strong></div></div><p>Cook with only a truly identical base, divide into the labeled dish pan, rapid-cool under the commercial-kitchen procedure, and record actual cooked yield.</p></div></details>` : '<div class="cook-checkpoint">No rice batch is attached to this ticket.</div>';
+        return section('Current rice batch', 'Complete and record this allocation before advancing to the next rice build.', `<div class="cook-prep-stack">${riceCard}</div>`);
+      }
+      return '';
+    }
+
+    function cookModePhaseDetail(current) {
+      const counts = state.cookMode.counts;
+      const groups = cookModeGroups(current);
+      const buffer = currentBuffer();
+      const planByKey = new Map(CORE.productionPlan(counts, buffer).map(item => [countKey(item.id,item.tier),item]));
+      const componentPlan = CORE.componentPlan(counts, DATA, METHODS, buffer);
+      if (current.phaseDay === 'prep') return cookModePrepDetail(current,groups,planByKey,componentPlan);
+      if (current.sourceIndex === 0) {
+        const checklist = (current.instructions || []).map(item => `<li>${esc(item)}</li>`).join('');
+        const passive = state.cookMode.workflow.parallelBlocks.filter(block => block.primary.length);
+        const passivePlan = passive.length ? `<div class="cook-start-checklist"><h4>Passive equipment launch order</h4><ol>${passive.map(block => `<li><strong>${esc(block.title)}:</strong> ${esc(block.primary.join(', '))}${block.estimatedMinutes ? `, about ${esc(String(block.estimatedMinutes))} minutes` : ''}${block.while.length ? `<br>While it runs: ${esc(block.while.join(', '))}` : ''}</li>`).join('')}</ol></div>` : '';
+        return `<section class="cook-mode-detail"><div class="cook-mode-detail-head"><div><h3>Cook-day opening ticket</h3><p>Do not begin cooking until this board is released.</p></div></div>${cookCountBoard(groups,planByKey)}<div class="cook-start-checklist"><h4>Open the shift in this order</h4><ol>${checklist}</ol></div>${passivePlan}</section>`;
+      }
+      if (current.sourceIndex === 8) return `<section class="cook-mode-detail"><div class="cook-mode-detail-head"><div><h3>Current customer bag</h3><p>Mark every item as it enters this bag, then close it before starting another customer.</p></div></div>${cookModeSinglePackout(current.order)}</section>`;
+      if (!groups.length) return '';
+      const mode = current.sourceIndex === 7 ? 'assembly' : current.sourceIndex === 6 ? 'measure' : 'recipe';
+      const titles = {
+        1:'Oven and passive-equipment recipes',
+        2:'Breakfast recipes',
+        3:'Chicken recipes',
+        4:'Beef and steak recipes',
+        5:'Seafood and remaining hot-line recipes',
+        6:'Yield checks by dish',
+        7:'Assembly builds and portions',
+      };
+      const copy = mode === 'assembly' ? 'Complete Lean first, reset the line, then complete Bulk.' : mode === 'measure' ? 'Record the real yields and resolve shortages before assembly starts.' : 'The exact scaled ingredients and full method are directly below. The first recipe is already open.';
+      return `<section class="cook-mode-detail"><div class="cook-mode-detail-head"><div><h3>${esc(titles[current.sourceIndex] || 'Recipes for this phase')}</h3><p>${esc(copy)}</p></div></div><div class="cook-dish-stack">${groups.map((group,index) => cookModeDishCard(group,{planByKey,componentPlan,mode},index)).join('')}</div></section>`;
+    }
+
+    function bindCookModeQuickInputs() {
+      document.querySelectorAll('[data-cook-log-key]').forEach(input => {
+        const key = input.dataset.cookLogKey;
+        input.value = state.cookLog.fields[key] ?? '';
+        input.addEventListener('input', () => {
+          state.cookLog.fields[key] = String(input.value ?? '');
+          document.querySelectorAll('[data-log-key]').forEach(logInput => {
+            if (logInput.dataset.logKey === key) logInput.value = input.value;
+          });
+          const prefix = key.match(/^(dish:[^:]+)/)?.[1];
+          if (prefix) updateDishYield(prefix);
+          scheduleCookLogSave();
+        });
+        input.addEventListener('change', scheduleCookLogSave);
+      });
+    }
+
+    function paintCookMode() {
+      const root = $('cookModeContent');
+      const tasks = state.cookMode.tasks;
+      if (!tasks.length) { root.className='cook-mode-empty'; root.textContent='No production tasks are required for the selected counts.'; return; }
+      const index = state.cookMode.index;
+      const current = tasks[index];
+      const next = tasks[index + 1];
+      const previous = tasks[index - 1];
+      const dayTasks = tasks.filter(item => item.phaseDay === current.phaseDay);
+      const dayTaskIndex = dayTasks.indexOf(current);
+      const progress = Math.round(((dayTaskIndex + 1) / dayTasks.length) * 100);
+      const dayPhases = state.cookMode.phases.filter(phase => phase.phaseDay === current.phaseDay);
+      const phases = dayPhases.map((phase, dayPhaseIndex) => {
+        const phaseIndex = state.cookMode.phases.indexOf(phase);
+        const phaseLast = tasks.findLastIndex(item => item.phaseIndex === phaseIndex);
+        const cls = phaseIndex === current.phaseIndex ? 'active' : phase.completed || phaseLast < index ? 'done' : '';
+        return `<button class="phase-pill ${cls}" type="button" data-cook-phase="${phaseIndex}">${esc(String(dayPhaseIndex + 1))}. ${esc(phase.title.replace(/^\d+\.\s*/,''))}</button>`;
+      }).join('');
+      const phaseTasks = tasks.filter(item => item.phaseIndex === current.phaseIndex);
+      const phaseDetail = cookModePhaseDetail(current);
+      const renderActionCard = (item, phaseTaskIndex) => {
+        const taskIndex = tasks.indexOf(item);
+        const isCurrent = taskIndex === index;
+        const isDone = taskIndex < index;
+        if (!isCurrent) {
+          const cls = isDone ? 'done' : 'upcoming';
+          const stateLabel = isDone ? 'Done' : 'Later';
+          return `<button type="button" class="cook-action-card ${cls}" data-cook-task-index="${taskIndex}"><span class="cook-action-card-head"><span class="cook-action-number">${isDone ? '&#10003;' : esc(String(phaseTaskIndex + 1))}</span><h3>${esc(item.task)}</h3><span class="cook-action-state">${stateLabel}</span></span></button>`;
+        }
+        return `<article class="cook-action-card current"><span class="cook-task-label">Active job ticket</span><div class="cook-action-card-head"><span class="cook-action-number">${esc(String(phaseTaskIndex + 1))}</span><span class="cook-action-state">Work on this only</span></div><h3>${esc(item.task)}</h3>${item.dishes.length ? `<p class="cook-action-context"><strong>Applies to:</strong> ${esc(item.dishes.join(', '))}</p>` : ''}${item.release ? `<div class="cook-checkpoint"><strong>Complete this ticket when:</strong> ${esc(item.release)}</div>` : ''}<div class="cook-task-actions"><button class="btn" type="button" id="cookPrev" ${previous ? '' : 'disabled'}>Back</button><button class="btn primary" type="button" id="cookNext" ${next ? '' : 'disabled'}>${next ? 'Complete ticket - show next' : 'Production complete'}</button></div></article>`;
+      };
+      const currentPhaseTaskIndex = phaseTasks.indexOf(current);
+      const currentActionCard = renderActionCard(current, currentPhaseTaskIndex);
+      const queueItems = tasks.slice(index,index + 3);
+      const queueLabels = ['Now','Next','Later'];
+      const queueStrip = `<nav class="cook-queue-strip" aria-label="Kitchen work queue">${queueItems.map((item,queueIndex) => `<button type="button" class="cook-queue-ticket${queueIndex === 0 ? ' current' : ''}" data-cook-task-index="${tasks.indexOf(item)}"><span>${queueLabels[queueIndex]}</span><strong>${esc(item.task)}</strong></button>`).join('')}</nav>`;
+      const otherActionDeck = phaseTasks
+        .map((item, phaseTaskIndex) => ({ item, phaseTaskIndex }))
+        .filter(entry => entry.item !== current)
+        .map(entry => renderActionCard(entry.item, entry.phaseTaskIndex))
+        .join('');
+      const otherActions = otherActionDeck ? `<details class="card cook-reference-drawer cook-other-actions"><summary><span><strong>Other steps in this phase</strong><span>Open only when you need to review or jump to another step.</span></span></summary><div class="cook-reference-body"><section class="cook-action-deck compact" aria-label="Other phase actions">${otherActionDeck}</section></div></details>` : '';
+      const daySwitch = ['prep','cook'].map(day => {
+        const active = current.phaseDay === day ? ' active' : '';
+        const label = day === 'prep' ? 'Prep Day' : 'Cook Day';
+        const note = day === 'prep' ? 'Desserts, sauces, produce, marinades, rice, labels' : 'Equipment, breakfast, chicken, beef, sides, assembly';
+        return `<button class="cook-day-btn${active}" type="button" data-cook-day="${day}">${label}<span>${note}</span></button>`;
+      }).join('');
+      root.className='';
+      root.innerHTML = `<div class="cook-simple-shell"><div class="cook-day-switch">${daySwitch}</div><div class="phase-pills">${phases}</div><article class="card cook-mode-hero compact"><p class="eyebrow">${esc(current.phaseDayLabel)} | Ticket ${dayTaskIndex + 1} of ${dayTasks.length}</p><h2>${esc(current.phaseTitle)}</h2><p>${esc(current.phaseReason)}</p><div class="cook-progress"><span style="width:${progress}%"></span></div><small>${progress}% through ${esc(current.phaseDayLabel)}</small></article>${queueStrip}<section class="cook-action-deck" aria-label="Current action">${currentActionCard}</section>${phaseDetail ? `<section class="cook-live-reference" aria-label="Recipe and quantities for the active ticket">${phaseDetail}</section>` : ''}${otherActions}<div class="cook-tool-row"><button class="btn" type="button" id="cookRecipe">Full printable Runbook</button><button class="btn" type="button" id="cookLogJump">Full Cook Log</button></div></div>`;
+      document.querySelectorAll('[data-cook-day]').forEach(button => button.addEventListener('click', () => {
+        const day = button.dataset.cookDay;
+        const remembered = Number(state.cookMode.lastByDay[day]);
+        const rememberedTask = tasks[remembered];
+        const target = rememberedTask?.phaseDay === day ? remembered : tasks.findIndex(item => item.phaseDay === day);
+        if (target >= 0) { state.cookMode.index=target; saveCookModeProgress(); paintCookMode(); }
+      }));
+      document.querySelectorAll('[data-cook-phase]').forEach(button => button.addEventListener('click', () => {
+        const targetPhase = Number(button.dataset.cookPhase);
+        const target = tasks.findIndex(item => item.phaseIndex === targetPhase);
+        if (target >= 0) { state.cookMode.index=target; saveCookModeProgress(); paintCookMode(); }
+      }));
+      document.querySelectorAll('[data-cook-task-index]').forEach(button => button.addEventListener('click', () => {
+        state.cookMode.index=Number(button.dataset.cookTaskIndex); saveCookModeProgress(); paintCookMode();
+      }));
+      $('cookPrev').addEventListener('click', () => { state.cookMode.index=Math.max(0,index-1); saveCookModeProgress(); paintCookMode(); });
+      $('cookNext').addEventListener('click', () => { state.cookMode.index=Math.min(tasks.length-1,index+1); saveCookModeProgress(); paintCookMode(); });
+      $('cookRecipe').addEventListener('click', () => { activateView('runbook'); document.getElementById('runbook-recipes')?.scrollIntoView({behavior:'smooth'}); });
+      $('cookLogJump').addEventListener('click', () => { activateView('cooklog'); document.querySelector('[data-panel="cooklog"]')?.scrollIntoView({behavior:'smooth'}); });
+      bindCookModeQuickInputs();
+    }
+
+    function renderMetrics(summary) {
+      const metrics = [
+        ['Customers', summary.customers || '-'], ['Orders', summary.orders || '-'],
+        ['Customer meals', summary.meals], ['Finished production', summary.productionMeals],
+        ['Raw-protein reserve', `${Number(currentBuffer().rawProteinBufferPct) || 0}%`], ['Labels', summary.labels],
+      ];
+      $('metrics').innerHTML = metrics.map(([label,value]) => `<div class="metric"><span>${label}</span><strong>${value}</strong></div>`).join('');
+    }
+
+    function renderWarnings(counts) {
+      const warnings = [...state.warnings];
+      const importedCounts = new Map(CORE.aggregateCounts(activeOrders()).map(item => [countKey(item.id,item.tier), item.qty]));
+      const finalCounts = new Map(counts.map(item => [countKey(item.id,item.tier), item.qty]));
+      const changedLines = new Set([...importedCounts.keys(), ...finalCounts.keys()]);
+      const overrideCount = [...changedLines].filter(key => (importedCounts.get(key) || 0) !== (finalCounts.get(key) || 0)).length;
+      if (overrideCount) warnings.push(`Final dish counts contain ${overrideCount} manual override${overrideCount === 1 ? '' : 's'} beyond the included customer orders.`);
+      counts.forEach(count => {
+        const meal = DATA.meals[count.id];
+        if (!meal) return;
+        if (/draft|unresolved|untested/i.test(meal.status)) warnings.push(`${meal.name}: ${meal.status}. ${meal.recommendation}`);
+      });
+      warnings.push('Version 1 does not claim exact task durations. Record real start/finish times this cook day.');
+      $('warnings').innerHTML = `<strong>Review before production</strong><ul>${Array.from(new Set(warnings)).map(item => `<li>${esc(item)}</li>`).join('')}</ul>`;
+    }
+
+    function renderCounts(counts) {
+      const planByKey = new Map(CORE.productionPlan(counts, currentBuffer()).map(item => [countKey(item.id,item.tier), item]));
+      $('countRows').innerHTML = counts.map(count => {
+        const meal = DATA.meals[count.id];
+        const yieldPlan = planByKey.get(countKey(count.id,count.tier));
+        return `<tr><td><strong>${esc(count.name)}</strong></td><td>${tierLabel(count.tier)}</td><td class="amount">${yieldPlan.customer}</td><td class="amount"><strong>${yieldPlan.total}</strong></td><td>${esc(meal?.status || 'Missing')}</td></tr>`;
+      }).join('');
+    }
+
+    function renderRunbook(counts) {
+      const totalMeals = counts.reduce((sum,item) => sum + item.qty, 0);
+      const grouped = Object.values(counts.reduce((map,count) => {
+        (map[count.id] ||= { id: count.id, name: count.name, counts: [] }).counts.push(count);
+        return map;
+      }, {}));
+      const selectedMethods = grouped.map(group => ({ ...group, method: METHODS.meals[group.id] })).sort((a,b) => (a.method?.phase || 99) - (b.method?.phase || 99) || (a.method?.order || 99) - (b.method?.order || 99));
+      const buffer = currentBuffer();
+      const plannedCounts = CORE.productionPlan(counts, buffer);
+      const planByKey = new Map(plannedCounts.map(item => [countKey(item.id,item.tier), item]));
+      const productionMeals = plannedCounts.reduce((sum,item) => sum + item.total, 0);
+      const weeklySaucePlan = CORE.weeklySaucePlan(activeOrders(), currentSauceConfig());
+      const sideCups = Math.ceil(plannedCounts.reduce((sum,count) => sum + count.total * (METHODS.meals[count.id]?.sideCups || 0),0)) + weeklySaucePlan.totalPhysicalCups;
+      const sideBags = Math.ceil(plannedCounts.reduce((sum,count) => sum + count.total * (METHODS.meals[count.id]?.sideBags || 0),0));
+      const workflow = CORE.buildWorkflow(counts, METHODS, currentWorkflowResources());
+      const componentPlan = CORE.componentPlan(counts, DATA, METHODS, buffer);
+      const labelOrders = CORE.labelEligibleOrders(activeOrders(), METHODS.labelExemptCustomers);
+      componentPlan.labels = CORE.labelPlan(CORE.aggregateCounts(labelOrders), buffer, 4);
+      const planTierLabel = value => String(value || '').split(' + ').map(tierLabel).join(' + ');
+      const tableOrEmpty = (rows, columns, emptyText) => rows.length ? rows : `<tr><td colspan="${columns}" class="empty">${esc(emptyText)}</td></tr>`;
+      const labelRows = componentPlan.labels.rows.map(row => `<tr><td><strong>${esc(row.name)}</strong></td><td>${tierLabel(row.tier)}</td><td class="amount">${row.customer}</td><td class="amount">${row.labels}</td><td class="amount">${row.sheets}</td><td class="amount">${row.spareLabels}</td></tr>`).join('');
+      const proteinRows = componentPlan.proteinGroups.map(group => {
+        const allocations = group.allocations.map(item => `<strong>${esc(item.dish)}</strong> (${esc(planTierLabel(item.tiers))}): ${esc(dualAmount(item,item.bufferedAmount,true))}`).join('<br>');
+        return `<tr><td><strong>${esc(group.name)}</strong></td><td class="amount">${esc(dualAmount(group,group.bufferedAmount,true))}</td><td>${allocations}</td><td class="amount">${esc(dualAmount(group,group.expectedCookedAmount))}</td><td>${esc(group.yieldLabel)}</td></tr>`;
+      }).join('');
+      const proteinTotalRaw = componentPlan.proteinGroups.reduce((sum,item) => sum + item.bufferedAmount,0);
+      const proteinTotalCooked = componentPlan.proteinGroups.reduce((sum,item) => sum + item.expectedCookedAmount,0);
+      const riceRows = componentPlan.rice.map(item => `<tr><td><strong>${esc(item.dish)}</strong><br><span class="muted">${esc(planTierLabel(item.tiers))}</span></td><td class="amount">${esc(dualAmount(item,item.bufferedAmount,true))}</td><td class="amount">${esc(dualAmount(item,item.expectedCookedAmount))}</td><td>About 3x dry weight; record the actual finished yield.</td></tr>`).join('');
+      const produceRows = componentPlan.produce.map(item => `<tr><td><strong>${esc(item.name)}</strong></td><td class="amount">${esc(dualAmount(item,item.bufferedAmount,true))}</td><td>${esc(item.note || 'Wash, cut, and stage by the relevant recipe card.')}</td></tr>`).join('');
+      const prepBatchCard = batch => {
+        const ingredients = batch.ingredients.map(item => `<li><strong>${esc(dualAmount(item,item.bufferedAmount,true))}</strong> ${esc(item.name)}</li>`).join('');
+        const gaps = batch.unmeasured.length ? `<div class="measure-gap"><strong>Measure before scaling:</strong> ${esc(batch.unmeasured.join(' '))}</div>` : '';
+        return `<article class="card prep-batch"><span class="batch-type">${esc(batch.type)}</span><h4>${esc(batch.dish)}: ${esc(batch.name)}</h4><p>${esc(planTierLabel(batch.tiers))} | ${esc(batch.instruction)}</p><ul>${ingredients}</ul>${gaps}</article>`;
+      };
+      const prepBatchSection = (types, title) => {
+        const groupedTypes = Array.isArray(types) ? types : [types];
+        const batches = componentPlan.prepBatches.filter(batch => groupedTypes.includes(batch.type));
+        return batches.length ? `<div class="prep-phase"><h4>${esc(title)}</h4><div class="prep-batch-grid">${batches.map(prepBatchCard).join('')}</div></div>` : '';
+      };
+      const distinctMarinadeSection = prepBatchSection('marinade','2. Distinct marinades that stay separate');
+      const mixSection = prepBatchSection('mix','3. Batters and savory mixtures');
+      const dishSauceSection = prepBatchSection(['sauce','topping'],'5. Dish-specific sauces and toppings');
+      const dessertSection = prepBatchSection('dessert','6. Desserts');
+      const sideSection = prepBatchSection('side','7. Sides and cold components');
+      const weeklySauceCards = weeklySaucePlan.sauces.map(sauce => `<article class="card prep-batch"><span class="batch-type">weekly sauce</span><h4>${esc(sauce.name)}</h4><p>${sauce.customerCups} sealed customer cups + ${sauce.kitchenUseCups} kitchen-use cup-equivalents + ${sauce.qcCups} QC cup = <strong>${sauce.totalCups} cup-equivalents</strong> at ${esc(String(weeklySaucePlan.cupSizeOz))} oz / 60 g each. Only ${sauce.physicalCups} are filled into side cups. Estimated ${esc(String(sauce.estimatedCaloriesPerCup))} calories per 60 g.</p><ul>${sauce.ingredients.map(item => `<li><strong>${esc(dualAmount(item,item.totalGrams,true))}</strong> ${esc(item.name)}</li>`).join('')}</ul><ol>${sauce.steps.map(step => `<li>${esc(step)}</li>`).join('')}</ol></article>`).join('');
+      const weeklySauceSection = weeklySauceCards ? `<div class="prep-phase"><h4>4. Batch-wide weekly sauces</h4><div class="definition-callout"><strong>Allocation:</strong> ${esc(weeklySaucePlan.policy)} These are shared order sauces, not separate new sauces for every dish. Recipe-specific syrup, salsa, buffalo sauce, or other condiments remain in their own meal cards.</div><div class="prep-batch-grid">${weeklySauceCards}</div></div>` : '';
+      const seasoningCards = componentPlan.seasoningGroups.map(group => {
+        const base = group.baseSeasoning.map(item => `<li><strong>${esc(String(item.grams))} g</strong> ${esc(item.name)}</li>`).join('');
+        const splits = group.allocations.map(item => {
+          const finish = item.finishSeasoning.length ? item.finishSeasoning.map(spice => `${spice.grams} g ${spice.name}`).join(' + ') : 'No additional dry seasoning';
+          return `<tr><td><strong>${esc(item.dish)}</strong></td><td class="amount">${esc(dualAmount(item,item.bufferedAmount,true))}</td><td>${esc(finish)}</td><td>${esc(item.finishNote)}</td></tr>`;
+        }).join('');
+        return `<article class="card prep-batch"><span class="batch-type">master protein seasoning</span><h4>${esc(group.name)}</h4><p><strong>Combined compatible raw chicken: ${esc(dualAmount({unit:'g'},group.totalRaw,true))}</strong></p><p>${esc(group.note)}</p><h5>Season the full master batch with</h5><ul>${base}</ul><div class="table-wrap"><table><thead><tr><th>Labeled bowl</th><th>Raw chicken split</th><th>Add after splitting</th><th>Finish</th></tr></thead><tbody>${splits}</tbody></table></div></article>`;
+      }).join('');
+      const seasoningSection = seasoningCards ? `<div class="prep-phase"><h4>1. Master chicken seasoning, then labeled bowl splits</h4><div class="definition-callout"><strong>Do this once:</strong> combine only the compatible boneless chicken listed below, apply the complete base seasoning, then weigh and divide the chicken into the exact labeled bowls. Do not include butter chicken, peri-peri, or another recipe with a distinct marinade.</div><div class="prep-batch-grid">${seasoningCards}</div></div>` : '';
+      const prepPlans = `<section class="prep-plan" id="runbook-quantities"><h3>Thursday quantities at a glance</h3><p>These totals come from the same reviewed counts and structured recipes used by every card below.</p><div class="definition-callout"><strong>Production allowance:</strong> finished-meal counts match sold customer meals. Raw meat and poultry pulls include a pooled ${esc(String(Number(buffer.rawProteinBufferPct) || 0))}% reserve for normal trim and yield variation; rice, produce, packaging, and labels are not inflated.</div><div class="prep-plan-grid"><article class="card prep-plan-card wide"><h4>Customer label print plan (Avery 5168: 4 identical labels per sheet)</h4><p>Print labels only for customer meals that require PRPD labels.</p><div class="table-wrap"><table><thead><tr><th>Meal</th><th>Tier</th><th>Customer labels</th><th>Labels</th><th>Sheets to print</th><th>Unused labels</th></tr></thead><tbody>${labelRows}</tbody></table></div></article><article class="card prep-plan-card wide"><h4>Raw protein pull, labeled bowl split, and expected yield</h4><p>Pull each protein type as one total. Apply a shared base seasoning only when it is identical, then divide raw protein into the labeled dish bowls shown below before adding dish-specific marinades.</p><div class="table-wrap"><table><thead><tr><th>Protein group</th><th>Total raw pull</th><th>Divide into labeled raw bowls</th><th>Expected cooked</th><th>Control</th></tr></thead><tbody>${tableOrEmpty(proteinRows,5,'No meat or poultry pull is required.')}<tr><td><strong>All meat and poultry</strong></td><td class="amount"><strong>${esc(dualAmount({unit:'g'},proteinTotalRaw))}</strong></td><td>Keep protein types and dish marinades separated after the common pull.</td><td class="amount"><strong>${esc(dualAmount({unit:'g'},proteinTotalCooked))}</strong></td><td>Planning total only; actual yields control.</td></tr></tbody></table></div></article><article class="card prep-plan-card"><h4>Rice base cook and labeled split</h4><p>Cook compatible rice as one base batch, then immediately divide it into the labeled dish pans below and apply dish-specific finishes. Run a separate sub-batch when spices must cook with the rice.</p><div class="table-wrap"><table><thead><tr><th>Dish pan</th><th>Dry rice</th><th>Expected cooked</th><th>Yield note</th></tr></thead><tbody>${tableOrEmpty(riceRows,4,'No rice batch is required.')}<tr><td><strong>All rice</strong></td><td class="amount"><strong>${esc(dualAmount(componentPlan.riceTotal,componentPlan.riceTotal.bufferedAmount,true))}</strong></td><td class="amount"><strong>${esc(dualAmount(componentPlan.riceTotal,componentPlan.riceTotal.expectedCookedAmount))}</strong></td><td>Reconcile all labeled pans to this total.</td></tr></tbody></table></div></article><article class="card prep-plan-card"><h4>Produce wash and cut list</h4><div class="table-wrap"><table><thead><tr><th>Ingredient</th><th>Total to prep</th><th>Handling</th></tr></thead><tbody>${tableOrEmpty(produceRows,3,'No produce prep is required.')}</tbody></table></div></article></div></section><section class="prep-plan" id="runbook-prep"><h3>Thursday measured prep phases</h3><p>Work top to bottom: one compatible master chicken batch, separate marinades, savory mixes, weekly sauces, dish-specific sauces/toppings, desserts, then sides. Orange notes identify quantities that still need a controlled gram measurement instead of pretending they are exact.</p>${seasoningSection}${distinctMarinadeSection}${mixSection}${weeklySauceSection}${dishSauceSection}${dessertSection}${sideSection}</section>`;
+      const workflowCards = (stages) => stages.map(stage => `<article class="card workflow-stage${stage.completed ? ' done' : ''}"><div class="stage-head"><h4>${esc(stage.title)}</h4>${stage.completed ? '<span class="stage-status">Completed</span>' : ''}</div>${stage.reason ? `<p class="reason">${esc(stage.reason)}</p>` : ''}${stage.dishes?.length ? `<p class="dish-list">Applies to: ${esc(stage.dishes.join(', '))}</p>` : ''}<ul>${stage.tasks.map(task => `<li>${esc(task)}</li>`).join('')}</ul>${stage.release ? `<p class="release"><strong>Release gate:</strong> ${esc(stage.release)}</p>` : ''}</article>`).join('');
+      const prepWorkflow = `<section class="workflow-section" id="runbook-thursday"><h3>Thursday: intelligent prep sequence</h3><div class="workflow-grid">${workflowCards(workflow.prepStages)}</div></section>`;
+      const laneBoard = `<section class="workflow-section" id="runbook-lanes"><h3>Run three kitchen lanes at the same time</h3><div class="lane-grid">${workflow.lanes.map(lane => `<article class="card lane-card"><h4>${esc(lane.name)}</h4><p>${esc(lane.detail)}</p>${lane.dishes.length ? `<p class="dish-list">Current dishes: ${esc(lane.dishes.join(', '))}</p>` : ''}</article>`).join('')}</div></section>`;
+      const equipmentPlan = `<section class="card equipment-plan" id="runbook-equipment"><h3>Passive-equipment launch order</h3><p>Start the longest hands-off block first. While it cooks, the active lane completes the paired work without exceeding the current team capacity.</p>${workflow.parallelBlocks.length ? workflow.parallelBlocks.map(block => `<div class="equipment-block"><strong>${block.order}. ${esc(block.title)}</strong>${block.estimatedMinutes ? ` (about ${esc(String(block.estimatedMinutes))} minutes)` : ''}<br>Load: ${esc(block.primary.join(', ') || 'No assigned dish')}<br>Active work while it runs: ${esc(block.while.join(', ') || 'Mise en place, receiving, cooling, and yield records')}</div>`).join('') : '<div class="equipment-block">No oven block is required for this menu.</div>'}</section>`;
+      const cookWorkflow = `<section class="workflow-section" id="runbook-friday"><h3>Friday: professional phase-production sequence</h3><div class="workflow-grid">${workflowCards(workflow.cookStages)}</div></section>`;
+      const orderedNames = selectedMethods.map(group => group.name).join(', ');
+      const calendar = `<div class="calendar-grid"><article class="card calendar-day"><h3>Friday Night or Saturday Morning: Photography</h3><p>Photograph a customer-production meal before sealing when a current website image is needed. Do not schedule an extra meal solely for photography.</p><div class="calendar-dish"><strong>Ordered dishes</strong><ul><li>${esc(orderedNames)}</li><li>Record which dishes were photographed, then return the approved portion to customer production.</li></ul></div></article><article class="card calendar-day"><h3>Saturday: Delivery</h3><p>Final bag reconciliation, cold-holding check, and afternoon delivery.</p><div class="calendar-dish"><ul><li>Match every customer bag to the staging sheet.</li><li>Verify all cold food is 41 F or below before loading.</li><li>Record missing, extra, damaged, or corrected items.</li></ul></div></article></div>`;
+      const recipeCards = selectedMethods.map(group => {
+        if (!group.method) return `<article class="card recipe-run" id="recipe-${esc(group.id)}"><h3>${esc(group.name)}</h3><div class="warning-list">No controlled cooking method is saved for this menu item. Stop before production.</div></article>`;
+        const batch = CORE.ingredientTotals(group.counts, DATA, buffer).totals.sort((a,b) => a.station.localeCompare(b.station) || a.name.localeCompare(b.name));
+        const countText = group.counts.map(count => {
+          const plan = planByKey.get(countKey(count.id,count.tier));
+          return `${tierLabel(count.tier)}: ${plan.customer} customer = ${plan.total} finished`;
+        }).join(' | ');
+        const ingredientLines = batch.map(item => `<li><strong>${esc(dualAmount(item,item.bufferedAmount,true))}</strong> ${esc(item.name)} <span class="muted">(${esc(item.station)})</span></li>`).join('');
+        const byKey = Object.fromEntries(batch.map(item => [item.key,item]));
+        const methodLines = group.method.steps.map((step,index) => {
+          const refs = (group.method.stepIngredients?.[index] || []).map(key => byKey[key]).filter(Boolean);
+          const measures = refs.length ? `<span class="step-measures">Use: ${refs.map(item => `${esc(dualAmount(item,item.bufferedAmount,true))} ${esc(item.name)}`).join(' | ')}</span>` : '';
+          return `<li>${esc(step)}${measures}</li>`;
+        }).join('');
+        const sharedSeasoning = componentPlan.seasoningGroups.find(seasoning =>
+          seasoning.allocations.some(allocation => allocation.dishId === group.id)
+        );
+        const sharedSeasoningNote = sharedSeasoning
+          ? `<div class="definition-callout"><strong>Shared chicken:</strong> Use this dish's labeled bowl from the ${esc(sharedSeasoning.name)} batch. The base salt, garlic, onion, paprika, and pepper are already applied. Do not add them twice; after splitting, add only the dish finish listed in the master-seasoning section.</div>`
+          : '';
+        return `<article class="card recipe-run" id="recipe-${esc(group.id)}"><div class="recipe-run-head"><div><h3>${esc(group.name)}</h3><div class="recipe-meta"><strong>Equipment:</strong> ${esc(group.method.equipment.join(', '))}<br><strong>Temperature:</strong> ${esc(group.method.temperature)}</div></div><span class="recipe-run-count">${esc(countText)}</span></div>${sharedSeasoningNote}<div class="recipe-columns"><div><h4>Scaled production ingredients</h4><ul class="batch-ingredients">${ingredientLines}</ul></div><div><h4>Production method with scaled measurements</h4><ol class="method-steps">${methodLines}</ol></div></div><div class="recipe-callout"><strong>Plate:</strong> ${esc(group.method.plating)}<br><strong>Hold / verify:</strong> ${esc(group.method.hold)}</div></article>`;
+      }).join('');
+      const jumpNav = `<nav class="runbook-jump" aria-label="Runbook sections"><a href="#runbook-overview">Overview</a><a href="#runbook-quantities">Labels &amp; quantities</a><a href="#runbook-prep">Prep batches</a><a href="#runbook-thursday">Prep status</a><a href="#runbook-lanes">Kitchen lanes</a><a href="#runbook-friday">Cook phases</a><a href="#runbook-recipes">Recipe cards</a></nav>`;
+      $('runbookContent').innerHTML = `${jumpNav}<section class="card runbook-banner" id="runbook-overview"><h2>Work from this runbook, not the count table</h2><p>Every ordered dish is listed below with its scaled ingredients and method. Production uses ${esc(bufferLabel())}; customer portions do not change.</p><div class="runbook-metrics"><div class="runbook-metric"><span>Customer meals</span><strong>${totalMeals}</strong></div><div class="runbook-metric"><span>Production servings</span><strong>${productionMeals}</strong></div><div class="runbook-metric"><span>Labels to apply</span><strong>${componentPlan.labels.totalLabels}</strong></div><div class="runbook-metric"><span>5168 sheets</span><strong>${componentPlan.labels.totalSheets}</strong></div><div class="runbook-metric"><span>Side cups to prep</span><strong>${sideCups}</strong></div><div class="runbook-metric"><span>Side bags to prep</span><strong>${sideBags}</strong></div></div></section>${prepPlans}${prepWorkflow}${laneBoard}${equipmentPlan}${cookWorkflow}${calendar}<div class="recipe-run-grid" id="runbook-recipes">${recipeCards}</div>`;
+      const allowanceCallout = $('runbookContent').querySelector('.definition-callout');
+      if (allowanceCallout) {
+        allowanceCallout.innerHTML = `<strong>Production allowance:</strong> finished-meal counts match sold customer meals. Raw meat and poultry include a pooled ${esc(String(Number(buffer.rawProteinBufferPct) || 0))}% reserve. Dry rice temporarily includes ${esc(String(Number(buffer.riceBufferPct) || 0))}% and uses a conservative ${esc(String(Number(buffer.riceYieldFactor) || 3))}x cooked-yield estimate until PRPD records a complete dry-to-cooked batch. Produce, packaging, and labels are not inflated.`;
+      }
+    }
+
+    function renderIngredients() {
+      $('ingredientRows').innerHTML = state.ingredients.map((item,index) => {
+        const low = item.confidence === 'low';
+        return `<tr><td>${esc(item.station)}</td><td><strong>${esc(item.name)}</strong>${item.note ? `<br><span class="muted">${esc(item.note)}</span>` : ''}</td><td class="amount">${esc(dualAmount(item,item.baseAmount))}</td><td class="amount">${esc(dualAmount(item,item.bufferedAmount,true))}</td><td><input class="buy-input" type="number" min="0" step="1" value="0" data-onhand="${index}" aria-label="On hand ${esc(item.name)}"></td><td class="amount" id="buy-${index}">${esc(dualAmount(item,item.bufferedAmount,true))}</td><td class="${low?'confidence-low':'muted'}">${esc(item.confidence)}</td></tr>`;
+      }).join('');
+      document.querySelectorAll('[data-onhand]').forEach(input => input.addEventListener('input', () => {
+        const index = Number(input.dataset.onhand);
+        const item = state.ingredients[index];
+        const needed = Math.max(0, item.bufferedAmount - (Number(input.value) || 0));
+        $(`buy-${index}`).textContent = dualAmount(item,needed,true);
+      }));
+    }
+
+    function renderStations(counts) {
+      const groups = {};
+      state.ingredients.forEach(item => (groups[item.station] ||= []).push(item));
+      $('stationCards').innerHTML = Object.entries(groups).map(([station,items]) => {
+        const mealNames = counts.filter(count => DATA.meals[count.id]?.tiers[count.tier]?.ingredients.some(i => i.station === station)).map(count => `${count.name} (${tierLabel(count.tier)} x${count.qty})`);
+        return `<article class="card station-card"><h3>${esc(station)}</h3><p class="panel-copy">Feeds: ${esc(mealNames.join(', '))}</p><ul class="station-list">${items.map(item => `<li><span>${esc(item.name)}<small>${esc(item.note || '')}</small></span><strong>${esc(dualAmount(item,item.bufferedAmount,true))}</strong></li>`).join('')}</ul></article>`;
+      }).join('');
+    }
+
+    function renderPlating(counts) {
+      $('platingRows').innerHTML = counts.map(count => {
+        const build = DATA.meals[count.id]?.tiers[count.tier];
+        const details = build ? build.ingredients.map(item => `${formatAmount(item.amount,item.unit)} ${item.name}`).join('; ') : 'Missing build';
+        return `<tr><td><strong>${esc(count.name)}</strong></td><td>${tierLabel(count.tier)}</td><td class="amount">${count.qty}</td><td>${esc(details)}</td><td><div class="check-cell"></div></td><td><div class="check-cell"></div></td><td><div class="check-cell"></div></td></tr>`;
+      }).join('');
+    }
+
+    function renderFlow(counts) {
+      const workflow = CORE.buildWorkflow(counts, METHODS, currentWorkflowResources());
+      $('flowSteps').innerHTML = workflow.cookStages.map((stage,index) => `<article class="card flow-step"><strong>${String(index+1).padStart(2,'0')}</strong><div><h3>${esc(stage.title.replace(/^\d+\.\s*/,''))}</h3><p>${esc(stage.reason)}</p><ul>${stage.tasks.map(task => `<li>${esc(task)}</li>`).join('')}</ul><p class="release"><strong>Release gate:</strong> ${esc(stage.release)}</p><div class="log-grid compact" style="margin-top:10px"><label>Actual start<input class="log-input" type="time" data-log-key="flow:${index}:start"></label><label>Finish<input class="log-input" type="time" data-log-key="flow:${index}:finish"></label><label class="wide">Owner<input class="log-input" type="text" maxlength="80" data-log-key="flow:${index}:owner"></label><label class="wide">Variance / issue<input class="log-input" type="text" maxlength="300" data-log-key="flow:${index}:variance"></label></div></div></article>`).join('');
+      bindCookLogInputs();
+    }
+
+    function renderStaging() {
+      const orders = activeOrders();
+      if (!orders.length) {
+        $('stagingRows').innerHTML = '<tr><td colspan="4" class="empty">Import the Orders sheet to generate customer staging.</td></tr>';
+        return;
+      }
+      $('stagingRows').innerHTML = orders.map(order => `<tr><td><strong>${esc(order.customer)}</strong><br><span class="muted">${esc(order.orderId)}</span></td><td>${order.items.map(item => `${item.qty}x ${esc(item.name)} (${tierLabel(item.tier)})`).join('<br>')}</td><td>${esc(order.notes || '-')}</td><td><div class="check-cell"></div></td></tr>`).join('');
+    }
+
+    function renderQc(counts) {
+      const base = [
+        ['Opening refrigerator','41 F or below'],['Opening freezer','0 F or below'],
+        ['Ground beef endpoint','160 F or approved kitchen standard'],['Poultry endpoint','165 F or approved kitchen standard'],
+        ['Cooling checkpoint 1','135 F to 70 F within 2 hours'],['Cooling checkpoint 2','41 F or below within 6 total hours'],
+        ['Final cold holding','41 F or below'],
+      ];
+      const planByKey = new Map(CORE.productionPlan(counts, currentBuffer()).map(item => [countKey(item.id,item.tier), item]));
+      const yieldRows = counts.map(count => {
+        const plan = planByKey.get(countKey(count.id,count.tier));
+        return [`${count.name} ${tierLabel(count.tier)} yield`,`${plan.total} finished for ${plan.customer} customer meals`];
+      });
+      $('qcRows').innerHTML = [...base,...yieldRows].map(([name,target],index) => `<tr><td><strong>${esc(name)}</strong></td><td>${esc(target)}</td><td><input class="log-input" type="time" data-log-key="qc:${index}:time" aria-label="${esc(name)} time"></td><td><input class="log-input" type="text" maxlength="80" data-log-key="qc:${index}:actual" aria-label="${esc(name)} actual"></td><td><input class="log-input" type="text" maxlength="240" data-log-key="qc:${index}:action" aria-label="${esc(name)} initials or action"></td></tr>`).join('');
+      bindCookLogInputs();
+    }
+
+    function logInput(key, label, options = {}) {
+      const type = options.type || 'number';
+      const attrs = type === 'number' ? ` min="0" step="${options.step || '1'}"` : ` maxlength="${options.maxlength || 120}"`;
+      const help = options.help ? `<span class="field-help">${esc(options.help)}</span>` : '';
+      return `<label class="${options.className || ''}">${esc(label)}<input class="log-input" type="${type}"${attrs} data-log-key="${esc(key)}">${help}</label>`;
+    }
+
+    function renderCookLog(counts) {
+      const buffer = currentBuffer();
+      const plan = CORE.productionPlan(counts, buffer);
+      const planByKey = new Map(plan.map(item => [countKey(item.id,item.tier), item]));
+      const componentPlan = CORE.componentPlan(counts, DATA, METHODS, buffer);
+      const grouped = Object.values(counts.reduce((map,count) => {
+        (map[count.id] ||= { id: count.id, name: count.name, counts: [] }).counts.push(count);
+        return map;
+      }, {}));
+      const batchFields = [
+        logInput('batch:operators','Operators',{type:'text',className:'wide',help:'Names or initials of everyone working.'}),
+        logInput('batch:prep-start','Prep started',{type:'time'}),
+        logInput('batch:prep-finish','Prep finished',{type:'time'}),
+        logInput('batch:cook-start','Cooking started',{type:'time'}),
+        logInput('batch:cook-finish','Cooking finished',{type:'time'}),
+        logInput('batch:assembly-start','Assembly started',{type:'time'}),
+        logInput('batch:assembly-finish','Assembly finished',{type:'time'}),
+        logInput('batch:fridge-open-f','Opening refrigerator (F)',{step:'0.1'}),
+        logInput('batch:freezer-open-f','Opening freezer (F)',{step:'0.1'}),
+        logInput('batch:final-cold-f','Final cold holding (F)',{step:'0.1'}),
+        logInput('batch:containers-produced','Total containers produced'),
+        logInput('batch:damaged','Damaged / discarded containers'),
+        logInput('batch:reworked','Reworked containers'),
+        logInput('batch:unallocated','Unallocated finished meals'),
+      ].join('');
+      const seasoningLogCards = componentPlan.seasoningGroups.map(group => {
+        const prefix = `seasoning:${group.id}`;
+        const baseInputs = group.baseSeasoning.map((item,index) =>
+          logInput(`${prefix}:base:${index}:actual-g`,`${item.name} actually added (g)`,{step:'0.1',help:`Planner: ${item.grams} g`})
+        ).join('');
+        const splitRows = group.allocations.map(item => {
+          const splitPrefix = `${prefix}:split:${item.dishId}`;
+          const finish = item.finishSeasoning.length ? item.finishSeasoning.map(spice => `${spice.grams} g ${spice.name}`).join(' + ') : 'None before cooking';
+          return `<tr><td><strong>${esc(item.dish)}</strong></td><td class="amount">${esc(dualAmount(item,item.bufferedAmount,true))}</td><td>${esc(finish)}<br><span class="muted">${esc(item.finishNote)}</span></td><td><input class="log-input" type="number" min="0" step="0.1" data-log-key="${splitPrefix}:actual-raw-g" aria-label="${esc(item.dish)} actual raw split grams"></td><td><input class="log-input" type="number" min="0" step="0.1" data-log-key="${splitPrefix}:actual-finish-g" aria-label="${esc(item.dish)} actual finish grams"></td><td><textarea class="log-notes" maxlength="500" data-log-key="${splitPrefix}:notes" aria-label="${esc(item.dish)} seasoning notes"></textarea></td></tr>`;
+        }).join('');
+        return `<article class="card dish-log"><div class="dish-log-head"><div><h3>${esc(group.name)}</h3><p>Planner combined raw chicken: ${esc(dualAmount({unit:'g'},group.totalRaw,true))}. Season together first, then divide into the labeled bowls.</p></div></div><div class="log-grid">${logInput(`${prefix}:actual-master-raw-g`,'Actual combined raw chicken before seasoning (g)',{help:`Planner: ${Math.round(group.totalRaw)} g`})}${logInput(`${prefix}:actual-seasoned-g`,'Actual master batch after seasoning (g)')}${logInput(`${prefix}:spill-waste-g`,'Seasoning / handling loss (g)',{step:'0.1'})}${logInput(`${prefix}:start`,'Seasoning started',{type:'time'})}${logInput(`${prefix}:finish`,'Seasoning finished',{type:'time'})}${baseInputs}<label class="full">Master seasoning changes or observations<textarea maxlength="1500" data-log-key="${prefix}:notes"></textarea></label></div><h4 class="log-subhead">Actual labeled bowl splits</h4><div class="table-wrap"><table><thead><tr><th>Dish bowl</th><th>Planned raw split</th><th>Planned finish after split</th><th>Actual raw split g</th><th>Actual finish added g</th><th>Notes</th></tr></thead><tbody>${splitRows}</tbody></table></div></article>`;
+      }).join('');
+      const dishCards = grouped.map(group => {
+        const proteinRows = componentPlan.proteins.filter(item => item.dish === group.name);
+        const riceRows = componentPlan.rice.filter(item => item.dish === group.name);
+        const expectedRaw = proteinRows.reduce((sum,item) => sum + item.bufferedAmount,0);
+        const expectedCooked = proteinRows.reduce((sum,item) => sum + item.expectedCookedAmount,0);
+        const expectedDryStarch = riceRows.reduce((sum,item) => sum + item.bufferedAmount,0);
+        const expectedCookedStarch = riceRows.reduce((sum,item) => sum + item.expectedCookedAmount,0);
+        const targetContainers = group.counts.reduce((sum,count) => sum + (planByKey.get(countKey(count.id,count.tier))?.total || 0),0);
+        const prefix = `dish:${group.id}`;
+        const batchInputs = [
+          logInput(`${prefix}:actual-raw-protein-g`,'Actual raw protein / primary mix (g)',{help: expectedRaw ? `Planner: ${Math.round(expectedRaw)} g` : 'Use for batter, dessert filling, or total starting mix when no meat applies.'}),
+          logInput(`${prefix}:actual-cooked-protein-g`,'Actual cooked protein yield (g)',{help: expectedCooked ? `Planner estimate: ${Math.round(expectedCooked)} g` : 'Leave blank when not applicable.'}),
+          logInput(`${prefix}:actual-edible-protein-g`,'Actual edible protein (g)',{help:'Especially important for bone-in chicken.'}),
+          logInput(`${prefix}:actual-dry-starch-g`,'Actual dry starch (g)',{help: expectedDryStarch ? `Planner: ${Math.round(expectedDryStarch)} g dry rice` : 'Dry rice, pasta, bread, or other measured starch.'}),
+          logInput(`${prefix}:actual-cooked-starch-g`,'Actual cooked starch yield (g)',{help: expectedCookedStarch ? `Planner estimate: ${Math.round(expectedCookedStarch)} g` : 'Record the finished usable amount.'}),
+          logInput(`${prefix}:actual-sauce-yield-g`,'Finished sauce / filling yield (g)'),
+          logInput(`${prefix}:actual-oil-g`,'Oil or spray retained (g)',{step:'0.1'}),
+          logInput(`${prefix}:actual-salt-g`,'Added salt (g)',{step:'0.1'}),
+          logInput(`${prefix}:pieces`,'Pieces formed / cooked',{help:'Leg quarters, meatballs, egg bites, wraps, slices, or cups.'}),
+          logInput(`${prefix}:sub-batches`,'Number of sub-batches'),
+          logInput(`${prefix}:endpoint-f`,'Endpoint temperature (F)',{step:'0.1'}),
+          logInput(`${prefix}:containers-produced`,'Containers actually produced',{help:`Target: ${targetContainers}`}),
+          logInput(`${prefix}:leftover-g`,'Usable leftover (g)'),
+          logInput(`${prefix}:waste-g`,'Trim / spill / waste (g)'),
+          logInput(`${prefix}:start`,'Start time',{type:'time'}),
+          logInput(`${prefix}:finish`,'Finish time',{type:'time'}),
+        ].join('');
+        const tierRows = group.counts.map(count => {
+          const tierPrefix = `tier:${count.id}:${count.tier}`;
+          const target = planByKey.get(countKey(count.id,count.tier))?.total || count.qty;
+          return `<tr><td><strong>${tierLabel(count.tier)}</strong></td><td class="amount">${target}</td><td><input class="log-input" type="number" min="0" step="1" data-log-key="${tierPrefix}:containers"></td><td><input class="log-input" type="number" min="0" step="0.1" data-log-key="${tierPrefix}:protein-g"></td><td><input class="log-input" type="number" min="0" step="0.1" data-log-key="${tierPrefix}:starch-g"></td><td><input class="log-input" type="number" min="0" step="0.1" data-log-key="${tierPrefix}:side-g"></td><td><input class="log-input" type="number" min="0" step="0.1" data-log-key="${tierPrefix}:sauce-g"></td><td><input class="log-input" type="number" min="0" step="0.1" data-log-key="${tierPrefix}:first-net-g"></td><td><input class="log-input" type="number" min="0" step="0.1" data-log-key="${tierPrefix}:mid-net-g"></td><td><input class="log-input" type="number" min="0" step="0.1" data-log-key="${tierPrefix}:last-net-g"></td><td><textarea class="log-notes" maxlength="500" data-log-key="${tierPrefix}:notes"></textarea></td></tr>`;
+        }).join('');
+        return `<article class="card dish-log"><div class="dish-log-head"><div><h3>${esc(group.name)}</h3><p>Target ${targetContainers} finished container${targetContainers === 1 ? '' : 's'}${expectedRaw ? ` | planned raw protein ${Math.round(expectedRaw)} g` : ''}${expectedCooked ? ` | expected cooked ${Math.round(expectedCooked)} g` : ''}</p></div><span class="yield-readout" data-yield-output="${prefix}">Cook yield: waiting for weights</span></div><div class="log-grid">${batchInputs}<label class="full">Recipe changes, taste, texture, shortage, correction, or other notes<textarea maxlength="2000" data-log-key="${prefix}:notes"></textarea></label></div><h4 class="log-subhead">Portion verification by tier</h4><div class="table-wrap"><table><thead><tr><th>Tier</th><th>Target</th><th>Produced</th><th>Protein g</th><th>Starch g</th><th>Side g</th><th>Sauce g</th><th>First net g</th><th>Middle net g</th><th>Final net g</th><th>Notes</th></tr></thead><tbody>${tierRows}</tbody></table></div></article>`;
+      }).join('');
+      $('cookLogContent').innerHTML = `<article class="card cook-log-intro"><h3>This is the source record for improving next week's recipes</h3><p>Enter measured values as you work. Blank means unknown; never estimate inside an Actual field. We use these records afterward to replace assumed cook yields, portions, timing, oil, salt, and waste.</p><span class="autosave-note">Batch record: ${esc(cookLogBatchKey())}</span></article><article class="card panel" style="margin-bottom:14px"><h3 style="margin-top:0">Whole-batch record</h3><div class="log-grid">${batchFields}<label class="full">Batch-wide notes<textarea maxlength="3000" data-log-key="batch:notes"></textarea></label></div></article>${seasoningLogCards ? `<section class="workflow-section"><h2>Master seasoning measurements</h2><p>Record the combined batch first, then the actual weight placed into every labeled dish bowl.</p><div class="dish-log-grid">${seasoningLogCards}</div></section>` : ''}<div class="dish-log-grid">${dishCards}</div>`;
+      bindCookLogInputs();
+    }
+
+    function setSaveState(message, mode = '') {
+      $('saveState').textContent = message;
+      $('saveState').className = `save-state${mode ? ` ${mode}` : ''}`;
+    }
+
+    function readCookLogInputs() {
+      document.querySelectorAll('[data-log-key]').forEach(input => {
+        state.cookLog.fields[input.dataset.logKey] = String(input.value ?? '');
+      });
+      state.cookLog.batchKey = cookLogBatchKey();
+      state.cookLog.schemaVersion = COOK_LOG_SCHEMA;
+      state.cookLog.updatedAt = new Date().toISOString();
+      return state.cookLog;
+    }
+
+    function writeLocalCookLog(log) {
+      const serialized = JSON.stringify(log);
+      localStorage.setItem(cookLogStorageKey(), serialized);
+      sessionStorage.setItem(cookLogStorageKey(), serialized);
+      const verified = JSON.parse(localStorage.getItem(cookLogStorageKey()) || '{}');
+      if (verified.updatedAt !== log.updatedAt) throw new Error('Browser storage verification failed.');
+    }
+
+    function updateDishYield(prefix) {
+      const raw = Number(state.cookLog.fields[`${prefix}:actual-raw-protein-g`] || 0);
+      const cooked = Number(state.cookLog.fields[`${prefix}:actual-cooked-protein-g`] || 0);
+      const output = document.querySelector(`[data-yield-output="${prefix}"]`);
+      if (!output) return;
+      output.textContent = raw > 0 && cooked > 0 ? `Cook yield: ${(cooked / raw * 100).toFixed(1)}%` : 'Cook yield: waiting for weights';
+    }
+
+    function restoreCookLogInputs() {
+      document.querySelectorAll('[data-log-key]').forEach(input => {
+        input.value = state.cookLog.fields[input.dataset.logKey] ?? '';
+      });
+      document.querySelectorAll('[data-yield-output]').forEach(output => updateDishYield(output.dataset.yieldOutput));
+    }
+
+    function bindCookLogInputs() {
+      restoreCookLogInputs();
+      document.querySelectorAll('[data-log-key]').forEach(input => {
+        if (input.dataset.logBound === '1') return;
+        input.dataset.logBound = '1';
+        input.addEventListener('input', () => {
+          state.cookLog.fields[input.dataset.logKey] = String(input.value ?? '');
+          const prefix = input.dataset.logKey.match(/^(dish:[^:]+)/)?.[1];
+          if (prefix) updateDishYield(prefix);
+          scheduleCookLogSave();
+        });
+        input.addEventListener('change', scheduleCookLogSave);
+      });
+    }
+
+    function scheduleCookLogSave() {
+      setSaveState('Saving measured values...');
+      clearTimeout(cookLogSaveTimer);
+      cookLogSaveTimer = setTimeout(() => saveCookLog(), 700);
+    }
+
+    async function saveCookLog(options = {}) {
+      clearTimeout(cookLogSaveTimer);
+      try {
+        const log = readCookLogInputs();
+        writeLocalCookLog(log);
+        setSaveState('Saved in browser; saving project copy...');
+        const response = await fetch('/api/cook-log', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', accept: 'application/json' },
+          body: JSON.stringify(log),
+        });
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(payload.error || 'Project-file save failed.');
+        state.cookLog = payload.record;
+        writeLocalCookLog(state.cookLog);
+        setSaveState(`Saved twice at ${new Date(state.cookLog.updatedAt).toLocaleTimeString([], {hour:'numeric',minute:'2-digit',second:'2-digit'})}`, 'ok');
+        if (options.announce) $('importStatus').textContent = 'Setup and measured cook log saved successfully.';
+        return true;
+      } catch (error) {
+        try {
+          const log = readCookLogInputs();
+          writeLocalCookLog(log);
+          setSaveState('Saved in browser only; export a backup', 'warn');
+        } catch {
+          setSaveState('Save failed; export immediately', 'warn');
+        }
+        return false;
+      }
+    }
+
+    async function loadCookLog() {
+      const candidates = [];
+      for (const storage of [localStorage, sessionStorage]) {
+        try {
+          const value = JSON.parse(storage.getItem(cookLogStorageKey()) || 'null');
+          if (value?.batchKey === cookLogBatchKey() && value.fields) candidates.push(value);
+        } catch { /* A damaged copy is ignored in favor of another recovery copy. */ }
+      }
+      try {
+        const response = await fetch(`/api/cook-log?batchKey=${encodeURIComponent(cookLogBatchKey())}`, { headers:{accept:'application/json'}, cache:'no-store' });
+        const payload = await response.json();
+        if (response.ok && payload.record?.fields) candidates.push(payload.record);
+      } catch { /* Browser storage remains available if the local server copy cannot load. */ }
+      candidates.sort((a,b) => String(b.updatedAt || '').localeCompare(String(a.updatedAt || '')));
+      state.cookLog = candidates[0] || { schemaVersion:COOK_LOG_SCHEMA, batchKey:cookLogBatchKey(), updatedAt:'', fields:{} };
+      restoreCookLogInputs();
+      if (state.cookLog.updatedAt) setSaveState(`Recovered ${new Date(state.cookLog.updatedAt).toLocaleString()}`, 'ok');
+      else setSaveState('New cook log; entries auto-save');
+      try { await navigator.storage?.persist?.(); } catch { /* Export remains the portable backup. */ }
+    }
+
+    function exportCookLog() {
+      const log = readCookLogInputs();
+      writeLocalCookLog(log);
+      const blob = new Blob([`${JSON.stringify(log, null, 2)}\n`], { type:'application/json' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `PRPD-cook-log-batch-${CONFIG.batch.number}-${String(CONFIG.batch.deliveryDate).replace(/[^a-z0-9]+/gi,'-')}.json`;
+      link.click();
+      setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+      setSaveState('Backup exported', 'ok');
+    }
+
+    async function importCookLog(file) {
+      try {
+        const log = JSON.parse(await file.text());
+        if (log.batchKey !== cookLogBatchKey() || !log.fields || typeof log.fields !== 'object') throw new Error('This backup belongs to a different batch or is invalid.');
+        state.cookLog = { schemaVersion:COOK_LOG_SCHEMA, batchKey:cookLogBatchKey(), updatedAt:log.updatedAt || '', fields:log.fields };
+        restoreCookLogInputs();
+        await saveCookLog({ announce:true });
+      } catch (error) {
+        setSaveState(error.message || 'Backup import failed', 'warn');
+      }
+    }
+
+    async function clearCookLog() {
+      if (!confirm('Clear every measured value for this batch? Export a backup first if any entry matters.')) return;
+      state.cookLog = { schemaVersion:COOK_LOG_SCHEMA, batchKey:cookLogBatchKey(), updatedAt:'', fields:{} };
+      restoreCookLogInputs();
+      await saveCookLog();
+    }
+
+    function saveSetup() {
+      const fields = ['cookDate','packTime','rawProteinBufferPct','riceBufferPct','riceYieldFactor','customerSauceCups','kitchenSauceCups','qcSauceCups','teamSize','ovens','riceCookers','burners','coldCapacity'];
+      const setup = Object.fromEntries(fields.map(id => [id,$(id).value]));
+      ['prepDessertsDone','prepSaucesDone','prepRiceDone'].forEach(id => { setup[id] = $(id).checked; });
+      setup.counts = state.counts;
+      localStorage.setItem(setupStorageKey(),JSON.stringify(setup));
+      saveCookLog({ announce:true });
+    }
+    function loadSetup() {
+      try {
+        const setup = JSON.parse(localStorage.getItem(setupStorageKey()) || '{}');
+        if (setup.rawProteinBufferPct == null) setup.rawProteinBufferPct = 5;
+        if (setup.riceBufferPct == null) setup.riceBufferPct = 15;
+        if (setup.riceYieldFactor == null) setup.riceYieldFactor = 2.75;
+        Object.entries(setup).forEach(([key,value]) => {
+          if (!$(key) || key === 'counts') return;
+          if ($(key).type === 'checkbox') $(key).checked = Boolean(value);
+          else $(key).value = value;
+        });
+        state.counts = setup.counts || {};
+      } catch { state.counts = {}; }
+    }
+    function clearAll() {
+      if (!confirm('Clear imported orders, counts, and planner setup? The measured cook log will be preserved.')) return;
+      localStorage.removeItem(setupStorageKey());
+      state.orders = []; state.counts = {}; state.importWarnings = []; state.fetchedAt = '';
+      $('pasteOrders').value = ''; $('results').classList.remove('ready');
+      $('importStatus').className = 'status'; $('importStatus').textContent = 'No orders imported yet.';
+      $('orderReview').hidden = true;
+      renderManualCounts();
+    }
+
+    function activateView(view) {
+      document.querySelectorAll('.nav-btn').forEach(item => item.classList.toggle('active',item.dataset.view === view));
+      document.querySelectorAll('.view').forEach(panel => panel.classList.toggle('active',panel.dataset.panel === view));
+    }
+    document.querySelectorAll('.nav-btn').forEach(button => button.addEventListener('click', () => activateView(button.dataset.view)));
+    $('csvFile').addEventListener('change', event => {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => importText(reader.result);
+      reader.readAsText(file);
+    });
+    $('importPasteBtn').addEventListener('click', () => importText($('pasteOrders').value));
+    $('syncOrdersBtn').addEventListener('click',syncOrders);
+    $('manualOnlyBtn').addEventListener('click', () => { state.orders=[]; state.importWarnings=[]; $('orderReview').hidden=true; $('importStatus').className='status'; $('importStatus').textContent='Manual count mode. Customer staging will remain blank.'; });
+    $('generateBtn').addEventListener('click',generatePacket);
+    $('saveBtn').addEventListener('click',saveSetup);
+    $('saveLogBtn').addEventListener('click',() => saveCookLog({ announce:true }));
+    $('exportLogBtn').addEventListener('click',exportCookLog);
+    $('importLogFile').addEventListener('change',event => { if (event.target.files[0]) importCookLog(event.target.files[0]); event.target.value=''; });
+    $('clearLogBtn').addEventListener('click',clearCookLog);
+    $('printBtn').addEventListener('click',() => window.print());
+    $('clearBtn').addEventListener('click',clearAll);
+
+    $('batchEyebrow').textContent = `Batch ${CONFIG.batch.number} production`;
+    $('deliverySubtitle').textContent = `Delivery ${CONFIG.batch.deliveryDate} | Orders closed ${CONFIG.batch.cutoffLabel}`;
+    $('cookDate').value = new Date().toLocaleDateString('en-CA',{timeZone:'America/Chicago'});
+    loadSetup();
+    renderManualCounts();
+    loadCookLog();
+    window.addEventListener('beforeunload', () => {
+      try {
+        const log = readCookLogInputs();
+        writeLocalCookLog(log);
+        navigator.sendBeacon?.('/api/cook-log', new Blob([JSON.stringify(log)], { type:'application/json' }));
+      } catch { /* The most recent successful autosave remains intact. */ }
+    });
+  </script>
+</body>
+</html>

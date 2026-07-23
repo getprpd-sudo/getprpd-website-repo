@@ -5,6 +5,7 @@
 // Same-domain Vercel lead endpoint.
 const LEAD_API_URL = '/api/lead';
 let leadSubmissionId = null;
+const leadFormStartedAt = Date.now();
 
 function createLeadId() {
   const dateStamp = new Intl.DateTimeFormat('en-CA', {
@@ -19,6 +20,12 @@ function createLeadId() {
 // Capture ad/source attribution so paid leads can be traced in Google Sheets.
 const ATTRIBUTION_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
 
+function browserCookie(name) {
+  const match = document.cookie.split(';').map(value => value.trim()).find(value => value.startsWith(`${name}=`));
+  if (!match) return '';
+  try { return decodeURIComponent(match.slice(name.length + 1)); } catch { return ''; }
+}
+
 function captureAttribution() {
   const params = new URLSearchParams(window.location.search);
 
@@ -26,6 +33,9 @@ function captureAttribution() {
     const value = params.get(key);
     if (value) sessionStorage.setItem(key, value);
   });
+
+  const ttclid = params.get('ttclid');
+  if (ttclid) sessionStorage.setItem('tiktok_ttclid', ttclid.slice(0, 500));
 
   const landingPage = sessionStorage.getItem('landing_page');
   if (!landingPage) sessionStorage.setItem('landing_page', window.location.href);
@@ -44,10 +54,86 @@ function getAttributionData() {
     utmTerm:     sessionStorage.getItem('utm_term') || '',
     landingPage: sessionStorage.getItem('landing_page') || window.location.href,
     referrer:    sessionStorage.getItem('referrer') || document.referrer || '',
+    tiktokTtclid: sessionStorage.getItem('tiktok_ttclid') || '',
+    tiktokTtp:    browserCookie('_ttp'),
   };
 }
 
 captureAttribution();
+
+// Keep the homepage preview synchronized with the live weekly order configuration.
+function renderWeeklyHomepage() {
+  const config = window.PRPD_ORDER_CONFIG;
+  if (!config) return;
+
+  const { batch, menu, prices } = config;
+  const heroCutoff = document.getElementById('heroCutoff');
+  const weeklyCutoff = document.getElementById('weeklyCutoff');
+  const weeklyDelivery = document.getElementById('weeklyDelivery');
+  if (heroCutoff) heroCutoff.textContent = `${batch.cutoffLabel} cutoff`;
+  if (weeklyCutoff) weeklyCutoff.textContent = batch.cutoffLabel;
+  if (weeklyDelivery) weeklyDelivery.textContent = batch.deliveryDate;
+
+  const grid = document.getElementById('homeMenuGrid');
+  if (!grid) return;
+
+  const preview = [...menu.mains, ...menu.breakfasts]
+    .filter(dish => dish.available !== false && dish.image)
+    .slice(0, 4);
+
+  preview.forEach((dish, index) => {
+    const card = document.createElement('article');
+    card.className = `menu-card${index === 1 ? ' menu-card--featured' : ''}`;
+
+    const imageWrap = document.createElement('div');
+    imageWrap.className = 'menu-card__img';
+    const image = document.createElement('img');
+    image.src = dish.images?.lean || dish.image;
+    image.alt = `${dish.name} by PRPD`;
+    image.loading = 'lazy';
+    const placeholder = document.createElement('div');
+    placeholder.className = 'menu-card__img-ph';
+    placeholder.textContent = 'PRPD';
+    image.addEventListener('error', () => { image.hidden = true; });
+    imageWrap.append(image, placeholder);
+
+    const body = document.createElement('div');
+    body.className = 'menu-card__body';
+    const badges = document.createElement('div');
+    badges.className = 'menu-card__badges';
+    const halalBadge = document.createElement('span');
+    halalBadge.className = 'badge badge--halal';
+    halalBadge.textContent = 'Halal';
+    const priceBadge = document.createElement('span');
+    priceBadge.className = 'badge badge--breakfast';
+    const tierPrice = prices[dish.category]?.lean ?? prices[dish.category]?.single;
+    priceBadge.textContent = `From $${Number(tierPrice).toFixed(2)}`;
+    badges.append(halalBadge, priceBadge);
+
+    const name = document.createElement('h3');
+    name.className = 'menu-card__name';
+    name.textContent = dish.name;
+    const description = document.createElement('p');
+    description.className = 'menu-card__desc';
+    description.textContent = dish.description;
+
+    const macros = document.createElement('div');
+    macros.className = 'menu-card__macros';
+    const calories = document.createElement('div');
+    calories.className = 'macro';
+    calories.innerHTML = `<span class="macro__val">${dish.macros.cal}</span><span class="macro__label">cal</span>`;
+    const protein = document.createElement('div');
+    protein.className = 'macro macro--highlight';
+    protein.innerHTML = `<span class="macro__val">${dish.macros.protein}g</span><span class="macro__label">protein</span>`;
+    macros.append(calories, protein);
+
+    body.append(badges, name, description, macros);
+    card.append(imageWrap, body);
+    grid.append(card);
+  });
+}
+
+renderWeeklyHomepage();
 
 // ════════════════════════════════
 // NAV — scroll shrink
@@ -56,6 +142,10 @@ const nav = document.querySelector('.nav');
 window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 40);
 }, { passive: true });
+
+document.querySelectorAll('.js-hide-on-error').forEach(image => {
+  image.addEventListener('error', () => { image.hidden = true; });
+});
 
 // ════════════════════════════════
 // SCROLL ANIMATIONS
@@ -69,7 +159,7 @@ heroEls.forEach((el, i) => {
 
 // All other sections animate on scroll
 const fadeEls = document.querySelectorAll(
-  '.value-feat, .step, .menu-card, .about__text, .about__images, .form-wrap'
+  '.weekly-order__copy, .weekly-order__details, .weekly-order__cta, .value-feat, .step, .menu-card, .about__text, .about__images, .form-menu-route, .form-wrap'
 );
 fadeEls.forEach(el => el.classList.add('fade-up'));
 
@@ -85,6 +175,32 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
 
 fadeEls.forEach(el => observer.observe(el));
+
+// A small desktop-only parallax response keeps the hero feeling tactile without
+// interfering with touch scrolling or reduced-motion preferences.
+const heroVisual = document.querySelector('.hero__visual');
+const heroCluster = document.querySelector('.hero__cluster');
+const canUsePointerMotion = window.matchMedia('(hover: hover) and (pointer: fine)').matches
+  && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+if (heroVisual && heroCluster && canUsePointerMotion) {
+  heroVisual.addEventListener('pointermove', event => {
+    const rect = heroVisual.getBoundingClientRect();
+    const x = ((event.clientX - rect.left) / rect.width - 0.5) * 12;
+    const y = ((event.clientY - rect.top) / rect.height - 0.5) * 12;
+    heroCluster.animate(
+      [{ transform: `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)` }],
+      { duration: 350, fill: 'forwards', easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' }
+    );
+  });
+
+  heroVisual.addEventListener('pointerleave', () => {
+    heroCluster.animate(
+      [{ transform: 'translate3d(0, 0, 0)' }],
+      { duration: 350, fill: 'forwards', easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' }
+    );
+  });
+}
 
 // ════════════════════════════════
 // MULTI-STEP FORM
@@ -104,8 +220,8 @@ function goToStep(n) {
   next.classList.add('active');
   currentStep = n;
 
-  const pct = (n / TOTAL_STEPS) * 100;
-  progressFill.style.width = pct + '%';
+  progressFill.classList.remove('step-1', 'step-2', 'step-3', 'step-4');
+  progressFill.classList.add(`step-${n}`);
   progressLabel.textContent = `Step ${n} of ${TOTAL_STEPS}`;
 
   document.querySelector('.form-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -163,7 +279,7 @@ const referralInsightGroup = document.getElementById('referralInsightGroup');
 if (referralSelect) {
   referralSelect.addEventListener('change', () => {
     const val = referralSelect.value;
-    referralInsightGroup.style.display = (val === 'Mosque' || val === 'Gym') ? 'block' : 'none';
+    referralInsightGroup.hidden = val !== 'Mosque' && val !== 'Gym';
   });
 }
 
@@ -194,29 +310,12 @@ function validateStep(step) {
   }
 
   if (step === 2) {
-    ['fitnessGoalVal', 'trainingDaysVal'].forEach((id) => {
-      const el = document.getElementById(id);
-      if (el.value) return;
-      const group = el.previousElementSibling;
-      if (group) {
-        group.style.outline = '1.5px solid rgba(224,112,112,0.6)';
-        group.style.borderRadius = '12px';
-        group.style.padding = '6px';
-        setTimeout(() => { group.style.outline = ''; group.style.padding = ''; }, 2000);
-      }
-      valid = false;
-    });
-  }
-
-  if (step === 3) {
-    const el = document.getElementById('halalPrefVal');
+    const el = document.getElementById('fitnessGoalVal');
     if (!el.value) {
-      const group = el.previousElementSibling;
+      const group = document.getElementById('fitnessGoal');
       if (group) {
-        group.style.outline = '1.5px solid rgba(224,112,112,0.6)';
-        group.style.borderRadius = '12px';
-        group.style.padding = '6px';
-        setTimeout(() => { group.style.outline = ''; group.style.padding = ''; }, 2000);
+        group.classList.add('validation-pulse');
+        setTimeout(() => group.classList.remove('validation-pulse'), 2000);
       }
       valid = false;
     }
@@ -253,20 +352,13 @@ if (form) {
     }
 
     // ── Honeypot: if a bot filled the hidden field, silently bail
-    if (document.getElementById('hpWebsite')?.value) {
-      form.style.display = 'none';
-      document.getElementById('formSuccess').style.display = 'block';
-      document.querySelector('.form-progress').style.display = 'none';
-      return;
-    }
-
     const submitBtn  = document.getElementById('submitBtn');
     const btnText    = submitBtn.querySelector('.btn-text');
     const btnSpinner = submitBtn.querySelector('.btn-spinner');
 
     submitBtn.disabled = true;
-    btnText.style.display = 'none';
-    btnSpinner.style.display = 'inline';
+    btnText.hidden = true;
+    btnSpinner.hidden = false;
 
     // Collect multi-select dietary restrictions
     const selectedRestrictions = [...document.querySelectorAll('#restrictionsGroup .multi-choice.multi-selected')]
@@ -282,10 +374,10 @@ if (form) {
       referral:         document.getElementById('referral').value,
       referralInsight:  document.getElementById('referralInsight')?.value.trim() || '',
       fitnessGoal:      document.getElementById('fitnessGoalVal').value,
-      trainingDays:     document.getElementById('trainingDaysVal').value,
-      halalPref:        document.getElementById('halalPrefVal').value,
       restrictions:     selectedRestrictions,
       notes:            document.getElementById('notes').value.trim(),
+      website:          document.getElementById('hpWebsite')?.value || '',
+      formStartedAt:    leadFormStartedAt,
       submittedAt:      new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' }),
       ...getAttributionData(),
     };
@@ -301,25 +393,23 @@ if (form) {
         throw new Error(result && result.message ? result.message : 'The intake could not be confirmed.');
       }
 
-      form.style.display = 'none';
-      document.getElementById('formSuccess').style.display = 'block';
-      document.querySelector('.form-progress').style.display = 'none';
-      progressFill.style.width = '100%';
+      form.hidden = true;
+      document.getElementById('formSuccess').hidden = false;
+      document.querySelector('.form-progress').hidden = true;
+      progressFill.classList.remove('step-1', 'step-2', 'step-3');
+      progressFill.classList.add('step-4');
 
       // TikTok Pixel — fire conversion events on successful form submission
       if (typeof ttq !== 'undefined') {
-        ttq.track('CompleteRegistration', {
-          contents: [{ content_id: 'prpd-intake-form', content_name: 'PRPD Intake Form' }]
-        });
         ttq.track('Lead', {
           contents: [{ content_id: 'prpd-intake-form', content_name: 'PRPD Intake Form' }]
-        });
+        }, { event_id: `${data.leadId}:lead` });
       }
 
     } catch (err) {
       console.error('Submission error:', err);
-      btnText.style.display = 'inline';
-      btnSpinner.style.display = 'none';
+      btnText.hidden = false;
+      btnSpinner.hidden = true;
       submitBtn.disabled = false;
       alert('Something went wrong. Please try again or reach out on Instagram @getprpd.');
     }

@@ -1,0 +1,31 @@
+# Internal operating tools and proprietary production records.
+operations/
+open-label-studio.bat
+open-cook-day-planner.bat
+
+# Internal handoff, audits, tests, and legacy backends.
+README.md
+CLAUDE.md
+SECURITY_AUDIT_*.md
+tests/
+apps-script.gs
+GOOGLE_SHEETS_SETUP.md
+netlify.toml
+deploy.bat
+dish-preview.html
+360-shoot-guide.html
+GetPRPD Website/
+.agents/
+.claude/
+tmp/
+.tmp/
+output/
+scripts/
+
+# Credentials and local environment state. These patterns are defense in depth;
+# matching files are also ignored by Git and must never be uploaded.
+.env*
+.vercel/
+*-website-*.json
+service-account*.json
+*API*KEY*.txt

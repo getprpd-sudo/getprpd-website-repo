@@ -7,698 +7,21 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Place Your Order | PRPD</title>
-  <meta name="robots" content="noindex, nofollow" />
+  <title>Weekly Halal Meal Prep Menu | PRPD DFW</title>
+  <meta name="description" content="Order fresh, seed oil free, high-protein halal meal prep in DFW. Choose Lean or Bulk portions from PRPD's current weekly menu." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://getprpd.com/order" />
+  <meta property="og:title" content="This Week's PRPD Menu | Halal Meal Prep in DFW" />
+  <meta property="og:description" content="Choose fresh high-protein halal meals in Lean or Bulk portions for Saturday delivery across DFW." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://getprpd.com/order" />
+  <meta property="og:image" content="https://getprpd.com/assets/images/og-preview.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-  <style>
-    /* ═══════════════════════════════
-       ORDER PAGE
-    ═══════════════════════════════ */
-    body { padding-top: calc(var(--banner-h) + 72px); }
-
-    /* ── Page header ── */
-    .order-hero {
-      padding: 52px 0 36px;
-      text-align: center;
-    }
-    .order-hero h1 {
-      font-size: clamp(2.2rem, 4vw, 3rem);
-      font-weight: 700;
-      color: var(--green);
-      letter-spacing: -0.03em;
-      margin-bottom: 10px;
-    }
-    .order-hero__meta {
-      font-size: 0.88rem;
-      color: var(--text-muted);
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
-    .order-cutoff {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 3px;
-      width: min(100%, 620px);
-      margin: 20px auto 0;
-      padding: 14px 22px 15px;
-      border: 2px solid rgba(127,168,130,0.55);
-      border-radius: var(--radius-sm);
-      background: var(--green);
-      color: var(--cream);
-      box-shadow: 0 8px 24px rgba(30,46,30,0.16);
-    }
-    .order-cutoff__label {
-      color: var(--sage-light);
-      font-size: 0.7rem;
-      font-weight: 800;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-    .order-cutoff strong {
-      font-size: clamp(1rem, 2vw, 1.2rem);
-      line-height: 1.25;
-    }
-    .order-cutoff__note {
-      color: rgba(236,231,223,0.74);
-      font-size: 0.76rem;
-      line-height: 1.35;
-    }
-
-    /* ── Layout ── */
-    .order-layout {
-      display: grid;
-      grid-template-columns: 1fr 340px;
-      gap: 32px;
-      align-items: start;
-      padding-bottom: 100px;
-    }
-
-    /* ── Client info card ── */
-    .order-info-card {
-      background: var(--white);
-      border-radius: var(--radius-md);
-      padding: 26px 28px;
-      box-shadow: var(--shadow-sm);
-      border: 1px solid rgba(30,46,30,0.07);
-      margin-bottom: 44px;
-    }
-    .order-info-card h2 {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--green);
-      margin-bottom: 16px;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      font-size: 0.78rem;
-    }
-    .name-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-    .order-input {
-      width: 100%;
-      padding: 13px 16px;
-      border: 1.5px solid rgba(30,46,30,0.13);
-      border-radius: var(--radius-sm);
-      font-family: var(--font-body);
-      font-size: 0.95rem;
-      color: var(--text);
-      background: var(--cream);
-      outline: none;
-      transition: border-color 0.18s;
-    }
-    .order-input:focus { border-color: var(--sage); }
-    .order-input.error { border-color: #E07070; background: #fff5f5; }
-    .order-input::placeholder { color: rgba(30,46,30,0.36); }
-    textarea.order-input { resize: none; height: 70px; line-height: 1.55; }
-    .input-help {
-      margin: -4px 2px 14px;
-      color: var(--text-muted);
-      font-size: 0.75rem;
-      line-height: 1.45;
-    }
-
-    /* ── Menu section ── */
-    .menu-section { margin-bottom: 48px; }
-    .menu-section-head {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 20px;
-    }
-    .menu-section-head h2 {
-      font-size: clamp(1.55rem, 2.4vw, 2rem);
-      font-weight: 700;
-      color: var(--green);
-      letter-spacing: -0.025em;
-    }
-
-    /* ── Dish grid ── */
-    .dish-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 18px;
-    }
-
-    /* ── Dish card ── */
-    .dish-card {
-      background: var(--white);
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      box-shadow: var(--shadow-sm);
-      border: 1.5px solid transparent;
-      transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
-      display: flex;
-      flex-direction: column;
-      cursor: default;
-    }
-    .dish-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
-    .dish-card.has-qty {
-      border-color: var(--sage);
-      box-shadow: 0 0 0 2px rgba(127,168,130,0.3), var(--shadow-sm);
-    }
-    .dish-card.is-unavailable {
-      opacity: 0.72;
-    }
-    .dish-card.is-unavailable:hover {
-      box-shadow: var(--shadow-sm);
-      transform: none;
-    }
-
-    /* Image */
-    .dish-img {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      background: linear-gradient(135deg, var(--green) 0%, var(--green-mid) 100%);
-      position: relative;
-      overflow: hidden;
-      flex-shrink: 0;
-    }
-    .dish-img img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      object-position: center center;
-      position: absolute; inset: 0;
-      display: block;
-      transition: opacity 0.3s;
-    }
-    #card-b1 .dish-img img,
-    #card-b3 .dish-img img,
-    #card-m6 .dish-img img {
-      object-position: center 72%;
-      transform: scale(1.14);
-    }
-    .dish-img__bg {
-      position: absolute; inset: 0;
-      display: flex; align-items: center; justify-content: center;
-      pointer-events: none;
-    }
-    .dish-img__bg span {
-      font-family: var(--font-brand);
-      font-size: 3rem;
-      color: rgba(236,231,223,0.14);
-      letter-spacing: 0.12em;
-    }
-
-    /* Body */
-    .dish-body {
-      padding: 15px 16px 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      flex: 1;
-    }
-    .dish-name {
-      font-size: 0.97rem;
-      font-weight: 700;
-      color: var(--green);
-      line-height: 1.25;
-    }
-    .dish-desc {
-      font-size: 0.74rem;
-      color: rgba(30,46,30,0.52);
-      line-height: 1.4;
-      margin: 3px 0 5px;
-    }
-    .dish-macros {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-    .macro-chip {
-      font-size: 0.75rem;
-      font-weight: 800;
-      color: var(--green);
-      background: rgba(255,255,255,0.72);
-      border: 1px solid rgba(30,46,30,0.2);
-      padding: 6px 10px;
-      border-radius: 100px;
-      white-space: nowrap;
-      box-shadow: 0 1px 3px rgba(30,46,30,0.06);
-      box-shadow:
-        inset 0 2px 4px rgba(0, 0, 0, 0.14),
-        inset 0 1px 1px rgba(0, 0, 0, 0.08),
-        0 1px 0 rgba(255, 255, 255, 0.7);
-    }
-    /* ── Global tier bar ── */
-    .tier-bar {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 32px;
-      padding: 14px 20px;
-      background: var(--white);
-      border-radius: var(--radius-sm);
-      border: 1px solid rgba(30,46,30,0.08);
-      box-shadow: var(--shadow-sm);
-      flex-wrap: wrap;
-    }
-    .tier-bar__label {
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--text);
-      white-space: nowrap;
-    }
-    .tier-bar__ctrl {
-      display: flex;
-      gap: 6px;
-    }
-    .tier-bar__btn {
-      padding: 7px 22px;
-      border-radius: 100px;
-      font-family: var(--font-body);
-      font-size: 0.82rem;
-      font-weight: 700;
-      cursor: pointer;
-      letter-spacing: 0.02em;
-      transition: all 0.15s;
-      color: #1e3d22;
-      background: linear-gradient(180deg, rgba(55,100,60,0.18) 0%, rgba(25,65,30,0.10) 100%);
-      border: 1.5px solid rgba(40,90,45,0.45);
-      border-top-color: rgba(15,55,20,0.6);
-      border-bottom-color: rgba(140,190,145,0.5);
-      box-shadow:
-        inset 0 2px 4px rgba(0,0,0,0.13),
-        inset 0 1px 1px rgba(0,0,0,0.07),
-        0 1px 0 rgba(255,255,255,0.65);
-    }
-    .tier-bar__btn.active {
-      color: var(--cream);
-      background: linear-gradient(180deg, #3a6b40 0%, var(--green) 100%);
-      border: 1.5px solid rgba(15,35,15,0.5);
-      border-top-color: rgba(110,160,115,0.35);
-      border-bottom-color: rgba(10,30,10,0.65);
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.14),
-        0 2px 6px rgba(30,46,30,0.28),
-        0 1px 2px rgba(0,0,0,0.18);
-    }
-    .tier-bar__note {
-      font-size: 0.74rem;
-      color: rgba(30,46,30,0.38);
-      font-style: italic;
-    }
-    .price-guide {
-      flex: 1 0 100%;
-      display: grid;
-      grid-template-columns: auto repeat(3, minmax(0, 1fr));
-      align-items: center;
-      gap: 12px 18px;
-      padding-top: 14px;
-      border-top: 1px solid rgba(30,46,30,0.09);
-    }
-    .price-guide__title {
-      font-size: 0.72rem;
-      font-weight: 700;
-      color: var(--green);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-    .price-guide__item {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-      min-width: 0;
-    }
-    .price-guide__item span {
-      font-size: 0.7rem;
-      color: rgba(30,46,30,0.5);
-    }
-    .price-guide__item strong {
-      font-size: 0.76rem;
-      color: var(--green);
-      line-height: 1.35;
-    }
-
-    /* ── Per-card tier toggle ── */
-    .tier-order-list {
-      display: grid;
-      gap: 8px;
-      margin-top: auto;
-      padding-top: 6px;
-    }
-    .sold-out-note {
-      min-height: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 10px 12px;
-      border-radius: var(--radius-sm);
-      background: rgba(30,46,30,0.08);
-      color: var(--green);
-      font-size: 0.8rem;
-      font-weight: 800;
-      text-transform: uppercase;
-    }
-    .tier-order-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      min-height: 48px;
-      padding: 7px 8px 7px 11px;
-      border-radius: var(--radius-sm);
-      background: rgba(30,46,30,0.045);
-      border: 1px solid rgba(30,46,30,0.08);
-    }
-    .tier-order-info {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-      min-width: 0;
-    }
-    .tier-order-info strong {
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: var(--green);
-    }
-    .tier-order-info span {
-      font-size: 0.75rem;
-      font-weight: 600;
-      line-height: 1.4;
-      color: rgba(30,46,30,0.72);
-    }
-    .tier-order-info span strong {
-      font-size: inherit;
-      font-weight: 800;
-      color: var(--green);
-    }
-
-    /* Qty controls */
-    .qty-ctrl {
-      display: flex;
-      align-items: center;
-      background: rgba(30,46,30,0.07);
-      border-radius: var(--radius-pill);
-      overflow: hidden;
-    }
-    .qty-btn {
-      width: 32px; height: 32px;
-      border: none; background: transparent;
-      color: var(--green);
-      font-size: 1.15rem;
-      font-weight: 500;
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      transition: background 0.14s;
-      line-height: 1;
-      user-select: none;
-    }
-    .qty-btn:hover { background: rgba(30,46,30,0.11); }
-    .qty-btn:active { background: rgba(30,46,30,0.2); }
-    .qty-val {
-      min-width: 24px;
-      text-align: center;
-      font-size: 0.93rem;
-      font-weight: 700;
-      color: var(--green);
-    }
-
-    /* ── Order summary sidebar ── */
-    .order-summary {
-      position: sticky;
-      top: calc(var(--banner-h) + 88px);
-      background: var(--green);
-      color: var(--cream);
-      border-radius: var(--radius-md);
-      padding: 26px;
-      box-shadow: var(--shadow-lg);
-    }
-    .order-summary h3 {
-      font-size: 0.78rem;
-      font-weight: 700;
-      color: rgba(236,231,223,0.55);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 18px;
-    }
-    .summary-items {
-      display: flex;
-      flex-direction: column;
-      gap: 9px;
-      min-height: 52px;
-      margin-bottom: 18px;
-    }
-    .summary-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 12px;
-      font-size: 0.88rem;
-    }
-    .summary-item-name { color: rgba(236,231,223,0.75); flex: 1; line-height: 1.35; }
-    .summary-item-price { color: var(--cream); font-weight: 600; white-space: nowrap; }
-    .summary-empty { font-size: 0.83rem; color: rgba(236,231,223,0.38); font-style: italic; }
-    .summary-divider {
-      border: none;
-      border-top: 1px solid rgba(236,231,223,0.13);
-      margin: 0 0 16px;
-    }
-    .summary-total-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 16px 0 18px;
-    }
-    .summary-fee-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      color: rgba(236,231,223,0.7);
-      font-size: 0.82rem;
-      margin-bottom: 10px;
-    }
-    .summary-fee-row strong {
-      color: var(--cream);
-      font-weight: 650;
-    }
-    .summary-total-label { font-size: 0.88rem; font-weight: 600; color: rgba(236,231,223,0.7); }
-    .summary-total-val { font-size: 1.4rem; font-weight: 700; color: var(--cream); }
-    .summary-policy {
-      display: grid;
-      gap: 8px;
-      margin: -4px 0 16px;
-    }
-    .summary-policy__line {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 9px 11px;
-      border-radius: 12px;
-      background: rgba(236,231,223,0.08);
-      color: rgba(236,231,223,0.72);
-      font-size: 0.76rem;
-      line-height: 1.35;
-    }
-    .summary-policy__line strong {
-      color: var(--cream);
-      white-space: nowrap;
-    }
-    .summary-policy__line.is-good {
-      background: rgba(127,168,130,0.2);
-      color: rgba(236,231,223,0.9);
-    }
-    .summary-policy__line.is-warning {
-      background: rgba(236,231,223,0.12);
-      color: rgba(236,231,223,0.82);
-    }
-    #placeOrderBtn {
-      width: 100%;
-      justify-content: center;
-      background: var(--cream);
-      color: var(--green);
-      box-shadow: none;
-      font-size: 0.95rem;
-    }
-    #placeOrderBtn:hover {
-      background: #fff;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.16);
-    }
-    #placeOrderBtn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
-    }
-    .summary-note {
-      font-size: 0.73rem;
-      color: rgba(236,231,223,0.38);
-      text-align: center;
-      margin-top: 12px;
-      line-height: 1.45;
-    }
-
-    /* ── Success state ── */
-    .order-success {
-      display: none;
-      text-align: center;
-      padding: 72px 28px 100px;
-      max-width: 520px;
-      margin: 0 auto;
-    }
-    .order-success.visible { display: block; }
-    .success-icon {
-      width: 68px; height: 68px;
-      background: var(--green);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 26px;
-    }
-    .success-icon svg { color: var(--cream); }
-    .order-success h2 {
-      font-size: 1.85rem;
-      font-weight: 700;
-      color: var(--green);
-      letter-spacing: -0.025em;
-      margin-bottom: 12px;
-    }
-    .order-success p { color: var(--text-muted); line-height: 1.65; margin-bottom: 6px; }
-    .order-closed {
-      display: none;
-      max-width: 620px;
-      margin: 28px auto 100px;
-      padding: 48px 34px;
-      border-radius: var(--radius-md);
-      background: var(--white);
-      border: 1px solid rgba(30,46,30,0.08);
-      box-shadow: var(--shadow-md);
-      text-align: center;
-    }
-    .order-closed.visible { display: block; }
-    .order-closed h2 {
-      margin-bottom: 12px;
-      color: var(--green);
-      font-size: 1.7rem;
-    }
-    .order-closed p {
-      color: var(--text-muted);
-      line-height: 1.65;
-    }
-    .order-closed__phone {
-      display: block;
-      margin-top: 8px;
-      color: var(--green);
-      font-size: 1.08rem;
-      font-weight: 700;
-    }
-    .order-closed__actions {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 22px;
-    }
-    .order-closed__action {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 46px;
-      padding: 11px 22px;
-      border: 1.5px solid var(--green);
-      border-radius: var(--radius-pill);
-      color: var(--green);
-      font-weight: 700;
-      transition: background 0.2s ease, color 0.2s ease;
-    }
-    .order-closed__action:hover {
-      background: var(--green);
-      color: var(--cream);
-    }
-    .success-total {
-      max-width: 360px;
-      margin: 24px auto 18px;
-      padding: 16px 20px;
-      border-radius: var(--radius-sm);
-      background: var(--green);
-      color: var(--cream);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-    .success-total span {
-      font-size: 0.82rem;
-      font-weight: 600;
-    }
-    .success-total strong {
-      font-size: 1.35rem;
-      white-space: nowrap;
-    }
-    .success-reference {
-      margin: 16px auto 0;
-      color: var(--green);
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-    }
-    .success-order {
-      max-width: 520px;
-      margin: 24px auto 0;
-      padding: 20px;
-      border: 1px solid rgba(30,46,30,0.1);
-      border-radius: var(--radius-sm);
-      background: rgba(255,255,255,0.58);
-      text-align: left;
-    }
-    .success-order__item,
-    .success-order__row {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 18px;
-      padding: 7px 0;
-      color: var(--text-muted);
-      font-size: 0.82rem;
-      line-height: 1.4;
-    }
-    .success-order__item strong,
-    .success-order__row strong {
-      color: var(--green);
-      white-space: nowrap;
-    }
-    .success-order__divider {
-      border: 0;
-      border-top: 1px solid rgba(30,46,30,0.1);
-      margin: 10px 0;
-    }
-
-    /* ── Responsive ── */
-    @media (max-width: 900px) {
-      .order-layout {
-        grid-template-columns: 1fr;
-      }
-      .order-summary { position: static; order: -1; }
-      .dish-grid { grid-template-columns: 1fr 1fr; }
-    }
-    @media (max-width: 560px) {
-      .order-cutoff {
-        width: 100%;
-        padding: 13px 16px 14px;
-      }
-      .dish-grid { grid-template-columns: 1fr; }
-      .name-row { grid-template-columns: 1fr; }
-      .order-info-card { padding: 20px 16px; }
-      .price-guide {
-        grid-template-columns: 1fr;
-        gap: 10px;
-      }
-      .price-guide__item {
-        flex-direction: row;
-        justify-content: space-between;
-        gap: 14px;
-      }
-      .price-guide__item strong { text-align: right; }
-    }
-  </style>
+  <link rel="stylesheet" href="/order.css" />
+  <script src="/analytics.js" defer></script>
 </head>
 <body>
 
@@ -735,7 +58,7 @@
 
   <section class="order-closed container" id="orderClosed" aria-live="polite">
     <h2>Orders are closed for this week.</h2>
-    <p>The Wednesday 5:00 PM cutoff has passed.</p>
+    <p>The current ordering window has closed.</p>
     <p>Forgot to order or have a question? Contact Rida directly.</p>
     <a class="order-closed__phone" href="tel:+14695450781">(469) 545-0781</a>
     <div class="order-closed__actions">
@@ -746,6 +69,7 @@
 
   <!-- ══════════ ORDER FORM ══════════ -->
   <div class="order-layout container" id="orderForm">
+    <input type="text" id="orderWebsite" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="form-honeypot" />
 
     <!-- LEFT: info + menu -->
     <div class="order-main">
@@ -754,12 +78,36 @@
       <div class="order-info-card">
         <h2>Your Info</h2>
         <div class="name-row">
-          <input type="text" class="order-input" id="firstName" placeholder="First Name *" autocomplete="given-name" required />
-          <input type="text" class="order-input" id="lastName"  placeholder="Last Name *"  autocomplete="family-name" required />
+          <input type="text" class="order-input" id="firstName" placeholder="First Name *" aria-label="First name" autocomplete="given-name" required />
+          <input type="text" class="order-input" id="lastName"  placeholder="Last Name *" aria-label="Last name" autocomplete="family-name" required />
         </div>
-        <input type="tel" class="order-input" id="phone" placeholder="Phone Number *" autocomplete="tel" inputmode="tel" required />
-        <p class="input-help">Rida will use this number to confirm your order, delivery details, and payment.</p>
-        <textarea class="order-input" id="orderNotes" placeholder="Special requests or notes (optional)..."></textarea>
+        <input type="tel" class="order-input" id="phone" placeholder="Phone Number *" aria-label="Phone number" autocomplete="tel" inputmode="tel" required />
+        <input type="email" class="order-input" id="email" placeholder="Email for order confirmation *" aria-label="Email for order confirmation" autocomplete="email" required />
+        <input type="text" class="order-input" id="deliveryAddress" placeholder="Delivery Address *" aria-label="Delivery address" autocomplete="street-address" required />
+        <div class="contact-row">
+          <input type="text" class="order-input" id="deliveryCity" placeholder="City *" aria-label="Delivery city" autocomplete="address-level2" required />
+          <input type="text" class="order-input" id="deliveryZip" placeholder="ZIP Code *" aria-label="Delivery ZIP code" autocomplete="postal-code" inputmode="numeric" maxlength="5" required />
+        </div>
+        <p class="input-help">Rida uses this information only to confirm and deliver your order. A copy of your order will be emailed to you immediately.</p>
+        <textarea class="order-input" id="deliveryInstructions" placeholder="Gate code or delivery instructions (optional)..." aria-label="Delivery instructions"></textarea>
+        <textarea class="order-input" id="orderNotes" placeholder="Meal requests or other notes (optional)..." aria-label="Meal requests or other notes"></textarea>
+        <div class="order-growth-fields">
+          <label class="promo-field" for="promoCode">
+            <span>Partner or referral code <small>(optional)</small></span>
+            <span class="promo-field__controls">
+              <input type="text" class="order-input" id="promoCode" placeholder="Enter code" maxlength="32" autocomplete="off" autocapitalize="characters" />
+              <button type="button" class="promo-apply" id="applyPromoBtn">Apply</button>
+            </span>
+            <span class="promo-feedback" id="promoFeedback" aria-live="polite"></span>
+          </label>
+          <label class="menu-opt-in" for="menuEmailOptIn">
+            <input type="checkbox" id="menuEmailOptIn" />
+            <span>
+              <strong>Email me when next week's menu opens.</strong>
+              <small>Occasional PRPD menu and cutoff updates. You can opt out at any time.</small>
+            </span>
+          </label>
+        </div>
       </div>
 
       <!-- ── Global tier toggle ── -->
@@ -780,10 +128,19 @@
             <strong>$6.99 each</strong>
           </div>
         </div>
+        <div class="later-week-guide">
+          <span class="later-week-guide__mark" aria-hidden="true">&#10022;</span>
+          <div><strong>Planning meals for days 5-7?</strong>Choose dishes marked <em>Freezer-friendly</em>. Freeze those meals when delivered, then thaw overnight in the refrigerator before reheating.</div>
+        </div>
       </div>
 
       <!-- ── Breakfasts ── -->
-      <div class="menu-section">
+      <nav class="menu-jump" aria-label="Jump to menu category">
+        <a href="#menu-breakfasts">Breakfast</a>
+        <a href="#menu-mains">Mains</a>
+        <a href="#menu-desserts">Desserts</a>
+      </nav>
+      <div class="menu-section" id="menu-breakfasts">
         <div class="menu-section-head">
           <span class="section-label">01</span>
           <h2>Breakfasts</h2>
@@ -792,7 +149,7 @@
       </div>
 
       <!-- ── Mains ── -->
-      <div class="menu-section">
+      <div class="menu-section" id="menu-mains">
         <div class="menu-section-head">
           <span class="section-label">02</span>
           <h2>Mains</h2>
@@ -801,7 +158,7 @@
       </div>
 
       <!-- ── Desserts ── -->
-      <div class="menu-section">
+      <div class="menu-section" id="menu-desserts">
         <div class="menu-section-head">
           <span class="section-label">03</span>
           <h2>Desserts</h2>
@@ -813,7 +170,8 @@
 
     <!-- RIGHT: sticky summary -->
     <aside>
-      <div class="order-summary">
+      <div class="order-summary" id="orderSummary" tabindex="-1">
+        <button type="button" class="summary-close" id="summaryClose" aria-label="Close order summary">&times;</button>
         <h3>Your Order</h3>
         <div class="summary-items" id="summaryItems">
           <p class="summary-empty">Add items from the menu.</p>
@@ -826,6 +184,10 @@
         <div class="summary-fee-row">
           <span>Delivery</span>
           <strong id="deliveryFeeDisplay">&mdash;</strong>
+        </div>
+        <div class="summary-fee-row summary-discount-row" id="discountRow" hidden>
+          <span>Partner discount <small id="discountCodeLabel"></small></span>
+          <strong id="discountDisplay">-$0.00</strong>
         </div>
         <div class="summary-total-row">
           <span class="summary-total-label">Total due</span>
@@ -841,14 +203,22 @@
             <strong>for free delivery</strong>
           </div>
         </div>
-        <button class="btn btn--primary" id="placeOrderBtn" onclick="submitOrder()">
+        <button class="btn btn--primary" id="placeOrderBtn">
           <span id="btnText">Place Order →</span>
-          <span id="btnSpinner" style="display:none">Sending...</span>
+          <span id="btnSpinner" hidden>Sending...</span>
         </button>
         <p class="summary-note">Exact total rounded up to the nearest dollar.<br>Payment via Zelle after confirmation.</p>
       </div>
     </aside>
 
+  </div>
+
+  <div class="mobile-cart-bar" id="mobileCartBar" aria-live="polite">
+    <div>
+      <span id="mobileCartCount">0 items</span>
+      <strong id="mobileCartTotal">$0.00 total</strong>
+    </div>
+    <button type="button" id="mobileCartReview" aria-controls="orderSummary" aria-expanded="false">Review order</button>
   </div>
 
   <!-- ══════════ SUCCESS ══════════ -->
@@ -858,399 +228,33 @@
     </div>
     <h2>Order Received!</h2>
     <p id="successMsg">Your order has been sent to PRPD.</p>
-    <p>Rida will confirm via text and send the details shortly.</p>
+    <p id="successEmailMsg">We also emailed you an itemized copy for your records.</p>
+    <p>Rida will confirm payment and Saturday delivery by text shortly.</p>
     <p class="success-reference">Order reference: <span id="successOrderId"></span></p>
+    <p class="success-storage-note" id="successStorageNote" hidden><strong>For meals marked Freezer-friendly:</strong> freeze them when delivered and thaw overnight in the refrigerator before reheating.</p>
     <div class="success-order">
       <div id="successOrderItems"></div>
       <hr class="success-order__divider" />
       <div class="success-order__row"><span>Meals subtotal</span><strong id="successSubtotal">$0.00</strong></div>
       <div class="success-order__row"><span>Delivery</span><strong id="successDeliveryFee">$0.00</strong></div>
+      <div class="success-order__row" id="successDiscountRow" hidden><span>Partner discount <small id="successDiscountCode"></small></span><strong id="successDiscount">-$0.00</strong></div>
     </div>
     <div class="success-total">
       <span>Your order total</span>
       <strong id="successTotal">$0.00</strong>
     </div>
-    <p style="margin-top:22px; font-size:0.85rem; color:var(--text-muted)">
+    <p class="success-delivery">
       Delivery: <strong id="successDelivery"></strong>
     </p>
   </div>
 
+  <footer class="order-legal">
+    <a href="/privacy">Privacy</a>
+    <span aria-hidden="true">&middot;</span>
+    <a href="mailto:getprpd@gmail.com">getprpd@gmail.com</a>
+  </footer>
+
   <script src="/config/order-config.js"></script>
-  <script>
-    const ORDER_API_URL = '/api/order';
-    const { batch: BATCH, policies: POLICIES, prices: PRICES, menu: MENU } = window.PRPD_ORDER_CONFIG;
-    const MIN_ORDER_TOTAL = POLICIES.minimumOrder;
-    const FREE_DELIVERY_THRESHOLD = POLICIES.freeDeliveryThreshold;
-    const DELIVERY_FEE = POLICIES.deliveryFee;
-    const MAX_QTY_PER_ITEM = POLICIES.maxQtyPerItem;
-    const MAX_TOTAL_ITEMS = POLICIES.maxTotalItems;
-
-    // ════════════════════════════════════════
-    // STATE
-    // ════════════════════════════════════════
-    const cart = {}; // { "dishId:tier": qty }
-
-    function allDishes() {
-      return [...MENU.breakfasts, ...MENU.mains, ...MENU.desserts];
-    }
-
-    function sectionOf(id) {
-      for (const sec of ['breakfasts', 'mains', 'desserts']) {
-        if (MENU[sec].some(d => d.id === id)) return sec;
-      }
-      return '';
-    }
-
-    function cartKey(id, tier) {
-      return `${id}:${tier || 'single'}`;
-    }
-
-    function getQty(id, tier) {
-      return cart[cartKey(id, tier)] || 0;
-    }
-
-    function getOrderLines() {
-      return allDishes().flatMap(dish => {
-        const availableTiers = dish.category === 'dessert' ? [null] : ['lean', 'bulk'];
-        return availableTiers
-          .map(tier => ({ dish, tier, qty: getQty(dish.id, tier) }))
-          .filter(line => line.qty > 0);
-      });
-    }
-
-    function macroChipsHtml(m) {
-      const chip = (val, label, unit) =>
-        val > 0 ? `<span class="macro-chip">${val}${unit} ${label}</span>` : '';
-      return chip(m.cal, 'Cal', '') + chip(m.protein, 'Protein', 'g') +
-             chip(m.carbs, 'Carbs', 'g') + chip(m.fiber, 'Fiber', 'g') + chip(m.fat, 'Fats', 'g');
-    }
-
-    function getPrice(dish, tier) {
-      const priceTier = dish.category === 'dessert' ? 'single' : tier;
-      return PRICES[dish.category][priceTier];
-    }
-
-    function tierOrderRowHtml(dish, tier) {
-      const effectiveTier = dish.category === 'dessert' ? null : tier;
-      const macros = effectiveTier === 'bulk' && dish.bulkMacros ? dish.bulkMacros : dish.macros;
-      const label = dish.category === 'dessert' ? 'Dessert' : (tier === 'bulk' ? 'Bulk' : 'Lean');
-      const price = getPrice(dish, effectiveTier);
-      const keySuffix = effectiveTier || 'single';
-      const fiber = macros.fiber > 0 ? ` &middot; ${macros.fiber}g fiber` : '';
-      return `<div class="tier-order-row">
-        <div class="tier-order-info">
-          <strong>${label} &middot; $${price.toFixed(2)}</strong>
-          <span><strong>${macros.cal}</strong> Calories &middot; <strong>${macros.protein}g</strong> Protein</span>
-          <span>${macros.carbs}g Carbs &middot; ${macros.fat}g Fat${fiber}</span>
-        </div>
-        <div class="qty-ctrl">
-          <button class="qty-btn" onclick="changeQty('${dish.id}', '${keySuffix}', -1)" aria-label="Remove one ${label.toLowerCase()} ${dish.name}">−</button>
-          <span class="qty-val" id="qty-${dish.id}-${keySuffix}">0</span>
-          <button class="qty-btn" onclick="changeQty('${dish.id}', '${keySuffix}', 1)" aria-label="Add one ${label.toLowerCase()} ${dish.name}">+</button>
-        </div>
-      </div>`;
-    }
-
-    // ════════════════════════════════════════
-    // RENDER
-    // ════════════════════════════════════════
-    function renderMenu() {
-      document.getElementById('batchMeta').textContent =
-        `Batch ${BATCH.number}  ·  Delivery ${BATCH.deliveryDate}`;
-      document.getElementById('orderCutoff').textContent = BATCH.cutoffLabel;
-      document.getElementById('successDelivery').textContent = BATCH.deliveryDate;
-
-      ['breakfasts', 'mains', 'desserts'].forEach(section => {
-        const grid = document.getElementById('grid-' + section);
-        grid.innerHTML = MENU[section].map(dish => {
-          const available = dish.available !== false;
-          const orderRows = !available
-            ? '<div class="sold-out-note">Sold out for this batch</div>'
-            : dish.category === 'dessert'
-              ? tierOrderRowHtml(dish, null)
-              : tierOrderRowHtml(dish, 'lean') + tierOrderRowHtml(dish, 'bulk');
-          return `
-            <div class="dish-card${available ? '' : ' is-unavailable'}" id="card-${dish.id}">
-              <div class="dish-img">
-                <div class="dish-img__bg"><span>PRPD</span></div>
-                ${dish.image ? `<img src="${dish.image}" alt="${dish.name}" onerror="this.style.display='none'" loading="lazy" />` : ''}
-              </div>
-              <div class="dish-body">
-                <div class="dish-name">${dish.name}</div>
-                ${dish.description ? `<p class="dish-desc">${dish.description}</p>` : ''}
-                <div class="tier-order-list">${orderRows}</div>
-              </div>
-            </div>`;
-        }).join('');
-      });
-    }
-
-    function isOrderingClosed() {
-      const cutoff = new Date(BATCH.cutoffIso);
-      return !Number.isNaN(cutoff.getTime()) && Date.now() >= cutoff.getTime();
-    }
-
-    function applyOrderAvailability() {
-      const closed = isOrderingClosed();
-      document.getElementById('orderForm').style.display = closed ? 'none' : '';
-      document.getElementById('orderClosed').classList.toggle('visible', closed);
-      return closed;
-    }
-
-    function createOrderId() {
-      const dateStamp = new Intl.DateTimeFormat('en-CA', {
-        timeZone: 'America/Chicago',
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-      }).format(new Date()).replace(/-/g, '');
-      const randomBytes = new Uint8Array(4);
-      crypto.getRandomValues(randomBytes);
-      const suffix = Array.from(randomBytes, byte => byte.toString(16).padStart(2, '0')).join('').toUpperCase();
-      return `PRPD-B${BATCH.number}-${dateStamp}-${suffix}`;
-    }
-
-    function renderOrderConfirmation(orderLines, mealSubtotal, deliveryFee, roundedTotal, orderId) {
-      document.getElementById('successOrderId').textContent = orderId;
-      document.getElementById('successOrderItems').innerHTML = orderLines.map(({ dish, tier, qty }) => {
-        const tierLabel = dish.category === 'dessert' ? '' : ` (${tier === 'bulk' ? 'Bulk' : 'Lean'})`;
-        const subtotal = qty * getPrice(dish, tier);
-        return `<div class="success-order__item"><span>${qty}&times; ${dish.name}${tierLabel}</span><strong>$${subtotal.toFixed(2)}</strong></div>`;
-      }).join('');
-      document.getElementById('successSubtotal').textContent = '$' + mealSubtotal.toFixed(2);
-      document.getElementById('successDeliveryFee').textContent = deliveryFee > 0 ? '$' + deliveryFee.toFixed(2) : 'Free';
-      document.getElementById('successTotal').textContent = '$' + roundedTotal.toFixed(2);
-    }
-
-    function changeQty(id, tier, delta) {
-      const dish = allDishes().find(item => item.id === id);
-      if (!dish || dish.available === false) return;
-      const effectiveTier = tier === 'single' ? null : tier;
-      const key = cartKey(id, effectiveTier);
-      const maxQty = dish.maxQty || MAX_QTY_PER_ITEM;
-      cart[key] = Math.min(maxQty, Math.max(0, (cart[key] || 0) + delta));
-      document.getElementById(`qty-${id}-${tier}`).textContent = cart[key];
-      const hasAnyQty = getQty(id, null) > 0 || getQty(id, 'lean') > 0 || getQty(id, 'bulk') > 0;
-      document.getElementById('card-' + id).classList.toggle('has-qty', hasAnyQty);
-      updateSummary();
-    }
-
-    function updateSummary() {
-      const ordered = getOrderLines();
-      const container = document.getElementById('summaryItems');
-
-      if (ordered.length === 0) {
-        container.innerHTML = '<p class="summary-empty">Add items from the menu.</p>';
-      } else {
-        container.innerHTML = ordered.map(({ dish, tier, qty }) => {
-          const price = getPrice(dish, tier);
-          const sub   = (qty * price).toFixed(2);
-          const tierLabel = dish.category !== 'dessert' ? ` <span style="font-size:0.72rem;opacity:0.6;font-weight:500">(${tier.toUpperCase()})</span>` : '';
-          return `<div class="summary-item">
-            <span class="summary-item-name">${qty}&times; ${dish.name}${tierLabel}</span>
-            <span class="summary-item-price">$${sub}</span>
-          </div>`;
-        }).join('');
-      }
-
-      const mealSubtotal = getMealSubtotal(ordered);
-      const deliveryFee = getDeliveryFee(mealSubtotal);
-      const exactTotal = mealSubtotal + deliveryFee;
-      const roundedTotal = Math.ceil(exactTotal);
-      document.getElementById('mealSubtotalDisplay').textContent = '$' + mealSubtotal.toFixed(2);
-      document.getElementById('summaryTotal').textContent = '$' + roundedTotal.toFixed(2);
-      document.getElementById('deliveryFeeDisplay').textContent = mealSubtotal === 0
-        ? '—'
-        : deliveryFee > 0 ? '$' + deliveryFee.toFixed(2) : 'Free';
-      updateOrderPolicies(mealSubtotal);
-    }
-
-    function getMealSubtotal(ordered) {
-      return ordered.reduce((sum, line) => sum + line.qty * getPrice(line.dish, line.tier), 0);
-    }
-
-    function getDeliveryFee(mealSubtotal) {
-      if (mealSubtotal <= 0) return 0;
-      return mealSubtotal > FREE_DELIVERY_THRESHOLD ? 0 : DELIVERY_FEE;
-    }
-
-    function updateOrderPolicies(mealSubtotal) {
-      const minEl = document.getElementById('minimumStatus');
-      const deliveryEl = document.getElementById('deliveryStatus');
-
-      if (!minEl || !deliveryEl) return;
-
-      minEl.classList.toggle('is-good', mealSubtotal >= MIN_ORDER_TOTAL);
-      minEl.classList.toggle('is-warning', mealSubtotal > 0 && mealSubtotal < MIN_ORDER_TOTAL);
-      const amountToMinimum = Math.max(MIN_ORDER_TOTAL - mealSubtotal, 0);
-      minEl.querySelector('span').textContent = mealSubtotal >= MIN_ORDER_TOTAL
-        ? 'Order minimum met'
-        : 'Add $' + amountToMinimum.toFixed(2) + ' more';
-      minEl.querySelector('strong').textContent = mealSubtotal >= MIN_ORDER_TOTAL
-        ? 'Ready to order'
-        : 'to meet the $' + MIN_ORDER_TOTAL.toFixed(0) + ' minimum';
-
-      deliveryEl.classList.toggle('is-good', mealSubtotal > FREE_DELIVERY_THRESHOLD);
-      deliveryEl.classList.toggle('is-warning', mealSubtotal > 0 && mealSubtotal <= FREE_DELIVERY_THRESHOLD);
-      const amountToFreeDelivery = Math.max(FREE_DELIVERY_THRESHOLD + 0.01 - mealSubtotal, 0);
-      deliveryEl.querySelector('span').textContent = mealSubtotal > FREE_DELIVERY_THRESHOLD
-        ? 'Free delivery applied'
-        : 'Add $' + amountToFreeDelivery.toFixed(2) + ' more';
-      deliveryEl.querySelector('strong').textContent = mealSubtotal > FREE_DELIVERY_THRESHOLD
-        ? 'You save $' + DELIVERY_FEE.toFixed(2)
-        : 'for free delivery';
-    }
-
-    // ════════════════════════════════════════
-    // NAV scroll shrink
-    // ════════════════════════════════════════
-    window.addEventListener('scroll', () => {
-      document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
-    }, { passive: true });
-
-    const phoneInput = document.getElementById('phone');
-    phoneInput.addEventListener('input', () => {
-      let val = phoneInput.value.replace(/\D/g, '');
-      if (val.length >= 6) {
-        val = `(${val.slice(0,3)}) ${val.slice(3,6)}-${val.slice(6,10)}`;
-      } else if (val.length >= 3) {
-        val = `(${val.slice(0,3)}) ${val.slice(3)}`;
-      }
-      phoneInput.value = val;
-    });
-
-    // ════════════════════════════════════════
-    // SUBMIT
-    // ════════════════════════════════════════
-    async function submitOrder() {
-      if (applyOrderAvailability()) {
-        alert('Orders are closed for this week. Please contact Rida if you need help.');
-        return;
-      }
-
-      const firstName = document.getElementById('firstName').value.trim();
-      const lastName  = document.getElementById('lastName').value.trim();
-      const phone     = document.getElementById('phone').value.trim();
-      const notes     = document.getElementById('orderNotes').value.trim();
-
-      // Validate required client info
-      let valid = true;
-      let firstInvalid = null;
-      [['firstName', firstName], ['lastName', lastName], ['phone', phone]].forEach(([id, val]) => {
-        const el = document.getElementById(id);
-        if (!val) {
-          el.classList.add('error');
-          el.addEventListener('input', () => el.classList.remove('error'), { once: true });
-          if (!firstInvalid) firstInvalid = el;
-          valid = false;
-        }
-      });
-      if (!valid) {
-        firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        return;
-      }
-      const phoneDigits = phone.replace(/\D/g, '');
-      if (phoneDigits.length !== 10) {
-        const el = document.getElementById('phone');
-        el.classList.add('error');
-        el.addEventListener('input', () => el.classList.remove('error'), { once: true });
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        return;
-      }
-
-      // Must have at least one item
-      const ordered = getOrderLines();
-      if (ordered.length === 0) {
-        alert('Please add at least one item to your order.');
-        return;
-      }
-      const totalItems = ordered.reduce((sum, line) => sum + line.qty, 0);
-      if (totalItems > MAX_TOTAL_ITEMS) {
-        alert('Please text Rida directly for very large orders.');
-        return;
-      }
-
-      const btn = document.getElementById('placeOrderBtn');
-      btn.disabled = true;
-      document.getElementById('btnText').style.display    = 'none';
-      document.getElementById('btnSpinner').style.display = 'inline';
-
-      const mealSubtotal = getMealSubtotal(ordered);
-      const deliveryFee = getDeliveryFee(mealSubtotal);
-      const exactTotal = mealSubtotal + deliveryFee;
-      const roundedTotal = Math.ceil(exactTotal);
-      if (mealSubtotal < MIN_ORDER_TOTAL) {
-        alert('Minimum order is $60. Please add a few more items to place your order.');
-        btn.disabled = false;
-        document.getElementById('btnText').style.display    = 'inline';
-        document.getElementById('btnSpinner').style.display = 'none';
-        return;
-      }
-      const orderId = createOrderId();
-
-      const payload = {
-        action: 'order',
-        orderId,
-        batch: BATCH.number,
-        deliveryDate: BATCH.deliveryDate,
-        firstName,
-        lastName,
-        phone,
-        items: ordered.map(({ dish, tier, qty }) => {
-          const unitPrice = getPrice(dish, tier);
-          return {
-            id: dish.id,
-            name: dish.name,
-            category: dish.category,
-            section: sectionOf(dish.id),
-            tier: dish.category !== 'dessert' ? tier : null,
-            qty,
-            unitPrice,
-            subtotal: parseFloat((qty * unitPrice).toFixed(2)),
-          };
-        }),
-        mealSubtotal: parseFloat(mealSubtotal.toFixed(2)),
-        deliveryFee: parseFloat(deliveryFee.toFixed(2)),
-        exactTotal: parseFloat(exactTotal.toFixed(2)),
-        total: roundedTotal,
-        notes,
-        submittedAt: new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' }),
-      };
-
-      try {
-        const response = await fetch(ORDER_API_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
-        const result = await response.json().catch(() => null);
-        if (!response.ok || !result || result.status !== 'success') {
-          throw new Error(result && result.message ? result.message : 'The order could not be confirmed.');
-        }
-
-        document.getElementById('orderForm').style.display = 'none';
-        document.getElementById('successMsg').textContent =
-          `Thanks, ${firstName}! Your order has been sent to PRPD.`;
-        renderOrderConfirmation(ordered, mealSubtotal, deliveryFee, roundedTotal, orderId);
-        document.getElementById('orderSuccess').classList.add('visible');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-
-      } catch (err) {
-        console.error(err);
-        btn.disabled = false;
-        document.getElementById('btnText').style.display    = 'inline';
-        document.getElementById('btnSpinner').style.display = 'none';
-        alert(err.message || 'Something went wrong. Please text Rida at (469) 545-0781.');
-      }
-    }
-
-    // ════════════════════════════════════════
-    // INIT
-    // ════════════════════════════════════════
-    renderMenu();
-    applyOrderAvailability();
-    setInterval(applyOrderAvailability, 60000);
-  </script>
-
+  <script src="/order.js"></script>
 </body>
 </html>

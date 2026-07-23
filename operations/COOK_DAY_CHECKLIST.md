@@ -31,16 +31,30 @@ Use this with the approved recipes and the final order count. The purpose is to 
 - [ ] Wash hands; clean and sanitize work areas and food-contact equipment.
 - [ ] Set out sanitized probes, scales, timers, sheet pans, and labeled holding containers.
 - [ ] Review the production sequence and equipment bottlenecks.
+- [ ] Mark yesterday's completed desserts, sauces, and rice in the planner; verify count and cold holding instead of remaking them.
+- [ ] Assign three visible lanes: passive equipment, active cooking, and cold/cooling.
+
+## Phase Production
+
+- [ ] Start the longest passive oven batch first.
+- [ ] Limit hands-on simultaneous tasks to the number the team can actively monitor; with two people, default to one active stove/griddle task alongside passive equipment.
+- [ ] Work by component family: breakfast, chicken, beef/steak, then starches and hot sides.
+- [ ] Keep every marinade and finished dish in its own labeled bowl or pan after any genuinely shared base preparation.
+- [ ] Split batches to the actual pan, oven, skillet, or griddle capacity. Do not overcrowd equipment to save a cycle.
+- [ ] At each phase release gate, record endpoint temperature, count, actual yield, destination pan, and owner before advancing.
+- [ ] Do not begin final assembly until every required component for the selected dish has been released.
 
 ## Component Production
 
 For every component:
 
 - [ ] Record recipe/version and planned portions.
+- [ ] Record any ingredient brand, supplier, or package substitution that changes nutrition, allergens, yield, or cost.
 - [ ] Record ready-to-cook starting weight.
 - [ ] Follow the approved method, equipment load, time, and temperature.
 - [ ] Record final cooking temperature where required.
 - [ ] Record cooked yield before portioning.
+- [ ] Record measured liquid oil and salt added to the component when the controlled recipe does not already specify them.
 - [ ] Compare actual yield with planned yield before assembly begins.
 - [ ] If yield is short, stop and calculate the correction. Do not silently reduce portions.
 
@@ -64,6 +78,8 @@ Texas cooling log: https://www.dshs.texas.gov/sites/default/files/foodestablishm
 - [ ] Check a portion at regular intervals and the final three portions.
 - [ ] Keep sauces and garnishes in controlled weights or measured tools.
 - [ ] Record rejected/reworked containers instead of hiding them in the count.
+- [ ] Complete one full dish/tier run before changing the line. Reconcile Lean, reset, then run Bulk.
+- [ ] Bag by customer only after all dish/tier runs are complete and reconciled.
 
 ## Packaging and Labeling
 
@@ -77,6 +93,7 @@ Texas cooling log: https://www.dshs.texas.gov/sites/default/files/foodestablishm
 ## Final Reconciliation
 
 - [ ] Count finished meals by dish and tier.
+- [ ] Record planned, prepared, packed, leftover, and wasted quantities separately. These numbers must reconcile.
 - [ ] Match packed counts to the final customer order list.
 - [ ] Match desserts and sauce cups separately.
 - [ ] Record extra, short, damaged, or reworked units.
@@ -91,3 +108,5 @@ Texas cooling log: https://www.dshs.texas.gov/sites/default/files/foodestablishm
 - [ ] Record which recipe, equipment, or timing assumption failed.
 - [ ] Update the recipe only after reviewing the recorded evidence.
 - [ ] Keep this week's records with the batch number and delivery date.
+- [ ] Complete `BATCH_PRODUCTION_RECORD_TEMPLATE.md`; do not rely on chat or memory as the permanent batch record.
+- [ ] For every new or changed dish, record fresh taste, refrigerated quality, customer-style reheat quality, and the resulting Retest / Provisional / Approved decision.

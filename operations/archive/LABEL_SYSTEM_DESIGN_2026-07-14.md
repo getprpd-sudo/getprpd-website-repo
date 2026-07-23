@@ -1,5 +1,30 @@
 # PRPD Label System
 
+> Archived implementation brief. For current operation and printing, use `../LABEL_STUDIO_README.md`.
+
+## Implementation Status - July 14, 2026
+
+The label generator is complete and available through `label-studio.html` or the
+`PRPD Label Studio` desktop shortcut. It uses the shared active-menu nutrition
+data, supports Lean and Bulk labels, and prints four 3.5 x 5 inch labels on an
+Avery 5168 Letter sheet.
+
+Completed:
+
+- Low-ink PRPD label design with a light background and green brand accents
+- Nutrition Facts, ingredients, allergens, storage, reheating, dates, and net weight fields
+- Current active-menu dishes and both meal tiers
+- Four-label Avery 5168 print layout
+- Local desktop launcher and documented regeneration workflow
+
+Physical checks still required before printing a production run:
+
+- Confirm the printer is laser-compatible with Avery 5168 stock
+- Run a plain-paper alignment test at 100% scale
+- Enter representative finished net weights for the actual packed meals
+- Test one applied label through refrigeration and freezing
+- Confirm final business/legal label copy with the applicable regulator
+
 ## Finding
 
 The current Beef Seekh Kebab Shawarma label is visually strong, but nearly the entire label is a dark-green ink field. A pixel review of the supplied 1500 x 1050 artwork found 87.7% very-dark coverage and only 1.9% light coverage. That is not a printer cost estimate, but it confirms that almost the entire label receives heavy color. On an inkjet or laser printer, it will use substantially more ink or toner than a light label with dark text. White areas on white label stock are normally unprinted, so a warm white/cream background is the efficient direction.
@@ -68,11 +93,12 @@ Direct-thermal printers use no ink or toner. A Brother QL-800 supports labels up
 5. Produce a print-ready sheet or roll layout.
 6. Reconcile printed label count with packed container count.
 
-## Inputs Needed Before Building the Generator
+## Remaining Physical Inputs
 
 - Current printer make/model
-- Current label sheet or roll product number
-- Exact physical label width and height
 - Container dimensions and label placement
-- Whether labels must survive freezing, microwaving, or both
 - Final permit/label requirements
+
+The label stock and dimensions are already fixed: Avery 5168, four labels per
+Letter sheet, 3.5 x 5 inches each. Labels are expected to survive refrigeration
+and freezing; that performance still needs to be confirmed with one real package.

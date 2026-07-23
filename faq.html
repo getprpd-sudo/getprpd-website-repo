@@ -25,158 +25,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-  <!-- TikTok Pixel Code Start -->
-  <script>
-  !function (w, d, t) {
-    w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(
-  var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script")
-  ;n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
-    ttq.load('D8KU48BC77U7CO3SHUSG');
-    ttq.page();
-  }(window, document, 'ttq');
-  </script>
-  <!-- TikTok Pixel Code End -->
-  <style>
-    /* FAQ-specific styles */
-    .faq-page { padding: calc(120px + var(--banner-h)) 0 100px; min-height: 100svh; }
-
-    .faq-hero {
-      margin-bottom: 72px;
-    }
-    .faq-hero h1 {
-      font-family: var(--font-brand);
-      font-size: clamp(3rem, 6vw, 5rem);
-      color: var(--green);
-      letter-spacing: 0.05em;
-      margin-bottom: 12px;
-      line-height: 1.05;
-    }
-    .faq-hero p {
-      font-size: 1.05rem;
-      color: var(--text-muted);
-      max-width: 480px;
-      line-height: 1.7;
-    }
-
-    /* FAQ groups */
-    .faq-groups {
-      display: flex;
-      flex-direction: column;
-      gap: 56px;
-    }
-
-    .faq-group__label {
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--sage);
-      margin-bottom: 20px;
-    }
-
-    .faq-list {
-      display: flex;
-      flex-direction: column;
-      border-top: 1px solid rgba(30,46,30,0.1);
-    }
-
-    .faq-item {
-      border-bottom: 1px solid rgba(30,46,30,0.1);
-    }
-
-    .faq-q {
-      width: 100%;
-      background: none;
-      border: none;
-      padding: 22px 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-      cursor: pointer;
-      text-align: left;
-      font-family: var(--font-body);
-      font-size: 1.05rem;
-      font-weight: 600;
-      color: var(--green);
-      transition: color 0.2s;
-    }
-    .faq-q:hover { color: var(--sage); }
-
-    .faq-q__icon {
-      width: 28px; height: 28px;
-      border-radius: 50%;
-      border: 1.5px solid rgba(30,46,30,0.15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      font-size: 1.1rem;
-      color: var(--sage);
-      transition: all 0.25s ease;
-    }
-
-    .faq-item.open .faq-q__icon {
-      background: var(--green);
-      border-color: var(--green);
-      color: var(--cream);
-      transform: rotate(45deg);
-    }
-
-    .faq-a {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), padding 0.3s ease;
-    }
-    .faq-item.open .faq-a {
-      max-height: 400px;
-      padding-bottom: 22px;
-    }
-
-    .faq-a p {
-      font-size: 0.98rem;
-      color: var(--text-muted);
-      line-height: 1.8;
-      max-width: 700px;
-    }
-
-    .faq-a p + p { margin-top: 10px; }
-
-    .faq-a a {
-      color: var(--sage);
-      text-decoration: underline;
-      text-underline-offset: 3px;
-    }
-
-    /* CTA at bottom */
-    .faq-cta {
-      margin-top: 80px;
-      padding: 56px;
-      background: var(--green);
-      border-radius: var(--radius-xl);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 32px;
-      flex-wrap: wrap;
-    }
-    .faq-cta h2 {
-      font-size: clamp(1.6rem, 3vw, 2.2rem);
-      color: var(--cream);
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-    .faq-cta p {
-      font-size: 0.98rem;
-      color: rgba(236,231,223,0.6);
-    }
-
-    @media (max-width: 600px) {
-      .faq-page { padding: calc(100px + var(--banner-h)) 0 72px; }
-      .faq-cta { padding: 36px 24px; }
-      .faq-q { font-size: 0.97rem; padding: 18px 0; }
-    }
-  </style>
+  <script src="/analytics.js" defer></script>
+  <link rel="stylesheet" href="/faq.css" />
 </head>
 <body>
 
@@ -188,17 +38,17 @@
 
   <!-- NAV -->
   <nav class="nav" id="nav">
-    <a href="index.html" class="nav__logo">
+    <a href="/" class="nav__logo">
       <span class="logo-mark">PRPD</span>
       <span class="logo-sub">MEALS. PREPPED.</span>
     </a>
     <div class="nav__links">
-      <a href="index.html#menu" class="nav__link">Menu</a>
-      <a href="index.html#about" class="nav__link">Our Story</a>
-      <a href="index.html" class="nav__link faq-back">
+      <a href="/order" class="nav__link">This Week's Menu</a>
+      <a href="/#about" class="nav__link">Our Story</a>
+      <a href="/" class="nav__link faq-back">
         ← Back to Home
       </a>
-      <a href="index.html#form" class="nav__cta">Get Started</a>
+      <a href="/order" class="nav__cta">Order Now</a>
     </div>
   </nav>
 
@@ -208,7 +58,7 @@
       <div class="faq-hero">
         <div class="section-label">FAQ</div>
         <h1>Questions,<br/>answered.</h1>
-        <p>Can't find what you're looking for? Reach out on Instagram <a href="https://instagram.com/getprpd" target="_blank" rel="noopener noreferrer" style="color:var(--sage);text-decoration:underline;text-underline-offset:3px;">@getprpd</a> and we'll get back to you quickly.</p>
+        <p>Can't find what you're looking for? Reach out on Instagram <a href="https://instagram.com/getprpd" target="_blank" rel="noopener noreferrer" class="faq-inline-link">@getprpd</a> and we'll get back to you quickly.</p>
       </div>
 
       <div class="faq-groups">
@@ -224,28 +74,28 @@
                 <span class="faq-q__icon">+</span>
               </button>
               <div class="faq-a">
-                <p>You fill out a quick intake form telling us your fitness goals, training schedule, dietary preferences, and any restrictions. We review it personally, build a custom meal plan around your exact macros, and deliver fresh meals to your door weekly.</p>
-                <p>No subscriptions, no locked-in plans. Just fresh food built for you.</p>
+                <p>Browse the live weekly menu, choose Lean or Bulk for each dish, and submit your order online. You receive an itemized email copy immediately, then Rida personally confirms payment and Saturday delivery.</p>
+                <p>If you need help choosing meals or want a plan built around a specific goal, use the custom-plan intake form and Rida will contact you directly.</p>
               </div>
             </div>
 
             <div class="faq-item">
               <button class="faq-q" aria-expanded="false">
-                How long until I receive my first order?
+                When do orders close and when is delivery?
                 <span class="faq-q__icon">+</span>
               </button>
               <div class="faq-a">
-                <p>After you submit your intake form, we'll reach out within 24 hours to finalize your plan. Your first delivery is typically within 3–5 days, depending on your location in DFW and our current schedule.</p>
+                <p>Weekly orders normally close Wednesday at 5:00 PM CT for Saturday delivery. The date and cutoff shown on the live order page are the final schedule for that batch.</p>
               </div>
             </div>
 
             <div class="faq-item">
               <button class="faq-q" aria-expanded="false">
-                Can I pause or cancel my plan?
+                Do I need a subscription?
                 <span class="faq-q__icon">+</span>
               </button>
               <div class="faq-a">
-                <p>Yes. Just message us and we'll sort it out. We're a small team and we're flexible; we'd rather work something out than lose you. Give us at least 48 hours notice before your next delivery.</p>
+                <p>No. You order only when you want meals for that week's batch. If you need to change an order you already submitted, contact Rida before the weekly cutoff so she can confirm what is still possible.</p>
               </div>
             </div>
 
@@ -259,11 +109,11 @@
 
             <div class="faq-item">
               <button class="faq-q" aria-expanded="false">
-                Are all meals halal certified?
+                Are all PRPD meals halal?
                 <span class="faq-q__icon">+</span>
               </button>
               <div class="faq-a">
-                <p>Yes. Every protein we use is sourced from halal-certified suppliers. We do not use pork in any of our food, ever. If you have specific halal requirements, let us know in your intake form and we'll confirm our sourcing for you.</p>
+                <p>Yes. PRPD uses halal protein sourced from halal suppliers, and pork is never used in our food. Contact Rida before ordering if you need details about a specific ingredient or supplier.</p>
               </div>
             </div>
 
@@ -279,11 +129,11 @@
 
             <div class="faq-item">
               <button class="faq-q" aria-expanded="false">
-                Are the meals frozen?
+                Are the meals delivered fresh?
                 <span class="faq-q__icon">+</span>
               </button>
               <div class="faq-a">
-                <p>Never. Every meal is cooked fresh and delivered within a day or two of preparation. We don't freeze, pre-batch weeks in advance, or use preservatives. You're getting food that's actually fresh.</p>
+                <p>Yes. Meals are prepared for the current weekly batch and delivered fresh on Saturday. Some dishes are marked freezer-friendly so you can save them for later in the week without guessing which meals will reheat best.</p>
               </div>
             </div>
 
@@ -293,7 +143,7 @@
                 <span class="faq-q__icon">+</span>
               </button>
               <div class="faq-a">
-                <p>Meals are good for 4–5 days refrigerated. For days 5–7, just freeze them — we design the menu so quality holds up either way.</p>
+                <p>Refrigerate the meals you plan to eat first. For meals intended for later in the week, follow the storage guidance on the label and freeze them promptly when appropriate. Keep meals cold until reheating.</p>
               </div>
             </div>
 
@@ -307,11 +157,11 @@
 
             <div class="faq-item">
               <button class="faq-q" aria-expanded="false">
-                Can I fully customize my meals?
+                What is the difference between Lean and Bulk?
                 <span class="faq-q__icon">+</span>
               </button>
               <div class="faq-a">
-                <p>Yes, that's the whole point. Your plan is built around your specific goals, not a set template. Tell us your calorie target, protein goal, food preferences, and restrictions, and we'll build around that. You can also tell us meals you love or ingredients you want to avoid.</p>
+                <p>Lean is the lighter portion, while Bulk provides a larger serving with more calories and protein. Every dish shows its current portion macros and price before you add it, and you can order both tiers of the same dish.</p>
               </div>
             </div>
 
@@ -321,7 +171,7 @@
                 <span class="faq-q__icon">+</span>
               </button>
               <div class="faq-a">
-                <p>We use your fitness goals, training frequency, and body stats (if provided) to estimate your calorie and macro targets. Each meal is then portioned and tracked against those targets. You'll know exactly what you're eating.</p>
+                <p>Macros are calculated from measured recipe ingredients and portion weights. They are practical preparation estimates rather than laboratory-tested values, and each weekly dish displays its current calories and protein before you order.</p>
               </div>
             </div>
 
@@ -331,7 +181,7 @@
                 <span class="faq-q__icon">+</span>
               </button>
               <div class="faq-a">
-                <p>List them in your intake form; we have a full selection including dairy free, gluten free, no eggs, nut allergy, shellfish, and more. We take allergies seriously and will confirm with you before preparing your plan.</p>
+                <p>List restrictions in the custom-plan intake form and contact Rida before ordering. PRPD uses a commercial kitchen that also handles common allergens, so we cannot guarantee an allergen-free environment or zero cross-contact.</p>
               </div>
             </div>
 
@@ -359,17 +209,17 @@
                 <span class="faq-q__icon">+</span>
               </button>
               <div class="faq-a">
-                <p>Pricing depends on your plan: the number of meals, portion sizes, and ingredients involved. We'll share a full breakdown after you submit your intake form. Fill it out and we'll reach out within 24 hours with your custom quote.</p>
+                <p>Every dish and tier is priced on the live menu. The weekly minimum is $60. Delivery is $6.99 and becomes free when the meals subtotal reaches $75.</p>
               </div>
             </div>
 
             <div class="faq-item">
               <button class="faq-q" aria-expanded="false">
-                Is there a minimum commitment?
+                How do payment and confirmation work?
                 <span class="faq-q__icon">+</span>
               </button>
               <div class="faq-a">
-                <p>No long-term contract required. We ask for at least a week's notice if you want to stop, but there's no minimum number of weeks. Most clients stick around because the food keeps them on track, not because they're locked in.</p>
+                <p>The website records your order but does not charge a card. You receive an itemized email copy, and Rida contacts you to confirm payment and delivery. Your order is not considered paid until Rida confirms it.</p>
               </div>
             </div>
 
@@ -382,11 +232,11 @@
       <div class="faq-cta">
         <div>
           <h2>Still have questions?</h2>
-          <p>Message us on Instagram or just fill out the form and we'll talk through everything.</p>
+          <p>Order directly from the weekly menu, or send Rida your goals through the custom-plan form.</p>
         </div>
-        <div style="display:flex;gap:12px;flex-wrap:wrap;">
-          <a href="https://instagram.com/getprpd" target="_blank" rel="noopener noreferrer" class="btn btn--cream">@getprpd on Instagram</a>
-          <a href="index.html#form" class="btn" style="background:rgba(255,255,255,0.1);color:var(--cream);border:1.5px solid rgba(255,255,255,0.2);">Fill Out the Form →</a>
+        <div class="faq-cta__actions">
+          <a href="/order" class="btn btn--cream">Order This Week →</a>
+          <a href="/#intake-form" class="btn faq-cta__secondary">Build a Custom Plan →</a>
         </div>
       </div>
 
@@ -402,10 +252,11 @@
           <span class="logo-sub">MEALS. PREPPED.</span>
         </div>
         <div class="footer__nav">
-          <a href="index.html#menu" class="footer__nav-link">Menu</a>
-          <a href="index.html#about" class="footer__nav-link">Our Story</a>
-          <a href="faq.html" class="footer__nav-link">FAQ</a>
-          <a href="index.html#form" class="footer__nav-link">Get Started</a>
+          <a href="/order" class="footer__nav-link">Order This Week</a>
+          <a href="/#about" class="footer__nav-link">Our Story</a>
+          <a href="/faq" class="footer__nav-link">FAQ</a>
+          <a href="/privacy" class="footer__nav-link">Privacy</a>
+          <a href="/#intake-form" class="footer__nav-link">Custom Plan</a>
         </div>
       </div>
       <div class="footer__divider"></div>
@@ -444,33 +295,6 @@
       </div>
     </div>
   </footer>
-
-  <script>
-    // NAV scroll
-    const nav = document.getElementById('nav');
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > 40);
-    }, { passive: true });
-
-    // FAQ accordion
-    document.querySelectorAll('.faq-q').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const item = btn.closest('.faq-item');
-        const isOpen = item.classList.contains('open');
-
-        // Close all
-        document.querySelectorAll('.faq-item').forEach(i => {
-          i.classList.remove('open');
-          i.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
-        });
-
-        // Open clicked (if it was closed)
-        if (!isOpen) {
-          item.classList.add('open');
-          btn.setAttribute('aria-expanded', 'true');
-        }
-      });
-    });
-  </script>
+  <script src="/faq.js"></script>
 </body>
 </html>

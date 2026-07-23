@@ -1,0 +1,697 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>PRPD Label Studio - Internal</title>
+  <style>
+    @font-face {
+      font-family: "Cathez";
+      src: url("../fonts/Cathez.otf") format("opentype");
+      font-display: swap;
+    }
+
+    :root {
+      --green: #1e2e1e;
+      --bright-green: #177934;
+      --sage: #7fa882;
+      --cream: #ece7df;
+      --paper: #fffefa;
+      --ink: #172117;
+      --muted: #637064;
+      --warning: #9a4f1d;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: #dcded8;
+      font-family: "DM Sans", Arial, sans-serif;
+    }
+
+    button, input, select, textarea { font: inherit; }
+
+    .studio-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 18px 28px;
+      color: var(--cream);
+      background: var(--green);
+    }
+
+    .studio-header strong {
+      display: block;
+      font-family: Cathez, Georgia, serif;
+      font-size: 1.8rem;
+      letter-spacing: 0.08em;
+    }
+
+    .studio-header span { font-size: 0.78rem; opacity: 0.75; }
+
+    .studio-actions { display: flex; align-items: center; gap: 10px; }
+    .business-switch { color: var(--cream); text-decoration: none; font-size: .78rem; font-weight: 800; }
+    .menu-switch {
+      color: var(--cream);
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.45);
+      border-radius: 999px;
+      padding: 9px 14px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .print-button {
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 999px;
+      padding: 10px 18px;
+      color: var(--green);
+      background: var(--cream);
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(280px, 360px) minmax(600px, 1fr);
+      min-height: calc(100vh - 76px);
+    }
+
+    .controls {
+      padding: 24px;
+      background: #f7f7f3;
+      border-right: 1px solid #c8ccc5;
+      overflow-y: auto;
+    }
+
+    .controls h1 { margin: 0 0 8px; font-size: 1.3rem; }
+    .controls h2 { margin: 26px 0 10px; font-size: 0.85rem; text-transform: uppercase; }
+    .controls p { margin: 0 0 16px; color: var(--muted); font-size: 0.84rem; line-height: 1.5; }
+
+    .field { display: grid; gap: 5px; margin-bottom: 12px; }
+    .field label { font-size: 0.75rem; font-weight: 800; }
+    .field input, .field select, .field textarea {
+      width: 100%;
+      border: 1px solid #b7bdb5;
+      border-radius: 6px;
+      padding: 9px 10px;
+      color: var(--ink);
+      background: white;
+    }
+    .field textarea { min-height: 74px; resize: vertical; }
+
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+    .batch-toolbar { display: flex; gap: 8px; margin-bottom: 10px; }
+    .batch-toolbar button {
+      border: 1px solid #aeb6ad;
+      border-radius: 999px;
+      padding: 7px 12px;
+      color: var(--green);
+      background: white;
+      font-size: 0.72rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .sheet-selection { display: grid; gap: 10px; max-height: 310px; overflow: auto; padding-right: 4px; }
+    .sheet-group { border: 1px solid #cdd2ca; border-radius: 6px; background: white; overflow: hidden; }
+    .sheet-group h3 { margin: 0; padding: 8px 10px; color: var(--cream); background: var(--green); font-size: 0.68rem; text-transform: uppercase; }
+    .sheet-option { display: grid; grid-template-columns: 18px minmax(0,1fr) auto auto; align-items: center; gap: 7px; padding: 7px 10px; border-top: 1px solid #e7e9e4; font-size: 0.72rem; }
+    .sheet-option input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--bright-green); }
+    .sheet-option small { color: var(--muted); font-size: 0.64rem; font-weight: 800; text-transform: uppercase; }
+    .sheet-quantity { display: inline-flex; align-items: center; gap: 5px; color: var(--muted); font-size: 0.62rem; font-weight: 800; text-transform: uppercase; }
+    .sheet-quantity input { width: 48px; height: 30px; padding: 3px 4px; border: 1px solid #aeb6ad; border-radius: 5px; color: var(--green); background: white; font: inherit; text-align: center; }
+    .selection-count { margin: 8px 0 0 !important; color: var(--green) !important; font-weight: 800; }
+    .print-warning { margin: 0 0 12px; padding: 10px 12px; border-left: 4px solid var(--bright-green); color: var(--green); background: #e7f0e7; font-size: 0.72rem; font-weight: 800; line-height: 1.45; }
+
+    .estimate-note {
+      padding: 12px;
+      border-left: 4px solid var(--warning);
+      color: #6d3513;
+      background: #fff1e7;
+      font-size: 0.78rem;
+      line-height: 1.45;
+    }
+
+    .preview-area {
+      display: grid;
+      align-content: start;
+      justify-items: center;
+      gap: 18px;
+      padding: 36px;
+      overflow: auto;
+    }
+
+    .preview-meta {
+      width: min(100%, 760px);
+      display: flex;
+      justify-content: space-between;
+      color: #4d584d;
+      font-size: 0.8rem;
+    }
+
+    .label-shell {
+      padding: 20px;
+      background: #c8cbc5;
+      box-shadow: 0 16px 40px rgba(30,46,30,0.13);
+    }
+
+    .meal-label {
+      position: relative;
+      display: grid;
+      grid-template-columns: 68% 32%;
+      width: 5in;
+      height: 3.5in;
+      overflow: hidden;
+      color: var(--ink);
+      background: var(--paper);
+      border: 1.4px solid var(--green);
+    }
+
+    .brand-panel {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      padding: 0.18in 0.18in 0.14in 0.24in;
+      border-right: 1.5px solid var(--green);
+    }
+
+    .brand-panel::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 0.09in;
+      background: var(--green);
+    }
+
+    .brand-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .brand-lockup { display: flex; align-items: baseline; gap: 8px; }
+    .brand-name {
+      font-family: Cathez, Georgia, serif;
+      font-size: 23pt;
+      line-height: 0.85;
+      letter-spacing: 0.06em;
+      color: var(--green);
+    }
+    .brand-tagline { font-size: 5.5pt; font-weight: 800; letter-spacing: 0.08em; }
+
+    .tier-pill {
+      border-radius: 999px;
+      padding: 0.045in 0.11in;
+      color: white;
+      background: var(--bright-green);
+      font-size: 7pt;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+    }
+    .tier-pill.bulk { color: var(--green); background: var(--sage); }
+
+    .category-line {
+      margin-top: 0.12in;
+      width: fit-content;
+      padding: 0.025in 0.07in;
+      color: var(--bright-green);
+      background: rgba(127,168,130,0.16);
+      border-left: 2px solid var(--bright-green);
+      font-size: 6pt;
+      font-weight: 900;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .meal-name {
+      margin: 0.035in 0 0;
+      max-width: 3in;
+      font-family: Cathez, Georgia, serif;
+      font-size: 26pt;
+      font-weight: 500;
+      line-height: 0.92;
+      letter-spacing: 0;
+      color: var(--green);
+    }
+    .meal-name.long { font-size: 20pt; line-height: 1.05; }
+
+    .meal-identity {
+      margin: 0.05in 0 0;
+      color: #465246;
+      font-size: 6.2pt;
+      line-height: 1.3;
+    }
+
+    .personality-note {
+      margin: 0.035in 0 0;
+      color: var(--bright-green);
+      font-family: Georgia, serif;
+      font-size: 6pt;
+      font-style: italic;
+      font-weight: 700;
+      line-height: 1.15;
+    }
+
+    .quick-facts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.05in 0.12in;
+      margin-top: 0.11in;
+      padding: 0.07in 0;
+      border-top: 1px solid var(--sage);
+      border-bottom: 1px solid var(--sage);
+      font-size: 6pt;
+      line-height: 1.25;
+    }
+    .quick-facts b { display: block; color: var(--green); font-size: 5pt; letter-spacing: 0.08em; text-transform: uppercase; }
+
+    .label-copy {
+      display: grid;
+      gap: 0.025in;
+      margin-top: 0.07in;
+      font-size: 6pt;
+      line-height: 1.2;
+    }
+    .label-copy p { margin: 0; }
+    .label-copy b { color: var(--green); }
+    .allergen { font-weight: 900; }
+
+    .brand-footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: auto;
+      margin-right: -0.08in;
+      padding: 0.035in 0.06in;
+      color: var(--cream);
+      background: var(--green);
+      font-size: 5.5pt;
+      font-weight: 700;
+    }
+
+    .nutrition-panel {
+      padding: 0.065in 0.075in 0.045in;
+      color: #050505;
+      background: #fff;
+      font-family: Arial, sans-serif;
+    }
+
+    .nutrition-title {
+      margin: 0;
+      padding-bottom: 0.025in;
+      border-bottom: 4px solid #000;
+      font-size: 16pt;
+      font-weight: 900;
+      line-height: 0.9;
+      letter-spacing: 0;
+    }
+
+    .servings { padding: 0.018in 0; border-bottom: 1px solid #000; font-size: 6pt; line-height: 1.05; }
+    .servings strong { display: block; font-size: 6pt; }
+    .amount { padding-top: 0.015in; font-size: 6pt; font-weight: 700; }
+    .calories { display: flex; align-items: end; justify-content: space-between; border-bottom: 4px solid #000; }
+    .calories strong { font-size: 13pt; line-height: 1; }
+    .calories span { font-size: 20pt; font-weight: 900; line-height: 0.95; }
+    .dv-heading { padding: 0.012in 0; border-bottom: 1px solid #000; text-align: right; font-size: 6pt; font-weight: 900; }
+
+    .nutrient {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 4px;
+      padding: 0.006in 0;
+      border-bottom: 0.7px solid #000;
+      font-size: 6pt;
+      line-height: 1.05;
+    }
+    .nutrient.indent { padding-left: 0.08in; }
+    .nutrient strong { font-weight: 900; }
+    .protein-row { border-bottom: 4px solid #000; font-size: 7pt; }
+    .nutrition-foot { padding-top: 0.018in; font-size: 6pt; line-height: 1.02; }
+
+    .print-sheet { display: none; }
+
+    @media (max-width: 980px) {
+      .workspace { grid-template-columns: 1fr; }
+      .controls { border-right: 0; border-bottom: 1px solid #c8ccc5; }
+      .preview-area { justify-items: start; }
+    }
+
+    @media print {
+      @page { size: letter portrait; margin: 0; }
+      *, *::before, *::after {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      html, body {
+        width: 8.5in;
+        min-width: 8.5in;
+        height: 11in;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: white;
+      }
+      .studio-header, .workspace { display: none !important; }
+      .print-sheet { display: block; width: 8.5in; margin: 0; padding: 0; }
+      .print-page {
+        position: relative;
+        width: 8.5in;
+        height: 11in;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        break-inside: avoid;
+        page-break-inside: avoid;
+        break-after: page;
+        page-break-after: always;
+      }
+      .print-page:last-child { break-after: auto; page-break-after: auto; }
+      .print-slot {
+        position: absolute;
+        width: 3.5in;
+        height: 5in;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        border-radius: 0.1in;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+      .print-slot:nth-child(1) { top: 0.5in; left: 0.5in; }
+      .print-slot:nth-child(2) { top: 0.5in; left: 4.5in; }
+      .print-slot:nth-child(3) { top: 5.5in; left: 0.5in; }
+      .print-slot:nth-child(4) { top: 5.5in; left: 4.5in; }
+      .print-slot .meal-label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 5in;
+        height: 3.5in;
+        border-radius: 0.1in;
+        transform-origin: 0 0;
+        transform: translate(3.43in, 0.1in) rotate(90deg) scale(0.96);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="studio-header">
+    <div>
+      <strong>PRPD LABEL STUDIO</strong>
+      <span>Internal production tool for Avery 5168 - print build 2026-07-17.1</span>
+    </div>
+    <div class="studio-actions">
+      <a class="business-switch" href="/operations/business-center">Business Center</a>
+      <a class="menu-switch" id="menuSwitch" href="?menu=next">Review July 25 draft</a>
+      <button class="print-button" id="printButton" type="button">Print selected sheets</button>
+    </div>
+  </header>
+
+  <main class="workspace">
+    <aside class="controls">
+      <h1 id="datasetHeading">Active menu labels</h1>
+      <p id="datasetNotice">Select any current meal and tier. Every printed Avery 5168 sheet contains four matching labels.</p>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="mealSelect">Meal</label>
+          <select id="mealSelect"></select>
+        </div>
+        <div class="field">
+          <label for="tierSelect">Tier</label>
+          <select id="tierSelect">
+            <option value="lean">Lean</option>
+            <option value="bulk">Bulk</option>
+          </select>
+        </div>
+      </div>
+
+      <h2>Print queue</h2>
+      <div class="print-warning">Required: Letter, Portrait, 100% or Actual size, Margins set to None, headers and footers off, and Background graphics on. In printer properties, choose Labels, Heavyweight, or Cardstock and Best or High quality. Feed one Avery sheet at a time.</div>
+      <p>Check the labels you need, then set the number of full four-label sheets for each selection. Do not use Fit to page or Shrink oversized pages. Test on plain paper and hold it behind the Avery sheet before printing labels.</p>
+      <div class="batch-toolbar">
+        <button type="button" id="selectAllLabels">Select all</button>
+        <button type="button" id="clearLabels">Clear</button>
+        <button type="button" id="selectCurrentLabel">Current only</button>
+      </div>
+      <div class="sheet-selection" id="sheetSelection"></div>
+      <p class="selection-count" id="selectionCount">0 sheets selected</p>
+
+      <h2>Production details</h2>
+      <div class="field-row">
+        <div class="field"><label for="madeDate">Made date</label><input id="madeDate" type="date" value="2026-07-17"></div>
+        <div class="field"><label for="useBy">Refrigerate through</label><input id="useBy" type="date" value="2026-07-20"></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label for="batchId">Batch</label><input id="batchId" value="B2-0716"></div>
+        <div class="field"><label for="netWeight">Net weight</label><input id="netWeight"></div>
+      </div>
+
+      <div class="field"><label for="ingredients">Ingredients</label><textarea id="ingredients"></textarea></div>
+      <div class="field"><label for="allergens">Allergen statement</label><input id="allergens"></div>
+      <div class="field">
+        <label for="storageMode">Storage mode</label>
+        <select id="storageMode">
+          <option value="freezer">Freezer friendly</option>
+          <option value="fridge">Fridge only</option>
+        </select>
+      </div>
+      <div class="field"><label for="personality">Meal note</label><input id="personality" value="Careful. This one disappears fast."></div>
+      <div class="field"><label for="storage">Storage</label><textarea id="storage"></textarea></div>
+      <div class="field"><label for="reheat">Reheating</label><input id="reheat" value="Microwave 1-2 minutes. Heat to 165°F throughout."></div>
+
+      <h2>Estimated nutrition</h2>
+      <div class="field-row">
+        <div class="field"><label for="satFat">Saturated fat (g)</label><input id="satFat" type="number" step="0.1"></div>
+        <div class="field"><label for="cholesterol">Cholesterol (mg)</label><input id="cholesterol" type="number"></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label for="sodium">Sodium (mg)</label><input id="sodium" type="number"></div>
+        <div class="field"><label for="sugars">Total sugars (g)</label><input id="sugars" type="number" step="0.1"></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label for="fiber">Fiber (g)</label><input id="fiber" type="number" step="0.1"></div>
+        <div class="field"><label for="addedSugar">Added sugars (g)</label><input id="addedSugar" type="number" step="0.1"></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label for="transFat">Trans fat (g)</label><input id="transFat" type="number" step="0.1"></div>
+        <div class="field"><label for="vitaminD">Vitamin D (mcg)</label><input id="vitaminD" type="number" step="0.1"></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label for="calcium">Calcium (mg)</label><input id="calcium" type="number" step="10"></div>
+        <div class="field"><label for="iron">Iron (mg)</label><input id="iron" type="number" step="0.1"></div>
+      </div>
+      <div class="field"><label for="potassium">Potassium (mg)</label><input id="potassium" type="number" step="10"></div>
+
+      <div class="estimate-note">
+        Complete calculated estimates from recorded PRPD recipes, current package labels, manufacturer data, USDA records, and approved generic equivalents. Regenerate after any recipe, portion, or product change.
+      </div>
+    </aside>
+
+    <section class="preview-area">
+      <div class="preview-meta"><span>Actual artwork size: 5 × 3.5 inches</span><span>Low-ink production layout</span></div>
+      <div class="label-shell" id="previewMount"></div>
+    </section>
+  </main>
+
+  <section class="print-sheet" id="printSheet" aria-hidden="true"></section>
+
+  <script src="nutrition/label-data.js"></script>
+  <script src="nutrition/next-menu-label-data.js"></script>
+  <script>
+    (() => {
+      const next = new URLSearchParams(window.location.search).get('menu') === 'next';
+      if (!next && window.PRPD_LABEL_DATA && window.PRPD_NEXT_LABEL_DATA) {
+        const manualBbqEntry = Object.entries(window.PRPD_NEXT_LABEL_DATA.meals)
+          .find(([, meal]) => meal.name === 'BBQ Chicken Mac & Cheese');
+        if (manualBbqEntry) {
+          const [, manualBbq] = manualBbqEntry;
+          window.PRPD_LABEL_DATA = {
+            ...window.PRPD_LABEL_DATA,
+            meals: {
+              ...window.PRPD_LABEL_DATA.meals,
+              x1: { ...manualBbq, category: 'Main', manualOnly: true },
+            },
+          };
+        }
+      }
+      if (next && window.PRPD_NEXT_LABEL_DATA) window.PRPD_LABEL_DATA = window.PRPD_NEXT_LABEL_DATA;
+      const heading = document.getElementById('datasetHeading');
+      const notice = document.getElementById('datasetNotice');
+      const menuSwitch = document.getElementById('menuSwitch');
+      if (next) {
+        heading.textContent = 'July 25 draft labels';
+        notice.textContent = 'Review-only labels. Resolve each saved product and kitchen check before printing for customers.';
+        menuSwitch.textContent = 'Return to active labels';
+        menuSwitch.href = 'label-studio.html';
+        document.title = 'PRPD July 25 Draft Labels - Internal';
+      } else if (window.PRPD_LABEL_DATA?.meals?.x1) {
+        notice.textContent = 'Active menu labels plus the manual BBQ Chicken Mac & Cheese label required for this batch. Manual-only dishes are not shown to ordering customers.';
+      }
+    })();
+  </script>
+  <script type="text/plain" id="legacy-label-studio-script">
+    const LABEL_DATA = window.PRPD_LABEL_DATA;
+    const $ = (id) => document.getElementById(id);
+    const escapeHtml = (value) => String(value || '').replace(/[&<>'"]/g, (char) => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
+    const dailyValue = (value, total) => Math.round((Number(value) / total) * 100);
+
+    function currentMeal() {
+      return LABEL_DATA.meals[$('mealSelect').value];
+    }
+
+    function currentTier() {
+      return currentMeal().tiers[$('tierSelect').value];
+    }
+
+    function displayDate(value) {
+      if (!value) return '';
+      const [year, month, day] = value.split('-');
+      return `${month}/${day}/${year}`;
+    }
+
+    function setStorageCopy() {
+      const through = displayDate($('useBy').value);
+      $('storage').value = $('storageMode').value === 'freezer'
+        ? `Days 1-4: refrigerate at 40°F or below through ${through}. For days 5-7, freeze upon delivery. Best within 3 months frozen. Thaw in refrigerator.`
+        : `Keep refrigerated at 40°F or below. Enjoy by ${through}. Do not freeze.`;
+      render();
+    }
+
+    function updateRefrigerateThrough() {
+      const made = $('madeDate').value;
+      if (!made) return;
+      const [year, month, day] = made.split('-').map(Number);
+      const date = new Date(Date.UTC(year, month - 1, day));
+      date.setUTCDate(date.getUTCDate() + 3);
+      $('useBy').value = date.toISOString().slice(0, 10);
+      setStorageCopy();
+    }
+
+    function loadTier() {
+      const tier = currentTier();
+      const nutrition = tier.nutrition;
+      $('netWeight').value = tier.netWeight;
+      $('ingredients').value = tier.ingredients;
+      $('allergens').value = tier.allergens;
+      $('satFat').value = nutrition.satFat;
+      $('transFat').value = nutrition.transFat;
+      $('cholesterol').value = nutrition.cholesterol;
+      $('sodium').value = nutrition.sodium;
+      $('fiber').value = nutrition.fiber;
+      $('sugars').value = nutrition.sugars;
+      $('addedSugar').value = nutrition.addedSugar;
+      $('vitaminD').value = nutrition.vitaminD;
+      $('calcium').value = nutrition.calcium;
+      $('iron').value = nutrition.iron;
+      $('potassium').value = nutrition.potassium;
+      render();
+    }
+
+    function loadMeal() {
+      const meal = currentMeal();
+      const availableTiers = Object.keys(meal.tiers);
+      $('tierSelect').innerHTML = availableTiers.map((key) =>
+        `<option value="${key}">${escapeHtml(meal.tiers[key].label)}</option>`
+      ).join('');
+      $('personality').value = meal.note;
+      $('storageMode').value = meal.storageMode;
+      loadTier();
+      setStorageCopy();
+    }
+
+    function labelMarkup() {
+      const meal = currentMeal();
+      const tierKey = $('tierSelect').value;
+      const tier = currentTier();
+      const nutrition = tier.nutrition;
+      const satFat = Number($('satFat').value || 0);
+      const transFat = Number($('transFat').value || 0);
+      const cholesterol = Number($('cholesterol').value || 0);
+      const sodium = Number($('sodium').value || 0);
+      const fiber = Number($('fiber').value || 0);
+      const sugars = Number($('sugars').value || 0);
+      const addedSugar = Number($('addedSugar').value || 0);
+      const vitaminD = Number($('vitaminD').value || 0);
+      const calcium = Number($('calcium').value || 0);
+      const iron = Number($('iron').value || 0);
+      const potassium = Number($('potassium').value || 0);
+
+      return `
+        <article class="meal-label">
+          <section class="brand-panel">
+            <div class="brand-top">
+              <div class="brand-lockup"><span class="brand-name">PRPD</span><span class="brand-tagline">MEALS. PREPPED.</span></div>
+              <span class="tier-pill ${tierKey}">${tier.label}</span>
+            </div>
+            <div class="category-line">${escapeHtml(meal.category)} · High Protein · Halal</div>
+            <h2 class="meal-name ${meal.name.length > 20 ? 'long' : ''}">${escapeHtml(meal.name)}</h2>
+            <p class="meal-identity">${escapeHtml(meal.description)}</p>
+            <div class="quick-facts">
+              <span><b>Made</b>${escapeHtml(displayDate($('madeDate').value))}</span>
+              <span><b>Refrigerate through</b>${escapeHtml(displayDate($('useBy').value))}</span>
+              <span><b>Batch</b>${escapeHtml($('batchId').value)}</span>
+              <span><b>Net wt.</b>${escapeHtml($('netWeight').value)}</span>
+            </div>
+            <p class="personality-note">“${escapeHtml($('personality').value)}”</p>
+            <div class="label-copy">
+              <p><b>Ingredients:</b> ${escapeHtml($('ingredients').value)}</p>
+              <p class="allergen">${escapeHtml($('allergens').value)}</p>
+              <p><b>Storage:</b> ${escapeHtml($('storage').value)}</p>
+              <p><b>Reheat:</b> ${escapeHtml($('reheat').value)}</p>
+            </div>
+            <div class="brand-footer"><span>PRPD LLC · DFW, Texas</span><span>getprpd.com · @getprpd</span></div>
+          </section>
+          <aside class="nutrition-panel">
+            <h3 class="nutrition-title">Nutrition Facts</h3>
+            <div class="servings">1 serving per container<strong>Serving size 1 meal (${escapeHtml($('netWeight').value)})</strong></div>
+            <div class="amount">Amount per serving</div>
+            <div class="calories"><strong>Calories</strong><span>${nutrition.calories}</span></div>
+            <div class="dv-heading">% Daily Value*</div>
+            <div class="nutrient"><span><strong>Total Fat</strong> ${nutrition.fat}g</span><strong>${dailyValue(nutrition.fat, 78)}%</strong></div>
+            <div class="nutrient indent"><span>Saturated Fat ${satFat}g</span><strong>${dailyValue(satFat, 20)}%</strong></div>
+            <div class="nutrient indent"><span><i>Trans</i> Fat ${transFat}g</span><span></span></div>
+            <div class="nutrient"><span><strong>Cholesterol</strong> ${cholesterol}mg</span><strong>${dailyValue(cholesterol, 300)}%</strong></div>
+            <div class="nutrient"><span><strong>Sodium</strong> ${sodium}mg</span><strong>${dailyValue(sodium, 2300)}%</strong></div>
+            <div class="nutrient"><span><strong>Total Carbohydrate</strong> ${nutrition.carbs}g</span><strong>${dailyValue(nutrition.carbs, 275)}%</strong></div>
+            <div class="nutrient indent"><span>Dietary Fiber ${fiber}g</span><strong>${dailyValue(fiber, 28)}%</strong></div>
+            <div class="nutrient indent"><span>Total Sugars ${sugars}g</span><span></span></div>
+            <div class="nutrient indent"><span>Includes ${addedSugar}g Added Sugars</span><strong>${dailyValue(addedSugar, 50)}%</strong></div>
+            <div class="nutrient protein-row"><span><strong>Protein</strong> ${nutrition.protein}g</span><span></span></div>
+            <div class="nutrient"><span>Vitamin D ${vitaminD}mcg</span><strong>${dailyValue(vitaminD, 20)}%</strong></div>
+            <div class="nutrient"><span>Calcium ${calcium}mg</span><strong>${dailyValue(calcium, 1300)}%</strong></div>
+            <div class="nutrient"><span>Iron ${iron}mg</span><strong>${dailyValue(iron, 18)}%</strong></div>
+            <div class="nutrient"><span>Potassium ${potassium}mg</span><strong>${dailyValue(potassium, 4700)}%</strong></div>
+            <div class="nutrition-foot">* The % Daily Value tells you how much a nutrient in a serving contributes to a daily diet. 2,000 calories a day is used for general nutrition advice.</div>
+          </aside>
+        </article>`;
+    }
+
+    function render() {
+      const markup = labelMarkup();
+      $('previewMount').innerHTML = markup;
+      $('printSheet').innerHTML = Array.from({ length: 4 }, () => `<div class="print-slot">${markup}</div>`).join('');
+    }
+
+    $('mealSelect').innerHTML = Object.entries(LABEL_DATA.meals).map(([id, meal]) =>
+      `<option value="${id}">${escapeHtml(meal.name)}</option>`
+    ).join('');
+    $('mealSelect').addEventListener('change', loadMeal);
+    $('tierSelect').addEventListener('change', loadTier);
+    $('madeDate').addEventListener('change', updateRefrigerateThrough);
+    $('useBy').addEventListener('change', setStorageCopy);
+    $('storageMode').addEventListener('change', setStorageCopy);
+    document.querySelectorAll('input, textarea').forEach((field) => field.addEventListener('input', render));
+    loadMeal();
+  </script>
+  <script src="/operations/label-studio-app.js?v=20260717.1"></script>
+</body>
+</html>

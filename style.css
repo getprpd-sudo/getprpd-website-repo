@@ -42,6 +42,17 @@
   --font-brand:  'Cathez', serif;
 }
 
+[hidden] { display: none !important; }
+
+.form-honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
 html { scroll-behavior: smooth; }
 
 body {
@@ -378,6 +389,26 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.025em; }
   flex-wrap: wrap;
 }
 
+.hero__schedule {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px 16px;
+  margin: -26px 0 28px;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+}
+.hero__schedule strong { color: var(--green); }
+.hero__schedule span { position: relative; padding-left: 16px; }
+.hero__schedule span::before {
+  content: '◆';
+  position: absolute;
+  left: 0;
+  top: 0.1em;
+  color: var(--sage);
+  font-size: 0.55rem;
+}
+
 /* Stats row */
 .hero__stats {
   display: flex;
@@ -472,6 +503,9 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.025em; }
   position: relative;
   width: 480px;
   height: 480px;
+  transform: translate3d(var(--hero-shift-x, 0), var(--hero-shift-y, 0), 0);
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
 }
 
 .hero__circle {
@@ -515,18 +549,36 @@ img[src*="halal-cart-chicken"] { filter: brightness(1.28) saturate(1.1) contrast
 .hero__circle--lg {
   width: 300px; height: 300px;
   top: 50px; left: 80px;
+  animation: heroDriftLarge 9s ease-in-out infinite;
 }
 
 .hero__circle--md {
   width: 190px; height: 190px;
   top: 20px; right: 20px;
   background: #2a3e2a;
+  animation: heroDriftMedium 7.5s ease-in-out infinite;
 }
 
 .hero__circle--sm {
   width: 130px; height: 130px;
   bottom: 50px; left: 30px;
   background: var(--sage);
+  animation: heroDriftSmall 8.5s ease-in-out infinite;
+}
+
+@keyframes heroDriftLarge {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(-5px, -8px, 0) rotate(-0.8deg); }
+}
+
+@keyframes heroDriftMedium {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(7px, -5px, 0); }
+}
+
+@keyframes heroDriftSmall {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(-4px, 7px, 0); }
 }
 
 .hero__img-ph {
@@ -645,6 +697,68 @@ img[src*="halal-cart-chicken"] { filter: brightness(1.28) saturate(1.1) contrast
 @keyframes marqueeScroll {
   from { transform: translateX(0); }
   to   { transform: translateX(-33.333%); }
+}
+
+/* ══════════════════════════════════════
+   WEEKLY ORDER PATH
+══════════════════════════════════════ */
+.weekly-order {
+  padding: 70px 0;
+  background: var(--green);
+  color: var(--cream);
+}
+.weekly-order__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(340px, 0.85fr);
+  gap: 34px 64px;
+  align-items: center;
+}
+.weekly-order .section-label {
+  color: var(--sage-light);
+  background: rgba(127,168,130,0.14);
+}
+.weekly-order h2 {
+  margin: 16px 0;
+  font-size: clamp(2rem, 4vw, 3.35rem);
+  line-height: 1.06;
+  letter-spacing: 0;
+}
+.weekly-order__copy p {
+  max-width: 620px;
+  color: rgba(236,231,223,0.68);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+.weekly-order__details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid rgba(236,231,223,0.16);
+  border-left: 1px solid rgba(236,231,223,0.16);
+}
+.weekly-order__details div {
+  min-height: 96px;
+  padding: 20px;
+  border-right: 1px solid rgba(236,231,223,0.16);
+  border-bottom: 1px solid rgba(236,231,223,0.16);
+}
+.weekly-order__details span,
+.weekly-order__details strong { display: block; }
+.weekly-order__details span {
+  margin-bottom: 6px;
+  color: var(--sage-light);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.weekly-order__details strong {
+  color: var(--cream);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+.weekly-order__cta {
+  grid-column: 1 / -1;
+  justify-self: start;
 }
 
 /* ══════════════════════════════════════
@@ -1007,26 +1121,69 @@ img[src*="halal-cart-chicken"] { filter: brightness(1.28) saturate(1.1) contrast
 
 .about__img--1 { width: 260px; height: 260px; top: 20px; left: 20px; }
 .about__img--1 img { object-position: center 25%; }
-.about__img--2 { width: 190px; height: 190px; bottom: 20px; right: 10px; background: var(--cream-dark); }
-.about__img--2 img { object-position: center 62%; transform: scale(1.45); transform-origin: center 62%; }
+.about__images--rida .about__img--1 {
+  width: 330px;
+  height: 330px;
+  top: 30px;
+  left: 40px;
+  animation: ridaPortraitFloat 8s ease-in-out infinite;
+}
+
+.about__rida-note {
+  position: absolute;
+  right: 4px;
+  bottom: 70px;
+  z-index: 22;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 15px 19px;
+  border: 1px solid rgba(30,46,30,0.1);
+  border-radius: var(--radius-md);
+  background: var(--white);
+  color: var(--green);
+  box-shadow: var(--shadow-md);
+}
+.about__rida-note span {
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.about__rida-note strong { font-size: 0.88rem; }
+
+@keyframes ridaPortraitFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
 
 .about__handwritten {
-  position: absolute;
+  display: block;
   font-family: 'Brush Script MT', cursive;
   color: var(--sage);
   pointer-events: none;
   font-style: italic;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.about__handwritten-strip {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 2px;
   z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
 }
 .about__handwritten--1 {
-  /* Positioned below the large circle (ends at y≈280) and left of the small sage circle (on the right) */
-  top: 300px; left: 15px;
   font-size: 1.2rem;
   transform: rotate(-4deg);
   color: var(--sage);
 }
 .about__handwritten--2 {
-  top: 100px; right: 0;
   font-size: 1rem;
   transform: rotate(3deg);
   color: var(--text-muted);
@@ -1102,6 +1259,36 @@ img[src*="halal-cart-chicken"] { filter: brightness(1.28) saturate(1.1) contrast
   flex-wrap: wrap;
 }
 
+.form-menu-route {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  margin-bottom: 18px;
+  padding: 22px 24px;
+  border: 1px solid rgba(168,196,171,0.22);
+  border-radius: var(--radius-lg);
+  background: rgba(127,168,130,0.1);
+}
+.form-menu-route__eyebrow {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--sage-light);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.form-menu-route p {
+  max-width: 690px;
+  color: rgba(236,231,223,0.72);
+  font-size: 0.94rem;
+  line-height: 1.55;
+}
+.form-menu-route .btn { flex-shrink: 0; }
+
 .form-aside-card {
   background: rgba(255,255,255,0.05);
   border: 1px solid rgba(255,255,255,0.09);
@@ -1136,6 +1323,8 @@ img[src*="halal-cart-chicken"] { filter: brightness(1.28) saturate(1.1) contrast
   padding: 52px 56px;
   backdrop-filter: blur(10px);
 }
+
+#intake-form { scroll-margin-top: calc(112px + var(--banner-h)); }
 
 .form-privacy {
   color: rgba(236,231,223,0.58);
@@ -1184,8 +1373,12 @@ img[src*="halal-cart-chicken"] { filter: brightness(1.28) saturate(1.1) contrast
   background: var(--sage-light);
   border-radius: var(--radius-pill);
   transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
-  width: 33.33%;
+  width: 25%;
 }
+.progress-bar__fill.step-1 { width: 25%; }
+.progress-bar__fill.step-2 { width: 50%; }
+.progress-bar__fill.step-3 { width: 75%; }
+.progress-bar__fill.step-4 { width: 100%; }
 .progress-label {
   font-size: 0.78rem;
   color: rgba(236,231,223,0.5);
@@ -1228,6 +1421,7 @@ img[src*="halal-cart-chicken"] { filter: brightness(1.28) saturate(1.1) contrast
 }
 .req { color: var(--sage-light); }
 .form-hint { font-size: 0.78rem; color: rgba(236,231,223,0.45); font-weight: 400; }
+.optional-label { opacity: 0.5; }
 
 .form-group input,
 .form-group select,
@@ -1268,6 +1462,11 @@ img[src*="halal-cart-chicken"] { filter: brightness(1.28) saturate(1.1) contrast
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+}
+.choice-group.validation-pulse {
+  outline: 1.5px solid rgba(224,112,112,0.6);
+  border-radius: 12px;
+  padding: 6px;
 }
 .choice {
   padding: 10px 20px;
@@ -1368,6 +1567,9 @@ img[src*="halal-cart-chicken"] { filter: brightness(1.28) saturate(1.1) contrast
   flex-wrap: wrap;
   gap: 10px;
   margin-top: 24px;
+}
+.form-success__menu {
+  margin: 18px auto 20px;
 }
 
 .form-success__socials .follow-pill {
@@ -1598,6 +1800,12 @@ img[src*="halal-cart-chicken"] { filter: brightness(1.28) saturate(1.1) contrast
   .hero__stats { margin: 0 auto; }
   .hero__follow-label { text-align: center; }
   .hero__follow-pills { justify-content: center; }
+  .hero__schedule { justify-content: center; margin-left: auto; margin-right: auto; }
+
+  .weekly-order__inner { grid-template-columns: 1fr; gap: 30px; }
+  .weekly-order__copy { text-align: center; }
+  .weekly-order__copy p { margin-left: auto; margin-right: auto; }
+  .weekly-order__cta { justify-self: center; }
 
   .logo-full { align-items: center; }
   .logo-full__tagline { text-align: center; }
@@ -1622,8 +1830,9 @@ img[src*="halal-cart-chicken"] { filter: brightness(1.28) saturate(1.1) contrast
   .how__desc    { max-width: 100%; }
   .about__inner { grid-template-columns: 1fr; gap: 48px; }
   .about__images { height: 340px; }
-  .about__img--1 { width: 210px; height: 210px; }
-  .about__img--2 { width: 160px; height: 160px; }
+  .about__images--rida .about__img--1 { width: 270px; height: 270px; left: 50%; transform: translateX(-58%); }
+  .about__images--rida .about__img--1 { animation: none; }
+  .about__rida-note { right: 7%; bottom: 52px; }
 
   .form-section__header { align-items: flex-start; gap: 32px; }
   .form-section__aside { width: 100%; }
@@ -1671,6 +1880,12 @@ img[src*="halal-cart-chicken"] { filter: brightness(1.28) saturate(1.1) contrast
     width: 100%;
     justify-content: center;
   }
+  .hero__schedule {
+    justify-content: center;
+    margin: -14px 0 24px;
+    max-width: 330px;
+    line-height: 1.5;
+  }
   .hero__stats {
     width: 100%;
     display: grid;
@@ -1693,16 +1908,43 @@ img[src*="halal-cart-chicken"] { filter: brightness(1.28) saturate(1.1) contrast
   .hero__circle--md { width: 110px; height: 110px; top: 10px; right: 5px; }
   .hero__circle--sm { width: 80px;  height: 80px;  bottom: 20px; left: 5px; }
 
-  /* Hide handwritten overlays on narrow phones — two face photos leave no safe zone */
-  .about__handwritten--1,
-  .about__handwritten--2 {
-    display: none;
+  .about__images { height: 410px; }
+  .about__images--rida .about__img--1 {
+    width: 240px;
+    height: 240px;
+    left: 50%;
+    top: 20px;
+    transform: translateX(-50%);
   }
+  .about__rida-note {
+    left: 50%;
+    right: auto;
+    bottom: 74px;
+    width: max-content;
+    max-width: calc(100% - 24px);
+    transform: translateX(-50%);
+    text-align: center;
+  }
+  .about__handwritten-strip {
+    left: 0;
+    right: 0;
+    bottom: 8px;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    text-align: center;
+  }
+  .about__handwritten--1 { font-size: 1.02rem; transform: rotate(-2deg); }
+  .about__handwritten--2 { font-size: 0.92rem; transform: rotate(2deg); }
 
   .container { padding: 0 18px; }
   .section-title { font-size: clamp(2rem, 10vw, 2.55rem); }
 
   .values, .how, .menu, .about, .spin { padding: 72px 0; }
+  .weekly-order { padding: 58px 0; }
+  .weekly-order__details { grid-template-columns: 1fr; }
+  .weekly-order__details div { min-height: auto; padding: 17px 18px; }
+  .weekly-order__cta { width: 100%; justify-content: center; }
   .spin__inner  {
     flex-direction: column;
     gap: 36px;
@@ -1722,6 +1964,16 @@ img[src*="halal-cart-chicken"] { filter: brightness(1.28) saturate(1.1) contrast
 
   .form-section__header {
     margin-bottom: 34px;
+  }
+  .form-menu-route {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  .form-menu-route .btn {
+    width: 100%;
+    justify-content: center;
   }
   .form-section__aside {
     flex-direction: column;
@@ -1773,5 +2025,21 @@ img[src*="halal-cart-chicken"] { filter: brightness(1.28) saturate(1.1) contrast
   .footer__nav {
     width: 100%;
     flex-wrap: wrap;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .hero__circle,
+  .hero__float,
+  .about__images--rida .about__img--1,
+  .hero__cluster,
+  .marquee__track {
+    animation: none !important;
+  }
+  .fade-up {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }

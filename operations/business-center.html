@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>PRPD Business Center</title>
+  <link rel="stylesheet" href="/operations/business-center.css?v=20260722.1">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">Private operations</p>
+      <h1>PRPD Business Center</h1>
+      <p class="subtitle">Growth, cash collection, direct cost, outreach, and ad reporting in one place.</p>
+    </div>
+    <nav class="tool-nav" aria-label="Operations tools">
+      <a href="/operations/cook-day-planner">Cook-Day Planner</a>
+      <a href="/operations/grocery-list">Grocery Builder</a>
+      <a href="/operations/label-studio">Label Studio</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="control-bar">
+      <div class="sync-copy">
+        <strong id="syncState">Ready to sync</strong>
+        <span id="syncDetail">Orders, Payment Log, and Website Leads are read only.</span>
+      </div>
+      <label>Reporting batch
+        <select id="batchSelect"><option value="0">All batches</option></select>
+      </label>
+      <button class="btn primary" id="syncBtn">Sync live data</button>
+    </section>
+
+    <div class="tabs" role="tablist" aria-label="Business Center views">
+      <button class="tab active" data-tab="growth" role="tab">Growth</button>
+      <button class="tab" data-tab="finance" role="tab">Finance</button>
+      <button class="tab" data-tab="outreach" role="tab">Local outreach</button>
+      <button class="tab" data-tab="sources" role="tab">Data sources</button>
+    </div>
+
+    <section class="view active" id="growthView">
+      <div class="section-heading"><div><p class="eyebrow">Acquisition</p><h2>Growth overview</h2></div><p>Leads are all-time. Orders and revenue follow the selected batch.</p></div>
+      <div class="metrics" id="growthMetrics"></div>
+      <div class="two-column">
+        <section class="panel">
+          <div class="panel-heading"><h3>Source performance</h3><span>Lead-to-order visibility</span></div>
+          <div class="table-wrap"><table><thead><tr><th>Source</th><th>Leads</th><th>Orders</th><th>Revenue</th><th>Conversion</th><th>AOV</th></tr></thead><tbody id="sourceRows"></tbody></table></div>
+        </section>
+        <section class="panel">
+          <div class="panel-heading"><h3>Referral performance</h3><span>Codes and partners</span></div>
+          <div class="table-wrap"><table><thead><tr><th>Partner</th><th>Code</th><th>Orders</th><th>Revenue</th><th>Discount</th></tr></thead><tbody id="referralRows"></tbody></table></div>
+        </section>
+      </div>
+      <section class="panel">
+        <div class="panel-heading"><h3>Next growth actions</h3><span>Capacity-aware priorities</span></div>
+        <div class="action-grid">
+          <article><strong>1. Partner tasting</strong><p>Contact the first three independent fitness targets with a small tasting and tracked code.</p></article>
+          <article><strong>2. Referral capture</strong><p>Use unique partner codes and UTM links so every new order can be tied back to a person or channel.</p></article>
+          <article><strong>3. Weekly menu email</strong><p>Use the existing menu opt-in list for one concise launch email when the menu opens.</p></article>
+          <article><strong>4. Paid-media proof</strong><p>Import TikTok exports weekly, then compare spend against attributable orders and collected revenue.</p></article>
+        </div>
+      </section>
+    </section>
+
+    <section class="view" id="financeView">
+      <div class="section-heading"><div><p class="eyebrow">Cash and margin</p><h2>Financial center</h2></div><p>Direct packed cost is an operational estimate, not accounting profit.</p></div>
+      <div class="metrics" id="financeMetrics"></div>
+      <div class="notice" id="costWarning"></div>
+      <div class="two-column finance-grid">
+        <section class="panel">
+          <div class="panel-heading"><h3>Batch performance</h3><span>Booked, collected, and direct cost</span></div>
+          <div class="table-wrap"><table><thead><tr><th>Batch</th><th>Orders</th><th>Booked</th><th>Collected</th><th>Outstanding</th><th>Direct cost</th><th>Contribution</th></tr></thead><tbody id="batchRows"></tbody></table></div>
+        </section>
+        <section class="panel">
+          <div class="panel-heading"><h3>Customer payment log</h3><span>Per-order collection status</span></div>
+          <div class="table-wrap"><table><thead><tr><th>Customer</th><th>Orders</th><th>Due</th><th>Paid</th><th>Balance</th></tr></thead><tbody id="customerRows"></tbody></table></div>
+        </section>
+      </div>
+      <section class="panel">
+        <div class="panel-heading"><h3>Consolidated collection requests</h3><span>Accounts Receivable tab; excluded from booked sales to prevent double-counting</span></div>
+        <div class="table-wrap"><table><thead><tr><th>Account</th><th>Covered batches</th><th>Agreed</th><th>Paid</th><th>Balance</th><th>Status</th><th>Notes</th></tr></thead><tbody id="receivableRows"></tbody></table></div>
+      </section>
+      <section class="panel">
+        <div class="panel-heading"><h3>Expense ledger</h3><span>Local working record for costs not already inside meal direct cost</span></div>
+        <form class="expense-form" id="expenseForm">
+          <label>Date<input required type="date" name="date"></label>
+          <label>Batch<input required name="batch" placeholder="Batch 3"></label>
+          <label>Vendor<input required name="vendor" placeholder="Restaurant Depot"></label>
+          <label>Category<select name="category"><option>Delivery</option><option>Equipment</option><option>Marketing</option><option>Kitchen</option><option>Software</option><option>Other</option></select></label>
+          <label>Amount<input required type="number" min="0" step="0.01" name="amount"></label>
+          <label class="wide">Notes<input name="notes" placeholder="What this expense covered"></label>
+          <button class="btn primary" type="submit">Add expense</button>
+        </form>
+        <div class="table-wrap"><table><thead><tr><th>Date</th><th>Batch</th><th>Vendor</th><th>Category</th><th>Amount</th><th>Notes</th><th></th></tr></thead><tbody id="expenseRows"></tbody></table></div>
+      </section>
+    </section>
+
+    <section class="view" id="outreachView">
+      <div class="section-heading"><div><p class="eyebrow">DFW discovery</p><h2>Local partnership pipeline</h2></div><p>Independent gyms first, then MSAs and community program teams.</p></div>
+      <div class="outreach-summary" id="outreachSummary"></div>
+      <section class="panel no-pad">
+        <div class="table-wrap"><table class="outreach-table"><thead><tr><th>#</th><th>Target</th><th>Fit and pitch</th><th>Contact</th><th>Status</th><th>Follow-up notes</th><th>Draft</th></tr></thead><tbody id="outreachRows"></tbody></table></div>
+      </section>
+      <div class="notice"><strong>Outreach rule:</strong> offer a tasting, sampling table, member challenge, or preorder pickup. Do not rely on passive flyer placement. Any creator receiving free meals or payment must clearly disclose the relationship.</div>
+    </section>
+
+    <section class="view" id="sourcesView">
+      <div class="section-heading"><div><p class="eyebrow">Connections</p><h2>Data sources</h2></div><p>Credentials remain server-side or in ignored local files.</p></div>
+      <div class="connection-grid">
+        <article class="connection"><span class="dot" id="sheetsDot"></span><div><strong>Google Sheets</strong><p id="sheetsDetail">Checking Orders, Payment Log, Website Leads, and Accounts Receivable.</p></div></article>
+        <article class="connection"><span class="dot good"></span><div><strong>Local operations state</strong><p>Outreach, expenses, and ad imports are saved atomically outside Git.</p></div></article>
+        <article class="connection"><span class="dot pending" id="tiktokDot"></span><div><strong>TikTok Marketing API</strong><p id="tiktokDetail">Checking the read-only reporting connection. CSV import remains available.</p></div></article>
+        <article class="connection"><span class="dot pending"></span><div><strong>Bank feed</strong><p>Not connected. Keep the bank as the source of truth and enter operating expenses here only when useful.</p></div></article>
+      </div>
+      <section class="panel">
+        <div class="panel-heading"><h3>TikTok Ads reporting</h3><span>Sync the API or use a campaign CSV as a fallback</span></div>
+        <div class="import-row api-sync-row">
+          <label>Start date<input type="date" id="tiktokStartDate"></label>
+          <label>End date<input type="date" id="tiktokEndDate"></label>
+          <button class="btn primary" id="syncTikTokBtn">Sync TikTok API</button>
+        </div>
+        <div class="import-row"><input type="file" id="tiktokFile" accept=".csv,text/csv"><button class="btn" id="importTikTokBtn">Import CSV fallback</button></div>
+        <p class="helper">Only read-only campaign totals are stored locally. Tokens stay in Vercel and are never exposed to this browser.</p>
+        <div class="table-wrap"><table><thead><tr><th>Imported</th><th>File</th><th>Period</th><th>Spend</th><th>Impressions</th><th>Clicks</th><th>Conversions</th><th></th></tr></thead><tbody id="adImportRows"></tbody></table></div>
+      </section>
+    </section>
+  </main>
+
+  <dialog id="draftDialog">
+    <form method="dialog" class="dialog-card">
+      <div class="panel-heading"><div><p class="eyebrow">Email draft</p><h3 id="draftTitle">Partnership outreach</h3></div><button class="icon-btn" value="cancel" aria-label="Close">&times;</button></div>
+      <label>Subject<input id="draftSubject"></label>
+      <label>Message<textarea id="draftBody" rows="13"></textarea></label>
+      <div class="dialog-actions"><button type="button" class="btn" id="copyDraftBtn">Copy draft</button><a class="btn primary" id="openEmailBtn" href="#">Open email</a></div>
+    </form>
+  </dialog>
+
+  <script src="/operations/business-center-core.js?v=20260722.2"></script>
+  <script src="/operations/local-discovery-data.js?v=20260722.1"></script>
+  <script src="/operations/business-center-app.js?v=20260722.2"></script>
+</body>
+</html>
