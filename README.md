@@ -9,7 +9,7 @@ Live domains:
 - `https://getprpd.com`
 - `https://www.getprpd.com` (permanent redirect to `https://getprpd.com`)
 
-Host: Vercel. The live domains temporarily remain on `rida-khan-s-projects/getprpd` while production secrets are migrated. The intended long-term project is the GitHub-connected `rida-khan-s-projects/getprpd-website-repo`.
+Host: Vercel. The live production project is `rida-khan-s-projects/getprpd`. It owns the custom domains and the working Google Sheets, Resend, planner, and security configuration.
 Registrar/DNS: GoDaddy
 
 Public brand ownership rule: Rida is the sole operator presented on the customer-facing website. The About section, order confirmations, FAQ, delivery language, and customer-contact copy should consistently describe Rida as handling orders, cook days, food preparation, and delivery.
@@ -523,19 +523,19 @@ Migration verification completed successfully on July 13, 2026. Both emails arri
 vercel --prod
 ```
 
-Do not use `deploy.bat` until the migration below is complete because it depends on the local Vercel project link.
+Do not use `deploy.bat` until the local Vercel project link is intentionally restored to the production project.
 
-Current live bridge: `rida-khan-s-projects/getprpd` (`prj_We7VvuEJKEmwUxC46KSByvxzQOm8`). It currently owns the custom domains and the working Google Sheets, Resend, and planner secrets.
+Production project: `rida-khan-s-projects/getprpd` (`prj_We7VvuEJKEmwUxC46KSByvxzQOm8`). It is the newer project, owns `getprpd.com` and `www.getprpd.com`, and contains the working Google Sheets, Resend, planner, and production security configuration.
 
-Long-term production target: `rida-khan-s-projects/getprpd-website-repo` (`prj_StlJj0TqH3W2XA1vzZxyWRLx0tJo`). It is connected to `getprpd-sudo/getprpd-website-repo`, has the latest application build and TikTok configuration, and is the project that should own production after migration verification.
+Duplicate project: `rida-khan-s-projects/getprpd-website-repo` (`prj_StlJj0TqH3W2XA1vzZxyWRLx0tJo`). It is older and is connected to `getprpd-sudo/getprpd-website-repo`, but the repository `main` branch is seven commits behind the local production code as of July 22, 2026. Its latest manually deployed frontend matches production, but it does not contain all production backend credentials and must not receive the custom domains.
 
-Migration sequence:
+Consolidation sequence:
 
-1. Recreate `GOOGLE_SERVICE_ACCOUNT_BASE64`, `RESEND_API_KEY`, and `PRPD_PLANNER_KEY` on `getprpd-website-repo`; `GOOGLE_SHEET_ID` is already present.
-2. Redeploy `getprpd-website-repo` and verify intake, orders, Sheets writes, Resend mail, planner sync, and TikTok Events API using its Vercel URL.
-3. Move `getprpd.com` and `www.getprpd.com` to `getprpd-website-repo`.
-4. Re-run the complete live test suite.
-5. Preserve `getprpd` as a rollback for 7-14 days, then delete it only after explicit approval.
+1. Push the current reviewed code to the canonical GitHub repository. The private `aazim040607/getprpd-website-backup` branch remains the current off-machine backup until repository write access is corrected.
+2. Connect the production `getprpd` project to the up-to-date canonical repository.
+3. Add and verify the TikTok Events API access token on `getprpd`, then run browser and server event tests.
+4. Verify intake, orders, Sheets writes, Resend mail, planner sync, and TikTok Events API on `getprpd.com`.
+5. Preserve `getprpd-website-repo` as a rollback for 7-14 days, then delete it only after explicit approval.
 
 ### GitHub backup
 
@@ -688,9 +688,9 @@ Production abuse controls:
 
 Vercel project inventory:
 
-- `getprpd` is the temporary live bridge. It owns the domains and working business credentials, but it is not the intended long-term GitHub-connected project.
-- `getprpd-website-repo` is the long-term production target and GitHub-connected project. Its frontend is currently identical to the live site, but its backend migration must pass before domains move.
-- Never delete either project during migration. Delete `getprpd` only after the target project has served production successfully through the rollback window.
+- `getprpd` is the canonical production project. It owns the domains and working business credentials.
+- `getprpd-website-repo` is an older GitHub-connected duplicate. Its manually deployed frontend is currently identical to production, but its GitHub `main` branch and backend configuration are incomplete.
+- Never move the custom domains to the duplicate. Delete `getprpd-website-repo` only after the canonical repository connection and production verification are complete and the rollback window has passed.
 
 Search/indexing controls:
 
