@@ -95,7 +95,7 @@ Human approval is required for:
 
 ### Phase 1: Daily Operator Brief
 
-Implementation status: built and locally verified on July 23, 2026. Production activation requires `CRON_SECRET` and deployment.
+Implementation status: built, tested, deployed, and production-verified on July 23, 2026.
 
 A secured daily job reads the current connected records and prepares one brief containing:
 
@@ -119,6 +119,8 @@ Implemented controls:
 - one Chicago-date run ID plus Resend idempotency;
 - planner-key JSON preview that does not send email;
 - no customer messaging, record edits, ad changes, or AI-generated financial values.
+- structured validation for phone, email, street address, city, and ZIP rather than blank-cell checks;
+- a narrow Talal/Duaa profile-warning exception that does not remove their orders from production or financial reporting.
 
 The current source data supports recent-order reporting but not a reliable audit trail of changed orders. Website-error aggregation and Resend/TikTok delivery-health monitoring remain future work.
 
@@ -129,6 +131,8 @@ The current source data supports recent-order reporting but not a reliable audit
 - Prepare, but do not send, payment reminders and missing-address requests.
 - Create win-back drafts for consented customers who skipped two menus.
 - Record reviewed/sent/dismissed status so the same person is not repeatedly flagged.
+
+Do not start this phase until the Daily Brief has been used through at least one complete operating week and its exceptions are accurate enough to save time. The first Phase 2 release should be one human-reviewed queue, not a second dashboard or an autonomous sender.
 
 ### Phase 3: Weekly Cycle Orchestrator
 

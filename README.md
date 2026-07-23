@@ -68,7 +68,7 @@ GitHub backup: `getprpd-sudo/getprpd-website-repo` (push via GitHub Desktop — 
 - `api/tiktok-report.js` - planner-key-protected, read-only TikTok Marketing API reporting endpoint
 - `api/planner-orders.js` - protected current-batch planner endpoint: read-only sync plus validated, planner-key-protected manual order insertion
 - `api/business-data.js` - protected read-only reporting endpoint for the private Business Center, covering Orders, Payment Log, Website Leads, and Accounts Receivable
-- `api/operator-brief.js` - protected daily Operator Brief endpoint; reads controlled business ranges, sends one internal summary through Resend, and records successful sends in the `Automation Log` Sheet tab
+- `api/operator-brief.js` - protected daily Operator Brief endpoint; reads controlled business ranges, validates customer profile fields, excludes only Talal and Duaa from profile warnings, sends one internal summary through Resend, and records successful sends in the `Automation Log` Sheet tab
 - `api/_business-data-source.js` - shared private Google Sheets reader used by protected reporting and automation endpoints
 - `api/_business-center-core.js` - shared tested calculations used by the local Business Center and server-side Operator Brief
 - `config/order-config.js` — single weekly source of truth for menu, macros, images, prices, delivery rules, and cutoff

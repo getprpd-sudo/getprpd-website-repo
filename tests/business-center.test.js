@@ -15,6 +15,27 @@ function samplePayload() {
   return { orders:[orderHeader,order,shifted], payments:[paymentHeader,payment], leads:[leadHeader,lead], receivables:[Core.RECEIVABLE_HEADERS,receivable], fetchedAt:'2026-07-22T12:00:00Z' };
 }
 
+function orderRow(overrides = {}) {
+  const values = {
+    'Submitted At': '7/22/2026',
+    Batch: 'Batch 3',
+    'Delivery Date': 'Saturday',
+    'First Name': 'Valid',
+    'Last Name': 'Customer',
+    Phone: '4695550100',
+    Items: '1x Hot Honey Chicken Sliders (Lean) - $10.99',
+    'Exact Total': 10.99,
+    'Total (Rounded)': 11,
+    'Order ID': 'ORDER-VALID',
+    Email: 'valid@example.com',
+    Address: '123 Main Street',
+    City: 'Frisco',
+    ZIP: '75035',
+    ...overrides,
+  };
+  return Core.ORDER_HEADERS.map(header => values[header] ?? '');
+}
+
 test('business center normalizes shifted orders and calculates known direct cost', () => {
   const model = Core.summarize(samplePayload(), { expenses:[], adImports:[] });
   assert.equal(model.orders.length, 2);
@@ -76,8 +97,66 @@ test('operator brief prioritizes missing details, balances, and unmatched recent
   assert.equal(brief.money.currentOutstanding, 27);
   assert.equal(brief.money.consolidatedOutstanding, 1190);
   assert.equal(brief.cutoff.state, 'closed');
-  assert.match(brief.actions[0].title, /Complete 2 order records/);
+  assert.match(brief.actions[0].title, /Complete or correct 2 order records/);
   assert.match(brief.actions[1].title, /outstanding balances/);
+});
+
+test('operator brief validates customer contact fields and exempts Talal and Duaa only from profile warnings', () => {
+  const payload = {
+    orders: [
+      Core.ORDER_HEADERS,
+      orderRow(),
+      orderRow({
+        'First Name': 'Needs',
+        'Last Name': 'Correction',
+        Phone: '123',
+        Email: 'not-an-email',
+        Address: 'Frisco',
+        City: '75035',
+        ZIP: 'Texas',
+        'Order ID': 'ORDER-BAD',
+      }),
+      orderRow({
+        'First Name': 'Talal',
+        'Last Name': 'Account',
+        Phone: '',
+        Email: '',
+        Address: '',
+        City: '',
+        ZIP: '',
+        'Order ID': 'ORDER-TALAL',
+      }),
+      orderRow({
+        'First Name': 'Duaa',
+        'Last Name': 'Hassan',
+        Phone: '',
+        Email: '',
+        Address: '',
+        City: '',
+        ZIP: '',
+        'Order ID': 'ORDER-DUAA',
+      }),
+    ],
+    payments: [Core.PAYMENT_HEADERS],
+    leads: [Core.LEAD_HEADERS],
+    receivables: [Core.RECEIVABLE_HEADERS],
+  };
+  const model = Core.summarize(payload, { expenses:[], adImports:[] });
+  const brief = Core.operatorBrief(model, { now: new Date('2026-07-23T14:00:00Z'), batchNumber: 3 });
+
+  assert.equal(brief.counts.orders, 4);
+  assert.equal(brief.counts.meals, 4);
+  assert.equal(brief.counts.incompleteOrders, 1);
+  assert.equal(brief.incompleteOrders[0].customer, 'Needs Correction');
+  assert.deepEqual(brief.incompleteOrders[0].missing, [
+    'phone number',
+    'valid email',
+    'street address',
+    'city',
+    '5-digit ZIP',
+  ]);
+  assert.match(brief.actions[0].detail, /Needs Correction/);
+  assert.doesNotMatch(brief.actions[0].detail, /Talal|Duaa/);
 });
 
 test('TikTok CSV parser handles quoted campaign names and totals', () => {

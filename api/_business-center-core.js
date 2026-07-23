@@ -21,6 +21,7 @@
   const RECEIVABLE_HEADERS = [
     'Client Account', 'Covered Batches', 'Amount Agreed', 'Amount Paid', 'Balance', 'Status', 'Last Updated', 'Notes',
   ];
+  const DEFAULT_PROFILE_EXEMPT_CUSTOMERS = Object.freeze(['Talal', 'Duaa']);
 
   const DIRECT_COSTS = Object.freeze({
     'high protein omelette|lean': 2.62, 'high protein omelette|bulk': 3.27,
@@ -46,6 +47,34 @@
     return Number.isFinite(parsed) ? parsed : 0;
   }
   function phone(value) { return clean(value).replace(/\D/g, '').slice(-10); }
+  function customerName(order) {
+    return `${clean(order['First Name'])} ${clean(order['Last Name'])}`.trim() || 'Unknown';
+  }
+  function normalizedCustomerName(value) {
+    return clean(value).toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+  }
+  function isProfileExempt(customer, exemptions = DEFAULT_PROFILE_EXEMPT_CUSTOMERS) {
+    const normalized = normalizedCustomerName(customer);
+    return exemptions.some((entry) => {
+      const exempt = normalizedCustomerName(entry);
+      return exempt && (normalized === exempt || normalized.startsWith(`${exempt} `));
+    });
+  }
+  function validEmail(value) {
+    const email = clean(value);
+    return email.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(email);
+  }
+  function validStreetAddress(value) {
+    const address = clean(value);
+    return address.length >= 5 && /\d/.test(address) && /[a-z]{2}/i.test(address);
+  }
+  function validCity(value) {
+    const city = clean(value);
+    return city.length >= 2 && /[a-z]{2}/i.test(city) && !/^\d+$/.test(city);
+  }
+  function validZip(value) {
+    return /^\d{5}(?:-\d{4})?$/.test(clean(value));
+  }
   function batchNumber(value) {
     const match = clean(value).match(/batch\s*(\d+)/i);
     return match ? Number(match[1]) : 0;
@@ -247,16 +276,21 @@
       const timestamp = parseDate(order['Submitted At']);
       return timestamp && nowMs - timestamp >= 0 && nowMs - timestamp <= recentWindowMs;
     });
+    const profileExemptCustomers = Array.isArray(options.profileExemptCustomers)
+      ? options.profileExemptCustomers
+      : DEFAULT_PROFILE_EXEMPT_CUSTOMERS;
     const incompleteOrders = scoped.orders.map((order) => {
+      const customer = customerName(order);
+      if (isProfileExempt(customer, profileExemptCustomers)) return null;
       const missing = [
-        ['phone', order.Phone],
-        ['email', order.Email],
-        ['address', order.Address],
-        ['city', order.City],
-        ['ZIP', order.ZIP],
-      ].filter(([, value]) => !clean(value)).map(([label]) => label);
-      return { orderId: order['Order ID'], customer: `${order['First Name']} ${order['Last Name']}`.trim() || 'Unknown', missing };
-    }).filter(order => order.missing.length);
+        ['phone number', phone(order.Phone).length === 10],
+        ['valid email', validEmail(order.Email)],
+        ['street address', validStreetAddress(order.Address)],
+        ['city', validCity(order.City)],
+        ['5-digit ZIP', validZip(order.ZIP)],
+      ].filter(([, valid]) => !valid).map(([label]) => label);
+      return { orderId: order['Order ID'], customer, missing };
+    }).filter(order => order && order.missing.length);
     const unpaid = scoped.payments.filter(payment => payment.balance > 0).map(payment => ({
       customer: payment.Client || 'Unknown',
       due: payment.due,
@@ -275,7 +309,7 @@
     const actions = [];
     if (incompleteOrders.length) actions.push({
       priority: 'high',
-      title: `Complete ${incompleteOrders.length} order record${incompleteOrders.length === 1 ? '' : 's'}`,
+      title: `Complete or correct ${incompleteOrders.length} order record${incompleteOrders.length === 1 ? '' : 's'}`,
       detail: incompleteOrders.slice(0, 3).map(order => `${order.customer}: ${order.missing.join(', ')}`).join('; '),
     });
     if (unpaid.length || consolidated.length) actions.push({
@@ -387,7 +421,8 @@
   }
 
   return {
-    ORDER_HEADERS, PAYMENT_HEADERS, LEAD_HEADERS, RECEIVABLE_HEADERS, DIRECT_COSTS, number, phone, batchNumber, normalizeOrders,
+    ORDER_HEADERS, PAYMENT_HEADERS, LEAD_HEADERS, RECEIVABLE_HEADERS, DIRECT_COSTS, DEFAULT_PROFILE_EXEMPT_CUSTOMERS,
+    number, phone, batchNumber, normalizeOrders,
     standardRows, parseItemLines, orderCost, summarize, filterBatch, financials, sourceRows, referralRows, batchRows,
     customerRows, receivableRows, operatorBrief, parseCsv, importTikTokCsv,
   };
