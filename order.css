@@ -276,7 +276,7 @@
     /* Image */
     .dish-img {
       width: 100%;
-      aspect-ratio: 1 / 1;
+      aspect-ratio: 4 / 3;
       background: linear-gradient(135deg, var(--green) 0%, var(--green-mid) 100%);
       position: relative;
       overflow: hidden;
@@ -290,6 +290,9 @@
       display: block;
       transition: opacity 0.3s;
     }
+    .dish-img img.dish-photo--soft {
+      filter: brightness(0.95) saturate(0.92);
+    }
     .dish-img__bg {
       position: absolute; inset: 0;
       display: flex; align-items: center; justify-content: center;
@@ -302,7 +305,6 @@
       letter-spacing: 0.12em;
     }
     .dish-card.no-photo .dish-img {
-      aspect-ratio: 16 / 7;
       background:
         linear-gradient(120deg, rgba(255,255,255,.04), transparent 55%),
         linear-gradient(135deg, var(--green) 0%, #356343 100%);
@@ -323,41 +325,6 @@
       font-weight: 800;
       line-height: 1.1;
     }
-    .photo-tier-switch {
-      position: absolute;
-      right: 10px;
-      bottom: 10px;
-      z-index: 3;
-      display: grid;
-      grid-template-columns: repeat(2, minmax(50px, 1fr));
-      padding: 3px;
-      border: 1px solid rgba(30,46,30,0.14);
-      border-radius: 999px;
-      background: rgba(255,255,255,0.92);
-      box-shadow: 0 4px 14px rgba(30,46,30,0.16);
-      backdrop-filter: blur(6px);
-    }
-    .photo-tier-btn {
-      min-height: 34px;
-      padding: 6px 10px;
-      border: 0;
-      border-radius: 999px;
-      background: transparent;
-      color: var(--green);
-      font: inherit;
-      font-size: 0.68rem;
-      font-weight: 800;
-      cursor: pointer;
-    }
-    .photo-tier-btn.is-active {
-      background: var(--green);
-      color: var(--cream);
-    }
-    .photo-tier-btn:focus-visible {
-      outline: 2px solid var(--sage);
-      outline-offset: 2px;
-    }
-
     /* Body */
     .dish-body {
       padding: 15px 16px 16px;
@@ -534,11 +501,6 @@
       background: rgba(30,46,30,0.045);
       border: 1px solid rgba(30,46,30,0.08);
       transition: border-color 0.18s, background 0.18s, box-shadow 0.18s;
-    }
-    .tier-order-row.is-selected-tier {
-      border-color: rgba(47,107,59,0.42);
-      background: rgba(127,168,130,0.13);
-      box-shadow: inset 3px 0 0 #2f6b3b;
     }
     .tier-order-info {
       display: flex;
@@ -921,7 +883,6 @@
       }
       .dish-grid { grid-template-columns: 1fr; }
       .dish-img { aspect-ratio: 4 / 3; }
-      .dish-card.no-photo .dish-img { aspect-ratio: 16 / 6; }
       .menu-jump {
         top: calc(var(--banner-h) + 62px);
         width: calc(100vw - 32px);

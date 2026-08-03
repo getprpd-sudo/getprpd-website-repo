@@ -203,10 +203,11 @@ test('public order form captures referral attribution and explicit menu-email co
   assert.match(orderJs, /discountAmount/);
 });
 
-test('configured menu photos exist and tier photo controls are wired', () => {
+test('configured menu photos exist and each dish uses one canonical image', () => {
   const projectRoot = path.join(__dirname, '..');
   for (const dish of dishes) {
-    const sources = [dish.image, ...Object.values(dish.images || {})].filter(Boolean);
+    assert.equal(dish.images, undefined, `${dish.name} does not switch photos by tier`);
+    const sources = [dish.image].filter(Boolean);
     for (const source of sources) {
       assert.ok(source.startsWith('/assets/'), `${dish.name} uses a local asset path`);
       const assetPath = new URL(source, 'https://getprpd.com').pathname;
@@ -218,13 +219,16 @@ test('configured menu photos exist and tier photo controls are wired', () => {
     fs.readFileSync(path.join(projectRoot, 'order.html'), 'utf8'),
     fs.readFileSync(path.join(projectRoot, 'order.js'), 'utf8'),
   ].join('\n');
-  assert.match(orderSource, /photo-tier-switch/);
-  assert.match(orderSource, /setDishPhoto/);
-  assert.match(orderSource, /hasTierPhotos/);
-  assert.match(orderSource, /if \(isSingleSize\(dish\)\) return ''/);
+  assert.doesNotMatch(orderSource, /photo-tier-switch/);
+  assert.doesNotMatch(orderSource, /setDishPhoto/);
+  assert.doesNotMatch(orderSource, /hasTierPhotos/);
   assert.match(orderSource, /data-order-tier/);
   assert.match(orderSource, /Freezer-friendly/);
   assert.doesNotMatch(orderSource, /Better later in the week/);
+
+  const steak = dishes.find(dish => dish.name === 'Premium NY Strip Steak');
+  assert.equal(steak.image, '/assets/images/meals/menu/premium-ny-strip-steak-bulk.jpg');
+  assert.equal(dishes.find(dish => dish.name === 'Halal Cart Chicken + Yellow Rice').imageTone, 'soft');
 });
 
 test('Batch 5 menu uses the approved rotation and Grab & Go nutrition', () => {
@@ -241,6 +245,8 @@ test('Batch 5 menu uses the approved rotation and Grab & Go nutrition', () => {
   const proteinBox = dishes.find(dish => dish.name === 'PRPD Protein Box');
   assert.deepEqual(proteinBox.macros, { cal: 370, protein: 29, carbs: 19, fiber: 3, fat: 20 });
   assert.equal(proteinBox.price, 7.99);
+  assert.doesNotMatch(proteinBox.description, /halal beef breakfast slices/i);
+  assert.doesNotMatch(dishes.find(dish => dish.name === 'PRPD Beef Bacon Breakfast Sandwich').description, /^Halal\b/i);
   const wrap = dishes.find(dish => dish.name === 'Mini Chicken Snack Wrap');
   assert.deepEqual(wrap.macros, { cal: 305, protein: 39, carbs: 23, fiber: 16, fat: 12 });
   assert.equal(wrap.price, 7.99);

@@ -131,54 +131,11 @@ const ORDER_API_URL = '/api/order';
       return PRICES[dish.category][priceTier];
     }
 
-    function hasTierPhotos(dish) {
-      return Boolean(dish.images && (dish.images.lean || dish.images.bulk));
-    }
-
-    function getDishPhoto(dish, tier = 'lean') {
-      if (dish.images && dish.images[tier]) return dish.images[tier];
+    function getDishPhoto(dish) {
       return dish.image || '';
     }
 
-    function photoTierSwitchHtml(dish) {
-      if (isSingleSize(dish)) return '';
-      return `<div class="photo-tier-switch" aria-label="Select ${dish.name} tier preview">
-        <button type="button" class="photo-tier-btn is-active" data-dish-id="${dish.id}" data-photo-tier="lean" aria-pressed="true">Lean</button>
-        <button type="button" class="photo-tier-btn" data-dish-id="${dish.id}" data-photo-tier="bulk" aria-pressed="false">Bulk</button>
-      </div>`;
-    }
-
-    function setDishPhoto(id, tier) {
-      const dish = allDishes().find(item => item.id === id);
-      const card = document.getElementById('card-' + id);
-      const image = document.getElementById('dish-photo-' + id);
-      if (!dish || !card) return;
-
-      card.querySelectorAll('.photo-tier-btn').forEach(button => {
-        const active = button.dataset.photoTier === tier;
-        button.classList.toggle('is-active', active);
-        button.setAttribute('aria-pressed', String(active));
-      });
-      card.querySelectorAll('.tier-order-row').forEach(row => {
-        row.classList.toggle('is-selected-tier', row.dataset.orderTier === tier);
-      });
-
-      const source = getDishPhoto(dish, tier);
-      if (!image || !source) return;
-      image.hidden = false;
-      image.dataset.fallback = dish.image || '';
-      image.src = source;
-      image.alt = `${dish.name} ${tier === 'bulk' ? 'Bulk' : 'Lean'} portion`;
-
-    }
-
     function handleDishPhotoError(image) {
-      const fallback = image.dataset.fallback;
-      if (fallback && !image.dataset.usedFallback && !image.src.endsWith(fallback)) {
-        image.dataset.usedFallback = 'true';
-        image.src = fallback;
-        return;
-      }
       image.hidden = true;
     }
 
@@ -194,7 +151,7 @@ const ORDER_API_URL = '/api/order';
            <span>Final macros will be posted after the recipe review.</span>`
         : `<span><strong>${macros.cal}</strong> Calories &middot; <strong>${macros.protein}g</strong> Protein</span>
            <span>${macros.carbs}g Carbs &middot; ${macros.fat}g Fat${fiber}</span>`;
-      return `<div class="tier-order-row${tier === 'lean' ? ' is-selected-tier' : ''}" data-order-tier="${keySuffix}">
+      return `<div class="tier-order-row" data-order-tier="${keySuffix}">
         <div class="tier-order-info">
           <strong>${label} &middot; $${price.toFixed(2)}</strong>
           ${nutrition}
@@ -220,7 +177,7 @@ const ORDER_API_URL = '/api/order';
         const grid = document.getElementById('grid-' + section);
         grid.innerHTML = MENU[section].map(dish => {
           const available = dish.available !== false;
-          const defaultPhoto = getDishPhoto(dish, 'lean');
+          const defaultPhoto = getDishPhoto(dish);
           const orderRows = !available
             ? '<div class="sold-out-note">Sold out for this batch</div>'
             : isSingleSize(dish)
@@ -231,8 +188,7 @@ const ORDER_API_URL = '/api/order';
               <div class="dish-img">
                 <div class="dish-img__bg"><span>PRPD</span></div>
                 ${dish.laterWeek ? '<span class="later-week-badge">Freezer-friendly</span>' : ''}
-                ${defaultPhoto ? `<img id="dish-photo-${dish.id}" src="${defaultPhoto}" data-fallback="${dish.image || ''}" alt="${dish.name} Lean portion" loading="lazy" />` : ''}
-                ${photoTierSwitchHtml(dish)}
+                ${defaultPhoto ? `<img id="dish-photo-${dish.id}"${dish.imageTone ? ` class="dish-photo--${dish.imageTone}"` : ''} src="${defaultPhoto}" alt="${dish.name}" loading="lazy" />` : ''}
               </div>
               <div class="dish-body">
                 <div class="dish-name">${dish.name}</div>
@@ -337,7 +293,6 @@ const ORDER_API_URL = '/api/order';
       document.getElementById(`qty-${id}-${tier}`).textContent = cart[key];
       const hasAnyQty = getQty(id, null) > 0 || getQty(id, 'lean') > 0 || getQty(id, 'bulk') > 0;
       document.getElementById('card-' + id).classList.toggle('has-qty', hasAnyQty);
-      if (delta > 0 && effectiveTier) setDishPhoto(id, effectiveTier);
       updateSummary();
     }
 
@@ -666,12 +621,6 @@ const ORDER_API_URL = '/api/order';
     });
 
     document.addEventListener('click', event => {
-      const photoButton = event.target.closest('.photo-tier-btn');
-      if (photoButton) {
-        setDishPhoto(photoButton.dataset.dishId, photoButton.dataset.photoTier);
-        return;
-      }
-
       const quantityButton = event.target.closest('.qty-btn');
       if (quantityButton) {
         changeQty(
