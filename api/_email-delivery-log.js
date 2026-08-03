@@ -15,6 +15,7 @@ const DELIVERY_HEADERS = [
   'Webhook ID',
   'Updated At',
   'Reported At',
+  'Expected Count',
 ];
 const TERMINAL_STATUSES = new Set(['delivered', 'bounced', 'failed', 'suppressed', 'complained']);
 const DELIVERY_STATUS_BY_EVENT = Object.freeze({
@@ -91,7 +92,7 @@ async function ensureDeliverySheet(client) {
       },
     });
   }
-  const range = encodeURIComponent(`'${DELIVERY_SHEET}'!A1:L1`);
+  const range = encodeURIComponent(`'${DELIVERY_SHEET}'!A1:M1`);
   await client.request({
     url: spreadsheetUrl(SHEET_ID, `/values/${range}?valueInputOption=RAW`),
     method: 'PUT',
@@ -101,7 +102,7 @@ async function ensureDeliverySheet(client) {
 
 async function readDeliveryRows(client) {
   await ensureDeliverySheet(client);
-  const range = encodeURIComponent(`'${DELIVERY_SHEET}'!A2:L5000`);
+  const range = encodeURIComponent(`'${DELIVERY_SHEET}'!A2:M5000`);
   const result = await client.request({
     url: spreadsheetUrl(SHEET_ID, `/values/${range}`),
     method: 'GET',
@@ -110,7 +111,7 @@ async function readDeliveryRows(client) {
 }
 
 async function appendRow(client, row) {
-  const range = encodeURIComponent(`'${DELIVERY_SHEET}'!A:L`);
+  const range = encodeURIComponent(`'${DELIVERY_SHEET}'!A:M`);
   await client.request({
     url: spreadsheetUrl(SHEET_ID, `/values/${range}:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS`),
     method: 'POST',
@@ -119,7 +120,7 @@ async function appendRow(client, row) {
 }
 
 async function putRow(client, rowNumber, row) {
-  const range = encodeURIComponent(`'${DELIVERY_SHEET}'!A${rowNumber}:L${rowNumber}`);
+  const range = encodeURIComponent(`'${DELIVERY_SHEET}'!A${rowNumber}:M${rowNumber}`);
   await client.request({
     url: spreadsheetUrl(SHEET_ID, `/values/${range}?valueInputOption=RAW`),
     method: 'PUT',
@@ -130,6 +131,23 @@ async function putRow(client, rowNumber, row) {
 async function appendAcceptedEmail(client, record) {
   await ensureDeliverySheet(client);
   const now = clean(record.acceptedAt, 80) || new Date().toISOString();
+  const expectedCount = Math.max(0, Number(record.expectedCount) || 0);
+  const rows = await readDeliveryRows(client);
+  const index = rows.findIndex(row => clean(row[1], 160) === clean(record.emailId, 160));
+  if (index >= 0) {
+    const row = Array.from({ length: DELIVERY_HEADERS.length }, (_, column) => clean(rows[index][column]));
+    row[0] = clean(record.runId, 240);
+    row[2] ||= firstRecipient(record.recipient);
+    row[3] ||= clean(record.subject, 500);
+    row[4] ||= now;
+    row[5] = row[5] && row[5] !== 'event received' ? row[5] : 'accepted';
+    row[6] = row[6] && row[6] !== 'event received' ? row[6] : 'email.accepted';
+    row[7] ||= now;
+    row[10] = now;
+    row[12] = expectedCount || '';
+    await putRow(client, index + 2, row);
+    return;
+  }
   await appendRow(client, [
     clean(record.runId, 240),
     clean(record.emailId, 160),
@@ -143,6 +161,7 @@ async function appendAcceptedEmail(client, record) {
     '',
     now,
     '',
+    expectedCount || '',
   ]);
 }
 
@@ -185,21 +204,29 @@ async function recordDeliveryEvent(client, event, webhookId) {
     normalized.webhookId,
     now,
     '',
+    '',
   ]);
   return { duplicate: false, runId: '', normalized };
 }
 
 async function deliverySummary(client, runId) {
   const rows = (await readDeliveryRows(client)).filter(row => clean(row[0], 240) === clean(runId, 240));
+  return summarizeDeliveryRows(rows, runId);
+}
+
+function summarizeDeliveryRows(rows, runId) {
   const counts = {};
   for (const row of rows) {
     const status = clean(row[5], 80) || 'unknown';
     counts[status] = (counts[status] || 0) + 1;
   }
+  const expectedCount = rows.reduce((largest, row) => Math.max(largest, Number(row[12]) || 0), 0);
+  const allTerminal = rows.length > 0 && rows.every(row => TERMINAL_STATUSES.has(clean(row[5], 80)));
   return {
     runId: clean(runId, 240),
     total: rows.length,
-    complete: rows.length > 0 && rows.every(row => TERMINAL_STATUSES.has(clean(row[5], 80))),
+    expectedCount,
+    complete: allTerminal && (!expectedCount || rows.length >= expectedCount),
     reported: rows.some(row => Boolean(clean(row[11], 80))),
     counts,
     recipients: rows.map(row => ({
@@ -232,4 +259,5 @@ module.exports = {
   markDeliveryReported,
   normalizeDeliveryEvent,
   recordDeliveryEvent,
+  summarizeDeliveryRows,
 };

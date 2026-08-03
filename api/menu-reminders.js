@@ -267,6 +267,7 @@ module.exports = async function handler(request, response) {
         recipient: recipient.email,
         subject: accepted.subject,
         acceptedAt: accepted.acceptedAt,
+        expectedCount: recipients.length,
       });
       sentRecipients.push(recipient);
     }
