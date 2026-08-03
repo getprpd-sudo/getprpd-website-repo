@@ -87,12 +87,15 @@ const ORDER_API_URL = '/api/order';
       };
     }
 
+    const MENU_SECTIONS = ['breakfasts', 'mains', 'desserts', 'addons'];
+    const isSingleSize = dish => dish.category === 'dessert' || dish.category === 'addon';
+
     function allDishes() {
-      return [...MENU.breakfasts, ...MENU.mains, ...MENU.desserts];
+      return MENU_SECTIONS.flatMap(section => MENU[section] || []);
     }
 
     function sectionOf(id) {
-      for (const sec of ['breakfasts', 'mains', 'desserts']) {
+      for (const sec of MENU_SECTIONS) {
         if (MENU[sec].some(d => d.id === id)) return sec;
       }
       return '';
@@ -108,7 +111,7 @@ const ORDER_API_URL = '/api/order';
 
     function getOrderLines() {
       return allDishes().flatMap(dish => {
-        const availableTiers = dish.category === 'dessert' ? [null] : ['lean', 'bulk'];
+        const availableTiers = isSingleSize(dish) ? [null] : ['lean', 'bulk'];
         return availableTiers
           .map(tier => ({ dish, tier, qty: getQty(dish.id, tier) }))
           .filter(line => line.qty > 0);
@@ -123,7 +126,8 @@ const ORDER_API_URL = '/api/order';
     }
 
     function getPrice(dish, tier) {
-      const priceTier = dish.category === 'dessert' ? 'single' : tier;
+      if (Number.isFinite(Number(dish.price))) return Number(dish.price);
+      const priceTier = isSingleSize(dish) ? 'single' : tier;
       return PRICES[dish.category][priceTier];
     }
 
@@ -137,7 +141,7 @@ const ORDER_API_URL = '/api/order';
     }
 
     function photoTierSwitchHtml(dish) {
-      if (dish.category === 'dessert') return '';
+      if (isSingleSize(dish)) return '';
       return `<div class="photo-tier-switch" aria-label="Select ${dish.name} tier preview">
         <button type="button" class="photo-tier-btn is-active" data-dish-id="${dish.id}" data-photo-tier="lean" aria-pressed="true">Lean</button>
         <button type="button" class="photo-tier-btn" data-dish-id="${dish.id}" data-photo-tier="bulk" aria-pressed="false">Bulk</button>
@@ -179,17 +183,21 @@ const ORDER_API_URL = '/api/order';
     }
 
     function tierOrderRowHtml(dish, tier) {
-      const effectiveTier = dish.category === 'dessert' ? null : tier;
+      const effectiveTier = isSingleSize(dish) ? null : tier;
       const macros = effectiveTier === 'bulk' && dish.bulkMacros ? dish.bulkMacros : dish.macros;
-      const label = dish.category === 'dessert' ? 'Dessert' : (tier === 'bulk' ? 'Bulk' : 'Lean');
+      const label = dish.category === 'dessert' ? 'Dessert' : dish.category === 'addon' ? 'Add-on' : (tier === 'bulk' ? 'Bulk' : 'Lean');
       const price = getPrice(dish, effectiveTier);
       const keySuffix = effectiveTier || 'single';
       const fiber = macros.fiber > 0 ? ` &middot; ${macros.fiber}g fiber` : '';
+      const nutrition = dish.nutritionReview
+        ? `<span><strong>Nutrition update in progress</strong></span>
+           <span>Final macros will be posted after the recipe review.</span>`
+        : `<span><strong>${macros.cal}</strong> Calories &middot; <strong>${macros.protein}g</strong> Protein</span>
+           <span>${macros.carbs}g Carbs &middot; ${macros.fat}g Fat${fiber}</span>`;
       return `<div class="tier-order-row${tier === 'lean' ? ' is-selected-tier' : ''}" data-order-tier="${keySuffix}">
         <div class="tier-order-info">
           <strong>${label} &middot; $${price.toFixed(2)}</strong>
-          <span><strong>${macros.cal}</strong> Calories &middot; <strong>${macros.protein}g</strong> Protein</span>
-          <span>${macros.carbs}g Carbs &middot; ${macros.fat}g Fat${fiber}</span>
+          ${nutrition}
         </div>
         <div class="qty-ctrl">
           <button class="qty-btn" data-dish-id="${dish.id}" data-order-tier="${keySuffix}" data-qty-delta="-1" aria-label="Remove one ${label.toLowerCase()} ${dish.name}">−</button>
@@ -208,14 +216,14 @@ const ORDER_API_URL = '/api/order';
       document.getElementById('orderCutoff').textContent = BATCH.cutoffLabel;
       document.getElementById('successDelivery').textContent = BATCH.deliveryDate;
 
-      ['breakfasts', 'mains', 'desserts'].forEach(section => {
+      MENU_SECTIONS.forEach(section => {
         const grid = document.getElementById('grid-' + section);
         grid.innerHTML = MENU[section].map(dish => {
           const available = dish.available !== false;
           const defaultPhoto = getDishPhoto(dish, 'lean');
           const orderRows = !available
             ? '<div class="sold-out-note">Sold out for this batch</div>'
-            : dish.category === 'dessert'
+            : isSingleSize(dish)
               ? tierOrderRowHtml(dish, null)
               : tierOrderRowHtml(dish, 'lean') + tierOrderRowHtml(dish, 'bulk');
           return `
@@ -265,7 +273,7 @@ const ORDER_API_URL = '/api/order';
     function renderOrderConfirmation(orderLines, mealSubtotal, deliveryFee, discountAmount, roundedTotal, orderId, promoCode) {
       document.getElementById('successOrderId').textContent = orderId;
       document.getElementById('successOrderItems').innerHTML = orderLines.map(({ dish, tier, qty }) => {
-        const tierLabel = dish.category === 'dessert' ? '' : ` (${tier === 'bulk' ? 'Bulk' : 'Lean'})`;
+        const tierLabel = isSingleSize(dish) ? '' : ` (${tier === 'bulk' ? 'Bulk' : 'Lean'})`;
         const subtotal = qty * getPrice(dish, tier);
         return `<div class="success-order__item"><span>${qty}&times; ${dish.name}${tierLabel}</span><strong>$${subtotal.toFixed(2)}</strong></div>`;
       }).join('');
@@ -302,7 +310,7 @@ const ORDER_API_URL = '/api/order';
         container.innerHTML = ordered.map(({ dish, tier, qty }) => {
           const price = getPrice(dish, tier);
           const sub   = (qty * price).toFixed(2);
-          const tierLabel = dish.category !== 'dessert' ? ` <span class="summary-tier-label">(${tier.toUpperCase()})</span>` : '';
+          const tierLabel = !isSingleSize(dish) ? ` <span class="summary-tier-label">(${tier.toUpperCase()})</span>` : '';
           return `<div class="summary-item">
             <span class="summary-item-name">${qty}&times; ${dish.name}${tierLabel}</span>
             <span class="summary-item-price">$${sub}</span>

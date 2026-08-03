@@ -43,6 +43,7 @@ const CATALOG = Object.values(ORDER_CONFIG.menu).flat().reduce((catalog, dish) =
   catalog[dish.id] = {
     name: dish.name,
     category: dish.category,
+    price: Number.isFinite(Number(dish.price)) ? Number(dish.price) : null,
     available: dish.available !== false,
     maxQty: dish.maxQty || MAX_QTY_PER_ITEM,
   };
@@ -107,10 +108,10 @@ function normalizeItems(rawItems) {
     const catalogItem = CATALOG[id];
     if (!catalogItem) throw new Error('An unknown menu item was submitted.');
 
-    const { name, category, available, maxQty } = catalogItem;
+    const { name, category, price, available, maxQty } = catalogItem;
     if (!available) throw new Error(`${name} is sold out for this batch.`);
     let tier;
-    if (category === 'dessert') {
+    if (category === 'dessert' || category === 'addon') {
       if (raw.tier !== null && raw.tier !== undefined && raw.tier !== '' && raw.tier !== 'single') {
         throw new Error(`Invalid tier for ${name}.`);
       }
@@ -125,12 +126,13 @@ function normalizeItems(rawItems) {
     const key = `${id}:${tier}`;
     const nextQty = (combined.get(key)?.qty || 0) + qty;
     if (nextQty > maxQty) throw new Error(`Too many servings of ${name}.`);
-    combined.set(key, { id, name, category, tier, qty: nextQty });
+    combined.set(key, { id, name, category, price, tier, qty: nextQty });
   }
 
   const items = Array.from(combined.values()).map(item => {
-    const unitPrice = PRICES[item.category][item.tier];
-    return { ...item, unitPrice, subtotal: money(unitPrice * item.qty) };
+    const unitPrice = Number.isFinite(item.price) ? item.price : PRICES[item.category][item.tier];
+    const { price, ...normalizedItem } = item;
+    return { ...normalizedItem, unitPrice, subtotal: money(unitPrice * item.qty) };
   });
   const totalQty = items.reduce((sum, item) => sum + item.qty, 0);
   if (totalQty > MAX_TOTAL_ITEMS) throw new Error('Please text Rida directly for very large orders.');
@@ -302,22 +304,32 @@ async function ensureTrackingHeaders(client) {
 
 function itemLines(order) {
   return order.items.map(item => {
-    const tier = item.category === 'dessert' ? '' : ` (${titleCase(item.tier)})`;
+    const tier = item.category === 'dessert' || item.category === 'addon' ? '' : ` (${titleCase(item.tier)})`;
     return `${item.qty}x ${item.name}${tier} - $${item.subtotal.toFixed(2)}`;
   });
 }
 
 function paymentCounts(items) {
   return items.reduce((counts, item) => {
-    const paymentGroup = item.category === 'premium' ? 'beef' : item.category;
+    const paymentGroup = item.category === 'premium'
+      ? 'beef'
+      : item.category === 'addon'
+        ? 'standard'
+        : item.category;
     counts[paymentGroup] += item.qty;
     return counts;
   }, { standard: 0, beef: 0, dessert: 0 });
 }
 
 function tierSummary(items) {
-  const tiers = new Set(items.filter(item => item.category !== 'dessert').map(item => item.tier));
-  if (tiers.size === 0) return 'Dessert Only';
+  const tieredItems = items.filter(item => item.category !== 'dessert' && item.category !== 'addon');
+  const tiers = new Set(tieredItems.map(item => item.tier));
+  if (tiers.size === 0) {
+    const hasDessert = items.some(item => item.category === 'dessert');
+    const hasAddon = items.some(item => item.category === 'addon');
+    if (hasDessert && hasAddon) return 'Desserts + Add-ons';
+    return hasAddon ? 'Add-ons Only' : 'Dessert Only';
+  }
   if (tiers.size > 1) return 'Mixed';
   return titleCase(Array.from(tiers)[0]);
 }

@@ -24,6 +24,10 @@
   const DEFAULT_PROFILE_EXEMPT_CUSTOMERS = Object.freeze(['Talal Account', 'Duaa Hassan', 'Rida Khan']);
 
   const DIRECT_COSTS = Object.freeze({
+    'egg bites|lean': 2.50, 'egg bites|bulk': 3.16,
+    'french toast|lean': 2.94, 'french toast|bulk': 3.55,
+    'breakfast quesadilla|lean': 3.82, 'breakfast quesadilla|bulk': 4.49,
+    'grilled cheese breakfast burrito|lean': 4.03, 'grilled cheese breakfast burrito|bulk': 4.85,
     'high protein omelette|lean': 2.62, 'high protein omelette|bulk': 3.27,
     'beef breakfast skillet|lean': 3.69, 'beef breakfast skillet|bulk': 4.72,
     'power bowl|lean': 2.78, 'power bowl|bulk': 3.63,
@@ -31,15 +35,24 @@
     'strawberry cheesecake protein pancakes|lean': 3.11, 'strawberry cheesecake protein pancakes|bulk': 3.94,
     'cheeseburger hot pockets|lean': 2.21, 'cheeseburger hot pockets|bulk': 3.15,
     'mexican streetcorn chicken bowl|lean': 2.86, 'mexican streetcorn chicken bowl|bulk': 3.71,
-    'hot honey chicken sliders|lean': 3.28, 'hot honey chicken sliders|bulk': 4.01,
-    'chicken biryani|lean': 3.39, 'chicken biryani|bulk': 4.23,
-    'bbq chicken mac & cheese|lean': 3.58, 'bbq chicken mac & cheese|bulk': 4.42,
+    'hot honey chicken sliders|lean': 3.49, 'hot honey chicken sliders|bulk': 4.34,
+    'chicken biryani|lean': 2.83, 'chicken biryani|bulk': 3.67,
+    'butter chicken|lean': 3.25, 'butter chicken|bulk': 4.12,
+    'loaded buffalo chicken potato|lean': 4.02, 'loaded buffalo chicken potato|bulk': 4.90,
+    'peri peri chicken|lean': 1.64, 'peri peri chicken|bulk': 1.91,
+    'meatball arrabbiata pasta|lean': 3.88, 'meatball arrabbiata pasta|bulk': 4.70,
+    'beef seekh kabab shawarma|lean': 3.68, 'beef seekh kabab shawarma|bulk': 4.60,
+    'bbq chicken mac & cheese|lean': 3.16, 'bbq chicken mac & cheese|bulk': 3.99,
     'korean bulgogi beef bowl|lean': 5.21, 'korean bulgogi beef bowl|bulk': 6.64,
     'garlic butter shrimp + rice|lean': 5.25, 'garlic butter shrimp + rice|bulk': 6.91,
     'premium ny strip steak|lean': 7.74, 'premium ny strip steak|bulk': 9.51,
-    'cookie dough cup|single': 2.42, 'lotus biscoff cheesecake|single': 2.82,
+    'strawberry cheesecake|single': 2.33,
+    'cookie dough cup|single': 2.42, 'chocolate-dipped cookie dough balls|single': 2.50,
+    'chocolate oreo mousse|single': 2.57, 'high protein tiramisu|single': 2.53,
+    'lotus biscoff cheesecake|single': 2.82,
     'banana cream pie cup|single': 2.14,
   });
+  const PROVISIONAL_COSTS = Object.freeze(new Set());
 
   function clean(value) { return String(value ?? '').trim().replace(/^'/, ''); }
   function number(value) {
@@ -109,9 +122,13 @@
       if (!match) return [{ quantity: 0, name: line, tier: '', cost: 0, known: false }];
       const quantity = Number(match[1]);
       const name = match[2].trim();
-      const tier = (match[3] || (/(cup|cheesecake|cream pie|mousse|tiramisu)/i.test(name) ? 'Single' : '')).trim();
-      const unitCost = DIRECT_COSTS[`${normalizeMealName(name)}|${tier.toLowerCase()}`];
-      return [{ quantity, name, tier, cost: unitCost ? quantity * unitCost : 0, known: Boolean(unitCost) }];
+      const tier = (match[3] || (/(cup|cheesecake|cream pie|mousse|tiramisu|cookie dough ball)/i.test(name) ? 'Single' : '')).trim();
+      const costKey = `${normalizeMealName(name)}|${tier.toLowerCase()}`;
+      const unitCost = DIRECT_COSTS[costKey];
+      return [{
+        quantity, name, tier, cost: unitCost ? quantity * unitCost : 0, known: Boolean(unitCost),
+        provisional: PROVISIONAL_COSTS.has(costKey),
+      }];
     });
   }
 
@@ -119,7 +136,8 @@
     const lines = parseItemLines(order.Items);
     return {
       amount: Math.round(lines.reduce((sum, line) => sum + line.cost, 0) * 100) / 100,
-      unknown: lines.filter(line => !line.known).map(line => line.name), lines,
+      unknown: lines.filter(line => !line.known).map(line => line.name),
+      provisional: lines.filter(line => line.provisional).map(line => line.name), lines,
     };
   }
 
@@ -146,7 +164,8 @@
       const cost = orderCost(order);
       return {
         ...order, batchNumber: batchNumber(order.Batch), revenue: number(order['Total (Rounded)']) || number(order['Exact Total']),
-        directCost: cost.amount, unknownCostItems: cost.unknown, source: sourceForOrder(order, leadByPhone),
+        directCost: cost.amount, unknownCostItems: cost.unknown, provisionalCostItems: cost.provisional,
+        source: sourceForOrder(order, leadByPhone),
       };
     });
     const enrichedPayments = payments.map(row => ({
@@ -169,6 +188,7 @@
       orders: selected ? model.orders.filter(row => row.batchNumber === selected) : model.orders,
       payments: selected ? model.payments.filter(row => row.batchNumber === selected) : model.payments,
       expenses: selected ? model.expenses.filter(row => batchNumber(row.batch) === selected) : model.expenses,
+      adImports: selected ? model.adImports.filter(row => batchNumber(row.batch) === selected) : model.adImports,
     };
   }
 
@@ -178,14 +198,25 @@
     const sheetOutstanding = model.payments.reduce((sum, row) => sum + Math.max(0, row.balance), 0);
     const outstanding = sheetOutstanding || Math.max(0, booked - collected);
     const directCost = model.orders.reduce((sum, order) => sum + order.directCost, 0);
-    const expenses = model.expenses.reduce((sum, row) => sum + number(row.amount), 0);
+    const cashPurchases = model.expenses.reduce((sum, row) => sum + number(row.amount), 0);
+    const categoryTotal = category => model.expenses
+      .filter(row => clean(row.category).toLowerCase() === category.toLowerCase())
+      .reduce((sum, row) => sum + number(row.amount), 0);
+    const inventoryPurchases = categoryTotal('Inventory purchase');
+    const equipmentPurchases = categoryTotal('Equipment');
+    const operatingExpenses = cashPurchases - inventoryPurchases - equipmentPurchases;
     const adSpend = model.adImports.reduce((sum, row) => sum + number(row.spend), 0);
-    const contribution = booked - directCost - expenses - adSpend;
+    const contribution = booked - directCost - operatingExpenses - adSpend;
+    const cashMovement = collected - cashPurchases - adSpend;
     return {
-      booked, collected, outstanding, directCost, expenses, adSpend, contribution,
+      booked, collected, outstanding, directCost,
+      expenses: operatingExpenses, operatingExpenses, inventoryPurchases, equipmentPurchases, cashPurchases,
+      adSpend, contribution, cashMovement,
       orderCount: model.orders.length, aov: model.orders.length ? booked / model.orders.length : 0,
       directCostPct: booked ? directCost / booked : 0,
+      contributionPct: booked ? contribution / booked : 0,
       unknownCostItems: [...new Set(model.orders.flatMap(order => order.unknownCostItems))],
+      provisionalCostItems: [...new Set(model.orders.flatMap(order => order.provisionalCostItems || []))],
     };
   }
 
@@ -421,7 +452,7 @@
   }
 
   return {
-    ORDER_HEADERS, PAYMENT_HEADERS, LEAD_HEADERS, RECEIVABLE_HEADERS, DIRECT_COSTS, DEFAULT_PROFILE_EXEMPT_CUSTOMERS,
+    ORDER_HEADERS, PAYMENT_HEADERS, LEAD_HEADERS, RECEIVABLE_HEADERS, DIRECT_COSTS, PROVISIONAL_COSTS, DEFAULT_PROFILE_EXEMPT_CUSTOMERS,
     number, phone, batchNumber, normalizeOrders,
     standardRows, parseItemLines, orderCost, summarize, filterBatch, financials, sourceRows, referralRows, batchRows,
     customerRows, receivableRows, operatorBrief, parseCsv, importTikTokCsv,

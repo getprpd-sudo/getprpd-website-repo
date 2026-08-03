@@ -30,6 +30,7 @@ service-account*.json
 *API*KEY*.txt
 operations/.planner-key
 operations/private-data/
+operations/private-records/
 .env*.local
 node_modules/
 __pycache__/
@@ -44,6 +45,8 @@ output/
 # Customer-specific operational records stay local because this repository is public
 operations/BATCH_*_PACKING_MANIFEST_*.md
 operations/WEEKLY_CLOSEOUT_20??-??-??.md
+operations/records/batches/BATCH_*_PACKING_MANIFEST_*.md
+operations/records/finance/weekly-closeouts/WEEKLY_CLOSEOUT_20??-??-??.md
 
 .env*
 .vercel

@@ -36,6 +36,7 @@ function getCredentials() {
 const ORDER_HEADERS = [
   'Submitted At', 'Batch', 'Delivery Date', 'First Name', 'Last Name', 'Phone',
   'Items', 'Exact Total', 'Total (Rounded)', 'Notes', 'Order ID',
+  'Email', 'Address', 'City', 'ZIP', 'Delivery Notes',
 ];
 
 const MAX_MANUAL_ORDERS = 20;
@@ -46,6 +47,7 @@ const MANUAL_ORDER_KEYS = new Set([
 const PLANNER_ONLY_ITEMS = ['BBQ Chicken Mac & Cheese', 'Premium NY Strip Steak'];
 const MANUAL_ITEM_NAMES = new Set([
   ...Object.values(ORDER_CONFIG.menu).flat().map(item => item.name.toLowerCase()),
+  ...(ORDER_CONFIG.plannerOnly || []).map(item => item.name.toLowerCase()),
   ...PLANNER_ONLY_ITEMS.map(name => name.toLowerCase()),
 ]);
 
