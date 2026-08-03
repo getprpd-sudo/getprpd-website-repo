@@ -87,7 +87,7 @@ const ORDER_API_URL = '/api/order';
       };
     }
 
-    const MENU_SECTIONS = ['breakfasts', 'mains', 'desserts', 'addons'];
+    const MENU_SECTIONS = ['breakfasts', 'addons', 'mains', 'desserts'];
     const isSingleSize = dish => dish.category === 'dessert' || dish.category === 'addon';
 
     function allDishes() {
@@ -227,7 +227,7 @@ const ORDER_API_URL = '/api/order';
               ? tierOrderRowHtml(dish, null)
               : tierOrderRowHtml(dish, 'lean') + tierOrderRowHtml(dish, 'bulk');
           return `
-            <div class="dish-card${available ? '' : ' is-unavailable'}" id="card-${dish.id}">
+            <div class="dish-card${available ? '' : ' is-unavailable'}${defaultPhoto ? '' : ' no-photo'}${dish.category === 'addon' ? ' is-addon' : ''}" id="card-${dish.id}">
               <div class="dish-img">
                 <div class="dish-img__bg"><span>PRPD</span></div>
                 ${dish.laterWeek ? '<span class="later-week-badge">Freezer-friendly</span>' : ''}
@@ -242,6 +242,47 @@ const ORDER_API_URL = '/api/order';
             </div>`;
         }).join('');
       });
+    }
+
+    function initMenuNavigation() {
+      const links = new Map(
+        Array.from(document.querySelectorAll('.menu-jump a[data-menu-section]'))
+          .map(link => [link.dataset.menuSection, link])
+      );
+      const sections = MENU_SECTIONS
+        .map(section => document.getElementById(`menu-${section}`))
+        .filter(Boolean);
+
+      function setActiveSection(section) {
+        links.forEach((link, key) => {
+          const active = key === section;
+          link.classList.toggle('is-active', active);
+          if (active) {
+            link.setAttribute('aria-current', 'location');
+            const nav = link.parentElement;
+            const targetLeft = link.offsetLeft - ((nav.clientWidth - link.offsetWidth) / 2);
+            nav.scrollTo({ left: Math.max(0, targetLeft), behavior: 'smooth' });
+          } else {
+            link.removeAttribute('aria-current');
+          }
+        });
+      }
+
+      links.forEach((link, section) => {
+        link.addEventListener('click', () => setActiveSection(section));
+      });
+
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(entries => {
+          const visible = entries
+            .filter(entry => entry.isIntersecting)
+            .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+          if (visible) setActiveSection(visible.target.id.replace('menu-', ''));
+        }, { rootMargin: '-28% 0px -58% 0px', threshold: [0, 0.08, 0.2] });
+        sections.forEach(section => observer.observe(section));
+      }
+
+      setActiveSection('breakfasts');
     }
 
     function isOrderingClosed() {
@@ -664,6 +705,7 @@ const ORDER_API_URL = '/api/order';
 
     captureAttribution();
     renderMenu();
+    initMenuNavigation();
     const hasActivePromotions = (PROMOTIONS.codes || []).some(promotion =>
       promotionForCode(promotion && promotion.code)
     );

@@ -103,7 +103,7 @@ const ORDER_CONFIG = {
     ],
     addons: [
       { id: 'a1', name: 'PRPD Protein Box', category: 'addon', price: 7.99,
-        description: 'Two eggs, halal beef breakfast slices, cheese, fruit, cucumber, and house jalapeno-lemon yogurt dip.',
+        description: 'Two eggs, beef breakfast slices, cheese, fruit, cucumber, and house jalapeno-lemon yogurt dip.',
         macros: { cal: 370, protein: 29, carbs: 19, fiber: 3, fat: 20 },
         image: '' },
       { id: 'a2', name: 'Mini Chicken Snack Wrap', category: 'addon', price: 7.99,

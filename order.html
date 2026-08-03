@@ -140,10 +140,10 @@
 
       <!-- ── Breakfasts ── -->
       <nav class="menu-jump" aria-label="Jump to menu category">
-        <a href="#menu-breakfasts">Breakfast</a>
-        <a href="#menu-mains">Mains</a>
-        <a href="#menu-desserts">Desserts</a>
-        <a href="#menu-addons">Grab &amp; Go</a>
+        <a href="#menu-breakfasts" data-menu-section="breakfasts">Breakfast</a>
+        <a href="#menu-addons" class="menu-jump__featured" data-menu-section="addons">Grab &amp; Go <span>New</span></a>
+        <a href="#menu-mains" data-menu-section="mains">Mains</a>
+        <a href="#menu-desserts" data-menu-section="desserts">Desserts</a>
       </nav>
       <div class="menu-section" id="menu-breakfasts">
         <div class="menu-section-head">
@@ -153,10 +153,21 @@
         <div class="dish-grid" id="grid-breakfasts"></div>
       </div>
 
+      <div class="menu-section menu-section--featured" id="menu-addons">
+        <div class="menu-section-head">
+          <span class="section-label">02</span>
+          <div>
+            <span class="menu-section-kicker">New this week</span>
+            <h2>Grab &amp; Go</h2>
+          </div>
+        </div>
+        <div class="dish-grid" id="grid-addons"></div>
+      </div>
+
       <!-- ── Mains ── -->
       <div class="menu-section" id="menu-mains">
         <div class="menu-section-head">
-          <span class="section-label">02</span>
+          <span class="section-label">03</span>
           <h2>Mains</h2>
         </div>
         <div class="dish-grid" id="grid-mains"></div>
@@ -165,18 +176,10 @@
       <!-- ── Desserts ── -->
       <div class="menu-section" id="menu-desserts">
         <div class="menu-section-head">
-          <span class="section-label">03</span>
+          <span class="section-label">04</span>
           <h2>Desserts</h2>
         </div>
         <div class="dish-grid" id="grid-desserts"></div>
-      </div>
-
-      <div class="menu-section" id="menu-addons">
-        <div class="menu-section-head">
-          <span class="section-label">04</span>
-          <h2>Grab &amp; Go Add-ons</h2>
-        </div>
-        <div class="dish-grid" id="grid-addons"></div>
       </div>
 
     </div>
