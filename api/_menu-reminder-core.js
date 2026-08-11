@@ -75,7 +75,10 @@ function eligibleRecipients(orders, options = {}) {
 
   return Array.from(latestByEmail.entries()).flatMap(([email, order]) => {
     const consent = consentByEmail.get(email);
-    if (consent === false || orderedCurrentBatch.has(email)) return [];
+    // The order-form checkbox is an invitation to subscribe, not an unsubscribe
+    // control. A prior customer remains eligible unless they use the dedicated
+    // unsubscribe flow, which writes an Email Preferences record.
+    if (orderedCurrentBatch.has(email)) return [];
     if (preferenceStatus(preferences.get(email)) === 'unsubscribed') return [];
     return [{
       email,
@@ -117,7 +120,8 @@ function renderReminder(options) {
     `Browse this week's menu and place your order: ${menuUrl}`,
     '',
     'Saturday delivery across the DFW area.',
-    '$60 minimum order. Free delivery on meal subtotals of $75 or more.',
+    'Core North DFW: $60 minimum, $9.99 delivery, free at $100.',
+    'Fort Worth / extended DFW: $100 minimum, $14.99 delivery, free at $150.',
     '',
     'Promotional email from PRPD LLC.',
     audienceText,
@@ -136,7 +140,8 @@ function renderReminder(options) {
       <p style="margin:0 0 22px">${escapeHtml(intro)}</p>
       <p style="margin:0 0 24px"><a href="${escapeHtml(menuUrl)}" style="display:inline-block;background:#1f7a3f;color:#fff;text-decoration:none;padding:13px 19px;font-weight:700">${escapeHtml(phase.cta)}</a></p>
       <p style="margin:0">Saturday delivery across the DFW area.<br>
-      $60 minimum order. Free delivery on meal subtotals of $75 or more.</p>
+      Core North DFW: $60 minimum, $9.99 delivery, free at $100.<br>
+      Fort Worth / extended DFW: $100 minimum, $14.99 delivery, free at $150.</p>
       <hr style="border:0;border-top:1px solid #ded8cf;margin:26px 0 18px">
       <p style="font-size:12px;color:#667266;margin:0">Promotional email from PRPD LLC.<br>
       ${escapeHtml(audienceText)}
