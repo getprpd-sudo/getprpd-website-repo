@@ -23,6 +23,7 @@ STATIONS = {
     "bread_slice": "Breakfast & Desserts",
     "shawarma_bread": "Bread & Packaging",
     "small_tortilla": "Bread & Packaging",
+    "fajita_tortilla": "Bread & Packaging",
     "large_tortilla": "Bread & Packaging",
     "egg": "Breakfast & Desserts",
     "egg_white": "Breakfast & Desserts",
@@ -79,7 +80,6 @@ STATIONS = {
     "avocado_oil": "Dry Prep & Seasonings",
     "mushroom": "Cold Prep & Produce",
     "sourdough_slice": "Bread & Packaging",
-    "sweet_potato": "Starches & Hot Sides",
     "oats": "Breakfast & Desserts",
     "chia": "Breakfast & Desserts",
     "flour": "Dry Prep & Seasonings",
@@ -103,6 +103,13 @@ STATIONS = {
     "green_bell_pepper": "Cold Prep & Produce",
     "carrot": "Cold Prep & Produce",
     "zucchini": "Cold Prep & Produce",
+    "english_muffin": "Bread & Packaging",
+    "beef_bacon": "Beef",
+    "tilapia_cooked": "Seafood",
+    "mixed_vegetables": "Cold Prep & Produce",
+    "harissa": "Sauces & Dairy",
+    "coriander": "Dry Prep & Seasonings",
+    "reduced_cream_cheese": "Sauces & Dairy",
 }
 
 
@@ -115,6 +122,7 @@ RAW_CONVERSIONS = {
     "ny_strip_cooked": ("ny_strip_raw", "NY strip steak, raw", 0.75),
     "beef_strips_cooked": ("beef_strips_raw", "Lean beef strips, raw", 0.76),
     "shrimp_cooked": ("shrimp_raw", "Shrimp, raw peeled and deveined", 0.75),
+    "tilapia_cooked": ("tilapia_raw", "Tilapia fillets, raw", 0.80),
 }
 
 
@@ -126,6 +134,7 @@ MEASUREMENTS = {
     "ny_strip_raw": {"type": "meat"},
     "beef_strips_raw": {"type": "meat"},
     "shrimp_raw": {"type": "meat"},
+    "tilapia_raw": {"type": "meat"},
     "salt": {"type": "spice", "gramsPerTsp": 6.0},
     "paprika": {"type": "spice", "gramsPerTsp": 2.3},
     "cumin": {"type": "spice", "gramsPerTsp": 2.1},
@@ -148,6 +157,7 @@ MEASUREMENTS = {
     "mustard": {"type": "liquid", "density": 1.04},
     "salsa": {"type": "liquid", "density": 1.0},
     "honey": {"type": "liquid", "density": 1.42},
+    "sriracha": {"type": "liquid", "density": 1.10},
 }
 
 
@@ -192,8 +202,29 @@ def build_lines(build: audit.Build) -> list[dict]:
 
 def generate() -> dict:
     meals = {}
-    active_ids = ["b1", "b2", "b3", "b4", "m1", "m2", "m3", "m4", "m5", "m6", "m7", "m8", "d1", "d2", "d3"]
-    for meal_id, meal in zip(active_ids, next_menu.MEALS):
+    active_by_name = {meal.name: meal for meal in audit.MEALS}
+    next_by_name = {meal.name: meal for meal in next_menu.MEALS}
+    batch_menu = [
+        ("b1", next_by_name["PRPD Beef Bacon Breakfast Sandwich"], "PRPD Beef Bacon Breakfast Sandwich"),
+        ("b2", next_by_name["French Toast"], "French Toast"),
+        ("b3", next_by_name["Breakfast Quesadilla"], "Breakfast Quesadilla"),
+        ("b4", next_by_name["Grilled Cheese Breakfast Burrito"], "Grilled Cheese Breakfast Burrito"),
+        ("m1", next_by_name["Loaded Beef Cottage Pie"], "Loaded Beef Cottage Pie"),
+        ("m2", next_by_name["Hot Honey Chicken Sliders"], "Hot Honey Chicken Sliders"),
+        ("m3", next_by_name["Loaded Buffalo Chicken Potato"], "Loaded Buffalo Chicken Potato"),
+        ("m4", next_by_name["Beef Seekh Kabab Shawarma"], "Beef Seekh Kabab Shawarma"),
+        ("m5", next_by_name["Harissa Honey Chicken"], "Harissa Honey Chicken"),
+        ("m6", next_by_name["Mexican Streetcorn Chicken Bowl"], "Mexican Streetcorn Chicken Bowl"),
+        ("m7", next_by_name["Garlic Butter Shrimp + Rice"], "Garlic Butter Shrimp + Rice"),
+        ("m8", next_by_name["BBQ Chicken Mac & Cheese"], "BBQ Chicken Mac & Cheese"),
+        ("d1", next_by_name["Chocolate-Dipped Cookie Dough Balls"], "Chocolate-Dipped Cookie Dough Balls"),
+        ("d2", next_by_name["Chocolate Oreo Mousse"], "Chocolate Oreo Mousse"),
+        ("d3", next_by_name["Baked Strawberry-Lemon Protein Cheesecake Square"], "Baked Strawberry-Lemon Protein Cheesecake Square"),
+        ("a1", next_by_name["PRPD Protein Box"], "PRPD Protein Box"),
+        ("a2", next_by_name["Mini Chicken Snack Wrap"], "Mini Chicken Snack Wrap"),
+        ("a3", next_by_name["Strawberry Protein Overnight Oats"], "Strawberry Protein Overnight Oats"),
+    ]
+    for meal_id, meal, display_name in batch_menu:
         tiers = {
             "single" if meal.bulk is None else "lean": {
                 "ingredients": build_lines(meal.lean),
@@ -208,17 +239,20 @@ def generate() -> dict:
                 "assumptions": meal.bulk.assumptions,
             }
         meals[meal_id] = {
-            "name": meal.name,
-            "category": meal.category,
-            "status": meal.decision,
-            "recommendation": meal.validation,
+            "name": display_name,
+            "category": (
+                getattr(meal, "category", None)
+                or ("Breakfast" if meal_id.startswith("b") else "Dessert" if meal_id.startswith("d") else "Main")
+            ),
+            "status": getattr(meal, "decision", None) or getattr(meal, "status", ""),
+            "recommendation": getattr(meal, "validation", None) or getattr(meal, "recommendation", ""),
             "tiers": tiers,
         }
 
     return {
-        "version": "2026-07-20.1",
-        "batch": 3,
-        "notice": "Batch 3 production quantities generated from the controlled July 25 recipe builds. Test-status dishes remain visibly flagged until physical validation.",
+        "version": "2026-08-10.1",
+        "batch": 6,
+        "notice": "Batch 6 production quantities generated by dish name from the controlled Batch 6 recipe builds. Power Bowl, Cottage Pie, and Steak include the provisional 40g net Sweet Heat formula so nutrition, allergens, grocery totals, and sauce counts remain synchronized pending the next tare-and-yield run.",
         "meals": meals,
     }
 

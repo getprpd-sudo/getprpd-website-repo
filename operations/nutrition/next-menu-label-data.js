@@ -1,316 +1,570 @@
 window.PRPD_NEXT_LABEL_DATA = {
-  "version": "2026-07-25-draft.1",
-  "status": "draft",
-  "menuLabel": "July 25 draft",
-  "notice": "Review-only July 25 labels. Approve the saved product and kitchen checks before printing or publishing.",
+  "version": "2026-08-14-generated.1",
+  "status": "batch-6-approved",
+  "menuLabel": "Batch 6 - Saturday, August 15, 2026",
+  "production": {
+    "batchNumber": 6,
+    "deliveryDate": "Saturday, August 15, 2026",
+    "madeDate": "2026-08-14",
+    "useByDate": "2026-08-17",
+    "batchId": "B6-0814"
+  },
+  "recipeFingerprint": "302e4be3c6e4f3860aa7a7414a11ac69af88413667759db72aadfe29e6c54fe1",
+  "notice": "Batch 6 calculated label data generated from the active customer menu and controlled recipes. Resolve every listed physical validation gate before final printing.",
   "meals": {
-    "nb1": {
-      "name": "High Protein Omelette",
+    "b1": {
+      "name": "PRPD Beef Bacon Breakfast Sandwich",
       "category": "Breakfast",
-      "description": "Eggs, vegetables, fat-free cheese, and sourdough.",
-      "note": "Breakfast that actually keeps up.",
+      "description": "Beef bacon, a high-protein egg patty, cheese, and PRPD Sweet Heat sauce on an English muffin with breakfast potatoes.",
+      "note": "The breakfast sandwich cleaned up its macros.",
       "storageMode": "fridge",
-      "validation": "Confirm purchased sourdough label.",
-      "decision": "Keep",
+      "reheat": "Microwave 45-60 seconds. For a toasted finish, air fry at 350 F for 3-5 minutes.",
+      "validation": "Confirm the purchased beef-bacon and English-muffin labels; pack one 45g Sweet Heat cup.",
+      "decision": "Owner approved",
       "tiers": {
         "lean": {
           "label": "LEAN",
-          "netWeight": "Est. 16.6 oz (470 g)",
-          "ingredients": "whole egg, tomato, egg whites, white mushrooms, H-E-B fat-free mozzarella, sourdough bread, nonfat Greek yogurt, jalapeno, avocado oil spray, salt.",
-          "allergens": "CONTAINS: EGG, MILK, WHEAT.",
+          "netWeight": "16.6 oz (472 g)",
+          "ingredients": "potato, egg whites, English muffin, whole egg, fat-free cottage cheese, fat-free mozzarella cheese, halal beef breakfast slices, ketchup, honey, light mayonnaise, sriracha sauce, avocado oil spray, salt.",
+          "allergens": "CONTAINS: EGG, MILK, SOY, WHEAT.",
           "nutrition": {
-            "calories": 415,
-            "protein": 45,
-            "carbs": 30,
-            "fiber": 3,
-            "fat": 13,
-            "satFat": 3.6,
-            "transFat": 0.0,
-            "cholesterol": 380,
-            "sodium": 990,
-            "sugars": 7,
-            "addedSugar": 1,
-            "vitaminD": 2.0,
-            "calcium": 500,
-            "iron": 2.3,
-            "potassium": 650
-          },
-          "confidence": "medium"
-        },
-        "bulk": {
-          "label": "BULK",
-          "netWeight": "Est. 22.0 oz (623 g)",
-          "ingredients": "whole egg, egg whites, tomato, sourdough bread, H-E-B fat-free mozzarella, white mushrooms, nonfat Greek yogurt, jalapeno, avocado oil spray, salt.",
-          "allergens": "CONTAINS: EGG, MILK, WHEAT.",
-          "nutrition": {
-            "calories": 640,
-            "protein": 66,
-            "carbs": 51,
+            "calories": 630,
+            "protein": 41,
+            "carbs": 72,
             "fiber": 4,
             "fat": 20,
-            "satFat": 5.5,
-            "transFat": 0.1,
-            "cholesterol": 570,
-            "sodium": 1540,
-            "sugars": 9,
-            "addedSugar": 2,
-            "vitaminD": 3.0,
-            "calcium": 680,
-            "iron": 3.2,
-            "potassium": 810
-          },
-          "confidence": "medium"
-        }
-      }
-    },
-    "nb2": {
-      "name": "Beef Breakfast Skillet",
-      "category": "Breakfast",
-      "description": "Seasoned beef, sweet potato, egg, vegetables, and fat-free cheese.",
-      "note": "A skillet without the skillet-sized cleanup.",
-      "storageMode": "fridge",
-      "validation": "Record one drained cooked-beef yield.",
-      "decision": "Keep",
-      "tiers": {
-        "lean": {
-          "label": "LEAN",
-          "netWeight": "Est. 13.4 oz (381 g)",
-          "ingredients": "90/10 ground beef, sweet potato, whole egg, salsa, H-E-B fat-free mozzarella, onion, garlic, avocado oil spray, salt.",
-          "allergens": "CONTAINS: EGG, MILK.",
-          "nutrition": {
-            "calories": 570,
-            "protein": 57,
-            "carbs": 28,
-            "fiber": 4,
-            "fat": 24,
-            "satFat": 8.5,
-            "transFat": 0.5,
-            "cholesterol": 315,
-            "sodium": 930,
-            "sugars": 6,
-            "addedSugar": 0,
+            "satFat": 6.0,
+            "transFat": 0.0,
+            "cholesterol": 215,
+            "sodium": 1640,
+            "sugars": 20,
+            "addedSugar": 15,
             "vitaminD": 1.0,
-            "calcium": 350,
-            "iron": 5.5,
-            "potassium": 840
+            "calcium": 360,
+            "iron": 2.4,
+            "potassium": 960
           },
           "confidence": "medium"
         },
         "bulk": {
           "label": "BULK",
-          "netWeight": "Est. 16.9 oz (480 g)",
-          "ingredients": "90/10 ground beef, sweet potato, whole egg, salsa, H-E-B fat-free mozzarella, onion, garlic, avocado oil spray, salt.",
-          "allergens": "CONTAINS: EGG, MILK.",
+          "netWeight": "20.6 oz (583 g)",
+          "ingredients": "egg whites, English muffin, potato, fat-free cottage cheese, whole egg, fat-free mozzarella cheese, halal beef breakfast slices, ketchup, honey, light mayonnaise, sriracha sauce, avocado oil spray, salt.",
+          "allergens": "CONTAINS: EGG, MILK, SOY, WHEAT.",
           "nutrition": {
-            "calories": 760,
-            "protein": 77,
-            "carbs": 28,
+            "calories": 875,
+            "protein": 62,
+            "carbs": 86,
             "fiber": 4,
-            "fat": 36,
-            "satFat": 12.4,
-            "transFat": 0.7,
-            "cholesterol": 545,
-            "sodium": 1140,
-            "sugars": 7,
-            "addedSugar": 0,
-            "vitaminD": 2.0,
-            "calcium": 380,
-            "iron": 7.9,
-            "potassium": 1120
+            "fat": 30,
+            "satFat": 9.7,
+            "transFat": 0.0,
+            "cholesterol": 240,
+            "sodium": 2530,
+            "sugars": 23,
+            "addedSugar": 16,
+            "vitaminD": 1.0,
+            "calcium": 510,
+            "iron": 1.9,
+            "potassium": 820
           },
           "confidence": "medium"
         }
       }
     },
-    "nb3": {
-      "name": "Power Bowl",
+    "b2": {
+      "name": "French Toast",
       "category": "Breakfast",
-      "description": "Chicken, sweet potato, eggs, and a light yogurt-sriracha finish.",
-      "note": "The name is doing exactly what it says.",
+      "description": "Protein French toast with fruit, whipped cream, and sugar-free maple syrup.",
+      "note": "Breakfast can still feel like breakfast.",
       "storageMode": "fridge",
-      "validation": "No formula blocker.",
-      "decision": "Keep",
+      "reheat": "Remove syrup cup. Microwave 45-75 seconds, or until hot; add fruit, whipped cream, and syrup after heating.",
+      "validation": "Use the confirmed three-Lean/four-Bulk slice builds and measured syrup cup.",
+      "decision": "Owner approved",
       "tiers": {
         "lean": {
           "label": "LEAN",
-          "netWeight": "Est. 14.0 oz (398 g)",
-          "ingredients": "boneless skinless chicken thigh, sweet potato, whole egg, nonfat Greek yogurt, sriracha sauce, avocado oil spray, salt.",
-          "allergens": "CONTAINS: EGG, MILK.",
+          "netWeight": "15.0 oz (425 g)",
+          "ingredients": "D'Italiano bread, egg whites, fat-free cottage cheese, strawberries, banana, whole egg, fat-free milk, sugar-free maple syrup, sugar-free whipped cream, brown sugar, whey protein powder, vanilla extract, cinnamon, avocado oil spray.",
+          "allergens": "CONTAINS: EGG, MILK, WHEAT.",
           "nutrition": {
-            "calories": 545,
-            "protein": 55,
-            "carbs": 25,
-            "fiber": 3,
-            "fat": 24,
-            "satFat": 6.9,
+            "calories": 520,
+            "protein": 34,
+            "carbs": 76,
+            "fiber": 6,
+            "fat": 9,
+            "satFat": 2.3,
             "transFat": 0.1,
-            "cholesterol": 575,
-            "sodium": 960,
-            "sugars": 8,
-            "addedSugar": 2,
-            "vitaminD": 2.3,
-            "calcium": 100,
-            "iron": 3.4,
+            "cholesterol": 155,
+            "sodium": 1160,
+            "sugars": 22,
+            "addedSugar": 10,
+            "vitaminD": 1.4,
+            "calcium": 280,
+            "iron": 3.9,
             "potassium": 580
           },
           "confidence": "medium"
         },
         "bulk": {
           "label": "BULK",
-          "netWeight": "Est. 16.7 oz (474 g)",
-          "ingredients": "boneless skinless chicken thigh, sweet potato, whole egg, nonfat Greek yogurt, sriracha sauce, avocado oil spray, salt.",
+          "netWeight": "18.5 oz (524 g)",
+          "ingredients": "D'Italiano bread, egg whites, fat-free cottage cheese, whole egg, strawberries, fat-free milk, banana, sugar-free maple syrup, brown sugar, sugar-free whipped cream, whey protein powder, vanilla extract, cinnamon, avocado oil spray.",
+          "allergens": "CONTAINS: EGG, MILK, WHEAT.",
+          "nutrition": {
+            "calories": 670,
+            "protein": 45,
+            "carbs": 96,
+            "fiber": 7,
+            "fat": 12,
+            "satFat": 2.8,
+            "transFat": 0.1,
+            "cholesterol": 205,
+            "sodium": 1520,
+            "sugars": 26,
+            "addedSugar": 14,
+            "vitaminD": 1.9,
+            "calcium": 360,
+            "iron": 5.0,
+            "potassium": 690
+          },
+          "confidence": "medium"
+        }
+      }
+    },
+    "b3": {
+      "name": "Breakfast Quesadilla",
+      "category": "Breakfast",
+      "description": "Seasoned chicken, eggs, egg whites, cheese, yogurt, and salsa in high-fiber tortillas.",
+      "note": "A high-protein breakfast built to travel.",
+      "storageMode": "fridge",
+      "reheat": "Microwave 60-90 seconds, or air fry at 350 F for 3-5 minutes, until hot throughout.",
+      "validation": "Use the controlled salsa and yogurt portions.",
+      "decision": "Owner approved",
+      "tiers": {
+        "lean": {
+          "label": "LEAN",
+          "netWeight": "16.0 oz (454 g)",
+          "ingredients": "whole egg, boneless skinless chicken thigh, high-fiber wheat tortilla, egg whites, fat-free mozzarella cheese, nonfat Greek yogurt, salsa, salt.",
+          "allergens": "CONTAINS: EGG, MILK, WHEAT.",
+          "nutrition": {
+            "calories": 580,
+            "protein": 75,
+            "carbs": 44,
+            "fiber": 31,
+            "fat": 22,
+            "satFat": 5.2,
+            "transFat": 0.1,
+            "cholesterol": 505,
+            "sodium": 1890,
+            "sugars": 3,
+            "addedSugar": 0,
+            "vitaminD": 2.2,
+            "calcium": 810,
+            "iron": 5.5,
+            "potassium": 740
+          },
+          "confidence": "medium"
+        },
+        "bulk": {
+          "label": "BULK",
+          "netWeight": "20.0 oz (568 g)",
+          "ingredients": "boneless skinless chicken thigh, Mission Carb Balance tortilla, whole egg, egg whites, fat-free mozzarella cheese, nonfat Greek yogurt, salsa, salt.",
+          "allergens": "CONTAINS: EGG, MILK, WHEAT.",
+          "nutrition": {
+            "calories": 770,
+            "protein": 98,
+            "carbs": 68,
+            "fiber": 57,
+            "fat": 29,
+            "satFat": 6.6,
+            "transFat": 0.1,
+            "cholesterol": 585,
+            "sodium": 2570,
+            "sugars": 3,
+            "addedSugar": 0,
+            "vitaminD": 2.3,
+            "calcium": 920,
+            "iron": 7.8,
+            "potassium": 960
+          },
+          "confidence": "medium"
+        }
+      }
+    },
+    "b4": {
+      "name": "Grilled Cheese Breakfast Burrito",
+      "category": "Breakfast",
+      "description": "Seasoned beef, eggs, egg whites, cheese, and onion in grilled high-fiber tortillas.",
+      "note": "Breakfast wrapped and ready.",
+      "storageMode": "fridge",
+      "reheat": "Microwave 60-90 seconds, or air fry at 350 F for 3-5 minutes, until hot throughout.",
+      "validation": "Use the broth-free controlled filling.",
+      "decision": "Owner approved",
+      "tiers": {
+        "lean": {
+          "label": "LEAN",
+          "netWeight": "14.1 oz (400 g)",
+          "ingredients": "whole egg, high-fiber wheat tortilla, 90/10 ground beef, egg whites, fat-free mozzarella cheese, onion, tomato paste, salt.",
+          "allergens": "CONTAINS: EGG, MILK, WHEAT.",
+          "nutrition": {
+            "calories": 570,
+            "protein": 65,
+            "carbs": 46,
+            "fiber": 31,
+            "fat": 25,
+            "satFat": 7.1,
+            "transFat": 0.3,
+            "cholesterol": 450,
+            "sodium": 1470,
+            "sugars": 4,
+            "addedSugar": 0,
+            "vitaminD": 2.0,
+            "calcium": 520,
+            "iron": 7.4,
+            "potassium": 910
+          },
+          "confidence": "medium"
+        },
+        "bulk": {
+          "label": "BULK",
+          "netWeight": "18.0 oz (510 g)",
+          "ingredients": "Mission Carb Balance tortilla, 90/10 ground beef, whole egg, egg whites, fat-free mozzarella cheese, onion, tomato paste, salt.",
+          "allergens": "CONTAINS: EGG, MILK, WHEAT.",
+          "nutrition": {
+            "calories": 765,
+            "protein": 89,
+            "carbs": 70,
+            "fiber": 57,
+            "fat": 32,
+            "satFat": 9.0,
+            "transFat": 0.5,
+            "cholesterol": 490,
+            "sodium": 2230,
+            "sugars": 4,
+            "addedSugar": 0,
+            "vitaminD": 2.0,
+            "calcium": 760,
+            "iron": 10.3,
+            "potassium": 1150
+          },
+          "confidence": "medium"
+        }
+      }
+    },
+    "m1": {
+      "name": "Loaded Beef Cottage Pie",
+      "category": "Main",
+      "description": "Seasoned beef and vegetables under high-protein mashed potatoes and cheese, with PRPD Sweet Heat sauce.",
+      "note": "Comfort food with the numbers handled.",
+      "storageMode": "freezer",
+      "reheat": "Remove sauce cup. Vent lid and microwave 2-3 minutes, or until hot throughout. Rest 1 minute.",
+      "validation": "Record finished pan yield and pack one 45g Sweet Heat cup.",
+      "decision": "Owner approved",
+      "tiers": {
+        "lean": {
+          "label": "LEAN",
+          "netWeight": "21.3 oz (603 g)",
+          "ingredients": "potato, 90/10 ground beef, mixed vegetables, fat-free cottage cheese, onion, fat-free mozzarella cheese, tomato paste, ketchup, honey, light mayonnaise, sriracha sauce, avocado oil spray, salt.",
           "allergens": "CONTAINS: EGG, MILK.",
           "nutrition": {
-            "calories": 690,
-            "protein": 73,
-            "carbs": 25,
-            "fiber": 3,
-            "fat": 31,
-            "satFat": 8.7,
-            "transFat": 0.1,
-            "cholesterol": 675,
-            "sodium": 1140,
-            "sugars": 8,
-            "addedSugar": 2,
-            "vitaminD": 2.5,
-            "calcium": 110,
-            "iron": 4.3,
-            "potassium": 790
-          },
-          "confidence": "medium"
-        }
-      }
-    },
-    "nb4": {
-      "name": "Blueberry Cheesecake Protein Pancakes",
-      "category": "Breakfast",
-      "description": "Protein pancakes with blueberry compote and cheesecake-yogurt topping.",
-      "note": "Cheesecake for breakfast. We checked the macros.",
-      "storageMode": "fridge",
-      "validation": "New breakfast: verify three/four-pancake yield, topping yield, sweetness, and day-three reheat quality.",
-      "decision": "Test",
-      "tiers": {
-        "lean": {
-          "label": "LEAN",
-          "netWeight": "Est. 17.2 oz (487 g)",
-          "ingredients": "nonfat Greek yogurt, egg whites, blueberries, Fairlife fat-free milk, whole egg, all-purpose flour, Great Value sugar-free syrup, Philadelphia no-bake cheesecake filling, Premier Protein powder, powdered sugar, baking powder, vanilla extract, avocado oil spray, cinnamon, salt.",
-          "allergens": "CONTAINS: EGG, MILK, WHEAT.",
-          "nutrition": {
-            "calories": 540,
-            "protein": 42,
-            "carbs": 65,
-            "fiber": 3,
-            "fat": 12,
-            "satFat": 4.7,
-            "transFat": 0.1,
-            "cholesterol": 215,
-            "sodium": 930,
-            "sugars": 22,
-            "addedSugar": 8,
-            "vitaminD": 2.2,
-            "calcium": 310,
-            "iron": 1.0,
-            "potassium": 410
-          },
-          "confidence": "medium"
-        },
-        "bulk": {
-          "label": "BULK",
-          "netWeight": "Est. 21.5 oz (610 g)",
-          "ingredients": "egg whites, nonfat Greek yogurt, blueberries, Fairlife fat-free milk, all-purpose flour, whole egg, Great Value sugar-free syrup, Philadelphia no-bake cheesecake filling, Premier Protein powder, baking powder, powdered sugar, avocado oil spray, vanilla extract, cinnamon, salt.",
-          "allergens": "CONTAINS: EGG, MILK, WHEAT.",
-          "nutrition": {
-            "calories": 685,
-            "protein": 55,
-            "carbs": 83,
-            "fiber": 4,
-            "fat": 15,
-            "satFat": 5.6,
-            "transFat": 0.2,
-            "cholesterol": 225,
-            "sodium": 1250,
+            "calories": 705,
+            "protein": 56,
+            "carbs": 75,
+            "fiber": 9,
+            "fat": 19,
+            "satFat": 6.3,
+            "transFat": 0.4,
+            "cholesterol": 115,
+            "sodium": 1220,
             "sugars": 26,
-            "addedSugar": 9,
-            "vitaminD": 2.6,
-            "calcium": 380,
-            "iron": 1.1,
-            "potassium": 530
-          },
-          "confidence": "medium"
-        }
-      }
-    },
-    "nm1": {
-      "name": "Cheeseburger Hot Pockets",
-      "category": "Main",
-      "description": "Handmade yogurt dough filled with seasoned beef, cheese, and pickles.",
-      "note": "The drive-thru wishes it thought of this.",
-      "storageMode": "freezer",
-      "validation": "Owner confirmed three Bulk pockets fit the container. Confirm dough yield and day-three reheat quality.",
-      "decision": "Keep",
-      "tiers": {
-        "lean": {
-          "label": "LEAN",
-          "netWeight": "Est. 11.5 oz (325 g)",
-          "ingredients": "nonfat Greek yogurt, all-purpose flour, 90/10 ground beef, H-E-B fat-free mozzarella, onion, broth, pickled vegetables, Heinz ketchup, baking powder, salt.",
-          "allergens": "CONTAINS: MILK, WHEAT.",
-          "nutrition": {
-            "calories": 540,
-            "protein": 46,
-            "carbs": 71,
-            "fiber": 3,
-            "fat": 7,
-            "satFat": 2.8,
-            "transFat": 0.2,
-            "cholesterol": 60,
-            "sodium": 1740,
-            "sugars": 6,
-            "addedSugar": 2,
+            "addedSugar": 14,
             "vitaminD": 0.0,
-            "calcium": 500,
-            "iron": 2.0,
-            "potassium": 470
+            "calcium": 380,
+            "iron": 6.3,
+            "potassium": 1840
           },
           "confidence": "medium"
         },
         "bulk": {
           "label": "BULK",
-          "netWeight": "Est. 17.2 oz (488 g)",
-          "ingredients": "nonfat Greek yogurt, all-purpose flour, 90/10 ground beef, H-E-B fat-free mozzarella, onion, broth, pickled vegetables, Heinz ketchup, baking powder, salt.",
-          "allergens": "CONTAINS: MILK, WHEAT.",
+          "netWeight": "25.3 oz (717 g)",
+          "ingredients": "potato, 90/10 ground beef, mixed vegetables, fat-free cottage cheese, onion, fat-free mozzarella cheese, tomato paste, ketchup, honey, light mayonnaise, sriracha sauce, avocado oil spray, salt.",
+          "allergens": "CONTAINS: EGG, MILK.",
           "nutrition": {
-            "calories": 815,
-            "protein": 69,
-            "carbs": 107,
-            "fiber": 4,
-            "fat": 11,
-            "satFat": 4.1,
-            "transFat": 0.3,
-            "cholesterol": 90,
-            "sodium": 2600,
-            "sugars": 8,
-            "addedSugar": 3,
+            "calories": 850,
+            "protein": 71,
+            "carbs": 84,
+            "fiber": 11,
+            "fat": 25,
+            "satFat": 8.1,
+            "transFat": 0.5,
+            "cholesterol": 145,
+            "sodium": 1470,
+            "sugars": 28,
+            "addedSugar": 14,
             "vitaminD": 0.0,
-            "calcium": 760,
-            "iron": 2.9,
-            "potassium": 700
+            "calcium": 470,
+            "iron": 7.7,
+            "potassium": 2180
           },
           "confidence": "medium"
         }
       }
     },
-    "nm2": {
+    "m2": {
+      "name": "Hot Honey Chicken Sliders",
+      "category": "Main",
+      "description": "Hot-honey chicken, cheese, pickles, and onion on Sara Lee Artesano rolls.",
+      "note": "Sweet heat. Very little chance of leftovers.",
+      "storageMode": "freezer",
+      "reheat": "Microwave 45-75 seconds, or air fry at 350 F for 3-5 minutes, until hot throughout.",
+      "validation": "Record slider count, cooked chicken allocation, and day-three reheat.",
+      "decision": "Owner approved",
+      "tiers": {
+        "lean": {
+          "label": "LEAN",
+          "netWeight": "11.5 oz (326 g)",
+          "ingredients": "bakery roll, boneless skinless chicken thigh, fat-free mozzarella cheese, onion, house refrigerator-pickled vegetables, Frank's-style hot sauce, light mayonnaise, sriracha sauce, honey, avocado oil spray, salt.",
+          "allergens": "CONTAINS: EGG, MILK, SESAME, SOY, WHEAT.",
+          "nutrition": {
+            "calories": 650,
+            "protein": 47,
+            "carbs": 79,
+            "fiber": 2,
+            "fat": 16,
+            "satFat": 2.9,
+            "transFat": 0.0,
+            "cholesterol": 145,
+            "sodium": 1780,
+            "sugars": 16,
+            "addedSugar": 12,
+            "vitaminD": 0.2,
+            "calcium": 280,
+            "iron": 1.4,
+            "potassium": 340
+          },
+          "confidence": "high"
+        },
+        "bulk": {
+          "label": "BULK",
+          "netWeight": "15.5 oz (440 g)",
+          "ingredients": "bakery roll, boneless skinless chicken thigh, fat-free mozzarella cheese, onion, house refrigerator-pickled vegetables, Frank's-style hot sauce, light mayonnaise, sriracha sauce, honey, avocado oil spray, salt.",
+          "allergens": "CONTAINS: EGG, MILK, SESAME, SOY, WHEAT.",
+          "nutrition": {
+            "calories": 875,
+            "protein": 65,
+            "carbs": 105,
+            "fiber": 3,
+            "fat": 22,
+            "satFat": 3.8,
+            "transFat": 0.1,
+            "cholesterol": 195,
+            "sodium": 2440,
+            "sugars": 21,
+            "addedSugar": 15,
+            "vitaminD": 0.3,
+            "calcium": 420,
+            "iron": 1.8,
+            "potassium": 460
+          },
+          "confidence": "high"
+        }
+      }
+    },
+    "m3": {
+      "name": "Loaded Buffalo Chicken Potato",
+      "category": "Main",
+      "description": "Buffalo chicken over a loaded roasted potato with broccoli.",
+      "note": "Loaded potato, handled.",
+      "storageMode": "freezer",
+      "reheat": "Vent lid and microwave 2-3 minutes, stirring halfway, until hot throughout.",
+      "validation": "Record potato and buffalo-sauce yield.",
+      "decision": "Owner approved",
+      "tiers": {
+        "lean": {
+          "label": "LEAN",
+          "netWeight": "21.6 oz (613 g)",
+          "ingredients": "potato, boneless skinless chicken thigh, broccoli, Buffalo sauce, avocado oil spray, salt.",
+          "allergens": "No major allergens identified from the recorded recipe.",
+          "nutrition": {
+            "calories": 595,
+            "protein": 50,
+            "carbs": 58,
+            "fiber": 8,
+            "fat": 18,
+            "satFat": 4.5,
+            "transFat": 0.1,
+            "cholesterol": 225,
+            "sodium": 2260,
+            "sugars": 4,
+            "addedSugar": 0,
+            "vitaminD": 0.3,
+            "calcium": 90,
+            "iron": 5.0,
+            "potassium": 2000
+          },
+          "confidence": "medium"
+        },
+        "bulk": {
+          "label": "BULK",
+          "netWeight": "24.4 oz (692 g)",
+          "ingredients": "potato, boneless skinless chicken thigh, broccoli, Buffalo sauce, avocado oil spray, salt.",
+          "allergens": "No major allergens identified from the recorded recipe.",
+          "nutrition": {
+            "calories": 735,
+            "protein": 70,
+            "carbs": 58,
+            "fiber": 8,
+            "fat": 25,
+            "satFat": 6.3,
+            "transFat": 0.1,
+            "cholesterol": 330,
+            "sodium": 2440,
+            "sugars": 4,
+            "addedSugar": 0,
+            "vitaminD": 0.5,
+            "calcium": 100,
+            "iron": 5.9,
+            "potassium": 2210
+          },
+          "confidence": "medium"
+        }
+      }
+    },
+    "m4": {
+      "name": "Beef Seekh Kabab Shawarma",
+      "category": "Main",
+      "description": "Seasoned beef seekh, fresh salad, house refrigerator pickles, and garlic yogurt sauce in shawarma bread.",
+      "note": "The wrap that eats like a full meal.",
+      "storageMode": "fridge",
+      "reheat": "Remove cold pickles if packed separately. Microwave 60-90 seconds, or air fry at 350 F for 3-5 minutes.",
+      "validation": "Use drained house refrigerator pickles packed separately.",
+      "decision": "Owner approved",
+      "tiers": {
+        "lean": {
+          "label": "LEAN",
+          "netWeight": "11.6 oz (328 g)",
+          "ingredients": "90/10 ground beef, shawarma bread, onion, house refrigerator-pickled vegetables, lettuce, nonfat Greek yogurt, garlic, light mayonnaise, lemon juice, avocado oil spray, paprika, salt, cumin, chili powder.",
+          "allergens": "CONTAINS: EGG, MILK, WHEAT.",
+          "nutrition": {
+            "calories": 575,
+            "protein": 44,
+            "carbs": 56,
+            "fiber": 2,
+            "fat": 17,
+            "satFat": 5.8,
+            "transFat": 0.5,
+            "cholesterol": 110,
+            "sodium": 1010,
+            "sugars": 3,
+            "addedSugar": 0,
+            "vitaminD": 0.0,
+            "calcium": 120,
+            "iron": 7.1,
+            "potassium": 650
+          },
+          "confidence": "medium"
+        },
+        "bulk": {
+          "label": "BULK",
+          "netWeight": "14.7 oz (418 g)",
+          "ingredients": "90/10 ground beef, shawarma bread, house refrigerator-pickled vegetables, onion, lettuce, nonfat Greek yogurt, garlic, light mayonnaise, lemon juice, avocado oil spray, salt, paprika, cumin, chili powder.",
+          "allergens": "CONTAINS: EGG, MILK, WHEAT.",
+          "nutrition": {
+            "calories": 770,
+            "protein": 56,
+            "carbs": 81,
+            "fiber": 2,
+            "fat": 21,
+            "satFat": 7.1,
+            "transFat": 0.6,
+            "cholesterol": 135,
+            "sodium": 1420,
+            "sugars": 3,
+            "addedSugar": 0,
+            "vitaminD": 0.0,
+            "calcium": 140,
+            "iron": 9.4,
+            "potassium": 810
+          },
+          "confidence": "medium"
+        }
+      }
+    },
+    "m5": {
+      "name": "Harissa Honey Chicken",
+      "category": "Main",
+      "description": "Sweet-spicy harissa honey chicken with basmati rice and roasted broccoli.",
+      "note": "Sweet, smoky heat built for the week.",
+      "storageMode": "freezer",
+      "reheat": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout.",
+      "validation": "Confirm the harissa package and first glaze/chicken yield.",
+      "decision": "Owner approved",
+      "tiers": {
+        "lean": {
+          "label": "LEAN",
+          "netWeight": "12.2 oz (347 g)",
+          "ingredients": "boneless skinless chicken thigh, broccoli, basmati rice, harissa paste, honey, tomato paste, lemon juice, avocado oil spray, garlic, salt, paprika, ground coriander.",
+          "allergens": "No major allergens identified from the recorded recipe.",
+          "nutrition": {
+            "calories": 580,
+            "protein": 44,
+            "carbs": 60,
+            "fiber": 4,
+            "fat": 18,
+            "satFat": 4.2,
+            "transFat": 0.1,
+            "cholesterol": 200,
+            "sodium": 920,
+            "sugars": 10,
+            "addedSugar": 7,
+            "vitaminD": 0.3,
+            "calcium": 90,
+            "iron": 3.3,
+            "potassium": 880
+          },
+          "confidence": "medium"
+        },
+        "bulk": {
+          "label": "BULK",
+          "netWeight": "17.2 oz (488 g)",
+          "ingredients": "boneless skinless chicken thigh, broccoli, basmati rice, harissa paste, honey, tomato paste, lemon juice, avocado oil spray, garlic, salt, paprika, ground coriander.",
+          "allergens": "No major allergens identified from the recorded recipe.",
+          "nutrition": {
+            "calories": 820,
+            "protein": 65,
+            "carbs": 79,
+            "fiber": 5,
+            "fat": 26,
+            "satFat": 6.2,
+            "transFat": 0.1,
+            "cholesterol": 300,
+            "sodium": 1380,
+            "sugars": 14,
+            "addedSugar": 10,
+            "vitaminD": 0.5,
+            "calcium": 120,
+            "iron": 4.6,
+            "potassium": 1240
+          },
+          "confidence": "medium"
+        }
+      }
+    },
+    "m6": {
       "name": "Mexican Streetcorn Chicken Bowl",
       "category": "Main",
       "description": "Chicken, basmati rice, and creamy Mexican street corn.",
-      "note": "Sweet corn, smoky chicken, zero boring bites.",
+      "note": "Street corn brought chicken. We brought the container.",
       "storageMode": "freezer",
-      "validation": "Street-corn component still needs its first kitchen check.",
-      "decision": "Keep",
+      "reheat": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout.",
+      "validation": "Reuse the neutral chicken and common-rice waves; record the finished street-corn yield.",
+      "decision": "Owner approved",
       "tiers": {
         "lean": {
           "label": "LEAN",
-          "netWeight": "Est. 13.4 oz (380 g)",
+          "netWeight": "13.4 oz (380 g)",
           "ingredients": "boneless skinless chicken thigh, sweet corn, basmati rice, green bell pepper, nonfat Greek yogurt, onion, Cotija cheese, lime juice, light mayonnaise, jalapeno, cilantro, avocado oil spray, salt.",
           "allergens": "CONTAINS: EGG, MILK.",
           "nutrition": {
@@ -334,7 +588,7 @@ window.PRPD_NEXT_LABEL_DATA = {
         },
         "bulk": {
           "label": "BULK",
-          "netWeight": "Est. 17.5 oz (497 g)",
+          "netWeight": "17.5 oz (497 g)",
           "ingredients": "boneless skinless chicken thigh, sweet corn, basmati rice, green bell pepper, nonfat Greek yogurt, onion, Cotija cheese, lime juice, light mayonnaise, jalapeno, cilantro, avocado oil spray, salt.",
           "allergens": "CONTAINS: EGG, MILK.",
           "nutrition": {
@@ -358,254 +612,19 @@ window.PRPD_NEXT_LABEL_DATA = {
         }
       }
     },
-    "nm3": {
-      "name": "Hot Honey Chicken Sliders",
-      "category": "Main",
-      "description": "Hot-honey chicken, cheese, pickles, and light sriracha mayo on soft rolls.",
-      "note": "Sweet heat. Very little chance of leftovers.",
-      "storageMode": "freezer",
-      "validation": "New dish: taste, fit, leakage, and day-three reheat test required.",
-      "decision": "Test",
-      "tiers": {
-        "lean": {
-          "label": "LEAN",
-          "netWeight": "Est. 12.3 oz (348 g)",
-          "ingredients": "boneless skinless chicken thigh, sweet Hawaiian rolls, H-E-B fat-free mozzarella, light mayonnaise, Frank's-style hot sauce, sweet corn, onion, pickled vegetables, sriracha sauce, honey, avocado oil spray, salt.",
-          "allergens": "CONTAINS: EGG, MILK, SOY, WHEAT.",
-          "nutrition": {
-            "calories": 590,
-            "protein": 51,
-            "carbs": 45,
-            "fiber": 1,
-            "fat": 21,
-            "satFat": 4.5,
-            "transFat": 0.1,
-            "cholesterol": 210,
-            "sodium": 1920,
-            "sugars": 13,
-            "addedSugar": 11,
-            "vitaminD": 0.3,
-            "calcium": 300,
-            "iron": 2.0,
-            "potassium": 530
-          },
-          "confidence": "medium"
-        },
-        "bulk": {
-          "label": "BULK",
-          "netWeight": "Est. 15.7 oz (444 g)",
-          "ingredients": "boneless skinless chicken thigh, sweet Hawaiian rolls, H-E-B fat-free mozzarella, sweet corn, Frank's-style hot sauce, light mayonnaise, onion, pickled vegetables, sriracha sauce, honey, avocado oil spray, salt.",
-          "allergens": "CONTAINS: EGG, MILK, SOY, WHEAT.",
-          "nutrition": {
-            "calories": 760,
-            "protein": 65,
-            "carbs": 61,
-            "fiber": 1,
-            "fat": 26,
-            "satFat": 5.4,
-            "transFat": 0.1,
-            "cholesterol": 255,
-            "sodium": 2460,
-            "sugars": 16,
-            "addedSugar": 13,
-            "vitaminD": 0.4,
-            "calcium": 440,
-            "iron": 2.5,
-            "potassium": 650
-          },
-          "confidence": "medium"
-        }
-      }
-    },
-    "nm4": {
-      "name": "Chicken Biryani",
-      "category": "Main",
-      "description": "Spiced halal chicken and fragrant basmati rice.",
-      "note": "The kind of comfort food that still tracks.",
-      "storageMode": "freezer",
-      "validation": "Customer favorite; record retained marinade/oil once.",
-      "decision": "Keep",
-      "tiers": {
-        "lean": {
-          "label": "LEAN",
-          "netWeight": "Est. 16.2 oz (458 g)",
-          "ingredients": "boneless skinless chicken thigh, tomato, onion, cucumber, basmati rice, lemon juice, garlic, nonfat Greek yogurt, ginger, avocado oil spray, salt.",
-          "allergens": "CONTAINS: MILK.",
-          "nutrition": {
-            "calories": 505,
-            "protein": 43,
-            "carbs": 49,
-            "fiber": 3,
-            "fat": 15,
-            "satFat": 3.9,
-            "transFat": 0.1,
-            "cholesterol": 200,
-            "sodium": 470,
-            "sugars": 7,
-            "addedSugar": 0,
-            "vitaminD": 0.3,
-            "calcium": 80,
-            "iron": 2.6,
-            "potassium": 880
-          },
-          "confidence": "medium"
-        },
-        "bulk": {
-          "label": "BULK",
-          "netWeight": "Est. 18.8 oz (534 g)",
-          "ingredients": "boneless skinless chicken thigh, tomato, onion, cucumber, basmati rice, lemon juice, garlic, nonfat Greek yogurt, ginger, avocado oil spray, salt.",
-          "allergens": "CONTAINS: MILK.",
-          "nutrition": {
-            "calories": 650,
-            "protein": 62,
-            "carbs": 49,
-            "fiber": 3,
-            "fat": 22,
-            "satFat": 5.7,
-            "transFat": 0.1,
-            "cholesterol": 300,
-            "sodium": 650,
-            "sugars": 7,
-            "addedSugar": 0,
-            "vitaminD": 0.5,
-            "calcium": 80,
-            "iron": 3.5,
-            "potassium": 1080
-          },
-          "confidence": "medium"
-        }
-      }
-    },
-    "nm5": {
-      "name": "BBQ Chicken Mac & Cheese",
-      "category": "Main",
-      "description": "BBQ chicken, high-protein mac and cheese, and fat-free mozzarella.",
-      "note": "Mac and cheese finally joined the program.",
-      "storageMode": "freezer",
-      "validation": "Uses the selected Muscle Mac planning product; confirm the purchased box before label printing.",
-      "decision": "Keep",
-      "tiers": {
-        "lean": {
-          "label": "LEAN",
-          "netWeight": "Est. 11.1 oz (314 g)",
-          "ingredients": "boneless skinless chicken thigh, high-protein macaroni and cheese, G Hughes sugar-free BBQ sauce, H-E-B fat-free mozzarella, salt.",
-          "allergens": "CONTAINS: MILK, WHEAT.",
-          "nutrition": {
-            "calories": 630,
-            "protein": 66,
-            "carbs": 54,
-            "fiber": 4,
-            "fat": 17,
-            "satFat": 5.0,
-            "transFat": 0.1,
-            "cholesterol": 210,
-            "sodium": 1680,
-            "sugars": 4,
-            "addedSugar": 2,
-            "vitaminD": 0.3,
-            "calcium": 280,
-            "iron": 1.8,
-            "potassium": 430
-          },
-          "confidence": "low"
-        },
-        "bulk": {
-          "label": "BULK",
-          "netWeight": "Est. 13.8 oz (390 g)",
-          "ingredients": "boneless skinless chicken thigh, high-protein macaroni and cheese, G Hughes sugar-free BBQ sauce, H-E-B fat-free mozzarella, salt.",
-          "allergens": "CONTAINS: MILK, WHEAT.",
-          "nutrition": {
-            "calories": 765,
-            "protein": 85,
-            "carbs": 54,
-            "fiber": 4,
-            "fat": 23,
-            "satFat": 6.7,
-            "transFat": 0.1,
-            "cholesterol": 310,
-            "sodium": 1860,
-            "sugars": 4,
-            "addedSugar": 2,
-            "vitaminD": 0.5,
-            "calcium": 290,
-            "iron": 2.6,
-            "potassium": 640
-          },
-          "confidence": "low"
-        }
-      }
-    },
-    "nm6": {
-      "name": "Korean Bulgogi Beef Bowl",
-      "category": "Main",
-      "description": "Marinated beef, rice, and stir-fried broccoli, peppers, and carrots.",
-      "note": "Sticky, savory, and worth every bite.",
-      "storageMode": "freezer",
-      "validation": "Confirm smaller beef portions still plate generously.",
-      "decision": "Keep",
-      "tiers": {
-        "lean": {
-          "label": "LEAN",
-          "netWeight": "Est. 14.6 oz (413 g)",
-          "ingredients": "lean beef strips, apple, basmati rice, broccoli, green bell pepper, carrots, low-sodium soy sauce, honey, garlic, ginger, sriracha sauce, cornstarch, avocado oil spray, sesame oil.",
-          "allergens": "CONTAINS: SOY.",
-          "nutrition": {
-            "calories": 655,
-            "protein": 48,
-            "carbs": 74,
-            "fiber": 5,
-            "fat": 17,
-            "satFat": 5.2,
-            "transFat": 0.0,
-            "cholesterol": 125,
-            "sodium": 1390,
-            "sugars": 27,
-            "addedSugar": 18,
-            "vitaminD": 0.0,
-            "calcium": 60,
-            "iron": 1.3,
-            "potassium": 340
-          },
-          "confidence": "medium"
-        },
-        "bulk": {
-          "label": "BULK",
-          "netWeight": "Est. 17.5 oz (496 g)",
-          "ingredients": "lean beef strips, apple, broccoli, basmati rice, green bell pepper, carrots, low-sodium soy sauce, honey, garlic, ginger, sriracha sauce, cornstarch, avocado oil spray, sesame oil.",
-          "allergens": "CONTAINS: SOY.",
-          "nutrition": {
-            "calories": 770,
-            "protein": 65,
-            "carbs": 76,
-            "fiber": 5,
-            "fat": 21,
-            "satFat": 7.0,
-            "transFat": 0.0,
-            "cholesterol": 170,
-            "sodium": 1430,
-            "sugars": 28,
-            "addedSugar": 18,
-            "vitaminD": 0.0,
-            "calcium": 70,
-            "iron": 1.4,
-            "potassium": 370
-          },
-          "confidence": "medium"
-        }
-      }
-    },
-    "nm7": {
+    "m7": {
       "name": "Garlic Butter Shrimp + Rice",
       "category": "Main",
       "description": "Garlic-butter shrimp, basmati rice, edamame, zucchini, and lemon.",
       "note": "A little fancy for a meal prep container.",
       "storageMode": "freezer",
-      "validation": "Confirm current shrimp package label and cooked yield.",
-      "decision": "Keep",
+      "reheat": "Vent lid and microwave at 50% power for 1-2 minutes, stirring halfway, to avoid overcooking shrimp.",
+      "validation": "Record raw-to-cooked shrimp yield and day-three quality.",
+      "decision": "Owner approved",
       "tiers": {
         "lean": {
           "label": "LEAN",
-          "netWeight": "Est. 14.2 oz (402 g)",
+          "netWeight": "14.2 oz (402 g)",
           "ingredients": "shrimp, zucchini, shelled edamame, basmati rice, garlic, lemon juice, butter, cornstarch, salt.",
           "allergens": "CONTAINS: MILK, SHELLFISH.",
           "nutrition": {
@@ -629,7 +648,7 @@ window.PRPD_NEXT_LABEL_DATA = {
         },
         "bulk": {
           "label": "BULK",
-          "netWeight": "Est. 18.9 oz (535 g)",
+          "netWeight": "18.9 oz (535 g)",
           "ingredients": "shrimp, zucchini, shelled edamame, basmati rice, garlic, lemon juice, butter, cornstarch, salt.",
           "allergens": "CONTAINS: MILK, SHELLFISH.",
           "nutrition": {
@@ -653,78 +672,80 @@ window.PRPD_NEXT_LABEL_DATA = {
         }
       }
     },
-    "nm8": {
-      "name": "Premium NY Strip Steak",
+    "m8": {
+      "name": "BBQ Chicken Mac & Cheese",
       "category": "Main",
-      "description": "New York strip steak with creamy mashed potatoes and broccoli.",
-      "note": "Yes, meal prep can look like this.",
-      "storageMode": "fridge",
-      "validation": "Confirm cooked yield, doneness after reheating, and side presentation.",
-      "decision": "Test",
+      "description": "BBQ chicken, high-protein mac and cheese, and fat-free mozzarella.",
+      "note": "Mac and cheese finally joined the program.",
+      "storageMode": "freezer",
+      "reheat": "Remove sauce cup. Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout.",
+      "validation": "Confirm the purchased high-protein macaroni label and record finished yield.",
+      "decision": "Owner approved",
       "tiers": {
         "lean": {
           "label": "LEAN",
-          "netWeight": "Est. 19.1 oz (542 g)",
-          "ingredients": "potato, New York strip steak, broccoli, Fairlife fat-free milk, nonfat Greek yogurt, garlic, butter, avocado oil spray, salt.",
-          "allergens": "CONTAINS: MILK.",
+          "netWeight": "11.1 oz (314 g)",
+          "ingredients": "boneless skinless chicken thigh, high-protein macaroni and cheese, sugar-free BBQ sauce, fat-free mozzarella cheese, salt.",
+          "allergens": "CONTAINS: MILK, WHEAT.",
           "nutrition": {
-            "calories": 665,
-            "protein": 60,
-            "carbs": 45,
-            "fiber": 7,
-            "fat": 28,
-            "satFat": 10.9,
+            "calories": 630,
+            "protein": 66,
+            "carbs": 54,
+            "fiber": 4,
+            "fat": 17,
+            "satFat": 5.0,
             "transFat": 0.1,
-            "cholesterol": 150,
-            "sodium": 480,
-            "sugars": 5,
-            "addedSugar": 0,
-            "vitaminD": 0.6,
-            "calcium": 150,
-            "iron": 2.5,
-            "potassium": 1220
+            "cholesterol": 210,
+            "sodium": 1680,
+            "sugars": 4,
+            "addedSugar": 2,
+            "vitaminD": 0.3,
+            "calcium": 280,
+            "iron": 1.8,
+            "potassium": 430
           },
-          "confidence": "medium"
+          "confidence": "low"
         },
         "bulk": {
           "label": "BULK",
-          "netWeight": "Est. 22.3 oz (631 g)",
-          "ingredients": "New York strip steak, potato, broccoli, Fairlife fat-free milk, nonfat Greek yogurt, garlic, butter, avocado oil spray, salt.",
-          "allergens": "CONTAINS: MILK.",
+          "netWeight": "13.8 oz (390 g)",
+          "ingredients": "boneless skinless chicken thigh, high-protein macaroni and cheese, sugar-free BBQ sauce, fat-free mozzarella cheese, salt.",
+          "allergens": "CONTAINS: MILK, WHEAT.",
           "nutrition": {
-            "calories": 800,
-            "protein": 74,
-            "carbs": 48,
-            "fiber": 8,
-            "fat": 36,
-            "satFat": 14.3,
-            "transFat": 0.2,
-            "cholesterol": 195,
-            "sodium": 630,
-            "sugars": 6,
-            "addedSugar": 0,
-            "vitaminD": 0.8,
-            "calcium": 190,
-            "iron": 2.7,
-            "potassium": 1310
+            "calories": 765,
+            "protein": 85,
+            "carbs": 54,
+            "fiber": 4,
+            "fat": 23,
+            "satFat": 6.7,
+            "transFat": 0.1,
+            "cholesterol": 310,
+            "sodium": 1860,
+            "sugars": 4,
+            "addedSugar": 2,
+            "vitaminD": 0.5,
+            "calcium": 290,
+            "iron": 2.6,
+            "potassium": 640
           },
-          "confidence": "medium"
+          "confidence": "low"
         }
       }
     },
-    "nd1": {
-      "name": "Cookie Dough Cup",
+    "d1": {
+      "name": "Chocolate-Dipped Cookie Dough Balls",
       "category": "Dessert",
-      "description": "Protein cookie dough with oats, cottage cheese, peanut butter, and chocolate chips.",
+      "description": "Three protein cookie-dough balls with a measured chocolate coating.",
       "note": "No oven. No waiting. No judgment.",
       "storageMode": "fridge",
-      "validation": "19.5g powder resolves the old scoop ambiguity.",
-      "decision": "Keep",
+      "reheat": "Serve chilled. Do not heat.",
+      "validation": "Form three balls and keep total chocolate at 14g per serving.",
+      "decision": "Owner approved",
       "tiers": {
-        "lean": {
+        "single": {
           "label": "SINGLE",
-          "netWeight": "Est. 7.6 oz (216 g)",
-          "ingredients": "H-E-B fat-free cottage cheese, rolled oats, Premier Protein powder, peanut butter, semisweet chocolate chips, honey, vanilla extract.",
+          "netWeight": "7.6 oz (216 g)",
+          "ingredients": "fat-free cottage cheese, rolled oats, whey protein powder, peanut butter, semisweet chocolate chips, honey, vanilla extract.",
           "allergens": "CONTAINS: MILK, PEANUT, SOY.",
           "nutrition": {
             "calories": 520,
@@ -747,73 +768,183 @@ window.PRPD_NEXT_LABEL_DATA = {
         }
       }
     },
-    "nd2": {
-      "name": "Lotus Biscoff Cheesecake",
+    "d2": {
+      "name": "Chocolate Oreo Mousse",
       "category": "Dessert",
-      "description": "Protein cheesecake with Biscoff cookie butter and a cookie crust.",
-      "note": "Biscoff made it. Your macros survived.",
+      "description": "Chocolate protein mousse finished with Oreo Thins.",
+      "note": "Dessert first? We support that decision.",
       "storageMode": "fridge",
-      "validation": "Reduced-calorie 395-calorie prototype: verify Biscoff flavor, crumb structure, sweetness, and day-three texture; exact Biscoff labels preferred.",
-      "decision": "Test",
+      "reheat": "Serve chilled. Do not heat.",
+      "validation": "Use the taste-approved 19.5g protein-powder build.",
+      "decision": "Owner approved",
       "tiers": {
-        "lean": {
+        "single": {
           "label": "SINGLE",
-          "netWeight": "Est. 9.8 oz (279 g)",
-          "ingredients": "H-E-B fat-free cottage cheese, nonfat Greek yogurt, Premier Protein powder, Lotus Biscoff cookies, Lotus Biscoff cookie butter, Fairlife fat-free milk, powdered sugar, vanilla extract, salt.",
-          "allergens": "CONTAINS: MILK, SOY, WHEAT.",
+          "netWeight": "8.9 oz (252 g)",
+          "ingredients": "nonfat Greek yogurt, whey protein powder, Oreo Thins, unsweetened cocoa powder, honey.",
+          "allergens": "CONTAINS: MILK, WHEAT.",
           "nutrition": {
-            "calories": 395,
-            "protein": 40,
-            "carbs": 33,
-            "fiber": 0,
-            "fat": 10,
-            "satFat": 3.1,
+            "calories": 290,
+            "protein": 38,
+            "carbs": 30,
+            "fiber": 5,
+            "fat": 5,
+            "satFat": 1.5,
             "transFat": 0.0,
             "cholesterol": 40,
-            "sodium": 710,
-            "sugars": 23,
-            "addedSugar": 14,
-            "vitaminD": 0.2,
-            "calcium": 320,
-            "iron": 0.0,
-            "potassium": 360
+            "sodium": 210,
+            "sugars": 18,
+            "addedSugar": 12,
+            "vitaminD": 0.0,
+            "calcium": 330,
+            "iron": 2.1,
+            "potassium": 540
           },
           "confidence": "medium"
         }
       }
     },
-    "nd3": {
-      "name": "Banana Cream Pie Cup",
+    "d3": {
+      "name": "Baked Strawberry-Lemon Protein Cheesecake Square",
       "category": "Dessert",
-      "description": "Banana protein cream with a Biscoff cookie finish.",
-      "note": "This one understood the assignment.",
+      "description": "Baked strawberry-lemon protein cheesecake cut into one square.",
+      "note": "A real cheesecake square with the protein handled.",
       "storageMode": "fridge",
-      "validation": "Exact pudding packet serving weight required before label lock.",
-      "decision": "Keep",
+      "reheat": "Serve chilled. Do not heat.",
+      "validation": "Record baked pan yield and eight equal finished weights.",
+      "decision": "Owner approved",
       "tiers": {
-        "lean": {
+        "single": {
           "label": "SINGLE",
-          "netWeight": "Est. 9.2 oz (262 g)",
-          "ingredients": "nonfat Greek yogurt, banana, Lotus Biscoff cookies, Premier Protein powder, sugar-free banana pudding mix.",
-          "allergens": "CONTAINS: MILK, SOY, WHEAT.",
+          "netWeight": "5.5 oz (155 g)",
+          "ingredients": "reduced-fat cream cheese, fat-free cottage cheese, strawberries, nonfat Greek yogurt, whole egg, honey, whey protein powder, cornstarch, lemon juice, vanilla extract, salt.",
+          "allergens": "CONTAINS: EGG, MILK.",
           "nutrition": {
-            "calories": 275,
-            "protein": 27,
-            "carbs": 36,
-            "fiber": 2,
-            "fat": 4,
-            "satFat": 1.7,
+            "calories": 225,
+            "protein": 14,
+            "carbs": 17,
+            "fiber": 1,
+            "fat": 11,
+            "satFat": 6.6,
             "transFat": 0.0,
-            "cholesterol": 25,
-            "sodium": 250,
-            "sugars": 18,
+            "cholesterol": 85,
+            "sodium": 380,
+            "sugars": 13,
             "addedSugar": 6,
-            "vitaminD": 0.0,
-            "calcium": 240,
-            "iron": 0.2,
-            "potassium": 490
+            "vitaminD": 0.2,
+            "calcium": 80,
+            "iron": 0.4,
+            "potassium": 150
           },
-          "confidence": "low"
+          "confidence": "medium"
+        }
+      }
+    },
+    "a1": {
+      "name": "PRPD Protein Box",
+      "category": "Add-on",
+      "description": "Eggs, halal beef breakfast slices, cheese, fruit, cucumber, and house jalapeno-lemon yogurt dip.",
+      "note": "Protein, packed and ready.",
+      "storageMode": "fridge",
+      "reheat": "Enjoy chilled. Do not heat the assembled box.",
+      "validation": "Use one weighed whole mini apple and record the 12 oz box fit.",
+      "decision": "Owner approved",
+      "tiers": {
+        "single": {
+          "label": "SINGLE",
+          "netWeight": "11.0 oz (311 g)",
+          "ingredients": "whole egg, apple, cucumber, fat-free mozzarella cheese, nonfat Greek yogurt, halal beef breakfast slices, light mayonnaise, lemon juice, jalapeno, garlic, avocado oil spray, salt, cumin.",
+          "allergens": "CONTAINS: EGG, MILK, SOY.",
+          "nutrition": {
+            "calories": 355,
+            "protein": 29,
+            "carbs": 15,
+            "fiber": 2,
+            "fat": 20,
+            "satFat": 6.9,
+            "transFat": 0.0,
+            "cholesterol": 400,
+            "sodium": 770,
+            "sugars": 9,
+            "addedSugar": 0,
+            "vitaminD": 2.0,
+            "calcium": 360,
+            "iron": 2.0,
+            "potassium": 220
+          },
+          "confidence": "medium"
+        }
+      }
+    },
+    "a2": {
+      "name": "Mini Chicken Snack Wrap",
+      "category": "Add-on",
+      "description": "Two high-fiber tortillas with seasoned chicken, cheese, fresh chopped salad, and house sauce.",
+      "note": "Two snack wraps. Full PRPD treatment.",
+      "storageMode": "fridge",
+      "reheat": "Enjoy chilled, or microwave 30-45 seconds if preferred.",
+      "validation": "Record wrap weight and day-three texture.",
+      "decision": "Owner approved",
+      "tiers": {
+        "single": {
+          "label": "SINGLE",
+          "netWeight": "9.0 oz (256 g)",
+          "ingredients": "boneless skinless chicken thigh, Mission Carb Balance Fajita flour tortilla, lettuce, fat-free mozzarella cheese, nonfat Greek yogurt, onion, tomato, cucumber, light mayonnaise, lemon juice, jalapeno, garlic, avocado oil spray, salt, cumin.",
+          "allergens": "CONTAINS: EGG, MILK, WHEAT.",
+          "nutrition": {
+            "calories": 325,
+            "protein": 41,
+            "carbs": 29,
+            "fiber": 23,
+            "fat": 13,
+            "satFat": 4.4,
+            "transFat": 0.0,
+            "cholesterol": 135,
+            "sodium": 830,
+            "sugars": 2,
+            "addedSugar": 0,
+            "vitaminD": 0.2,
+            "calcium": 240,
+            "iron": 1.5,
+            "potassium": 410
+          },
+          "confidence": "medium"
+        }
+      }
+    },
+    "a3": {
+      "name": "Strawberry Protein Overnight Oats",
+      "category": "Add-on",
+      "description": "Strawberry protein overnight oats with Greek yogurt, chia, and honey.",
+      "note": "Twelve ounces of grab-and-go breakfast.",
+      "storageMode": "fridge",
+      "reheat": "Enjoy chilled. Stir before eating. Do not heat the sealed cup.",
+      "validation": "Use one fixed 12 oz build and record filled weight and 72-hour texture.",
+      "decision": "Owner approved",
+      "tiers": {
+        "single": {
+          "label": "SINGLE",
+          "netWeight": "10.9 oz (308 g)",
+          "ingredients": "nonfat Greek yogurt, fat-free milk, strawberries, rolled oats, whey protein powder, honey, chia seeds, vanilla extract, salt.",
+          "allergens": "CONTAINS: MILK.",
+          "nutrition": {
+            "calories": 360,
+            "protein": 35,
+            "carbs": 45,
+            "fiber": 7,
+            "fat": 5,
+            "satFat": 1.0,
+            "transFat": 0.0,
+            "cholesterol": 30,
+            "sodium": 230,
+            "sugars": 14,
+            "addedSugar": 6,
+            "vitaminD": 1.6,
+            "calcium": 330,
+            "iron": 0.2,
+            "potassium": 300
+          },
+          "confidence": "medium"
         }
       }
     }
