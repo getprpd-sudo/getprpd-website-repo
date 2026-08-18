@@ -49,3 +49,15 @@ test('inactive and expired codes do not produce public promotions', () => {
   assert.equal(Referrals.isActive({ ...active, expiresAt:'2026-01-01' }, Date.parse('2026-08-04T12:00:00-05:00')), false);
   assert.equal(Referrals.isActive({ ...active, startsAt:'2026-08-22' }, Date.parse('2026-08-21T12:00:00-05:00')), false);
 });
+
+test('partial referral updates preserve an inactive partner classification', () => {
+  const existing = Referrals.serializeRecord({
+    code:'Z10', ownerName:'Athlete Partner', ownerEmail:'athlete@example.com',
+    programType:'Partner', status:'Inactive', customerDiscount:10,
+    minimumOrder:60, maxPaidReferrals:25, maxRedemptions:25,
+  });
+  const updated = Referrals.serializeRecord({ code:'Z10', creditUsed:10 }, existing);
+  assert.equal(updated.programType, 'Partner');
+  assert.equal(updated.status, 'Inactive');
+  assert.equal(updated.maxRedemptions, 25);
+});

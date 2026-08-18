@@ -84,7 +84,8 @@ function serializeRecord(input, existing = null) {
   const ownerName = clean(input.ownerName ?? existing?.ownerName, 100);
   const ownerEmail = clean(input.ownerEmail ?? existing?.ownerEmail, 254).toLowerCase();
   const ownerPhone = clean(input.ownerPhone ?? existing?.ownerPhone, 30);
-  const programType = input.programType === 'Partner' ? 'Partner' : 'Customer referral';
+  const requestedProgramType = input.programType ?? existing?.programType ?? 'Customer referral';
+  const programType = requestedProgramType === 'Partner' ? 'Partner' : 'Customer referral';
   const customerDiscount = Math.max(0, Math.min(50, number(input.customerDiscount ?? existing?.customerDiscount, 10)));
   const referrerCredit = Math.max(0, Math.min(100, number(input.referrerCredit ?? existing?.referrerCredit, 10)));
   const requestedStatus = input.status ?? existing?.status ?? 'Inactive';
