@@ -14,7 +14,7 @@
   ];
   const SECTION_KEYS = {
     'Meat & Seafood': new Set(['beef_90_raw','ny_strip_raw','leg_quarter_raw','chicken_thigh_raw','shrimp_raw','tilapia_raw','beef_strips_raw','beef_bacon']),
-    'Produce': new Set(['apple','banana','blueberry','broccoli','carrot','cilantro','cucumber','garlic','ginger','green_bell_pepper','lettuce','jalapeno','lemon','lime','mushroom','mixed_vegetables','onion','spinach','strawberry','tomato','potato','zucchini']),
+    'Produce': new Set(['apple','banana','blueberry','broccoli','carrot','cilantro','cucumber','garlic','ginger','green_bell_pepper','lettuce','jalapeno','lemon','lime','mushroom','mixed_vegetables','onion','red_onion','spinach','strawberry','tomato','potato','zucchini']),
     'Dairy & Eggs': new Set(['egg','egg_white','mascarpone','philadelphia_no_bake','reduced_cream_cheese','cotija','fage','fairlife_milk','cottage','mozzarella','butter','simple_truth_yogurt','whipped_cream']),
     'Bread & Tortillas': new Set(['large_tortilla','small_tortilla','fajita_tortilla','shawarma_bread','bread_slice','hawaiian_roll','sourdough_slice','english_muffin']),
     'Sweets & Baking': new Set(['banana_pudding_mix','biscoff_cookie','biscoff_spread','brown_sugar','chia','chocolate_chips','cinnamon','cocoa','coriander','honey','ladyfingers','oats','oreo_thin','peanut_butter','powdered_sugar','whey','vanilla']),
@@ -24,6 +24,27 @@
   const PURCHASE_ALIASES = {
     simple_truth_yogurt: { key: 'fage', name: 'Nonfat Greek yogurt' },
     fage: { key: 'fage', name: 'Nonfat Greek yogurt' },
+  };
+  // Practical shopping estimates only. Recipe weights remain the source of truth because
+  // individual produce size and usable yield vary. Values are average usable grams per item.
+  const PRODUCE_COUNT_ESTIMATES = {
+    apple: { gramsEach: 155, singular: 'small apple', plural: 'small apples' },
+    banana: { gramsEach: 118, singular: 'medium banana', plural: 'medium bananas' },
+    carrot: { gramsEach: 61, singular: 'medium carrot', plural: 'medium carrots' },
+    cilantro: { gramsEach: 50, singular: 'bunch', plural: 'bunches' },
+    cucumber: { gramsEach: 300, singular: 'medium cucumber', plural: 'medium cucumbers' },
+    green_bell_pepper: { gramsEach: 160, singular: 'pepper', plural: 'peppers' },
+    jalapeno: { gramsEach: 14, singular: 'jalapeno', plural: 'jalapenos' },
+    lemon: { gramsEach: 48, singular: 'lemon', plural: 'lemons' },
+    lime: { gramsEach: 30, singular: 'lime', plural: 'limes' },
+    lettuce: { gramsEach: 500, singular: 'head', plural: 'heads' },
+    mushroom: { gramsEach: 18, singular: 'medium mushroom', plural: 'medium mushrooms' },
+    onion: { gramsEach: 150, singular: 'medium onion', plural: 'medium onions' },
+    red_onion: { gramsEach: 150, singular: 'medium red onion', plural: 'medium red onions' },
+    potato: { gramsEach: 213, singular: 'medium potato', plural: 'medium potatoes' },
+    strawberry: { gramsEach: 18, singular: 'medium strawberry', plural: 'medium strawberries' },
+    tomato: { gramsEach: 123, singular: 'medium tomato', plural: 'medium tomatoes' },
+    zucchini: { gramsEach: 196, singular: 'medium zucchini', plural: 'medium zucchini' },
   };
   const rounded = (value, digits = 2) => {
     const factor = 10 ** digits;
@@ -35,6 +56,18 @@
       if (SECTION_KEYS[section]?.has(item.key)) return section;
     }
     return 'Pantry & Sauces';
+  }
+
+  function estimatedProduceCount(key, grams) {
+    const estimate = PRODUCE_COUNT_ESTIMATES[key];
+    const requiredGrams = Math.max(0, Number(grams) || 0);
+    if (!estimate || requiredGrams <= 0) return null;
+    const count = Math.max(1, Math.ceil(requiredGrams / estimate.gramsEach));
+    return {
+      count,
+      label: `about ${count} ${count === 1 ? estimate.singular : estimate.plural}`,
+      gramsEach: estimate.gramsEach,
+    };
   }
 
   function mergeRequirements(recipeTotals, saucePlan, packaging = []) {
@@ -56,8 +89,17 @@
 
     for (const item of recipeTotals || []) add(item, item.bufferedAmount ?? item.required, 'Recipes');
     for (const sauce of saucePlan?.sauces || []) {
+      const totalCups = Math.max(0, Number(sauce.totalCups) || 0);
+      const extraCups = Math.max(0, (Number(sauce.kitchenUseCups) || 0) + (Number(sauce.qcCups) || 0));
+      const recipeModeledFactor = sauce.ingredientsIncludedInRecipes && totalCups > 0
+        ? extraCups / totalCups
+        : 1;
       for (const item of sauce.ingredients || []) {
-        add({ ...item, unit: 'g' }, item.totalGrams, `Weekly sauce: ${sauce.name}`);
+        add(
+          { ...item, unit: 'g' },
+          item.totalGrams * recipeModeledFactor,
+          sauce.ingredientsIncludedInRecipes ? `Weekly sauce QC / kitchen reserve: ${sauce.name}` : `Weekly sauce: ${sauce.name}`,
+        );
       }
     }
     for (const item of packaging || []) add(item, item.required, 'Packaging');
@@ -130,6 +172,7 @@
         estimatedCost: rounded(packages * packagePrice, 2),
         configured: packageSize > 0,
         packaging: PACKAGING_KEYS.has(item.key),
+        estimatedCount: item.unit === 'g' ? estimatedProduceCount(item.key, needed) : null,
       };
     });
   }
@@ -169,12 +212,12 @@
 
   function csv(rows) {
     const cells = value => `"${String(value ?? '').replace(/"/g, '""')}"`;
-    const header = ['Store section','Ingredient','Required','Unit','On hand','Need','Packages','Package','Estimated cost','Source'];
+    const header = ['Store section','Ingredient','Required','Unit','Estimated shopping count','On hand','Need','Packages','Package','Estimated cost','Source'];
     return [header, ...(rows || []).filter(row => row.needed > 0).map(row => [
-      row.section, row.name, row.required, row.unit, row.onHand, row.needed, row.packages,
+      row.section, row.name, row.required, row.unit, row.estimatedCount?.label || '', row.onHand, row.needed, row.packages,
       row.packageLabel || `${row.packageSize} ${row.unit}`, row.estimatedCost, row.store,
     ])].map(row => row.map(cells).join(',')).join('\r\n');
   }
 
-  return { SECTION_ORDER, shoppingSection, mergeRequirements, applyRequirementAdjustments, buildPurchaseRows, packagingRequirements, summary, csv };
+  return { SECTION_ORDER, shoppingSection, estimatedProduceCount, mergeRequirements, applyRequirementAdjustments, buildPurchaseRows, packagingRequirements, summary, csv };
 });

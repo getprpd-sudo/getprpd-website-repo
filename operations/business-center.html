@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
   <title>PRPD Business Center</title>
-  <link rel="stylesheet" href="/operations/business-center.css?v=20260722.1">
+  <link rel="stylesheet" href="/operations/business-center.css?v=20260804.1">
 </head>
 <body>
   <header class="topbar">
@@ -36,6 +36,7 @@
     <div class="tabs" role="tablist" aria-label="Business Center views">
       <button class="tab" data-tab="brief" role="tab">Daily brief</button>
       <button class="tab active" data-tab="growth" role="tab">Growth</button>
+      <button class="tab" data-tab="marketing" role="tab">Marketing Studio</button>
       <button class="tab" data-tab="finance" role="tab">Finance</button>
       <button class="tab" data-tab="outreach" role="tab">Local outreach</button>
       <button class="tab" data-tab="sources" role="tab">Data sources</button>
@@ -74,25 +75,95 @@
           <div class="table-wrap"><table><thead><tr><th>Partner</th><th>Code</th><th>Orders</th><th>Revenue</th><th>Discount</th></tr></thead><tbody id="referralRows"></tbody></table></div>
         </section>
       </div>
+      <div class="two-column growth-program-grid">
+        <section class="panel">
+          <div class="panel-heading"><div><h3>Google Business Profile</h3><span>Service-area setup and verification</span></div><a class="btn" href="https://business.google.com/create" target="_blank" rel="noreferrer">Open Google setup</a></div>
+          <div class="notice"><strong>Profile type:</strong> service-area business. Enter the real operating address for verification, then hide it from customers. Do not use a mailbox, virtual office, or the business mailing address as a storefront.</div>
+          <div class="profile-kit" id="googleProfileKit"></div>
+          <form id="googleBusinessForm" class="google-business-form">
+            <label>Status<select name="status" id="googleBusinessStatus"><option>Not started</option><option>Profile created</option><option>Verification pending</option><option>Verified</option></select></label>
+            <label>Public profile URL<input name="profileUrl" id="googleBusinessProfileUrl" type="url" inputmode="url" placeholder="https://maps.app.goo.gl/..."></label>
+            <label>Verification method<input name="verificationMethod" id="googleBusinessVerification" placeholder="Video, phone, email, or postcard"></label>
+            <label class="wide">Notes<textarea name="notes" id="googleBusinessNotes" rows="3" placeholder="Verification request, follow-up date, or profile correction"></textarea></label>
+            <div class="form-actions"><button class="btn primary" type="submit">Save profile status</button><button class="btn" type="button" id="copyGoogleProfileKitBtn">Copy setup kit</button></div>
+          </form>
+        </section>
+        <section class="panel">
+          <div class="panel-heading"><div><h3>Referral program</h3><span>$10 first-order discount + $10 earned credit</span></div></div>
+          <p class="helper">A credit becomes earned only after the referred order is fully paid. Apply earned credits manually to a future order and record the amount used below.</p>
+          <form id="referralForm" class="referral-form">
+            <label>Owner name<input required name="ownerName" placeholder="Customer or partner name"></label>
+            <label>Code <small>(optional)</small><input name="code" maxlength="32" placeholder="Auto-generated"></label>
+            <label>Program type<select name="programType"><option>Customer referral</option><option>Partner</option></select></label>
+            <label>Owner email<input name="ownerEmail" type="email" placeholder="name@example.com"></label>
+            <label>Owner phone<input name="ownerPhone" inputmode="tel" placeholder="469-555-0100"></label>
+            <label>Expires <small>(optional)</small><input name="expiresAt" type="date"></label>
+            <label>Customer discount<input name="customerDiscount" type="number" min="1" max="50" step="1" value="10"></label>
+            <label>Referrer credit<input name="referrerCredit" type="number" min="0" max="100" step="1" value="10"></label>
+            <label class="wide">Notes<input name="notes" placeholder="Relationship, agreement, or code restrictions"></label>
+            <button class="btn primary" type="submit">Create active code</button>
+          </form>
+        </section>
+      </div>
+      <section class="panel">
+        <div class="panel-heading"><div><h3>Referral credit ledger</h3><span>Live redemptions from Orders and paid status from Payment Log</span></div><span id="referralSyncState">Not synced</span></div>
+        <div class="table-wrap"><table class="referral-program-table"><thead><tr><th>Owner</th><th>Code and link</th><th>Type</th><th>Status</th><th>Used</th><th>Paid</th><th>Revenue</th><th>Earned</th><th>Credit used</th><th>Available</th><th></th></tr></thead><tbody id="referralProgramRows"></tbody></table></div>
+      </section>
+      <section class="panel">
+        <div class="panel-heading"><div><h3>Customer lifecycle queue</h3><span>Real order history, one recommended next action</span></div><span>Drafts are reviewed and sent manually</span></div>
+        <div class="lifecycle-toolbar">
+          <form id="growthSettingsForm" class="review-link-form">
+            <label>Google review link (optional)<input id="googleReviewUrl" name="googleReviewUrl" type="url" inputmode="url" placeholder="https://g.page/r/.../review"></label>
+            <button class="btn" type="submit">Save review link</button>
+          </form>
+          <p class="helper">Without a review link, feedback drafts ask the customer to reply privately. Review requests never include a reward or require a positive rating.</p>
+        </div>
+        <div class="outreach-summary" id="lifecycleSummary"></div>
+        <div class="table-wrap"><table class="lifecycle-table"><thead><tr><th>Customer</th><th>Latest order</th><th>History</th><th>Segment</th><th>Email choice</th><th>Recommended next action</th><th>Workflow</th><th>Notes</th><th></th></tr></thead><tbody id="lifecycleRows"></tbody></table></div>
+      </section>
       <section class="panel">
         <div class="panel-heading"><h3>Next growth actions</h3><span>Capacity-aware priorities</span></div>
         <div class="action-grid">
-          <article><strong>1. Partner tasting</strong><p>Contact the first three independent fitness targets with a small tasting and tracked code.</p></article>
-          <article><strong>2. Referral capture</strong><p>Use unique partner codes and UTM links so every new order can be tied back to a person or channel.</p></article>
-          <article><strong>3. Weekly menu email</strong><p>Use the existing menu opt-in list for one concise launch email when the menu opens.</p></article>
-          <article><strong>4. Paid-media proof</strong><p>Import TikTok exports weekly, then compare spend against attributable orders and collected revenue.</p></article>
+          <article><strong>1. Retain</strong><p>Follow up with prior customers before spending more to replace them.</p></article>
+          <article><strong>2. Earn reviews</strong><p>Ask every eligible customer for honest feedback without incentives or review gating.</p></article>
+          <article><strong>3. Build local proof</strong><p>Complete the Google Business Profile, then add fresh meal photos and answer every review.</p></article>
+          <article><strong>4. Acquire carefully</strong><p>Run one measurable partner or paid campaign at a time and compare collected revenue with spend.</p></article>
         </div>
       </section>
     </section>
 
+    <section class="view" id="marketingView">
+      <div class="section-heading"><div><p class="eyebrow">Weekly campaign system</p><h2>Marketing Studio</h2></div><p>Turn the active menu into reviewed campaign assets, tracked links, and measurable results.</p></div>
+      <div class="notice"><strong>Operating rule:</strong> use real PRPD food and honest customer context. Nothing here posts, emails customers, or spends money automatically.</div>
+      <section class="panel campaign-builder">
+        <div class="panel-heading"><div><h3>Active-menu campaign</h3><span id="marketingCampaignMeta">No weekly campaign generated.</span></div></div>
+        <div class="campaign-controls">
+          <label>Featured meal<select id="marketingFeaturedMeal"></select></label>
+          <button class="btn primary" id="generateCampaignBtn" type="button">Generate weekly pack</button>
+          <button class="btn" id="copyMarketingBriefBtn" type="button">Copy AI analysis brief</button>
+        </div>
+        <p class="helper">Generating a new batch archives the prior campaign locally so its results remain available for comparison.</p>
+      </section>
+      <div class="metrics" id="marketingMetrics"></div>
+      <section class="panel">
+        <div class="panel-heading"><h3>Recommended next move</h3><span>Based only on recorded workflow and performance data</span></div>
+        <div class="action-grid" id="marketingRecommendations"></div>
+      </section>
+      <div class="marketing-assets" id="marketingAssets"></div>
+      <section class="panel">
+        <div class="panel-heading"><h3>Campaign history</h3><span>Archived when a new batch pack is generated</span></div>
+        <div class="table-wrap"><table><thead><tr><th>Batch</th><th>Featured meal</th><th>Posted</th><th>Clicks</th><th>Leads</th><th>Paid orders</th><th>Revenue</th><th>Spend</th></tr></thead><tbody id="marketingHistoryRows"></tbody></table></div>
+      </section>
+    </section>
+
     <section class="view" id="financeView">
-      <div class="section-heading"><div><p class="eyebrow">Cash and margin</p><h2>Financial center</h2></div><p>Direct packed cost is an operational estimate, not accounting profit.</p></div>
+      <div class="section-heading"><div><p class="eyebrow">Cash and margin</p><h2>Financial center</h2></div><p>Separate batch economics from the timing of bulk grocery and equipment purchases.</p></div>
       <div class="metrics" id="financeMetrics"></div>
       <div class="notice" id="costWarning"></div>
       <div class="two-column finance-grid">
         <section class="panel">
-          <div class="panel-heading"><h3>Batch performance</h3><span>Booked, collected, and direct cost</span></div>
-          <div class="table-wrap"><table><thead><tr><th>Batch</th><th>Orders</th><th>Booked</th><th>Collected</th><th>Outstanding</th><th>Direct cost</th><th>Contribution</th></tr></thead><tbody id="batchRows"></tbody></table></div>
+          <div class="panel-heading"><h3>Batch performance</h3><span>Recipe consumption and cash movement are intentionally separate</span></div>
+          <div class="table-wrap"><table><thead><tr><th>Batch</th><th>Orders</th><th>Booked</th><th>Collected</th><th>Outstanding</th><th>Consumed + packed</th><th>Operating</th><th>Contribution</th><th>Cash movement</th></tr></thead><tbody id="batchRows"></tbody></table></div>
         </section>
         <section class="panel">
           <div class="panel-heading"><h3>Customer payment log</h3><span>Per-order collection status</span></div>
@@ -104,12 +175,13 @@
         <div class="table-wrap"><table><thead><tr><th>Account</th><th>Covered batches</th><th>Agreed</th><th>Paid</th><th>Balance</th><th>Status</th><th>Notes</th></tr></thead><tbody id="receivableRows"></tbody></table></div>
       </section>
       <section class="panel">
-        <div class="panel-heading"><h3>Expense ledger</h3><span>Local working record for costs not already inside meal direct cost</span></div>
+        <div class="panel-heading"><h3>Purchase and expense ledger</h3><span>Inventory and equipment affect cash movement; operating costs also affect contribution</span></div>
+        <div class="notice"><strong>Classification rule:</strong> grocery stock bought for future use is <em>Inventory purchase</em>. Delivery, kitchen, software, marketing, and other current-batch costs are operating expenses. Do not enter TikTok spend here when it is already synced above.</div>
         <form class="expense-form" id="expenseForm">
           <label>Date<input required type="date" name="date"></label>
           <label>Batch<input required name="batch" placeholder="Batch 3"></label>
           <label>Vendor<input required name="vendor" placeholder="Restaurant Depot"></label>
-          <label>Category<select name="category"><option>Delivery</option><option>Equipment</option><option>Marketing</option><option>Kitchen</option><option>Software</option><option>Other</option></select></label>
+          <label>Category<select name="category"><option>Inventory purchase</option><option>Delivery</option><option>Equipment</option><option>Marketing</option><option>Kitchen</option><option>Software</option><option>Other</option></select></label>
           <label>Amount<input required type="number" min="0" step="0.01" name="amount"></label>
           <label class="wide">Notes<input name="notes" placeholder="What this expense covered"></label>
           <button class="btn primary" type="submit">Add expense</button>
@@ -122,7 +194,7 @@
       <div class="section-heading"><div><p class="eyebrow">DFW discovery</p><h2>Local partnership pipeline</h2></div><p>Independent gyms first, then MSAs and community program teams.</p></div>
       <div class="outreach-summary" id="outreachSummary"></div>
       <section class="panel no-pad">
-        <div class="table-wrap"><table class="outreach-table"><thead><tr><th>#</th><th>Target</th><th>Fit and pitch</th><th>Contact</th><th>Status</th><th>Follow-up notes</th><th>Draft</th></tr></thead><tbody id="outreachRows"></tbody></table></div>
+        <div class="table-wrap"><table class="outreach-table"><thead><tr><th>#</th><th>Target</th><th>Fit and pitch</th><th>Contact</th><th>Offer and code</th><th>Tasting</th><th>Status</th><th>Next action</th><th>Follow-up notes</th><th>Draft</th></tr></thead><tbody id="outreachRows"></tbody></table></div>
       </section>
       <div class="notice"><strong>Outreach rule:</strong> offer a tasting, sampling table, member challenge, or preorder pickup. Do not rely on passive flyer placement. Any creator receiving free meals or payment must clearly disclose the relationship.</div>
     </section>
@@ -144,7 +216,7 @@
         </div>
         <div class="import-row"><input type="file" id="tiktokFile" accept=".csv,text/csv"><button class="btn" id="importTikTokBtn">Import CSV fallback</button></div>
         <p class="helper">Only read-only campaign totals are stored locally. Tokens stay in Vercel and are never exposed to this browser.</p>
-        <div class="table-wrap"><table><thead><tr><th>Imported</th><th>File</th><th>Period</th><th>Spend</th><th>Impressions</th><th>Clicks</th><th>Conversions</th><th></th></tr></thead><tbody id="adImportRows"></tbody></table></div>
+        <div class="table-wrap"><table><thead><tr><th>Imported</th><th>Batch</th><th>File</th><th>Period</th><th>Spend</th><th>Impressions</th><th>Clicks</th><th>Conversions</th><th></th></tr></thead><tbody id="adImportRows"></tbody></table></div>
       </section>
     </section>
   </main>
@@ -158,9 +230,11 @@
     </form>
   </dialog>
 
-  <script src="/config/order-config.js?v=20260723.1"></script>
-  <script src="/api/_business-center-core.js?v=20260723.1"></script>
+  <script src="/phone-validation.js?v=20260812.1"></script>
+  <script src="/config/order-config.js?v=20260817.1"></script>
+  <script src="/operations/costing/current-menu-costs.js?v=20260812.1"></script>
+  <script src="/api/_business-center-core.js?v=20260804.1"></script>
   <script src="/operations/local-discovery-data.js?v=20260722.1"></script>
-  <script src="/operations/business-center-app.js?v=20260723.1"></script>
+  <script src="/operations/business-center-app.js?v=20260804.1"></script>
 </body>
 </html>

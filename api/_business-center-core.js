@@ -1,13 +1,15 @@
 (function businessCenterCore(root, factory) {
-  const api = factory();
+  const api = factory(root);
   if (typeof module === 'object' && module.exports) module.exports = api;
   else root.PRPDBusinessCore = api;
-}(typeof globalThis !== 'undefined' ? globalThis : this, function factory() {
+}(typeof globalThis !== 'undefined' ? globalThis : this, function factory(root) {
   const ORDER_HEADERS = [
     'Submitted At', 'Batch', 'Delivery Date', 'First Name', 'Last Name', 'Phone', 'Items', 'Exact Total',
-    'Total (Rounded)', 'Notes', 'Order ID', 'Email', 'Address', 'City', 'ZIP', 'Delivery Notes', 'Meal Subtotal',
+    'Total (Rounded)', 'Notes', 'Order ID', 'Email', 'Delivery Address', 'City', 'ZIP Code', 'Delivery Instructions', 'Meal Subtotal',
     'Delivery Fee', 'Discount Code', 'Discount Amount', 'Referral Partner', 'Menu Email Opt-In', 'UTM Source',
-    'UTM Medium', 'UTM Campaign', 'UTM Content', 'UTM Term', 'Landing Page', 'Referrer',
+    'UTM Medium', 'UTM Campaign', 'UTM Content', 'UTM Term', 'Landing Page', 'Referrer', 'State',
+    'Address Has Unit', 'Google Click ID', 'Google Click ID Type', 'Ad Match Type', 'Ad Device', 'Ad Network',
+    'Fulfillment Method',
   ];
   const PAYMENT_HEADERS = [
     'Batch', 'Delivery Date', 'Paid Date', 'Client', 'Tier', 'Standard Meals', 'Beef/Seafood #', 'Dessert #',
@@ -22,8 +24,17 @@
     'Client Account', 'Covered Batches', 'Amount Agreed', 'Amount Paid', 'Balance', 'Status', 'Last Updated', 'Notes',
   ];
   const DEFAULT_PROFILE_EXEMPT_CUSTOMERS = Object.freeze(['Talal Account', 'Duaa Hassan', 'Rida Khan']);
+  const PHONE_VALIDATION = (() => {
+    if (root?.PRPDPhoneValidation) return root.PRPDPhoneValidation;
+    if (typeof module === 'object' && module.exports) return require('../phone-validation');
+    return Object.freeze({
+      digits: value => String(value ?? '').replace(/\D/g, '').slice(-10),
+      isValid: value => /^\d{10}$/.test(String(value ?? '').replace(/\D/g, '').slice(-10)),
+      isLikelyNanp: value => /^[2-9]\d{2}[2-9]\d{6}$/.test(String(value ?? '').replace(/\D/g, '').slice(-10)),
+    });
+  })();
 
-  const DIRECT_COSTS = Object.freeze({
+  const HISTORICAL_DIRECT_COSTS = Object.freeze({
     'egg bites|lean': 2.50, 'egg bites|bulk': 3.16,
     'french toast|lean': 2.94, 'french toast|bulk': 3.55,
     'breakfast quesadilla|lean': 3.82, 'breakfast quesadilla|bulk': 4.49,
@@ -52,14 +63,23 @@
     'lotus biscoff cheesecake|single': 2.82,
     'banana cream pie cup|single': 2.14,
   });
-  const PROVISIONAL_COSTS = Object.freeze(new Set());
+  const CURRENT_COST_DATA = (() => {
+    if (root?.PRPDCurrentMenuCosts) return root.PRPDCurrentMenuCosts;
+    if (typeof module === 'object' && module.exports) return require('./_current-menu-costs-data.json');
+    return Object.freeze({ batchNumber: 0, directCosts: {}, provisionalCosts: [] });
+  })();
+  const CURRENT_BATCH_NUMBER = Number(CURRENT_COST_DATA.batchNumber) || 0;
+  const CURRENT_DIRECT_COSTS = Object.freeze({ ...(CURRENT_COST_DATA.directCosts || {}) });
+  const DIRECT_COSTS = Object.freeze({ ...HISTORICAL_DIRECT_COSTS, ...CURRENT_DIRECT_COSTS });
+  const CURRENT_PROVISIONAL_COSTS = Object.freeze(new Set(CURRENT_COST_DATA.provisionalCosts || []));
+  const PROVISIONAL_COSTS = CURRENT_PROVISIONAL_COSTS;
 
   function clean(value) { return String(value ?? '').trim().replace(/^'/, ''); }
   function number(value) {
     const parsed = Number(clean(value).replace(/[$,%\s]/g, '').replace(/,/g, ''));
     return Number.isFinite(parsed) ? parsed : 0;
   }
-  function phone(value) { return clean(value).replace(/\D/g, '').slice(-10); }
+  function phone(value) { return PHONE_VALIDATION.digits(value); }
   function customerName(order) {
     return `${clean(order['First Name'])} ${clean(order['Last Name'])}`.trim() || 'Unknown';
   }
@@ -115,25 +135,29 @@
     return clean(name).toLowerCase().replace(/\s+/g, ' ').replace(/&amp;/g, '&');
   }
 
-  function parseItemLines(items) {
+  function parseItemLines(items, options = {}) {
     return clean(items).split(/\r?\n/).map(line => line.trim()).filter(Boolean).flatMap((line) => {
       if (/^delivery\b/i.test(line)) return [];
       const match = line.match(/^(\d+)x\s+(.+?)(?:\s+\((Lean|Bulk|Single)\))?\s*(?:[-\u2013\u2014]\s*\$?[\d,.]+)?$/i);
       if (!match) return [{ quantity: 0, name: line, tier: '', cost: 0, known: false }];
       const quantity = Number(match[1]);
       const name = match[2].trim();
-      const tier = (match[3] || (/(cup|cheesecake|cream pie|mousse|tiramisu|cookie dough ball)/i.test(name) ? 'Single' : '')).trim();
-      const costKey = `${normalizeMealName(name)}|${tier.toLowerCase()}`;
-      const unitCost = DIRECT_COSTS[costKey];
+      const currentBatch = Number(options.batchNumber) === CURRENT_BATCH_NUMBER;
+      const costSource = currentBatch ? CURRENT_DIRECT_COSTS : HISTORICAL_DIRECT_COSTS;
+      let tier = (match[3] || (/(cup|cheesecake|cream pie|mousse|tiramisu|cookie dough ball)/i.test(name) ? 'Single' : '')).trim();
+      const normalizedName = normalizeMealName(name);
+      if (!tier && costSource[`${normalizedName}|single`] !== undefined) tier = 'Single';
+      const costKey = `${normalizedName}|${tier.toLowerCase()}`;
+      const unitCost = costSource[costKey];
       return [{
         quantity, name, tier, cost: unitCost ? quantity * unitCost : 0, known: Boolean(unitCost),
-        provisional: PROVISIONAL_COSTS.has(costKey),
+        provisional: currentBatch && CURRENT_PROVISIONAL_COSTS.has(costKey),
       }];
     });
   }
 
   function orderCost(order) {
-    const lines = parseItemLines(order.Items);
+    const lines = parseItemLines(order.Items, { batchNumber: batchNumber(order.Batch) });
     return {
       amount: Math.round(lines.reduce((sum, line) => sum + line.cost, 0) * 100) / 100,
       unknown: lines.filter(line => !line.known).map(line => line.name),
@@ -245,6 +269,99 @@
     return [...rows.values()].sort((a, b) => b.revenue - a.revenue);
   }
 
+  function referralProgramRows(model, codes = []) {
+    const paymentsByOrder = new Map(model.payments.map(payment => [clean(payment['Order ID']), payment]).filter(([id]) => id));
+    return (Array.isArray(codes) ? codes : []).map((code) => {
+      const normalizedCode = clean(code.code).toUpperCase();
+      const orders = model.orders.filter(order => clean(order['Discount Code']).toUpperCase() === normalizedCode);
+      const paidOrders = orders.filter((order) => {
+        const payment = paymentsByOrder.get(clean(order['Order ID']));
+        return payment && payment.due > 0 && payment.paid >= payment.due && payment.balance <= 0;
+      });
+      const qualifyingPaid = code.maxPaidReferrals > 0 ? Math.min(paidOrders.length, code.maxPaidReferrals) : paidOrders.length;
+      const earnedCredit = Math.round(qualifyingPaid * number(code.referrerCredit) * 100) / 100;
+      const creditUsed = Math.max(0, number(code.creditUsed));
+      return {
+        ...code,
+        redemptions: orders.length,
+        paidReferrals: paidOrders.length,
+        referredRevenue: orders.reduce((sum, order) => sum + order.revenue, 0),
+        discountCost: orders.reduce((sum, order) => sum + number(order['Discount Amount']), 0),
+        earnedCredit,
+        creditUsed,
+        availableCredit: Math.max(0, Math.round((earnedCredit - creditUsed) * 100) / 100),
+      };
+    }).sort((a, b) => b.paidReferrals - a.paidReferrals || b.referredRevenue - a.referredRevenue || clean(a.ownerName).localeCompare(clean(b.ownerName)));
+  }
+
+  function explicitEmailChoice(value) {
+    const choice = clean(value).toLowerCase();
+    if (/^(yes|true|1|opted in)$/.test(choice)) return true;
+    if (/^(no|false|0|opted out)$/.test(choice)) return false;
+    return null;
+  }
+
+  function lifecycleRows(model, options = {}) {
+    const currentBatch = Number(options.currentBatch) || model.batchIds[0] || 0;
+    const exemptions = Array.isArray(options.profileExemptCustomers) && options.profileExemptCustomers.length
+      ? options.profileExemptCustomers
+      : DEFAULT_PROFILE_EXEMPT_CUSTOMERS;
+    const customers = new Map();
+
+    model.orders.forEach((order) => {
+      const email = clean(order.Email).toLowerCase();
+      const customer = customerName(order);
+      if (!validEmail(email) || isProfileExempt(customer, exemptions)) return;
+      if (!customers.has(email)) {
+        customers.set(email, {
+          email, customer, firstName: clean(order['First Name']) || customer.split(' ')[0],
+          orderCount: 0, batches: new Set(), latestBatch: 0, latestSubmittedAt: '', emailChoice: null,
+        });
+      }
+      const row = customers.get(email);
+      row.orderCount += 1;
+      if (order.batchNumber) row.batches.add(order.batchNumber);
+      const submittedAt = parseDate(order['Submitted At']);
+      const latestSubmittedAt = parseDate(row.latestSubmittedAt);
+      if (order.batchNumber > row.latestBatch || (order.batchNumber === row.latestBatch && submittedAt >= latestSubmittedAt)) {
+        row.customer = customer;
+        row.firstName = clean(order['First Name']) || customer.split(' ')[0];
+        row.latestBatch = order.batchNumber;
+        row.latestSubmittedAt = clean(order['Submitted At']);
+      }
+      const emailChoice = explicitEmailChoice(order['Menu Email Opt-In']);
+      if (emailChoice !== null) row.emailChoice = emailChoice;
+    });
+
+    const priority = { 'Reorder due': 0, 'Win-back': 1, 'Current customer': 2, 'Do not email': 3 };
+    return [...customers.values()].map((row) => {
+      let segment = 'Win-back';
+      let recommendedAction = 'Send a short, personal menu update; stop if there is no interest.';
+      let draftType = 'win-back';
+      if (row.emailChoice === false) {
+        segment = 'Do not email';
+        recommendedAction = 'Respect the recorded opt-out. Use no marketing email.';
+        draftType = '';
+      } else if (row.latestBatch >= currentBatch) {
+        segment = 'Current customer';
+        recommendedAction = 'After delivery, ask for honest feedback and an optional public review.';
+        draftType = 'feedback';
+      } else if (row.latestBatch === currentBatch - 1) {
+        segment = 'Reorder due';
+        recommendedAction = 'Send one personal current-menu follow-up, then wait for a response.';
+        draftType = 'reorder';
+      }
+      return {
+        ...row,
+        batches: [...row.batches].sort((a, b) => b - a),
+        segment,
+        recommendedAction,
+        draftType,
+        emailStatus: row.emailChoice === true ? 'Opted in' : row.emailChoice === false ? 'Opted out' : 'No recorded choice',
+      };
+    }).sort((a, b) => priority[a.segment] - priority[b.segment] || b.latestBatch - a.latestBatch || a.customer.localeCompare(b.customer));
+  }
+
   function batchRows(model) {
     return model.batchIds.map((id) => {
       const scoped = filterBatch(model, id);
@@ -314,11 +431,11 @@
       const customer = customerName(order);
       if (isProfileExempt(customer, profileExemptCustomers)) return null;
       const missing = [
-        ['phone number', phone(order.Phone).length === 10],
+        ['phone number needs confirmation', PHONE_VALIDATION.isLikelyNanp(order.Phone)],
         ['valid email', validEmail(order.Email)],
-        ['street address', validStreetAddress(order.Address)],
+        ['street address', validStreetAddress(order['Delivery Address'])],
         ['city', validCity(order.City)],
-        ['5-digit ZIP', validZip(order.ZIP)],
+        ['5-digit ZIP', validZip(order['ZIP Code'])],
       ].filter(([, valid]) => !valid).map(([label]) => label);
       return { orderId: order['Order ID'], customer, missing };
     }).filter(order => order && order.missing.length);
@@ -451,10 +568,134 @@
     };
   }
 
+  function slug(value) {
+    return clean(value).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 80);
+  }
+
+  function menuItems(config) {
+    const menu = config?.menu || {};
+    const groups = [
+      ['Breakfast', menu.breakfasts], ['Main', menu.mains], ['Dessert', menu.desserts], ['Grab & Go', menu.addons],
+    ];
+    return groups.flatMap(([section, items]) => (Array.isArray(items) ? items : []).map(item => ({ ...item, section })));
+  }
+
+  function trackedMarketingUrl(baseUrl, values = {}) {
+    const url = new URL(baseUrl || 'https://getprpd.com/order');
+    const fields = {
+      utm_source: values.source,
+      utm_medium: values.medium,
+      utm_campaign: values.campaign,
+      utm_content: values.content,
+    };
+    Object.entries(fields).forEach(([key, value]) => {
+      const normalized = slug(value);
+      if (normalized) url.searchParams.set(key, normalized);
+    });
+    return url.toString();
+  }
+
+  function campaignAsset({ id, title, platform, format, publishWindow, hook, caption, shotList, source, medium, campaign }) {
+    return {
+      id, title, platform, format, publishWindow, hook, caption, shotList,
+      status: format === 'Short video' ? 'Needs footage' : 'Idea',
+      trackedUrl: trackedMarketingUrl('https://getprpd.com/order', { source, medium, campaign, content:id }),
+      postUrl: '', notes: '',
+      metrics: { views:0, clicks:0, leads:0, paidOrders:0, revenue:0, spend:0 },
+    };
+  }
+
+  function generateMarketingCampaign(config, options = {}) {
+    const items = menuItems(config);
+    if (!items.length) throw new Error('The active menu has no items.');
+    const featured = items.find(item => item.id === options.featuredMealId) || items.find(item => item.section === 'Main') || items[0];
+    const batch = Number(config?.batch?.number) || 0;
+    const campaign = `batch-${batch}-${slug(featured.name)}`;
+    const orderUrl = 'https://getprpd.com/order';
+    const menuCount = items.length;
+    const commonClose = `Order by ${config?.batch?.cutoffLabel || 'Wednesday evening'} at ${orderUrl}. DFW delivery only.`;
+    const assets = [
+      campaignAsset({
+        id:'menu-launch-reel', title:'Weekly menu launch reel', platform:'TikTok + Instagram Reels', format:'Short video', publishWindow:'Menu launch',
+        hook:`DFW meal prep for people who want high-protein food without eating the same bowl all week.`,
+        caption:`This week at PRPD: ${featured.name} plus ${menuCount - 1} more breakfast, main, dessert, and grab-and-go options. Every meal is prepared halal and delivered across DFW. ${commonClose}`,
+        shotList:[`Open on the finished ${featured.name}`, 'Show three contrasting menu items in quick succession', 'Capture one close-up cut, pull, or sauce shot', 'End on the packed weekly lineup and ordering deadline'],
+        source:'tiktok-instagram', medium:'organic-social', campaign,
+      }),
+      campaignAsset({
+        id:'menu-carousel', title:'Menu variety carousel', platform:'Instagram + Facebook', format:'Carousel', publishWindow:'Monday or Tuesday',
+        hook:`${menuCount} options, one order page, and portions built around your goals.`,
+        caption:`Swipe through this week's PRPD menu. Choose Lean or Bulk on full meals, then add breakfast, desserts, or Grab & Go items as needed. ${commonClose}`,
+        shotList:['Cover: strongest finished meal photo', 'One slide for breakfast', 'Two slides for contrasting mains', 'One dessert or Grab & Go slide', 'Final slide with cutoff and getprpd.com/order'],
+        source:'meta', medium:'organic-social', campaign,
+      }),
+      campaignAsset({
+        id:'deadline-reminder', title:'Cutoff reminder', platform:'Instagram Stories + Facebook Stories', format:'Story', publishWindow:'Wednesday afternoon',
+        hook:`Last call for this week's PRPD delivery.`,
+        caption:`Orders close ${config?.batch?.cutoffLabel || 'tonight'}. Build your week before the kitchen count locks. ${commonClose}`,
+        shotList:['Use a clean meal lineup or packing photo', 'Add the exact cutoff as large on-screen text', 'Use the tracked order link as the story link'],
+        source:'meta', medium:'organic-story', campaign,
+      }),
+      campaignAsset({
+        id:'customer-menu-email', title:'Customer menu email', platform:'Email', format:'Email', publishWindow:'Monday morning',
+        hook:`This week's PRPD menu is open`,
+        caption:`Hi {{first_name}},\n\nThis week's PRPD menu is open. ${featured.name} is one of ${menuCount} options available for DFW delivery. View the full menu and place your order here:\n\n${trackedMarketingUrl(orderUrl, { source:'resend', medium:'email', campaign, content:'customer-menu-email' })}\n\nOrders close ${config?.batch?.cutoffLabel || 'Wednesday evening'}.\n\nThank you,\nRida\nPRPD | Meals. Prepped.\n\nTo stop receiving menu emails, use the unsubscribe link below.`,
+        shotList:[], source:'resend', medium:'email', campaign,
+      }),
+      campaignAsset({
+        id:'creator-brief', title:'Creator tasting brief', platform:'Creator outreach', format:'Brief', publishWindow:'Before next menu launch',
+        hook:`A real DFW meal-prep tasting centered on taste, portions, and convenience.`,
+        caption:`Show the meals as they arrive, taste at least two contrasting dishes, and give an honest opinion on flavor, portion size, and who PRPD fits. Clearly disclose any free meals or payment. Do not make medical, weight-loss, or guaranteed-results claims. Use this tracked link: ${trackedMarketingUrl(orderUrl, { source:'creator', medium:'partner', campaign, content:'creator-brief' })}`,
+        shotList:['Sealed delivery and labels', 'Lean/Bulk portion context when available', 'Real first bite and honest reaction', 'Ordering page and weekly cutoff'],
+        source:'creator', medium:'partner', campaign,
+      }),
+    ];
+    return {
+      id:`batch-${batch}-${Date.now()}`, batchNumber:batch, name:`Batch ${batch} weekly campaign`,
+      featuredMealId:featured.id, featuredMeal:featured.name,
+      deliveryDate:clean(config?.batch?.deliveryDate), cutoffLabel:clean(config?.batch?.cutoffLabel),
+      generatedAt:new Date().toISOString(), assets,
+    };
+  }
+
+  function marketingSummary(campaign) {
+    const assets = campaign?.assets || [];
+    const totals = assets.reduce((sum, asset) => {
+      const metrics = asset.metrics || {};
+      return {
+        views:sum.views + number(metrics.views), clicks:sum.clicks + number(metrics.clicks),
+        leads:sum.leads + number(metrics.leads), paidOrders:sum.paidOrders + number(metrics.paidOrders),
+        revenue:sum.revenue + number(metrics.revenue), spend:sum.spend + number(metrics.spend),
+      };
+    }, { views:0, clicks:0, leads:0, paidOrders:0, revenue:0, spend:0 });
+    return {
+      ...totals,
+      posted:assets.filter(asset => asset.status === 'Posted').length,
+      ready:assets.filter(asset => asset.status === 'Approved').length,
+      clickRate:totals.views ? totals.clicks / totals.views : 0,
+      leadRate:totals.clicks ? totals.leads / totals.clicks : 0,
+      orderRate:totals.leads ? totals.paidOrders / totals.leads : 0,
+      roas:totals.spend ? totals.revenue / totals.spend : 0,
+    };
+  }
+
+  function marketingRecommendations(campaign) {
+    const assets = campaign?.assets || [];
+    const posted = assets.filter(asset => asset.status === 'Posted');
+    if (!campaign) return ['Generate the active weekly campaign pack.'];
+    if (!posted.length) return ['Approve the strongest asset, publish it, then record its URL and results before adding more campaigns.'];
+    const measured = posted.filter(asset => number(asset.metrics?.views) || number(asset.metrics?.clicks) || number(asset.metrics?.paidOrders));
+    if (!measured.length) return ['Add results to posted assets so the next weekly plan can use evidence instead of guesses.'];
+    const best = measured.slice().sort((a, b) => number(b.metrics?.paidOrders) - number(a.metrics?.paidOrders) || number(b.metrics?.clicks) - number(a.metrics?.clicks))[0];
+    return [`Repeat the structure of ${best.title}; it currently has the strongest recorded order and click signal.`, 'Change one variable at a time next week: hook, featured dish, or distribution channel.'];
+  }
+
   return {
-    ORDER_HEADERS, PAYMENT_HEADERS, LEAD_HEADERS, RECEIVABLE_HEADERS, DIRECT_COSTS, PROVISIONAL_COSTS, DEFAULT_PROFILE_EXEMPT_CUSTOMERS,
+    ORDER_HEADERS, PAYMENT_HEADERS, LEAD_HEADERS, RECEIVABLE_HEADERS, DIRECT_COSTS, HISTORICAL_DIRECT_COSTS,
+    CURRENT_DIRECT_COSTS, CURRENT_BATCH_NUMBER, CURRENT_PROVISIONAL_COSTS, PROVISIONAL_COSTS, DEFAULT_PROFILE_EXEMPT_CUSTOMERS,
     number, phone, batchNumber, normalizeOrders,
-    standardRows, parseItemLines, orderCost, summarize, filterBatch, financials, sourceRows, referralRows, batchRows,
+    standardRows, parseItemLines, orderCost, summarize, filterBatch, financials, sourceRows, referralRows, referralProgramRows, lifecycleRows, batchRows,
     customerRows, receivableRows, operatorBrief, parseCsv, importTikTokCsv,
+    menuItems, trackedMarketingUrl, generateMarketingCampaign, marketingSummary, marketingRecommendations,
   };
 }));

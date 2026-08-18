@@ -5,6 +5,7 @@ const crypto = require('node:crypto');
 const SCHEMA_VERSION = 1;
 const MAX_FIELDS = 1200;
 const MAX_VALUE_LENGTH = 4000;
+const MAX_LOCK_VALUE_LENGTH = 100000;
 const DATA_DIR = path.join(__dirname, 'private-data', 'cook-day-logs');
 
 function cleanText(value, maxLength = MAX_VALUE_LENGTH) {
@@ -22,7 +23,15 @@ function validateLog(input) {
   for (const [rawKey, rawValue] of entries) {
     const key = cleanText(rawKey, 240).trim();
     if (!key || !/^[a-z0-9:_|.-]+$/i.test(key)) throw new Error('Cook log contains an invalid field key.');
-    fields[key] = cleanText(rawValue);
+    fields[key] = cleanText(rawValue, key.startsWith('lock:') ? MAX_LOCK_VALUE_LENGTH : MAX_VALUE_LENGTH);
+  }
+  if (fields['lock:status'] === 'locked') {
+    try {
+      const orders = JSON.parse(fields['lock:orders-json'] || '[]');
+      if (!Array.isArray(orders) || orders.length === 0) throw new Error('empty');
+    } catch {
+      throw new Error('Locked cook log is missing a complete frozen order snapshot.');
+    }
   }
   return {
     schemaVersion: SCHEMA_VERSION,
@@ -66,4 +75,13 @@ function saveLog(input) {
   return log;
 }
 
-module.exports = { SCHEMA_VERSION, validateLog, loadLog, saveLog, fileForBatch };
+function preserveLockFields(existing, incoming) {
+  if (!existing?.fields || !incoming?.fields) return incoming;
+  const fields = Object.fromEntries(Object.entries(incoming.fields).filter(([key]) => !key.startsWith('lock:')));
+  for (const [key,value] of Object.entries(existing.fields)) {
+    if (key.startsWith('lock:')) fields[key] = value;
+  }
+  return { ...incoming, fields };
+}
+
+module.exports = { SCHEMA_VERSION, validateLog, loadLog, saveLog, preserveLockFields, fileForBatch };

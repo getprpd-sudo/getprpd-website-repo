@@ -39,9 +39,7 @@ class NextMenuNutritionTests(unittest.TestCase):
             for record in records:
                 powder_amounts += [portion.amount for portion in record.portions if portion.ingredient == "whey"]
         self.assertTrue(powder_amounts)
-        # Premier's physical scoop is 19.5g. French Toast retains its measured
-        # 8.7g four-slice custard unit, with Lean using 75% of that unit.
-        self.assertTrue(all(round(amount, 3) in {5, 6.525, 8.7, 9.75, 14.625, 15, 19.5} for amount in powder_amounts))
+        self.assertTrue(all(round(amount, 3) in {5, 5.833, 9.75, 14.625} for amount in powder_amounts))
 
     def test_target_ranges_are_flagged_only_where_expected(self):
         for meal in menu.MEALS:
@@ -51,18 +49,19 @@ class NextMenuNutritionTests(unittest.TestCase):
                 bulk = menu.total(meal.bulk)
                 self.assertLess(bulk.calories, 900, meal.name)
 
-    def test_batch_6_rotation_excludes_quarantined_dishes(self):
+    def test_batch_7_rotation_matches_the_approved_menu(self):
         names = {meal.name for meal in menu.MEALS}
-        self.assertTrue({"French Toast", "Breakfast Quesadilla", "PRPD Beef Bacon Breakfast Sandwich"}.issubset(names))
-        self.assertTrue({"Harissa Honey Chicken", "Mexican Streetcorn Chicken Bowl", "Garlic Butter Shrimp + Rice"}.issubset(names))
+        self.assertTrue({"Blueberry Cheesecake Protein Pancakes", "Power Bowl", "PRPD Beef Bacon Breakfast Sandwich"}.issubset(names))
+        self.assertTrue({"Cajun Garlic Salmon", "Southwest Beef Taco Bowl", "Chicken Caesar Crunch Box"}.issubset(names))
         self.assertNotIn("Korean Bulgogi Beef Bowl", names)
         self.assertFalse({
             "Cheeseburger Hot Pockets",
             "Strawberry Cheesecake",
+            "Loaded Beef Cottage Pie",
         }.intersection(names))
 
-    def test_sweet_heat_is_exactly_one_40g_cup_on_eligible_meals(self):
-        eligible = {"PRPD Beef Bacon Breakfast Sandwich", "Loaded Beef Cottage Pie"}
+    def test_sweet_heat_is_exactly_one_45g_cup_on_eligible_meals(self):
+        eligible = {"PRPD Beef Bacon Breakfast Sandwich", "Power Bowl"}
         for meal in menu.MEALS:
             for record in [meal.lean] + ([meal.bulk] if meal.bulk else []):
                 sweet_heat = [
@@ -78,8 +77,8 @@ class NextMenuNutritionTests(unittest.TestCase):
 
     def test_macro_drift_is_reconciled_to_calculator(self):
         expected = {
-            "Loaded Beef Cottage Pie": ((705, 56), (850, 71)),
-            "Mexican Streetcorn Chicken Bowl": ((595, 48), (790, 65)),
+            "Meatball Arrabbiata Pasta": ((640, 63), (775, 77)),
+            "Southwest Beef Taco Bowl": ((635, 50), (855, 67)),
         }
         for meal_name, (lean_expected, bulk_expected) in expected.items():
             meal = next(meal for meal in menu.MEALS if meal.name == meal_name)
@@ -118,6 +117,23 @@ class NextMenuNutritionTests(unittest.TestCase):
         self.assertEqual(2, tortillas[0].amount)
         self.assertEqual("each", tortillas[0].unit)
         self.assertEqual((325, 41, 29, 23, 13), menu.display(menu.total(wrap)))
+
+    def test_every_mashed_potato_build_uses_packaged_instant_flakes(self):
+        mashed_builds = {
+            "Loaded Beef Cottage Pie": [menu.cottage_pie("lean"), menu.cottage_pie("bulk")],
+            "Premium NY Strip Steak": [menu.ny_strip("lean"), menu.ny_strip("bulk")],
+        }
+        for meal_name, records in mashed_builds.items():
+            for record in records:
+                ingredients = {portion.ingredient for portion in record.portions}
+                self.assertIn("instant_potato_flakes", ingredients, meal_name)
+                self.assertNotIn("potato", ingredients, meal_name)
+
+    def test_cottage_pie_mash_contains_no_cottage_cheese(self):
+        for record in [menu.cottage_pie("lean"), menu.cottage_pie("bulk")]:
+            ingredients = {portion.ingredient for portion in record.portions}
+            self.assertNotIn("cottage", ingredients)
+            self.assertIn("mozzarella", ingredients)
 
 
 if __name__ == "__main__":

@@ -57,9 +57,24 @@ function preferenceStatus(value) {
   return ['unsubscribed', 'opted out', 'no'].includes(normalized) ? 'unsubscribed' : normalized;
 }
 
-function eligibleRecipients(orders, options = {}) {
+function holdApplies(hold, options = {}) {
+  if (!hold || typeof hold !== 'object') return false;
+  if (clean(hold.status).toLowerCase() !== 'active') return false;
+  if (Number(hold.batchNumber) !== Number(options.batchNumber)) return false;
+  const holdPhase = clean(hold.phase).toLowerCase() || 'all';
+  const phase = clean(options.phase).toLowerCase();
+  if (holdPhase !== 'all' && holdPhase !== phase) return false;
+  const expiresAt = clean(hold.expiresAt);
+  if (!expiresAt) return true;
+  const expiresMs = Date.parse(expiresAt);
+  const nowMs = options.now instanceof Date ? options.now.getTime() : Date.now();
+  return Number.isFinite(expiresMs) && expiresMs > nowMs;
+}
+
+function recipientDecisions(orders, options = {}) {
   const batchNumber = Number(options.batchNumber) || 0;
   const preferences = options.preferences instanceof Map ? options.preferences : new Map();
+  const holds = Array.isArray(options.holds) ? options.holds : [];
   const latestByEmail = new Map();
   const consentByEmail = new Map();
   const orderedCurrentBatch = new Set();
@@ -73,20 +88,35 @@ function eligibleRecipients(orders, options = {}) {
     if (Number(options.batchNumberFromOrder?.(order)) === batchNumber) orderedCurrentBatch.add(email);
   }
 
-  return Array.from(latestByEmail.entries()).flatMap(([email, order]) => {
-    const consent = consentByEmail.get(email);
-    // The order-form checkbox is an invitation to subscribe, not an unsubscribe
-    // control. A prior customer remains eligible unless they use the dedicated
-    // unsubscribe flow, which writes an Email Preferences record.
-    if (orderedCurrentBatch.has(email)) return [];
-    if (preferenceStatus(preferences.get(email)) === 'unsubscribed') return [];
-    return [{
+  return Array.from(latestByEmail.entries()).map(([email, order]) => {
+    const base = {
       email,
       firstName: clean(order['First Name']) || 'there',
       lastName: clean(order['Last Name']),
-      audienceReason: consent === true ? 'opted-in' : 'previous-customer',
-    }];
+      audienceReason: consentByEmail.get(email) === true ? 'opted-in' : 'previous-customer',
+    };
+    if (orderedCurrentBatch.has(email)) {
+      return { ...base, decision: 'suppressed', reason: 'current-batch-order' };
+    }
+    if (preferenceStatus(preferences.get(email)) === 'unsubscribed') {
+      return { ...base, decision: 'suppressed', reason: 'unsubscribed' };
+    }
+    const matchingHold = holds.find(hold => normalizeEmail(hold.email) === email && holdApplies(hold, {
+      batchNumber,
+      phase: options.phase,
+      now: options.now,
+    }));
+    if (matchingHold) {
+      return { ...base, decision: 'suppressed', reason: 'batch-hold' };
+    }
+    return { ...base, decision: 'eligible', reason: base.audienceReason };
   }).sort((left, right) => left.email.localeCompare(right.email));
+}
+
+function eligibleRecipients(orders, options = {}) {
+  return recipientDecisions(orders, options)
+    .filter(entry => entry.decision === 'eligible')
+    .map(({ decision, reason, ...recipient }) => recipient);
 }
 
 function escapeHtml(value) {
@@ -98,7 +128,7 @@ function escapeHtml(value) {
 function renderReminder(options) {
   const phase = PHASES[options.phase] || PHASES.tuesday;
   const firstName = clean(options.firstName) || 'there';
-  const cutoff = clean(options.cutoffLabel) || 'Wednesday at 5:00 PM CT';
+  const cutoff = clean(options.cutoffLabel) || 'Wednesday at 6:00 PM CT';
   const cutoffTime = cutoff.replace(/^Wednesday at\s+/i, '');
   const cutoffTimeShort = cutoffTime.replace(':00 ', ' ');
   const subject = phase.subject.replace('{cutoffTimeShort}', cutoffTimeShort);
@@ -120,8 +150,9 @@ function renderReminder(options) {
     `Browse this week's menu and place your order: ${menuUrl}`,
     '',
     'Saturday delivery across the DFW area.',
-    'Core North DFW: $60 minimum, $9.99 delivery, free at $100.',
-    'Fort Worth / extended DFW: $100 minimum, $14.99 delivery, free at $150.',
+    'Local delivery: $60 minimum, $9.99 delivery, free at $85.',
+    'Regional delivery: $80 minimum, $12.99 delivery, free at $125.',
+    'Extended delivery: $100 minimum, $14.99 delivery, free at $150.',
     '',
     'Promotional email from PRPD LLC.',
     audienceText,
@@ -140,8 +171,9 @@ function renderReminder(options) {
       <p style="margin:0 0 22px">${escapeHtml(intro)}</p>
       <p style="margin:0 0 24px"><a href="${escapeHtml(menuUrl)}" style="display:inline-block;background:#1f7a3f;color:#fff;text-decoration:none;padding:13px 19px;font-weight:700">${escapeHtml(phase.cta)}</a></p>
       <p style="margin:0">Saturday delivery across the DFW area.<br>
-      Core North DFW: $60 minimum, $9.99 delivery, free at $100.<br>
-      Fort Worth / extended DFW: $100 minimum, $14.99 delivery, free at $150.</p>
+      Local delivery: $60 minimum, $9.99 delivery, free at $85.<br>
+      Regional delivery: $80 minimum, $12.99 delivery, free at $125.<br>
+      Extended delivery: $100 minimum, $14.99 delivery, free at $150.</p>
       <hr style="border:0;border-top:1px solid #ded8cf;margin:26px 0 18px">
       <p style="font-size:12px;color:#667266;margin:0">Promotional email from PRPD LLC.<br>
       ${escapeHtml(audienceText)}
@@ -165,6 +197,7 @@ function renderOwnerReport(options) {
     })
     : ['- None'];
   const subject = `PRPD reminder report: ${recipients.length} sent (${phase})`;
+  const suppressionSummary = clean(options.suppressionSummary);
   const text = [
     `Automation: ${phase} weekly menu reminder`,
     `Batch: ${batchNumber}`,
@@ -176,6 +209,7 @@ function renderOwnerReport(options) {
     ...recipientLines,
     '',
     clean(options.note),
+    suppressionSummary ? `Suppressed: ${suppressionSummary}` : '',
     'Current-batch orderers, explicit opt-outs, unsubscribed contacts, and internal accounts are suppressed automatically.',
   ].filter(Boolean).join('\n');
   return { subject, text };
@@ -186,7 +220,9 @@ module.exports = {
   PHASES,
   consentValue,
   eligibleRecipients,
+  holdApplies,
   normalizeEmail,
+  recipientDecisions,
   renderOwnerReport,
   renderReminder,
 };

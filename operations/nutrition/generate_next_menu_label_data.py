@@ -1,4 +1,4 @@
-"""Generate the controlled Batch 6 label dataset."""
+"""Generate the controlled Batch 7 label dataset."""
 
 from __future__ import annotations
 
@@ -57,10 +57,17 @@ DISPLAY_INGREDIENTS = {
     "english_muffin": "English muffin",
     "beef_bacon": "halal beef breakfast slices",
     "tilapia_cooked": "tilapia",
+    "pink_salmon_raw": "wild-caught pink salmon",
+    "quinoa_dry": "quinoa",
+    "green_beans": "green beans",
+    "black_beans": "black beans",
+    "parmesan": "Parmesan cheese",
+    "croutons": "seasoned croutons",
     "mixed_vegetables": "mixed vegetables",
     "harissa": "harissa paste",
     "coriander": "ground coriander",
     "reduced_cream_cheese": "reduced-fat cream cheese",
+    "instant_potato_flakes": "dried potatoes (potatoes, mono- and diglycerides, sodium acid pyrophosphate, sodium bisulfite, citric acid)",
 }
 
 # Customer-facing ingredient names use common names. Exact brands remain in the
@@ -95,6 +102,9 @@ ALLERGENS = {
     "english_muffin": "wheat",
     "beef_bacon": "soy",
     "tilapia_cooked": "fish",
+    "pink_salmon_raw": "fish",
+    "parmesan": "milk",
+    "croutons": ("wheat",),
     "reduced_cream_cheese": "milk",
     "fajita_tortilla": "wheat",
 }
@@ -104,11 +114,12 @@ META = {
     "Beef Breakfast Skillet": ("Seasoned beef, potato, egg, vegetables, and fat-free cheese.", "A skillet without the skillet-sized cleanup.", "fridge"),
     "Power Bowl": ("Chicken, potato, eggs, and PRPD Sweet Heat sauce.", "The name is doing exactly what it says.", "fridge"),
     "French Toast": ("Protein French toast with fruit, whipped cream, and sugar-free maple syrup.", "Breakfast can still feel like breakfast.", "fridge"),
-    "Breakfast Quesadilla": ("Seasoned chicken, eggs, egg whites, cheese, yogurt, and salsa in high-fiber tortillas.", "A high-protein breakfast built to travel.", "fridge"),
+    "Breakfast Quesadilla": ("Seasoned chicken, a measured egg-and-egg-white base, and cheese in high-fiber tortillas.", "A high-protein breakfast built to travel.", "fridge"),
     "Strawberry Cheesecake Protein Pancakes": ("Protein pancakes with strawberry compote and cheesecake-yogurt topping.", "Pancakes dressed like cheesecake.", "fridge"),
-    "PRPD Beef Bacon Breakfast Sandwich": ("Beef bacon, a high-protein egg patty, cheese, and PRPD Sweet Heat sauce on an English muffin with breakfast potatoes.", "The breakfast sandwich cleaned up its macros.", "fridge"),
+    "Blueberry Cheesecake Protein Pancakes": ("Protein pancakes with blueberry compote, cheesecake-yogurt topping, and sugar-free maple syrup.", "Pancakes dressed like cheesecake.", "fridge"),
+    "PRPD Beef Bacon Breakfast Sandwich": ("Beef bacon, an egg-and-egg-white patty, cheese, and PRPD Sweet Heat sauce. Lean includes one sandwich with breakfast potatoes; Bulk includes two sandwiches with no potatoes.", "The breakfast sandwich cleaned up its macros.", "fridge"),
     "Grilled Cheese Breakfast Burrito": ("Seasoned beef, eggs, egg whites, cheese, and onion in grilled high-fiber tortillas.", "Breakfast wrapped and ready.", "fridge"),
-    "Loaded Beef Cottage Pie": ("Seasoned beef and vegetables under high-protein mashed potatoes and cheese, with PRPD Sweet Heat sauce.", "Comfort food with the numbers handled.", "freezer"),
+    "Loaded Beef Cottage Pie": ("Seasoned beef and vegetables under Betty Crocker mashed potatoes and mozzarella, with PRPD Sweet Heat sauce.", "Comfort food with the numbers handled.", "freezer"),
     "Hot Honey Chicken Sliders": ("Hot-honey chicken, cheese, house refrigerator pickles, and onion on soft bakery rolls.", "Sweet heat. Very little chance of leftovers.", "freezer"),
     "Loaded Buffalo Chicken Potato": ("Buffalo chicken over a loaded roasted potato with broccoli.", "Loaded potato, handled.", "freezer"),
     "Beef Seekh Kabab Shawarma": ("Seasoned beef seekh, fresh salad, house refrigerator pickles, and garlic yogurt sauce in shawarma bread.", "The wrap that eats like a full meal.", "fridge"),
@@ -116,24 +127,29 @@ META = {
     "Cheeseburger Hot Pockets": ("Handmade yogurt dough filled with seasoned beef and cheese.", "The drive-thru wishes it thought of this.", "freezer"),
     "Mexican Streetcorn Chicken Bowl": ("Chicken, basmati rice, and creamy Mexican street corn.", "Street corn brought chicken. We brought the container.", "freezer"),
     "Halal Cart Chicken + Yellow Rice": ("Seasoned halal chicken, yellow basmati rice, fresh vegetables, and house sauce.", "The cart classic, built for the week.", "freezer"),
-    "Blackened Tilapia with Garlic Potatoes": ("Blackened tilapia with roasted garlic potatoes, broccoli, and PRPD white sauce.", "Tilapia finally stopped playing it safe.", "fridge"),
+    "Lemon Pepper Tilapia with Garlic Potatoes": ("Lemon-pepper tilapia with roasted garlic potatoes, broccoli, and PRPD white sauce.", "Bright lemon, cracked pepper, and a full meal-prep build.", "fridge"),
     "Hot Honey Chicken Sliders": ("Hot-honey chicken, cheese, pickles, and onion on Sara Lee Artesano rolls.", "Sweet heat. Very little chance of leftovers.", "freezer"),
     "Chicken Biryani": ("Spiced halal chicken and fragrant basmati rice.", "The kind of comfort food that still tracks.", "freezer"),
+    "Butter Chicken": ("Broth-free butter chicken in a tomato, yogurt, garlic, and ginger sauce with basmati rice.", "Comfort food with the numbers handled.", "freezer"),
     "BBQ Chicken Mac & Cheese": ("BBQ chicken, high-protein mac and cheese, and fat-free mozzarella.", "Mac and cheese finally joined the program.", "freezer"),
     "Korean Bulgogi Beef Bowl": ("Marinated beef, rice, and stir-fried broccoli, peppers, and carrots.", "Sticky, savory, and worth every bite.", "freezer"),
-    "Garlic Butter Shrimp + Rice": ("Garlic-butter shrimp, basmati rice, edamame, zucchini, and lemon.", "A little fancy for a meal prep container.", "freezer"),
+    "Garlic Butter Shrimp + Rice": ("Garlic-butter shrimp, basmati rice, peas and carrots, zucchini, and lemon.", "A little fancy for a meal prep container.", "freezer"),
     "Premium NY Strip Steak": ("New York strip steak with creamy mashed potatoes, broccoli, and PRPD Sweet Heat sauce.", "Yes, meal prep can look like this.", "fridge"),
     "Sweet Chili Chicken with Vegetable Rice": ("Sweet-chili chicken with basmati vegetable rice.", "Sweet heat without the sugar crash.", "freezer"),
     "Meatball Arrabbiata Pasta": ("Beef meatballs and protein pasta in a slow-simmered arrabbiata sauce.", "A pasta night that still tracks.", "freezer"),
+    "Cajun Garlic Salmon": ("Cajun-garlic wild pink salmon with lemon-herb quinoa and roasted green beans.", "A seafood meal with sides that actually bring something new.", "fridge"),
+    "Southwest Beef Taco Bowl": ("Seasoned beef, cilantro-lime rice, black beans, corn and peppers, lettuce, cotija, and jalapeno-lime yogurt sauce.", "Taco night, bowl format, macros handled.", "fridge"),
     "Strawberry Cheesecake": ("Strawberry protein cheesecake with a ladyfinger crust.", "The dessert cup that started it all.", "fridge"),
     "Chocolate-Dipped Cookie Dough Balls": ("Three protein cookie-dough balls with a measured chocolate coating.", "No oven. No waiting. No judgment.", "fridge"),
     "Chocolate Oreo Mousse": ("Chocolate protein mousse finished with Oreo Thins.", "Dessert first? We support that decision.", "fridge"),
-    "Baked Strawberry-Lemon Protein Cheesecake Square": ("Baked strawberry-lemon protein cheesecake cut into one square.", "A real cheesecake square with the protein handled.", "fridge"),
+    "Baked Strawberry-Lemon Protein Cheesecake": ("Crustless baked strawberry-lemon protein cheesecake.", "Real baked cheesecake texture with the protein handled.", "fridge"),
     "Lotus Biscoff Cheesecake": ("Protein cheesecake with Biscoff cookie butter and a cookie crust.", "Biscoff made it. Your macros survived.", "fridge"),
     "Banana Cream Pie Cup": ("Banana protein cream with a Biscoff cookie finish.", "The banana had bigger plans.", "fridge"),
+    "High Protein Tiramisu": ("Chilled protein tiramisu with mascarpone cream and coffee-soaked ladyfingers.", "Coffee, cream, and a controlled protein build.", "fridge"),
     "PRPD Protein Box": ("Eggs, halal beef breakfast slices, cheese, fruit, cucumber, and house jalapeno-lemon yogurt dip.", "Protein, packed and ready.", "fridge"),
     "Mini Chicken Snack Wrap": ("Two high-fiber tortillas with seasoned chicken, cheese, fresh chopped salad, and house sauce.", "Two snack wraps. Full PRPD treatment.", "fridge"),
     "Strawberry Protein Overnight Oats": ("Strawberry protein overnight oats with Greek yogurt, chia, and honey.", "Twelve ounces of grab-and-go breakfast.", "fridge"),
+    "Chicken Caesar Crunch Box": ("Chilled chicken, crisp lettuce, cucumber, Parmesan, house yogurt-Caesar dressing, and croutons packed separately.", "A chilled lunch box that keeps the crunch separate.", "fridge"),
 }
 
 REHEAT = {
@@ -142,6 +158,7 @@ REHEAT = {
     "French Toast": "Remove syrup cup. Microwave 45-75 seconds, or until hot; add fruit, whipped cream, and syrup after heating.",
     "Breakfast Quesadilla": "Microwave 60-90 seconds, or air fry at 350 F for 3-5 minutes, until hot throughout.",
     "Strawberry Cheesecake Protein Pancakes": "Remove cold toppings. Microwave pancakes 45-75 seconds; add toppings after heating.",
+    "Blueberry Cheesecake Protein Pancakes": "Remove cold toppings and syrup. Microwave pancakes 45-75 seconds; add toppings after heating.",
     "PRPD Beef Bacon Breakfast Sandwich": "Microwave 45-60 seconds. For a toasted finish, air fry at 350 F for 3-5 minutes.",
     "Grilled Cheese Breakfast Burrito": "Microwave 60-90 seconds, or air fry at 350 F for 3-5 minutes, until hot throughout.",
     "Loaded Beef Cottage Pie": "Remove sauce cup. Vent lid and microwave 2-3 minutes, or until hot throughout. Rest 1 minute.",
@@ -154,21 +171,26 @@ REHEAT = {
     "BBQ Chicken Mac & Cheese": "Remove sauce cup. Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout.",
     "Mexican Streetcorn Chicken Bowl": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout.",
     "Halal Cart Chicken + Yellow Rice": "Remove cold vegetables and sauce. Microwave chicken and rice 1.5-2 minutes, then add cold toppings.",
-    "Blackened Tilapia with Garlic Potatoes": "Remove sauce cup. Microwave at 50% power for 1-2 minutes, or until hot, to avoid overcooking fish.",
+    "Lemon Pepper Tilapia with Garlic Potatoes": "Remove sauce cup. Microwave at 50% power for 1-2 minutes, or until hot, to avoid overcooking fish.",
     "Premium NY Strip Steak": "Remove sauce cup. Microwave at 50% power for 1-2 minutes, or until hot, to reduce overcooking.",
     "Cheeseburger Hot Pockets": "Air fry at 350 F for 5-7 minutes. Or microwave 45-75 seconds until hot throughout.",
     "Sweet Chili Chicken with Vegetable Rice": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout.",
     "Meatball Arrabbiata Pasta": "Vent lid and microwave 2-3 minutes, stirring halfway, until hot throughout.",
     "Chicken Biryani": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout.",
+    "Butter Chicken": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout.",
+    "Cajun Garlic Salmon": "Vent lid and microwave at 50% power for 1-2 minutes, or until hot, to avoid overcooking the salmon.",
+    "Southwest Beef Taco Bowl": "Remove lettuce and sauce cup. Vent lid and microwave the hot components 1.5-2.5 minutes, then add cold toppings.",
     "Chocolate-Dipped Cookie Dough Balls": "Serve chilled. Do not heat.",
     "Chocolate Oreo Mousse": "Serve chilled. Do not heat.",
-    "Baked Strawberry-Lemon Protein Cheesecake Square": "Serve chilled. Do not heat.",
+    "Baked Strawberry-Lemon Protein Cheesecake": "Serve chilled. Do not heat.",
     "Strawberry Cheesecake": "Serve chilled. Do not heat.",
     "Banana Cream Pie Cup": "Serve chilled. Do not heat.",
+    "High Protein Tiramisu": "Serve chilled. Do not heat.",
     "Lotus Biscoff Cheesecake": "Serve chilled. Do not heat.",
     "PRPD Protein Box": "Enjoy chilled. Do not heat the assembled box.",
     "Mini Chicken Snack Wrap": "Enjoy chilled, or microwave 30-45 seconds if preferred.",
     "Strawberry Protein Overnight Oats": "Enjoy chilled. Stir before eating. Do not heat the sealed cup.",
+    "Chicken Caesar Crunch Box": "Enjoy chilled. Add dressing and croutons immediately before eating. Do not heat the assembled box.",
 }
 
 
@@ -225,7 +247,7 @@ def load_order_config() -> dict:
     menu when Node or the active configuration cannot be loaded.
     """
     command = (
-        "const config=require('./operations/active/BATCH_6_DRAFT_ORDER_CONFIG.js');"
+        "const config=require('./operations/active/BATCH_7_DRAFT_ORDER_CONFIG.js');"
         "process.stdout.write(JSON.stringify(config));"
     )
     try:

@@ -19,7 +19,7 @@ function order(overrides = {}) {
   };
 }
 
-test('manual reminder campaign keys are strict and unavailable to cron or preview requests', () => {
+test('reminder campaign keys are strict and require request-level authorization', () => {
   assert.equal(ReminderHandler.manualCampaignKey({ query: { campaign: 'approved-menu' } }, true), 'approved-menu');
   assert.equal(ReminderHandler.manualCampaignKey({ query: { campaign: ' Approved-Menu ' } }, true), 'approved-menu');
   assert.equal(ReminderHandler.manualCampaignKey({ query: { campaign: 'approved menu' } }, true), null);
@@ -34,6 +34,46 @@ test('manual sends accept a dedicated token or an explicit campaign with the pro
   assert.equal(ReminderHandler.manualRequestAuthorized({ ...request, headers: { 'x-prpd-planner-key': 'planner' } }, options), true);
   assert.equal(ReminderHandler.manualRequestAuthorized({ query: {}, headers: { 'x-prpd-planner-key': 'planner' } }, options), false);
   assert.equal(ReminderHandler.manualRequestAuthorized({ ...request, headers: { 'x-prpd-planner-key': 'wrong' } }, options), false);
+});
+
+test('a successful phase cannot be sent twice on the same day through another campaign key', () => {
+  const row = [
+    'menu-reminder-b6-monday-approved-menu-2026-08-10',
+    '2026-08-11T00:00:26.916Z',
+    'Menu Reminder - monday',
+    'sent',
+  ];
+  assert.equal(ReminderHandler.matchesSuccessfulPhaseRun(row, {
+    batchNumber: 6,
+    phase: 'monday',
+    date: '2026-08-10',
+  }), true);
+  assert.equal(ReminderHandler.matchesSuccessfulPhaseRun(row, {
+    batchNumber: 6,
+    phase: 'tuesday',
+    date: '2026-08-10',
+  }), false);
+  assert.equal(ReminderHandler.matchesSuccessfulPhaseRun([...row.slice(0, 3), 'failed'], {
+    batchNumber: 6,
+    phase: 'monday',
+    date: '2026-08-10',
+  }), false);
+});
+
+test('rate-limited reminder work retries safely before succeeding', async () => {
+  let attempts = 0;
+  const result = await ReminderHandler.retryRateLimited(async () => {
+    attempts += 1;
+    if (attempts < 3) {
+      const error = new Error('rate limited');
+      error.status = 429;
+      throw error;
+    }
+    return 'ok';
+  }, { attempts: 3, baseDelayMs: 1 });
+
+  assert.equal(result, 'ok');
+  assert.equal(attempts, 3);
 });
 
 test('eligible recipients include prior customers and skip current-batch orderers', () => {
@@ -88,6 +128,72 @@ test('order-form No does not unsubscribe a prior customer; dedicated preference 
     lastName: 'Customer',
     audienceReason: 'previous-customer',
   }]);
+});
+
+test('batch holds suppress only the selected batch and phase, then expire automatically', () => {
+  const orders = [
+    order({ Email: 'held@example.com', 'First Name': 'Held' }),
+    order({ Email: 'open@example.com', 'First Name': 'Open' }),
+  ];
+  const holds = [{
+    email: 'held@example.com',
+    batchNumber: 6,
+    phase: 'all',
+    status: 'active',
+    expiresAt: '',
+  }];
+  const batch6 = ReminderCore.recipientDecisions(orders, {
+    batchNumber: 6,
+    batchNumberFromOrder: row => Number(row.Batch.replace(/\D/g, '')),
+    phase: 'wednesday',
+    holds,
+  });
+  assert.equal(batch6.find(entry => entry.email === 'held@example.com').reason, 'batch-hold');
+  assert.equal(batch6.find(entry => entry.email === 'open@example.com').decision, 'eligible');
+
+  const batch7 = ReminderCore.recipientDecisions(orders, {
+    batchNumber: 7,
+    batchNumberFromOrder: row => Number(row.Batch.replace(/\D/g, '')),
+    phase: 'wednesday',
+    holds,
+  });
+  assert.equal(batch7.find(entry => entry.email === 'held@example.com').decision, 'eligible');
+});
+
+test('phase-specific and dated holds fail open only when they no longer apply', () => {
+  const hold = {
+    email: 'held@example.com',
+    batchNumber: 6,
+    phase: 'tuesday',
+    status: 'active',
+    expiresAt: '2026-08-12T18:00:00-05:00',
+  };
+  assert.equal(ReminderCore.holdApplies(hold, {
+    batchNumber: 6,
+    phase: 'tuesday',
+    now: new Date('2026-08-12T12:00:00-05:00'),
+  }), true);
+  assert.equal(ReminderCore.holdApplies(hold, {
+    batchNumber: 6,
+    phase: 'wednesday',
+    now: new Date('2026-08-12T12:00:00-05:00'),
+  }), false);
+  assert.equal(ReminderCore.holdApplies(hold, {
+    batchNumber: 6,
+    phase: 'tuesday',
+    now: new Date('2026-08-12T19:00:00-05:00'),
+  }), false);
+});
+
+test('suppression summary is stable and contains no contact data', () => {
+  const summary = ReminderHandler.decisionSummary([
+    { email: 'one@example.com', decision: 'suppressed', reason: 'batch-hold' },
+    { email: 'two@example.com', decision: 'suppressed', reason: 'current-batch-order' },
+    { email: 'three@example.com', decision: 'suppressed', reason: 'batch-hold' },
+    { email: 'four@example.com', decision: 'eligible', reason: 'previous-customer' },
+  ]);
+  assert.equal(summary, 'batch-hold: 2, current-batch-order: 1');
+  assert.doesNotMatch(summary, /@/);
 });
 
 test('Talal, Duaa, and Rida profiles are not marketing recipients', () => {
@@ -202,10 +308,11 @@ test('reminder copy includes cutoff, ordering rules, address, and unsubscribe', 
     unsubscribeUrl: 'https://getprpd.com/api/menu-unsubscribe?token=test',
     postalAddress: '123 Business Rd, Frisco, TX 75035',
   });
-  assert.match(reminder.subject, /tomorrow at 5 PM/);
+  assert.match(reminder.subject, /tomorrow at 6 PM/);
   assert.match(reminder.text, /\$60 minimum/);
-  assert.match(reminder.text, /Core North DFW: \$60 minimum, \$9\.99 delivery, free at \$100/);
-  assert.match(reminder.text, /Fort Worth \/ extended DFW: \$100 minimum, \$14\.99 delivery, free at \$150/);
+    assert.match(reminder.text, /Local delivery: \$60 minimum, \$9\.99 delivery, free at \$85/);
+    assert.match(reminder.text, /Regional delivery: \$80 minimum, \$12\.99 delivery, free at \$125/);
+    assert.match(reminder.text, /Extended delivery: \$100 minimum, \$14\.99 delivery, free at \$150/);
   assert.match(reminder.text, /Unsubscribe/);
   assert.match(reminder.text, /123 Business Rd/);
   assert.match(reminder.text, /Promotional email/);

@@ -2,10 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/images/favicon-512.png" />
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <meta name="theme-color" content="#1E2E1E" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PRPD | DFW Halal High Protein Meal Prep</title>
   <meta name="description" content="PRPD is a DFW halal meal prep company delivering fresh, high-protein custom meals built around your macros, goals, and schedule." />
@@ -27,8 +30,11 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
   <script src="/analytics.js" defer></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18371492048"></script>
+  <script src="/google-ads.js" defer></script>
+  <script src="/funnel-tracking.js" defer></script>
 </head>
-<body>
+<body data-funnel-stage="homepage">
 
   <!-- ════════════════════════════════
        SERVICE AREA BANNER
@@ -76,7 +82,7 @@
         <a href="#intake-form" class="btn btn--outline">Build a Custom Plan</a>
       </div>
 
-      <p class="hero__schedule"><strong id="heroCutoff">Wednesday at 8:00 PM CT cutoff</strong><span>Saturday delivery</span><span>DFW only</span></p>
+      <p class="hero__schedule"><strong>Fresh menu every Monday</strong><span id="heroCutoff">Wednesday at 6:00 PM CT cutoff</span><span>Saturday delivery</span><span>Free Frisco pickup</span></p>
 
       <div class="hero__stats">
         <div class="hero__stat">
@@ -185,13 +191,13 @@
       <div class="weekly-order__copy">
         <div class="section-label">This Week at PRPD</div>
         <h2 id="weeklyOrderTitle">Your meals, your portions,<br/>one simple weekly order.</h2>
-        <p>Browse the live menu, choose Lean or Bulk for each dish, and submit everything online. Rida reviews every order personally before delivery.</p>
+        <p>A fresh menu opens every Monday. Browse the live dishes, choose Lean or Bulk for each meal, select DFW delivery or free Frisco pickup, and submit everything online before Wednesday at 6:00 PM CT.</p>
       </div>
       <div class="weekly-order__details" aria-label="Weekly order details">
-        <div><span>Order cutoff</span><strong id="weeklyCutoff">Wednesday at 8:00 PM CT</strong></div>
+        <div><span>Order cutoff</span><strong id="weeklyCutoff">Wednesday at 6:00 PM CT</strong></div>
         <div><span>Delivery</span><strong id="weeklyDelivery">Saturday in DFW</strong></div>
-        <div><span>Minimum</span><strong>$60 order</strong></div>
-        <div><span>Delivery fee</span><strong>$6.99 · Free over $75</strong></div>
+        <div><span>Order minimum</span><strong>Starts at $60 by delivery area</strong></div>
+        <div><span>ZIP-based delivery</span><strong>$9.99 local · $12.99 regional · $14.99 extended</strong></div>
       </div>
       <a href="/order" class="btn btn--cream weekly-order__cta">View This Week's Menu →</a>
     </div>
@@ -354,7 +360,7 @@
             <div class="step__num">03</div>
             <div class="step__body">
               <h3>Rida confirms, then we cook</h3>
-              <p>You receive an email copy immediately. Rida confirms payment and Saturday delivery personally.</p>
+              <p>You receive an email copy with Zelle instructions for payments@getprpd.com. Rida personally confirms payment and your delivery or Frisco pickup details.</p>
             </div>
           </div>
 
@@ -563,7 +569,7 @@
         <div class="form-success" id="formSuccess" hidden>
           <div class="form-success__icon">✦</div>
           <h3>You're all set.</h3>
-          <p>Rida will personally text or call you in the next few minutes. Keep your phone close. We can't wait to build your plan.</p>
+          <p>Rida will personally text you in the next few minutes. Keep your phone close. We can't wait to build your plan.</p>
           <a href="/order" class="btn btn--cream form-success__menu">Browse This Week's Menu →</a>
           <p class="form-success__sub">In the meantime, you can follow along with what we’re cooking and building here:</p>
           <div class="form-success__socials">
@@ -632,6 +638,7 @@
     </div>
   </footer>
 
+  <script src="/phone-validation.js"></script>
   <script src="/config/order-config.js"></script>
   <script src="script.js"></script>
 </body>

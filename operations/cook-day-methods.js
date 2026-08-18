@@ -22,6 +22,7 @@
     proteinCook: options.proteinCook || null,
     piecePlan: options.piecePlan || null,
     riceBatchGroup: options.riceBatchGroup || 'common',
+    assemblyGuide: options.assemblyGuide || null,
   });
 
   const prep = (type, name, instruction, ingredientKeys, steps = [], options = {}) => ({
@@ -34,9 +35,24 @@
   });
 
   const data = {
-    version: '2026-08-10.1',
+    version: '2026-08-14.2',
     batch: 6,
     labelExemptCustomers: ['Talal', 'Duaa', 'Rida'],
+    // Named family allocations appear only in plating so these unlabeled
+    // containers are separated from ordinary customer production immediately.
+    familyPlatingReservations: [
+      { customer: 'Duaa', dishId: 'b1', tier: 'lean', qty: 2 },
+      { customer: 'Duaa', dishId: 'm1', tier: 'lean', qty: 1 },
+      { customer: 'Duaa', dishId: 'm2', tier: 'lean', qty: 2 },
+      { customer: 'Talal', dishId: 'b1', tier: 'bulk', qty: 2 },
+      { customer: 'Talal', dishId: 'm1', tier: 'bulk', qty: 3 },
+      { customer: 'Talal', dishId: 'm2', tier: 'bulk', qty: 1 },
+      { customer: 'Talal', dishId: 'm8', tier: 'bulk', qty: 1 },
+      { customer: 'Talal', dishId: 'p1', tier: 'bulk', qty: 2 },
+    ],
+    // Batch 6 operational variance: no refrigerator-pickle batch was made.
+    // The controlled nutrition source remains historical recipe evidence, while the
+    // current planner and grocery build omit the component without inventing a substitute.
     groceryAdjustments: [],
     rawProteinReserveByDish: { m7: 12 },
     sharedProteinSeasoning: [{
@@ -63,7 +79,7 @@
     }],
     weeklySauces: {
       enabled: true,
-      policy: 'Batch 6 provides one provisional 40g net PRPD Sweet Heat cup only with Power Bowl, Loaded Beef Cottage Pie, and Premium NY Strip Steak. White sauce, syrup, salsa, and incorporated sauces remain recipe-specific.',
+      policy: 'Superseded unpublished candidate. The owner-approved Batch 6 sauce policy is assigned in the approved-menu override below.',
       cupSizeOz: 2,
       eligibleMealIds: ['b2', 'm1', 'm5'],
       customerCupsTotal: 0,
@@ -192,13 +208,12 @@
       'Use the released Breakfast Quesadilla chicken from the all-protein block.',
       'Retrieve the Prep Day egg mixture and verify its finished yield.',
       'Assemble with measured cheese and yogurt, griddle until the tortilla is crisp and filling hot.',
-      'Pack one measured 30g salsa cup per meal.',
+      'Do not pack salsa; the yogurt remains incorporated in the filling.',
     ],
-    'Use exact tier-specific chicken, tortilla, egg, egg-white, cheese, yogurt, and salsa quantities.',
+    'Use exact tier-specific chicken, tortilla, egg, egg-white, cheese, and yogurt quantities.',
     'Cool on racks before sealing.',
     {
-      sideCups: 1,
-      sideCup: { name: 'Salsa', gramsPerMeal: 30, instruction: 'Fill one measured 30g salsa cup per Breakfast Quesadilla meal; yogurt remains incorporated.' },
+      sideCups: 0,
       proteinCook: {
         group: 'chicken',
         sequence: 20,
@@ -224,12 +239,12 @@
     5,
     50,
     ['beef skillet', 'stockpot', 'sheet pans', 'oven'],
-    'Prep Day: make and cool high-protein mash. Cook Day: beef filling to 160 F; bake assembled pie until hot.',
+    'Prep Day: make and cool Betty Crocker instant mash. Cook Day: beef filling to 160 F; bake assembled pie until hot.',
     [
       'Use the released Cottage Pie beef filling from the protein block.',
-      'Retrieve the measured Prep Day potato-cottage-cheese mash.',
+      'Retrieve the measured Prep Day Betty Crocker instant mash; Cottage Pie mash contains no cottage cheese.',
       'Build each container with measured filling, mash, and mozzarella; bake until hot and lightly browned.',
-      'Pack one sealed 40g net Sweet Heat cup per meal.',
+      'Pack one sealed 45g net Sweet Heat cup per meal.',
     ],
     'Use the exact tier recipe; do not substitute unmeasured prepared mash.',
     'Freezer-friendly; rapid-cool after baking.',
@@ -244,10 +259,10 @@
         recipeSteps: ['Brown the complete beef allocation to 160 F and drain excess rendered fat.', 'Add onion, peas and carrots, tomato paste, oil, and salt; cook until cohesive and excess moisture is gone. Do not add broth.', 'Record finished filling weight and move to the labeled pan.'],
         instructions: ['Cook the complete Cottage Pie filling during the continuous protein block.', 'Record raw beef, endpoint, finished filling yield, and destination pan.'],
       },
-      prepSteps: ['Weigh the raw beef kit.', 'Make the exact potato, cottage-cheese, and mozzarella topping on Prep Day.'],
+      prepSteps: ['Weigh the raw beef kit.', 'Prepare Betty Crocker unflavored instant mash to the package ratio and stage the mozzarella topping on Prep Day. Cottage cheese is not part of the Cottage Pie recipe.'],
       prepBatches: [
         prep('protein-portion', 'Raw Cottage Pie beef pull', 'Weigh the complete raw beef pull and keep reserve separate.', ['beef_90_raw'], ['Cover, label, date, refrigerate, and cook to 160 F on Cook Day.']),
-        prep('starch-ahead', 'Cottage Pie high-protein mash', 'Make the exact recipe-card mash.', ['potato', 'cottage'], ['Cook potatoes until tender.', 'Mash with the measured cottage cheese.', 'Record finished yield, rapid-cool, label, date, and refrigerate.'], { prepWave: 'mash', prepWaveName: 'High-protein mashed potato wave' }),
+        prep('starch-ahead', 'Cottage Pie instant mash', 'Prepare the exact recipe-card amount of Betty Crocker unflavored instant mash.', ['instant_potato_flakes', 'water', 'fairlife_milk', 'butter', 'salt'], ['Follow the controlled package ratio; do not use fresh potatoes or cottage cheese for this mash.', 'Record finished yield, rapid-cool, label, date, and refrigerate.'], { prepWave: 'instant-mash', prepWaveName: 'Packaged instant mashed-potato wave' }),
         prep('mix', 'Cottage Pie vegetable kit', 'Stage the vegetable finish separately from raw beef.', ['mixed_vegetables', 'onion', 'tomato_paste'], ['Keep frozen vegetables frozen.', 'Cover diced onion and tomato paste as a labeled finish kit.']),
       ],
     },
@@ -374,7 +389,7 @@
       prepSteps: ['Portion steaks by tier.', 'Make exact mash and broccoli allocations on Prep Day.'],
       prepBatches: [
         prep('protein-portion', 'Tiered steak trays', 'Weigh every Lean and Bulk steak.', ['ny_strip_raw'], ['Cover, label, date, and refrigerate.']),
-        prep('starch-ahead', 'Steak high-protein mash', 'Make the exact recipe-card mash.', ['potato', 'fairlife_milk', 'fage', 'butter', 'garlic'], ['Cook potatoes until tender.', 'Mash with measured dairy, butter, and garlic.', 'Record yield, rapid-cool, label, date, and refrigerate.'], { prepWave: 'mash', prepWaveName: 'High-protein mashed potato wave' }),
+        prep('starch-ahead', 'Steak instant mash', 'Prepare the exact recipe-card amount of Betty Crocker unflavored instant mash.', ['instant_potato_flakes', 'water', 'fairlife_milk', 'butter', 'salt', 'garlic'], ['Follow the controlled package ratio; do not use fresh potatoes for this mash.', 'Fold in the measured garlic.', 'Record yield, rapid-cool, label, date, and refrigerate.'], { prepWave: 'instant-mash', prepWaveName: 'Packaged instant mashed-potato wave' }),
         prep('vegetable-ahead', 'Steak broccoli', 'Cook the exact broccoli allocation.', ['broccoli'], ['Cook until just tender.', 'Record yield, rapid-cool, label, date, and refrigerate.'], { prepWave: 'broccoli', prepWaveName: 'Broccoli wave' }),
       ],
     },
@@ -572,12 +587,14 @@
     enabled: true,
     policy: 'Batch 6 provides one 45g net PRPD Sweet Heat cup only with the Beef Bacon Breakfast Sandwich and Loaded Beef Cottage Pie.',
     cupSizeOz: 2,
-    eligibleMealIds: ['b1', 'm1'],
+    eligibleMealIds: ['b1', 'm1', 'p1'],
     customerCupsTotal: 0,
     kitchenUseCupsPerSauce: 0,
     qcCupsPerSauce: 1,
     sauces: [{
       name: 'PRPD Sweet Heat Sauce',
+      batchGroup: 'prpd-sweet-heat',
+      ingredientsIncludedInRecipes: true,
       estimatedCaloriesPerCup: 87,
       provisional: false,
       netGramsPerCup: 45,
@@ -620,24 +637,39 @@
   data.meals = {};
   data.meals.b1 = proteinMethod(
     'Beef Bacon Breakfast Sandwich components', 'beef', 10,
-    ['beef_bacon', 'egg', 'egg_white', 'cottage', 'mozzarella', 'english_muffin', 'potato'],
+    ['beef_bacon'],
     ['sheet pan', 'egg pan', 'toaster or air fryer'],
-    ['Cook beef bacon according to the purchased package and record the finished count.', 'Cook the measured egg-patty batch until fully set.', 'Toast muffins, assemble sandwiches, and pack potatoes plus one 45g Sweet Heat cup.'],
-    'Lean receives one sandwich and 150g potatoes; Bulk receives two sandwiches and 80g potatoes.',
+    ['Cook beef bacon according to the purchased package and record the finished count.', 'Retrieve the cooked Prep Day egg patties and the Lean-only roasted potatoes; reheat only as needed.', 'Toast muffins and assemble the exact sandwich count. Pack 150g potatoes with Lean only; Bulk receives two sandwiches and no potatoes. Add one 45g Sweet Heat cup to either tier.'],
+    'Lean receives one sandwich and 150g potatoes; Bulk receives two complete sandwiches and no potatoes.',
     'Rapid-cool and refrigerate.',
-    { sideCups: 1, sideCup: { name: 'PRPD Sweet Heat Sauce', batchGroup: 'prpd-sweet-heat', gramsPerMeal: 45, instruction: 'Pack one 45g net cup per sandwich meal.' }, endpoint: 'Follow package; eggs fully set', prepSteps: ['Mix the full egg-patty base and stage exact sandwich components on Prep Day.'] },
+    { sideCups: 1, sideCup: { name: 'PRPD Sweet Heat Sauce', batchGroup: 'prpd-sweet-heat', gramsPerMeal: 45, instruction: 'Pack one 45g net cup per sandwich meal.' }, endpoint: 'Follow the purchased beef-bacon package', prepSteps: ['Cook one egg patty per physical sandwich using one whole egg, 75g liquid egg whites, and 28g mozzarella per patty; do not add cottage cheese.', 'Include only the Lean breakfast-sandwich potatoes in the shared roasted-potato batch.'], prepBatches: [prep('cook-ahead', 'Breakfast sandwich egg patties', 'Cook one measured patty per physical sandwich: one whole egg, 75g liquid egg whites, and 28g mozzarella. Cottage cheese is not used.', ['egg', 'egg_white', 'mozzarella', 'avocado_oil'], ['Keep the egg count and liquid egg-white grams visible.', 'Cook until fully set.', 'Record finished weight and physical patty count.', 'Rapid-cool, label, and refrigerate.'], { prepWave: 'eggs', prepWaveName: 'Cooked breakfast egg wave' }), prep('starch-ahead', 'Lean breakfast-sandwich potato allocation', 'Include only the Lean allocation in the one shared fresh-potato cook; Bulk gets no potatoes.', ['potato', 'avocado_oil', 'salt'], ['Cook all fresh potato allocations together.', 'Record the combined finished yield, rapid-cool, then divide on Cook Day by the recipe portions.'], { prepWave: 'roasted-potatoes', prepWaveName: 'One fresh roasted-potato cook' })] },
   );
   data.meals.b2 = meal(4, 20, ['griddle', 'sheet pan'], 'Cook custard-soaked bread until the egg mixture is fully set.', ['Cook the complete French Toast batch.', 'Cool, portion fruit and whipped topping, and pack one measured syrup cup.'], 'Lean receives three slices; Bulk receives four.', 'Refrigerate promptly.', { sideCups: 1, sideCup: { name: 'Sugar-free maple syrup', batchGroup: 'french-toast-syrup', gramsPerMeal: 30, instruction: 'Pack one 30g cup per order.' }, prepSteps: ['Cook French Toast and stage toppings on Prep Day.'], prepBatches: [prep('cook-ahead', 'French Toast wave', 'Cook all ordered French Toast.', ['bread_slice', 'egg', 'egg_white', 'cottage', 'fairlife_milk', 'whey', 'brown_sugar', 'vanilla', 'cinnamon', 'avocado_oil'], ['Cook until set, record slice count, rapid-cool, and refrigerate.'])] });
-  data.meals.b3 = proteinMethod('Breakfast Quesadilla chicken', 'chicken', 20, ['chicken_thigh_raw', 'egg', 'egg_white', 'mozzarella', 'small_tortilla', 'large_tortilla'], ['chicken skillet', 'egg pan', 'griddle'], ['Cook and release the labeled chicken pull.', 'Cook the egg mixture, assemble exact-tier quesadillas, dry-grill, and pack one salsa cup.'], 'Use exact Lean/Bulk tortilla, chicken, egg, and cheese builds.', 'Rapid-cool and refrigerate.', { sideCups: 1, sideCup: { name: 'Salsa', batchGroup: 'quesadilla-salsa', gramsPerMeal: 30, instruction: 'Pack one 30g cup per order.' }, prepSteps: ['Stage tortillas, cheese, egg mixture, yogurt, and salsa on Prep Day.'] });
-  data.meals.b4 = proteinMethod('Breakfast Burrito beef filling', 'beef', 30, ['beef_90_raw', 'onion', 'tomato_paste', 'egg', 'egg_white', 'mozzarella'], ['beef skillet', 'egg pan', 'griddle'], ['Cook beef and onion to 160 F, drain, and cook the filling dry.', 'Cook eggs, assemble the broth-free burritos, and dry-grill.'], 'Lean uses the controlled small-tortilla build; Bulk uses the large-tortilla build.', 'Rapid-cool and refrigerate.', { prepSteps: ['Stage tortillas, egg mixture, and cheese on Prep Day.'] });
-  data.meals.m1 = proteinMethod('Loaded Beef Cottage Pie filling', 'beef', 40, ['beef_90_raw', 'mixed_vegetables', 'onion', 'tomato_paste'], ['beef skillet', 'mash station', 'oven'], ['Cook beef to 160 F, drain, and finish the filling without broth.', 'Layer with measured high-protein mash and cheese, bake until hot, and pack one 45g Sweet Heat cup.'], 'Plate exact Lean/Bulk filling, mash, and cheese weights.', 'Rapid-cool and refrigerate.', { sideCups: 1, sideCup: { name: 'PRPD Sweet Heat Sauce', batchGroup: 'prpd-sweet-heat', gramsPerMeal: 45, instruction: 'Pack one 45g net cup per Cottage Pie.' }, prepSteps: ['Prepare mashed potato, vegetables, and cheese on Prep Day.'], prepBatches: [prep('starch-ahead', 'Cottage Pie mash', 'Cook one measured potato batch and blend with cottage cheese.', ['potato', 'cottage'], ['Record raw potato and finished mash weights.', 'Rapid-cool and refrigerate.'])] });
-  data.meals.m2 = proteinMethod('Hot Honey Slider chicken', 'chicken', 50, ['chicken_thigh_raw', 'light_mayo', 'sriracha', 'honey', 'hot_sauce'], ['chicken skillet or oven', 'slider assembly station'], ['Cook and record the labeled chicken pull.', 'Add the measured hot-honey finish, assemble the exact slider count with cheese, onion, and drained house pickles.'], 'Lean receives three sliders; Bulk receives four.', 'Rapid-cool and refrigerate.', { prepSteps: ['Make and drain the house refrigerator pickles at least one day ahead.', 'Stage rolls, cheese, onion, and measured finish.'], prepBatches: [prep('cold-prep', 'House refrigerator pickles', 'Make one vinegar-controlled batch and drain the exact recipe quantity before assembly.', ['pickles'], ['Prepare, chill, drain, weigh, and label.'])] });
-  data.meals.m3 = proteinMethod('Loaded Buffalo chicken', 'chicken', 60, ['chicken_thigh_raw', 'buffalo_sauce'], ['chicken skillet or oven', 'potato oven'], ['Cook and record the labeled chicken pull before adding buffalo sauce.', 'Bake potatoes and broccoli, add measured buffalo chicken, and portion by tier.'], 'Use 300g potato and 80g broccoli per meal with tier-specific chicken.', 'Rapid-cool and refrigerate.', { prepSteps: ['Cook the complete potato and broccoli batches on Prep Day.'], prepBatches: [prep('starch-ahead', 'Loaded potato batch', 'Cook the exact total potato requirement.', ['potato'], ['Record raw and finished weights; rapid-cool.']), prep('vegetable-ahead', 'Broccoli batch', 'Cook the exact broccoli requirement.', ['broccoli'], ['Record finished yield; rapid-cool.'])] });
-  data.meals.m4 = proteinMethod('Beef Seekh Kabab', 'beef', 70, ['beef_90_raw', 'onion', 'garlic', 'paprika', 'cumin', 'chili_powder'], ['beef skillet or oven', 'wrap station'], ['Cook the shaped seekh beef to 160 F and record yield.', 'Build shawarma with lettuce, onion, sauce, and drained house refrigerator pickles.'], 'Lean uses one bread; Bulk uses one and one-half breads with its exact beef allocation.', 'Use earlier in the week; refrigerate promptly.', { prepSteps: ['Form seekh mixture, make white garlic yogurt sauce, and make house refrigerator pickles on Prep Day.'], sideBags: 1, prepBatches: [prep('cold-prep', 'Shawarma pickles and salad', 'Prepare and drain the exact pickle quantity; wash and dry salad produce.', ['pickles', 'lettuce', 'onion'], ['Drain, weigh, label, and refrigerate.'])] });
-  data.meals.m5 = proteinMethod('Harissa Honey chicken', 'chicken', 80, ['chicken_thigh_raw', 'harissa', 'honey', 'tomato_paste', 'lemon', 'garlic', 'avocado_oil', 'paprika', 'coriander'], ['chicken skillet or oven', 'rice cooker', 'broccoli oven'], ['Cook and record the labeled chicken pull.', 'Add only the measured harissa-honey finish, then plate with common rice and roasted broccoli.'], 'Use exact tier-specific chicken, dry-rice, and broccoli quantities.', 'Rapid-cool and refrigerate.', { riceBatchGroup: 'common', prepSteps: ['Mix glaze, cook common rice, and roast broccoli on Prep Day.'], prepBatches: [prep('starch-ahead', 'Common basmati rice allocation', 'Cook the exact Harissa rice allocation in the common rice wave.', ['rice_dry'], ['Record dry and cooked weights; rapid-cool.'], { prepWave: 'rice', prepWaveName: 'Common basmati rice wave' }), prep('sauce', 'Harissa-honey glaze', 'Mix the exact glaze without raw-chicken contact.', ['harissa', 'honey', 'tomato_paste', 'lemon', 'garlic', 'avocado_oil', 'paprika', 'coriander'], ['Record starting and finished weight; refrigerate.'])] });
-  data.meals.m6 = proteinMethod('Mexican Streetcorn chicken', 'chicken', 90, ['chicken_thigh_raw', 'salt'], ['chicken skillet or oven', 'rice cooker', 'street-corn skillet'], ['Cook and record the labeled chicken pull.', 'Retrieve the common rice, char the measured corn, pepper, onion, and jalapeno, then fold in the cold dairy finish after cooling.', 'Plate the chicken, rice, and finished street corn in three visible sections.'], 'Use exact tier-specific chicken, dry-rice, and street-corn quantities; the creamy finish is incorporated and receives no side cup.', 'Rapid-cool and refrigerate.', { riceBatchGroup: 'common', prepSteps: ['Include chicken in the shared neutral-chicken pull.', 'Cook common rice and the full street-corn component on Prep Day.'], prepBatches: [prep('starch-ahead', 'Common basmati rice allocation', 'Cook the exact Streetcorn Bowl rice allocation in the common rice wave.', ['rice_dry'], ['Record dry and cooked weights; rapid-cool.'], { prepWave: 'rice', prepWaveName: 'Common basmati rice wave' }), prep('vegetable-ahead', 'Streetcorn hot vegetable allocation', 'Char corn, green bell pepper, onion, and jalapeno before adding the cold dairy finish.', ['corn', 'green_bell_pepper', 'onion', 'jalapeno', 'avocado_oil'], ['Cook in uncrowded high-heat batches until moisture is controlled.', 'Record the hot-component yield and rapid-cool.'], { prepWave: 'vegetables', prepWaveName: 'Vegetable production wave' }), prep('topping', 'Cold street-corn finish', 'Mix the measured cold finish.', ['fage', 'light_mayo', 'cotija', 'cilantro', 'lime'], ['Whisk until uniform.', 'Fold into the cooled corn, record finished yield, cover, label, and refrigerate.'])] });
-  data.meals.m7 = proteinMethod('Garlic Butter Shrimp', 'seafood', 100, ['shrimp_raw', 'butter', 'garlic', 'lemon', 'cornstarch'], ['shrimp skillet', 'rice cooker', 'vegetable skillet'], ['Cook shrimp last in the raw-protein block to 145 F and record yield.', 'Finish with measured garlic, butter, and lemon; plate with common rice, edamame, and zucchini.'], 'Use exact tier-specific shrimp, rice, edamame, and zucchini.', 'Rapid-cool immediately and use earlier in the week.', { endpoint: '145 F', riceBatchGroup: 'common', prepSteps: ['Cook common rice and the edamame-zucchini component on Prep Day.'], prepBatches: [prep('starch-ahead', 'Common basmati rice allocation', 'Cook the exact Shrimp rice allocation in the common rice wave.', ['rice_dry'], ['Record dry and cooked weights; rapid-cool.'], { prepWave: 'rice', prepWaveName: 'Common basmati rice wave' }), prep('vegetable-ahead', 'Shrimp vegetable component', 'Cook edamame and zucchini.', ['edamame', 'zucchini'], ['Record finished yield; rapid-cool.'])] });
-  data.meals.m8 = proteinMethod('BBQ Chicken', 'chicken', 110, ['chicken_thigh_raw', 'bbq_sauce'], ['chicken skillet or oven', 'pasta pot'], ['Cook and record the labeled chicken pull.', 'Add measured BBQ sauce and fold with the cooked high-protein macaroni and cheese.'], 'Plate exact tier-specific chicken with one controlled macaroni serving.', 'Rapid-cool and refrigerate.', { sideCups: 1, sideCup: { name: 'BBQ sauce', batchGroup: 'bbq-side', gramsPerMeal: 30, instruction: 'Pack one measured BBQ sauce cup per meal.' }, prepSteps: ['Cook the complete high-protein macaroni batch on Prep Day.'], prepBatches: [prep('starch-ahead', 'High-protein macaroni and cheese', 'Cook all ordered macaroni according to the controlled package ratio.', ['protein_mac', 'mozzarella'], ['Record dry package weight, finished yield, and portions; rapid-cool.'])] });
+  data.meals.b3 = proteinMethod('Breakfast Quesadilla chicken', 'chicken', 20, ['chicken_thigh_raw'], ['chicken skillet', 'egg pan', 'griddle'], ['Cook and release the labeled chicken pull.', 'Retrieve the shared cooked breakfast egg base, assemble exact-tier quesadillas, and dry-grill.'], 'Use one whole egg plus 25g liquid egg whites per order. No Greek yogurt or salsa cup.', 'Rapid-cool and refrigerate.', { prepSteps: ['Cook the Quesadilla and Breakfast Burrito egg base together, then divide by exact order count before assembly.'], prepBatches: [prep('cook-ahead', 'Shared Quesadilla and Burrito egg base', 'Cook one whole egg plus 25g liquid egg whites per Quesadilla or Burrito order. Do not add yogurt.', ['egg', 'egg_white'], ['Combine the two dishes only at this common egg-base stage.', 'Cook until fully set.', 'Record total finished yield, divide by exact order count, rapid-cool, label, and refrigerate.'], { prepWave: 'shared-breakfast-eggs', prepWaveName: 'Shared Quesadilla and Burrito egg base' })] });
+  data.meals.b4 = proteinMethod('Breakfast Burrito beef filling', 'beef', 30, ['beef_90_raw', 'onion', 'tomato_paste'], ['beef skillet', 'egg pan', 'griddle'], ['Cook beef and onion to 160 F, drain, and cook the filling dry.', 'Retrieve the shared cooked breakfast egg base, assemble the broth-free burritos, and dry-grill.'], 'Lean uses the controlled small-tortilla build; Bulk uses the large-tortilla build. Both use one egg plus 25g whites per order.', 'Rapid-cool and refrigerate.', { prepSteps: ['Cook the Quesadilla and Breakfast Burrito egg base together, then divide by exact order count before assembly.'], prepBatches: [prep('cook-ahead', 'Shared Quesadilla and Burrito egg base', 'Cook one whole egg plus 25g liquid egg whites per Quesadilla or Burrito order.', ['egg', 'egg_white'], ['Combine the two dishes only at this common egg-base stage.', 'Cook until fully set.', 'Record total finished yield, divide by exact order count, rapid-cool, label, and refrigerate.'], { prepWave: 'shared-breakfast-eggs', prepWaveName: 'Shared Quesadilla and Burrito egg base' })] });
+  data.meals.m1 = proteinMethod('Loaded Beef Cottage Pie filling', 'beef', 40, ['beef_90_raw', 'mixed_vegetables', 'onion', 'tomato_paste'], ['beef skillet', 'instant mash station', 'oven'], ['Cook beef to 160 F, drain, and finish the filling without broth.', 'Layer with measured packaged instant mash and mozzarella, bake until hot, and pack one 45g Sweet Heat cup.'], 'Plate exact Lean/Bulk filling, mash, and mozzarella weights.', 'Rapid-cool and refrigerate.', { sideCups: 1, sideCup: { name: 'PRPD Sweet Heat Sauce', batchGroup: 'prpd-sweet-heat', gramsPerMeal: 45, instruction: 'Pack one 45g net cup per Cottage Pie.' }, prepSteps: ['Prepare Betty Crocker unflavored instant mash, vegetables, and mozzarella on Prep Day. Cottage cheese is not part of this recipe.'], prepBatches: [prep('starch-ahead', 'Cottage Pie instant mash', 'Prepare one measured Betty Crocker instant-mash batch to the package ratio without cottage cheese.', ['instant_potato_flakes', 'water', 'fairlife_milk', 'butter', 'salt'], ['Do not use fresh potatoes or cottage cheese for this mash.', 'Record dry flakes and finished mash weights.', 'Rapid-cool and refrigerate.'], { prepWave: 'instant-mash', prepWaveName: 'One packaged instant-mash cook' })] });
+  data.meals.m2 = proteinMethod('Hot Honey Slider chicken', 'chicken', 50, ['chicken_thigh_raw', 'light_mayo', 'sriracha', 'honey'], ['chicken skillet or oven', 'slider assembly station'], ['Cook and record the labeled chicken pull.', 'Add the measured sriracha hot-honey finish, then assemble the exact slider count with cheese and onion. Pickles are omitted for this batch.'], 'Lean receives three sliders; Bulk receives four; do not add a separate hot-sauce cup or an unplanned pickle substitute.', 'Rapid-cool and refrigerate.', { groceryOverrides: { pickles: { lean: 0, bulk: 0, unit: 'g', name: 'House refrigerator-pickled vegetables', note: 'Batch 6 owner-directed omission; no substitute.' } }, prepSteps: ['Stage rolls, cheese, onion, and measured sriracha hot-honey finish. Pickles are omitted for this batch.'], prepBatches: [] });
+  data.meals.m3 = proteinMethod('Loaded Buffalo chicken', 'chicken', 60, ['chicken_thigh_raw', 'buffalo_sauce'], ['chicken skillet or oven', 'potato oven'], ['Cook and record the labeled chicken pull before adding buffalo sauce.', 'Retrieve the shared cooked potato and broccoli waves, add measured buffalo chicken, and portion by tier.'], 'Use the corrected 200g potato and 80g broccoli per meal with tier-specific chicken.', 'Rapid-cool and refrigerate.', { prepSteps: ['Include the corrected 200g-per-meal potato allocation in the one shared fresh-potato cook and broccoli in the one shared broccoli cook on Prep Day.'], prepBatches: [prep('starch-ahead', 'Loaded Buffalo potato allocation', 'Include 200g per ordered meal in the one shared fresh-potato cook.', ['potato', 'avocado_oil', 'salt'], ['Cook all fresh potato allocations together.', 'Record the combined finished yield, rapid-cool, then divide on Cook Day by the recipe portions.'], { prepWave: 'roasted-potatoes', prepWaveName: 'One fresh roasted-potato cook' }), prep('vegetable-ahead', 'Loaded Buffalo broccoli allocation', 'Include this allocation in the one shared broccoli cook.', ['broccoli'], ['Cook the combined broccoli until just tender.', 'Record the combined yield, rapid-cool, then divide on Cook Day.'], { prepWave: 'broccoli', prepWaveName: 'One shared broccoli cook' })] });
+  data.meals.m4 = proteinMethod('Beef Seekh Kabab', 'beef', 70, ['beef_90_raw', 'onion', 'garlic', 'paprika', 'cumin', 'chili_powder'], ['beef oven', 'wrap station'], ['Place the already shaped, chilled seekh logs directly onto the oven tray.', 'Bake to 160 F, record the finished yield, then build shawarma with lettuce, onion, and garlic yogurt sauce. Pickles are omitted for this batch.'], 'Lean uses one 170g raw seekh log and one bread; Bulk uses one 210g raw seekh log and one and one-half breads.', 'Use earlier in the week; refrigerate promptly.', { groceryOverrides: { pickles: { lean: 0, bulk: 0, unit: 'g', name: 'House refrigerator-pickled vegetables', note: 'Batch 6 owner-directed omission; no substitute.' } }, prepSteps: ['Mix and shape every seekh log on Prep Day so tomorrow is oven-only.', 'Make the white garlic yogurt sauce; pickles are omitted for this batch.'], sideBags: 1, prepBatches: [prep('protein-mix', 'Shape every Beef Seekh log', 'Mix, weigh, and shape all shawarma beef today; tomorrow it goes directly into the oven.', [], ['Grate the measured onion and squeeze out excess moisture.', 'Mix only until evenly combined.', 'Shape the exact Lean and Bulk log counts shown above, place on lined trays, cover, label, date, and refrigerate.'], { pieceTargets: { lean: { piecesPerServing: 1, gramsPerPiece: 170, label: 'Lean log' }, bulk: { piecesPerServing: 1, gramsPerPiece: 210, label: 'Bulk log' } }, formulaIngredients: [
+    { key: 'beef_90_raw', name: 'Ground beef 90/10, raw', unit: 'g', lean: 170, bulk: 210, includeInGrocery: false },
+    { key: 'onion', name: 'Grated and squeezed onion', unit: 'g', lean: 18.7, bulk: 23.1, includeInGrocery: false },
+    { key: 'garlic', name: 'Garlic', unit: 'g', lean: 2.04, bulk: 2.52, includeInGrocery: false },
+    { key: 'avocado_oil', name: 'Avocado oil', unit: 'g', lean: 2.38, bulk: 2.94, includeInGrocery: false },
+    { key: 'paprika', name: 'Paprika', unit: 'g', lean: 0.782, bulk: 0.966, includeInGrocery: false },
+    { key: 'cumin', name: 'Ground cumin', unit: 'g', lean: 0.714, bulk: 0.882, includeInGrocery: false },
+    { key: 'chili_powder', name: 'Chili powder', unit: 'g', lean: 0.459, bulk: 0.567, includeInGrocery: false },
+    { key: 'salt', name: 'Fine salt', unit: 'g', lean: 0.75, bulk: 1, includeInGrocery: false },
+  ] }), prep('cold-prep', 'Shawarma fresh salad', 'Wash and dry the lettuce and onion; do not make or substitute pickles for this batch.', ['lettuce', 'onion'], ['Keep lettuce whole after washing and drying; slice it tomorrow for best texture.', 'Prepare the correct onion cut, cover, label, and refrigerate.'])] });
+  data.meals.m5 = proteinMethod('Harissa Honey chicken', 'chicken', 80, ['chicken_thigh_raw', 'harissa', 'honey', 'tomato_paste', 'lemon', 'garlic', 'avocado_oil', 'paprika', 'coriander'], ['chicken skillet or oven', 'rice cooker', 'broccoli oven'], ['Cook and record the labeled chicken pull.', 'Add only the measured harissa-honey finish, then plate with common rice and roasted broccoli.'], 'Use exact tier-specific chicken, dry-rice, and broccoli quantities.', 'Rapid-cool and refrigerate.', { riceBatchGroup: 'common', prepSteps: ['Mix glaze, cook common rice, and roast broccoli on Prep Day.'], prepBatches: [prep('starch-ahead', 'Common basmati rice allocation', 'Cook the exact Harissa rice allocation in the common rice wave.', ['rice_dry'], ['Record dry and cooked weights; rapid-cool.'], { prepWave: 'rice', prepWaveName: 'Common basmati rice wave' }), prep('vegetable-ahead', 'Harissa broccoli batch', 'Cook the exact broccoli allocation today.', ['broccoli'], ['Cook until just tender.', 'Record finished yield, rapid-cool, label, and refrigerate.'], { prepWave: 'broccoli', prepWaveName: 'Broccoli wave' }), prep('sauce', 'Harissa-honey glaze', 'Mix the exact glaze without raw-chicken contact.', ['harissa', 'honey', 'tomato_paste', 'lemon', 'garlic', 'avocado_oil', 'paprika', 'coriander'], ['Record starting and finished weight; refrigerate.'])] });
+  data.meals.m6 = proteinMethod('Mexican Streetcorn chicken', 'chicken', 90, ['chicken_thigh_raw', 'salt'], ['chicken skillet or oven', 'rice cooker', 'street-corn skillet'], ['Cook and record the labeled chicken pull.', 'Retrieve the common rice and the fully finished Prep Day street corn.', 'Plate the chicken, rice, and finished street corn in three visible sections.'], 'Use exact tier-specific chicken, dry-rice, and street-corn quantities; the creamy finish is incorporated and receives no side cup.', 'Rapid-cool and refrigerate.', { riceBatchGroup: 'common', prepSteps: ['Include chicken in the shared neutral-chicken pull.', 'Cook, fully mix, and refrigerate the complete street-corn component on Prep Day.'], prepBatches: [prep('starch-ahead', 'Common basmati rice allocation', 'Include this allocation in the one shared rice cook.', ['rice_dry'], ['Record dry and cooked weights; rapid-cool.'], { prepWave: 'rice', prepWaveName: 'One shared rice cook' }), prep('vegetable-ahead', 'Complete Mexican street-corn batch', 'Cook and fully finish the entire street-corn component today.', ['corn', 'green_bell_pepper', 'onion', 'jalapeno', 'avocado_oil', 'fage', 'light_mayo', 'cotija', 'cilantro', 'lime'], ['Char corn, green bell pepper, onion, and jalapeno in uncrowded high-heat batches until moisture is controlled.', 'Rapid-cool the hot vegetable mixture before adding dairy.', 'Fold in the measured FAGE, light mayonnaise, cotija, cilantro, and lime.', 'Record the finished yield, cover, label, and refrigerate the fully mixed street corn for tomorrow.'], { prepWave: 'streetcorn', prepWaveName: 'Complete Mexican street-corn batch' })] });
+  data.meals.m7 = proteinMethod('Garlic Butter Shrimp', 'seafood', 100, ['shrimp_raw', 'butter', 'garlic', 'lemon', 'cornstarch'], ['shrimp skillet', 'rice cooker', 'vegetable skillet'], ['Cook shrimp last in the raw-protein block to 145 F and record yield.', 'Finish with measured garlic, butter, and lemon; plate with common rice, peas and carrots, and zucchini.'], 'Use exact tier-specific shrimp, rice, frozen peas-and-carrots, and zucchini.', 'Rapid-cool immediately and use earlier in the week.', { endpoint: '145 F', riceBatchGroup: 'common', prepSteps: ['Cook common rice and run the peas-carrots-zucchini component beside the broccoli and street-corn work on Prep Day.'], prepBatches: [prep('starch-ahead', 'Common basmati rice allocation', 'Include this allocation in the one shared rice cook.', ['rice_dry'], ['Record dry and cooked weights; rapid-cool.'], { prepWave: 'rice', prepWaveName: 'One shared rice cook' }), prep('vegetable-ahead', 'Shrimp peas-carrots-zucchini component', 'Cook this beside the broccoli and street-corn work, but keep it in its own pan.', ['mixed_vegetables', 'zucchini'], ['Cook until the zucchini is tender and excess moisture is controlled.', 'Record finished yield, rapid-cool, label, and refrigerate.'], { prepWave: 'shrimp-vegetables', prepWaveName: 'Shrimp vegetables beside broccoli' })] });
+  data.meals.m8 = proteinMethod('BBQ Chicken', 'chicken', 110, ['chicken_thigh_raw', 'bbq_sauce'], ['chicken skillet or oven', 'pasta pot'], ['Cook and record the labeled chicken pull.', 'Add measured BBQ sauce and fold with the cooked high-protein macaroni and cheese.'], 'Plate exact tier-specific chicken with the corrected macaroni portion: 50g dry-equivalent Lean or 60g dry-equivalent Bulk.', 'Rapid-cool and refrigerate.', { sideCups: 1, sideCup: { name: 'BBQ sauce', batchGroup: 'bbq-side', gramsPerMeal: 30, instruction: 'Pack one measured BBQ sauce cup per meal.' }, prepSteps: ['Cook the corrected high-protein macaroni batch on Prep Day: 50g dry per Lean and 60g dry per Bulk.'], prepBatches: [prep('starch-ahead', 'High-protein macaroni and cheese', 'Cook the corrected ordered macaroni quantity: 50g dry per Lean and 60g dry per Bulk.', ['protein_mac', 'mozzarella'], ['Record dry package weight, finished yield, and portions; rapid-cool.'])] });
+  data.meals.p1 = proteinMethod('Premium NY Strip Steak', 'steak', 105, ['ny_strip_raw', 'avocado_oil', 'garlic', 'salt'], ['heavy skillet or grill', 'instant mash station', 'broccoli oven'], ['Sear or grill the already seasoned, chilled Bulk steaks in uncrowded batches.', 'Rest, record endpoint and cooked yield, then slice across the grain.', 'Plate each steak with the exact 200g packaged instant mash and broccoli allocation plus one sealed 45g Sweet Heat cup.'], 'Bulk uses 300g raw steak, 200g Betty Crocker instant mash prepared to the package ratio, 125g broccoli, 8g garlic, 2g avocado oil, and 1g salt per meal.', 'Do not seal steaming-hot steak; rapid-cool and refrigerate.', { temperature: 'Cook to the owner-approved doneness while following the food-safety procedure; record the released endpoint.', sideCups: 1, sideCup: { name: 'PRPD Sweet Heat Sauce', batchGroup: 'prpd-sweet-heat', gramsPerMeal: 45, instruction: 'Pack one 45g net cup per steak meal.' }, endpoint: 'Approved doneness and food-safety procedure', proteinInstructions: ['Cook the already seasoned steak during the continuous protein block before shrimp.', 'Record raw weight, endpoint, cooked yield, rest, and destination pan.'], prepSteps: ['Season and refrigerate the exact raw Bulk steaks today.', 'Prepare the exact packaged instant mash and broccoli allocations on Prep Day.'], prepBatches: [prep('protein-portion', 'Season the Bulk steak trays today', 'Season every 300g raw NY strip portion now and refrigerate it for tomorrow.', [], ['Weigh each 300g raw Bulk steak.', 'Apply the exact measured garlic, avocado oil, and salt shown in this card.', 'Cover, label, date, and refrigerate at 40 F or below until tomorrow.'], { formulaIngredients: [
+    { key: 'ny_strip_raw', name: 'NY strip steak, raw', unit: 'g', bulk: 300, includeInGrocery: false },
+    { key: 'garlic', name: 'Garlic', unit: 'g', bulk: 8, includeInGrocery: false },
+    { key: 'avocado_oil', name: 'Avocado oil', unit: 'g', bulk: 2, includeInGrocery: false },
+    { key: 'salt', name: 'Fine salt', unit: 'g', bulk: 1, includeInGrocery: false },
+  ] }), prep('starch-ahead', 'Steak instant mash allocation', 'Include this allocation in the one packaged instant-mash cook.', ['instant_potato_flakes', 'water', 'fairlife_milk', 'butter', 'salt'], ['Prepare the full packaged instant-mash total once; do not use fresh potatoes.', 'Record the combined finished mash yield, rapid-cool, then divide on Cook Day.'], { prepWave: 'instant-mash', prepWaveName: 'One packaged instant-mash cook' }), prep('vegetable-ahead', 'Steak broccoli allocation', 'Include this allocation in the one shared broccoli cook.', ['broccoli'], ['Cook the combined broccoli until just tender.', 'Record the combined yield, rapid-cool, then divide on Cook Day.'], { prepWave: 'broccoli', prepWaveName: 'One shared broccoli cook' })] });
   data.meals.d1 = meal(3, 10, ['blender', 'mixing bowls', 'dessert containers'], 'No final cook.', ['Blend the measured dough, form three equal balls per serving, and use 14g total chocolate per serving.'], 'Three balls per serving.', 'Serve chilled.', { prepSteps: ['Build, coat, count, and chill on Prep Day.'] });
   data.meals.d2 = meal(3, 20, ['mixing bowls', 'whisk', 'dessert cups'], 'No cook.', ['Whisk until smooth, portion by weight, finish with Oreo Thins, and record yield.'], 'One cup per order.', 'Serve chilled.', { prepSteps: ['Build and chill every mousse cup on Prep Day.'] });
   data.meals.d3 = meal(3, 30, ['blender', '8-inch square pan', 'oven'], 'Bake at 325 F until the edges are set and center moves as one piece.', ['Blend the cheesecake base, add cooled strawberry swirl, bake, chill fully, and cut into eight equal weighed squares.'], 'One equal square per order.', 'Serve chilled.', { prepSteps: ['Bake, chill, weigh, and package the complete cheesecake-square batch on Prep Day.'], prepBatches: [prep('dessert', 'Strawberry-Lemon Cheesecake Squares', 'Bake the exact controlled pan formula.', ['reduced_cream_cheese', 'cottage', 'fage', 'egg', 'whey', 'cornstarch', 'vanilla', 'lemon', 'salt', 'strawberry', 'honey'], ['Record raw batter, baked pan, strawberry reduction, and eight square weights.'])] });
@@ -645,7 +677,317 @@
   data.meals.a2 = proteinMethod('Mini Chicken Snack Wrap chicken', 'chicken', 120, ['chicken_thigh_raw', 'salt'], ['chicken skillet', 'wrap station'], ['Cook and release the labeled chicken pull.', 'Cool enough to avoid steaming, then split each order\'s filling evenly across two 45-calorie Mission Carb Balance Fajita tortillas with cheese, fresh salad, and house sauce.'], 'Two wraps per order.', 'Use earlier in the week; refrigerate promptly.', { prepSteps: ['Wash and dry salad produce and mix house sauce on Prep Day.'] });
   data.meals.a3 = meal(3, 50, ['mixing bowls', '12 oz cups'], 'No cook except strawberry reduction.', ['Reduce 45g strawberries to 30g per serving and cool fully.', 'Mix the measured oat base, pack to the tested fill weight, seal, and refrigerate overnight.'], 'One fixed 12 oz cup per order.', 'Enjoy chilled; stir before eating.', { prepSteps: ['Build and chill all overnight-oat cups on Prep Day.'], prepBatches: [prep('cold-kit', 'Strawberry Protein Overnight Oats', 'Build the exact fixed-size 12 oz formula.', ['oats', 'fage', 'fairlife_milk', 'whey', 'strawberry', 'chia', 'honey', 'vanilla', 'salt'], ['Record strawberry reduction, filled cup weights, lid closure, and final count.'])] });
 
+  const assemblyGuides = {
+    b1: {
+      lean: [
+        'Open 1 English muffin in the main section.',
+        'Build 1 sandwich with 1 beef-bacon slice, the Lean egg patty, and 28 g mozzarella; close the muffin.',
+        'Place the measured 150 g roasted-potato allocation beside the sandwich.',
+        'Add 1 sealed 45 g PRPD Sweet Heat cup beside the sandwich, then close and label the container.',
+      ],
+      bulk: [
+        'Open 2 English muffins in the main section.',
+        'Divide the Bulk egg-and-cheese filling evenly between both muffins; add 1 beef-bacon slice to each and close both sandwiches.',
+        'Do not add potatoes; the Bulk serving is exactly 2 complete sandwiches.',
+        'Add 1 sealed 45 g PRPD Sweet Heat cup beside the sandwiches, then close and label the container.',
+      ],
+    },
+    b2: {
+      lean: [
+        'Place 3 French Toast slices in the main section, slightly overlapped so all three are visible.',
+        'Place 50 g strawberries and 40 g banana together on the side.',
+        'Add 10 g whipped cream beside the fruit, not under the hot toast.',
+        'Pack 1 sealed 30 g sugar-free maple-syrup cup beside the toast, then close and label the container.',
+      ],
+      bulk: [
+        'Place 4 French Toast slices in the main section, slightly overlapped so all four are visible.',
+        'Place 50 g strawberries and 40 g banana together on the side.',
+        'Add 10 g whipped cream beside the fruit, not under the hot toast.',
+        'Pack 1 sealed 30 g sugar-free maple-syrup cup beside the toast, then close and label the container.',
+      ],
+    },
+    b3: {
+      lean: [
+        'Lay out 2 small tortillas.',
+        'Split the Lean chicken, cooked egg mixture, and 56 g mozzarella evenly between both tortillas.',
+        'Fold and dry-grill both quesadillas, then place both together in the container.',
+        'Do not add a salsa or sauce cup; close and label the container.',
+      ],
+      bulk: [
+        'Lay out 2 large tortillas.',
+        'Split the Bulk chicken, cooked egg mixture, and 56 g mozzarella evenly between both tortillas.',
+        'Fold and dry-grill both quesadillas, then place both together in the container.',
+        'Do not add a salsa or sauce cup; close and label the container.',
+      ],
+    },
+    b4: {
+      lean: [
+        'Lay out 2 small tortillas.',
+        'Split the Lean beef filling, cooked egg mixture, and 28 g mozzarella evenly between both tortillas.',
+        'Roll 2 tight burritos, dry-grill seam-side down, and place both in the container.',
+        'Do not add a side cup; close and label the container.',
+      ],
+      bulk: [
+        'Lay out 2 large tortillas.',
+        'Split the Bulk beef filling, cooked egg mixture, and 42 g mozzarella evenly between both tortillas.',
+        'Roll 2 tight burritos, dry-grill seam-side down, and place both in the container.',
+        'Do not add a side cup; close and label the container.',
+      ],
+    },
+    m1: {
+      lean: [
+        'Spread 1 measured Lean beef-and-vegetable filling portion evenly across the bottom of the container.',
+        'Cover the filling completely with the measured Lean packaged mashed-potato portion.',
+        'Sprinkle 28 g mozzarella evenly over the mash.',
+        'Add 1 sealed 45 g PRPD Sweet Heat cup beside the pie, then close and label the container.',
+      ],
+      bulk: [
+        'Spread 1 measured Bulk beef-and-vegetable filling portion evenly across the bottom of the container.',
+        'Cover the filling completely with the measured Bulk packaged mashed-potato portion.',
+        'Sprinkle 35 g mozzarella evenly over the mash.',
+        'Add 1 sealed 45 g PRPD Sweet Heat cup beside the pie, then close and label the container.',
+      ],
+    },
+    m2: {
+      lean: [
+        'Open 3 slider rolls and line them up in the container.',
+        'Split the Lean hot-honey chicken evenly across all 3 rolls.',
+        'Divide 28 g mozzarella and 15 g onion evenly across the sliders, then close each roll.',
+        'Do not add pickles or a separate sauce cup this batch; close and label the container.',
+      ],
+      bulk: [
+        'Open 4 slider rolls and line them up in the container.',
+        'Split the Bulk hot-honey chicken evenly across all 4 rolls.',
+        'Divide 42 g mozzarella and 20 g onion evenly across the sliders, then close each roll.',
+        'Do not add pickles or a separate sauce cup this batch; close and label the container.',
+      ],
+    },
+    m3: {
+      lean: [
+        'Place the measured 200 g roasted-potato allocation across the main section.',
+        'Place 80 g broccoli neatly in the side section.',
+        'Spread 1 measured Lean buffalo-chicken portion over the potatoes.',
+        'No side cup is required; close and label the container.',
+      ],
+      bulk: [
+        'Place the measured 200 g roasted-potato allocation across the main section.',
+        'Place 80 g broccoli neatly in the side section.',
+        'Spread 1 measured Bulk buffalo-chicken portion over the potatoes.',
+        'No side cup is required; close and label the container.',
+      ],
+    },
+    m4: {
+      lean: [
+        'Open 1 shawarma bread and add the cooked Lean seekh log.',
+        'Add the measured lettuce, onion, and garlic-yogurt sauce; do not add pickles this batch.',
+        'Roll tightly, cut into 2 equal halves, and wrap both halves together.',
+        'Place the 2 wrapped halves in the labeled side bag or container and seal it.',
+      ],
+      bulk: [
+        'Use 1.5 shawarma breads with the cooked Bulk seekh portion divided evenly between them.',
+        'Add the measured lettuce, onion, and garlic-yogurt sauce; do not add pickles this batch.',
+        'Roll tightly and cut into 3 equal wrapped halves.',
+        'Place all 3 wrapped halves in the labeled side bag or container and seal it.',
+      ],
+    },
+    m5: {
+      lean: [
+        'Place 1 measured Lean rice portion in the first section.',
+        'Place 1 measured Lean roasted-broccoli portion in the second section.',
+        'Place 1 measured Lean harissa-honey chicken portion in the main section.',
+        'No side cup is required; close and label the container.',
+      ],
+      bulk: [
+        'Place 1 measured Bulk rice portion in the first section.',
+        'Place 1 measured Bulk roasted-broccoli portion in the second section.',
+        'Place 1 measured Bulk harissa-honey chicken portion in the main section.',
+        'No side cup is required; close and label the container.',
+      ],
+    },
+    m6: {
+      lean: [
+        'Place 1 measured Lean rice portion in the first section.',
+        'Place 1 measured Lean finished street-corn portion in the second section.',
+        'Place 1 measured Lean chicken portion in the main section so all three components remain visible.',
+        'The creamy street-corn finish is already mixed in; add no side cup, then close and label.',
+      ],
+      bulk: [
+        'Place 1 measured Bulk rice portion in the first section.',
+        'Place 1 measured Bulk finished street-corn portion in the second section.',
+        'Place 1 measured Bulk chicken portion in the main section so all three components remain visible.',
+        'The creamy street-corn finish is already mixed in; add no side cup, then close and label.',
+      ],
+    },
+    m7: {
+      lean: [
+        'Place 1 measured Lean rice portion in the first section.',
+        'Place 1 measured Lean peas-carrots-zucchini portion in the second section.',
+        'Place 1 measured Lean garlic-butter shrimp portion in the main section and finish with its measured lemon.',
+        'No side cup is required; close and label the container for earlier-week use.',
+      ],
+      bulk: [
+        'Place 1 measured Bulk rice portion in the first section.',
+        'Place 1 measured Bulk peas-carrots-zucchini portion in the second section.',
+        'Place 1 measured Bulk garlic-butter shrimp portion in the main section and finish with its measured lemon.',
+        'No side cup is required; close and label the container for earlier-week use.',
+      ],
+    },
+    m8: {
+      lean: [
+        'Place 1 measured high-protein macaroni-and-cheese portion across the main section.',
+        'Place 1 measured Lean BBQ-chicken portion over or directly beside the macaroni.',
+        'Keep the 28 g mozzarella distributed with the macaroni.',
+        'Add 1 sealed 30 g BBQ-sauce cup beside the meal, then close and label the container.',
+      ],
+      bulk: [
+        'Place 1 measured high-protein macaroni-and-cheese portion across the main section.',
+        'Place 1 measured Bulk BBQ-chicken portion over or directly beside the macaroni.',
+        'Keep the 28 g mozzarella distributed with the macaroni.',
+        'Add 1 sealed 30 g BBQ-sauce cup beside the meal, then close and label the container.',
+      ],
+    },
+    p1: {
+      lean: [
+        'Place the sliced Lean steak portion in the main section.',
+        'Place the measured Lean packaged mashed-potato portion in the first side section.',
+        'Place the measured 100 g broccoli allocation in the second side section.',
+        'Add 1 sealed 45 g PRPD Sweet Heat cup, then close and label the container.',
+      ],
+      bulk: [
+        'Place the sliced Bulk steak portion in the main section.',
+        'Place the measured 200 g packaged mashed-potato portion in the first side section.',
+        'Place the measured 125 g broccoli allocation in the second side section.',
+        'Add 1 sealed 45 g PRPD Sweet Heat cup, then close and label the container.',
+      ],
+    },
+    d1: { single: [
+      'Place exactly 3 chocolate-dipped cookie dough balls in 1 dessert container.',
+      'Keep the balls separated enough that the chocolate coating does not stick them together.',
+      'Close, label, and refrigerate the dessert container.',
+    ] },
+    d2: { single: [
+      'Spoon 1 measured mousse portion into 1 dessert cup and level the top.',
+      'Finish the cup with exactly 2 Oreo Thins.',
+      'Close, label, and refrigerate the dessert cup.',
+    ] },
+    d3: { single: [
+      'Place exactly 1 fully chilled, equal-weight cheesecake square in 1 dessert container.',
+      'Keep the strawberry top facing upward and clean the container rim.',
+      'Close, label, and refrigerate the dessert container.',
+    ] },
+    a1: { single: [
+      'Use 1 clean 12 oz divided box.',
+      'Place 2 chilled hard-boiled eggs, 1 beef-bacon slice, and 28 g cheese in the protein section.',
+      'Place 1 whole mini apple and 60 g cucumber in the remaining section without crushing the apple.',
+      'Add 1 sealed measured jalapeno-lemon yogurt dip cup, confirm the lid closes freely, then label and refrigerate.',
+    ] },
+    a2: { single: [
+      'Lay out exactly 2 Mission Carb Balance 45-calorie tortillas.',
+      'Split the cooled chicken, 20 g mozzarella, fresh salad, and house sauce evenly between both tortillas.',
+      'Roll 2 tight snack wraps and place both together in the 12 oz box.',
+      'Close, label, and refrigerate for earlier-week use.',
+    ] },
+    a3: { single: [
+      'Fill 1 clean 12 oz cup with 1 measured overnight-oat portion.',
+      'Keep the cooled strawberry reduction distributed through or over the oat base according to the finished batch.',
+      'Clean the rim, seal the lid, label, and refrigerate overnight.',
+    ] },
+  };
+
+  for (const [id, guide] of Object.entries(assemblyGuides)) {
+    if (data.meals[id]) data.meals[id].assemblyGuide = guide;
+  }
+
+  // Batch 7 owner-approved rotation. This final override deliberately replaces
+  // every archived Batch 6 method so the planner cannot pair a reused weekly ID
+  // with the prior dish's cooking or plating instructions.
+  data.batch = 7;
+  data.version = '2026-08-17.1';
+  data.familyAllocations = [];
+  data.familyPlatingReservations = [];
+  data.sharedProteinSeasoning = [{
+    id: 'approved-b7-neutral-chicken-base',
+    name: 'PRPD neutral savory chicken base',
+    proteinKey: 'chicken_thigh_raw',
+    dishIds: ['b4', 'm1', 'm4', 'm7', 'a2', 'a3'],
+    note: 'Season compatible chicken together, then split exact recipe pulls before Sweet Heat, hot-honey, sweet-chili, Buffalo, wrap, or Caesar finishes.',
+    basePerKg: [
+      { key: 'salt', name: 'Fine salt', grams: 8, measure: { type: 'spice', gramsPerTsp: 6 } },
+      { key: 'garlic_powder', name: 'Garlic powder', grams: 8, measure: { type: 'spice', gramsPerTsp: 3.1 } },
+      { key: 'onion_powder', name: 'Onion powder', grams: 4, measure: { type: 'spice', gramsPerTsp: 2.4 } },
+      { key: 'paprika', name: 'Paprika', grams: 3, measure: { type: 'spice', gramsPerTsp: 2.3 } },
+      { key: 'black_pepper', name: 'Black pepper', grams: 2, measure: { type: 'spice', gramsPerTsp: 2.3 } },
+    ],
+  }];
+  data.weeklySauces = {
+    enabled: true,
+    policy: 'Batch 7 provides one 45g PRPD Sweet Heat cup only with the Beef Bacon Breakfast Sandwich and Power Bowl.',
+    cupSizeOz: 2,
+    eligibleMealIds: ['b2', 'b4'],
+    customerCupsTotal: 0,
+    kitchenUseCupsPerSauce: 0,
+    qcCupsPerSauce: 1,
+    sauces: [{
+      name: 'PRPD Sweet Heat Sauce', batchGroup: 'prpd-sweet-heat', ingredientsIncludedInRecipes: true,
+      estimatedCaloriesPerCup: 87, provisional: false, netGramsPerCup: 45,
+      ingredientsPerCup: [
+        { key: 'light_mayo', name: 'Light mayonnaise', grams: 11.0294, station: 'Sauces & Dairy' },
+        { key: 'ketchup', name: 'Ketchup', grams: 13.2353, station: 'Sauces & Dairy' },
+        { key: 'honey', name: 'Honey', grams: 13.2353, station: 'Breakfast & Desserts' },
+        { key: 'sriracha', name: 'Sriracha', grams: 7.5, station: 'Sauces & Dairy' },
+      ],
+      steps: ['Tare every cup and lid.', 'Whisk the controlled 250:300:300:170 ratio by weight.', 'Fill 45g net per eligible meal plus one QC cup.'],
+    }],
+  };
+
+  const b7Protein = (name, group, sequence, equipment, steps, plating, hold, options = {}) => proteinMethod(
+    name, group, sequence, options.recipeKeys || [], equipment, steps, plating, hold, options,
+  );
+  data.meals = {
+    b1: meal(4, 10, ['griddle', 'mixing bowls', 'side cups'], 'Cook until the centers are fully set.', ['Cook three Lean or four Bulk pancakes per order.', 'Cool blueberry compote and cheesecake topping before filling one cup; fill syrup in a second cup.', 'Record batter yield, finished pancake count, and day-three reheat.'], 'Lean: three pancakes. Bulk: four. Pack two sealed cups.', 'Rapid-cool and refrigerate.', { sideCups: 2, prepSteps: ['Prepare compote and cheesecake topping; keep syrup separate.'] }),
+    b2: b7Protein('Beef Bacon Breakfast Sandwich', 'beef', 20, ['sheet pan', 'egg pan', 'toaster'], ['Cook one measured egg patty and one beef-bacon slice per sandwich.', 'Lean gets one sandwich plus 150g potatoes; Bulk gets two sandwiches and no potatoes.', 'Pack one 45g Sweet Heat cup per order.'], 'Lean: one sandwich and potatoes. Bulk: two sandwiches. One Sweet Heat cup.', 'Refrigerate promptly.', { recipeKeys: ['beef_bacon'], sideCups: 1, sideCup: { name: 'PRPD Sweet Heat Sauce', batchGroup: 'prpd-sweet-heat', gramsPerMeal: 45, instruction: 'Pack one 45g cup.' } }),
+    b3: meal(4, 30, ['egg pan', 'sheet pan', 'toaster'], 'Cook egg mixture until fully set.', ['Cook the complete measured omelette egg-and-vegetable batch.', 'Divide by Lean/Bulk recipe yield and pack sourdough separately.', 'Record finished egg yield.'], 'Pack the tier-specific omelette and bread count.', 'Rapid-cool and refrigerate.'),
+    b4: b7Protein('Power Bowl chicken', 'chicken', 40, ['chicken oven', 'egg pan', 'potato oven'], ['Cook the exact chicken pull to 165 F.', 'Plate with 100g potatoes and two eggs.', 'Pack one 45g Sweet Heat cup.'], 'Tier-specific chicken, 100g potatoes, two eggs, one sauce cup.', 'Rapid-cool and refrigerate.', { recipeKeys: ['chicken_thigh_raw'], sideCups: 1, sideCup: { name: 'PRPD Sweet Heat Sauce', batchGroup: 'prpd-sweet-heat', gramsPerMeal: 45, instruction: 'Pack one 45g cup.' } }),
+    m1: b7Protein('Hot Honey Slider chicken', 'chicken', 50, ['chicken oven', 'slider station'], ['Cook exact chicken pull to 165 F and record yield.', 'Add measured sriracha hot-honey finish.', 'Assemble three Lean or four Bulk sliders with cheese, pickles, and onion.'], 'Lean: three sliders. Bulk: four.', 'Rapid-cool and refrigerate.', { recipeKeys: ['chicken_thigh_raw'] }),
+    m2: b7Protein('Chicken Biryani', 'chicken', 60, ['heavy pot', 'rice pot'], ['Marinate the separate biryani chicken pull.', 'Par-cook rice; build the onion-tomato chicken base.', 'Layer, steam on low, rest, fluff, and record total usable yield.'], 'Divide the finished biryani by tier-controlled yield.', 'Rapid-cool in shallow pans.', { recipeKeys: ['chicken_thigh_raw'], riceBatchGroup: 'biryani' }),
+    m3: b7Protein('Butter Chicken', 'chicken', 70, ['chicken oven', 'sauce pot', 'rice pot'], ['Cook the separate marinated chicken pull to 165 F.', 'Build sauce with tomato paste, measured water, butter, yogurt, garlic, and ginger; never use broth.', 'Combine, record finished yield, and plate with rice.'], 'Tier-specific chicken, sauce, and rice.', 'Rapid-cool in shallow pans.', { recipeKeys: ['chicken_thigh_raw'], riceBatchGroup: 'common' }),
+    m4: b7Protein('Sweet Chili chicken', 'chicken', 80, ['chicken oven', 'rice pot'], ['Cook exact chicken pull to 165 F.', 'Add sweet-chili finish after recording yield.', 'Fold peas and carrots into the measured rice batch and plate.'], 'Tier-specific chicken and vegetable rice.', 'Rapid-cool and refrigerate.', { recipeKeys: ['chicken_thigh_raw'], riceBatchGroup: 'common' }),
+    m5: b7Protein('Arrabbiata meatballs', 'beef', 90, ['400 F oven', 'pasta pot', 'sauce pot'], ['Form equal meatballs and bake first to 160 F.', 'Cook protein pasta to controlled yield and simmer the tomato arrabbiata sauce.', 'Plate exact meatball, pasta, sauce, and mozzarella quantities.'], 'Keep meatball count and pasta portion visible by tier.', 'Rapid-cool and refrigerate.', { recipeKeys: ['beef_90_raw'] }),
+    m6: b7Protein('Cajun Garlic Salmon', 'seafood', 100, ['425 F oven', 'quinoa pot', 'green-bean oven tray'], ['Thaw safely, pat dry, check pin bones, season, and roast skin-side down to 145 F.', 'Remove skin after cooking; record thawed, skinless cooked, and plated weights.', 'Plate with lemon-herb quinoa and roasted green beans.'], 'Lean: 220g purchased salmon input, 50g dry quinoa, 120g green beans. Bulk: 300g, 65g, 150g.', 'Use earlier in the week; rapid-cool and refrigerate.', { recipeKeys: ['pink_salmon_raw'], endpoint: '145 F', temperature: 'Cook salmon to 145 F.' }),
+    m7: b7Protein('Loaded Buffalo chicken', 'chicken', 110, ['chicken oven', 'potato oven', 'broccoli tray'], ['Cook exact chicken pull to 165 F.', 'Add Buffalo sauce after recording yield.', 'Plate with the corrected 200g potato allocation and broccoli.'], 'Use 200g potatoes per meal with tier-specific chicken.', 'Rapid-cool and refrigerate.', { recipeKeys: ['chicken_thigh_raw'] }),
+    m8: b7Protein('Southwest taco beef', 'beef', 120, ['beef skillet', 'rice pot', 'cold topping station'], ['Cook beef to 160 F, drain, and add taco finish.', 'Cook rice and hot corn-pepper-black-bean component.', 'Pack lettuce, cotija, and jalapeno-lime yogurt separately from hot components.'], 'Tier-specific beef, rice, beans, corn and peppers; one cold sauce cup.', 'Use earlier in the week; refrigerate promptly.', { recipeKeys: ['beef_90_raw'], sideCups: 1, sideCup: { name: 'Jalapeno-lime yogurt sauce', batchGroup: 'southwest-yogurt', gramsPerMeal: 37, instruction: 'Pack one sealed cold cup.' }, riceBatchGroup: 'common' }),
+    d1: meal(3, 130, ['blender', 'round or square baking pan', 'oven'], 'Bake at 325 F until edges are set and center moves as one piece.', ['Blend the exact batter, swirl in cooled strawberry reduction, bake, and chill fully.', 'Cut into equal weighed individual portions rather than promising a square shape.', 'Record batter, baked pan, and individual weights.'], 'One chilled portion per dessert container.', 'Serve chilled.'),
+    d2: meal(3, 140, ['mixing bowls', 'dessert cups'], 'No final cook.', ['Whisk the banana protein cream until smooth.', 'Portion by weight and finish with the measured Biscoff cookies.', 'Record final cup count and filled weight.'], 'One chilled cup per order.', 'Serve chilled.'),
+    d3: meal(3, 150, ['mixing bowls', 'coffee tray', 'dessert cups'], 'No final cook.', ['Mix the measured mascarpone protein cream.', 'Dip ladyfingers briefly in cooled coffee, layer, and chill overnight.', 'Record final cup count, filled weight, and overnight set.'], 'One chilled cup per order.', 'Serve chilled.'),
+    a1: meal(3, 160, ['egg pot', '12 oz divided boxes'], 'Cook eggs fully.', ['Chill eggs and beef bacon.', 'Assemble cheese, weighed mini apple, cucumber, and sealed dip.', 'Confirm every lid closes freely.'], 'One 12 oz Protein Box per order.', 'Serve chilled.'),
+    a2: b7Protein('Mini Snack Wrap chicken', 'chicken', 170, ['chicken oven', 'wrap station'], ['Cook exact chicken pull to 165 F and cool.', 'Split chicken, cheese, fresh salad, and sauce across two tortillas.', 'Roll tightly and pack both wraps together.'], 'Two wraps per order.', 'Use earlier in the week.', { recipeKeys: ['chicken_thigh_raw'] }),
+    a3: b7Protein('Caesar Crunch Box chicken', 'chicken', 180, ['chicken oven', 'cold box station'], ['Cook exact chicken pull to 165 F, record yield, and chill.', 'Pack lettuce, cucumber, Parmesan, and chicken in the 12 oz box.', 'Keep 35g dressing sealed and croutons dry and separate.'], 'One chilled 12 oz box, one dressing cup, one dry crouton bag.', 'Use earlier in the week.', { recipeKeys: ['chicken_thigh_raw'], sideCups: 1, sideBags: 1, sideCup: { name: 'Yogurt-Caesar dressing', batchGroup: 'caesar-dressing', gramsPerMeal: 35, instruction: 'Pack one sealed dressing cup.' } }),
+  };
+
+  const b7Guides = {
+    b1: { lean: ['Place 3 pancakes in the meal container.', 'Add one blueberry-cheesecake topping cup and one syrup cup.', 'Close, label, and refrigerate.'], bulk: ['Place 4 pancakes in the meal container.', 'Add one blueberry-cheesecake topping cup and one syrup cup.', 'Close, label, and refrigerate.'] },
+    b2: { lean: ['Pack 1 complete sandwich.', 'Add 150g roasted potatoes and one 45g Sweet Heat cup.', 'Close, label, and refrigerate.'], bulk: ['Pack 2 complete sandwiches with no potato side.', 'Add one 45g Sweet Heat cup.', 'Close, label, and refrigerate.'] },
+    b3: { lean: ['Pack one Lean omelette portion and 1 sourdough slice separately.', 'Close, label, and refrigerate.'], bulk: ['Pack one Bulk omelette portion and 2 sourdough slices separately.', 'Close, label, and refrigerate.'] },
+    b4: { lean: ['Pack the Lean chicken, 100g potatoes, and 2 eggs.', 'Add one 45g Sweet Heat cup.', 'Close, label, and refrigerate.'], bulk: ['Pack the Bulk chicken, 100g potatoes, and 2 eggs.', 'Add one 45g Sweet Heat cup.', 'Close, label, and refrigerate.'] },
+    m1: { lean: ['Pack exactly 3 assembled sliders.', 'Close, label, and refrigerate.'], bulk: ['Pack exactly 4 assembled sliders.', 'Close, label, and refrigerate.'] },
+    m2: { lean: ['Pack one measured Lean biryani portion.', 'Close, label, and refrigerate.'], bulk: ['Pack one measured Bulk biryani portion.', 'Close, label, and refrigerate.'] },
+    m3: { lean: ['Pack Lean butter chicken and sauce with the measured rice.', 'Close, label, and refrigerate.'], bulk: ['Pack Bulk butter chicken and sauce with the measured rice.', 'Close, label, and refrigerate.'] },
+    m4: { lean: ['Pack Lean sweet-chili chicken with vegetable rice.', 'Close, label, and refrigerate.'], bulk: ['Pack Bulk sweet-chili chicken with vegetable rice.', 'Close, label, and refrigerate.'] },
+    m5: { lean: ['Pack the Lean meatball, pasta, sauce, and mozzarella portions.', 'Close, label, and refrigerate.'], bulk: ['Pack the Bulk meatball, pasta, sauce, and mozzarella portions.', 'Close, label, and refrigerate.'] },
+    m6: { lean: ['Pack the verified Lean salmon portion with quinoa and 120g green beans.', 'Close, label, and refrigerate.'], bulk: ['Pack the verified Bulk salmon portion with quinoa and 150g green beans.', 'Close, label, and refrigerate.'] },
+    m7: { lean: ['Pack Lean Buffalo chicken with 200g potatoes and broccoli.', 'Close, label, and refrigerate.'], bulk: ['Pack Bulk Buffalo chicken with 200g potatoes and broccoli.', 'Close, label, and refrigerate.'] },
+    m8: { lean: ['Pack Lean beef, rice, beans, corn and peppers.', 'Keep lettuce/cotija cold and add one sauce cup.', 'Close, label, and refrigerate.'], bulk: ['Pack Bulk beef, rice, beans, corn and peppers.', 'Keep lettuce/cotija cold and add one sauce cup.', 'Close, label, and refrigerate.'] },
+    d1: { single: ['Pack one fully chilled equal-weight cheesecake portion.', 'Close, label, and refrigerate.'] },
+    d2: { single: ['Pack one measured Banana Cream Pie Cup.', 'Close, label, and refrigerate.'] },
+    d3: { single: ['Pack one fully chilled Tiramisu cup.', 'Close, label, and refrigerate.'] },
+    a1: { single: ['Pack 2 eggs, 1 beef-bacon slice, cheese, mini apple, cucumber, and dip.', 'Close, label, and refrigerate.'] },
+    a2: { single: ['Pack exactly 2 snack wraps.', 'Close, label, and refrigerate.'] },
+    a3: { single: ['Pack chicken, lettuce, cucumber, and Parmesan in one 12 oz box.', 'Add one dressing cup and one dry crouton bag.', 'Close, label, and refrigerate.'] },
+  };
+  for (const [id, guide] of Object.entries(b7Guides)) data.meals[id].assemblyGuide = guide;
+
   for (const method of Object.values(data.meals)) {
+    if (!method.prepSteps.length) method.prepSteps = [method.steps[0]];
     while (method.steps.length < 3) method.steps.push('Verify the finished count, portion weight, label, and cold-holding status before release.');
   }
 

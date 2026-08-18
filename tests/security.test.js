@@ -5,14 +5,22 @@ const test = require('node:test');
 
 const security = require('../api/_security');
 const orderApi = require('../api/order');
+const draftConfig = require('../operations/active/BATCH_7_DRAFT_ORDER_CONFIG');
+const draftCatalog = orderApi._test.catalogForConfig(draftConfig);
+const draftOrderContext = {
+  catalog: draftCatalog,
+  batchNumber: draftConfig.batch.number,
+  cutoffIso: draftConfig.batch.cutoffIso,
+  policies: draftConfig.policies,
+};
 
 test('request schemas reject extra properties and invalid non-dessert tiers', () => {
   assert.throws(
-    () => orderApi._test.normalizeItems([{ id: 'b1', tier: 'family', qty: 1 }]),
+    () => orderApi._test.normalizeItems([{ id: 'b1', tier: 'family', qty: 1 }], draftCatalog),
     /invalid tier/i,
   );
   assert.throws(
-    () => orderApi._test.normalizeItems([{ id: 'b1', tier: 'lean', qty: 1, admin: true }]),
+    () => orderApi._test.normalizeItems([{ id: 'b1', tier: 'lean', qty: 1, admin: true }], draftCatalog),
     /unsupported fields/i,
   );
 });
@@ -20,15 +28,18 @@ test('request schemas reject extra properties and invalid non-dessert tiers', ()
 test('order contact validation requires a usable email and delivery location', () => {
   const base = {
     action: 'order',
-    orderId: 'PRPD-B3-20260721-A1B2C3D4',
-    batch: 3,
-    deliveryDate: 'Saturday, July 25, 2026',
+    orderId: 'PRPD-B7-20260817-A1B2C3D4',
+    batch: 7,
+    deliveryDate: 'Saturday, August 22, 2026',
     firstName: 'Test',
     lastName: 'Customer',
     phone: '4695550100',
     email: 'not-an-email',
     deliveryAddress: '123 Main Street',
+    deliveryHasUnit: false,
+    deliveryUnit: '',
     deliveryCity: 'Frisco',
+    deliveryState: 'TX',
     deliveryZip: '75035',
     deliveryInstructions: '',
     items: [],
@@ -52,10 +63,18 @@ test('order contact validation requires a usable email and delivery location', (
     referrer: '',
   };
 
-  assert.throws(() => orderApi._test.validateAndBuildOrder(base), /valid email address/i);
+  assert.throws(() => orderApi._test.validateAndBuildOrder(base, [], draftOrderContext), /valid email address/i);
   assert.throws(
-    () => orderApi._test.validateAndBuildOrder({ ...base, email: 'customer@example.com', deliveryZip: '7503' }),
+    () => orderApi._test.validateAndBuildOrder({ ...base, email: 'customer@example.com', deliveryZip: '7503' }, [], draftOrderContext),
     /5-digit ZIP code/i,
+  );
+  assert.throws(
+    () => orderApi._test.validateAndBuildOrder({ ...base, email: 'customer@example.com', deliveryState: '' }, [], draftOrderContext),
+    /state must be TX/i,
+  );
+  assert.throws(
+    () => orderApi._test.validateAndBuildOrder({ ...base, email: 'customer@example.com', deliveryHasUnit: true }, [], draftOrderContext),
+    /unit number is required/i,
   );
 });
 
@@ -93,11 +112,46 @@ test('Google Sheets writes use RAW values and public code contains no private cr
   }
 });
 
+test('order storage expands undersized sheet grids before writing new tracking columns', async () => {
+  const requests = [];
+  const client = {
+    async request(options) {
+      requests.push(options);
+      if (options.method === 'GET') {
+        return {
+          data: {
+            sheets: [{
+              properties: {
+                sheetId: 123,
+                title: 'Orders',
+                gridProperties: { columnCount: 29 },
+              },
+            }],
+          },
+        };
+      }
+      return { data: {} };
+    },
+  };
+
+  const expanded = await orderApi._test.ensureSheetColumnCapacity(client, 'Orders', 36);
+  assert.equal(expanded, true);
+  assert.equal(requests.length, 2);
+  assert.deepEqual(requests[1].data.requests, [{
+    appendDimension: {
+      sheetId: 123,
+      dimension: 'COLUMNS',
+      length: 7,
+    },
+  }]);
+});
+
 test('order storage and email confirmation preserve canonical records', () => {
   const source = fs.readFileSync(path.join(__dirname, '..', 'api', 'order.js'), 'utf8');
-  assert.match(source, /'Orders'!A\$\{targetRow\}:AC\$\{targetRow\}/);
+  assert.match(source, /'Orders'!A\$\{targetRow\}:AK\$\{targetRow\}/);
   assert.match(source, /'Email', 'Delivery Address', 'City', 'ZIP Code', 'Delivery Instructions'/);
   assert.match(source, /'Meal Subtotal', 'Delivery Fee', 'Discount Code', 'Discount Amount'/);
+  assert.match(source, /'Fulfillment Method'/);
   assert.match(source, /order-customer-\$\{order\.orderId\}/);
   assert.match(source, /awaiting payment and final confirmation from Rida/i);
   assert.match(source, /Promise\.allSettled/);
@@ -110,6 +164,7 @@ test('Vercel headers include CSP and cross-origin protections', () => {
   assert.match(headers['Content-Security-Policy'], /object-src 'none'/);
   assert.match(headers['Content-Security-Policy'], /script-src-attr 'none'/);
   assert.match(headers['Content-Security-Policy'], /style-src-attr 'none'/);
+  assert.match(headers['Content-Security-Policy'], /https:\/\/analytics-ipv6\.tiktokw\.us/);
   assert.doesNotMatch(headers['Content-Security-Policy'], /'unsafe-inline'/);
   assert.equal(headers['Cross-Origin-Opener-Policy'], 'same-origin-allow-popups');
   assert.equal(headers['X-Content-Type-Options'], 'nosniff');

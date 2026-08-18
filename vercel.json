@@ -1,13 +1,14 @@
 {
   "crons": [
     { "path": "/api/operator-brief", "schedule": "0 14 * * *" },
-    { "path": "/api/menu-reminder-monday", "schedule": "0 23 * * 1" },
-    { "path": "/api/menu-reminder-tuesday", "schedule": "0 23 * * 2" },
-    { "path": "/api/menu-reminder-wednesday", "schedule": "0 16 * * 3" }
+    { "path": "/api/menu-reminder/monday", "schedule": "0 23 * * 1" },
+    { "path": "/api/menu-reminder/tuesday", "schedule": "0 23 * * 2" },
+    { "path": "/api/menu-reminder/wednesday", "schedule": "0 19 * * 3" }
   ],
   "redirects": [
     { "source": "/index.html",   "destination": "/",        "permanent": true },
     { "source": "/order.html",   "destination": "/order",   "permanent": true },
+    { "source": "/halal-meal-prep-dfw.html", "destination": "/halal-meal-prep-dfw", "permanent": true },
     { "source": "/faq.html",     "destination": "/faq",     "permanent": true },
     { "source": "/privacy.html", "destination": "/privacy", "permanent": true }
   ],
@@ -15,6 +16,8 @@
     { "source": "/operations/label-studio.html", "destination": "/" },
     { "source": "/order", "destination": "/order.html" },
     { "source": "/order/", "destination": "/order.html" },
+    { "source": "/halal-meal-prep-dfw", "destination": "/halal-meal-prep-dfw.html" },
+    { "source": "/halal-meal-prep-dfw/", "destination": "/halal-meal-prep-dfw.html" },
     { "source": "/faq",   "destination": "/faq.html"   },
     { "source": "/faq/",  "destination": "/faq.html"   },
     { "source": "/privacy",  "destination": "/privacy.html" },
@@ -32,7 +35,7 @@
         { "key": "Cross-Origin-Opener-Policy", "value": "same-origin-allow-popups" },
         { "key": "Cross-Origin-Resource-Policy", "value": "same-site" },
         { "key": "X-Permitted-Cross-Domain-Policies", "value": "none" },
-        { "key": "Content-Security-Policy", "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' https://analytics.tiktok.com https://*.tiktok.com; script-src-attr 'none'; style-src 'self' https://fonts.googleapis.com; style-src-attr 'none'; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://analytics.tiktok.com https://*.tiktok.com; connect-src 'self' https://analytics.tiktok.com https://*.tiktok.com https://analytics-ipv6.tiktokw.us; upgrade-insecure-requests" }
+        { "key": "Content-Security-Policy", "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' https://www.googletagmanager.com https://analytics.tiktok.com https://*.tiktok.com; script-src-attr 'none'; style-src 'self' https://fonts.googleapis.com; style-src-attr 'none'; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://www.google.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://analytics.tiktok.com https://*.tiktok.com; connect-src 'self' https://www.google.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://analytics.google.com https://www.google-analytics.com https://analytics.tiktok.com https://*.tiktok.com https://analytics-ipv6.tiktokw.us; upgrade-insecure-requests" }
       ]
     },
     {

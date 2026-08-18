@@ -133,6 +133,14 @@ module.exports = async function handler(request, response) {
   }
 };
 
+// Resend verifies the exact request bytes. Vercel must not parse and rebuild
+// the JSON body before the Svix signature check runs.
+module.exports.config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
 module.exports._test = {
   renderDeliveryReport,
   verifyEvent,

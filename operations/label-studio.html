@@ -127,6 +127,9 @@
     .sheet-quantity input { width: 48px; height: 30px; padding: 3px 4px; border: 1px solid #aeb6ad; border-radius: 5px; color: var(--green); background: white; font: inherit; text-align: center; }
     .selection-count { margin: 8px 0 0 !important; color: var(--green) !important; font-weight: 800; }
     .print-warning { margin: 0 0 12px; padding: 10px 12px; border-left: 4px solid var(--bright-green); color: var(--green); background: #e7f0e7; font-size: 0.72rem; font-weight: 800; line-height: 1.45; }
+    .production-gate { margin: 0 0 12px; padding: 10px 12px; border-left: 4px solid var(--warning); color: #6d3513; background: #fff1e7; font-size: 0.72rem; font-weight: 800; line-height: 1.45; }
+    .production-gate.ready { border-left-color: var(--bright-green); color: var(--green); background: #e7f0e7; }
+    .print-blocked-message { display: none; }
 
     .estimate-note {
       padding: 12px;
@@ -361,6 +364,15 @@
       }
       .studio-header, .workspace { display: none !important; }
       .print-sheet { display: block; width: 8.5in; margin: 0; padding: 0; }
+      body.label-print-blocked .print-sheet { display: none !important; }
+      body.label-print-blocked .print-blocked-message {
+        display: block !important;
+        margin: 0.75in;
+        padding: 0.35in;
+        border: 4px solid #9a4f1d;
+        color: #172117;
+        font: 700 16pt/1.4 Arial, sans-serif;
+      }
       .print-page {
         position: relative;
         width: 8.5in;
@@ -406,19 +418,19 @@
   <header class="studio-header">
     <div>
       <strong>PRPD LABEL STUDIO</strong>
-      <span>Internal production tool for Avery 5168 - print build 2026-07-17.1</span>
+      <span>Internal production tool for Avery 5168 - print build 2026-08-03.1</span>
     </div>
     <div class="studio-actions">
       <a class="business-switch" href="/operations/business-center">Business Center</a>
-      <a class="menu-switch" id="menuSwitch" href="?menu=next">Review July 25 draft</a>
-      <button class="print-button" id="printButton" type="button">Print selected sheets</button>
+      <span class="menu-switch" id="menuSwitch">Batch 7 controlled labels</span>
+      <button class="print-button" id="printButton" type="button">Print exact label queue</button>
     </div>
   </header>
 
   <main class="workspace">
     <aside class="controls">
       <h1 id="datasetHeading">Active menu labels</h1>
-      <p id="datasetNotice">Select any current meal and tier. Every printed Avery 5168 sheet contains four matching labels.</p>
+      <p id="datasetNotice">Select the exact number of each current meal and tier. The queue packs mixed labels four-up to minimize unused stock.</p>
 
       <div class="field-row">
         <div class="field">
@@ -436,60 +448,61 @@
 
       <h2>Print queue</h2>
       <div class="print-warning">Required: Letter, Portrait, 100% or Actual size, Margins set to None, headers and footers off, and Background graphics on. In printer properties, choose Labels, Heavyweight, or Cardstock and Best or High quality. Feed one Avery sheet at a time.</div>
-      <p>Check the labels you need, then set the number of full four-label sheets for each selection. Do not use Fit to page or Shrink oversized pages. Test on plain paper and hold it behind the Avery sheet before printing labels.</p>
+      <p>Check the labels you need, then enter the exact individual-label count for each selection. The queue fills each four-label sheet before starting the next one. Do not use Fit to page or Shrink oversized pages. Test on plain paper and hold it behind the Avery sheet before printing labels.</p>
       <div class="batch-toolbar">
         <button type="button" id="selectAllLabels">Select all</button>
         <button type="button" id="clearLabels">Clear</button>
         <button type="button" id="selectCurrentLabel">Current only</button>
       </div>
       <div class="sheet-selection" id="sheetSelection"></div>
-      <p class="selection-count" id="selectionCount">0 sheets selected</p>
+      <p class="selection-count" id="selectionCount">0 labels selected</p>
 
       <h2>Production details</h2>
+      <div class="production-gate" id="productionGate" role="alert">Validating this label queue against the active batch...</div>
       <div class="field-row">
-        <div class="field"><label for="madeDate">Made date</label><input id="madeDate" type="date" value="2026-07-17"></div>
-        <div class="field"><label for="useBy">Refrigerate through</label><input id="useBy" type="date" value="2026-07-20"></div>
+        <div class="field"><label for="madeDate">Made date (controlled)</label><input id="madeDate" type="date" readonly></div>
+        <div class="field"><label for="useBy">Refrigerate through (controlled)</label><input id="useBy" type="date" readonly></div>
       </div>
       <div class="field-row">
-        <div class="field"><label for="batchId">Batch</label><input id="batchId" value="B2-0716"></div>
-        <div class="field"><label for="netWeight">Net weight</label><input id="netWeight"></div>
+        <div class="field"><label for="batchId">Batch (controlled)</label><input id="batchId" readonly></div>
+        <div class="field"><label for="netWeight">Net weight (generated)</label><input id="netWeight" readonly></div>
       </div>
 
-      <div class="field"><label for="ingredients">Ingredients</label><textarea id="ingredients"></textarea></div>
-      <div class="field"><label for="allergens">Allergen statement</label><input id="allergens"></div>
+      <div class="field"><label for="ingredients">Ingredients (generated)</label><textarea id="ingredients" readonly></textarea></div>
+      <div class="field"><label for="allergens">Allergen statement (generated)</label><input id="allergens" readonly></div>
       <div class="field">
-        <label for="storageMode">Storage mode</label>
-        <select id="storageMode">
+        <label for="storageMode">Storage mode (generated)</label>
+        <select id="storageMode" disabled>
           <option value="freezer">Freezer friendly</option>
           <option value="fridge">Fridge only</option>
         </select>
       </div>
-      <div class="field"><label for="personality">Meal note</label><input id="personality" value="Careful. This one disappears fast."></div>
-      <div class="field"><label for="storage">Storage</label><textarea id="storage"></textarea></div>
-      <div class="field"><label for="reheat">Reheating</label><input id="reheat" value="Microwave 1-2 minutes. Heat to 165°F throughout."></div>
+      <div class="field"><label for="personality">Meal note (generated)</label><input id="personality" readonly></div>
+      <div class="field"><label for="storage">Storage (generated)</label><textarea id="storage" readonly></textarea></div>
+      <div class="field"><label for="reheat">Reheating (generated)</label><input id="reheat" readonly></div>
 
       <h2>Estimated nutrition</h2>
       <div class="field-row">
-        <div class="field"><label for="satFat">Saturated fat (g)</label><input id="satFat" type="number" step="0.1"></div>
-        <div class="field"><label for="cholesterol">Cholesterol (mg)</label><input id="cholesterol" type="number"></div>
+        <div class="field"><label for="satFat">Saturated fat (g)</label><input id="satFat" type="number" step="0.1" readonly></div>
+        <div class="field"><label for="cholesterol">Cholesterol (mg)</label><input id="cholesterol" type="number" readonly></div>
       </div>
       <div class="field-row">
-        <div class="field"><label for="sodium">Sodium (mg)</label><input id="sodium" type="number"></div>
-        <div class="field"><label for="sugars">Total sugars (g)</label><input id="sugars" type="number" step="0.1"></div>
+        <div class="field"><label for="sodium">Sodium (mg)</label><input id="sodium" type="number" readonly></div>
+        <div class="field"><label for="sugars">Total sugars (g)</label><input id="sugars" type="number" step="0.1" readonly></div>
       </div>
       <div class="field-row">
-        <div class="field"><label for="fiber">Fiber (g)</label><input id="fiber" type="number" step="0.1"></div>
-        <div class="field"><label for="addedSugar">Added sugars (g)</label><input id="addedSugar" type="number" step="0.1"></div>
+        <div class="field"><label for="fiber">Fiber (g)</label><input id="fiber" type="number" step="0.1" readonly></div>
+        <div class="field"><label for="addedSugar">Added sugars (g)</label><input id="addedSugar" type="number" step="0.1" readonly></div>
       </div>
       <div class="field-row">
-        <div class="field"><label for="transFat">Trans fat (g)</label><input id="transFat" type="number" step="0.1"></div>
-        <div class="field"><label for="vitaminD">Vitamin D (mcg)</label><input id="vitaminD" type="number" step="0.1"></div>
+        <div class="field"><label for="transFat">Trans fat (g)</label><input id="transFat" type="number" step="0.1" readonly></div>
+        <div class="field"><label for="vitaminD">Vitamin D (mcg)</label><input id="vitaminD" type="number" step="0.1" readonly></div>
       </div>
       <div class="field-row">
-        <div class="field"><label for="calcium">Calcium (mg)</label><input id="calcium" type="number" step="10"></div>
-        <div class="field"><label for="iron">Iron (mg)</label><input id="iron" type="number" step="0.1"></div>
+        <div class="field"><label for="calcium">Calcium (mg)</label><input id="calcium" type="number" step="10" readonly></div>
+        <div class="field"><label for="iron">Iron (mg)</label><input id="iron" type="number" step="0.1" readonly></div>
       </div>
-      <div class="field"><label for="potassium">Potassium (mg)</label><input id="potassium" type="number" step="10"></div>
+      <div class="field"><label for="potassium">Potassium (mg)</label><input id="potassium" type="number" step="10" readonly></div>
 
       <div class="estimate-note">
         Complete calculated estimates from recorded PRPD recipes, current package labels, manufacturer data, USDA records, and approved generic equivalents. Regenerate after any recipe, portion, or product change.
@@ -503,39 +516,23 @@
   </main>
 
   <section class="print-sheet" id="printSheet" aria-hidden="true"></section>
+  <section class="print-blocked-message">PRINT BLOCKED: this label queue does not match the active batch production dates. Open the current Label Studio and resolve the date gate before printing.</section>
 
-  <script src="nutrition/label-data.js"></script>
-  <script src="nutrition/next-menu-label-data.js"></script>
+  <script src="/config/order-config.js?v=20260817.1"></script>
+  <script src="/operations/label-production-guard.js?v=20260810.2"></script>
+  <script src="nutrition/next-menu-label-data.js?v=20260810.2"></script>
   <script>
     (() => {
-      const next = new URLSearchParams(window.location.search).get('menu') === 'next';
-      if (!next && window.PRPD_LABEL_DATA && window.PRPD_NEXT_LABEL_DATA) {
-        const manualBbqEntry = Object.entries(window.PRPD_NEXT_LABEL_DATA.meals)
-          .find(([, meal]) => meal.name === 'BBQ Chicken Mac & Cheese');
-        if (manualBbqEntry) {
-          const [, manualBbq] = manualBbqEntry;
-          window.PRPD_LABEL_DATA = {
-            ...window.PRPD_LABEL_DATA,
-            meals: {
-              ...window.PRPD_LABEL_DATA.meals,
-              x1: { ...manualBbq, category: 'Main', manualOnly: true },
-            },
-          };
-        }
-      }
-      if (next && window.PRPD_NEXT_LABEL_DATA) window.PRPD_LABEL_DATA = window.PRPD_NEXT_LABEL_DATA;
+      window.PRPD_LABEL_DATA = window.PRPD_NEXT_LABEL_DATA || null;
       const heading = document.getElementById('datasetHeading');
       const notice = document.getElementById('datasetNotice');
       const menuSwitch = document.getElementById('menuSwitch');
-      if (next) {
-        heading.textContent = 'July 25 draft labels';
-        notice.textContent = 'Review-only labels. Resolve each saved product and kitchen check before printing for customers.';
-        menuSwitch.textContent = 'Return to active labels';
-        menuSwitch.href = 'label-studio.html';
-        document.title = 'PRPD July 25 Draft Labels - Internal';
-      } else if (window.PRPD_LABEL_DATA?.meals?.x1) {
-        notice.textContent = 'Active menu labels plus the manual BBQ Chicken Mac & Cheese label required for this batch. Manual-only dishes are not shown to ordering customers.';
-      }
+      const batchNumber = window.PRPD_ORDER_CONFIG?.batch?.number;
+      const label = batchNumber ? `Batch ${batchNumber}` : 'Active batch';
+      heading.textContent = window.PRPD_LABEL_DATA ? `${label} labels` : 'Label data unavailable';
+      notice.textContent = window.PRPD_LABEL_DATA?.notice || 'PRINT BLOCKED: generated active-batch label data did not load.';
+      menuSwitch.textContent = `${label} controlled labels`;
+      document.title = `PRPD ${label} Label Studio - Internal`;
     })();
   </script>
   <script type="text/plain" id="legacy-label-studio-script">
@@ -692,6 +689,6 @@
     document.querySelectorAll('input, textarea').forEach((field) => field.addEventListener('input', render));
     loadMeal();
   </script>
-  <script src="/operations/label-studio-app.js?v=20260717.1"></script>
+  <script src="/operations/label-studio-app.js?v=20260810.2"></script>
 </body>
 </html>

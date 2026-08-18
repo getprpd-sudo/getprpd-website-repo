@@ -2,10 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/images/favicon-512.png" />
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <meta name="theme-color" content="#1E2E1E" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Weekly Halal Meal Prep Menu | PRPD DFW</title>
   <meta name="description" content="Order fresh, seed oil free, high-protein halal meal prep in DFW. Choose Lean or Bulk portions from PRPD's current weekly menu." />
@@ -22,8 +25,11 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="/order.css" />
   <script src="/analytics.js" defer></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18371492048"></script>
+  <script src="/google-ads.js" defer></script>
+  <script src="/funnel-tracking.js" defer></script>
 </head>
-<body>
+<body data-funnel-stage="order">
 
   <!-- ══════════ SERVICE BANNER ══════════ -->
   <div class="service-banner" role="note" aria-label="Service area">
@@ -50,20 +56,39 @@
       <p class="order-hero__meta" id="batchMeta"></p>
       <div class="order-cutoff" role="note" aria-label="Weekly order deadline">
         <span class="order-cutoff__label">Order deadline</span>
-        <strong id="orderCutoff">Wednesday at 8:00 PM CT</strong>
+        <strong id="orderCutoff">Wednesday at 6:00 PM CT</strong>
         <span class="order-cutoff__note">Orders close automatically after this time.</span>
+      </div>
+      <p class="order-trust-label">Ordering &amp; delivery at a glance</p>
+      <div class="order-trust-strip" aria-label="Ordering details">
+        <span><strong>100% halal</strong> every meal</span>
+        <span><strong>Local delivery</strong> $60 order minimum · $9.99 · free at $85</span>
+        <span><strong>Regional delivery</strong> $80 order minimum · $12.99 · free at $125</span>
+        <span><strong>Extended delivery</strong> $100 order minimum · $14.99 · free at $150</span>
+        <span><strong>Delivery or pickup</strong> DFW delivery · free Frisco pickup</span>
+        <span><strong>Fresh menu Monday</strong> new choices every week</span>
       </div>
     </div>
   </section>
 
   <section class="order-closed container" id="orderClosed" aria-live="polite">
-    <h2>Orders are closed for this week.</h2>
-    <p>The current ordering window has closed.</p>
-    <p>Forgot to order or have a question? Contact Rida directly.</p>
-    <a class="order-closed__phone" href="tel:+14695450781">(469) 545-0781</a>
+    <span class="order-closed__eyebrow">PRPD's weekly ordering schedule</span>
+    <h2>Ordering is closed for this week.</h2>
+    <p>We release a fresh menu every Monday. You can build your order from Monday until <strong>Wednesday at 6:00 PM CT</strong>, and confirmed orders are prepared fresh for Saturday delivery or Frisco pickup.</p>
+    <div class="order-closed__schedule" aria-label="Weekly ordering schedule">
+      <div><strong>Monday</strong><span>New menu opens</span></div>
+      <div><strong>Wednesday · 6 PM</strong><span>Ordering closes</span></div>
+      <div><strong>Saturday</strong><span>Delivery or pickup</span></div>
+    </div>
+    <p>Come back Monday to see the next menu. If you need help with an existing order, text Rida directly.</p>
     <div class="order-closed__actions">
-      <a class="order-closed__action" href="tel:+14695450781">Call Rida</a>
       <a class="order-closed__action" href="sms:+14695450781">Text Rida</a>
+      <a class="order-closed__action order-closed__action--secondary" href="/">Learn about PRPD</a>
+    </div>
+    <div class="order-closed__reminder">
+      <strong>Want next week's menu?</strong>
+      <p>Text <b>MENU</b> and Rida will let you know when Monday's fresh menu is available.</p>
+      <a href="sms:+14695450781?&amp;body=MENU">Text “MENU”</a>
     </div>
   </section>
 
@@ -75,41 +100,6 @@
     <div class="order-main">
 
       <!-- Client info -->
-      <div class="order-info-card">
-        <h2>Your Info</h2>
-        <div class="name-row">
-          <input type="text" class="order-input" id="firstName" placeholder="First Name *" aria-label="First name" autocomplete="given-name" required />
-          <input type="text" class="order-input" id="lastName"  placeholder="Last Name *" aria-label="Last name" autocomplete="family-name" required />
-        </div>
-        <input type="tel" class="order-input" id="phone" placeholder="Phone Number *" aria-label="Phone number" autocomplete="tel" inputmode="tel" required />
-        <input type="email" class="order-input" id="email" placeholder="Email for order confirmation *" aria-label="Email for order confirmation" autocomplete="email" required />
-        <input type="text" class="order-input" id="deliveryAddress" placeholder="Delivery Address *" aria-label="Delivery address" autocomplete="street-address" required />
-        <div class="contact-row">
-          <input type="text" class="order-input" id="deliveryCity" placeholder="City *" aria-label="Delivery city" autocomplete="address-level2" required />
-          <input type="text" class="order-input" id="deliveryZip" placeholder="ZIP Code *" aria-label="Delivery ZIP code" autocomplete="postal-code" inputmode="numeric" maxlength="5" required />
-        </div>
-        <p class="input-help">Rida uses this information only to confirm and deliver your order. A copy of your order will be emailed to you immediately.</p>
-        <textarea class="order-input" id="deliveryInstructions" placeholder="Gate code or delivery instructions (optional)..." aria-label="Delivery instructions"></textarea>
-        <textarea class="order-input" id="orderNotes" placeholder="Meal requests or other notes (optional)..." aria-label="Meal requests or other notes"></textarea>
-        <div class="order-growth-fields">
-          <label class="promo-field" for="promoCode">
-            <span>Partner or referral code <small>(optional)</small></span>
-            <span class="promo-field__controls">
-              <input type="text" class="order-input" id="promoCode" placeholder="Enter code" maxlength="32" autocomplete="off" autocapitalize="characters" />
-              <button type="button" class="promo-apply" id="applyPromoBtn">Apply</button>
-            </span>
-            <span class="promo-feedback" id="promoFeedback" aria-live="polite"></span>
-          </label>
-          <label class="menu-opt-in" for="menuEmailOptIn">
-            <input type="checkbox" id="menuEmailOptIn" />
-            <span>
-              <strong>Email me when next week's menu opens.</strong>
-              <small>Up to three menu and cutoff emails per weekly cycle. You can unsubscribe at any time.</small>
-            </span>
-          </label>
-        </div>
-      </div>
-
       <!-- ── Global tier toggle ── -->
       <div class="tier-bar">
         <span class="tier-bar__label">Choose Lean, Bulk, or both on each meal.</span>
@@ -145,6 +135,18 @@
         <a href="#menu-mains" data-menu-section="mains">Mains</a>
         <a href="#menu-desserts" data-menu-section="desserts">Desserts</a>
       </nav>
+      <div class="menu-filter-bar" id="menuFilterBar" aria-label="Filter weekly menu">
+        <span class="menu-filter-bar__label">Show me</span>
+        <div class="menu-filter-bar__options" role="group" aria-label="Nutrition and storage filters">
+          <button type="button" class="menu-filter-chip is-active" data-menu-filter="all" aria-pressed="true">All meals</button>
+          <button type="button" class="menu-filter-chip" data-menu-filter="lean-high-protein" aria-pressed="false">Lean · 50g+ protein</button>
+          <button type="button" class="menu-filter-chip" data-menu-filter="lean-under-550" aria-pressed="false">Lean · under 550 cal</button>
+          <button type="button" class="menu-filter-chip" data-menu-filter="bulk-high-protein" aria-pressed="false">Bulk · 65g+ protein</button>
+          <button type="button" class="menu-filter-chip" data-menu-filter="freezer" aria-pressed="false">Freezer-friendly</button>
+        </div>
+        <p class="menu-filter-note">Nutrition filters use only the tier named on the button.</p>
+        <p class="menu-filter-empty" id="menuFilterEmpty" hidden>No dishes match that filter this week.</p>
+      </div>
       <div class="menu-section" id="menu-breakfasts">
         <div class="menu-section-head">
           <span class="section-label">01</span>
@@ -182,6 +184,78 @@
         <div class="dish-grid" id="grid-desserts"></div>
       </div>
 
+      <section class="checkout-section" id="checkout" aria-labelledby="checkoutTitle">
+        <div class="checkout-section__heading">
+          <span class="section-label">Checkout</span>
+          <h2 id="checkoutTitle">Finish your order</h2>
+          <p>Once your meals are selected, choose delivery or pickup and add your contact details below. Nothing is charged online—Zelle instructions for payments@getprpd.com arrive with your emailed confirmation.</p>
+        </div>
+
+        <div class="order-info-card">
+          <h3>Your contact &amp; fulfillment details</h3>
+          <div class="name-row">
+            <input type="text" class="order-input" id="firstName" placeholder="First Name *" aria-label="First name" autocomplete="given-name" required />
+            <input type="text" class="order-input" id="lastName"  placeholder="Last Name *" aria-label="Last name" autocomplete="family-name" required />
+          </div>
+          <input type="tel" class="order-input" id="phone" placeholder="10-digit phone number *" aria-label="Phone number" aria-describedby="phoneReviewNote" autocomplete="tel" inputmode="tel" required />
+          <div class="phone-review" id="phoneReviewNote" role="status" hidden>
+            <strong>Please verify this number.</strong>
+            <span id="phoneReviewMessage">The area or exchange looks unusual. Double-check all 10 digits.</span>
+            <label for="phoneReviewConfirmed"><input type="checkbox" id="phoneReviewConfirmed" /> I confirmed every digit is correct.</label>
+          </div>
+          <input type="email" class="order-input" id="email" placeholder="Email for order confirmation *" aria-label="Email for order confirmation" autocomplete="email" required />
+          <div class="fulfillment-switch" role="group" aria-label="Choose delivery or pickup">
+            <button type="button" class="fulfillment-option is-active" data-fulfillment="delivery" aria-pressed="true">
+              <strong>Delivery</strong><span>To your DFW address</span>
+            </button>
+            <button type="button" class="fulfillment-option" data-fulfillment="pickup" aria-pressed="false">
+              <strong>Pickup</strong><span>Frisco, TX · free</span>
+            </button>
+          </div>
+          <input type="hidden" id="fulfillmentMethod" value="delivery" />
+          <div id="deliveryFields">
+            <input type="text" class="order-input" id="deliveryAddress" placeholder="Street Address *" aria-label="Street address" autocomplete="address-line1" required />
+            <label class="address-unit-toggle" for="deliveryHasUnit">
+              <input type="checkbox" id="deliveryHasUnit" aria-controls="deliveryUnit" aria-expanded="false" />
+              <span>This address has an apartment, suite, or unit number.</span>
+            </label>
+            <input type="text" class="order-input" id="deliveryUnit" placeholder="Apartment / Suite / Unit *" aria-label="Apartment, suite, or unit" autocomplete="address-line2" hidden disabled />
+            <div class="contact-row">
+              <input type="text" class="order-input" id="deliveryCity" placeholder="City *" aria-label="Delivery city" autocomplete="address-level2" required />
+              <select class="order-input" id="deliveryState" aria-label="Delivery state" autocomplete="address-level1" required>
+                <option value="TX" selected>TX</option>
+              </select>
+              <input type="text" class="order-input" id="deliveryZip" placeholder="ZIP Code *" aria-label="Delivery ZIP code" autocomplete="postal-code" inputmode="numeric" maxlength="5" required />
+            </div>
+            <p class="input-help"><strong>Your ZIP determines the delivery area.</strong> The order minimum is the least food you can order; the free-delivery threshold is a separate, higher food subtotal. Local: $60 order minimum, $9.99 delivery, free at $85. Regional: $80 order minimum, $12.99 delivery, free at $125. Extended: $100 order minimum, $14.99 delivery, free at $150.</p>
+          </div>
+          <div class="pickup-info" id="pickupInfo" hidden>
+            <strong>Free pickup in Frisco, Texas</strong>
+            <span>Pickup has a lower $50 food minimum. Rida will text the exact pickup address and pickup window after your order and payment are confirmed.</span>
+          </div>
+          <p class="input-help">Rida uses this information only to confirm and fulfill your order. A copy of your order will be emailed to you immediately.</p>
+          <textarea class="order-input" id="deliveryInstructions" placeholder="Gate code or delivery instructions (optional)..." aria-label="Delivery instructions"></textarea>
+          <textarea class="order-input" id="orderNotes" placeholder="Meal requests or other notes (optional)..." aria-label="Meal requests or other notes"></textarea>
+          <div class="order-growth-fields">
+            <label class="promo-field" for="promoCode">
+              <span>Referred by a PRPD customer? <small>Get $10 off your first order.</small></span>
+              <span class="promo-field__controls">
+                <input type="text" class="order-input" id="promoCode" placeholder="Enter their code" maxlength="32" autocomplete="off" autocapitalize="characters" />
+                <button type="button" class="promo-apply" id="applyPromoBtn">Apply</button>
+              </span>
+              <span class="promo-feedback" id="promoFeedback" aria-live="polite"></span>
+            </label>
+            <label class="menu-opt-in" for="menuEmailOptIn">
+              <input type="checkbox" id="menuEmailOptIn" />
+              <span>
+                <strong>Email me when next week's menu opens.</strong>
+                <small>Up to three menu and cutoff emails per weekly cycle. You can unsubscribe at any time.</small>
+              </span>
+            </label>
+          </div>
+        </div>
+      </section>
+
     </div>
 
     <!-- RIGHT: sticky summary -->
@@ -198,7 +272,7 @@
           <strong id="mealSubtotalDisplay">$0.00</strong>
         </div>
         <div class="summary-fee-row">
-          <span>Delivery</span>
+          <span id="fulfillmentFeeLabel">Delivery</span>
           <strong id="deliveryFeeDisplay">&mdash;</strong>
         </div>
         <div class="summary-fee-row summary-discount-row" id="discountRow" hidden>
@@ -215,15 +289,15 @@
             <strong>to meet the $60 minimum</strong>
           </div>
           <div class="summary-policy__line" id="deliveryStatus">
-            <span>Add $75.01 more</span>
-            <strong>for free delivery</strong>
+            <span>Enter ZIP for exact delivery pricing</span>
+            <strong>$9.99 local · $12.99 regional · $14.99 extended</strong>
           </div>
         </div>
         <button class="btn btn--primary" id="placeOrderBtn">
-          <span id="btnText">Place Order →</span>
+          <span id="btnText">Continue to checkout →</span>
           <span id="btnSpinner" hidden>Sending...</span>
         </button>
-        <p class="summary-note">Exact total rounded up to the nearest dollar.<br>Payment via Zelle after confirmation.</p>
+        <p class="summary-note">Exact total rounded up to the nearest dollar.<br>Payment via Zelle to payments@getprpd.com after confirmation.</p>
       </div>
     </aside>
 
@@ -233,8 +307,9 @@
     <div>
       <span id="mobileCartCount">0 items</span>
       <strong id="mobileCartTotal">$0.00 total</strong>
+      <small id="mobileCartStatus">$60.00 to minimum</small>
     </div>
-    <button type="button" id="mobileCartReview" aria-controls="orderSummary" aria-expanded="false">Review order</button>
+    <button type="button" id="mobileCartReview" aria-controls="orderSummary" aria-expanded="false">Review &amp; checkout</button>
   </div>
 
   <!-- ══════════ SUCCESS ══════════ -->
@@ -244,15 +319,15 @@
     </div>
     <h2>Order Received!</h2>
     <p id="successMsg">Your order has been sent to PRPD.</p>
-    <p id="successEmailMsg">We also emailed you an itemized copy for your records.</p>
-    <p>Rida will confirm payment and Saturday delivery by text shortly.</p>
+    <p id="successEmailMsg">Check your email for your itemized receipt and Zelle instructions for payments@getprpd.com.</p>
+    <p id="successFulfillmentText">Rida will confirm payment and Saturday delivery by text shortly.</p>
     <p class="success-reference">Order reference: <span id="successOrderId"></span></p>
     <p class="success-storage-note" id="successStorageNote" hidden><strong>For meals marked Freezer-friendly:</strong> freeze them when delivered and thaw overnight in the refrigerator before reheating.</p>
     <div class="success-order">
       <div id="successOrderItems"></div>
       <hr class="success-order__divider" />
       <div class="success-order__row"><span>Meals subtotal</span><strong id="successSubtotal">$0.00</strong></div>
-      <div class="success-order__row"><span>Delivery</span><strong id="successDeliveryFee">$0.00</strong></div>
+      <div class="success-order__row"><span id="successFulfillmentFeeLabel">Delivery</span><strong id="successDeliveryFee">$0.00</strong></div>
       <div class="success-order__row" id="successDiscountRow" hidden><span>Partner discount <small id="successDiscountCode"></small></span><strong id="successDiscount">-$0.00</strong></div>
     </div>
     <div class="success-total">
@@ -260,8 +335,14 @@
       <strong id="successTotal">$0.00</strong>
     </div>
     <p class="success-delivery">
-      Delivery: <strong id="successDelivery"></strong>
+      <span id="successScheduleLabel">Delivery</span>: <strong id="successDelivery"></strong>
     </p>
+    <div class="success-referral">
+      <span class="section-label">Share PRPD</span>
+      <h3>Give $10. Get $10.</h3>
+      <p>PRPD's referral pilot is approved manually. After this order is paid, ask Rida for your personal referral link. Your friend gets $10 off their first qualifying order, and you earn $10 credit after their order is paid.</p>
+      <a href="sms:+14695450781?&amp;body=Hi%20Rida%2C%20can%20I%20get%20my%20PRPD%20referral%20code%3F">Get my referral code</a>
+    </div>
   </div>
 
   <footer class="order-legal">
@@ -270,6 +351,7 @@
     <a href="mailto:hello@getprpd.com">hello@getprpd.com</a>
   </footer>
 
+  <script src="/phone-validation.js"></script>
   <script src="/config/order-config.js"></script>
   <script src="/order.js"></script>
 </body>

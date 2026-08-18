@@ -31,6 +31,10 @@ service-account*.json
 operations/.planner-key
 operations/private-data/
 operations/private-records/
+private-records/
+operations/finance/
+operations/relationships/
+operations/governance/
 .env*.local
 node_modules/
 __pycache__/

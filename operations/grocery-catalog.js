@@ -14,6 +14,7 @@
     onion: g(454, 0.98, '1 lb', 'Local planning price', 'planning'),
     jalapeno: g(454, 1.32, '1 lb', 'Walmart receipt 2026-07-16', 'verified'),
     potato: g(2268, 4.95, '5 lb bag', 'Local planning price', 'planning'),
+    instant_potato_flakes: g(793, 5.98, '28 oz Betty Crocker unflavored instant mashed potatoes', 'Current package specification; replace price with receipt', 'planning', 'Betty Crocker instant mashed potatoes 28 oz'),
     avocado_oil: g(750, 8, '25 fl oz bottle', 'Earlier PRPD price', 'legacy'),
     water: g(1000, 0, 'Tap water', 'Kitchen supply', 'verified'),
     salt: g(737, 0.67, '26 oz canister', 'Local planning price', 'planning'),
@@ -38,6 +39,12 @@
     tomato_paste: g(170, 1, '6 oz can', 'Earlier PRPD price', 'legacy'),
     rice_dry: g(9072, 13, '20 lb bag', 'PRPD confirmed', 'verified'),
     tilapia_raw: g(907.184, 8.87, '2 lb bag', 'Walmart online 2026-08-06', 'verified', 'Great Value frozen tilapia fillets 2 lb'),
+    pink_salmon_raw: g(907.184, 11.46, '2 lb skin-on bag', 'Walmart online 2026-08-17', 'planning', 'Great Value wild caught pink salmon skin on fillets 2 lb'),
+    quinoa_dry: g(907.184, 4.96, '2 lb bag', 'Planning estimate', 'planning', 'dry quinoa 2 lb'),
+    green_beans: g(907.184, 2.48, '2 lb frozen bag', 'Planning estimate', 'planning', 'frozen green beans 2 lb'),
+    black_beans: g(425, 0.88, '15 oz can', 'Planning estimate', 'planning', 'canned black beans 15 oz'),
+    parmesan: g(227, 4.98, '8 oz package', 'Planning estimate', 'planning', 'grated parmesan cheese 8 oz'),
+    croutons: g(142, 1.98, '5 oz bag', 'Planning estimate', 'planning', 'seasoned croutons 5 oz'),
     butter: g(454, 4.87, '1 lb box', 'Earlier PRPD price', 'legacy'),
     lemon: g(48, 0.68, '1 lemon / about 48g juice', 'Walmart receipt 2026-07-16', 'verified'),
     garlic: g(907.184, 5.96, '32 oz jar minced garlic in water', 'Walmart online 2026-08-06', 'verified', 'Great Value minced garlic in water 32 oz'),
@@ -121,6 +128,10 @@
     coriander: g(198, 3.98, '7 oz bag', 'Local planning price', 'planning', 'ground coriander'),
     reduced_cream_cheese: g(226.8, 3.48, '8 oz brick', 'Current planning estimate', 'planning', 'one third less fat cream cheese 8 oz'),
     chia: g(340, 5.98, '12 oz bag', 'Current planning estimate', 'planning', 'chia seeds 12 oz'),
+    red_onion: g(453.592, 1.28, '1 lb', 'Current planning estimate', 'planning', 'red onions'),
+    white_vinegar: g(946, 2.64, '32 fl oz bottle; verify 5% acidity', 'Current planning estimate', 'planning', 'distilled white vinegar 5 percent acidity 32 oz'),
+    pickling_salt: g(907, 2.98, '2 lb box', 'Current planning estimate', 'planning', 'pickling canning salt 2 lb'),
+    granulated_sugar: g(1814, 3.24, '4 lb bag', 'Current planning estimate', 'planning', 'granulated sugar 4 lb'),
   };
   return { version: '2026-08-06.2', catalog };
 });

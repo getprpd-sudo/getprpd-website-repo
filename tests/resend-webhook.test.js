@@ -3,7 +3,12 @@ const test = require('node:test');
 const { Webhook } = require('svix');
 
 const DeliveryLog = require('../api/_email-delivery-log');
-const WebhookHandler = require('../api/resend-webhook')._test;
+const ResendWebhook = require('../api/resend-webhook');
+const WebhookHandler = ResendWebhook._test;
+
+test('Resend webhook disables Vercel body parsing for signature verification', () => {
+  assert.deepEqual(ResendWebhook.config, { api: { bodyParser: false } });
+});
 
 test('Resend events normalize into a stable delivery-log record', () => {
   const normalized = DeliveryLog.normalizeDeliveryEvent({

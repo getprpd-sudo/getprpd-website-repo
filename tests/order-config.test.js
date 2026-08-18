@@ -4,7 +4,7 @@ const path = require('node:path');
 const test = require('node:test');
 
 const publicConfig = require('../config/order-config');
-const config = require('../operations/active/BATCH_6_DRAFT_ORDER_CONFIG');
+const config = require('../operations/active/BATCH_7_DRAFT_ORDER_CONFIG');
 const orderApi = require('../api/order');
 
 const dishes = Object.values(config.menu).flat();
@@ -12,20 +12,21 @@ const draftCatalog = orderApi._test.catalogForConfig(config);
 const draftOrderContext = {
   catalog: draftCatalog,
   batchNumber: config.batch.number,
-  cutoffIso: config.batch.cutoffIso,
+  // Order-pricing tests must remain deterministic after the real weekly cutoff.
+  cutoffIso: '2099-12-31T23:59:59-06:00',
   policies: config.policies,
 };
 
-test('approved Batch 6 is published with the owner-approved reminder workflow', () => {
+test('approved Batch 7 is published and owner-approved reminders are enabled', () => {
   assert.equal(publicConfig.batch.published, true);
   assert.equal(publicConfig.batch.remindersEnabled, true);
-  assert.equal(publicConfig.batch.number, 6);
-  assert.equal(publicConfig.batch.deliveryDate, 'Saturday, August 15, 2026');
-  assert.equal(publicConfig.batch.cutoffIso, '2026-08-12T18:00:00-05:00');
+  assert.equal(publicConfig.batch.number, 7);
+  assert.equal(publicConfig.batch.deliveryDate, 'Saturday, August 22, 2026');
+  assert.equal(publicConfig.batch.cutoffIso, '2026-08-19T18:00:00-05:00');
   assert.equal(Object.values(publicConfig.menu).flat().length, 18);
   const publicConfigSource = fs.readFileSync(path.join(__dirname, '..', 'config', 'order-config.js'), 'utf8');
-  assert.match(publicConfigSource, /Saturday, August 15, 2026/);
-  assert.match(publicConfigSource, /Harissa Honey Chicken/);
+  assert.match(publicConfigSource, /Saturday, August 22, 2026/);
+  assert.match(publicConfigSource, /Cajun Garlic Salmon/);
   assert.equal(orderApi._test.isMenuPublished(publicConfig), true);
   assert.equal(orderApi._test.isMenuPublished({ batch: { published: true } }), true);
   assert.equal(orderApi._test.isMenuPublished({ batch: {} }), false);
@@ -91,8 +92,8 @@ test('later-week menu guidance is driven by explicit meal flags', () => {
 
 test('server totals tiered meals, desserts, and add-ons from shared prices', () => {
   const items = orderApi._test.normalizeItems([
-    { id: 'b1', tier: 'lean', qty: 2 },
-    { id: 'b1', tier: 'bulk', qty: 1 },
+    { id: 'b2', tier: 'lean', qty: 2 },
+    { id: 'b2', tier: 'bulk', qty: 1 },
     { id: 'm6', tier: 'bulk', qty: 1 },
     { id: 'm8', tier: 'lean', qty: 1 },
     { id: 'd1', qty: 2 },
@@ -100,10 +101,10 @@ test('server totals tiered meals, desserts, and add-ons from shared prices', () 
   ], draftCatalog);
 
   assert.deepEqual(items.map(item => [item.id, item.tier, item.qty, item.subtotal]), [
-    ['b1', 'lean', 2, 27.98],
-    ['b1', 'bulk', 1, 15.99],
-    ['m6', 'bulk', 1, 12.99],
-    ['m8', 'lean', 1, 10.99],
+    ['b2', 'lean', 2, 27.98],
+    ['b2', 'bulk', 1, 15.99],
+    ['m6', 'bulk', 1, 15.99],
+    ['m8', 'lean', 1, 13.99],
     ['d1', 'single', 2, 13.98],
     ['a1', 'single', 1, 7.99],
   ]);
@@ -140,7 +141,7 @@ test('server recalculates an approved discount and ignores client-submitted tota
   try {
     const order = orderApi._test.validateAndBuildOrder({
       action: 'order',
-      orderId: 'PRPD-B6-20260810-A1B2C3D4',
+      orderId: 'PRPD-B7-20260817-A1B2C3D4',
       firstName: 'Test',
       lastName: 'Customer',
       phone: '4695550100',
@@ -152,7 +153,7 @@ test('server recalculates an approved discount and ignores client-submitted tota
       deliveryState: 'TX',
       deliveryZip: '75035',
       deliveryInstructions: '',
-      items: [{ id: 'b1', tier: 'lean', qty: 6 }],
+      items: [{ id: 'b2', tier: 'lean', qty: 6 }],
       mealSubtotal: 1,
       deliveryFee: 0,
       exactTotal: 1,
@@ -178,7 +179,7 @@ test('server recalculates an approved discount and ignores client-submitted tota
     assert.equal(order.mealSubtotal, 83.94);
     assert.equal(order.deliveryFee, 9.99);
     assert.equal(order.deliveryZone, 'core');
-    assert.equal(order.deliveryZoneLabel, 'Core North DFW');
+    assert.equal(order.deliveryZoneLabel, 'Local Delivery');
     assert.equal(order.discountAmount, 15);
     assert.equal(order.exactTotal, 78.93);
     assert.equal(order.roundedTotal, 79);
@@ -192,17 +193,24 @@ test('server recalculates an approved discount and ignores client-submitted tota
   }
 });
 
-test('server selects core or extended pricing by ZIP and rejects out-of-area ZIPs', () => {
+test('server selects local, regional, or extended pricing by ZIP and rejects out-of-area ZIPs', () => {
   assert.deepEqual(orderApi._test.deliveryPolicyForZip('75035', config.policies), {
     id: 'core',
-    label: 'Core North DFW',
+    label: 'Local Delivery',
     minimumOrder: 60,
-    freeDeliveryThreshold: 100,
+    freeDeliveryThreshold: 85,
     deliveryFee: 9.99,
+  });
+  assert.deepEqual(orderApi._test.deliveryPolicyForZip('75063', config.policies), {
+    id: 'regional',
+    label: 'Regional Delivery',
+    minimumOrder: 80,
+    freeDeliveryThreshold: 125,
+    deliveryFee: 12.99,
   });
   assert.deepEqual(orderApi._test.deliveryPolicyForZip('76107', config.policies), {
     id: 'extended',
-    label: 'Extended DFW / Fort Worth',
+    label: 'Extended Delivery',
     minimumOrder: 100,
     freeDeliveryThreshold: 150,
     deliveryFee: 14.99,
@@ -210,10 +218,55 @@ test('server selects core or extended pricing by ZIP and rejects out-of-area ZIP
   assert.equal(orderApi._test.deliveryPolicyForZip('77002', config.policies), null);
 });
 
+test('pickup is free, uses the approved lower food minimum, and never requires a delivery address', () => {
+  assert.deepEqual(config.policies.deliveryZones.pickup, {
+    id: 'pickup',
+    label: 'Pickup',
+    city: 'Frisco',
+    state: 'TX',
+    minimumOrder: 50,
+    freeDeliveryThreshold: 50,
+    deliveryFee: 0,
+  });
+
+  const order = orderApi._test.validateAndBuildOrder({
+    action: 'order',
+    orderId: 'PRPD-B7-20260817-A1B2C3D4',
+    firstName: 'Pickup',
+    lastName: 'Customer',
+    phone: '9725550100',
+    email: 'pickup@example.com',
+    fulfillmentMethod: 'pickup',
+    deliveryAddress: '',
+    deliveryHasUnit: false,
+    deliveryUnit: '',
+    deliveryCity: '',
+    deliveryState: '',
+    deliveryZip: '',
+    deliveryInstructions: 'Late afternoon works best.',
+    items: [{ id: 'm2', tier: 'lean', qty: 6 }],
+    promoCode: '',
+    menuEmailOptIn: false,
+    notes: '',
+    website: '',
+    formStartedAt: 1,
+  }, [], draftOrderContext);
+
+  assert.equal(order.fulfillmentMethod, 'pickup');
+  assert.equal(order.deliveryZone, 'pickup');
+  assert.equal(order.deliveryZoneLabel, 'Pickup');
+  assert.equal(order.pickupCity, 'Frisco');
+  assert.equal(order.pickupState, 'TX');
+  assert.equal(order.deliveryFee, 0);
+  assert.equal(order.mealSubtotal, 65.94);
+  assert.equal(order.exactTotal, 65.94);
+  assert.equal(order.roundedTotal, 66);
+});
+
 test('server enforces the extended minimum and applies its fee until the free-delivery threshold', () => {
   const payload = (qty, suffix) => ({
     action: 'order',
-    orderId: `PRPD-B6-20260810-${suffix}`,
+    orderId: `PRPD-B7-20260817-${suffix}`,
     firstName: 'Fort',
     lastName: 'Worth',
     phone: '8175550100',
@@ -225,7 +278,7 @@ test('server enforces the extended minimum and applies its fee until the free-de
     deliveryState: 'TX',
     deliveryZip: '76107',
     deliveryInstructions: '',
-    items: [{ id: 'b1', tier: 'lean', qty }],
+    items: [{ id: 'b2', tier: 'lean', qty }],
     promoCode: '',
     menuEmailOptIn: false,
     notes: '',
@@ -235,7 +288,7 @@ test('server enforces the extended minimum and applies its fee until the free-de
 
   assert.throws(
     () => orderApi._test.validateAndBuildOrder(payload(6, 'A1B2C3D4'), [], draftOrderContext),
-    /\$100 Extended DFW \/ Fort Worth order minimum/i,
+    /\$100 Extended Delivery order minimum/i,
   );
 
   const paidDelivery = orderApi._test.validateAndBuildOrder(payload(8, 'B1C2D3E4'), [], draftOrderContext);
@@ -249,11 +302,84 @@ test('server enforces the extended minimum and applies its fee until the free-de
   assert.equal(freeDelivery.exactTotal, 153.89);
 });
 
+test('server enforces the regional minimum and applies its fee until the regional free-delivery threshold', () => {
+  const payload = (qty, suffix) => ({
+    action: 'order',
+    orderId: `PRPD-B7-20260817-${suffix}`,
+    firstName: 'Regional',
+    lastName: 'Customer',
+    phone: '9725550100',
+    email: 'regional@example.com',
+    deliveryAddress: '123 Main Street',
+    deliveryHasUnit: false,
+    deliveryUnit: '',
+    deliveryCity: 'Irving',
+    deliveryState: 'TX',
+    deliveryZip: '75063',
+    deliveryInstructions: '',
+    items: [{ id: 'b2', tier: 'lean', qty }],
+    promoCode: '',
+    menuEmailOptIn: false,
+    notes: '',
+    website: '',
+    formStartedAt: 1,
+  });
+
+  assert.throws(
+    () => orderApi._test.validateAndBuildOrder(payload(5, 'D1E2F3A4'), [], draftOrderContext),
+    /\$80 Regional Delivery order minimum/i,
+  );
+
+  const paidDelivery = orderApi._test.validateAndBuildOrder(payload(6, 'E1F2A3B4'), [], draftOrderContext);
+  assert.equal(paidDelivery.mealSubtotal, 83.94);
+  assert.equal(paidDelivery.deliveryFee, 12.99);
+  assert.equal(paidDelivery.exactTotal, 96.93);
+
+  const freeDelivery = orderApi._test.validateAndBuildOrder(payload(9, 'F1A2B3C4'), [], draftOrderContext);
+  assert.equal(freeDelivery.mealSubtotal, 125.91);
+  assert.equal(freeDelivery.deliveryFee, 0);
+  assert.equal(freeDelivery.exactTotal, 125.91);
+});
+
+test('local delivery stays $9.99 below $85 and becomes free at the approved $85 threshold', () => {
+  const payload = (qty, suffix) => ({
+    action: 'order',
+    orderId: `PRPD-B7-20260817-${suffix}`,
+    firstName: 'Local',
+    lastName: 'Customer',
+    phone: '9725550100',
+    email: 'local@example.com',
+    deliveryAddress: '123 Main Street',
+    deliveryHasUnit: false,
+    deliveryUnit: '',
+    deliveryCity: 'Frisco',
+    deliveryState: 'TX',
+    deliveryZip: '75035',
+    deliveryInstructions: '',
+    items: [{ id: 'm2', tier: 'lean', qty }],
+    promoCode: '',
+    menuEmailOptIn: false,
+    notes: '',
+    website: '',
+    formStartedAt: 1,
+  });
+
+  const paidDelivery = orderApi._test.validateAndBuildOrder(payload(7, 'A5B6C7D8'), [], draftOrderContext);
+  assert.equal(paidDelivery.mealSubtotal, 76.93);
+  assert.equal(paidDelivery.deliveryFee, 9.99);
+  assert.equal(paidDelivery.exactTotal, 86.92);
+
+  const freeDelivery = orderApi._test.validateAndBuildOrder(payload(8, 'B6C7D8E9'), [], draftOrderContext);
+  assert.equal(freeDelivery.mealSubtotal, 87.92);
+  assert.equal(freeDelivery.deliveryFee, 0);
+  assert.equal(freeDelivery.exactTotal, 87.92);
+});
+
 test('server accepts new references and rejects other-batch references', () => {
-  assert.equal(orderApi._test.isValidOrderId('PRPD-B6-20260810-A4F2C91D', 6), true);
-  assert.equal(orderApi._test.isValidOrderId('PRPD-B6-20260810-A4F2', 6), true);
-  assert.equal(orderApi._test.isValidOrderId('PRPD-B5-20260810-A4F2C91D', 6), false);
-  assert.equal(orderApi._test.isValidOrderId('PRPD-B6-20260810-NOTHEX99', 6), false);
+  assert.equal(orderApi._test.isValidOrderId('PRPD-B7-20260817-A4F2C91D', 7), true);
+  assert.equal(orderApi._test.isValidOrderId('PRPD-B7-20260817-A4F2', 7), true);
+  assert.equal(orderApi._test.isValidOrderId('PRPD-B6-20260817-A4F2C91D', 7), false);
+  assert.equal(orderApi._test.isValidOrderId('PRPD-B7-20260817-NOTHEX99', 7), false);
 });
 
 test('premium steak is counted with beef and seafood in the payment log', () => {
@@ -284,6 +410,12 @@ test('public order form collects delivery details and requests an emailed confir
   assert.doesNotMatch(orderHtml, /id="deliveryUnit"[^>]*required/);
   assert.match(orderJs, /customerConfirmationSent/);
   assert.match(orderJs, /emailed an itemized copy/i);
+  assert.match(orderHtml, /data-fulfillment="delivery"/);
+  assert.match(orderHtml, /data-fulfillment="pickup"/);
+  assert.match(orderHtml, /Free pickup in Frisco, Texas/);
+  assert.match(orderHtml, /lower \$50 food minimum/);
+  assert.match(orderJs, /fulfillmentMethod: selectedFulfillment/);
+  assert.match(orderJs, /field\.required = !pickup/);
 });
 
 test('public order form captures referral attribution and explicit menu-email consent', () => {
@@ -321,35 +453,38 @@ test('configured menu photos exist and each dish uses one canonical image', () =
   assert.match(orderSource, /Freezer-friendly/);
   assert.doesNotMatch(orderSource, /Better later in the week/);
 
-  assert.equal(dishes.find(dish => dish.name === 'French Toast').image, '/assets/images/meals/menu/french-toast.jpg');
+  assert.equal(dishes.find(dish => dish.name === 'PRPD Beef Bacon Breakfast Sandwich').image, '/assets/images/meals/menu/batch-6-2026-08-15/prpd-beef-bacon-breakfast-sandwich.webp');
   assert.equal(dishes.find(dish => dish.name === 'Loaded Buffalo Chicken Potato').image, '/assets/images/meals/menu/loaded-buffalo-chicken-potato.jpg');
 });
 
-test('Batch 6 menu uses the approved safe rotation and reconciled nutrition', () => {
-  assert.equal(config.batch.number, 6);
-  assert.equal(config.batch.deliveryDate, 'Saturday, August 15, 2026');
-  assert.equal(config.batch.cutoffIso, '2026-08-12T18:00:00-05:00');
+test('Batch 7 menu uses the approved rotation and reconciled nutrition', () => {
+  assert.equal(config.batch.number, 7);
+  assert.equal(config.batch.deliveryDate, 'Saturday, August 22, 2026');
+  assert.equal(config.batch.cutoffIso, '2026-08-19T18:00:00-05:00');
 
   const names = dishes.map(dish => dish.name);
-  assert.equal(names.includes('Butter Chicken'), false);
+  assert.equal(names.includes('Butter Chicken'), true);
   assert.equal(names.includes('PRPD Beef Bacon Breakfast Sandwich'), true);
   assert.equal(names.includes('Cheeseburger Hot Pockets'), false);
   assert.equal(names.includes('Strawberry Cheesecake'), false);
-  assert.equal(names.includes('Chicken Biryani'), false);
-  assert.equal(names.includes('French Toast'), true);
-  assert.equal(names.includes('Breakfast Quesadilla'), true);
-  assert.equal(names.includes('Loaded Beef Cottage Pie'), true);
-  assert.equal(names.includes('Harissa Honey Chicken'), true);
+  assert.equal(names.includes('Chicken Biryani'), true);
+  assert.equal(names.includes('French Toast'), false);
+  assert.equal(names.includes('Breakfast Quesadilla'), false);
+  assert.equal(names.includes('Loaded Beef Cottage Pie'), false);
+  assert.equal(names.includes('Harissa Honey Chicken'), false);
   assert.equal(names.includes('Korean Bulgogi Beef Bowl'), false);
-  assert.equal(names.includes('Mexican Streetcorn Chicken Bowl'), true);
-  assert.equal(names.includes('Garlic Butter Shrimp + Rice'), true);
-  assert.equal(names.includes('BBQ Chicken Mac & Cheese'), true);
+  assert.equal(names.includes('Southwest Beef Taco Bowl'), true);
+  assert.equal(names.includes('Cajun Garlic Salmon'), true);
+  assert.equal(names.includes('Chicken Caesar Crunch Box'), true);
+  assert.equal(dishes.find(dish => dish.name === 'Meatball Arrabbiata Pasta').displayCategory, 'Beef');
+  assert.equal(dishes.find(dish => dish.name === 'Southwest Beef Taco Bowl').displayCategory, 'Beef');
+  assert.equal(dishes.find(dish => dish.name === 'Cajun Garlic Salmon').displayCategory, 'Seafood');
 
-  assert.deepEqual(dishes.find(dish => dish.name === 'PRPD Beef Bacon Breakfast Sandwich').macros, { cal: 630, protein: 41, carbs: 72, fiber: 4, fat: 20 });
-  assert.deepEqual(dishes.find(dish => dish.name === 'Loaded Beef Cottage Pie').macros, { cal: 705, protein: 56, carbs: 75, fiber: 9, fat: 19 });
-  assert.deepEqual(dishes.find(dish => dish.name === 'Harissa Honey Chicken').macros, { cal: 580, protein: 44, carbs: 60, fiber: 4, fat: 18 });
-  assert.deepEqual(dishes.find(dish => dish.name === 'Mexican Streetcorn Chicken Bowl').macros, { cal: 595, protein: 48, carbs: 55, fiber: 3, fat: 21 });
-  for (const name of ['PRPD Beef Bacon Breakfast Sandwich', 'Loaded Beef Cottage Pie']) {
+  assert.deepEqual(dishes.find(dish => dish.name === 'PRPD Beef Bacon Breakfast Sandwich').macros, { cal: 600, protein: 36, carbs: 70, fiber: 4, fat: 20 });
+  assert.deepEqual(dishes.find(dish => dish.name === 'Cajun Garlic Salmon').macros, { cal: 540, protein: 55, carbs: 45, fiber: 8, fat: 17 });
+  assert.deepEqual(dishes.find(dish => dish.name === 'Southwest Beef Taco Bowl').macros, { cal: 635, protein: 50, carbs: 59, fiber: 7, fat: 22 });
+  assert.deepEqual(dishes.find(dish => dish.name === 'Chicken Caesar Crunch Box').macros, { cal: 380, protein: 39, carbs: 18, fiber: 2, fat: 16 });
+  for (const name of ['PRPD Beef Bacon Breakfast Sandwich', 'Power Bowl']) {
     assert.match(dishes.find(dish => dish.name === name).description, /PRPD Sweet Heat (?:sauce|cup)/);
   }
   const wrap = dishes.find(dish => dish.name === 'Mini Chicken Snack Wrap');
@@ -374,7 +509,7 @@ test('mobile menu surfaces the retained Grab & Go add-on early', () => {
   assert.match(orderJs, /IntersectionObserver/);
   assert.match(orderJs, /\['breakfasts', 'addons', 'mains', 'desserts'\]/);
 
-  assert.deepEqual(config.menu.addons.map(item => item.name), ['PRPD Protein Box', 'Mini Chicken Snack Wrap', 'Strawberry Protein Overnight Oats']);
+  assert.deepEqual(config.menu.addons.map(item => item.name), ['PRPD Protein Box', 'Mini Chicken Snack Wrap', 'Chicken Caesar Crunch Box']);
 });
 
 test('order page provides menu filters and a minimum-aware sticky mobile cart', () => {
@@ -382,17 +517,28 @@ test('order page provides menu filters and a minimum-aware sticky mobile cart', 
   const orderJs = fs.readFileSync(path.join(__dirname, '..', 'order.js'), 'utf8');
   const orderCss = fs.readFileSync(path.join(__dirname, '..', 'order.css'), 'utf8');
 
-  for (const filter of ['all', 'high-protein', 'under-600', 'freezer']) {
+  for (const filter of ['all', 'lean-high-protein', 'lean-under-550', 'bulk-high-protein', 'freezer']) {
     assert.match(orderHtml, new RegExp(`data-menu-filter="${filter}"`));
   }
   assert.match(orderJs, /function initMenuFilters\(\)/);
-  assert.match(orderJs, /Number\(macros\.protein\) >= 50/);
-  assert.match(orderJs, /Number\(macros\.cal\) < 600/);
+  assert.match(orderJs, /dish\.macros\?\.protein\) >= 50/);
+  assert.match(orderJs, /dish\.macros\?\.cal\) < 550/);
+  assert.match(orderJs, /dish\.bulkMacros\?\.protein\) >= 65/);
   assert.match(orderHtml, /id="mobileCartStatus"/);
   assert.match(orderJs, /to free delivery/);
   assert.match(orderJs, /Free delivery unlocked/);
   assert.match(orderJs, /\/api\/delivery-quote\?zip=/);
+  assert.match(orderHtml, /\$9\.99 local · \$12\.99 regional · \$14\.99 extended/);
+  assert.match(orderHtml, /Local delivery<\/strong> \$60 order minimum · \$9\.99 · free at \$85/);
+  assert.match(orderJs, /\$9\.99 local · \$12\.99 regional · \$14\.99 extended/);
   assert.match(orderCss, /\.order-layout > aside \{ align-self: stretch; \}/);
   assert.match(orderCss, /max-height: calc\(100vh - var\(--banner-h\) - 112px\)/);
   assert.match(orderCss, /\.menu-filter-chip\.is-active/);
+  assert.match(orderHtml, /Fresh menu Monday/);
+  assert.equal((orderHtml.match(/order-trust-strip[\s\S]*?<\/div>/) || [''])[0].match(/<span>/g)?.length, 6);
+  assert.match(orderHtml, /id="phoneReviewNote"/);
+  assert.match(orderHtml, /id="phoneReviewConfirmed"/);
+  assert.match(orderJs, /phoneNeedsReview && !phoneReviewConfirmed\?\.checked/);
+  assert.match(orderCss, /overflow-x: hidden/);
+  assert.match(orderCss, /grid-template-columns: minmax\(0, \.82fr\) minmax\(0, 1\.18fr\)/);
 });

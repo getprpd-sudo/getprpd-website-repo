@@ -110,6 +110,15 @@ async function readDeliveryRows(client) {
   return result.data.values || [];
 }
 
+async function acceptedRecipientSetForRun(client, runId) {
+  const normalizedRunId = clean(runId, 240);
+  const rows = await readDeliveryRows(client);
+  return new Set(rows
+    .filter(row => clean(row[0], 240) === normalizedRunId)
+    .map(row => firstRecipient(row[2]))
+    .filter(Boolean));
+}
+
 async function appendRow(client, row) {
   const range = encodeURIComponent(`'${DELIVERY_SHEET}'!A:M`);
   await client.request({
@@ -253,6 +262,7 @@ module.exports = {
   DELIVERY_HEADERS,
   DELIVERY_SHEET,
   TERMINAL_STATUSES,
+  acceptedRecipientSetForRun,
   appendAcceptedEmail,
   deliverySummary,
   ensureDeliverySheet,

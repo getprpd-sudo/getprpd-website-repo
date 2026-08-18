@@ -1,4 +1,4 @@
-"""Direct packed-cost calculator for the PRPD Batch 6 menu.
+"""Direct packed-cost calculator for the PRPD Batch 7 menu.
 
 The recipe quantities come directly from nutrition/calculate_next_menu.py. Shared
 ingredient prices come from the active-menu cost model so the two reports cannot
@@ -9,7 +9,9 @@ marked as planning or legacy references until a receipt replaces them.
 from __future__ import annotations
 
 from pathlib import Path
+import hashlib
 import importlib.util
+import json
 import sys
 
 
@@ -17,6 +19,8 @@ ROOT = Path(__file__).resolve().parents[2]
 ACTIVE_COST_PATH = ROOT / "operations" / "costing" / "calculate_active_menu_costs.py"
 NEXT_NUTRITION_PATH = ROOT / "operations" / "nutrition" / "calculate_next_menu.py"
 OUTPUT_PATH = ROOT / "operations" / "costing" / "NEXT_MENU_DRAFT_COST_AUDIT.md"
+OUTPUT_JSON_PATH = ROOT / "api" / "_current-menu-costs-data.json"
+OUTPUT_JS_PATH = ROOT / "operations" / "costing" / "current-menu-costs.js"
 
 
 def load_module(name: str, path: Path):
@@ -76,6 +80,14 @@ COSTS.update({
     "harissa": per_g(8.99, 283, "planning", "Current 10 oz harissa-paste planning estimate"),
     "coriander": per_g(3.98, 198, "planning", "Current ground-coriander planning estimate"),
     "reduced_cream_cheese": per_g(3.48, 226.8, "planning", "Current 8 oz reduced-fat cream-cheese planning estimate"),
+    "instant_potato_flakes": per_g(5.98, 793, "planning", "Betty Crocker unflavored instant mashed potatoes 28 oz planning estimate; replace with receipt"),
+    "water": per_g(0, 1000, "verified", "Kitchen tap water"),
+    "pink_salmon_raw": per_g(11.46, 907.184, "planning", "Great Value wild-caught pink salmon two-pound bag at $5.73/lb; verify receipt"),
+    "quinoa_dry": per_g(4.96, 907.184, "planning", "Generic two-pound dry quinoa planning estimate"),
+    "green_beans": per_g(2.48, 907.184, "planning", "Generic two-pound frozen green-bean planning estimate"),
+    "black_beans": per_g(0.88, 425, "planning", "Generic 15 oz canned black beans"),
+    "parmesan": per_g(4.98, 227, "planning", "Generic eight-ounce grated Parmesan estimate"),
+    "croutons": per_g(1.98, 142, "planning", "Generic five-ounce crouton package estimate"),
 })
 
 
@@ -96,18 +108,16 @@ DESSERT_PRICE = {"Single": 6.99}
 
 UPGRADED_PRICE_MEALS = {
     "PRPD Beef Bacon Breakfast Sandwich",
-    "Grilled Cheese Breakfast Burrito",
-    "Loaded Beef Cottage Pie",
-    "Beef Seekh Kabab Shawarma",
-    "Garlic Butter Shrimp + Rice",
+    "Meatball Arrabbiata Pasta",
+    "Cajun Garlic Salmon",
+    "Southwest Beef Taco Bowl",
 }
 
 SIDE_CUP_MEALS = {
     "PRPD Beef Bacon Breakfast Sandwich",
-    "French Toast",
-    "Breakfast Quesadilla",
-    "Loaded Beef Cottage Pie",
-    "BBQ Chicken Mac & Cheese",
+    "Blueberry Cheesecake Protein Pancakes",
+    "Power Bowl",
+    "Southwest Beef Taco Bowl",
 }
 
 
@@ -115,8 +125,8 @@ def tier_price(meal_name: str, tier: str) -> float:
     if tier == "Single":
         if meal_name in {"PRPD Protein Box", "Mini Chicken Snack Wrap"}:
             return 7.99
-        if meal_name == "Strawberry Protein Overnight Oats":
-            return 6.99
+        if meal_name == "Chicken Caesar Crunch Box":
+            return 8.99
         return DESSERT_PRICE[tier]
     if meal_name == "Premium NY Strip Steak":
         return PREMIUM_STEAK_PRICE[tier]
@@ -129,6 +139,8 @@ def packaging_cost(meal_name: str, tier: str) -> float:
     shared = active_costs.SHARED_CONSUMABLE_ALLOWANCE
     cup = active_costs.SAUCE_CUP_COST
     container = active_costs.MEAL_CONTAINER_COST
+    if meal_name == "Chicken Caesar Crunch Box":
+        return container + cup + 0.05 + shared
     if meal_name in {"PRPD Protein Box", "Mini Chicken Snack Wrap"}:
         return container + shared
     if tier == "Single":
@@ -150,9 +162,9 @@ def packaging_cost_lines(meal_name: str, tier: str) -> list[dict]:
     shared = active_costs.SHARED_CONSUMABLE_ALLOWANCE
     cup = active_costs.SAUCE_CUP_COST
     lines = [{
-        "item": "Dessert cup with lid" if tier == "Single" and meal_name not in {"PRPD Protein Box", "Mini Chicken Snack Wrap"} else "Meal container with lid",
+        "item": "Dessert cup with lid" if tier == "Single" and meal_name not in {"PRPD Protein Box", "Mini Chicken Snack Wrap", "Chicken Caesar Crunch Box"} else "Meal container with lid",
         "quantity": 1,
-        "unit_cost": 0.34 if tier == "Single" and meal_name not in {"PRPD Protein Box", "Mini Chicken Snack Wrap"} else active_costs.MEAL_CONTAINER_COST,
+        "unit_cost": 0.34 if tier == "Single" and meal_name not in {"PRPD Protein Box", "Mini Chicken Snack Wrap", "Chicken Caesar Crunch Box"} else active_costs.MEAL_CONTAINER_COST,
     }]
     if meal_name == "High Protein Omelette":
         lines += [
@@ -163,6 +175,9 @@ def packaging_cost_lines(meal_name: str, tier: str) -> list[dict]:
         lines.append({"item": "Sauce cup with lid", "quantity": 1, "unit_cost": cup})
     if meal_name == "Blueberry Cheesecake Protein Pancakes":
         lines.append({"item": "Topping and syrup cups with lids", "quantity": 2, "unit_cost": cup})
+    if meal_name == "Chicken Caesar Crunch Box":
+        lines.append({"item": "Dressing cup with lid", "quantity": 1, "unit_cost": cup})
+        lines.append({"item": "Dry crouton bag", "quantity": 1, "unit_cost": 0.05})
     if meal_name == "Cheeseburger Hot Pockets":
         lines.append({"item": "Foil piece", "quantity": 2 if tier == "Lean" else 3, "unit_cost": 0.05})
     lines.append({"item": "Shared gloves and cleaning allowance", "quantity": 1, "unit_cost": shared})
@@ -235,7 +250,7 @@ def report(module) -> str:
     rows = meal_rows(module)
     average_cost_pct = sum(row["cost_pct"] for row in rows) / len(rows)
     lines = [
-        "# PRPD Batch 6 Direct Packed-Cost Audit",
+        "# PRPD Batch 7 Direct Packed-Cost Audit",
         "",
         "Generated: August 10, 2026",
         "",
@@ -327,6 +342,40 @@ def report(module) -> str:
     return "\n".join(lines) + "\n"
 
 
+def generated_cost_payload(module) -> dict:
+    rows = meal_rows(module)
+    direct_costs = {
+        f"{row['meal'].strip().lower()}|{row['tier'].strip().lower()}": round(row["direct"] + 1e-9, 2)
+        for row in rows
+    }
+    provisional = sorted(
+        f"{row['meal'].strip().lower()}|{row['tier'].strip().lower()}"
+        for row in rows
+        if row["confidence"] != "verified"
+    )
+    payload = {
+        "batchNumber": 7,
+        "directCosts": dict(sorted(direct_costs.items())),
+        "provisionalCosts": provisional,
+    }
+    canonical = json.dumps(payload, sort_keys=True, separators=(",", ":"))
+    payload["fingerprint"] = hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+    return payload
+
+
+def generated_cost_module(payload) -> str:
+    encoded = json.dumps(payload, indent=2, sort_keys=True)
+    return (
+        "(function currentMenuCosts(root, factory) {\n"
+        "  const data = factory();\n"
+        "  if (typeof module === 'object' && module.exports) module.exports = data;\n"
+        "  else root.PRPDCurrentMenuCosts = data;\n"
+        "}(typeof globalThis !== 'undefined' ? globalThis : this, function factory() {\n"
+        f"  return Object.freeze({encoded});\n"
+        "}));\n"
+    )
+
+
 def main() -> None:
     module = load_nutrition_module()
     missing = sorted({
@@ -340,7 +389,12 @@ def main() -> None:
     if missing:
         raise RuntimeError(f"Missing cost inputs: {', '.join(missing)}")
     OUTPUT_PATH.write_text(report(module), encoding="utf-8")
+    cost_payload = generated_cost_payload(module)
+    OUTPUT_JSON_PATH.write_text(json.dumps(cost_payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    OUTPUT_JS_PATH.write_text(generated_cost_module(cost_payload), encoding="utf-8")
     print(f"Wrote {OUTPUT_PATH}")
+    print(f"Wrote {OUTPUT_JSON_PATH}")
+    print(f"Wrote {OUTPUT_JS_PATH}")
 
 
 if __name__ == "__main__":

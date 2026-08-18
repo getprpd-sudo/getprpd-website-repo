@@ -70,11 +70,18 @@ function renderWeeklyHomepage() {
   const heroCutoff = document.getElementById('heroCutoff');
   const weeklyCutoff = document.getElementById('weeklyCutoff');
   const weeklyDelivery = document.getElementById('weeklyDelivery');
+  const grid = document.getElementById('homeMenuGrid');
+  if (batch.published !== true) {
+    if (heroCutoff) heroCutoff.textContent = 'Ordering currently closed';
+    if (weeklyCutoff) weeklyCutoff.textContent = 'Next menu being finalized';
+    if (weeklyDelivery) weeklyDelivery.textContent = 'Announced with the next menu';
+    if (grid) grid.replaceChildren();
+    return;
+  }
   if (heroCutoff) heroCutoff.textContent = `${batch.cutoffLabel} cutoff`;
   if (weeklyCutoff) weeklyCutoff.textContent = batch.cutoffLabel;
   if (weeklyDelivery) weeklyDelivery.textContent = batch.deliveryDate;
 
-  const grid = document.getElementById('homeMenuGrid');
   if (!grid) return;
 
   const preview = [...menu.mains, ...menu.breakfasts]
@@ -94,8 +101,23 @@ function renderWeeklyHomepage() {
     const placeholder = document.createElement('div');
     placeholder.className = 'menu-card__img-ph';
     placeholder.textContent = 'PRPD';
+    const photoOverlay = document.createElement('div');
+    photoOverlay.className = 'menu-card__photo-overlay';
+    const photoBrand = document.createElement('span');
+    photoBrand.className = 'menu-card__photo-brand';
+    photoBrand.textContent = 'PRPD';
+    const photoCopy = document.createElement('div');
+    photoCopy.className = 'menu-card__photo-copy';
+    const photoType = document.createElement('span');
+    photoType.textContent = menu.breakfasts.includes(dish)
+      ? 'Breakfast'
+      : dish.displayCategory || (dish.category === 'beef' ? 'Beef' : 'High-protein meal');
+    const photoName = document.createElement('strong');
+    photoName.textContent = dish.name;
+    photoCopy.append(photoType, photoName);
+    photoOverlay.append(photoBrand, photoCopy);
     image.addEventListener('error', () => { image.hidden = true; });
-    imageWrap.append(image, placeholder);
+    imageWrap.append(image, placeholder, photoOverlay);
 
     const body = document.createElement('div');
     body.className = 'menu-card__body';
@@ -111,7 +133,7 @@ function renderWeeklyHomepage() {
     badges.append(halalBadge, priceBadge);
 
     const name = document.createElement('h3');
-    name.className = 'menu-card__name';
+    name.className = 'menu-card__name menu-card__name--sr';
     name.textContent = dish.name;
     const description = document.createElement('p');
     description.className = 'menu-card__desc';
@@ -297,8 +319,7 @@ function validateStep(step) {
       }
     });
     const phoneEl = document.getElementById('phone');
-    const phoneDigits = phoneEl.value.replace(/\D/g, '');
-    if (phoneDigits.length !== 10) {
+    if (!window.PRPDPhoneValidation?.isValid(phoneEl.value)) {
       phoneEl.classList.add('error');
       phoneEl.addEventListener('input', () => phoneEl.classList.remove('error'), { once: true });
       valid = false;
@@ -328,13 +349,7 @@ function validateStep(step) {
 const phoneInput = document.getElementById('phone');
 if (phoneInput) {
   phoneInput.addEventListener('input', () => {
-    let val = phoneInput.value.replace(/\D/g, '');
-    if (val.length >= 6) {
-      val = `(${val.slice(0,3)}) ${val.slice(3,6)}-${val.slice(6,10)}`;
-    } else if (val.length >= 3) {
-      val = `(${val.slice(0,3)}) ${val.slice(3)}`;
-    }
-    phoneInput.value = val;
+    phoneInput.value = window.PRPDPhoneValidation?.format(phoneInput.value) || phoneInput.value;
   });
 }
 
@@ -404,6 +419,10 @@ if (form) {
         ttq.track('Lead', {
           contents: [{ content_id: 'prpd-intake-form', content_name: 'PRPD Intake Form' }]
         }, { event_id: `${data.leadId}:lead` });
+      }
+
+      if (typeof window.trackGoogleAdsCustomPlanInquiry === 'function') {
+        window.trackGoogleAdsCustomPlanInquiry(result.leadId || data.leadId);
       }
 
     } catch (err) {

@@ -1,7 +1,7 @@
 const { GoogleAuth } = require('google-auth-library');
 
 const RANGES = Object.freeze({
-  orders: "'Orders'!A1:AC5000",
+  orders: "'Orders'!A1:AK5000",
   payments: "'Payment Log'!A1:P5000",
   leads: "'Website Leads'!A1:T5000",
   receivables: "'Accounts Receivable'!A1:H500",

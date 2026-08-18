@@ -37,8 +37,8 @@ test('planner Orders endpoint rejects missing and incorrect keys before Google a
 });
 
 test('planner normalizes standard and accidentally shifted order rows', () => {
-  const header = ['Submitted At','Batch','Delivery Date','First Name','Last Name','Phone','Items','Exact Total','Total (Rounded)','Notes','Order ID'];
-  const standard = ['7/15','Batch 2','Saturday','Rida','Khan','4695550101','1x Egg Bites (Lean) - $10.99',10.99,11,'','ORDER-1'];
+  const header = ['Submitted At','Batch','Delivery Date','First Name','Last Name','Phone','Items','Exact Total','Total (Rounded)','Notes','Order ID','Email','Address','City','ZIP','Delivery Notes'];
+  const standard = ['7/15','Batch 2','Saturday','Rida','Khan','4695550101','1x Egg Bites (Lean) - $10.99',10.99,11,'','ORDER-1','rida@example.com','1 Main St','Frisco','75035','Gate code 1234'];
   const shifted = ['', '', '7/15','Batch 2','Saturday','Jake','Miller','4695550102','2x French Toast (Bulk) - $25.98',25.98,26,'','ORDER-2'];
   const otherBatch = ['7/15','Batch 1','Old','Old','Order','4695550103','1x Egg Bites (Lean) - $10.99',10.99,11,'','OLD'];
   const result = plannerApi._test.normalizeOrderRows([header, standard, shifted, otherBatch], 2);
@@ -48,6 +48,7 @@ test('planner normalizes standard and accidentally shifted order rows', () => {
   assert.equal(result[2][1], 'Batch 2');
   assert.equal(result[2][6], '2x French Toast (Bulk) - $25.98');
   assert.equal(result[2][10], 'ORDER-2');
+  assert.equal(result[2].length, 16);
 });
 
 test('manual planner orders accept public and approved planner-only dishes', () => {

@@ -1,4 +1,4 @@
-"""Controlled nutrition estimates for the August 15, 2026 PRPD menu.
+"""Controlled nutrition estimates for the August 22, 2026 PRPD menu.
 
 This file is intentionally separate from the live-menu calculator. It converts
 historical volume language to explicit grams, recalculates every Lean/Bulk build,
@@ -27,7 +27,7 @@ n = active.n
 p = active.p
 build = active.build
 
-OUTPUT_PATH = HERE / "NEXT_MENU_NUTRITION_2026-08-15.md"
+OUTPUT_PATH = HERE / "NEXT_MENU_NUTRITION_2026-08-22.md"
 
 
 @dataclass(frozen=True)
@@ -91,6 +91,22 @@ add_ingredient("english_muffin", "English muffin", n(130, 5, 25, 1, 1.5, 0.3, 2,
 add_ingredient("beef_bacon", "Deen Halal beef breakfast slice", n(100, 4, 0, 0, 9, 3.5, 0, 0, 260, 20), basis="each", source="Deen Halal manufacturer listing and current product databases", confidence="medium", note="One modeled slice is 20g. Confirm the purchased package before final label printing.")
 add_ingredient("tilapia_cooked", "Tilapia, cooked", n(128, 26.2, 0, 0, 2.7, 0.9, 0, 0, 56, 57), source="USDA FoodData Central comparable cooked tilapia", confidence="medium")
 add_ingredient("mixed_vegetables", "Frozen peas and carrots", n(65, 3, 12, 4, 0.5, 0.1, 4, 0, 45, 0), source="Generic frozen peas-and-carrots blend estimate", confidence="medium")
+add_ingredient(
+    "instant_potato_flakes",
+    "Betty Crocker unflavored instant mashed potato flakes",
+    n(347.826, 8.696, 78.261, 4.348, 0, 0, 0, 0, 43.478, 0),
+    source="Betty Crocker 28 oz package: 80 calories, 2g protein, 18g carbohydrate, 1g fiber, and 10mg sodium per 23g as packaged",
+    confidence="high",
+    note="Use the physical 28 oz package and manufacturer water, milk, butter, and salt directions; one-third cup as packaged is 23g.",
+)
+add_ingredient("water", "Water", n(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), source="Kitchen tap water", confidence="high")
+add_ingredient("pink_salmon_raw", "Wild-caught pink salmon, raw", n(115, 20.35, 0, 0, 3.98, 1.33, 0, 0, 150, 49), source="Great Value Wild Caught Pink Salmon working package profile", confidence="medium", note="Skin-on two-pound bag. Confirm the purchased package panel, thawed drained weight, skin loss, pin bones, and cooked yield before final labels.")
+add_ingredient("quinoa_dry", "Quinoa, dry", n(368, 14.1, 64.2, 7.0, 6.1, 0.7, 0, 0, 5, 0), source="USDA FoodData Central generic dry quinoa", confidence="medium")
+add_ingredient("green_beans", "Green beans, raw", n(31, 1.83, 6.97, 2.7, 0.22, 0.05, 3.26, 0, 6, 0), source="USDA FoodData Central", confidence="high")
+add_ingredient("black_beans", "Black beans, canned, drained", n(91, 6.0, 16.6, 6.9, 0.29, 0.07, 0.3, 0, 238, 0), source="USDA FoodData Central comparable drained canned beans", confidence="medium")
+add_ingredient("parmesan", "Parmesan cheese", n(420, 28.4, 13.9, 0, 27.8, 17.4, 0, 0, 1804, 68), source="USDA FoodData Central generic Parmesan", confidence="medium")
+add_ingredient("croutons", "Seasoned croutons", n(407, 11.9, 73.5, 5.1, 7.2, 1.3, 4, 2, 698, 0), source="Generic packaged crouton estimate", confidence="low", note="Replace with purchased package label before final labels.")
+add_ingredient("black_pepper", "Ground black pepper", n(251, 10.4, 63.9, 25.3, 3.3, 1.4, 0.6, 0, 20, 0), source="USDA FoodData Central", confidence="high")
 
 
 def chicken_thigh(raw_g: float) -> Portion:
@@ -127,6 +143,18 @@ def sweet_heat_45g() -> list[Portion]:
         p("ketchup", 45 * 300 / batch_g, note="45g Sweet Heat cup"),
         p("honey", 45 * 300 / batch_g, note="45g Sweet Heat cup"),
         p("sriracha", 45 * 170 / batch_g, note="45g Sweet Heat cup"),
+    ]
+
+
+def instant_mash(prepared_g: float) -> list[Portion]:
+    """Betty Crocker 28 oz unflavored mash scaled to a prepared allocation."""
+    formula_total = 34.5 + 157.7 + 30.5 + 14 + 1.5
+    return [
+        p("instant_potato_flakes", prepared_g * 34.5 / formula_total, note=f"{prepared_g:g}g prepared instant-mash allocation"),
+        p("water", prepared_g * 157.7 / formula_total, note="Betty Crocker package preparation"),
+        p("fairlife_milk", prepared_g * 30.5 / formula_total, note="Betty Crocker package preparation"),
+        p("butter", prepared_g * 14 / formula_total, note="Betty Crocker package preparation"),
+        p("salt", prepared_g * 1.5 / formula_total, note="Betty Crocker package preparation"),
     ]
 
 
@@ -245,17 +273,16 @@ def breakfast_sandwich(tier: str) -> Build:
     return build([
         p("english_muffin", sandwiches, "each"),
         p("beef_bacon", sandwiches, "each"),
-        p("egg", 1, "each"),
-        p("egg_white", 80 if lean else 150),
-        p("cottage", 40 if lean else 60),
-        p("mozzarella", 28 if lean else 42),
-        p("potato", 150 if lean else 80),
+        p("egg", sandwiches, "each"),
+        p("egg_white", 75 * sandwiches),
+        p("mozzarella", 28 * sandwiches),
+        *([p("potato", 150)] if lean else []),
         p("avocado_oil", 2 if lean else 1.5),
         p("salt", .5 if lean else .75),
         *sweet_heat_45g(),
     ], [
-        "Lean receives one sandwich and 150g breakfast potatoes; Bulk receives two sandwiches and an 80g potato garnish.",
-        "Egg, egg white, and cottage cheese are blended and baked as a sheet-pan patty before cutting.",
+        "Lean receives one sandwich and 150g breakfast potatoes; Bulk receives two complete sandwiches and no potatoes.",
+        "Each physical sandwich uses one whole egg, 75g liquid egg whites, and 28g fat-free mozzarella. Cottage cheese is not used in this egg patty.",
         "The retired maple-Dijon is removed; one 45g PRPD Sweet Heat cup is packed separately.",
         "Beef-bacon and English-muffin package labels must be confirmed before final label printing.",
     ], "medium")
@@ -267,11 +294,12 @@ def breakfast_burrito(tier: str) -> Build:
     return build([
         beef_pan(120 if lean else 180),
         p("small_tortilla" if lean else "large_tortilla", 2, "each"),
-        p("egg", 2, "each"), p("egg_white", 61.3),
+        p("egg", 1, "each"), p("egg_white", 25),
         p("mozzarella", 28 if lean else 42), p("tomato_paste", 16),
         p("onion", 25), p("salt", 0.75 if lean else 1),
     ], [
         "Broth is intentionally removed from the PRPD recipe system.",
+        "The egg component uses the shared breakfast base of one whole egg plus 25g liquid egg whites per order.",
         "Cook the beef-and-onion filling down until dry enough to wrap cleanly; dry-pan grill after assembly.",
     ], "medium")
 
@@ -281,8 +309,7 @@ def cottage_pie(tier: str) -> Build:
     raw_beef = 170 if lean else 220
     return build([
         beef_pan(raw_beef),
-        p("potato", 220 if lean else 240),
-        p("cottage", 50 if lean else 65),
+        *instant_mash(220 if lean else 240),
         p("mozzarella", 28 if lean else 35),
         p("mixed_vegetables", 80 if lean else 100),
         p("onion", 40 if lean else 50),
@@ -292,7 +319,7 @@ def cottage_pie(tier: str) -> Build:
         *sweet_heat_45g(),
     ], [
         "Ground beef is cooked to 160 F, drained, and combined with measured peas and carrots plus tomato paste; no broth is used.",
-        "Mashed potatoes are blended with cottage cheese, spread over the filling, topped with mozzarella, and baked.",
+        "Betty Crocker unflavored instant mashed potatoes are prepared to the package ratio, spread over the filling without cottage cheese, topped with mozzarella, and baked.",
         "Record the finished pan weight and plated serving count during the first production batch.",
         SWEET_HEAT_ASSUMPTION,
     ], "medium")
@@ -302,7 +329,7 @@ def tilapia(raw_g: float) -> Portion:
     return p("tilapia_cooked", raw_g * .80, note=f"{raw_g:g}g raw at 80% cooked yield")
 
 
-def blackened_tilapia(tier: str) -> Build:
+def lemon_pepper_tilapia(tier: str) -> Build:
     lean = tier == "lean"
     return build([
         tilapia(220 if lean else 300),
@@ -313,14 +340,18 @@ def blackened_tilapia(tier: str) -> Build:
         p("light_mayo", 3.31),
         p("garlic", 1.32),
         p("lemon", 3.31),
-        p("paprika", 2 if lean else 2.5),
-        p("chili_powder", .5 if lean else .75),
+        p("black_pepper", 1.5 if lean else 2),
         p("avocado_oil", 5 if lean else 7),
         p("salt", .75 if lean else 1),
     ], [
+        "Tilapia is seasoned with lemon, garlic, and cracked black pepper; it is not marketed as blackened.",
         "Tilapia uses a provisional 80% cooked yield; record the first raw and cooked batch weights.",
         "The standard 30g PRPD white sauce is packed separately and potatoes are roasted with the controlled oil allocation.",
     ], "medium")
+
+
+# Compatibility alias for archived references only. New customer copy must use
+# Future rotation: Lemon Pepper Tilapia rather than claiming a blackened method.
 
 
 def sweet_chili_chicken(tier: str) -> Build:
@@ -407,16 +438,16 @@ def hot_pockets(tier: str) -> Build:
 def sliders(tier: str) -> Build:
     lean = tier == "lean"
     return build([
-        chicken_thigh(140 if lean else 187), p("hawaiian_roll", 3 if lean else 4, "each"),
+        chicken_thigh(100 if lean else 133), p("hawaiian_roll", 3 if lean else 4, "each"),
         p("mozzarella", 28 if lean else 42), p("light_mayo", 9 if lean else 12),
-        p("sriracha", 6 if lean else 8), p("honey", 6 if lean else 8),
-        p("hot_sauce", 12 if lean else 16), p("onion", 15 if lean else 20),
+        p("sriracha", 18 if lean else 24), p("honey", 6 if lean else 8),
+        p("onion", 15 if lean else 20),
         p("pickles", 15 if lean else 20),
         p("avocado_oil", 1 if lean else 1.5), p("salt", 0.5 if lean else 0.75),
     ], [
         "Lean is three sliders; Bulk is four.",
-        "Each slider targets 35g cooked chicken, modeled from raw chicken thighs at a 75% cooked yield.",
-        "Uses Sara Lee Artesano Bakery Rolls, measured hot-honey mayo, onion, pickles, and no corn.",
+        "Each slider targets approximately 25g cooked chicken, modeled from raw chicken thighs at a 75% cooked yield and corrected from Batch 6 overproduction.",
+        "Uses Sara Lee Artesano Bakery Rolls, measured sriracha hot-honey mayo, onion, pickles, and no corn or separate Frank's-style hot sauce.",
     ], "high")
 
 
@@ -454,9 +485,9 @@ def biryani(tier: str) -> Build:
 def bbq_mac(tier: str) -> Build:
     lean = tier == "lean"
     return build([
-        chicken_thigh(200 if lean else 300), p("protein_mac", 76), p("bbq_sauce", 60),
+        chicken_thigh(200 if lean else 300), p("protein_mac", 50 if lean else 60), p("bbq_sauce", 60),
         p("mozzarella", 28), p("salt", 0.5 if lean else 0.75),
-    ], ["Includes 30g sauce in the dish plus a 30g side cup.", "Exact boxed-mac label is the main remaining nutrition input."], "low")
+    ], ["Includes 30g sauce in the dish plus a 30g side cup.", "Dry Muscle Mac is corrected to 50g Lean and 60g Bulk from the Batch 6 overproduction observation; record the next finished yield."], "medium")
 
 
 def bulgogi(tier: str) -> Build:
@@ -475,22 +506,53 @@ def garlic_shrimp(tier: str) -> Build:
     lean = tier == "lean"
     return build([
         shrimp(200 if lean else 270), p("rice_dry", 45 if lean else 60),
-        p("edamame", 74 if lean else 100), p("zucchini", 100 if lean else 130),
+        p("mixed_vegetables", 74 if lean else 100), p("zucchini", 100 if lean else 130),
         p("butter", 7 if lean else 10),
         p("garlic", 12 if lean else 15), p("lemon", 10 if lean else 12),
         p("cornstarch", 4 if lean else 5), p("salt", 0.5 if lean else 0.75),
-    ], ["Rebalanced from the preliminary 180g/240g proposal so Bulk reaches a meaningful calorie and protein tier.", "The historical two tablespoons of butter was ambiguous; butter is now explicit per meal."], "medium")
+    ], ["Frozen peas and carrots replace edamame for this batch to consolidate produce purchasing.", "The historical two tablespoons of butter was ambiguous; butter is now explicit per meal."], "medium")
+
+
+def breakfast_quesadilla(tier: str) -> Build:
+    """Owner-approved Batch 6 build with the optional salsa cup removed."""
+    recipe = active.quesadilla(tier)
+    return build(
+        [
+            portion for portion in recipe.portions
+            if portion.ingredient not in {"egg", "egg_white", "fage", "salsa"}
+        ] + [p("egg", 1, "each"), p("egg_white", 25)],
+        [
+            "The egg component uses the shared breakfast base of one whole egg plus 25g liquid egg whites per order.",
+            "Greek yogurt is not used in the egg mixture, and the former salsa side cup is removed.",
+        ],
+        "medium",
+    )
+
+
+def loaded_buffalo_revised(tier: str) -> Build:
+    """Post-Batch-6 potato correction; chicken and finish stay unchanged."""
+    recipe = active.loaded_buffalo(tier)
+    return build(
+        [
+            p("potato", 200) if portion.ingredient == "potato" else portion
+            for portion in recipe.portions
+        ],
+        [
+            "The potato allocation is reduced from 300g to 200g per meal after the Batch 6 overproduction report.",
+            "Chicken, broccoli, incorporated Buffalo sauce, oil, and salt remain tier-controlled.",
+        ],
+        "medium",
+    )
 
 
 def ny_strip(tier: str) -> Build:
     lean = tier == "lean"
     return build([
-        steak(240 if lean else 300), p("potato", 200), p("broccoli", 100 if lean else 125),
-        p("fairlife_milk", 30 if lean else 40), p("fage", 20 if lean else 25),
-        p("butter", 3 if lean else 5), p("avocado_oil", 2), p("garlic", 6 if lean else 8),
+        steak(240 if lean else 300), *instant_mash(200), p("broccoli", 100 if lean else 125),
+        p("avocado_oil", 2), p("garlic", 6 if lean else 8),
         p("salt", 0.75 if lean else 1),
         *sweet_heat_45g(),
-    ], ["Lean uses 240g raw steak; Bulk uses 300g.", "The mashed-potato side uses measured Fairlife milk, FAGE, and butter; broccoli is the green vegetable.", SWEET_HEAT_ASSUMPTION], "medium")
+    ], ["Lean uses 240g raw steak; Bulk uses 300g.", "The 200g mashed-potato side uses Betty Crocker unflavored instant potatoes prepared to the package ratio; broccoli is the green vegetable.", SWEET_HEAT_ASSUMPTION], "medium")
 
 
 def cookie_dough() -> Build:
@@ -540,25 +602,89 @@ def banana_cream() -> Build:
     ], ["Historical half-scoop becomes 9.75g Premier powder.", "Half a medium banana is modeled as 59g edible fruit."], "low")
 
 
+def butter_chicken_no_broth(tier: str) -> Build:
+    """PRPD butter chicken with water in place of the retired broth input."""
+    lean = tier == "lean"
+    return build([
+        chicken_thigh(225 if lean else 330), p("rice_dry", 40 if lean else 55),
+        p("onion", 50 if lean else 60), p("tomato_paste", 32 if lean else 40),
+        p("water", 120 if lean else 145), p("butter", 14 if lean else 18),
+        p("fage", 45 if lean else 60), p("lemon", 3.75 if lean else 5),
+        p("garlic", 3 if lean else 4), p("ginger", 2.5 if lean else 3.5),
+        p("salt", .75 if lean else 1),
+    ], [
+        "Broth is permanently excluded; measured water provides sauce consistency.",
+        "Fifteen grams of yogurt is retained from the scraped marinade and 30g/45g is stirred into the Lean/Bulk sauce off heat.",
+        "Record finished sauce and chicken yield before final labels.",
+    ], "medium")
+
+
+def cajun_garlic_salmon(tier: str) -> Build:
+    lean = tier == "lean"
+    return build([
+        p("pink_salmon_raw", 220 if lean else 300, note="skin-on purchased weight; portion by verified edible yield"),
+        p("quinoa_dry", 50 if lean else 65), p("green_beans", 120 if lean else 150),
+        p("garlic", 8 if lean else 10), p("lemon", 12 if lean else 15),
+        p("paprika", 2 if lean else 2.5), p("chili_powder", .5 if lean else .75),
+        p("avocado_oil", 5 if lean else 7), p("salt", .75 if lean else 1),
+    ], [
+        "Wild pink salmon is roasted skin-side down; skin is removed after cooking and pin bones are checked before portioning.",
+        "Lemon-herb quinoa and roasted green beans are new controlled sides and are not pooled with the rice or potato waves.",
+        "The fish is Cajun-seasoned, not marketed as blackened. Record thawed drained, skinless cooked, and plated weights.",
+    ], "medium")
+
+
+def southwest_beef_taco_bowl(tier: str) -> Build:
+    lean = tier == "lean"
+    return build([
+        beef_pan(180 if lean else 250), p("rice_dry", 40 if lean else 55),
+        p("black_beans", 55 if lean else 70), p("corn", 60 if lean else 75),
+        p("green_bell_pepper", 30 if lean else 40), p("onion", 20 if lean else 25),
+        p("lettuce", 25), p("cotija", 12 if lean else 16),
+        p("fage", 28), p("lime", 5), p("jalapeno", 3), p("garlic", 1),
+        p("avocado_oil", 2 if lean else 3), p("salt", .75 if lean else 1),
+    ], [
+        "Ground beef is browned to 160 F and drained before taco seasoning is added.",
+        "The bowl uses cilantro-lime rice, black beans, corn-pepper vegetables, lettuce, cotija, and a 37g jalapeno-lime yogurt cup.",
+        "Record the first filled weights and day-three texture before treating the formula as final.",
+    ], "medium")
+
+
+def chicken_caesar_crunch_box() -> Build:
+    return build([
+        chicken_thigh(160), p("lettuce", 60), p("cucumber", 50),
+        p("parmesan", 14), p("croutons", 15),
+        p("fage", 25), p("light_mayo", 5), p("lemon", 4), p("garlic", 1),
+        p("salt", .3),
+    ], [
+        "Single 12 oz chilled box with chicken, romaine-style lettuce, cucumber, Parmesan, a 35g yogurt-Caesar cup, and croutons packed dry and separate.",
+        "Confirm the exact crouton and Parmesan package panels, full box fit, dressing yield, and 72-hour crunch before final labels.",
+    ], "medium")
+
+
+def strawberry_lemon_cheesecake() -> Build:
+    return strawberry_lemon_cheesecake_square()
+
+
 MEALS = [
+    DraftMeal("Blueberry Cheesecake Protein Pancakes", "Breakfast", blueberry_cheesecake_pancakes("lean"), blueberry_cheesecake_pancakes("bulk"), "Owner approved", "Record pancake count, batter and topping yields, and day-three reheat."),
     DraftMeal("PRPD Beef Bacon Breakfast Sandwich", "Breakfast", breakfast_sandwich("lean"), breakfast_sandwich("bulk"), "Owner approved", "Confirm the purchased beef-bacon and English-muffin labels; pack one 45g Sweet Heat cup."),
-    DraftMeal("French Toast", "Breakfast", active.MEALS[1].lean, active.MEALS[1].bulk, "Owner approved", "Use the confirmed three-Lean/four-Bulk slice builds and measured syrup cup."),
-    DraftMeal("Breakfast Quesadilla", "Breakfast", active.quesadilla("lean"), active.quesadilla("bulk"), "Owner approved", "Use the controlled salsa and yogurt portions."),
-    DraftMeal("Grilled Cheese Breakfast Burrito", "Breakfast", breakfast_burrito("lean"), breakfast_burrito("bulk"), "Owner approved", "Use the broth-free controlled filling."),
-    DraftMeal("Loaded Beef Cottage Pie", "Main", cottage_pie("lean"), cottage_pie("bulk"), "Owner approved", "Record finished pan yield and pack one 45g Sweet Heat cup."),
+    DraftMeal("High Protein Omelette", "Breakfast", omelette("lean"), omelette("bulk"), "Owner approved", "Record the finished egg yield and bread package panel."),
+    DraftMeal("Power Bowl", "Breakfast", power_bowl("lean"), power_bowl("bulk"), "Owner approved", "Keep sauce separate and record chicken and potato yields."),
     DraftMeal("Hot Honey Chicken Sliders", "Main", sliders("lean"), sliders("bulk"), "Owner approved", "Record slider count, cooked chicken allocation, and day-three reheat."),
-    DraftMeal("Loaded Buffalo Chicken Potato", "Main", active.loaded_buffalo("lean"), active.loaded_buffalo("bulk"), "Owner approved", "Record potato and buffalo-sauce yield."),
-    DraftMeal("Beef Seekh Kabab Shawarma", "Main", active.seekh("lean"), active.seekh("bulk"), "Owner approved", "Use drained house refrigerator pickles packed separately."),
-    DraftMeal("Harissa Honey Chicken", "Main", harissa_honey_chicken("lean"), harissa_honey_chicken("bulk"), "Owner approved", "Confirm the harissa package and first glaze/chicken yield."),
-    DraftMeal("Mexican Streetcorn Chicken Bowl", "Main", streetcorn_updated("lean"), streetcorn_updated("bulk"), "Owner approved", "Reuse the neutral chicken and common-rice waves; record the finished street-corn yield."),
-    DraftMeal("Garlic Butter Shrimp + Rice", "Main", garlic_shrimp("lean"), garlic_shrimp("bulk"), "Owner approved", "Record raw-to-cooked shrimp yield and day-three quality."),
-    DraftMeal("BBQ Chicken Mac & Cheese", "Main", bbq_mac("lean"), bbq_mac("bulk"), "Owner approved", "Confirm the purchased high-protein macaroni label and record finished yield."),
-    DraftMeal("Chocolate-Dipped Cookie Dough Balls", "Dessert", cookie_dough(), None, "Owner approved", "Form three balls and keep total chocolate at 14g per serving."),
-    DraftMeal("Chocolate Oreo Mousse", "Dessert", active.mousse(19.5), None, "Owner approved", "Use the taste-approved 19.5g protein-powder build."),
-    DraftMeal("Baked Strawberry-Lemon Protein Cheesecake Square", "Dessert", strawberry_lemon_cheesecake_square(), None, "Owner approved", "Record baked pan yield and eight equal finished weights."),
+    DraftMeal("Chicken Biryani", "Main", biryani("lean"), biryani("bulk"), "Owner approved", "Keep this as a separate Desi chicken and rice production batch."),
+    DraftMeal("Butter Chicken", "Main", butter_chicken_no_broth("lean"), butter_chicken_no_broth("bulk"), "Owner approved", "Use measured water, never broth; record finished sauce yield."),
+    DraftMeal("Sweet Chili Chicken with Vegetable Rice", "Main", sweet_chili_chicken("lean"), sweet_chili_chicken("bulk"), "Owner approved", "Record vegetable-rice and chicken finish yields."),
+    DraftMeal("Meatball Arrabbiata Pasta", "Main", active.meatball_pasta("lean"), active.meatball_pasta("bulk"), "Owner approved", "Record meatball count and cooked pasta yield."),
+    DraftMeal("Cajun Garlic Salmon", "Main", cajun_garlic_salmon("lean"), cajun_garlic_salmon("bulk"), "Owner approved", "Confirm the exact salmon package and all physical yield gates before final labels."),
+    DraftMeal("Loaded Buffalo Chicken Potato", "Main", loaded_buffalo_revised("lean"), loaded_buffalo_revised("bulk"), "Owner approved", "Use the corrected 200g potato allocation and record its finished yield."),
+    DraftMeal("Southwest Beef Taco Bowl", "Main", southwest_beef_taco_bowl("lean"), southwest_beef_taco_bowl("bulk"), "Owner approved", "Record first filled weights and sauce yield."),
+    DraftMeal("Baked Strawberry-Lemon Protein Cheesecake", "Dessert", strawberry_lemon_cheesecake(), None, "Owner approved", "Record baked pan yield and individual portion weights."),
+    DraftMeal("Banana Cream Pie Cup", "Dessert", banana_cream(), None, "Owner approved", "Confirm pudding and cookie package panels and 72-hour texture."),
+    DraftMeal("High Protein Tiramisu", "Dessert", active.tiramisu(), None, "Owner approved", "Confirm mascarpone and ladyfinger panels and record overnight set yield."),
     DraftMeal("PRPD Protein Box", "Add-on", protein_box(), None, "Owner approved", "Use one weighed whole mini apple and record the 12 oz box fit."),
     DraftMeal("Mini Chicken Snack Wrap", "Add-on", mini_chicken_wrap(), None, "Owner approved", "Record wrap weight and day-three texture."),
-    DraftMeal("Strawberry Protein Overnight Oats", "Add-on", overnight_oats_12oz(), None, "Owner approved", "Use one fixed 12 oz build and record filled weight and 72-hour texture."),
+    DraftMeal("Chicken Caesar Crunch Box", "Add-on", chicken_caesar_crunch_box(), None, "Owner approved", "Confirm the 12 oz fit, dressing yield, and 72-hour crunch."),
 ]
 
 
@@ -581,13 +707,13 @@ def amount_text(portion: Portion) -> str:
 
 def report() -> str:
     lines = [
-        "# PRPD Batch 6 Menu - Controlled Recipe and Nutrition Estimates",
+        "# PRPD Batch 7 Menu - Controlled Recipe and Nutrition Estimates",
         "",
-        "Generated: August 10, 2026",
+        "Generated: August 17, 2026",
         "",
         "## What Is Locked Here",
         "",
-        "This document rebuilds the owner-approved Batch 6 menu from controlled ingredient quantities rather than copying historical calorie claims. Public menu publication is controlled separately by config/order-config.js.",
+        "This document rebuilds the owner-approved Batch 7 menu from controlled ingredient quantities rather than copying historical calorie claims. Public menu publication is controlled separately by config/order-config.js.",
         "",
         "Protein-powder rule: the current Premier label serving is 39g and equals two physical scoops. Therefore one physical scoop is 19.5g and one-half physical scoop is 9.75g. Every recipe below uses grams, never the word scoop.",
         "",
@@ -608,10 +734,12 @@ def report() -> str:
         "## Portion Decisions",
         "",
         "- The four breakfasts average about 575 calories and 54g protein Lean, and about 770 calories and 74g protein Bulk.",
-        "- The eight mains average about 611 calories and 51g protein Lean, and about 782 calories and 68g protein Bulk after included sauces.",
+        "- The eight mains average about 607 calories and 50g protein Lean, and about 777 calories and 67g protein Bulk after included sauces.",
         "- French Toast retains the confirmed three-slice Lean and four-slice Bulk builds, including fruit, whipped cream, and one 30g syrup cup.",
         "- The Beef Bacon Breakfast Sandwich and Loaded Beef Cottage Pie each include one 45g net Sweet Heat cup. Its nutrition and egg allergen are included so the sauce cannot be silently omitted.",
         "- House refrigerator pickles replace purchased mixed pickled vegetables for Hot Honey Chicken Sliders and Beef Seekh Kabab Shawarma.",
+        "- Breakfast Quesadilla keeps its incorporated yogurt but no longer receives a salsa side cup.",
+        "- Garlic Butter Shrimp uses frozen peas and carrots instead of edamame for this batch.",
         "- Chocolate-Dipped Cookie Dough Balls use three medium balls and 14g total chocolate per serving; Chocolate Oreo Mousse retains the taste-approved 19.5g protein-powder portion; the strawberry dessert is now a crustless baked square.",
         "",
         "## Remaining Physical Production Gates",

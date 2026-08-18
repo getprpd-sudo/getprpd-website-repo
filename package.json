@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "google-auth-library": "^10.3.0",
-    "svix": "^1.99.1"
+    "svix": "^1.99.1",
+    "zipcodes": "^8.0.0"
   }
 }

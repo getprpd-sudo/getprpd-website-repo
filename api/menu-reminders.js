@@ -4,7 +4,12 @@ const ReminderCore = require('./_menu-reminder-core');
 const ORDER_CONFIG = require('../config/order-config');
 const { readBusinessData, getSheetsClient, spreadsheetUrl } = require('./_business-data-source');
 const { readPreferences } = require('./_menu-email-preferences');
-const { appendAcceptedEmail, ensureDeliverySheet } = require('./_email-delivery-log');
+const { appendReminderDecisions, readReminderHolds } = require('./_menu-reminder-controls');
+const {
+  acceptedRecipientSetForRun,
+  appendAcceptedEmail,
+  ensureDeliverySheet,
+} = require('./_email-delivery-log');
 const { safeLogError } = require('./_security');
 const { encodeContact, signContact } = require('./menu-unsubscribe')._test;
 
@@ -21,6 +26,30 @@ const AUTOMATION_SENDER = 'PRPD Automation <automation@mail.getprpd.com>';
 const REPLY_EMAIL = 'hello@getprpd.com';
 const LOG_SHEET = 'Automation Log';
 const LOG_HEADERS = ['Run ID', 'Generated At', 'Automation', 'Status', 'Summary'];
+const MAX_CUTOFF_TO_DELIVERY_MS = 14 * 24 * 60 * 60 * 1000;
+const RATE_LIMIT_RETRY_ATTEMPTS = 5;
+
+function wait(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function isRateLimitError(error) {
+  return Number(error?.status || error?.statusCode || error?.code) === 429;
+}
+
+async function retryRateLimited(task, options = {}) {
+  const attempts = Math.max(1, Number(options.attempts) || RATE_LIMIT_RETRY_ATTEMPTS);
+  const baseDelayMs = Math.max(100, Number(options.baseDelayMs) || 750);
+  for (let attempt = 0; attempt < attempts; attempt += 1) {
+    try {
+      return await task();
+    } catch (error) {
+      if (!isRateLimitError(error) || attempt === attempts - 1) throw error;
+      await wait(baseDelayMs * (2 ** attempt));
+    }
+  }
+  throw new Error('Rate-limit retry loop ended unexpectedly.');
+}
 
 function sendJson(response, status, body) {
   response.status(status).setHeader('Content-Type', 'application/json; charset=utf-8');
@@ -47,6 +76,67 @@ function chicagoDate(date = new Date()) {
     month: '2-digit',
     day: '2-digit',
   }).format(date);
+}
+
+function manualCampaignKey(request, manualAuthorized) {
+  if (!manualAuthorized) return '';
+  const value = String(request.query?.campaign || '').trim().toLowerCase();
+  if (!value) return '';
+  return /^[a-z0-9](?:[a-z0-9-]{0,22}[a-z0-9])?$/.test(value) ? value : null;
+}
+
+function manualRequestAuthorized(request, options = {}) {
+  const manualToken = String(options.manualToken || '');
+  const plannerKey = String(options.plannerKey || '');
+  const requestedCampaign = String(request.query?.campaign || '').trim();
+  const dedicatedTokenMatches = manualToken
+    && keysMatch(request.headers['x-prpd-manual-reminder-key'], manualToken);
+  const plannerKeyMatches = requestedCampaign
+    && plannerKey
+    && keysMatch(request.headers['x-prpd-planner-key'], plannerKey);
+  return Boolean(dedicatedTokenMatches || plannerKeyMatches);
+}
+
+function decisionSummary(decisions) {
+  const counts = {};
+  for (const entry of Array.isArray(decisions) ? decisions : []) {
+    if (entry.decision !== 'suppressed') continue;
+    counts[entry.reason] = (counts[entry.reason] || 0) + 1;
+  }
+  return Object.entries(counts)
+    .sort(([left], [right]) => left.localeCompare(right))
+    .map(([reason, count]) => `${reason}: ${count}`)
+    .join(', ');
+}
+
+function menuWindowStatus(config, now = new Date()) {
+  if (config?.batch?.published !== true) {
+    return { safeToSend: false, status: 'disabled-unpublished', reason: 'menu-not-published' };
+  }
+  if (config?.batch?.remindersEnabled !== true) {
+    return { safeToSend: false, status: 'disabled-owner-review', reason: 'reminders-not-approved' };
+  }
+  const nowMs = now instanceof Date ? now.getTime() : Number(now);
+  const cutoffMs = Date.parse(String(config?.batch?.cutoffIso || ''));
+  const deliveryMs = Date.parse(String(config?.batch?.deliveryDate || ''));
+
+  if (!Number.isFinite(nowMs)) {
+    return { safeToSend: false, status: 'disabled-stale-config', reason: 'invalid-current-time' };
+  }
+  if (!Number.isFinite(cutoffMs)) {
+    return { safeToSend: false, status: 'disabled-stale-config', reason: 'invalid-cutoff' };
+  }
+  if (!Number.isFinite(deliveryMs)) {
+    return { safeToSend: false, status: 'disabled-stale-config', reason: 'invalid-delivery-date' };
+  }
+  if (cutoffMs <= nowMs) {
+    return { safeToSend: false, status: 'disabled-stale-config', reason: 'cutoff-not-future' };
+  }
+  const fulfillmentWindowMs = deliveryMs - cutoffMs;
+  if (fulfillmentWindowMs <= 0 || fulfillmentWindowMs > MAX_CUTOFF_TO_DELIVERY_MS) {
+    return { safeToSend: false, status: 'disabled-stale-config', reason: 'invalid-fulfillment-window' };
+  }
+  return { safeToSend: true, status: 'ready', reason: '' };
 }
 
 async function ensureLogSheet(client) {
@@ -80,6 +170,23 @@ async function findRun(client, runId) {
   return (result.data.values || []).find(row => row[0] === runId);
 }
 
+function matchesSuccessfulPhaseRun(row, options = {}) {
+  const runId = String(row?.[0] || '');
+  const status = String(row?.[3] || '').toLowerCase();
+  const prefix = `menu-reminder-b${Number(options.batchNumber) || 0}-${String(options.phase || '').toLowerCase()}-`;
+  const date = String(options.date || '');
+  return status === 'sent' && runId.startsWith(prefix) && runId.endsWith(`-${date}`);
+}
+
+async function findSuccessfulPhaseRun(client, options) {
+  const range = encodeURIComponent(`'${LOG_SHEET}'!A2:E5000`);
+  const result = await client.request({
+    url: spreadsheetUrl(SHEET_ID, `/values/${range}`),
+    method: 'GET',
+  });
+  return (result.data.values || []).find(row => matchesSuccessfulPhaseRun(row, options));
+}
+
 async function appendRun(client, values) {
   const range = encodeURIComponent(`'${LOG_SHEET}'!A:E`);
   await client.request({
@@ -108,7 +215,7 @@ async function sendReminder(recipient, phase, runId) {
     unsubscribeUrl: optOutUrl,
     postalAddress: POSTAL_ADDRESS,
   });
-  const result = await fetch('https://api.resend.com/emails', {
+  const requestOptions = {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${RESEND_API_KEY}`,
@@ -128,8 +235,23 @@ async function sendReminder(recipient, phase, runId) {
         { name: 'batch', value: String(ORDER_CONFIG.batch.number) },
       ],
     }),
-  });
-  if (!result.ok) throw new Error(`Resend rejected a menu reminder (${result.status}).`);
+  };
+  let result;
+  for (let attempt = 0; attempt < RATE_LIMIT_RETRY_ATTEMPTS; attempt += 1) {
+    result = await fetch('https://api.resend.com/emails', requestOptions);
+    if (result.status !== 429) break;
+    if (attempt === RATE_LIMIT_RETRY_ATTEMPTS - 1) break;
+    const retryAfterSeconds = Number(result.headers?.get?.('retry-after'));
+    const delayMs = Number.isFinite(retryAfterSeconds) && retryAfterSeconds > 0
+      ? retryAfterSeconds * 1000
+      : 750 * (2 ** attempt);
+    await wait(delayMs);
+  }
+  if (!result?.ok) {
+    const error = new Error(`Resend rejected a menu reminder (${result?.status || 'unknown'}).`);
+    error.status = Number(result?.status) || 0;
+    throw error;
+  }
   const payload = await result.json().catch(() => ({}));
   if (!payload.id) throw new Error('Resend accepted a reminder without returning an email ID.');
   return {
@@ -170,16 +292,23 @@ module.exports = async function handler(request, response) {
   if (request.method !== 'GET') return sendJson(response, 405, { error: 'Method not allowed.' });
   const cronAuthorized = CRON_SECRET && keysMatch(bearerToken(request), CRON_SECRET);
   const previewAuthorized = PLANNER_KEY && keysMatch(request.headers['x-prpd-planner-key'], PLANNER_KEY);
-  const manualAuthorized = MANUAL_REMINDER_TOKEN
-    && keysMatch(request.headers['x-prpd-manual-reminder-key'], MANUAL_REMINDER_TOKEN);
+  const manualAuthorized = manualRequestAuthorized(request, {
+    manualToken: MANUAL_REMINDER_TOKEN,
+    plannerKey: PLANNER_KEY,
+  });
   if (!cronAuthorized && !previewAuthorized && !manualAuthorized) {
     return sendJson(response, 401, { error: 'Menu reminder authorization failed.' });
   }
 
   const phase = String(request.reminderPhase || request.query?.phase || '').toLowerCase();
   if (!ReminderCore.PHASES[phase]) return sendJson(response, 400, { error: 'A valid reminder phase is required.' });
+  // Cron retries may carry an owner-approved campaign key so a previously
+  // blocked run can be retried without weakening the endpoint authorization.
+  const campaignKey = manualCampaignKey(request, manualAuthorized || cronAuthorized);
+  if (campaignKey === null) return sendJson(response, 400, { error: 'The manual reminder campaign key is invalid.' });
 
-  const reportRunId = `menu-reminder-b${ORDER_CONFIG.batch.number}-${phase}-${chicagoDate()}`;
+  const reportRunId = `menu-reminder-b${ORDER_CONFIG.batch.number}-${phase}${campaignKey ? `-${campaignKey}` : ''}-${chicagoDate()}`;
+  const menuWindow = menuWindowStatus(ORDER_CONFIG);
   let intendedRecipients = [];
   const sentRecipients = [];
   try {
@@ -187,11 +316,18 @@ module.exports = async function handler(request, response) {
     const orders = Core.normalizeOrders(data.orders);
     const client = await getSheetsClient('https://www.googleapis.com/auth/spreadsheets');
     const preferences = await readPreferences(client);
-    const recipients = ReminderCore.eligibleRecipients(orders, {
+    const holds = await readReminderHolds(client);
+    const decisions = ReminderCore.recipientDecisions(orders, {
       batchNumber: ORDER_CONFIG.batch.number,
       batchNumberFromOrder: order => Core.batchNumber(order.Batch),
       preferences,
+      holds,
+      phase,
     });
+    const recipients = decisions
+      .filter(entry => entry.decision === 'eligible')
+      .map(({ decision, reason, ...recipient }) => recipient);
+    const suppressionSummary = decisionSummary(decisions);
     intendedRecipients = recipients;
 
     if (!cronAuthorized && !manualAuthorized) {
@@ -208,7 +344,10 @@ module.exports = async function handler(request, response) {
         mode: 'preview',
         batch: ORDER_CONFIG.batch.number,
         phase,
+        sendGuard: menuWindow,
         eligibleRecipientCount: recipients.length,
+        suppressedRecipientCount: decisions.length - recipients.length,
+        suppressionSummary,
         recipients: recipients.map(recipient => ({ email: recipient.email, firstName: recipient.firstName })),
         example: { subject: example.subject, text: example.text },
       });
@@ -218,6 +357,48 @@ module.exports = async function handler(request, response) {
     await ensureDeliverySheet(client);
     const runId = reportRunId;
     if (await findRun(client, runId)) return sendJson(response, 200, { status: 'already-processed', runId });
+    const priorPhaseRun = await findSuccessfulPhaseRun(client, {
+      batchNumber: ORDER_CONFIG.batch.number,
+      phase,
+      date: chicagoDate(),
+    });
+    if (priorPhaseRun) {
+      return sendJson(response, 200, {
+        status: 'already-processed-phase',
+        runId: priorPhaseRun[0],
+      });
+    }
+    const alreadyAcceptedEmails = await retryRateLimited(
+      () => acceptedRecipientSetForRun(client, runId),
+    );
+    const pendingRecipients = recipients.filter(recipient => !alreadyAcceptedEmails.has(recipient.email));
+    sentRecipients.push(...recipients.filter(recipient => alreadyAcceptedEmails.has(recipient.email)));
+    await retryRateLimited(
+      () => appendReminderDecisions(client, runId, ORDER_CONFIG.batch.number, phase, decisions),
+    );
+
+    if (!menuWindow.safeToSend) {
+      await appendRun(client, [
+        runId, new Date().toISOString(), `Menu Reminder - ${phase}`, menuWindow.status,
+        `Customer send blocked because reminders are not owner-approved, the menu is unpublished, or its active dates are invalid`,
+      ]);
+      await sendOwnerReport({
+        phase,
+        status: menuWindow.status,
+        runId,
+        batchNumber: ORDER_CONFIG.batch.number,
+        intendedCount: recipients.length,
+        recipients: [],
+        note: 'No customer email was sent because reminders are not owner-approved, the menu is unpublished, or its cutoff/delivery dates are invalid.',
+        suppressionSummary,
+      });
+      return sendJson(response, 200, {
+        status: menuWindow.status,
+        reason: menuWindow.reason,
+        runId,
+        eligibleRecipientCount: recipients.length,
+      });
+    }
 
     if (!recipients.length) {
       await appendRun(client, [
@@ -232,6 +413,7 @@ module.exports = async function handler(request, response) {
         intendedCount: 0,
         recipients: [],
         note: 'No customer email was sent because no eligible prior customer remained.',
+        suppressionSummary,
       });
       return sendJson(response, 200, { status: 'no-recipients', runId, eligibleRecipientCount: 0 });
     }
@@ -249,6 +431,7 @@ module.exports = async function handler(request, response) {
         intendedCount: recipients.length,
         recipients: [],
         note: 'Sending was disabled because BUSINESS_POSTAL_ADDRESS was not configured.',
+        suppressionSummary,
       });
       return sendJson(response, 200, {
         status: 'disabled',
@@ -259,22 +442,22 @@ module.exports = async function handler(request, response) {
     }
     if (!RESEND_API_KEY) throw new Error('Resend is not configured.');
 
-    for (const recipient of recipients) {
+    for (const recipient of pendingRecipients) {
       const accepted = await sendReminder(recipient, phase, runId);
-      await appendAcceptedEmail(client, {
+      await retryRateLimited(() => appendAcceptedEmail(client, {
         runId,
         emailId: accepted.emailId,
         recipient: recipient.email,
         subject: accepted.subject,
         acceptedAt: accepted.acceptedAt,
         expectedCount: recipients.length,
-      });
+      }));
       sentRecipients.push(recipient);
     }
-    await appendRun(client, [
+    await retryRateLimited(() => appendRun(client, [
       runId, new Date().toISOString(), `Menu Reminder - ${phase}`, 'sent',
       `Batch ${ORDER_CONFIG.batch.number}: ${recipients.length} eligible customer reminder(s) sent`,
-    ]);
+    ]));
     await sendOwnerReport({
       phase,
       status: 'sent',
@@ -283,11 +466,14 @@ module.exports = async function handler(request, response) {
       intendedCount: recipients.length,
       recipients: sentRecipients,
       note: 'All eligible customer reminders were accepted by the email provider.',
+      suppressionSummary,
     });
     return sendJson(response, 200, {
       status: 'sent',
       runId,
       eligibleRecipientCount: recipients.length,
+      resumedRecipientCount: alreadyAcceptedEmails.size,
+      newlyAcceptedRecipientCount: pendingRecipients.length,
     });
   } catch (error) {
     safeLogError('Weekly menu reminder failed.', error);
@@ -308,5 +494,11 @@ module.exports._test = {
   bearerToken,
   chicagoDate,
   keysMatch,
+  manualCampaignKey,
+  manualRequestAuthorized,
+  menuWindowStatus,
+  decisionSummary,
+  matchesSuccessfulPhaseRun,
+  retryRateLimited,
   unsubscribeUrl,
 };

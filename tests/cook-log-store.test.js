@@ -26,6 +26,28 @@ test('cook log rejects unsafe field keys and excessive data', () => {
   assert.throws(() => store.validateLog({ batchKey:'', fields:{} }), /batch key/i);
 });
 
+test('cook log preserves complete frozen order snapshots above the note limit', () => {
+  const frozenOrders = JSON.stringify(Array.from({ length:80 }, (_,index) => ({
+    customer:`Customer ${index + 1}`,
+    items:[{ id:'m1', tier:'lean', qty:1 }],
+  })));
+  assert.ok(frozenOrders.length > 4000);
+  const validated = store.validateLog({
+    batchKey:'batch-lock-payload',
+    fields:{
+      'lock:status':'locked',
+      'lock:orders-json':frozenOrders,
+      'batch:notes':'x'.repeat(5000),
+    },
+  });
+  assert.equal(validated.fields['lock:orders-json'], frozenOrders);
+  assert.equal(validated.fields['batch:notes'].length, 4000);
+  assert.throws(() => store.validateLog({
+    batchKey:'batch-lock-truncated',
+    fields:{ 'lock:status':'locked', 'lock:orders-json':frozenOrders.slice(0, 4000) },
+  }), /complete frozen order snapshot/i);
+});
+
 test('cook log keeps the previous project copy as a recovery backup', () => {
   const batchKey = `test-backup-${Date.now()}-${Math.random()}`;
   const file = store.fileForBatch(batchKey);
@@ -36,4 +58,29 @@ test('cook log keeps the previous project copy as a recovery backup', () => {
   assert.equal(store.loadLog(batchKey).fields['batch:notes'], 'second');
   fs.rmSync(file, { force:true });
   fs.rmSync(`${file}.bak`, { force:true });
+});
+
+test('normal cook-log autosaves preserve the protected server lock', () => {
+  const existing = {
+    batchKey:'batch:protected',
+    fields:{
+      'lock:status':'locked',
+      'lock:recipe-signature':'current-signature',
+      'lock:orders-json':'[{"orderId":"one"}]',
+      'dish:m1:notes':'old note',
+    },
+  };
+  const incoming = {
+    batchKey:'batch:protected',
+    fields:{
+      'lock:status':'locked',
+      'lock:recipe-signature':'stale-signature',
+      'lock:orders-json':'[{"orderId":"old"}]',
+      'dish:m1:notes':'new measured note',
+    },
+  };
+  const merged = store.preserveLockFields(existing,incoming);
+  assert.equal(merged.fields['lock:recipe-signature'],'current-signature');
+  assert.equal(merged.fields['lock:orders-json'],'[{"orderId":"one"}]');
+  assert.equal(merged.fields['dish:m1:notes'],'new measured note');
 });
