@@ -13,7 +13,8 @@ const MAX_BODY_BYTES = 8 * 1024;
 const REFERRAL_KEYS = new Set([
   'code', 'ownerName', 'ownerEmail', 'ownerPhone', 'programType',
   'customerDiscount', 'referrerCredit', 'status', 'createdAt', 'expiresAt',
-  'maxPaidReferrals', 'creditUsed', 'notes', 'rowNumber',
+  'maxPaidReferrals', 'creditUsed', 'notes', 'rowNumber', 'minimumOrder',
+  'firstOrderOnly', 'maxRedemptions', 'startsAt',
 ]);
 
 function sendJson(response, status, body, isPrivate = false) {
@@ -46,7 +47,8 @@ module.exports = async function handler(request, response) {
           type: promotion.type,
           value: promotion.value,
           maxDiscount: promotion.maxDiscount,
-          firstOrderOnly: true,
+          firstOrderOnly: promotion.firstOrderOnly,
+          minimumOrder: promotion.minimumOrder,
         },
       });
     }

@@ -106,7 +106,8 @@ function promotionForCode(value, promotions = PROMOTIONS.codes || []) {
 }
 
 function discountForPromotion(promotion, mealSubtotal) {
-  if (!promotion || mealSubtotal < MIN_ORDER_TOTAL) return 0;
+  const minimumOrder = Math.max(MIN_ORDER_TOTAL, Number(promotion?.minimumOrder) || 0);
+  if (!promotion || mealSubtotal < minimumOrder) return 0;
   const value = Number(promotion.value);
   if (!Number.isFinite(value) || value <= 0) return 0;
   const rawDiscount = promotion.type === 'percent' ? mealSubtotal * (value / 100) : value;
@@ -273,18 +274,47 @@ function validateAndBuildOrder(raw, availablePromotions = PROMOTIONS.codes || []
   };
 }
 
+function normalizedHouseholdAddress(address, zip) {
+  const street = safeText(address, 240).toLowerCase()
+    .replace(/\b(apartment|apt|suite|ste|unit|#)\b/g, ' ')
+    .replace(/\b(street)\b/g, 'st')
+    .replace(/\b(road)\b/g, 'rd')
+    .replace(/\b(avenue)\b/g, 'ave')
+    .replace(/\b(drive)\b/g, 'dr')
+    .replace(/\b(lane)\b/g, 'ln')
+    .replace(/\b(boulevard)\b/g, 'blvd')
+    .replace(/[^a-z0-9]/g, '');
+  return street && zip ? `${street}|${safeText(zip, 10)}` : '';
+}
+
 async function assertReferralEligibility(client, order, promotion) {
-  if (!promotion?.firstOrderOnly) return;
-  const rows = await readRange(client, "'Orders'!A2:AC5000");
+  if (!promotion) return;
+  const rows = await readRange(client, "'Orders'!A2:AK5000");
   const email = order.email.toLowerCase();
   const phone = order.phone.replace(/\D/g, '').slice(-10);
-  const previousOrder = rows.some((row) => {
+  const household = order.fulfillmentMethod === 'delivery'
+    ? normalizedHouseholdAddress(order.deliveryUnit ? `${order.deliveryAddress} ${order.deliveryUnit}` : order.deliveryAddress, order.deliveryZip)
+    : '';
+  const previousOrder = promotion.firstOrderOnly && rows.some((row) => {
     const priorOrderId = safeText(row[10], 50);
     const priorEmail = safeText(row[11], 160).toLowerCase();
     const priorPhone = safeText(row[5], 30).replace(/\D/g, '').slice(-10);
-    return priorOrderId !== order.orderId && ((email && priorEmail === email) || (phone && priorPhone === phone));
+    const priorHousehold = normalizedHouseholdAddress(row[12], row[14]);
+    return priorOrderId !== order.orderId && ((email && priorEmail === email)
+      || (phone && priorPhone === phone)
+      || (household && priorHousehold === household));
   });
   if (previousOrder) throw new Error('Referral discounts apply to a customer\'s first PRPD order only.');
+
+  const maxRedemptions = Math.max(0, Math.floor(Number(promotion.maxRedemptions) || 0));
+  if (maxRedemptions) {
+    const code = normalizePromoCode(promotion.code);
+    const usedOrderIds = new Set(rows.filter(row => normalizePromoCode(row[18]) === code)
+      .map(row => safeText(row[10], 50)).filter(Boolean));
+    if (usedOrderIds.size >= maxRedemptions) {
+      throw new Error('That referral or partner offer has reached its redemption limit.');
+    }
+  }
 }
 
 function getCredentials() {
@@ -868,6 +898,7 @@ module.exports._test = {
   isValidOrderId,
   validateAndBuildOrder,
   assertReferralEligibility,
+  normalizedHouseholdAddress,
   ensureSheetColumnCapacity,
   paymentCounts,
   tierSummary,

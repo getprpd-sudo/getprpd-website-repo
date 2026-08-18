@@ -334,6 +334,7 @@
   }
 
   async function saveReferral(values, message = 'Referral code saved') {
+    values.firstOrderOnly = values.firstOrderOnly !== 'No' && values.firstOrderOnly !== false;
     const response = await fetch('/api/referrals', { method:'POST', headers:{ 'Content-Type':'application/json' }, body:JSON.stringify(values) });
     const result = await response.json().catch(() => ({}));
     if (!response.ok) throw new Error(result.error || 'Referral code could not be saved.');
@@ -553,12 +554,16 @@
       event.currentTarget.reset();
       event.currentTarget.elements.customerDiscount.value = 10;
       event.currentTarget.elements.referrerCredit.value = 10;
+      event.currentTarget.elements.minimumOrder.value = 60;
+      event.currentTarget.elements.maxRedemptions.value = 4;
+      event.currentTarget.elements.maxPaidReferrals.value = 4;
+      event.currentTarget.elements.status.value = 'Inactive';
       await navigator.clipboard.writeText(referralTrackedUrl(record.code, record.programType));
       button.textContent = `${record.code} created and link copied`;
     } catch (error) { alert(error.message); }
     finally {
       button.disabled = false;
-      setTimeout(() => { button.textContent = 'Create active code'; }, 2000);
+      setTimeout(() => { button.textContent = 'Save controlled code'; }, 2000);
     }
   });
   $('#generateCampaignBtn').addEventListener('click', async () => {

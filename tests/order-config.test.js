@@ -130,6 +130,40 @@ test('partner discounts are normalized, capped, and resolved only from approved 
   assert.equal(orderApi._test.promotionForCode('unknown', [promotion]), null);
   assert.equal(orderApi._test.discountForPromotion(promotion, 65.94), 15);
   assert.equal(orderApi._test.discountForPromotion({ ...promotion, type: 'percent', value: 25, maxDiscount: 10 }, 65.94), 10);
+  assert.equal(orderApi._test.discountForPromotion({ ...promotion, minimumOrder: 80 }, 65.94), 0);
+});
+
+test('partner offers reject repeat households and stop at their configured redemption cap', async () => {
+  const promotion = {
+    code:'Z10', partner:'Athlete Partner', type:'fixed', value:10,
+    firstOrderOnly:true, minimumOrder:60, maxRedemptions:2,
+  };
+  const order = {
+    orderId:'PRPD-B7-20260817-ABCDEF12', email:'new@example.com', phone:'4695550199',
+    fulfillmentMethod:'delivery', deliveryAddress:'123 Main Street', deliveryUnit:'Apt 4', deliveryZip:'75035',
+  };
+  const row = ({ id, email, phone, address, zip, code }) => {
+    const values = Array(37).fill('');
+    values[5] = phone; values[10] = id; values[11] = email;
+    values[12] = address; values[14] = zip; values[18] = code;
+    return values;
+  };
+  const clientFor = rows => ({ request: async () => ({ data:{ values:rows } }) });
+
+  await assert.rejects(
+    orderApi._test.assertReferralEligibility(clientFor([
+      row({ id:'OLDER', email:'other@example.com', phone:'9725550100', address:'123 Main St, Apartment 4', zip:'75035', code:'' }),
+    ]), order, promotion),
+    /first PRPD order/i,
+  );
+
+  await assert.rejects(
+    orderApi._test.assertReferralEligibility(clientFor([
+      row({ id:'ONE', email:'one@example.com', phone:'9725550101', address:'1 First St', zip:'75001', code:'Z10' }),
+      row({ id:'TWO', email:'two@example.com', phone:'9725550102', address:'2 Second St', zip:'75002', code:'z10' }),
+    ]), { ...order, deliveryAddress:'999 New Road', deliveryUnit:'', deliveryZip:'75035' }, promotion),
+    /redemption limit/i,
+  );
 });
 
 test('server recalculates an approved discount and ignores client-submitted totals', () => {

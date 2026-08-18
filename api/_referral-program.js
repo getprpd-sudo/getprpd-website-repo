@@ -5,6 +5,7 @@ const HEADERS = Object.freeze([
   'Code', 'Owner Name', 'Owner Email', 'Owner Phone', 'Program Type',
   'Customer Discount', 'Referrer Credit', 'Status', 'Created At',
   'Expires At', 'Max Paid Referrals', 'Credit Used', 'Notes',
+  'Minimum Order', 'First Order Only', 'Max Redemptions', 'Starts At',
 ]);
 const PUBLIC_CACHE_TTL_MS = 60_000;
 let cachedRecords = null;
@@ -19,8 +20,18 @@ function normalizeCode(value) {
 }
 
 function number(value, fallback = 0) {
-  const parsed = Number(String(value ?? '').replace(/[$,%\s,]/g, ''));
+  const cleaned = String(value ?? '').replace(/[$,%\s,]/g, '');
+  if (!cleaned) return fallback;
+  const parsed = Number(cleaned);
   return Number.isFinite(parsed) ? parsed : fallback;
+}
+
+function businessDate(now = Date.now()) {
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit',
+  }).formatToParts(new Date(now));
+  const value = Object.fromEntries(parts.filter(part => part.type !== 'literal').map(part => [part.type, part.value]));
+  return `${value.year}-${value.month}-${value.day}`;
 }
 
 function rowObject(row, rowNumber) {
@@ -41,11 +52,19 @@ function rowObject(row, rowNumber) {
     maxPaidReferrals: Math.max(0, Math.floor(number(record['Max Paid Referrals'], 0))),
     creditUsed: Math.max(0, number(record['Credit Used'], 0)),
     notes: record.Notes,
+    minimumOrder: Math.max(0, number(record['Minimum Order'], 60)),
+    firstOrderOnly: !/^(no|false|0)$/i.test(record['First Order Only']),
+    maxRedemptions: Math.max(0, Math.floor(number(record['Max Redemptions'], number(record['Max Paid Referrals'], 0)))),
+    startsAt: record['Starts At'],
   };
 }
 
 function validEmail(value) {
   return !value || /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(value);
+}
+
+function validPhone(value) {
+  return String(value || '').replace(/\D/g, '').length === 10;
 }
 
 function suggestCode(records, ownerName) {
@@ -68,21 +87,37 @@ function serializeRecord(input, existing = null) {
   const programType = input.programType === 'Partner' ? 'Partner' : 'Customer referral';
   const customerDiscount = Math.max(0, Math.min(50, number(input.customerDiscount ?? existing?.customerDiscount, 10)));
   const referrerCredit = Math.max(0, Math.min(100, number(input.referrerCredit ?? existing?.referrerCredit, 10)));
-  const status = input.status === 'Inactive' ? 'Inactive' : 'Active';
+  const requestedStatus = input.status ?? existing?.status ?? 'Inactive';
+  const status = requestedStatus === 'Active' ? 'Active' : 'Inactive';
   const createdAt = clean(existing?.createdAt || input.createdAt || new Date().toISOString(), 40);
   const expiresAt = clean(input.expiresAt ?? existing?.expiresAt, 20);
   const maxPaidReferrals = Math.max(0, Math.min(10000, Math.floor(number(input.maxPaidReferrals ?? existing?.maxPaidReferrals, 0))));
   const creditUsed = Math.max(0, Math.min(100000, number(input.creditUsed ?? existing?.creditUsed, 0)));
   const notes = clean(input.notes ?? existing?.notes, 1000);
+  const minimumOrder = Math.max(0, Math.min(5000, number(input.minimumOrder ?? existing?.minimumOrder, 60)));
+  const firstOrderOnly = typeof input.firstOrderOnly === 'boolean'
+    ? input.firstOrderOnly
+    : existing?.firstOrderOnly !== false;
+  const maxRedemptions = Math.max(0, Math.min(10000, Math.floor(number(
+    input.maxRedemptions ?? existing?.maxRedemptions ?? maxPaidReferrals,
+    maxPaidReferrals,
+  ))));
+  const startsAt = clean(input.startsAt ?? existing?.startsAt, 20);
 
   if (!/^[A-Z0-9][A-Z0-9_-]{2,31}$/.test(code)) throw new Error('Referral code must be 3 to 32 letters, numbers, dashes, or underscores.');
   if (!ownerName) throw new Error('Referral owner name is required.');
-  if (!validEmail(ownerEmail)) throw new Error('Referral owner email is invalid.');
+  if (!ownerEmail || !validEmail(ownerEmail)) throw new Error('Referral owner email is required and must be valid.');
+  if (status === 'Active' && !validPhone(ownerPhone)) throw new Error('An active referral code requires a valid 10-digit owner phone.');
   if (customerDiscount <= 0) throw new Error('Customer discount must be greater than zero.');
+  if (minimumOrder < customerDiscount) throw new Error('Minimum order must be at least the customer discount.');
+  if (startsAt && !/^\d{4}-\d{2}-\d{2}$/.test(startsAt)) throw new Error('Referral start date is invalid.');
+  if (expiresAt && !/^\d{4}-\d{2}-\d{2}$/.test(expiresAt)) throw new Error('Referral expiry date is invalid.');
+  if (startsAt && expiresAt && expiresAt < startsAt) throw new Error('Referral expiry date must not precede its start date.');
 
   return {
     code, ownerName, ownerEmail, ownerPhone, programType, customerDiscount,
     referrerCredit, status, createdAt, expiresAt, maxPaidReferrals, creditUsed, notes,
+    minimumOrder, firstOrderOnly, maxRedemptions, startsAt,
   };
 }
 
@@ -91,7 +126,8 @@ function valuesForRecord(record) {
     record.code, record.ownerName, record.ownerEmail, record.ownerPhone,
     record.programType, record.customerDiscount, record.referrerCredit,
     record.status, record.createdAt, record.expiresAt, record.maxPaidReferrals,
-    record.creditUsed, record.notes,
+    record.creditUsed, record.notes, record.minimumOrder,
+    record.firstOrderOnly ? 'Yes' : 'No', record.maxRedemptions, record.startsAt,
   ]];
 }
 
@@ -127,7 +163,7 @@ async function ensureReferralSheet(client, sheetId) {
     }
   }
   await client.request({
-    url: spreadsheetUrl(sheetId, `/values/${encodeURIComponent(`'${SHEET_NAME}'!A1:M1`)}?valueInputOption=RAW`),
+    url: spreadsheetUrl(sheetId, `/values/${encodeURIComponent(`'${SHEET_NAME}'!A1:Q1`)}?valueInputOption=RAW`),
     method: 'PUT',
     data: { values: [HEADERS] },
   });
@@ -143,7 +179,7 @@ async function readReferralCodes({ ensure = false } = {}) {
   if (ensure) await ensureReferralSheet(client, sheetId);
   else if (!(await sheetExists(client, sheetId))) return [];
   const response = await client.request({
-    url: spreadsheetUrl(sheetId, `/values/${encodeURIComponent(`'${SHEET_NAME}'!A2:M1000`)}`),
+    url: spreadsheetUrl(sheetId, `/values/${encodeURIComponent(`'${SHEET_NAME}'!A2:Q1000`)}`),
     method: 'GET',
   });
   const records = (response.data.values || []).map((row, index) => rowObject(row, index + 2)).filter(record => record.code);
@@ -156,9 +192,10 @@ async function readReferralCodes({ ensure = false } = {}) {
 
 function isActive(record, now = Date.now()) {
   if (!record || record.status !== 'Active') return false;
+  const today = businessDate(now);
+  if (record.startsAt && (!/^\d{4}-\d{2}-\d{2}$/.test(record.startsAt) || today < record.startsAt)) return false;
   if (!record.expiresAt) return true;
-  const expires = Date.parse(`${record.expiresAt}T23:59:59-05:00`);
-  return Number.isFinite(expires) && now <= expires;
+  return /^\d{4}-\d{2}-\d{2}$/.test(record.expiresAt) && today <= record.expiresAt;
 }
 
 async function findReferralCode(code) {
@@ -181,7 +218,9 @@ function promotionFromReferral(record) {
     value: record.customerDiscount,
     maxDiscount: record.customerDiscount,
     active: true,
-    firstOrderOnly: true,
+    firstOrderOnly: record.firstOrderOnly,
+    minimumOrder: record.minimumOrder,
+    maxRedemptions: record.maxRedemptions,
   };
 }
 
@@ -200,7 +239,7 @@ async function upsertReferralCode(input) {
   if (duplicateOwner) throw new Error(`${record.ownerName} already has active code ${duplicateOwner.code}.`);
   const rowNumber = existing?.rowNumber || records.reduce((max, item) => Math.max(max, item.rowNumber), 1) + 1;
   await client.request({
-    url: spreadsheetUrl(sheetId, `/values/${encodeURIComponent(`'${SHEET_NAME}'!A${rowNumber}:M${rowNumber}`)}?valueInputOption=RAW`),
+    url: spreadsheetUrl(sheetId, `/values/${encodeURIComponent(`'${SHEET_NAME}'!A${rowNumber}:Q${rowNumber}`)}?valueInputOption=RAW`),
     method: 'PUT',
     data: { values: valuesForRecord(record) },
   });
@@ -213,6 +252,7 @@ module.exports = {
   HEADERS,
   SHEET_NAME,
   addSheetRequest,
+  businessDate,
   findReferralCode,
   isActive,
   normalizeCode,

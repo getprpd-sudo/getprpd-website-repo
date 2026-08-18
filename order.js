@@ -69,7 +69,8 @@ const ORDER_API_URL = '/api/order';
     }
 
     function discountForPromotion(promotion, mealSubtotal) {
-      if (!promotion || mealSubtotal < MIN_ORDER_TOTAL) return 0;
+      const minimumOrder = Math.max(MIN_ORDER_TOTAL, Number(promotion && promotion.minimumOrder) || 0);
+      if (!promotion || mealSubtotal < minimumOrder) return 0;
       const rawDiscount = promotion.type === 'percent'
         ? mealSubtotal * (Number(promotion.value) / 100)
         : Number(promotion.value);
@@ -569,7 +570,8 @@ const ORDER_API_URL = '/api/order';
       const description = promotion.type === 'percent'
         ? `${Number(promotion.value)}% off`
         : `$${Number(promotion.value).toFixed(2)} off`;
-      feedback.textContent = `${description} applied${promotion.firstOrderOnly ? ' to a first PRPD order' : ''}.`;
+      const minimum = Math.max(MIN_ORDER_TOTAL, Number(promotion.minimumOrder) || 0);
+      feedback.textContent = `${description} applied${promotion.firstOrderOnly ? ' to a first PRPD order' : ''} of $${minimum.toFixed(0)} or more.`;
       feedback.classList.add('is-valid');
       updateSummary();
     }

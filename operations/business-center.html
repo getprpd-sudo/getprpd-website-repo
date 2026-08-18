@@ -95,18 +95,24 @@
             <label>Owner name<input required name="ownerName" placeholder="Customer or partner name"></label>
             <label>Code <small>(optional)</small><input name="code" maxlength="32" placeholder="Auto-generated"></label>
             <label>Program type<select name="programType"><option>Customer referral</option><option>Partner</option></select></label>
-            <label>Owner email<input name="ownerEmail" type="email" placeholder="name@example.com"></label>
+            <label>Owner email<input name="ownerEmail" type="email" placeholder="name@example.com" required></label>
             <label>Owner phone<input name="ownerPhone" inputmode="tel" placeholder="469-555-0100"></label>
+            <label>Starts <small>(optional)</small><input name="startsAt" type="date"></label>
             <label>Expires <small>(optional)</small><input name="expiresAt" type="date"></label>
             <label>Customer discount<input name="customerDiscount" type="number" min="1" max="50" step="1" value="10"></label>
             <label>Referrer credit<input name="referrerCredit" type="number" min="0" max="100" step="1" value="10"></label>
+            <label>Minimum order<input name="minimumOrder" type="number" min="1" max="5000" step="1" value="60"></label>
+            <label>First order only<select name="firstOrderOnly"><option>Yes</option><option>No</option></select></label>
+            <label>Maximum redemptions<input name="maxRedemptions" type="number" min="0" max="10000" step="1" value="4"></label>
+            <label>Maximum paid referrals<input name="maxPaidReferrals" type="number" min="0" max="10000" step="1" value="4"></label>
+            <label>Status<select name="status"><option>Inactive</option><option>Active</option></select></label>
             <label class="wide">Notes<input name="notes" placeholder="Relationship, agreement, or code restrictions"></label>
-            <button class="btn primary" type="submit">Create active code</button>
+            <button class="btn primary" type="submit">Save controlled code</button>
           </form>
         </section>
       </div>
       <section class="panel">
-        <div class="panel-heading"><div><h3>Referral credit ledger</h3><span>Live redemptions from Orders and paid status from Payment Log</span></div><span id="referralSyncState">Not synced</span></div>
+        <div class="panel-heading"><div><h3>Referral credit ledger</h3><span>Live redemptions from Orders and paid candidates from Payment Log; partner payouts still require delivery/refund review</span></div><span id="referralSyncState">Not synced</span></div>
         <div class="table-wrap"><table class="referral-program-table"><thead><tr><th>Owner</th><th>Code and link</th><th>Type</th><th>Status</th><th>Used</th><th>Paid</th><th>Revenue</th><th>Earned</th><th>Credit used</th><th>Available</th><th></th></tr></thead><tbody id="referralProgramRows"></tbody></table></div>
       </section>
       <section class="panel">
