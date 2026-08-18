@@ -57,10 +57,12 @@ When convenient, record ingredient grams, final batch weight, and serving grams 
 After changing any assumption or recipe:
 
 ```powershell
-python operations/nutrition/calculate_active_menu.py
-python operations/nutrition/generate_label_data.py
-python operations/nutrition/generate_active_menu_audit_docx.py
+python operations/nutrition/calculate_next_menu.py
+python operations/nutrition/generate_next_menu_label_data.py
+python operations/nutrition/verify_next_menu_labels.py
+python operations/nutrition/generate_production_data.py
 python -m unittest discover -s operations/nutrition -p "test_*.py" -v
+npm test
 ```
 
-This updates the Markdown audit, browser label data, Word audit, and validation tests from one calculation model.
+This updates the current nutrition record, sole browser label dataset, production data, and validation tests from the controlled current recipe model and live order configuration.

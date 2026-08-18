@@ -1,12 +1,11 @@
-"""Verify that the saved July 25 label dataset matches its recipe calculator."""
+"""Verify that the saved Batch 7 label dataset matches its recipe calculator."""
 
 from __future__ import annotations
 
 import json
 from pathlib import Path
 
-import calculate_next_menu as draft
-import generate_label_data as active_labels
+import generate_next_menu_label_data as generator
 
 
 LABEL_PATH = Path(__file__).resolve().parent / "next-menu-label-data.js"
@@ -22,80 +21,52 @@ def load_labels() -> dict:
 
 def verify() -> tuple[int, int]:
     payload = load_labels()
-    meals = list(payload["meals"].values())
-    if payload.get("status") != "draft":
-        raise AssertionError("Next-menu labels must remain review-only until weekly approval.")
-    if len(meals) != 15:
-        raise AssertionError(f"Expected 15 dishes, found {len(meals)}.")
-
-    saved_by_name = {meal["name"]: meal for meal in meals}
-    expected_names = {meal.name for meal in draft.MEALS}
-    if set(saved_by_name) != expected_names:
-        raise AssertionError("Saved label dishes do not match the controlled menu calculator.")
-    if any("Overnight Oats" in name for name in saved_by_name):
-        raise AssertionError("Rejected overnight oats remain in the next-menu label dataset.")
-
-    build_count = 0
-    for meal in draft.MEALS:
-        saved = saved_by_name[meal.name]
-        builds = [("lean", meal.lean)]
-        if meal.bulk is not None:
-            builds.append(("bulk", meal.bulk))
-
-        if set(saved["tiers"]) != {tier for tier, _ in builds}:
-            raise AssertionError(f"Tier mismatch for {meal.name}.")
-
-        for tier, recipe in builds:
-            build_count += 1
-            expected = active_labels.nutrition(draft.total(recipe))
-            actual = saved["tiers"][tier]["nutrition"]
-            if actual != expected:
+    expected = generator.generate_payload()
+    if payload != expected:
+        if payload.get("production") != expected.get("production"):
+            raise AssertionError(
+                "Saved label production identity does not match the active order configuration. "
+                "Regenerate the label dataset before opening Label Studio."
+            )
+        if set(payload.get("meals", {})) != set(expected.get("meals", {})):
+            raise AssertionError(
+                "Saved label meal IDs do not exactly match the active customer menu. "
+                "Archived/manual labels cannot carry forward."
+            )
+        for meal_id, expected_meal in expected["meals"].items():
+            saved_meal = payload["meals"].get(meal_id)
+            if saved_meal != expected_meal:
                 raise AssertionError(
-                    f"Nutrition mismatch for {meal.name} {tier}: "
-                    f"saved={actual}, expected={expected}"
+                    f"Saved label data for {meal_id} {expected_meal['name']} is stale. "
+                    "Regenerate after any recipe, ingredient, allergen, tier, or handling change."
                 )
-            if not saved["tiers"][tier]["ingredients"].strip(" ."):
-                raise AssertionError(f"Missing ingredients for {meal.name} {tier}.")
-            if not saved["tiers"][tier]["allergens"].strip(" ."):
-                raise AssertionError(f"Missing allergen statement for {meal.name} {tier}.")
+        raise AssertionError(
+            "Saved label dataset metadata is stale. Regenerate it from the active menu and controlled recipes."
+        )
 
-    if build_count != 27:
-        raise AssertionError(f"Expected 27 sellable builds, found {build_count}.")
-
-    hot_pockets = saved_by_name["Cheeseburger Hot Pockets"]
-    if "three pockets" not in next(
-        meal for meal in draft.MEALS if meal.name == "Cheeseburger Hot Pockets"
-    ).bulk.assumptions[0].lower():
-        raise AssertionError("Bulk Hot Pockets are not locked to three pockets.")
-    if hot_pockets["tiers"]["lean"]["nutrition"]["calories"] != 540:
-        raise AssertionError("Lean Hot Pocket calories changed unexpectedly.")
-    if hot_pockets["tiers"]["bulk"]["nutrition"]["calories"] != 815:
-        raise AssertionError("Bulk Hot Pocket calories changed unexpectedly.")
-
-    pancakes = saved_by_name["Blueberry Cheesecake Protein Pancakes"]
-    if pancakes["tiers"]["lean"]["nutrition"]["protein"] != 42:
-        raise AssertionError("Lean pancake protein changed unexpectedly.")
-    if pancakes["tiers"]["bulk"]["nutrition"]["protein"] != 55:
-        raise AssertionError("Bulk pancake protein changed unexpectedly.")
-
-    biscoff = saved_by_name["Lotus Biscoff Cheesecake"]["tiers"]["lean"]["nutrition"]
-    if biscoff["calories"] != 395 or biscoff["protein"] != 40:
-        raise AssertionError("Reduced-calorie Biscoff Cheesecake must remain 395 calories and 40g protein.")
-
-    required_ingredient_fragments = {
-        "Premium NY Strip Steak": ("potato", "broccoli"),
-        "Korean Bulgogi Beef Bowl": ("green bell pepper", "carrots"),
-        "Garlic Butter Shrimp + Rice": ("zucchini", "shelled edamame"),
-        "Mexican Streetcorn Chicken Bowl": ("green bell pepper",),
-        "Chicken Biryani": ("cucumber",),
+    required_nutrition = {
+        "calories", "protein", "carbs", "fiber", "fat", "satFat", "transFat",
+        "cholesterol", "sodium", "sugars", "addedSugar", "vitaminD", "calcium",
+        "iron", "potassium",
     }
-    for meal_name, fragments in required_ingredient_fragments.items():
-        statement = saved_by_name[meal_name]["tiers"]["lean"]["ingredients"].lower()
-        for fragment in fragments:
-            if fragment not in statement:
-                raise AssertionError(f"{meal_name} label is missing {fragment}.")
+    build_count = 0
+    for meal_id, meal in payload["meals"].items():
+        if not meal.get("description") or not meal.get("reheat"):
+            raise AssertionError(f"{meal_id} {meal['name']} is missing controlled label copy.")
+        for tier_name, tier in meal["tiers"].items():
+            build_count += 1
+            if not tier.get("netWeight", "").strip():
+                raise AssertionError(f"Missing net weight for {meal['name']} {tier_name}.")
+            if not tier.get("ingredients", "").strip(" ."):
+                raise AssertionError(f"Missing ingredients for {meal['name']} {tier_name}.")
+            if not tier.get("allergens", "").strip(" ."):
+                raise AssertionError(f"Missing allergen statement for {meal['name']} {tier_name}.")
+            if set(tier.get("nutrition", {})) != required_nutrition:
+                raise AssertionError(f"Incomplete nutrition fields for {meal['name']} {tier_name}.")
 
-    return len(meals), build_count
+    if payload.get("recipeFingerprint") != expected.get("recipeFingerprint"):
+        raise AssertionError("The saved recipe fingerprint is stale.")
+    return len(payload["meals"]), build_count
 
 
 if __name__ == "__main__":

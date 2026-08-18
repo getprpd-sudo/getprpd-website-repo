@@ -170,8 +170,10 @@ References:
 - [x] Build guided Prep Day and Cook Day production cards with one current instruction, directly attached scaled recipes, quick actuals, assembly builds, and customer pack-out.
 - [ ] Build one-button weekly menu promotion only after the core recipe library and rollover approval process are stable.
 - [x] Build a server-side, read-only TikTok Marketing API reporting connection with a protected Business Center sync and CSV fallback. Account authorization and Vercel credential activation remain external setup steps; never expose the access token in browser code.
-- [x] Build fail-soft TikTok Events API delivery for durable `Lead` and `PlaceAnOrder` conversions with browser/server event-ID deduplication. Verify with a temporary test-event code before campaign optimization.
-- [ ] Build the first AI-assisted weekly operator brief and lead follow-up queue. AI may summarize, prioritize, and draft; Rida must approve any customer message, campaign change, or public content.
+- [x] Build and production-verify fail-soft TikTok Events API delivery for durable `Lead` and `PlaceAnOrder` conversions with browser/server event-ID deduplication.
+- [x] Build the first deterministic Daily Operator Brief with a protected scheduled endpoint, internal Resend email, Business Center view, idempotency, and Google Sheets send ledger. It never contacts customers.
+- [ ] Build the human-reviewed lead follow-up queue. AI may summarize, prioritize, and draft; Rida must approve any customer message, campaign change, or public content.
+- [x] Define the staged PRPD Operator architecture, approval boundaries, scheduling model, and measurable success criteria in `PRPD_AUTOMATION_ROADMAP.md`.
 
 ## Workstream 7: Business Banking and Customer Communications
 

@@ -79,7 +79,7 @@ Automation should prepare, measure, and reconcile work. It should not publish ad
 - Historical Orders, Payment Log, Website Leads, and Accounts Receivable are available in the secured local reporting snapshot.
 - TikTok Ads campaign CSV reports can be imported without sharing an ad-account token.
 - A protected, read-only TikTok Marketing API reporting endpoint and Business Center sync control are implemented. They activate only after server-side advertiser credentials are configured; CSV remains the fallback.
-- Server-side `Lead` and `PlaceAnOrder` Events API delivery is implemented. It activates only after the Events API access token is configured and verified in TikTok Events Manager.
+- Browser Pixel plus server-side `Lead` and `PlaceAnOrder` Events API delivery are configured and production-verified, including shared event-ID deduplication. The access token is stored only in Vercel.
 - Resend sends transactional order confirmations; these are separate from marketing consent.
 
 ### Next connection: menu email
@@ -88,14 +88,16 @@ Use Resend Contacts, a `Weekly menu` Topic, and a consented-customer Segment. Ge
 
 ### TikTok activation and verification
 
-1. Generate an Events API access token for the existing Pixel and store it only as `TIKTOK_EVENTS_ACCESS_TOKEN` in Vercel.
-2. Temporarily set `TIKTOK_EVENTS_TEST_CODE`, deploy, and submit one test intake and one test order. Confirm browser/server coverage and deduplication in Events Manager, then remove the test code.
-3. Keep `PlaceAnOrder` for submitted orders while PRPD collects payment later through Zelle. Do not report `Purchase` or `CompletePayment` until a payment is actually confirmed and tied to the order.
+1. Browser Pixel and server Events API are active for `Lead` and `PlaceAnOrder`; test events were accepted by TikTok on July 22, 2026.
+2. Keep `PlaceAnOrder` for submitted orders while PRPD collects payment later through Zelle. Do not report `Purchase` or `CompletePayment` until a payment is actually confirmed and tied to the order.
+3. Rotate the Events API token because it was once pasted into chat, then replace the encrypted Vercel value without committing it to the repository.
 4. Create and authorize a TikTok for Business developer app for read-only Marketing API reporting. Store the token and advertiser ID only as `TIKTOK_MARKETING_ACCESS_TOKEN` and `TIKTOK_ADVERTISER_ID` in Vercel.
 5. Use the Business Center's date-range API sync and compare its first report with the matching Ads Manager export. CSV remains available as a controlled fallback.
 6. Do not permit automatic campaign creation, targeting changes, budget changes, or ad publishing in the first version.
 
 ## PRPD AI Operating System
+
+The complete staged architecture and build sequence are maintained in `PRPD_AUTOMATION_ROADMAP.md`.
 
 AI is best used for work that requires reading, comparing, prioritizing, or drafting. Deterministic automation should handle exact triggers and calculations. The operating rule is: **AI drafts and flags; Rida approves and acts.**
 

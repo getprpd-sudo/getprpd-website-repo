@@ -27,6 +27,9 @@
     input[type=number] { width:130px; border:1px solid #bfc5bb; border-radius:5px; padding:10px; background:white; color:var(--ink); }
     .status { margin:14px 0 0; padding:11px 13px; background:#e8f0e6; border-left:4px solid var(--sage); }
     .status.warn { background:#fff0e4; border-color:var(--warn); }
+    .save-state { color:var(--muted); font-size:.78rem; font-weight:800; }
+    .save-state.ok { color:#24643b; }
+    .save-state.warn { color:var(--warn); }
     .metric { min-width:160px; flex:1; background:var(--green); color:white; border-radius:6px; padding:17px; }
     .metric strong { display:block; font-size:1.7rem; }
     .metric span { color:#cdd7cc; }
@@ -50,6 +53,7 @@
     .stepper button { width:32px; height:32px; border:0; background:#edf2ea; color:var(--green); font-size:1.2rem; cursor:pointer; }
     .stepper strong { text-align:center; }
     .package-label { margin-top:4px; color:var(--muted); font-size:.78rem; max-width:150px; }
+    .count-hint { margin-top:4px; color:var(--gold); font-size:.78rem; font-weight:800; }
     .reset-suggestion { border:0; background:transparent; color:#315d37; text-decoration:underline; padding:2px 0; cursor:pointer; font-size:.76rem; }
     .short { color:#a63d20; font-weight:800; font-size:.76rem; }
     .price-details { margin-top:5px; color:var(--muted); font-size:.76rem; }
@@ -79,22 +83,23 @@
     <section class="panel screen-only">
       <h2>1. Sync this batch</h2>
       <p class="copy">Pulls the reviewed Google Sheets orders through the same protected local connection as the cook-day planner. Customer details are not shown in the grocery list.</p>
-      <div class="actions"><button class="btn primary" id="syncBtn">Sync current orders</button><button class="btn" id="generateBtn" disabled>Build grocery list</button></div>
+      <div class="actions"><button class="btn primary" id="syncBtn">Sync current orders</button><button class="btn" id="generateBtn" disabled>Build grocery list</button><button class="btn" id="exportStateBtn">Export backup</button><label class="btn" for="importStateFile">Import backup</label><input type="file" id="importStateFile" accept="application/json,.json" hidden></div>
       <div class="status" id="status">No orders loaded yet.</div>
+      <p class="save-state" id="grocerySaveState">Loading saved pantry and package selections...</p>
     </section>
 
     <section class="panel screen-only">
       <h2>2. Weekly sauce and production settings</h2>
-      <p class="copy">Customer cups, assembly reserve, and QC are separate. Dish-specific sauces already inside recipes are also counted separately.</p>
+      <p class="copy">Batch 7 sauce ingredients are already embedded in each exact meal build. These controls are reserved only for a separately approved extra batch.</p>
       <div class="control-grid">
         <label>Raw-protein reserve (%)<input type="number" id="rawProteinBufferPct" min="0" max="20" value="5"></label>
         <label>Dry-rice planning allowance (%)<input type="number" id="riceBufferPct" min="0" max="30" value="15"></label>
         <label>Expected cooked rice yield (x dry)<input type="number" id="riceYieldFactor" min="1" max="4" step="0.05" value="2.75"></label>
-        <label>Customer cups per sauce<input type="number" id="customerSauceCups" min="0" max="100" value="30"></label>
-        <label>Kitchen-use cup equivalents per sauce<input type="number" id="kitchenSauceCups" min="0" max="100" value="10"></label>
-        <label>QC cups per sauce<input type="number" id="qcSauceCups" min="0" max="10" value="1"></label>
+        <label>Extra weekly customer cups<input type="number" id="customerSauceCupsTotal" min="0" max="200" value="0" disabled></label>
+        <label>Extra weekly kitchen-use cups<input type="number" id="kitchenSauceCups" min="0" max="100" value="0" disabled></label>
+        <label>Extra weekly QC cups<input type="number" id="qcSauceCups" min="0" max="10" value="0" disabled></label>
       </div>
-      <div class="note"><strong>Current default:</strong> exact customer meals, a 5% pooled raw meat and poultry reserve, and a temporary 15% dry-rice allowance at a conservative 2.75x cooked yield; 60 sealed customer cups total, 20 cup-equivalents held in squeeze bottles for assembly, and 2 QC cups.</div>
+      <div class="note"><strong>Current Batch 7 rule:</strong> Beef Bacon Breakfast Sandwich and Power Bowl each receive their recipe-controlled 45 g net Sweet Heat cup. Pancakes receive their measured compote/topping and syrup components; Southwest Beef Taco Bowl receives jalapeño-lime yogurt sauce; Chicken Caesar Crunch Box receives its separate dressing and croutons. The grocery list does not add a second weekly sauce batch on top of those recipe quantities.</div>
     </section>
 
     <section class="metrics" id="metrics" hidden></section>
@@ -109,15 +114,15 @@
         <thead><tr><th>Item</th><th>Amount needed</th><th>Packages to buy</th><th>Est. checkout</th><th>Pantry</th><th>Compare</th></tr></thead>
         <tbody id="groceryRows"></tbody>
       </table></div>
-      <div class="note screen-only"><strong>Prices:</strong> Confirmed PRPD receipt/package prices are used first. Planning prices use prior local or Walmart references. Store links are for comparison because location, inventory, package size, and online service fees change. Restaurant Depot states that pickup/delivery prices can exceed in-store warehouse prices.</div>
+      <div class="note screen-only"><strong>Counts and prices:</strong> Produce counts are conservative shopping estimates rounded up from the recipe weight. Buy by the listed weight when sizes vary. Confirmed PRPD receipt/package prices are used first. Planning prices use prior local or Walmart references. Store links are for comparison because location, inventory, package size, and online service fees change.</div>
     </section>
   </main>
-  <script src="/config/order-config.js?v=20260716.1"></script>
-  <script src="/operations/nutrition/production-data.js?v=20260716.1"></script>
-  <script src="/operations/cook-day-core.js?v=20260716.1"></script>
-  <script src="/operations/cook-day-methods.js?v=20260716.1"></script>
-  <script src="/operations/grocery-list-core.js?v=20260722.2"></script>
-  <script src="/operations/grocery-catalog.js?v=20260722.2"></script>
-  <script src="/operations/grocery-list-app.js?v=20260722.2"></script>
+  <script src="/config/order-config.js?v=20260817.1"></script>
+  <script src="/operations/nutrition/production-data.js?v=20260810.1"></script>
+  <script src="/operations/cook-day-core.js?v=20260730.4"></script>
+  <script src="/operations/cook-day-methods.js?v=20260810.1"></script>
+  <script src="/operations/grocery-list-core.js?v=20260812.1"></script>
+  <script src="/operations/grocery-catalog.js?v=20260730.1"></script>
+  <script src="/operations/grocery-list-app.js?v=20260812.1"></script>
 </body>
 </html>

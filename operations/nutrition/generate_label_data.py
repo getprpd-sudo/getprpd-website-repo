@@ -16,6 +16,7 @@ EACH_GRAMS = {
     "bread_slice": 32,
     "shawarma_bread": 80,
     "small_tortilla": 43,
+    "fajita_tortilla": 28,
     "large_tortilla": 70,
     "oreo_thin": 7.5,
 }
@@ -48,6 +49,7 @@ DISPLAY_INGREDIENTS = {
     "bread_slice": "D'Italiano bread",
     "shawarma_bread": "shawarma bread",
     "small_tortilla": "Mission Carb Balance tortilla",
+    "fajita_tortilla": "Mission Carb Balance Fajita flour tortilla",
     "large_tortilla": "Mission Carb Balance tortilla",
     "fage": "nonfat Greek yogurt",
     "simple_truth_yogurt": "nonfat Greek yogurt",
@@ -91,7 +93,7 @@ DISPLAY_INGREDIENTS = {
 ALLERGENS = {
     "egg": "egg", "egg_white": "egg", "light_mayo": "egg",
     "bread_slice": "wheat", "shawarma_bread": "wheat",
-    "small_tortilla": "wheat", "large_tortilla": "wheat",
+    "small_tortilla": "wheat", "fajita_tortilla": "wheat", "large_tortilla": "wheat",
     "protein_pasta": "wheat", "breadcrumbs": "wheat",
     "ladyfingers": "wheat", "oreo_thin": "wheat",
     "soy_sauce": "soy",

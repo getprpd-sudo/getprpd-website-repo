@@ -1,5 +1,6 @@
 const { GoogleAuth } = require('google-auth-library');
 const ORDER_CONFIG = require('../config/order-config');
+const PhoneValidation = require('../phone-validation');
 const {
   assertExactKeys,
   isLikelyBot,
@@ -7,46 +8,61 @@ const {
   safeLogError,
 } = require('./_security');
 const { sendWebEvent } = require('./_tiktok');
+const { findReferralCode, promotionFromReferral } = require('./_referral-program');
+const { quoteDeliveryZone } = require('./_delivery-zones');
 
 const SHEET_ID = process.env.GOOGLE_SHEET_ID;
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const GOOGLE_SERVICE_ACCOUNT_JSON = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
 const GOOGLE_SERVICE_ACCOUNT_BASE64 = process.env.GOOGLE_SERVICE_ACCOUNT_BASE64;
 const NOTIFICATION_EMAIL = 'getprpd@gmail.com';
+const CUSTOMER_REPLY_EMAIL = 'hello@getprpd.com';
+const PAYMENT_EMAIL = 'payments@getprpd.com';
 const SENDER_EMAIL = 'PRPD Orders <orders@mail.getprpd.com>';
 
 const ORDER_CUTOFF = ORDER_CONFIG.batch.cutoffIso;
 const BATCH_NUMBER = ORDER_CONFIG.batch.number;
 const DELIVERY_DATE = ORDER_CONFIG.batch.deliveryDate;
 const MIN_ORDER_TOTAL = ORDER_CONFIG.policies.minimumOrder;
-const FREE_DELIVERY_THRESHOLD = ORDER_CONFIG.policies.freeDeliveryThreshold;
-const DELIVERY_FEE = ORDER_CONFIG.policies.deliveryFee;
 const MAX_QTY_PER_ITEM = ORDER_CONFIG.policies.maxQtyPerItem;
 const MAX_TOTAL_ITEMS = ORDER_CONFIG.policies.maxTotalItems;
 const PROMOTIONS = ORDER_CONFIG.promotions || { codes: [] };
 const MAX_BODY_BYTES = 50_000;
 const ORDER_KEYS = new Set([
   'action', 'orderId', 'batch', 'deliveryDate', 'firstName', 'lastName', 'phone',
-  'email', 'deliveryAddress', 'deliveryCity', 'deliveryZip', 'deliveryInstructions',
+  'email', 'fulfillmentMethod', 'deliveryAddress', 'deliveryHasUnit', 'deliveryUnit', 'deliveryCity', 'deliveryState',
+  'deliveryZip', 'deliveryInstructions',
   'items', 'mealSubtotal', 'deliveryFee', 'exactTotal', 'total', 'promoCode',
   'discountAmount', 'menuEmailOptIn', 'notes', 'submittedAt', 'website',
   'formStartedAt', 'utmSource', 'utmMedium', 'utmCampaign', 'utmContent',
   'utmTerm', 'landingPage', 'referrer', 'tiktokTtclid', 'tiktokTtp',
+  'googleClickId', 'googleClickIdType', 'adMatchType', 'adDevice', 'adNetwork',
 ]);
 const ORDER_ITEM_KEYS = new Set([
   'id', 'name', 'category', 'section', 'tier', 'qty', 'unitPrice', 'subtotal',
 ]);
 
 const PRICES = ORDER_CONFIG.prices;
-const CATALOG = Object.values(ORDER_CONFIG.menu).flat().reduce((catalog, dish) => {
-  catalog[dish.id] = {
-    name: dish.name,
-    category: dish.category,
-    available: dish.available !== false,
-    maxQty: dish.maxQty || MAX_QTY_PER_ITEM,
-  };
-  return catalog;
-}, {});
+
+function catalogForConfig(config) {
+  return Object.values(config?.menu || {}).flat().reduce((catalog, dish) => {
+    catalog[dish.id] = {
+      name: dish.name,
+      category: dish.category,
+      price: Number.isFinite(Number(dish.price)) ? Number(dish.price) : null,
+      available: dish.available !== false,
+      maxQty: dish.maxQty || MAX_QTY_PER_ITEM,
+    };
+    return catalog;
+  }, {});
+}
+
+const CATALOG = catalogForConfig(ORDER_CONFIG);
+const ORDERING_CLOSED_MESSAGE = 'Ordering is currently closed while the next menu is being finalized.';
+
+function isMenuPublished(config = ORDER_CONFIG) {
+  return config?.batch?.published === true;
+}
 
 function sendJson(response, status, body) {
   response.status(status).setHeader('Content-Type', 'application/json; charset=utf-8');
@@ -56,6 +72,11 @@ function sendJson(response, status, body) {
 
 function money(value) {
   return Math.round((Number(value) + Number.EPSILON) * 100) / 100;
+}
+
+function deliveryPolicyForZip(zipCode, policies = ORDER_CONFIG.policies) {
+  const quote = quoteDeliveryZone(zipCode, policies);
+  return quote.supported ? quote.policy : null;
 }
 
 function safeText(value, maxLength) {
@@ -85,7 +106,8 @@ function promotionForCode(value, promotions = PROMOTIONS.codes || []) {
 }
 
 function discountForPromotion(promotion, mealSubtotal) {
-  if (!promotion || mealSubtotal < MIN_ORDER_TOTAL) return 0;
+  const minimumOrder = Math.max(MIN_ORDER_TOTAL, Number(promotion?.minimumOrder) || 0);
+  if (!promotion || mealSubtotal < minimumOrder) return 0;
   const value = Number(promotion.value);
   if (!Number.isFinite(value) || value <= 0) return 0;
   const rawDiscount = promotion.type === 'percent' ? mealSubtotal * (value / 100) : value;
@@ -94,7 +116,7 @@ function discountForPromotion(promotion, mealSubtotal) {
   return money(Math.max(0, Math.min(rawDiscount, cap, mealSubtotal)));
 }
 
-function normalizeItems(rawItems) {
+function normalizeItems(rawItems, catalog = CATALOG) {
   if (!Array.isArray(rawItems) || rawItems.length === 0 || rawItems.length > 50) {
     throw new Error('Add at least one valid item to your order.');
   }
@@ -103,13 +125,13 @@ function normalizeItems(rawItems) {
   for (const raw of rawItems) {
     assertExactKeys(raw, ORDER_ITEM_KEYS, 'Order item');
     const id = safeText(raw && raw.id, 10);
-    const catalogItem = CATALOG[id];
+    const catalogItem = catalog[id];
     if (!catalogItem) throw new Error('An unknown menu item was submitted.');
 
-    const { name, category, available, maxQty } = catalogItem;
+    const { name, category, price, available, maxQty } = catalogItem;
     if (!available) throw new Error(`${name} is sold out for this batch.`);
     let tier;
-    if (category === 'dessert') {
+    if (category === 'dessert' || category === 'addon') {
       if (raw.tier !== null && raw.tier !== undefined && raw.tier !== '' && raw.tier !== 'single') {
         throw new Error(`Invalid tier for ${name}.`);
       }
@@ -124,40 +146,49 @@ function normalizeItems(rawItems) {
     const key = `${id}:${tier}`;
     const nextQty = (combined.get(key)?.qty || 0) + qty;
     if (nextQty > maxQty) throw new Error(`Too many servings of ${name}.`);
-    combined.set(key, { id, name, category, tier, qty: nextQty });
+    combined.set(key, { id, name, category, price, tier, qty: nextQty });
   }
 
   const items = Array.from(combined.values()).map(item => {
-    const unitPrice = PRICES[item.category][item.tier];
-    return { ...item, unitPrice, subtotal: money(unitPrice * item.qty) };
+    const unitPrice = Number.isFinite(item.price) ? item.price : PRICES[item.category][item.tier];
+    const { price, ...normalizedItem } = item;
+    return { ...normalizedItem, unitPrice, subtotal: money(unitPrice * item.qty) };
   });
   const totalQty = items.reduce((sum, item) => sum + item.qty, 0);
   if (totalQty > MAX_TOTAL_ITEMS) throw new Error('Please text Rida directly for very large orders.');
   return items;
 }
 
-function isValidOrderId(orderId) {
-  const orderIdPattern = new RegExp(`^PRPD-B${BATCH_NUMBER}-\\d{8}-[A-F0-9]{4}(?:[A-F0-9]{4})?$`);
+function isValidOrderId(orderId, batchNumber = BATCH_NUMBER) {
+  const orderIdPattern = new RegExp(`^PRPD-B${batchNumber}-\\d{8}-[A-F0-9]{4}(?:[A-F0-9]{4})?$`);
   return orderIdPattern.test(orderId);
 }
 
-function validateAndBuildOrder(raw) {
+function validateAndBuildOrder(raw, availablePromotions = PROMOTIONS.codes || [], context = {}) {
+  const catalog = context.catalog || CATALOG;
+  const batchNumber = context.batchNumber ?? BATCH_NUMBER;
+  const cutoffIso = context.cutoffIso ?? ORDER_CUTOFF;
+  const policies = context.policies || ORDER_CONFIG.policies;
   assertExactKeys(raw, ORDER_KEYS, 'Order request');
   if (!raw || raw.action !== 'order') throw new Error('Invalid order request.');
   const orderId = safeText(raw.orderId, 50);
-  if (!isValidOrderId(orderId)) throw new Error('Invalid order reference.');
+  if (!isValidOrderId(orderId, batchNumber)) throw new Error('Invalid order reference.');
 
   const firstName = safeText(raw.firstName, 60);
   const lastName = safeText(raw.lastName, 60);
   const phone = safeText(raw.phone, 30);
   const email = safeText(raw.email, 160).toLowerCase();
+  const fulfillmentMethod = safeText(raw.fulfillmentMethod || 'delivery', 20).toLowerCase();
   const deliveryAddress = safeText(raw.deliveryAddress, 180);
+  const deliveryHasUnit = raw.deliveryHasUnit === true;
+  const deliveryUnit = safeText(raw.deliveryUnit, 80);
   const deliveryCity = safeText(raw.deliveryCity, 80);
+  const deliveryState = safeText(raw.deliveryState, 2).toUpperCase();
   const deliveryZip = safeText(raw.deliveryZip, 10);
   const deliveryInstructions = safeText(raw.deliveryInstructions, 300);
   const notes = safeText(raw.notes, 500);
   const promoCode = normalizePromoCode(raw.promoCode);
-  const promotion = promoCode ? promotionForCode(promoCode) : null;
+  const promotion = promoCode ? promotionForCode(promoCode, availablePromotions) : null;
   const menuEmailOptIn = raw.menuEmailOptIn === true;
   const attribution = {
     utmSource: safeText(raw.utmSource, 160),
@@ -169,23 +200,51 @@ function validateAndBuildOrder(raw) {
     referrer: safeText(raw.referrer, 500),
     tiktokTtclid: safeText(raw.tiktokTtclid, 500),
     tiktokTtp: safeText(raw.tiktokTtp, 500),
+    googleClickId: safeText(raw.googleClickId, 500),
+    googleClickIdType: safeText(raw.googleClickIdType, 20),
+    adMatchType: safeText(raw.adMatchType, 40),
+    adDevice: safeText(raw.adDevice, 40),
+    adNetwork: safeText(raw.adNetwork, 40),
   };
   if (!firstName) throw new Error('First name is required.');
   if (!lastName) throw new Error('Last name is required.');
-  if (phone.replace(/\D/g, '').length !== 10) throw new Error('A valid 10-digit phone number is required.');
+  if (!PhoneValidation.isValid(phone)) throw new Error('A valid U.S. 10-digit phone number is required.');
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error('A valid email address is required.');
-  if (!deliveryAddress) throw new Error('Delivery address is required.');
-  if (!deliveryCity) throw new Error('Delivery city is required.');
-  if (!/^\d{5}$/.test(deliveryZip)) throw new Error('A valid 5-digit ZIP code is required.');
+  if (!['delivery', 'pickup'].includes(fulfillmentMethod)) throw new Error('Choose delivery or pickup.');
+  if (fulfillmentMethod === 'delivery') {
+    if (!deliveryAddress) throw new Error('Delivery address is required.');
+    if (typeof raw.deliveryHasUnit !== 'boolean') throw new Error('Please indicate whether the address has an apartment, suite, or unit number.');
+    if (deliveryHasUnit && !deliveryUnit) throw new Error('Apartment, suite, or unit number is required for this address.');
+    if (!deliveryCity) throw new Error('Delivery city is required.');
+    if (deliveryState !== 'TX') throw new Error('Delivery state must be TX.');
+    if (!/^\d{5}$/.test(deliveryZip)) throw new Error('A valid 5-digit ZIP code is required.');
+  }
   if (promoCode && !promotion) throw new Error('That referral or partner code is not active.');
-  if (Date.now() >= new Date(ORDER_CUTOFF).getTime()) {
+  if (promotion?.ownerEmail && promotion.ownerEmail.toLowerCase() === email) {
+    throw new Error('A referral code cannot be used by its owner.');
+  }
+  if (promotion?.ownerPhone && promotion.ownerPhone.replace(/\D/g, '').slice(-10) === phone.replace(/\D/g, '').slice(-10)) {
+    throw new Error('A referral code cannot be used by its owner.');
+  }
+  if (Date.now() >= new Date(cutoffIso).getTime()) {
     throw new Error('Orders are closed for this week. Please contact Rida at (469) 545-0781.');
   }
 
-  const items = normalizeItems(raw.items);
+  const items = normalizeItems(raw.items, catalog);
   const mealSubtotal = money(items.reduce((sum, item) => sum + item.subtotal, 0));
-  if (mealSubtotal < MIN_ORDER_TOTAL) throw new Error('The $60 order minimum has not been met.');
-  const deliveryFee = mealSubtotal > FREE_DELIVERY_THRESHOLD ? 0 : DELIVERY_FEE;
+  const deliveryPolicy = fulfillmentMethod === 'pickup'
+    ? (policies.deliveryZones?.pickup || {
+      id: 'pickup', label: 'Pickup', minimumOrder: policies.minimumOrder,
+      city: 'Frisco', state: 'TX', freeDeliveryThreshold: policies.minimumOrder, deliveryFee: 0,
+    })
+    : deliveryPolicyForZip(deliveryZip, policies);
+  if (!deliveryPolicy) {
+    throw new Error('Delivery is not currently available for this ZIP. Please text Rida before placing the order.');
+  }
+  if (mealSubtotal < deliveryPolicy.minimumOrder) {
+    throw new Error(`The $${deliveryPolicy.minimumOrder.toFixed(0)} ${deliveryPolicy.label} order minimum has not been met.`);
+  }
+  const deliveryFee = mealSubtotal >= deliveryPolicy.freeDeliveryThreshold ? 0 : deliveryPolicy.deliveryFee;
   const discountAmount = discountForPromotion(promotion, mealSubtotal);
   const exactTotal = money(Math.max(0, mealSubtotal + deliveryFee - discountAmount));
   const roundedTotal = Math.ceil(exactTotal);
@@ -198,15 +257,64 @@ function validateAndBuildOrder(raw) {
   }).format(new Date());
 
   return {
-    orderId, firstName, lastName, phone, email, deliveryAddress, deliveryCity,
-    deliveryZip, deliveryInstructions, notes, items, submittedAt,
+    orderId, firstName, lastName, phone, email, fulfillmentMethod, deliveryAddress, deliveryHasUnit, deliveryUnit,
+    deliveryCity, deliveryState, deliveryZip, deliveryInstructions, notes, items, submittedAt,
     fullName: `${firstName} ${lastName}`,
     mealSubtotal, deliveryFee, discountAmount, exactTotal, roundedTotal,
+    deliveryZone: deliveryPolicy.id,
+    deliveryZoneLabel: deliveryPolicy.label,
+    pickupCity: fulfillmentMethod === 'pickup' ? safeText(deliveryPolicy.city || 'Frisco', 100) : '',
+    pickupState: fulfillmentMethod === 'pickup' ? safeText(deliveryPolicy.state || 'TX', 2).toUpperCase() : '',
+    deliveryMinimum: deliveryPolicy.minimumOrder,
+    freeDeliveryThreshold: deliveryPolicy.freeDeliveryThreshold,
     promoCode: promotion ? normalizePromoCode(promotion.code) : '',
     promotionPartner: promotion ? safeText(promotion.partner, 100) : '',
     menuEmailOptIn,
     ...attribution,
   };
+}
+
+function normalizedHouseholdAddress(address, zip) {
+  const street = safeText(address, 240).toLowerCase()
+    .replace(/\b(apartment|apt|suite|ste|unit|#)\b/g, ' ')
+    .replace(/\b(street)\b/g, 'st')
+    .replace(/\b(road)\b/g, 'rd')
+    .replace(/\b(avenue)\b/g, 'ave')
+    .replace(/\b(drive)\b/g, 'dr')
+    .replace(/\b(lane)\b/g, 'ln')
+    .replace(/\b(boulevard)\b/g, 'blvd')
+    .replace(/[^a-z0-9]/g, '');
+  return street && zip ? `${street}|${safeText(zip, 10)}` : '';
+}
+
+async function assertReferralEligibility(client, order, promotion) {
+  if (!promotion) return;
+  const rows = await readRange(client, "'Orders'!A2:AK5000");
+  const email = order.email.toLowerCase();
+  const phone = order.phone.replace(/\D/g, '').slice(-10);
+  const household = order.fulfillmentMethod === 'delivery'
+    ? normalizedHouseholdAddress(order.deliveryUnit ? `${order.deliveryAddress} ${order.deliveryUnit}` : order.deliveryAddress, order.deliveryZip)
+    : '';
+  const previousOrder = promotion.firstOrderOnly && rows.some((row) => {
+    const priorOrderId = safeText(row[10], 50);
+    const priorEmail = safeText(row[11], 160).toLowerCase();
+    const priorPhone = safeText(row[5], 30).replace(/\D/g, '').slice(-10);
+    const priorHousehold = normalizedHouseholdAddress(row[12], row[14]);
+    return priorOrderId !== order.orderId && ((email && priorEmail === email)
+      || (phone && priorPhone === phone)
+      || (household && priorHousehold === household));
+  });
+  if (previousOrder) throw new Error('Referral discounts apply to a customer\'s first PRPD order only.');
+
+  const maxRedemptions = Math.max(0, Math.floor(Number(promotion.maxRedemptions) || 0));
+  if (maxRedemptions) {
+    const code = normalizePromoCode(promotion.code);
+    const usedOrderIds = new Set(rows.filter(row => normalizePromoCode(row[18]) === code)
+      .map(row => safeText(row[10], 50)).filter(Boolean));
+    if (usedOrderIds.size >= maxRedemptions) {
+      throw new Error('That referral or partner offer has reached its redemption limit.');
+    }
+  }
 }
 
 function getCredentials() {
@@ -239,6 +347,33 @@ function sheetsUrl(path) {
   return `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/${path}`;
 }
 
+async function ensureSheetColumnCapacity(client, sheetTitle, minimumColumns) {
+  const metadata = await client.request({
+    url: `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}?fields=sheets(properties(sheetId,title,gridProperties(columnCount)))`,
+    method: 'GET',
+  });
+  const sheet = (metadata.data.sheets || []).find(item => item.properties?.title === sheetTitle);
+  if (!sheet) throw new Error(`Google Sheet tab "${sheetTitle}" was not found.`);
+
+  const currentColumns = Number(sheet.properties?.gridProperties?.columnCount || 0);
+  if (currentColumns >= minimumColumns) return false;
+
+  await client.request({
+    url: `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}:batchUpdate`,
+    method: 'POST',
+    data: {
+      requests: [{
+        appendDimension: {
+          sheetId: sheet.properties.sheetId,
+          dimension: 'COLUMNS',
+          length: minimumColumns - currentColumns,
+        },
+      }],
+    },
+  });
+  return true;
+}
+
 async function readRange(client, range) {
   const result = await client.request({
     url: sheetsUrl(`values/${encodeURIComponent(range)}`),
@@ -268,12 +403,19 @@ function nextRecordRow(rows, firstDataRow = 2) {
 }
 
 async function ensureTrackingHeaders(client) {
+  await Promise.all([
+    ensureSheetColumnCapacity(client, 'Orders', 37),
+    ensureSheetColumnCapacity(client, 'Payment Log', 16),
+  ]);
   const headers = await Promise.all([
     readRange(client, "'Orders'!K1"),
     readRange(client, "'Orders'!L1:P1"),
     readRange(client, "'Payment Log'!N1"),
     readRange(client, "'Orders'!Q1:AC1"),
     readRange(client, "'Payment Log'!O1:P1"),
+    readRange(client, "'Orders'!AD1:AE1"),
+    readRange(client, "'Orders'!AF1:AJ1"),
+    readRange(client, "'Orders'!AK1"),
   ]);
   if (safeText(headers[0]?.[0]?.[0], 50) !== 'Order ID') {
     await updateRange(client, "'Orders'!K1", ['Order ID']);
@@ -297,26 +439,47 @@ async function ensureTrackingHeaders(client) {
   if (JSON.stringify(headers[4]?.[0] || []) !== JSON.stringify(paymentGrowthHeaders)) {
     await updateRange(client, "'Payment Log'!O1:P1", paymentGrowthHeaders);
   }
+  const addressHeaders = ['State', 'Address Has Unit'];
+  if (JSON.stringify(headers[5]?.[0] || []) !== JSON.stringify(addressHeaders)) {
+    await updateRange(client, "'Orders'!AD1:AE1", addressHeaders);
+  }
+  const googleAdsHeaders = ['Google Click ID', 'Google Click ID Type', 'Ad Match Type', 'Ad Device', 'Ad Network'];
+  if (JSON.stringify(headers[6]?.[0] || []) !== JSON.stringify(googleAdsHeaders)) {
+    await updateRange(client, "'Orders'!AF1:AJ1", googleAdsHeaders);
+  }
+  if (safeText(headers[7]?.[0]?.[0], 50) !== 'Fulfillment Method') {
+    await updateRange(client, "'Orders'!AK1", ['Fulfillment Method']);
+  }
 }
 
 function itemLines(order) {
   return order.items.map(item => {
-    const tier = item.category === 'dessert' ? '' : ` (${titleCase(item.tier)})`;
+    const tier = item.category === 'dessert' || item.category === 'addon' ? '' : ` (${titleCase(item.tier)})`;
     return `${item.qty}x ${item.name}${tier} - $${item.subtotal.toFixed(2)}`;
   });
 }
 
 function paymentCounts(items) {
   return items.reduce((counts, item) => {
-    const paymentGroup = item.category === 'premium' ? 'beef' : item.category;
+    const paymentGroup = item.category === 'premium'
+      ? 'beef'
+      : item.category === 'addon'
+        ? 'standard'
+        : item.category;
     counts[paymentGroup] += item.qty;
     return counts;
   }, { standard: 0, beef: 0, dessert: 0 });
 }
 
 function tierSummary(items) {
-  const tiers = new Set(items.filter(item => item.category !== 'dessert').map(item => item.tier));
-  if (tiers.size === 0) return 'Dessert Only';
+  const tieredItems = items.filter(item => item.category !== 'dessert' && item.category !== 'addon');
+  const tiers = new Set(tieredItems.map(item => item.tier));
+  if (tiers.size === 0) {
+    const hasDessert = items.some(item => item.category === 'dessert');
+    const hasAddon = items.some(item => item.category === 'addon');
+    if (hasDessert && hasAddon) return 'Desserts + Add-ons';
+    return hasAddon ? 'Add-ons Only' : 'Dessert Only';
+  }
   if (tiers.size > 1) return 'Mixed';
   return titleCase(Array.from(tiers)[0]);
 }
@@ -327,11 +490,11 @@ async function ensureOrderSaved(client, order) {
   if (exists) return false;
 
   const lines = itemLines(order).concat([
-    `Delivery - ${order.deliveryFee ? `$${order.deliveryFee.toFixed(2)}` : 'Free'}`,
+    `${order.fulfillmentMethod === 'pickup' ? 'Pickup' : `Delivery (${order.deliveryZoneLabel || 'DFW'})`} - ${order.deliveryFee ? `$${order.deliveryFee.toFixed(2)}` : 'Free'}`,
     ...(order.discountAmount > 0 ? [`Partner discount (${order.promoCode}) - -$${order.discountAmount.toFixed(2)}`] : []),
   ]).join('\n');
   const targetRow = nextRecordRow(rows);
-  await updateRange(client, `'Orders'!A${targetRow}:AC${targetRow}`, [
+  await updateRange(client, `'Orders'!A${targetRow}:AK${targetRow}`, [
     order.submittedAt,
     `Batch ${BATCH_NUMBER}`,
     DELIVERY_DATE,
@@ -344,9 +507,9 @@ async function ensureOrderSaved(client, order) {
     order.notes,
     order.orderId,
     order.email,
-    order.deliveryAddress,
-    order.deliveryCity,
-    order.deliveryZip,
+    order.fulfillmentMethod === 'pickup' ? 'Pickup - exact location sent after confirmation' : (order.deliveryUnit ? `${order.deliveryAddress}, ${order.deliveryUnit}` : order.deliveryAddress),
+    order.fulfillmentMethod === 'pickup' ? (order.pickupCity || 'Frisco') : order.deliveryCity,
+    order.fulfillmentMethod === 'pickup' ? '' : order.deliveryZip,
     order.deliveryInstructions,
     order.mealSubtotal,
     order.deliveryFee,
@@ -361,6 +524,14 @@ async function ensureOrderSaved(client, order) {
     order.utmTerm,
     order.landingPage,
     order.referrer,
+    order.deliveryState,
+    order.deliveryHasUnit ? 'Yes' : 'No',
+    order.googleClickId,
+    order.googleClickIdType,
+    order.adMatchType,
+    order.adDevice,
+    order.adNetwork,
+    titleCase(order.fulfillmentMethod),
   ]);
   return true;
 }
@@ -400,6 +571,25 @@ function escapeHtml(value) {
   })[char]);
 }
 
+function formattedDeliveryAddress(order) {
+  if (order.fulfillmentMethod === 'pickup') {
+    return `${order.pickupCity || 'Frisco'}, ${order.pickupState || 'TX'} - exact pickup address sent after confirmation`;
+  }
+  const street = order.deliveryUnit
+    ? `${order.deliveryAddress}, ${order.deliveryUnit}`
+    : order.deliveryAddress;
+  return `${street}, ${order.deliveryCity}, ${order.deliveryState} ${order.deliveryZip}`;
+}
+
+function acquisitionLabel(order) {
+  const source = safeText(order.utmSource, 160);
+  const medium = safeText(order.utmMedium, 160);
+  if (order.googleClickId || source.toLowerCase() === 'google') return 'Google Ads / Search';
+  if (source) return medium ? `${source} / ${medium}` : source;
+  if (order.promotionPartner) return `Referral / ${order.promotionPartner}`;
+  return 'Direct / unattributed';
+}
+
 async function sendResendEmail(message, idempotencyKey) {
   if (!RESEND_API_KEY) throw new Error('Resend is not configured.');
   const result = await fetch('https://api.resend.com/emails', {
@@ -416,29 +606,36 @@ async function sendResendEmail(message, idempotencyKey) {
 
 async function sendOwnerOrderEmail(order) {
   const lines = itemLines(order);
-  const address = `${order.deliveryAddress}, ${order.deliveryCity}, TX ${order.deliveryZip}`;
+  const address = formattedDeliveryAddress(order);
+  const isPickup = order.fulfillmentMethod === 'pickup';
+  const acquisition = acquisitionLabel(order);
   const text = [
     `New PRPD Order - ${order.fullName}`,
     '',
     `Order reference: ${order.orderId}`,
     `Batch: Batch ${BATCH_NUMBER}`,
-    `Delivery: ${DELIVERY_DATE}`,
+    `${isPickup ? 'Pickup week' : 'Delivery'}: ${DELIVERY_DATE}`,
     `Submitted: ${order.submittedAt}`,
     `Phone: ${order.phone}`,
     `Email: ${order.email}`,
-    `Delivery address: ${address}`,
-    order.deliveryInstructions ? `Delivery instructions: ${order.deliveryInstructions}` : '',
+    `${isPickup ? 'Pickup' : 'Delivery address'}: ${address}`,
+    order.deliveryInstructions ? `${isPickup ? 'Pickup timing notes' : 'Delivery instructions'}: ${order.deliveryInstructions}` : '',
     '',
     'ORDER:',
     ...lines.map(line => `  ${line}`),
     '',
     `Meal subtotal: $${order.mealSubtotal.toFixed(2)}`,
-    `Delivery: ${order.deliveryFee ? `$${order.deliveryFee.toFixed(2)}` : 'Free'}`,
+    `${isPickup ? 'Pickup' : `Delivery (${order.deliveryZoneLabel || 'DFW'})`}: ${order.deliveryFee ? `$${order.deliveryFee.toFixed(2)}` : 'Free'}`,
     order.discountAmount > 0 ? `Partner discount (${order.promoCode}): -$${order.discountAmount.toFixed(2)}` : '',
     `Total due: $${order.roundedTotal.toFixed(2)}`,
     `Exact pre-round total: $${order.exactTotal.toFixed(2)}`,
     order.promotionPartner ? `Referral partner: ${order.promotionPartner}` : '',
-    order.utmSource ? `Attribution: ${order.utmSource}${order.utmCampaign ? ` / ${order.utmCampaign}` : ''}` : '',
+    `Acquisition: ${acquisition}`,
+    order.utmCampaign ? `Ad campaign: ${order.utmCampaign}` : '',
+    order.utmTerm ? `Ad keyword: ${order.utmTerm}` : '',
+    order.adMatchType ? `Match type: ${order.adMatchType}` : '',
+    order.adDevice ? `Device: ${order.adDevice}` : '',
+    order.adNetwork ? `Network: ${order.adNetwork}` : '',
     `Weekly menu email: ${order.menuEmailOptIn ? 'Opted in' : 'Not requested'}`,
     order.notes ? `Notes: ${order.notes}` : '',
   ].filter(Boolean).join('\n');
@@ -447,17 +644,22 @@ async function sendOwnerOrderEmail(order) {
   const html = `<div style="font-family:Arial,sans-serif;color:#1E2E1E;line-height:1.5;max-width:620px">
     <h1 style="font-size:22px">New PRPD Order</h1>
     <p><strong>${escapeHtml(order.fullName)}</strong><br>${escapeHtml(order.phone)}<br>${escapeHtml(order.email)}</p>
-    <p><strong>Delivery address</strong><br>${escapeHtml(address)}</p>
-    ${order.deliveryInstructions ? `<p><strong>Delivery instructions:</strong> ${escapeHtml(order.deliveryInstructions)}</p>` : ''}
-    <p>Order reference: ${escapeHtml(order.orderId)}<br>Batch ${BATCH_NUMBER}<br>Delivery: ${escapeHtml(DELIVERY_DATE)}</p>
+    <p><strong>${isPickup ? 'Pickup' : 'Delivery address'}</strong><br>${escapeHtml(address)}</p>
+    ${order.deliveryInstructions ? `<p><strong>${isPickup ? 'Pickup timing notes' : 'Delivery instructions'}:</strong> ${escapeHtml(order.deliveryInstructions)}</p>` : ''}
+    <p>Order reference: ${escapeHtml(order.orderId)}<br>Batch ${BATCH_NUMBER}<br>${isPickup ? 'Pickup week' : 'Delivery'}: ${escapeHtml(DELIVERY_DATE)}</p>
     <ul style="padding-left:20px">${htmlItems}</ul>
     <hr style="border:0;border-top:1px solid #d8d2c9">
     <p>Meals subtotal: <strong>$${order.mealSubtotal.toFixed(2)}</strong><br>
-    Delivery: <strong>${order.deliveryFee ? `$${order.deliveryFee.toFixed(2)}` : 'Free'}</strong><br>
+    ${isPickup ? 'Pickup' : `Delivery (${escapeHtml(order.deliveryZoneLabel || 'DFW')})`}: <strong>${order.deliveryFee ? `$${order.deliveryFee.toFixed(2)}` : 'Free'}</strong><br>
     ${order.discountAmount > 0 ? `Partner discount (${escapeHtml(order.promoCode)}): <strong>-$${order.discountAmount.toFixed(2)}</strong><br>` : ''}
     Total due: <strong>$${order.roundedTotal.toFixed(2)}</strong></p>
     ${order.promotionPartner ? `<p><strong>Referral partner:</strong> ${escapeHtml(order.promotionPartner)}</p>` : ''}
-    ${order.utmSource ? `<p><strong>Attribution:</strong> ${escapeHtml(order.utmSource)}${order.utmCampaign ? ` / ${escapeHtml(order.utmCampaign)}` : ''}</p>` : ''}
+    <p><strong>Acquisition:</strong> ${escapeHtml(acquisition)}<br>
+    ${order.utmCampaign ? `Campaign: ${escapeHtml(order.utmCampaign)}<br>` : ''}
+    ${order.utmTerm ? `Keyword: ${escapeHtml(order.utmTerm)}<br>` : ''}
+    ${order.adMatchType ? `Match type: ${escapeHtml(order.adMatchType)}<br>` : ''}
+    ${order.adDevice ? `Device: ${escapeHtml(order.adDevice)}<br>` : ''}
+    ${order.adNetwork ? `Network: ${escapeHtml(order.adNetwork)}` : ''}</p>
     <p><strong>Weekly menu email:</strong> ${order.menuEmailOptIn ? 'Opted in' : 'Not requested'}</p>
     ${order.notes ? `<p>Notes: ${escapeHtml(order.notes)}</p>` : ''}
   </div>`;
@@ -474,24 +676,28 @@ async function sendOwnerOrderEmail(order) {
 
 async function sendCustomerConfirmationEmail(order) {
   const lines = itemLines(order);
-  const address = `${order.deliveryAddress}, ${order.deliveryCity}, TX ${order.deliveryZip}`;
+  const address = formattedDeliveryAddress(order);
+  const isPickup = order.fulfillmentMethod === 'pickup';
   const text = [
     `Thanks for your order, ${order.firstName}.`,
     '',
     'PRPD received your weekly order. It is awaiting payment and final confirmation from Rida.',
     `Order reference: ${order.orderId}`,
-    `Delivery: ${DELIVERY_DATE}`,
-    `Delivery address: ${address}`,
+    `${isPickup ? 'Pickup week' : 'Delivery'}: ${DELIVERY_DATE}`,
+    `${isPickup ? 'Pickup' : 'Delivery address'}: ${address}`,
     '',
     'YOUR ORDER:',
     ...lines.map(line => `  ${line}`),
     '',
     `Meals subtotal: $${order.mealSubtotal.toFixed(2)}`,
-    `Delivery: ${order.deliveryFee ? `$${order.deliveryFee.toFixed(2)}` : 'Free'}`,
+    `${isPickup ? 'Pickup' : `Delivery (${order.deliveryZoneLabel || 'DFW'})`}: ${order.deliveryFee ? `$${order.deliveryFee.toFixed(2)}` : 'Free'}`,
     order.discountAmount > 0 ? `Partner discount (${order.promoCode}): -$${order.discountAmount.toFixed(2)}` : '',
     `Total due: $${order.roundedTotal.toFixed(2)}`,
     '',
-    'Rida will text you shortly to confirm payment and Saturday delivery.',
+    `Zelle $${order.roundedTotal.toFixed(2)} to ${PAYMENT_EMAIL}.`,
+    'Confirm that the recipient displays PRPD before sending.',
+    `Include your name or order reference ${order.orderId} in the memo.`,
+    'Your order is confirmed after Rida verifies the payment.',
     'Questions? Reply to this email or text (469) 545-0781.',
     order.menuEmailOptIn ? 'You asked to receive PRPD weekly menu and cutoff emails.' : '',
   ].filter(Boolean).join('\n');
@@ -506,27 +712,32 @@ async function sendCustomerConfirmationEmail(order) {
     <p style="margin:0 0 22px;color:#526452">We received your weekly order. It is awaiting payment and final confirmation from Rida.</p>
     <div style="background:#fff;padding:20px 22px;border:1px solid #d8d2c9;margin-bottom:18px">
       <p style="margin:0 0 6px"><strong>Order reference:</strong> ${escapeHtml(order.orderId)}</p>
-      <p style="margin:0 0 6px"><strong>Delivery:</strong> ${escapeHtml(DELIVERY_DATE)}</p>
-      <p style="margin:0"><strong>Address:</strong> ${escapeHtml(address)}</p>
+      <p style="margin:0 0 6px"><strong>${isPickup ? 'Pickup week' : 'Delivery'}:</strong> ${escapeHtml(DELIVERY_DATE)}</p>
+      <p style="margin:0"><strong>${isPickup ? 'Pickup' : 'Address'}:</strong> ${escapeHtml(address)}</p>
     </div>
     <div style="background:#fff;padding:20px 22px;border:1px solid #d8d2c9">
       <h2 style="font-size:16px;margin:0 0 12px">Your order</h2>
       <ul style="padding-left:20px;margin:0 0 18px">${htmlItems}</ul>
       <hr style="border:0;border-top:1px solid #d8d2c9;margin:16px 0">
       <p style="margin:4px 0">Meals subtotal: <strong>$${order.mealSubtotal.toFixed(2)}</strong></p>
-      <p style="margin:4px 0">Delivery: <strong>${order.deliveryFee ? `$${order.deliveryFee.toFixed(2)}` : 'Free'}</strong></p>
+      <p style="margin:4px 0">${isPickup ? 'Pickup' : `Delivery (${escapeHtml(order.deliveryZoneLabel || 'DFW')})`}: <strong>${order.deliveryFee ? `$${order.deliveryFee.toFixed(2)}` : 'Free'}</strong></p>
       ${order.discountAmount > 0 ? `<p style="margin:4px 0">Partner discount (${escapeHtml(order.promoCode)}): <strong>-$${order.discountAmount.toFixed(2)}</strong></p>` : ''}
       <p style="margin:10px 0 0;font-size:18px">Total due: <strong>$${order.roundedTotal.toFixed(2)}</strong></p>
     </div>
-    <p style="margin:22px 0 6px">Rida will text you shortly to confirm payment and Saturday delivery.</p>
+    <div style="background:#fff;padding:20px 22px;border:2px solid #6f9a73;margin-top:18px">
+      <h2 style="font-size:16px;margin:0 0 10px">Pay by Zelle</h2>
+      <p style="margin:4px 0;font-size:18px">Send <strong>$${order.roundedTotal.toFixed(2)}</strong> to <strong>${PAYMENT_EMAIL}</strong>.</p>
+      <p style="margin:4px 0"><strong>Before sending:</strong> confirm that the recipient displays PRPD.</p>
+      <p style="margin:8px 0 0;color:#526452">Include your name or order reference <strong>${escapeHtml(order.orderId)}</strong> in the memo. Your order is confirmed after Rida verifies the payment.</p>
+    </div>
     ${order.menuEmailOptIn ? '<p style="margin:6px 0;color:#526452">You asked to receive PRPD weekly menu and cutoff emails.</p>' : ''}
-    <p style="margin:0;color:#526452">Questions? Reply to this email or text <a href="tel:+14695450781" style="color:#1E2E1E">(469) 545-0781</a>.</p>
+    <p style="margin:0;color:#526452">Questions? Reply to this email or text <a href="sms:+14695450781" style="color:#1E2E1E">(469) 545-0781</a>.</p>
   </div>`;
 
   await sendResendEmail({
     from: SENDER_EMAIL,
     to: [order.email],
-    reply_to: NOTIFICATION_EMAIL,
+    reply_to: CUSTOMER_REPLY_EMAIL,
     subject: `PRPD Order Received - ${order.orderId}`,
     text,
     html,
@@ -569,17 +780,39 @@ module.exports = async function handler(request, response) {
     });
   }
 
+  // Publication is an explicit owner-controlled gate. Draft data can remain in
+  // the repository without allowing a legitimate public order to be created.
+  if (!isMenuPublished()) {
+    return sendJson(response, 409, { status: 'error', message: ORDERING_CLOSED_MESSAGE });
+  }
+
   let order;
+  let resolvedPromotion = null;
   try {
-    order = validateAndBuildOrder(raw);
+    const promoCode = normalizePromoCode(raw?.promoCode);
+    const staticPromotion = promoCode ? promotionForCode(promoCode) : null;
+    if (staticPromotion) resolvedPromotion = staticPromotion;
+    else if (promoCode) resolvedPromotion = promotionFromReferral(await findReferralCode(promoCode));
+    const availablePromotions = resolvedPromotion ? [...(PROMOTIONS.codes || []), resolvedPromotion] : PROMOTIONS.codes || [];
+    order = validateAndBuildOrder(raw, availablePromotions);
   } catch (error) {
     return sendJson(response, 400, { status: 'error', message: error.message });
   }
 
+  let storageStage = 'connecting to Google Sheets';
   try {
     const client = await getSheetsClient();
+    storageStage = 'checking referral eligibility';
+    try {
+      await assertReferralEligibility(client, order, resolvedPromotion);
+    } catch (error) {
+      return sendJson(response, 400, { status: 'error', message: error.message });
+    }
+    storageStage = 'preparing sheet columns and headers';
     await ensureTrackingHeaders(client);
+    storageStage = 'saving the order row';
     const orderCreated = await ensureOrderSaved(client, order);
+    storageStage = 'saving the payment row';
     const paymentCreated = await ensurePaymentLogSaved(client, order);
 
     if (!orderCreated && !paymentCreated) {
@@ -588,6 +821,10 @@ module.exports = async function handler(request, response) {
         orderId: order.orderId,
         duplicate: true,
         total: order.roundedTotal,
+        fulfillmentMethod: order.fulfillmentMethod,
+        deliveryFee: order.deliveryFee,
+        deliveryZone: order.deliveryZone,
+        deliveryZoneLabel: order.deliveryZoneLabel,
         discountAmount: order.discountAmount,
         promoCode: order.promoCode,
         notificationSent: true,
@@ -634,6 +871,10 @@ module.exports = async function handler(request, response) {
       status: 'success',
       orderId: order.orderId,
       total: order.roundedTotal,
+      fulfillmentMethod: order.fulfillmentMethod,
+      deliveryFee: order.deliveryFee,
+      deliveryZone: order.deliveryZone,
+      deliveryZoneLabel: order.deliveryZoneLabel,
       discountAmount: order.discountAmount,
       promoCode: order.promoCode,
       notificationSent,
@@ -641,7 +882,7 @@ module.exports = async function handler(request, response) {
       tiktokEventSent,
     });
   } catch (error) {
-    safeLogError('Order submission failed.', error);
+    safeLogError(`Order submission failed while ${storageStage}.`, error);
     return sendJson(response, 502, {
       status: 'error',
       message: 'We could not confirm your order. Please try again or text Rida at (469) 545-0781.',
@@ -656,10 +897,17 @@ module.exports._test = {
   discountForPromotion,
   isValidOrderId,
   validateAndBuildOrder,
+  assertReferralEligibility,
+  normalizedHouseholdAddress,
+  ensureSheetColumnCapacity,
   paymentCounts,
   tierSummary,
   nextRecordRow,
   ORDER_KEYS,
   ORDER_ITEM_KEYS,
   sendCustomerConfirmationEmail,
+  acquisitionLabel,
+  isMenuPublished,
+  catalogForConfig,
+  deliveryPolicyForZip,
 };

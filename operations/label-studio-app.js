@@ -2,13 +2,24 @@
   'use strict';
 
   const LABEL_DATA = window.PRPD_LABEL_DATA;
+  const ACTIVE_BATCH = window.PRPD_ORDER_CONFIG?.batch;
+  const ACTIVE_MENU = window.PRPD_ORDER_CONFIG?.menu;
+  const PRODUCTION_GUARD = window.PRPD_LABEL_PRODUCTION_GUARD;
   const $ = (id) => document.getElementById(id);
+
+  if (!LABEL_DATA?.meals || !Object.keys(LABEL_DATA.meals).length) {
+    document.body.classList.add('label-print-blocked');
+    $('productionGate').textContent = 'PRINT BLOCKED: the generated active-batch label dataset did not load. Run the label verifier before opening Label Studio.';
+    $('printButton').disabled = true;
+    $('mealSelect').innerHTML = '<option>Generated label data unavailable</option>';
+    return;
+  }
   const escapeHtml = (value) => String(value || '').replace(/[&<>'"]/g, (char) => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;',
   })[char]);
   const dailyValue = (value, total) => Math.round((Number(value) / total) * 100);
-  const categoryOrder = ['Breakfast', 'Main', 'Dessert'];
-  const categoryLabels = { Breakfast: 'Breakfasts', Main: 'Mains', Dessert: 'Desserts' };
+  const categoryOrder = ['Breakfast', 'Main', 'Dessert', 'Add-on'];
+  const categoryLabels = { Breakfast: 'Breakfasts', Main: 'Mains', Dessert: 'Desserts', 'Add-on': 'Grab & Go Add-ons' };
   const editableFields = [
     'netWeight', 'ingredients', 'allergens', 'storageMode', 'personality', 'storage', 'reheat',
     'satFat', 'transFat', 'cholesterol', 'sodium', 'fiber', 'sugars', 'addedSugar',
@@ -16,22 +27,73 @@
   ];
   const drafts = new Map();
   const selectedSheets = new Set();
-  const sheetQuantities = new Map();
+  const labelQuantities = new Map();
   let activeMealId = '';
   let activeTierKey = '';
+  let printPlanErrors = [];
 
   function variantKey(mealId, tierKey) { return `${mealId}:${tierKey}`; }
   function currentMeal() { return LABEL_DATA.meals[activeMealId]; }
 
-  function sheetQuantity(key) {
-    const value = Number.parseInt(sheetQuantities.get(key), 10);
-    return Number.isFinite(value) ? Math.min(25, Math.max(1, value)) : 1;
+  function labelQuantity(key) {
+    const value = Number.parseInt(labelQuantities.get(key), 10);
+    return Number.isFinite(value) ? Math.min(200, Math.max(1, value)) : 1;
   }
 
   function displayDate(value) {
     if (!value) return '';
     const [year, month, day] = value.split('-');
     return `${month}/${day}/${year}`;
+  }
+
+  function productionForm() {
+    return {
+      madeDate: $('madeDate').value,
+      useByDate: $('useBy').value,
+      batchId: $('batchId').value,
+    };
+  }
+
+  function productionValidation() {
+    if (!PRODUCTION_GUARD?.validateLabelProduction) {
+      return { ok: false, errors: ['The label production safety guard did not load.'] };
+    }
+    const validation = PRODUCTION_GUARD.validateLabelProduction({
+      activeBatch: ACTIVE_BATCH,
+      activeMenu: ACTIVE_MENU,
+      labelData: LABEL_DATA,
+      form: productionForm(),
+    });
+    if (printPlanErrors.length) {
+      return { ok: false, errors: [...validation.errors, ...printPlanErrors] };
+    }
+    return validation;
+  }
+
+  function updateProductionGate(validation = productionValidation()) {
+    const gate = $('productionGate');
+    gate.classList.toggle('ready', validation.ok);
+    gate.textContent = validation.ok
+      ? `Date check passed: Batch ${ACTIVE_BATCH.number}, made ${displayDate(productionForm().madeDate)}, refrigerate through ${displayDate(productionForm().useByDate)}.`
+      : `PRINT BLOCKED: ${validation.errors.join(' ')}`;
+    document.body.classList.toggle('label-print-blocked', !validation.ok);
+    return validation;
+  }
+
+  function applyControlledProductionDefaults() {
+    const production = ACTIVE_BATCH?.labelProduction;
+    if (!production) return;
+    $('madeDate').value = production.madeDate || '';
+    $('useBy').value = production.useByDate || '';
+    $('batchId').value = production.batchId || '';
+  }
+
+  function printPlanContextMatches(params) {
+    const expected = ACTIVE_BATCH?.labelProduction;
+    if (!expected) return false;
+    return params.get('made') === expected.madeDate
+      && params.get('useBy') === expected.useByDate
+      && params.get('batch') === expected.batchId;
   }
 
   function storageCopy(mode) {
@@ -52,7 +114,7 @@
       storageMode: meal.storageMode,
       personality: meal.note,
       storage: storageCopy(meal.storageMode),
-      reheat: 'Microwave 1-2 minutes. Heat to 165°F throughout.',
+      reheat: meal.reheat || 'Heat until hot throughout.',
       satFat: nutrition.satFat,
       transFat: nutrition.transFat,
       cholesterol: nutrition.cholesterol,
@@ -193,17 +255,29 @@
   function renderPrintSheets() {
     saveActiveDraft();
     const variants = orderedVariants().filter(({ mealId, tierKey }) => selectedSheets.has(variantKey(mealId, tierKey)));
-    const sheets = variants.flatMap(({ mealId, tierKey }) => {
+    const labels = variants.flatMap(({ mealId, tierKey }) => {
       const key = variantKey(mealId, tierKey);
-      return Array.from({ length: sheetQuantity(key) }, () => ({ mealId, tierKey }));
+      return Array.from({ length: labelQuantity(key) }, () => ({ mealId, tierKey }));
     });
-    $('printSheet').innerHTML = sheets.map(({ mealId, tierKey }) => {
-      const markup = labelMarkup(mealId, tierKey, draftFor(mealId, tierKey));
-      const labels = Array.from({ length: 4 }, () => printSlotMarkup(markup)).join('');
-      return `<section class="print-page">${labels}</section>`;
+    const pages = [];
+    for (let index = 0; index < labels.length; index += 4) pages.push(labels.slice(index, index + 4));
+    const validation = updateProductionGate();
+    if (!validation.ok) {
+      $('printSheet').innerHTML = '';
+      $('selectionCount').textContent = `${labels.length} label${labels.length === 1 ? '' : 's'} selected - printing is blocked by the production-date check.`;
+      $('printButton').disabled = true;
+      return;
+    }
+    $('printSheet').innerHTML = pages.map((page) => {
+      const printed = page.map(({ mealId, tierKey }) => (
+        printSlotMarkup(labelMarkup(mealId, tierKey, draftFor(mealId, tierKey)))
+      ));
+      while (printed.length < 4) printed.push(printSlotMarkup(''));
+      return `<section class="print-page">${printed.join('')}</section>`;
     }).join('');
-    $('selectionCount').textContent = `${sheets.length} sheet${sheets.length === 1 ? '' : 's'} across ${variants.length} meal/tier selection${variants.length === 1 ? '' : 's'} - ${sheets.length * 4} labels`;
-    $('printButton').disabled = sheets.length === 0;
+    const openSlots = pages.length * 4 - labels.length;
+    $('selectionCount').textContent = `${labels.length} exact label${labels.length === 1 ? '' : 's'} across ${variants.length} meal/tier selection${variants.length === 1 ? '' : 's'} - ${pages.length} mixed sheet${pages.length === 1 ? '' : 's'}${openSlots ? ` - ${openSlots} unused slot${openSlots === 1 ? '' : 's'} on the final sheet` : ''}`;
+    $('printButton').disabled = labels.length === 0;
   }
 
   function render() {
@@ -229,7 +303,7 @@
         .filter(([, meal]) => meal.category === category)
         .flatMap(([mealId, meal]) => Object.entries(meal.tiers).map(([tierKey, tier]) => {
           const key = variantKey(mealId, tierKey);
-          return `<div class="sheet-option"><input type="checkbox" data-sheet="${key}" aria-label="Select ${escapeHtml(meal.name)} ${escapeHtml(tier.label)}" ${selectedSheets.has(key) ? 'checked' : ''}><span>${escapeHtml(meal.name)}</span><small>${escapeHtml(tier.label)}</small><label class="sheet-quantity">Sheets <input type="number" min="1" max="25" step="1" value="${sheetQuantity(key)}" data-sheet-quantity="${key}" aria-label="Sheets for ${escapeHtml(meal.name)} ${escapeHtml(tier.label)}"></label></div>`;
+          return `<div class="sheet-option"><input type="checkbox" data-sheet="${key}" aria-label="Select ${escapeHtml(meal.name)} ${escapeHtml(tier.label)}" ${selectedSheets.has(key) ? 'checked' : ''}><span>${escapeHtml(meal.name)}</span><small>${escapeHtml(tier.label)}</small><label class="sheet-quantity">Labels <input type="number" min="1" max="200" step="1" value="${labelQuantity(key)}" data-label-quantity="${key}" aria-label="Labels for ${escapeHtml(meal.name)} ${escapeHtml(tier.label)}"></label></div>`;
         })).join('');
       return `<section class="sheet-group"><h3>${categoryLabels[category]}</h3>${rows}</section>`;
     }).join('');
@@ -238,10 +312,10 @@
       else selectedSheets.delete(input.dataset.sheet);
       renderPrintSheets();
     }));
-    document.querySelectorAll('[data-sheet-quantity]').forEach((input) => input.addEventListener('input', () => {
-      const key = input.dataset.sheetQuantity;
-      const value = Math.min(25, Math.max(1, Number.parseInt(input.value, 10) || 1));
-      sheetQuantities.set(key, value);
+    document.querySelectorAll('[data-label-quantity]').forEach((input) => input.addEventListener('input', () => {
+      const key = input.dataset.labelQuantity;
+      const value = Math.min(200, Math.max(1, Number.parseInt(input.value, 10) || 1));
+      labelQuantities.set(key, value);
       renderPrintSheets();
     }));
   }
@@ -254,34 +328,39 @@
   }
 
   function applyPrintPlan(params) {
-    const encodedPlan = params.get('plan');
-    if (!encodedPlan) return false;
-
-    const plan = encodedPlan.split(',').map((entry) => {
-      const [mealId, tierKey, quantity] = entry.split(':');
-      const sheets = Math.min(25, Math.max(1, Number.parseInt(quantity, 10) || 1));
-      const meal = LABEL_DATA.meals[mealId];
-      const resolvedTierKey = meal?.tiers[tierKey]
-        ? tierKey
-        : tierKey === 'single' && meal?.category === 'Dessert' && meal.tiers.lean
-          ? 'lean'
-          : '';
-      if (!resolvedTierKey) return null;
-      return { key: variantKey(mealId, resolvedTierKey), sheets };
-    }).filter(Boolean);
-    if (!plan.length) return false;
+    if (!params.has('plan')) return false;
+    if (!printPlanContextMatches(params)) {
+      printPlanErrors = ['The URL print plan does not identify this active batch and cannot be used.'];
+      return false;
+    }
+    if (!PRODUCTION_GUARD?.parseLabelPrintPlan) {
+      printPlanErrors = ['The exact label-plan validator did not load.'];
+      return false;
+    }
+    const validation = PRODUCTION_GUARD.parseLabelPrintPlan(params.get('plan'), LABEL_DATA);
+    if (!validation.ok) {
+      printPlanErrors = validation.errors;
+      return false;
+    }
+    const declaredCount = params.get('count');
+    if (!/^\d+$/.test(String(declaredCount || '')) || Number(declaredCount) !== validation.totalLabels) {
+      printPlanErrors = ['The URL label-count total does not match the exact label plan. Reopen Label Studio from the locked Cook-Day Planner.'];
+      return false;
+    }
 
     selectedSheets.clear();
-    sheetQuantities.clear();
-    plan.forEach(({ key, sheets }) => {
+    labelQuantities.clear();
+    validation.entries.forEach(({ id, tier, labels }) => {
+      const key = variantKey(id, tier);
       selectedSheets.add(key);
-      sheetQuantities.set(key, sheets);
+      labelQuantities.set(key, labels);
     });
     renderSheetSelection();
     renderPrintSheets();
     return true;
   }
 
+  applyControlledProductionDefaults();
   renderMealOptions();
   activeMealId = $('mealSelect').value;
   activeTierKey = Object.keys(currentMeal().tiers)[0];
@@ -306,15 +385,28 @@
   $('selectCurrentLabel').addEventListener('click', () => replaceSelection([variantKey(activeMealId, activeTierKey)]));
   $('printButton').addEventListener('click', () => {
     if (!selectedSheets.size) return;
+    const validation = updateProductionGate();
+    if (!validation.ok) {
+      window.alert(`Printing is blocked. ${validation.errors.join(' ')}`);
+      return;
+    }
     renderPrintSheets();
     window.print();
+  });
+  window.addEventListener('beforeprint', () => {
+    const validation = updateProductionGate();
+    if (validation.ok) renderPrintSheets();
+    else $('printSheet').innerHTML = '';
   });
   const params = new URLSearchParams(window.location.search);
   if (params.get('made')) $('madeDate').value = params.get('made');
   if (params.get('useBy')) $('useBy').value = params.get('useBy');
   if (params.get('batch')) $('batchId').value = params.get('batch');
   loadMeal();
-  if (!applyPrintPlan(params) && params.get('printProof') === 'all') {
+  const printPlanApplied = applyPrintPlan(params);
+  if (!printPlanApplied && params.get('printProof') === 'all') {
     replaceSelection(orderedVariants().map(({ mealId, tierKey }) => variantKey(mealId, tierKey)));
+  } else if (params.has('plan') && !printPlanApplied) {
+    renderPrintSheets();
   }
 })();

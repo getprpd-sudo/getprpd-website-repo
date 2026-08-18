@@ -1,6 +1,6 @@
 # Mexican Streetcorn Chicken Bowl
 
-Status: Kitchen test required
+Status: Approved Batch 6 returning recipe; record the finished street-corn yield during production
 
 ## Finished Dish
 
@@ -67,12 +67,15 @@ Per 1,000g raw boneless skinless chicken thigh:
 6. Remove from high heat. Fold in Fage, light mayo, Cotija, lime, cilantro, Tajin, and salt.
 7. Plate rice, chicken, and creamy corn in three visible sections.
 
-## Working Macro Range
+## Current Calculated Macros
 
-- Lean: approximately 530-570 calories / 54-58g protein
-- Bulk: approximately 690-740 calories / 72-78g protein
+- Lean: 595 calories / 48g protein / 55g carbs / 3g fiber / 21g fat
+- Bulk: 790 calories / 65g protein / 72g carbs / 4g fiber / 27g fat
 
-The current website values of 530/54 Lean and 660/73 Bulk remain working estimates. Bulk calories may be understated. Do not change the website until the actual chicken package, corn, Cotija, mayo, oil, and plated amounts are recorded from the test.
+These are calculated from the controlled plated weights above, including the
+green bell pepper added to the street-corn component. Record the actual cooked
+chicken, rice, and finished street-corn yields on production day before final
+label release; do not silently change the serving weights.
 
 ## Storage
 

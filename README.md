@@ -4,6 +4,10 @@
 
 PRPD ("Prepped") is a live DFW halal high-protein custom meal prep website.
 
+Current weekly state as of August 17, 2026: the owner approved the 18-item Batch 7 menu for Saturday, August 22 delivery and authorized publication of the order page. The complete menu, nutrition, 30 label builds, production data, cook methods, grocery data, and planning costs were regenerated together. The owner subsequently approved customer reminders and resumed the existing Google Search campaign after live verification.
+
+August 11 closeout: the Epic Fit Fest form was submitted; food-forward outreach was sent to Sufaraa, IACC Sisters Committee, EPIC Sports & Recreation, and Islamic Center of Frisco; the final Zee offer was sent to his agent; and the creator-outreach wave remains pending without any approved food delivery or cash fee. `hello@getprpd.com` is now a verified Gmail sending identity for future external outreach. The privacy-safe owner handoff is `operations/active/DAILY_CLOSEOUT_2026-08-11.md`.
+
 Live domains:
 
 - `https://getprpd.com`
@@ -33,15 +37,18 @@ GitHub backup: `getprpd-sudo/getprpd-website-repo` (push via GitHub Desktop — 
 ### Weekly Order Funnel (order.html)
 
 1. Customer uses the primary `Order This Week` path from `https://getprpd.com/` or visits `https://getprpd.com/order`
-2. Enters first name, last name, phone, email, delivery address, city, ZIP, and optional delivery/meal notes
+2. Enters first name, last name, phone, email, delivery address, city, state, ZIP, conditional apartment/unit information, and optional delivery/meal notes
 3. May apply an approved partner/referral code and separately opt in to weekly menu emails
 4. Selects meals and chooses Lean or Bulk per dish
 5. Total is rounded up to the nearest dollar after delivery and any server-approved discount
-6. `order.html` posts the order and captured attribution to the same-domain Vercel endpoint `/api/order`
+6. `order.html` posts the order and captured attribution—including Google Ads click identifiers when present—to the same-domain Vercel endpoint `/api/order`
 7. Vercel validates the cutoff, menu IDs, quantities, code, and all server-owned prices and totals
 8. Vercel writes directly to `Orders` and the first real blank row in `Payment Log`
-9. Resend independently sends the owner notification and an itemized order-received email to the customer
-10. Rida confirms payment and Saturday delivery by text
+9. Resend independently sends the owner notification with readable acquisition data and an itemized order-received email to the customer
+10. After API success, the browser records the Google Ads completed-order conversion with confirmed value and transaction ID while TikTok retains its deduplicated `PlaceAnOrder` flow. Successful custom-plan submissions and text/email link clicks use separate zero-value Google Ads actions so inquiry activity can be observed without replacing completed purchases as the Search campaign's bidding goal.
+11. The customer pays the business Zelle profile at `payments@getprpd.com`; Rida confirms payment and Saturday delivery by text
+
+Payment notifications are reconciled using `operations/standards/PAYMENT_RECONCILIATION.md`. A row is marked paid only when the notification matches the order reference and amount, or uniquely matches the current sender and amount with the missing reference explicitly documented.
 
 ---
 
@@ -68,52 +75,69 @@ GitHub backup: `getprpd-sudo/getprpd-website-repo` (push via GitHub Desktop — 
 - `api/tiktok-report.js` - planner-key-protected, read-only TikTok Marketing API reporting endpoint
 - `api/planner-orders.js` - protected current-batch planner endpoint: read-only sync plus validated, planner-key-protected manual order insertion
 - `api/business-data.js` - protected read-only reporting endpoint for the private Business Center, covering Orders, Payment Log, Website Leads, and Accounts Receivable
-- `config/order-config.js` — single weekly source of truth for menu, macros, images, prices, delivery rules, and cutoff
+- `api/referrals.js` - public referral-code validation plus planner-key-protected code administration backed by the private `Referral Codes` Sheet tab
+- `api/operator-brief.js` - protected daily Operator Brief endpoint; reads controlled business ranges, validates customer profile fields, excludes only Talal and Duaa from profile warnings, sends one internal summary through Resend, and records successful sends in the `Automation Log` Sheet tab
+- `api/menu-reminders.js` - protected weekly-menu reminder sender; supports prior-customer outreach without rewriting consent, honors explicit opt-outs, excludes current-batch orderers and internal family profiles, records run status in `Automation Log`, sends an owner confirmation report, and refuses to send without a valid business postal address
+- `api/menu-unsubscribe.js` - signed public unsubscribe endpoint that records the latest preference in the private `Email Preferences` Sheet tab
+- `api/_business-data-source.js` - shared private Google Sheets reader used by protected reporting and automation endpoints
+- `api/_business-center-core.js` - shared tested calculations used by the local Business Center and server-side Operator Brief
+- `config/order-config.js` — approved public Batch 7 runtime configuration; menu publication and reminder-email approval remain separate controls
+- `operations/active/BATCH_7_DRAFT_ORDER_CONFIG.js` — deployment-excluded internal mirror used by local production tools and controlled generation
 - `package.json` / `package-lock.json` — backend dependency lock
 
 ### Operations
 
 - `operations/OPERATIONS_INDEX.md` - first-read map of recipe, nutrition, label, source, and cook-day files
+- `operations/active/CURRENT_STATUS.md` - current financial facts, open tasks, special-customer rules, and deferred work
+- `operations/governance/OPERATING_RULES.md` - permanent internal controls for data, finance, production, privacy, and approvals
+- `operations/governance/DOCUMENT_CONTROL.md` - folder definitions, naming, retention, and weekly organization procedure
+- `operations/records/finance/RECEIPT_REGISTER.md` - receipt totals, evidence status, and missing-source tracker
 
-- `operations/RECIPE_DATA_SOURCE_OF_TRUTH.md` — first-read master register for recipe decisions, kitchen results, nutrition inputs, archived sources, and label readiness
-- `operations/NEXT_MENU_DRAFT_2026-07-25.md` - July 25 live customer-menu record, recipe decisions, and remaining kitchen/production gates
-- `operations/nutrition/NEXT_MENU_NUTRITION_DRAFT_2026-07-25.md` - controlled July 25 tier recipes and calculated nutrition estimates
+- `operations/standards/RECIPE_DATA_SOURCE_OF_TRUTH.md` — first-read master register for recipe decisions, kitchen results, nutrition inputs, archived sources, and label readiness
+- `operations/active/NEXT_MENU_DRAFT_2026-08-22.md` - owner-approved Batch 7 menu and publication record
+- `operations/nutrition/NEXT_MENU_NUTRITION_2026-08-22.md` - reproducible calculated nutrition for the approved menu
+- `operations/records/batches/BATCH_6_PREMATURE_PUBLICATION_INCIDENT_2026-08-10.md` - containment record for the menu and reminder that were published before owner approval
 - `operations/recipes/LOTUS_BISCOFF_CHEESECAKE_DRAFT.md` - reduced-calorie 395-calorie/40g-protein Biscoff test build
-- `operations/costing/NEXT_MENU_DRAFT_COST_AUDIT.md` - preliminary July 25 direct-cost report; final only after recipe and product approval
-- `operations/MASTER_PLAN.md` — prioritized website, recipe, cook-day, label, and compliance workstreams
-- `operations/STANDARD_RECIPE_TEMPLATE.md` — controlled production recipe and yield template
+- `operations/costing/NEXT_MENU_DRAFT_COST_AUDIT.md` - current planning direct packed-cost report for Batch 7
+- `operations/active/MASTER_PLAN.md` — prioritized website, recipe, cook-day, label, and compliance workstreams
+- `operations/standards/STANDARD_RECIPE_TEMPLATE.md` — controlled production recipe and yield template
 - `operations/TIRAMISU_TEST_PLAN.md` — measured kitchen test needed before final tiramisu macros
 - `operations/STREETCORN_CHICKEN_TEST_PLAN.md` — yield, portion, storage, and reheating test for the new bowl
-- `operations/COOK_DAY_CHECKLIST.md` — post-cutoff through delivery-staging production checklist
+- `operations/standards/COOK_DAY_CHECKLIST.md` — post-cutoff through delivery-staging production checklist
 - `operations/cook-day-planner.html` - private local planner that syncs the live Orders tab and generates the complete prep sequence, three-lane production plan, nine Friday cook phases, station plan, plating matrix, durable measured cook log, timing log, staging list, and QC record
 - `operations/cook-log-store.js` - validated atomic local storage for actual cook-day measurements, with previous-version recovery
 - `operations/cook-day-methods.js` - controlled cooking, assembly, equipment, plating, holding, and quality instructions for all active-menu dishes
 - `operations/COOK_DAY_PLANNER_README.md` - planner import, printing, privacy, and weekly-use guide
 - `operations/grocery-list.html` - private live-order grocery builder with pantry subtraction, package rounding, price estimates, retailer searches, CSV export, and printing
 - `operations/GROCERY_LIST_README.md` - grocery builder and weekly sauce operating guide
-- `operations/WEEKLY_CLOSEOUT_TEMPLATE.md` - weekly planned-versus-actual record for revenue, cost, yield, time, waste, delivery, and acquisition
-- `operations/WEEKLY_CLOSEOUT_2026-07-11.md` - provisional July 11 revenue/LLC-fee reconciliation and opening business-bank transfer record
-- `operations/WEEKLY_CLOSEOUT_2026-07-18.md` - completed Batch 2 order revenue, payment reconciliation, purchase split, and closeout record
-- `operations/WEEKLY_CLOSEOUT_2026-07-25.md` - open Batch 3 sales, collections, purchase commitments, and post-delivery closeout record
-- `operations/MARKETING_GROWTH_PLAN.md` - current capacity-controlled paid, organic, referral, and physical marketing strategy
-- `operations/business-center.html` - private local Growth and Financial Center with current/historical batch reporting, separate consolidated receivables, DFW outreach, referral attribution, expenses, TikTok Marketing API sync, and CSV fallback
+- `operations/standards/WEEKLY_CLOSEOUT_TEMPLATE.md` - weekly planned-versus-actual record for revenue, cost, yield, time, waste, delivery, and acquisition
+- `operations/records/finance/weekly-closeouts/WEEKLY_CLOSEOUT_2026-07-11.md` - provisional July 11 revenue/LLC-fee reconciliation and opening business-bank transfer record
+- `operations/records/finance/weekly-closeouts/WEEKLY_CLOSEOUT_2026-07-18.md` - completed Batch 2 order revenue, payment reconciliation, purchase split, and closeout record
+- `operations/records/finance/weekly-closeouts/WEEKLY_CLOSEOUT_2026-07-25.md` - open Batch 3 sales, collections, purchase commitments, and post-delivery closeout record
+- `operations/plans/MARKETING_GROWTH_PLAN.md` - current capacity-controlled paid, organic, referral, and physical marketing strategy
+- `operations/business-center.html` - private local Growth, Marketing, and Financial Center with campaign workflow, tracked links, current/historical batch reporting, consolidated receivables, DFW outreach, referral attribution, expenses, TikTok Marketing API sync, and CSV fallback
 - `operations/BUSINESS_CENTER_README.md` - Business Center security, access, calculation, and weekly-use guide
-- `operations/DFW_LOCAL_DISCOVERY_2026-07-22.md` - prioritized DFW partnership pipeline and official source links
+- `operations/plans/PRPD_AUTOMATION_ROADMAP.md` - staged PRPD Operator plan, automation boundaries, and implementation status
+- `operations/plans/DFW_LOCAL_DISCOVERY_2026-07-22.md` - prioritized DFW partnership pipeline and official source links
+- `operations/relationships/README.md` - organized customer, testimonial, referral, and partnership program hub with private-record placement rules
 - `operations/archive/README.md` - completed design briefs and implementation handoffs; archive files are historical, not current operating authority
 
-Archived source documents kept inside the project:
+Historical recipe and price sources kept inside the project:
 
-- `operations/source-documents/PRPD_RECIPES_SOURCE_2026-07-13.pdf` — latest archived recipe-library source
-- `operations/source-documents/PRPD_INGREDIENT_PRICES_SOURCE_2026-07-14.pdf` — latest archived ingredient-price source
-- `operations/source-documents/WALMART_RECEIPT_2026-07-16.png` — itemized Prosper Walmart receipt used for current grocery-price verification
+- `operations/source-documents/reference/PRPD_RECIPES_SOURCE_2026-07-13.pdf` — latest archived recipe-library source
+- `operations/source-documents/reference/PRPD_INGREDIENT_PRICES_SOURCE_2026-07-14.pdf` — latest archived ingredient-price source
+- `operations/private-records/receipts/WALMART_RECEIPT_2026-07-16.png` — itemized Prosper Walmart receipt used for current grocery-price verification
+- `operations/private-records/receipts/WALMART_RECEIPT_2026-07-23.png` — itemized Batch 3 Walmart receipt used for current grocery-price verification
 
-Recipe and label rule: update `operations/RECIPE_DATA_SOURCE_OF_TRUTH.md` whenever a kitchen test, portion, product label, or formula changes. Do not rely on chat history as the only record, and do not print final labels from unverified website estimates.
+Receipts, LLC formation records, customer-specific evidence, signed testimonial consents, raw submissions, partnership agreements/approvals, and other sensitive evidence live under the Git-ignored `operations/private-records/` folder. See `operations/PRIVATE_RECORDS_POLICY.md`; do not move those originals into a public or deployed path.
+
+Recipe and label rule: update `operations/standards/RECIPE_DATA_SOURCE_OF_TRUTH.md` whenever a kitchen test, portion, product label, or formula changes. Do not rely on chat history as the only record, and do not print final labels from unverified website estimates.
 
 Additional internal label files:
 
-- `operations/label-studio.html` - local Avery 5168 studio for all 15 active dishes plus the current manual BBQ Mac label, categorized meal selection, Lean/Bulk or Single switching, and multi-sheet four-up printing
-- `operations/label-studio-app.js` - Label Studio state, categorized print queue, live label rendering, and one-sheet-per-variant print generation
-- `operations/nutrition/label-data.js` - generated meal, ingredient, allergen, storage, and complete nutrition data used by the label studio
+- `operations/label-studio.html` - local Avery 5168 studio for exact-count printing; the approved dataset contains 18 dishes and 30 Lean/Bulk/Single builds and remains fail-closed on stale batch data
+- `operations/label-studio-app.js` - Label Studio state, categorized exact-count print queue, live-menu/current-batch validation, and label rendering
+- `operations/nutrition/next-menu-label-data.js` - sole generated current-batch meal, ingredient, allergen, storage, and complete nutrition dataset used by Label Studio
 - `operations/LABEL_STUDIO_README.md` - regeneration workflow, accuracy standard, and print-test instructions
 - `open-label-studio.bat` - one-click local launcher for the label studio
 - `open-cook-day-planner.bat` - one-click local launcher for the cook-day planner
@@ -124,26 +148,28 @@ The cook-day planner's live sync is read-only. It uses a localhost proxy in `ope
 
 The protected planner maintenance route can also insert specifically approved manual orders into canonical Google Sheets columns A:K. That write path is not exposed as a public browser control, validates menu items and quantities, and blocks duplicate manual Order IDs. It does not change the normal read-only sync behavior.
 
-Selecting **Generate Production Packet** opens the Kitchen Queue first. The operator chooses **Prep Day** or **Cook Day** and follows only the **Now** ticket; **Next** and **Later** provide awareness without becoming extra instructions. The active ticket's exact scaled recipe, quantities, planned yields, method, plating/holding instructions, release check, and quick actual fields appear immediately underneath. Every dish receives one cook ticket, one assembly ticket, and no duplicate job from the passive-equipment reference. The Runbook remains the complete printable supporting reference.
+Selecting **Generate Production Packet** opens the **Kitchen Guide** first. The operator chooses **Prep Day** or **Cook & Pack** and works straight down one complete guide. Prep Day starts by locking counts, printing labels, and applying them to empty containers; it then moves through raw proteins, the sanitation reset, produce, sauces, desserts, clean mixtures, and starches. Cook & Pack groups similar work into coordinated production waves before dish-and-tier portioning and customer-by-customer pack-out. Exact scaled recipes appear inside the phase where they are used. **Focus Mode** remains available as an optional single-ticket view when isolating one action is useful.
 
-The Runbook produces the exact sold customer-meal count and applies a default 5% pooled reserve only to raw meat and poultry. This covers normal trim and cooking-yield variation without creating automatic extra containers, starches, sides, desserts, or finished meals. Customer nutrition labels exclude the permanent no-label accounts Talal and Duaa, while their meals remain fully included in production and staging. The Batch 3 packet provides an Avery 5168 customer-label plan, grouped raw-protein pulls with labeled dish-bowl allocations, a scaled master seasoning batch for compatible boneless chicken, per-dish and total rice quantities, produce totals, phased marinade/mix/sauce/dessert/side batches, metric and practical kitchen units, and scaled quantities inside method steps. The shared chicken base is applied once before exact bowl splits for the Power Bowl, street-corn bowl, hot-honey sliders, and BBQ mac; biryani remains a distinct marinade. Thursday prep, Friday cooking, photography, and Saturday delivery remain separate.
+The Kitchen Guide produces the exact sold customer-meal count and applies a default 5% pooled reserve only to raw meat and poultry. This covers normal trim and cooking-yield variation without creating automatic extra containers, starches, sides, desserts, or finished meals. Customer nutrition labels exclude the permanent no-label accounts Talal, Duaa, and Rida, while their meals remain fully included in production and staging. The Batch 5 packet provides an Avery 5168 customer-label plan, grouped raw-protein pulls, compatible chicken seasoning, produce totals, measured recipe components, metric and practical kitchen units, and complete scaled recipe cards.
 
 The generated workflow is selection-aware. Thursday groups compatible protein pulls, divides them into labeled dish bowls before dish-specific marinades, separates compatible and distinct rice batches, phases measured marinades/mixes/sauces/desserts/sides, handles vegetables, controlled rice cooling, customer labels, and closeout. Friday runs three coordinated lanes (passive equipment, active cooking, and cold/cooling), launches the longest hands-off batch first, produces breakfast/chicken/beef/starch components in equipment-sized batches, releases each component only after temperature and yield checks, assembles one dish/tier at a time, and bags by customer last. Any true overage is recorded after production rather than planned in advance.
 
-Each weekly packet also scales exactly two batch-wide sauces. The current pair is Smoky BBQ Yogurt Ranch and Tangy Yogurt Honey Mustard. The default batch makes 30 sealed customer cups of each flavor, 10 cup-equivalents of each flavor in squeeze bottles for meal assembly, and one quality-control cup of each flavor. This is 82 cup-equivalents but 62 physical side cups. Meal-specific condiments remain part of their individual recipes. These are controlled PRPD adaptations of established sauce styles, so a 60 g pilot tasted with representative food remains required before scaling the full batch.
+Each weekly packet also scales exactly two batch-wide sauces. Automatic mode makes one sealed weekly cup per eligible full savory meal, splits those cups between the two flavors, and adds one quality-control cup per flavor. Recipe-specific sauce portions are counted separately. Desserts, pancakes, the chilled Protein Box, and the already-sauced Mini Chicken Snack Wrap do not receive redundant weekly cups.
 
-The Kitchen Queue covers both Prep Day and Cook Day. One current instruction stays visible, its one relevant scaled recipe or prep batch is directly below it, and other work stays collapsed. Prep Day moves through count lock, desserts, sauces, produce/sides, protein prep, rice, and labels. Cook Day moves through startup, breakfast, chicken, beef/formed protein, seafood/remaining hot dishes, dish-by-dish assembly, and customer-by-customer pack-out. Quick actual-yield entries save into the durable Cook Log. Setup, counts, prep completion, day-specific queue position, and guided progress are keyed to the batch and delivery date.
+The Kitchen Guide covers both Prep Day and Cook & Pack. Prep Day moves through counts and pre-labeling, raw proteins, sanitation, produce, sauces/cold sides, desserts, egg/pancake/dough/filling kits, starches, and final reconciliation. Cook & Pack moves through kitchen startup, breakfast, parallel base-protein and hot-side lanes, dependency-based assemblies, dish-and-tier portioning, and customer-by-customer pack-out. Passive equipment, planning lanes, and timing logic remain available in a collapsed reference. Focus Mode provides the old Now/Next/Later queue without controlling the default workflow. Setup, counts, prep completion, guide-day preference, Focus Mode position, and measured Cook Log entries are keyed to the batch and delivery date.
 
 The label studio is an internal working tool and its public Vercel path redirects to the homepage. All required nutrition fields are populated with calculated estimates from the saved recipes, supplied product labels, manufacturer data, USDA records, and approved generic equivalents. Finished net weights and some cooking yields remain practical estimates and should be replaced with cook-day measurements when convenient.
 
 Nutrition and label regeneration:
 
 ```powershell
-python operations/nutrition/calculate_active_menu.py
-python operations/nutrition/generate_label_data.py
+python operations/nutrition/calculate_next_menu.py
+python operations/nutrition/generate_next_menu_label_data.py
+python operations/nutrition/verify_next_menu_labels.py
 python operations/nutrition/generate_production_data.py
-python operations/nutrition/generate_active_menu_audit_docx.py
+python operations/costing/calculate_next_menu_draft_costs.py
 python -m unittest discover -s operations/nutrition -p "test_*.py" -v
+npm test
 ```
 
 ### Supplemental Pages
@@ -182,6 +208,8 @@ Homepage images (`assets/images/`):
 - `about-rida.jpg`
 
 Meal card images for `order.html` live in `assets/images/meals/`. The standardized, web-ready real-food library lives in `assets/images/meals/menu/`.
+
+The approved Batch 7 menu currently has verified exact-dish photos for 10 of 18 items. Photograph Blueberry Cheesecake Protein Pancakes, Power Bowl, Cajun Garlic Salmon, Southwest Beef Taco Bowl, Banana Cream Pie Cup, PRPD Protein Box, Mini Chicken Snack Wrap, and Chicken Caesar Crunch Box during Batch 7 production to complete this rotation at 18 of 18. Existing photos remain reusable whenever the exact dish returns; newly introduced or materially changed dishes still require a fresh exact-dish photo.
 
 - Source originals remain unchanged in `C:\Users\aazim\Dropbox\PRPD PRINT\Menu Images`.
 - `scripts/prepare-menu-images.ps1` performs deterministic orientation, crop, color, resize, and JPEG compression. It does not use generative AI or redraw food.
@@ -251,8 +279,11 @@ Bulk is always $2 more than lean. Desserts have no tier toggle.
 ### Order Minimum + Delivery
 
 - Minimum food subtotal: `$60`
-- Delivery fee: `$6.99`
-- Free delivery: food subtotal over `$75`
+- Local delivery: `$60` minimum, `$9.99` delivery, free delivery at an `$85` food subtotal.
+- Regional delivery: `$80` minimum, `$12.99` delivery, free delivery at a `$125` food subtotal.
+- Extended delivery: `$100` minimum, `$14.99` delivery, free delivery at a `$150` food subtotal.
+- The server uses the five-digit delivery ZIP centroid and a controlled routing estimate: up to `25` one-way miles is local, more than `25` through `35` miles is regional, more than `35` through `60` miles is extended, and farther ZIPs cannot complete automatic checkout.
+- The public quote returns only eligibility and pricing; it does not expose the internal dispatch reference, city lookup, or calculated mileage.
 - The minimum and free-delivery threshold use the meal subtotal before any partner discount.
 - An approved partner discount is deducted after delivery is calculated.
 - Final amount due is rounded up to the nearest dollar after delivery and discount are applied.
@@ -260,72 +291,44 @@ Bulk is always $2 more than lean. Desserts have no tier toggle.
 
 ### Partner Codes + Attribution
 
-Partner codes live in `config/order-config.js` under `promotions.codes`. The shared configuration powers the checkout display, while `/api/order` independently validates the code and recalculates the discount. Never add discount logic only to `order.js`.
+Active customer and partner codes live in the private Google Sheet tab `Referral Codes`. Create and maintain them through the local Business Center. Checkout calls `/api/referrals` for public validation, while `/api/order` independently reloads the private record, blocks self-referrals, enforces first-order-only use, and recalculates the discount. The public endpoint returns only the offer fields needed by checkout; owner contact details and credit balances stay protected.
 
-```js
-promotions: {
-  codes: [
-    { code: 'SANA15', partner: 'Sana', type: 'fixed', value: 15, active: true },
-  ],
-},
-```
+The default controlled offer is `$10` off a referred customer's first order and `$10` in future credit for the owner after that referred order is fully paid. Credit application remains manual and is recorded in the Business Center ledger. Static emergency codes may still be placed in `config/order-config.js`, but the repository normally keeps that list empty.
 
-`type` may be `fixed` or `percent`; `maxDiscount` and `expiresIso` are optional. There are no active codes in the repository until a real partner is approved. A partner QR should point to a measurable link such as:
+Every owner receives a measurable link such as:
 
 ```text
 https://getprpd.com/order?ref=SANA15&utm_source=referral&utm_medium=partner&utm_campaign=partner_referrals&utm_content=sana
 ```
 
-The `ref` value prefills the code. UTM values, landing page, referrer, partner, and redeemed discount are stored with the durable order record. Public codes are not secrets; protection comes from server-side validation, limits, expiry, and reconciliation.
+The `ref` value prefills and validates the code. UTM values, landing page, referrer, partner, and redeemed discount are stored with the durable order record. Public codes are not secrets; protection comes from server-side validation, first-order checks, limits, expiry, paid-order reconciliation, and the ability to deactivate a code immediately.
 
 ### Weekly Menu Email Consent
 
-The order page includes an unchecked weekly-menu email option. Transactional order confirmations do not enroll customers. Consent is stored per order in `Orders` column V. Do not start automated marketing sends until every email includes PRPD's required sender identification, postal address, and a working unsubscribe method.
+The order page includes an unchecked weekly-menu email option. Transactional order confirmations do not enroll customers. Consent is stored per order in `Orders` column V. The reminder workflow can contact prior customers without rewriting that consent field, but an explicit `No` remains authoritative. It also checks the `Email Preferences` opt-out ledger and automatically suppresses anyone who already ordered the current batch. Talal, Duaa, and Rida remain excluded from customer marketing.
+
+The scheduled cadence is Monday at 6:00 PM CT, Tuesday at 6:00 PM CT, and Wednesday at 2:00 PM CT. A valid `BUSINESS_POSTAL_ADDRESS` Vercel environment variable is a hard requirement: without it, the job records a disabled run and sends nothing. Every sent message includes the mailing address and a signed unsubscribe link. Every completed, empty, disabled, or failed run also sends a recipient-level owner report to `getprpd@gmail.com`.
 
 ### Order Cutoff + Confirmation
 
-- Orders automatically close at the batch `cutoffIso` time (Wednesday at 5:00 PM Central for the current batch).
+- Orders automatically close at the batch `cutoffIso` time. The standard Wednesday 6:00 PM Central cutoff was restored after the one-time Batch 6 extension closed.
+- Delivery pricing is ZIP-based. The current Local / Regional / Extended policies are respectively: $60 / $80 / $100 food-order minimums; $9.99 / $12.99 / $14.99 delivery fees; and free delivery at $85 / $125 / $150 food subtotals. An order minimum and a free-delivery threshold are separate rules.
 - The frontend replaces the menu with an orders-closed message after cutoff.
 - `/api/order` independently rejects late orders using the shared `batch.cutoffIso` value.
 - Successful confirmations show an itemized order, meal subtotal, delivery fee, total due, delivery date, and order reference.
-- The customer receives the same itemized order by email. This confirms receipt only; it does not claim the order is paid. Rida confirms payment and delivery separately by text.
+- The customer receives the same itemized order by email with Zelle instructions for the dedicated business payment profile at `payments@getprpd.com`. This confirms receipt only; it does not claim the order is paid. Rida confirms payment and delivery separately by text.
+- If a customer's bank blocks the new Zelle recipient, customer-facing guidance says not to repeatedly retry and to reply or text for an alternative payment option.
 - Freezer-friendly dishes can display a `Better later in the week` badge. The page explains that customers planning days 5-7 should freeze those meals on delivery and thaw them overnight in the refrigerator before reheating.
 - New order references use `PRPD-B{batch}-{YYYYMMDD}-{8 hex characters}` and are saved in `Orders` column K and `Payment Log` column N. The API also accepts legacy 4-character references from pages that were already open during the migration.
 - `/api/order` rejects a duplicate order reference before writing a second row.
 
-### Current Week (Batch 3 - Delivery Saturday July 25, 2026)
+### Current Ordering State - Batch 7 Live
 
-The Batch 3 customer order page, cook-day planner, grocery builder, recipe cards, shared chicken plan, weekly sauces, and Kitchen Queue all use the July 25 Batch 3 data. The default active-label dataset remains separate from the July 25 review dataset until physical testing and remaining recipe approvals are complete.
+The owner approved the 18-item Batch 7 customer menu for Saturday, August 22 delivery and authorized website publication. The standard cutoff is Wednesday, August 19 at 6:00 PM CT. The owner separately authorized the existing `PRPD | Search | North DFW` campaign to resume on August 17; it remains Search-only at $15/day with the $3.50 maximum CPC preserved.
 
-Breakfasts:
+Customer reminders remain separately gated from menu publication. The owner approved Batch 7 outreach on August 17 after reviewing the live website, so `batch.remindersEnabled` is `true`; the consent, current-order, internal-profile, hold, unsubscribe, stale-date, and duplicate-run safeguards remain active. Final groceries, production labels, and the Cook-Day packet must use the fresh live-order lock after cutoff. See `operations/active/NEXT_MENU_DRAFT_2026-08-22.md` and the historical `operations/records/batches/BATCH_6_PREMATURE_PUBLICATION_INCIDENT_2026-08-10.md`.
 
-| ID | Dish | Category |
-|---|---|---|
-| b1 | High Protein Omelette | standard |
-| b2 | Beef Breakfast Skillet | beef |
-| b3 | Power Bowl | standard |
-| b4 | Blueberry Cheesecake Protein Pancakes | standard |
-
-Mains:
-
-| ID | Dish | Category |
-|---|---|---|
-| m1 | Cheeseburger Hot Pockets | beef |
-| m2 | Mexican Streetcorn Chicken Bowl | standard |
-| m3 | Hot Honey Chicken Sliders | standard |
-| m4 | Chicken Biryani | standard |
-| m5 | BBQ Chicken Mac & Cheese | standard |
-| m6 | Korean Bulgogi Beef Bowl | beef |
-| m7 | Garlic Butter Shrimp + Rice | beef |
-| m8 | Premium NY Strip Steak | premium |
-
-Desserts:
-
-| ID | Dish | Category |
-|---|---|---|
-| d1 | Cookie Dough Cup | dessert |
-| d2 | Lotus Biscoff Cheesecake | dessert |
-| d3 | Banana Cream Pie Cup | dessert |
+The approved Batch 7 Monday campaign sent to all 10 eligible prior customers on August 17. Reminder delivery is recoverable at the individual-recipient level: a retry reads the delivery ledger, skips addresses already accepted under the same run ID, reuses provider idempotency keys, and applies bounded backoff to rate-limited email or Sheets operations.
 
 ### Lean / Bulk Tier System
 
@@ -352,9 +355,9 @@ If an image is unavailable, the card falls back to the default dish image and th
 ```json
 {
   "action": "order",
-  "orderId": "PRPD-B3-20260720-A4F2C91D",
-  "batch": 3,
-  "deliveryDate": "Saturday, July 25, 2026",
+  "orderId": "PRPD-B4-20260727-A4F2C91D",
+  "batch": 4,
+  "deliveryDate": "Saturday, August 1, 2026",
   "firstName": "Jane",
   "lastName": "Doe",
   "phone": "4691234567",
@@ -366,7 +369,7 @@ If an image is unavailable, the card falls back to the default dish image and th
   "items": [
     {
       "id": "b1",
-      "name": "High Protein Omelette",
+      "name": "French Toast",
       "category": "standard",
       "section": "Breakfast",
       "tier": "lean",
@@ -376,7 +379,7 @@ If an image is unavailable, the card falls back to the default dish image and th
     }
   ],
   "mealSubtotal": 65.94,
-  "deliveryFee": 6.99,
+  "deliveryFee": 9.99,
   "promoCode": "SANA15",
   "discountAmount": 15,
   "exactTotal": 57.93,
@@ -410,8 +413,8 @@ Columns written when an order is submitted:
 | Col | Field | Notes |
 |---|---|---|
 | A | Submitted At | timestamp string, CT |
-| B | Batch | e.g. "Batch 3" |
-| C | Delivery Date | e.g. "Saturday, July 25, 2026" |
+| B | Batch | e.g. "Batch 4" |
+| C | Delivery Date | e.g. "Saturday, August 1, 2026" |
 | D | First Name | |
 | E | Last Name | |
 | F | Phone | |
@@ -468,13 +471,23 @@ Written when the index.html intake form is submitted:
 
 Columns A:T preserve contact details, intake answers, UTM attribution, landing page/referrer, and Lead ID.
 
+### Tab: Funnel Events (auto-filled by Vercel)
+
+Google-attributed website sessions write privacy-limited acquisition stages to A:O: recorded time, event/session references, stage, public page path, UTM fields, yes/no Google-click presence, device category, bounded stage detail, value, and batch. The public tracker does not send customer name, email, phone, street address, ZIP, or the raw Google click identifier. The tab is created on first use with a frozen formatted header and filter; event IDs make retries idempotent.
+
+The live Search ad group appends campaign attribution and Google ValueTrack keyword, creative, match-type, device, and network values. The tracker preserves those values from the dedicated paid-search landing page through the order flow so funnel stages can be compared without collecting customer PII.
+
 Order and lead writes use an exact canonical range rather than Google Sheets table-detection append behavior. New Orders write to A:AC after the last real order record. The original A:K layout remains unchanged for planner compatibility, delivery details remain in L:P, and pricing/growth attribution is appended in Q:AC. New Website Leads write to A:T after the last real lead record. On July 15, two historically shifted order rows were moved back to the canonical layout and the lead stored in an earlier blank row was moved to the chronological bottom of Website Leads. No customer record was discarded.
 
 ### Tab: Batch Dashboard (operational view)
 
-`Batch Dashboard` is a non-destructive view over the canonical `Orders` and `Payment Log` ledgers. Select Batch 1, Batch 2, or Batch 3 in cell B3 to update the order count, revenue, amount paid, outstanding balance, batch history, and filtered order table. Do not paste or move customer rows into this tab; the website and Cook-Day Planner continue to use `Orders` as the source of truth.
+`Batch Dashboard` is a non-destructive view over the canonical `Orders` and `Payment Log` ledgers. Cell B3 automatically follows the highest real batch number in `Orders`, so the dashboard opens on the current batch instead of silently showing an older selection. Do not paste or move customer rows into this tab; the website and Cook-Day Planner continue to use `Orders` as the source of truth.
 
 The raw ledgers stay append-only across batches. Batch separation belongs in this dashboard and filters rather than in duplicate per-batch order tabs, which would split the source of truth and break automated readers.
+
+### Tab: Operations Health (aggregate integrity view)
+
+`Operations Health` automatically follows the current batch and surfaces aggregate checks for missing required order fields, duplicate Order IDs, missing or orphaned Payment Log rows, and order/payment total mismatches. It contains no customer list and does not replace the source ledgers. Review any `REVIEW` result in `Orders` and `Payment Log`; do not fix it by overwriting the health formulas.
 
 ### Tab: Form Responses 1
 
@@ -623,7 +636,7 @@ Original TikTok campaign launched June 29, 2026:
 
 Initial performance (June 29 ~11AM): $6.58 spend, 3,063 impressions, 16 clicks, $0.41 CPC, 0 leads.
 
-Reported business outcome by July 15: the active customer base grew from approximately one customer to eleven while this campaign was the primary paid acquisition source. Final campaign quality cannot be calculated until total spend, attributed qualified leads, first paid orders, and repeat orders are entered into `operations/WEEKLY_CLOSEOUT_TEMPLATE.md`.
+Reported business outcome by July 15: the active customer base grew from approximately one customer to eleven while this campaign was the primary paid acquisition source. Final campaign quality cannot be calculated until total spend, attributed qualified leads, first paid orders, and repeat orders are entered into `operations/standards/WEEKLY_CLOSEOUT_TEMPLATE.md`.
 
 Recommended next controlled campaign test (lead optimization):
 
@@ -632,7 +645,7 @@ Recommended next controlled campaign test (lead optimization):
 - URL: `https://getprpd.com/?utm_source=tiktok&utm_medium=paid&utm_campaign=dfw_lead_test&utm_content=original_video_1`
 - Before launching: verify pixel events firing in TikTok Events Manager
 
-Do not replace the proven Spark post with an unproven creative in the same test that changes the objective. Use the original post as the control and treat a new video as a challenger. The full cross-channel budget and physical-marketing plan is in `operations/MARKETING_GROWTH_PLAN.md`.
+Do not replace the proven Spark post with an unproven creative in the same test that changes the objective. Use the original post as the control and treat a new video as a challenger. The full cross-channel budget and physical-marketing plan is in `operations/plans/MARKETING_GROWTH_PLAN.md`.
 
 ---
 
@@ -651,7 +664,7 @@ Production environment variables (values are encrypted in Vercel and must never 
 - `TIKTOK_MARKETING_ACCESS_TOKEN`
 - `TIKTOK_ADVERTISER_ID`
 
-Resend verified sending domain: `mail.getprpd.com`. Website notifications use `orders@mail.getprpd.com` and `leads@mail.getprpd.com`; receiving is not required.
+Resend verified sending domain: `mail.getprpd.com`. Automated website messages send from `orders@mail.getprpd.com` and `leads@mail.getprpd.com`. Public contact links and customer receipt replies use the Namecheap mailbox `hello@getprpd.com`; Zelle payments use the dedicated Namecheap alias `payments@getprpd.com`. Internal order, lead, and operator alerts continue going to `getprpd@gmail.com`.
 
 Migration verification completed July 13, 2026:
 
@@ -754,7 +767,7 @@ Before major edits:
 
 When updating the weekly menu:
 
-1. Read `operations/RECIPE_DATA_SOURCE_OF_TRUTH.md` and use only Current Recipe values for customer-facing macros.
+1. Read `operations/standards/RECIPE_DATA_SOURCE_OF_TRUTH.md` and use only Current Recipe values for customer-facing macros.
 2. Update `config/order-config.js` only.
 3. Update its `batch` object (batch number, delivery date, cutoff ISO timestamp, and cutoff label).
 4. Replace the `menu` dishes with that week's offerings.

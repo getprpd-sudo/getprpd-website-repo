@@ -30,7 +30,7 @@ test('business data endpoint rejects non-GET and unauthorized requests before Go
 
 test('business data endpoint reads only the four controlled ranges', () => {
   assert.deepEqual(api._test.RANGES, {
-    orders:"'Orders'!A1:AC5000", payments:"'Payment Log'!A1:P5000", leads:"'Website Leads'!A1:T5000",
+    orders:"'Orders'!A1:AK5000", payments:"'Payment Log'!A1:P5000", leads:"'Website Leads'!A1:T5000",
     receivables:"'Accounts Receivable'!A1:H500",
   });
 });

@@ -2,8 +2,9 @@ const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
 const cookLogStore = require('./cook-log-store');
+const groceryStateStore = require('./grocery-state-store');
 const businessCenterStore = require('./business-center-store');
-const businessCenterCore = require('./business-center-core');
+const businessCenterCore = require('../api/_business-center-core');
 const { GoogleAuth } = require('google-auth-library');
 
 const ROOT = path.resolve(__dirname, '..');
@@ -12,6 +13,7 @@ const KEY_FILE = path.join(__dirname, '.planner-key');
 const REMOTE_URL = process.env.PRPD_PLANNER_API_URL || 'https://getprpd.vercel.app/api/planner-orders';
 const REMOTE_BUSINESS_URL = process.env.PRPD_BUSINESS_API_URL || 'https://getprpd.vercel.app/api/business-data';
 const REMOTE_TIKTOK_REPORT_URL = process.env.PRPD_TIKTOK_REPORT_API_URL || 'https://getprpd.vercel.app/api/tiktok-report';
+const REMOTE_REFERRALS_URL = process.env.PRPD_REFERRALS_API_URL || 'https://getprpd.vercel.app/api/referrals';
 const LOCAL_SHEET_ID = process.env.GOOGLE_SHEET_ID || '1NV0QIpRINRP5IUs550kKPdYSQZcOrTm9ncHkTcXilFg';
 const BUSINESS_SNAPSHOT_FILE = path.join(__dirname, 'private-data', 'business-center', 'sheets-snapshot.json');
 
@@ -32,17 +34,48 @@ function json(response, status, body) {
 }
 
 async function proxyOrders(response) {
+  let upstreamError;
   try {
     const key = fs.readFileSync(KEY_FILE, 'utf8').trim();
     if (!key) throw new Error('Planner key is empty.');
-    const upstream = await fetch(REMOTE_URL, {
-      headers: { 'x-prpd-planner-key': key, 'accept': 'application/json' },
-      signal: AbortSignal.timeout(15000),
-    });
-    const body = await upstream.json().catch(() => ({ error: 'Invalid sync response.' }));
-    json(response, upstream.status, body);
+    for (let attempt = 1; attempt <= 3; attempt += 1) {
+      try {
+        const upstream = await fetch(REMOTE_URL, {
+          headers: { 'x-prpd-planner-key': key, 'accept': 'application/json' },
+          signal: AbortSignal.timeout(12000),
+        });
+        const body = await upstream.json().catch(() => ({ error: 'Invalid sync response.' }));
+        if (upstream.ok || upstream.status < 500) return json(response, upstream.status, body);
+        upstreamError = new Error(body.error || `Order sync returned ${upstream.status}.`);
+      } catch (error) {
+        upstreamError = error;
+      }
+      if (attempt < 3) await new Promise(resolve => setTimeout(resolve, attempt * 350));
+    }
   } catch (error) {
-    json(response, 502, { error: 'Live sync is unavailable. CSV and pasted-row import still work.' });
+    upstreamError = error;
+  }
+
+  try {
+    const local = await readBusinessDataLocally();
+    const sourceRows = Array.isArray(local.orders) ? local.orders : [];
+    const header = Array.isArray(sourceRows[0]) ? sourceRows[0].slice(0, 11) : businessCenterCore.ORDER_HEADERS.slice(0, 11);
+    const bodyRows = sourceRows.slice(1);
+    const batch = bodyRows.reduce((highest, row) => Math.max(highest, rawOrderBatch(row)), 0);
+    const activeRows = bodyRows.filter(row => rawOrderBatch(row) === batch).map(row => row.slice(0, 11));
+    if (!batch || !activeRows.length) throw new Error('No current local orders were found.');
+    const deliveryIndex = Math.max(0, header.findIndex(value => String(value || '').trim() === 'Delivery Date'));
+    const deliveryDate = activeRows.map(row => String(row[deliveryIndex] || '').trim()).find(Boolean) || '';
+    return json(response, 200, {
+      batch,
+      deliveryDate,
+      fetchedAt: local.fetchedAt || new Date().toISOString(),
+      source: 'local-google-readonly-fallback',
+      rows: [header, ...activeRows],
+    });
+  } catch (localError) {
+    console.error('Current-order sync failed.', upstreamError?.message || upstreamError, localError?.message || localError);
+    return json(response, 502, { error: 'Live sync is unavailable. Existing orders were preserved; retry or use CSV/pasted rows.' });
   }
 }
 
@@ -75,7 +108,7 @@ async function readBusinessDataLocally() {
   const auth = new GoogleAuth({ credentials, scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'] });
   const client = await auth.getClient();
   const ranges = {
-    orders: "'Orders'!A1:AC5000",
+    orders: "'Orders'!A1:AK5000",
     payments: "'Payment Log'!A1:P5000",
     leads: "'Website Leads'!A1:T5000",
     receivables: "'Accounts Receivable'!A1:H500",
@@ -166,6 +199,26 @@ async function proxyTikTokReport(request, response) {
   }
 }
 
+async function proxyReferrals(request, response) {
+  try {
+    const localUrl = new URL(request.url, `http://${request.headers.host || '127.0.0.1'}`);
+    const upstreamUrl = new URL(REMOTE_REFERRALS_URL);
+    const code = localUrl.searchParams.get('code');
+    if (code) upstreamUrl.searchParams.set('code', code);
+    const headers = { accept: 'application/json' };
+    const options = { method: request.method, headers, signal: AbortSignal.timeout(15000) };
+    if (!code || request.method !== 'GET') headers['x-prpd-planner-key'] = plannerKey();
+    if (request.method === 'POST') {
+      headers['content-type'] = 'application/json';
+      options.body = JSON.stringify(await readRequestBody(request, 256 * 1024));
+    }
+    const upstream = await fetch(upstreamUrl, options);
+    return json(response, upstream.status, await upstream.json().catch(() => ({ error: 'Invalid referral response.' })));
+  } catch {
+    return json(response, 502, { error: 'Referral program sync is unavailable.' });
+  }
+}
+
 function readRequestBody(request, limit = 1024 * 1024) {
   return new Promise((resolve, reject) => {
     const chunks = [];
@@ -195,12 +248,32 @@ async function handleCookLog(request, response) {
       return json(response, 200, { record });
     }
     if (request.method === 'POST') {
-      const record = cookLogStore.saveLog(await readRequestBody(request));
+      const incoming = await readRequestBody(request);
+      const existing = cookLogStore.loadLog(incoming.batchKey || '');
+      const allowLockChange = request.headers['x-prpd-lock-change'] === '1';
+      const record = cookLogStore.saveLog(allowLockChange ? incoming : cookLogStore.preserveLockFields(existing,incoming));
       return json(response, 200, { status: 'saved', record });
     }
     return json(response, 405, { error: 'Method not allowed.' });
   } catch (error) {
     return json(response, 400, { error: error.message || 'Cook log could not be saved.' });
+  }
+}
+
+async function handleGroceryState(request, response) {
+  try {
+    if (request.method === 'GET') {
+      const url = new URL(request.url, `http://${request.headers.host || '127.0.0.1'}`);
+      const state = groceryStateStore.loadState(url.searchParams.get('batchKey') || '');
+      return json(response, 200, { state });
+    }
+    if (request.method === 'POST') {
+      const state = groceryStateStore.saveState(await readRequestBody(request, 2 * 1024 * 1024));
+      return json(response, 200, { status: 'saved', state });
+    }
+    return json(response, 405, { error: 'Method not allowed.' });
+  } catch (error) {
+    return json(response, 400, { error: error.message || 'Grocery state could not be saved.' });
   }
 }
 
@@ -244,7 +317,9 @@ function serveFile(requestPath, response) {
 const server = http.createServer(async (request, response) => {
   const pathname = request.url.split('?')[0];
   if (pathname === '/api/cook-log') return handleCookLog(request, response);
+  if (pathname === '/api/grocery-state') return handleGroceryState(request, response);
   if (pathname === '/api/business-state') return handleBusinessState(request, response);
+  if (pathname === '/api/referrals' && ['GET', 'POST'].includes(request.method)) return proxyReferrals(request, response);
   if (request.method !== 'GET') return json(response, 405, { error: 'Method not allowed.' });
   if (pathname === '/api/current-orders') return proxyOrders(response);
   if (pathname === '/api/business-data') return proxyBusinessData(response);

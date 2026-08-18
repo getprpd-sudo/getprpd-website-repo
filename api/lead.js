@@ -1,4 +1,5 @@
 const { GoogleAuth } = require('google-auth-library');
+const PhoneValidation = require('../phone-validation');
 const {
   assertExactKeys,
   isLikelyBot,
@@ -11,6 +12,7 @@ const SHEET_ID = process.env.GOOGLE_SHEET_ID;
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const GOOGLE_SERVICE_ACCOUNT_BASE64 = process.env.GOOGLE_SERVICE_ACCOUNT_BASE64;
 const MAX_BODY_BYTES = 30_000;
+const FUNNEL_SHEET_TITLE = 'Funnel Events';
 const LEAD_KEYS = new Set([
   'action', 'leadId', 'fullName', 'phone', 'location', 'referral',
   'referralInsight', 'fitnessGoal', 'restrictions', 'notes', 'submittedAt',
@@ -34,6 +36,22 @@ const HEADERS = [
   'Mosque / Gym Detail', 'Fitness Goal', 'Training Days', 'Halal Preference',
   'Dietary Restrictions', 'Notes', 'UTM Source', 'UTM Medium', 'UTM Campaign',
   'UTM Content', 'UTM Term', 'Landing Page', 'Referrer', 'Lead ID',
+];
+const FUNNEL_KEYS = new Set([
+  'action', 'eventId', 'sessionId', 'event', 'page', 'utmSource', 'utmMedium',
+  'utmCampaign', 'utmContent', 'utmTerm', 'googleClickPresent', 'device',
+  'detail', 'value', 'batch',
+]);
+const FUNNEL_EVENT_NAMES = new Set([
+  'landing_view', 'menu_view', 'menu_click', 'cart_started', 'begin_checkout',
+  'delivery_quote', 'order_submit', 'order_error', 'purchase',
+]);
+const FUNNEL_PAGES = new Set(['/', '/order', '/halal-meal-prep-dfw']);
+const FUNNEL_DEVICES = new Set(['desktop', 'mobile', 'tablet', 'unknown']);
+const FUNNEL_HEADERS = [
+  'Recorded At', 'Event ID', 'Session ID', 'Event', 'Page', 'UTM Source',
+  'UTM Medium', 'UTM Campaign', 'UTM Content', 'UTM Term',
+  'Google Click Present', 'Device', 'Detail', 'Value', 'Batch',
 ];
 
 function sendJson(response, status, body) {
@@ -102,7 +120,7 @@ function validateLead(raw) {
   };
   if (!/^PRPD-LEAD-\d{8}-[A-F0-9]{4}(?:[A-F0-9]{4})?$/.test(lead.leadId)) throw new Error('Invalid lead reference.');
   if (!lead.fullName) throw new Error('Full name is required.');
-  if (lead.phone.replace(/\D/g, '').length !== 10) throw new Error('A valid 10-digit phone number is required.');
+  if (!PhoneValidation.isValid(lead.phone)) throw new Error('A valid U.S. 10-digit phone number is required.');
   if (!lead.location) throw new Error('Location is required.');
   if (!lead.referral) throw new Error('Referral source is required.');
   if (!lead.fitnessGoal) throw new Error('Fitness goal is required.');
@@ -119,6 +137,35 @@ function validateLead(raw) {
     timeZone: 'America/Chicago', dateStyle: 'short', timeStyle: 'medium',
   }).format(new Date());
   return lead;
+}
+
+function validateFunnelEvent(raw) {
+  assertExactKeys(raw, FUNNEL_KEYS, 'Funnel event');
+  if (!raw || raw.action !== 'funnel-event') throw new Error('Invalid funnel event request.');
+  const event = {
+    eventId: safeText(raw.eventId, 40),
+    sessionId: safeText(raw.sessionId, 40),
+    event: safeText(raw.event, 32),
+    page: safeText(raw.page, 80).replace(/\/$/, '') || '/',
+    utmSource: safeText(raw.utmSource, 120),
+    utmMedium: safeText(raw.utmMedium, 120),
+    utmCampaign: safeText(raw.utmCampaign, 160),
+    utmContent: safeText(raw.utmContent, 160),
+    utmTerm: safeText(raw.utmTerm, 160),
+    googleClickPresent: raw.googleClickPresent === true,
+    device: safeText(raw.device, 16) || 'unknown',
+    detail: safeText(raw.detail, 120),
+    value: Number(raw.value || 0),
+    batch: Number(raw.batch || 0),
+  };
+  if (!/^PRPD-FE-[A-F0-9]{24}$/.test(event.eventId)) throw new Error('Invalid event reference.');
+  if (!/^PRPD-FS-[A-F0-9]{24}$/.test(event.sessionId)) throw new Error('Invalid session reference.');
+  if (!FUNNEL_EVENT_NAMES.has(event.event)) throw new Error('Unsupported funnel event.');
+  if (!FUNNEL_PAGES.has(event.page)) throw new Error('Unsupported funnel page.');
+  if (!FUNNEL_DEVICES.has(event.device)) throw new Error('Unsupported device category.');
+  if (!Number.isFinite(event.value) || event.value < 0 || event.value > 10_000) throw new Error('Invalid funnel value.');
+  if (!Number.isInteger(event.batch) || event.batch < 0 || event.batch > 999) throw new Error('Invalid funnel batch.');
+  return event;
 }
 
 async function getClient() {
@@ -147,6 +194,53 @@ async function updateRange(client, range, values) {
     url: sheetsUrl(`values/${encodeURIComponent(range)}?valueInputOption=RAW`),
     method: 'PUT', data: { values: [values] },
   });
+}
+
+async function ensureFunnelSheet(client) {
+  const metadata = await client.request({
+    url: `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}?fields=sheets(properties(sheetId,title))`,
+    method: 'GET',
+  });
+  const exists = (metadata.data.sheets || []).some(sheet => sheet.properties?.title === FUNNEL_SHEET_TITLE);
+  if (!exists) {
+    try {
+      await client.request({
+        url: `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}:batchUpdate`,
+        method: 'POST',
+        data: { requests: [{ addSheet: { properties: {
+          title: FUNNEL_SHEET_TITLE,
+          gridProperties: { rowCount: 1000, columnCount: FUNNEL_HEADERS.length, frozenRowCount: 1 },
+        } } }] },
+      });
+    } catch (error) {
+      if (Number(error && (error.code || error.status)) !== 400) throw error;
+    }
+  }
+  const headerRange = `'${FUNNEL_SHEET_TITLE}'!A1:O1`;
+  const currentHeader = await readRange(client, headerRange);
+  if ((currentHeader[0] || []).join('|') !== FUNNEL_HEADERS.join('|')) {
+    await updateRange(client, headerRange, FUNNEL_HEADERS);
+  }
+}
+
+async function saveFunnelEvent(client, event) {
+  const ids = await readRange(client, `'${FUNNEL_SHEET_TITLE}'!B2:B`);
+  if (ids.some(row => row[0] === event.eventId)) return false;
+  const recordedAt = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/Chicago', dateStyle: 'short', timeStyle: 'medium',
+  }).format(new Date());
+  const range = encodeURIComponent(`'${FUNNEL_SHEET_TITLE}'!A:O`);
+  await client.request({
+    url: sheetsUrl(`values/${range}:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS`),
+    method: 'POST',
+    data: { values: [[
+      recordedAt, event.eventId, event.sessionId, event.event, event.page,
+      event.utmSource, event.utmMedium, event.utmCampaign, event.utmContent,
+      event.utmTerm, event.googleClickPresent ? 'Yes' : 'No', event.device,
+      event.detail, event.value || '', event.batch || '',
+    ]] },
+  });
+  return true;
 }
 
 async function saveLead(client, lead) {
@@ -225,6 +319,23 @@ module.exports = async function handler(request, response) {
   }
   const sourceError = requestSourceError(request);
   if (sourceError) return sendJson(response, 403, { status: 'error', message: sourceError });
+  if (raw && raw.action === 'funnel-event') {
+    let event;
+    try {
+      event = validateFunnelEvent(raw);
+    } catch (error) {
+      return sendJson(response, 400, { status: 'error', message: error.message });
+    }
+    try {
+      const client = await getClient();
+      await ensureFunnelSheet(client);
+      const recorded = await saveFunnelEvent(client, event);
+      return sendJson(response, 202, { status: 'success', accepted: true, recorded });
+    } catch (error) {
+      safeLogError('Funnel event failed.', error);
+      return sendJson(response, 503, { status: 'error', message: 'Funnel tracking is temporarily unavailable.' });
+    }
+  }
   if (isLikelyBot(raw)) {
     return sendJson(response, 200, {
       status: 'success', leadId: safeText(raw && raw.leadId, 50), accepted: true,
@@ -278,4 +389,9 @@ module.exports._test = {
   REFERRAL_OPTIONS,
   FITNESS_OPTIONS,
   RESTRICTION_OPTIONS,
+  FUNNEL_HEADERS,
+  FUNNEL_KEYS,
+  FUNNEL_EVENT_NAMES,
+  FUNNEL_PAGES,
+  validateFunnelEvent,
 };

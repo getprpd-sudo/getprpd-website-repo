@@ -37,6 +37,7 @@ class ActiveMenuCostTests(unittest.TestCase):
         self.assertAlmostEqual(5.50 / 453.592, COSTS.COSTS["beef_90_baked"].cost)
         self.assertAlmostEqual(3.00 / 907, COSTS.COSTS["fage"].cost)
         self.assertAlmostEqual(10.00 / 16, COSTS.COSTS["small_tortilla"].cost)
+        self.assertAlmostEqual(3.72 / 8, COSTS.COSTS["fajita_tortilla"].cost)
         self.assertAlmostEqual(10.00 / 2267.96, COSTS.COSTS["mozzarella"].cost)
         self.assertAlmostEqual(13.00 / 9071.85, COSTS.COSTS["rice_dry"].cost)
         self.assertAlmostEqual(5.00 / 8, COSTS.COSTS["shawarma_bread"].cost)
