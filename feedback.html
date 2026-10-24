@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Rate Your Meals | PRPD</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/feedback.css?v=20261020.1">
+</head>
+<body>
+  <header class="site-header"><div class="brand"><span class="brand-mark">PRPD</span><span class="brand-sub">MEALS. PREPPED.</span></div><span class="private-mark">Private order feedback</span></header>
+  <main class="page">
+    <section class="load-state" id="loadState" role="status"><span class="eyebrow">Private order feedback</span><h1>Loading your meals</h1><p>We are opening the exact dishes from your delivered order.</p></section>
+    <div id="feedbackExperience" hidden>
+      <section class="intro">
+        <span class="eyebrow" id="customerGreeting">Your delivered order</span>
+        <h1>Rate your meals</h1>
+        <p class="intro-copy" id="introCopy"></p>
+        <div class="reward-banner"><span class="reward-amount">$5</span><div><strong id="rewardHeadline"></strong><span>Every dish needs a 1–10 rating and a short “What did you like?” response. One credit per delivered order, valid for 90 days, with a $30 active-wallet cap.</span></div></div>
+      </section>
+      <section class="progress-shell" aria-label="Feedback progress">
+        <div class="progress-copy"><div class="progress-status"><span id="progressText"></span><small id="scoreText"></small></div><span id="rewardText"></span></div>
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      </section>
+      <section class="meal-list" id="mealList"></section>
+      <section class="completion" id="completion">
+        <span class="eyebrow">Finish when you’re ready</span>
+        <h2>Anything else about this order?</h2>
+        <p id="completionCopy"></p>
+        <label class="field-label order-note">Overall order note <span>Optional</span><textarea id="overallNote" maxlength="1000" placeholder="Packaging, delivery, portions, or anything else"></textarea></label>
+        <div class="consent-card" id="consentCard">
+          <label class="check-row"><input type="checkbox" id="testimonialConsent"><span>PRPD may use my written comments as a testimonial. My scores and comments stay private unless I turn this on.</span></label>
+          <div class="display-options" id="displayOptions" aria-label="Testimonial display name">
+            <label><input type="radio" name="display" value="first-name" checked> First name</label><label><input type="radio" name="display" value="initials"> Initials</label><label><input type="radio" name="display" value="anonymous"> Anonymous</label>
+          </div>
+        </div>
+        <p class="save-status" id="saveStatus" aria-live="polite"></p>
+        <button class="done-button" id="doneButton" type="button" disabled></button>
+      </section>
+      <section class="success" id="success" tabindex="-1"><span class="eyebrow">Feedback saved</span><h2>You earned $5 in PRPD credit.</h2><p>Thank you. The credit is linked to this order and will be ready for a future purchase.</p><small id="creditDetail"></small></section>
+    </div>
+  </main>
+  <script src="/feedback.js?v=20261020.1"></script>
+</body>
+</html>

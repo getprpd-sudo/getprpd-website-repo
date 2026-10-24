@@ -21,13 +21,13 @@
   <meta property="og:image" content="https://getprpd.com/assets/images/og-preview.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="/order.css" />
+  <link rel="stylesheet" href="/order.css?v=20261019-launch-1" />
   <script src="/analytics.js" defer></script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18371492048"></script>
   <script src="/google-ads.js" defer></script>
-  <script src="/funnel-tracking.js" defer></script>
+  <script src="/funnel-tracking.js?v=20261019-launch-1" defer></script>
 </head>
 <body data-funnel-stage="order">
 
@@ -52,37 +52,63 @@
   <section class="order-hero">
     <div class="container">
       <span class="section-label">Weekly Order</span>
-      <h1>Place Your Order</h1>
+      <h1 id="orderPageTitle">Place Your Order</h1>
       <p class="order-hero__meta" id="batchMeta"></p>
       <div class="order-cutoff" role="note" aria-label="Weekly order deadline">
         <span class="order-cutoff__label">Order deadline</span>
-        <strong id="orderCutoff">Wednesday at 6:00 PM CT</strong>
+        <strong id="orderCutoff">See this week's published cutoff</strong>
         <span class="order-cutoff__note">Orders close automatically after this time.</span>
       </div>
-      <p class="order-trust-label">Ordering &amp; delivery at a glance</p>
-      <div class="order-trust-strip" aria-label="Ordering details">
-        <span><strong>100% halal</strong> every meal</span>
-        <span><strong>Local delivery</strong> $60 order minimum · $9.99 · free at $85</span>
-        <span><strong>Regional delivery</strong> $80 order minimum · $12.99 · free at $125</span>
-        <span><strong>Extended delivery</strong> $100 order minimum · $14.99 · free at $150</span>
-        <span><strong>Delivery or pickup</strong> DFW delivery · free Frisco pickup</span>
-        <span><strong>Fresh menu Monday</strong> new choices every week</span>
+      <div class="order-essentials" aria-label="Ordering essentials">
+        <span><strong>100% halal</strong></span>
+        <span><strong id="activeDeliveryDay">Weekly delivery</strong></span>
+        <span><strong>Free The Colony pickup</strong></span>
+        <details class="order-delivery-details">
+          <summary>Delivery fees &amp; minimums</summary>
+          <div class="order-delivery-grid">
+            <span><strong>Local</strong>$60 minimum · $9.99 · free at $85</span>
+            <span><strong>Regional</strong>$70 minimum · $12.99 · free at $100</span>
+            <span><strong>Extended</strong>$100 minimum · $14.99 · free at $135</span>
+          </div>
+        </details>
       </div>
     </div>
   </section>
 
+  <section class="welcome-offer container" id="welcomeOffer" aria-label="New customer offer">
+    <div>
+      <span class="welcome-offer__eyebrow">New customer</span>
+      <strong>$10 off your first $60+ food order</strong>
+      <small>Code <b>WELCOME10</b> · One per customer or household</small>
+    </div>
+    <button type="button" id="applyWelcomeOffer">Apply WELCOME10</button>
+  </section>
+
+  <section class="delivery-preview container" aria-labelledby="deliveryPreviewTitle">
+    <div>
+      <span class="delivery-preview__eyebrow">Delivery or pickup</span>
+      <strong id="deliveryPreviewTitle">Check your delivery ZIP</strong>
+      <small>We reuse it at checkout. Free pickup is available in The Colony.</small>
+    </div>
+    <label class="delivery-preview__field" for="earlyDeliveryZip">
+      <span>Delivery ZIP</span>
+      <input type="text" id="earlyDeliveryZip" placeholder="75035" aria-describedby="deliveryPreviewStatus" autocomplete="postal-code" inputmode="numeric" maxlength="5" />
+    </label>
+    <p class="delivery-preview__status" id="deliveryPreviewStatus" role="status" aria-live="polite">Enter 5 digits to check your delivery area.</p>
+  </section>
+
   <section class="order-closed container" id="orderClosed" aria-live="polite">
-    <span class="order-closed__eyebrow">PRPD's weekly ordering schedule</span>
-    <h2>Ordering is closed for this week.</h2>
-    <p>We release a fresh menu every Monday. You can build your order from Monday until <strong>Wednesday at 6:00 PM CT</strong>, and confirmed orders are prepared fresh for Saturday delivery or Frisco pickup.</p>
+    <span class="order-closed__eyebrow" id="closedMenuEyebrow">Recent menu · Browse only</span>
+    <h2 id="closedMenuTitle">Ordering is closed for this week. Browse our recent menu.</h2>
+    <p id="closedMenuDescription">Explore our recent dishes, photos and prices below. This menu is for browsing only. The active cutoff displayed above belongs to this past menu.</p>
     <div class="order-closed__schedule" aria-label="Weekly ordering schedule">
       <div><strong>Monday</strong><span>New menu opens</span></div>
       <div><strong>Wednesday · 6 PM</strong><span>Ordering closes</span></div>
-      <div><strong>Saturday</strong><span>Delivery or pickup</span></div>
+      <div><strong id="closedDeliveryDay">Delivery day</strong><span>Delivery or pickup</span></div>
     </div>
-    <p>Come back Monday to see the next menu. If you need help with an existing order, text Rida directly.</p>
+    <p>We release a fresh menu every Monday. Confirmed orders from this week are prepared fresh for <span id="closedDeliveryCopy">weekly delivery</span> or pickup in The Colony.</p>
     <div class="order-closed__actions">
-      <a class="order-closed__action" href="sms:+14695450781">Text Rida</a>
+      <a class="order-closed__action" id="browseRecentMenuLink" href="#menu-mains">Browse recent menu</a>
       <a class="order-closed__action order-closed__action--secondary" href="/">Learn about PRPD</a>
     </div>
     <div class="order-closed__reminder">
@@ -99,40 +125,58 @@
     <!-- LEFT: info + menu -->
     <div class="order-main">
 
+      <div class="order-feedback" id="orderFeedback" role="alert" tabindex="-1" hidden>
+        <strong id="orderFeedbackTitle">Please check your order</strong>
+        <span id="orderFeedbackMessage"></span>
+      </div>
+
       <!-- Client info -->
       <!-- ── Global tier toggle ── -->
       <div class="tier-bar">
         <span class="tier-bar__label">Choose Lean, Bulk, or both on each meal.</span>
-        <div class="price-guide" aria-label="Meal pricing guide">
-          <span class="price-guide__title">Pricing at a glance</span>
-          <div class="price-guide__item">
-            <span>Chicken &amp; breakfast</span>
-            <strong>$10.99 Lean &middot; $12.99 Bulk</strong>
+        <details class="menu-planning-details">
+          <summary>Pricing &amp; later-week storage</summary>
+          <div class="price-guide" aria-label="Meal pricing guide">
+            <span class="price-guide__title">Pricing at a glance</span>
+            <div class="price-guide__item">
+              <span>Chicken &amp; breakfast</span>
+              <strong>$10.99 Lean &middot; $12.99 Bulk</strong>
+            </div>
+            <div class="price-guide__item">
+              <span>Beef</span>
+              <strong>$13.99 Lean &middot; $15.99 Bulk</strong>
+            </div>
+            <div class="price-guide__item">
+              <span>Premium seafood</span>
+              <strong>$14.99 Lean &middot; $16.99 Bulk</strong>
+            </div>
+            <div class="price-guide__item">
+              <span>Signature Special</span>
+              <strong>$21.99 Lean &middot; $26.99 Bulk</strong>
+            </div>
+            <div class="price-guide__item">
+              <span>Grab &amp; Go</span>
+              <strong id="addonPriceGuide">See individual meal prices</strong>
+            </div>
           </div>
-          <div class="price-guide__item">
-            <span>Beef &amp; seafood</span>
-            <strong>$13.99 Lean &middot; $15.99 Bulk</strong>
+          <div class="later-week-guide">
+            <span class="later-week-guide__mark" aria-hidden="true">&#10022;</span>
+            <div><strong>Planning meals for days 5-7?</strong>Choose dishes marked <em>Freezer-friendly</em>. Freeze those meals when delivered, then thaw overnight in the refrigerator before reheating.</div>
           </div>
-          <div class="price-guide__item">
-            <span>Desserts</span>
-            <strong>$6.99 each</strong>
-          </div>
-          <div class="price-guide__item">
-            <span>Grab &amp; Go</span>
-            <strong>$7.99 each</strong>
-          </div>
-        </div>
-        <div class="later-week-guide">
-          <span class="later-week-guide__mark" aria-hidden="true">&#10022;</span>
-          <div><strong>Planning meals for days 5-7?</strong>Choose dishes marked <em>Freezer-friendly</em>. Freeze those meals when delivered, then thaw overnight in the refrigerator before reheating.</div>
-        </div>
+        </details>
       </div>
 
-      <!-- ── Breakfasts ── -->
+      <div class="sauce-program-note" id="sauceProgramNote" hidden>
+        <strong>Choose your sauces at checkout.</strong>
+        <span>Your free allowance applies once per order. Additional cups are $1 each.</span>
+      </div>
+
       <nav class="menu-jump" aria-label="Jump to menu category">
+        <a href="#menu-exclusives" class="menu-jump__exclusive" data-menu-section="exclusives" hidden>Weekly exclusive</a>
         <a href="#menu-breakfasts" data-menu-section="breakfasts">Breakfast</a>
-        <a href="#menu-addons" class="menu-jump__featured" data-menu-section="addons">Grab &amp; Go <span>New</span></a>
+        <a href="#menu-addons" data-menu-section="addons">Grab &amp; Go</a>
         <a href="#menu-mains" data-menu-section="mains">Mains</a>
+        <a href="#menu-premium" class="menu-jump__premium" data-menu-section="premium">Premium Meals</a>
         <a href="#menu-desserts" data-menu-section="desserts">Desserts</a>
       </nav>
       <div class="menu-filter-bar" id="menuFilterBar" aria-label="Filter weekly menu">
@@ -144,9 +188,21 @@
           <button type="button" class="menu-filter-chip" data-menu-filter="bulk-high-protein" aria-pressed="false">Bulk · 65g+ protein</button>
           <button type="button" class="menu-filter-chip" data-menu-filter="freezer" aria-pressed="false">Freezer-friendly</button>
         </div>
-        <p class="menu-filter-note">Nutrition filters use only the tier named on the button.</p>
+        <p class="menu-filter-note">Nutrition filters use only the tier named on the button. Displayed macros exclude separately packed sauces and dressings.</p>
         <p class="menu-filter-empty" id="menuFilterEmpty" hidden>No dishes match that filter this week.</p>
       </div>
+      <div class="menu-section menu-section--exclusive" id="menu-exclusives" hidden>
+        <div class="menu-section-head">
+          <span class="section-label">Featured</span>
+          <div>
+            <span class="menu-section-kicker">Five meals, one easy bundle</span>
+            <h2>Weekly Five</h2>
+            <p>Pick Lean or Bulk, then choose which featured dish you want three of. Save $5. No substitutions.</p>
+          </div>
+        </div>
+        <div class="dish-grid dish-grid--exclusive" id="grid-exclusives"></div>
+      </div>
+
       <div class="menu-section" id="menu-breakfasts">
         <div class="menu-section-head">
           <span class="section-label">01</span>
@@ -159,7 +215,6 @@
         <div class="menu-section-head">
           <span class="section-label">02</span>
           <div>
-            <span class="menu-section-kicker">New this week</span>
             <h2>Grab &amp; Go</h2>
           </div>
         </div>
@@ -175,10 +230,21 @@
         <div class="dish-grid" id="grid-mains"></div>
       </div>
 
+      <div class="menu-section menu-section--premium" id="menu-premium">
+        <div class="menu-section-head">
+          <span class="section-label">04</span>
+          <div>
+            <span class="menu-section-kicker">A limited elevated feature</span>
+            <h2>Premium Meals</h2>
+          </div>
+        </div>
+        <div class="dish-grid dish-grid--premium" id="grid-premium"></div>
+      </div>
+
       <!-- ── Desserts ── -->
       <div class="menu-section" id="menu-desserts">
         <div class="menu-section-head">
-          <span class="section-label">04</span>
+          <span class="section-label">05</span>
           <h2>Desserts</h2>
         </div>
         <div class="dish-grid" id="grid-desserts"></div>
@@ -192,11 +258,24 @@
         </div>
 
         <div class="order-info-card">
+          <section class="sauce-selector" id="sauceSelector" aria-labelledby="sauceSelectorTitle" hidden>
+            <div class="sauce-selector__head">
+              <div>
+                <span class="section-label">A little extra flavor</span>
+                <h2 id="sauceSelectorTitle">Choose your sauces</h2>
+                <p id="sauceAllowanceCopy">Choose up to three free cups with your order. More are $1 each.</p>
+              </div>
+              <div class="sauce-selector__meter" aria-live="polite">
+                <strong id="sauceCreditStatus">0 of 3 free cups selected</strong>
+                <span id="sauceExtraStatus">Then $1.00 each</span>
+              </div>
+            </div>
+            <div class="sauce-reserved-note" id="sauceReservedNote" hidden></div>
+            <div class="sauce-choice-grid" id="sauceChoiceGrid"></div>
+            <p class="sauce-selector__fine-print">Optional. Your choices update your order automatically. Recipe toppings and premium meal sauces are already included.</p>
+          </section>
           <h3>Your contact &amp; fulfillment details</h3>
-          <div class="name-row">
-            <input type="text" class="order-input" id="firstName" placeholder="First Name *" aria-label="First name" autocomplete="given-name" required />
-            <input type="text" class="order-input" id="lastName"  placeholder="Last Name *" aria-label="Last name" autocomplete="family-name" required />
-          </div>
+          <input type="text" class="order-input" id="fullName" placeholder="Full name *" aria-label="Full name" autocomplete="name" required />
           <input type="tel" class="order-input" id="phone" placeholder="10-digit phone number *" aria-label="Phone number" aria-describedby="phoneReviewNote" autocomplete="tel" inputmode="tel" required />
           <div class="phone-review" id="phoneReviewNote" role="status" hidden>
             <strong>Please verify this number.</strong>
@@ -209,7 +288,7 @@
               <strong>Delivery</strong><span>To your DFW address</span>
             </button>
             <button type="button" class="fulfillment-option" data-fulfillment="pickup" aria-pressed="false">
-              <strong>Pickup</strong><span>Frisco, TX · free</span>
+              <strong>Pickup</strong><span>The Colony, TX · free</span>
             </button>
           </div>
           <input type="hidden" id="fulfillmentMethod" value="delivery" />
@@ -227,32 +306,67 @@
               </select>
               <input type="text" class="order-input" id="deliveryZip" placeholder="ZIP Code *" aria-label="Delivery ZIP code" autocomplete="postal-code" inputmode="numeric" maxlength="5" required />
             </div>
-            <p class="input-help"><strong>Your ZIP determines the delivery area.</strong> The order minimum is the least food you can order; the free-delivery threshold is a separate, higher food subtotal. Local: $60 order minimum, $9.99 delivery, free at $85. Regional: $80 order minimum, $12.99 delivery, free at $125. Extended: $100 order minimum, $14.99 delivery, free at $150.</p>
+            <p class="input-help"><strong>Your ZIP determines the delivery area.</strong> The order minimum is the least food you can order; the free-delivery threshold is a separate, higher food subtotal. Local: $60 order minimum, $9.99 delivery, free at $85. Regional: $70 order minimum, $12.99 delivery, free at $100. Extended: $100 order minimum, $14.99 delivery, free at $135.</p>
           </div>
           <div class="pickup-info" id="pickupInfo" hidden>
-            <strong>Free pickup in Frisco, Texas</strong>
+            <strong>Free pickup in The Colony, Texas</strong>
             <span>Pickup has a lower $50 food minimum. Rida will text the exact pickup address and pickup window after your order and payment are confirmed.</span>
           </div>
-          <p class="input-help">Rida uses this information only to confirm and fulfill your order. A copy of your order will be emailed to you immediately.</p>
-          <textarea class="order-input" id="deliveryInstructions" placeholder="Gate code or delivery instructions (optional)..." aria-label="Delivery instructions"></textarea>
-          <textarea class="order-input" id="orderNotes" placeholder="Meal requests or other notes (optional)..." aria-label="Meal requests or other notes"></textarea>
-          <div class="order-growth-fields">
-            <label class="promo-field" for="promoCode">
-              <span>Referred by a PRPD customer? <small>Get $10 off your first order.</small></span>
-              <span class="promo-field__controls">
-                <input type="text" class="order-input" id="promoCode" placeholder="Enter their code" maxlength="32" autocomplete="off" autocapitalize="characters" />
-                <button type="button" class="promo-apply" id="applyPromoBtn">Apply</button>
-              </span>
-              <span class="promo-feedback" id="promoFeedback" aria-live="polite"></span>
+          <div class="pickup-promo-verification" id="pickupPromoVerification" hidden>
+            <strong>First-order referral verification</strong>
+            <span>Because this is a pickup order using a first-order code, enter your home street address and ZIP. It is used privately to confirm eligibility and is not treated as a delivery address.</span>
+            <input type="text" class="order-input" id="pickupVerificationAddress" placeholder="Home Street Address *" aria-label="Home street address for first-order verification" autocomplete="address-line1" disabled />
+            <label class="address-unit-toggle" for="pickupVerificationHasUnit">
+              <input type="checkbox" id="pickupVerificationHasUnit" aria-controls="pickupVerificationUnit" aria-expanded="false" disabled />
+              <span>This address has an apartment, suite, or unit number.</span>
             </label>
-            <label class="menu-opt-in" for="menuEmailOptIn">
-              <input type="checkbox" id="menuEmailOptIn" />
-              <span>
-                <strong>Email me when next week's menu opens.</strong>
-                <small>Up to three menu and cutoff emails per weekly cycle. You can unsubscribe at any time.</small>
-              </span>
-            </label>
+            <input type="text" class="order-input" id="pickupVerificationUnit" placeholder="Apartment / Suite / Unit *" aria-label="Apartment, suite, or unit for first-order verification" autocomplete="address-line2" hidden disabled />
+            <input type="text" class="order-input" id="pickupVerificationZip" placeholder="Home ZIP Code *" aria-label="Home ZIP code for first-order verification" autocomplete="postal-code" inputmode="numeric" maxlength="5" disabled />
           </div>
+          <p class="input-help">Rida uses this information only to confirm and fulfill your order. A copy will be emailed immediately.</p>
+          <details class="checkout-optional-group" id="orderNotesGroup">
+            <summary>Add delivery or meal notes <span>Optional</span></summary>
+            <div class="checkout-optional-group__body">
+              <textarea class="order-input" id="deliveryInstructions" placeholder="Gate code or delivery instructions..." aria-label="Delivery instructions"></textarea>
+              <textarea class="order-input" id="orderNotes" placeholder="Meal requests or other notes..." aria-label="Meal requests or other notes"></textarea>
+            </div>
+          </details>
+          <details class="checkout-optional-group" id="orderExtrasGroup">
+            <summary>Offer code &amp; optional questions</summary>
+            <div class="checkout-optional-group__body">
+              <label class="discovery-field" for="discoverySource">
+                <span>How did you first hear about PRPD? <small>Optional</small></span>
+                <select class="order-input" id="discoverySource">
+                  <option value="">Select one</option>
+                  <option value="Google Search">Google Search</option>
+                  <option value="Instagram">Instagram</option>
+                  <option value="TikTok">TikTok</option>
+                  <option value="Friend or family">Friend or family</option>
+                  <option value="Gym or trainer">Gym or trainer</option>
+                  <option value="Mosque or community">Mosque or community</option>
+                  <option value="Creator or food page">Creator or food page</option>
+                  <option value="Other">Other</option>
+                </select>
+              </label>
+              <div class="order-growth-fields">
+                <label class="promo-field" for="promoCode">
+                  <span>Have a referral or offer code? <small>Get $10 off your first order of $60+ with WELCOME10.</small></span>
+                  <span class="promo-field__controls">
+                    <input type="text" class="order-input" id="promoCode" placeholder="Enter code" maxlength="32" autocomplete="off" autocapitalize="characters" />
+                    <button type="button" class="promo-apply" id="applyPromoBtn">Apply</button>
+                  </span>
+                  <span class="promo-feedback" id="promoFeedback" aria-live="polite"></span>
+                </label>
+                <label class="menu-opt-in" for="menuEmailOptIn">
+                  <input type="checkbox" id="menuEmailOptIn" />
+                  <span>
+                    <strong>Email me when next week's menu opens.</strong>
+                    <small>Up to three menu and cutoff emails per weekly cycle. You can unsubscribe at any time.</small>
+                  </span>
+                </label>
+              </div>
+            </div>
+          </details>
         </div>
       </section>
 
@@ -271,6 +385,10 @@
           <span>Meals subtotal</span>
           <strong id="mealSubtotalDisplay">$0.00</strong>
         </div>
+        <div class="summary-fee-row" id="sauceExtrasRow" hidden>
+          <span>Extra sauce cups <small id="sauceExtrasCount"></small></span>
+          <strong id="sauceExtrasDisplay">$0.00</strong>
+        </div>
         <div class="summary-fee-row">
           <span id="fulfillmentFeeLabel">Delivery</span>
           <strong id="deliveryFeeDisplay">&mdash;</strong>
@@ -279,8 +397,12 @@
           <span>Partner discount <small id="discountCodeLabel"></small></span>
           <strong id="discountDisplay">-$0.00</strong>
         </div>
+        <div class="summary-fee-row" id="salesTaxRow" hidden>
+          <span>Sales tax</span>
+          <strong id="salesTaxDisplay">$0.00</strong>
+        </div>
         <div class="summary-total-row">
-          <span class="summary-total-label">Total due</span>
+          <span class="summary-total-label" id="summaryTotalLabel">Total due</span>
           <span class="summary-total-val" id="summaryTotal">$0.00</span>
         </div>
         <div class="summary-policy" aria-live="polite">
@@ -297,11 +419,27 @@
           <span id="btnText">Continue to checkout →</span>
           <span id="btnSpinner" hidden>Sending...</span>
         </button>
-        <p class="summary-note">Exact total rounded up to the nearest dollar.<br>Payment via Zelle to payments@getprpd.com after confirmation.</p>
+        <p class="summary-note">Before ZIP, only your food subtotal is final. Enter ZIP to calculate delivery and the rounded final total.<br>Payment via Zelle to payments@getprpd.com after confirmation.</p>
       </div>
     </aside>
 
   </div>
+
+  <dialog class="meal-detail-dialog" id="mealDetailDialog" aria-labelledby="mealDetailTitle">
+    <div class="meal-detail-sheet">
+      <header class="meal-detail-head">
+        <div>
+          <span class="meal-detail-eyebrow" id="mealDetailEyebrow">Meal details</span>
+          <h2 id="mealDetailTitle"></h2>
+        </div>
+        <button type="button" class="meal-detail-close" id="mealDetailClose" aria-label="Close meal details">&times;</button>
+      </header>
+      <p class="meal-detail-description" id="mealDetailDescription"></p>
+      <div class="meal-detail-tabs" id="mealDetailTabs" role="tablist" aria-label="Choose a portion"></div>
+      <div class="meal-detail-content" id="mealDetailContent" aria-live="polite"></div>
+      <p class="meal-detail-disclaimer"><strong>Allergy note:</strong> PRPD uses a commercial kitchen that handles common allergens. Ingredient, major-allergen, and recorded supplier-advisory information is provided for each recipe. Supplier labels can change, and zero cross-contact cannot be guaranteed. Contact us before ordering with a food allergy. Macros are recipe-calculated estimates and may vary slightly.</p>
+    </div>
+  </dialog>
 
   <div class="mobile-cart-bar" id="mobileCartBar" aria-live="polite">
     <div>
@@ -325,10 +463,12 @@
     <p class="success-storage-note" id="successStorageNote" hidden><strong>For meals marked Freezer-friendly:</strong> freeze them when delivered and thaw overnight in the refrigerator before reheating.</p>
     <div class="success-order">
       <div id="successOrderItems"></div>
+      <div id="successSauceItems"></div>
       <hr class="success-order__divider" />
       <div class="success-order__row"><span>Meals subtotal</span><strong id="successSubtotal">$0.00</strong></div>
       <div class="success-order__row"><span id="successFulfillmentFeeLabel">Delivery</span><strong id="successDeliveryFee">$0.00</strong></div>
       <div class="success-order__row" id="successDiscountRow" hidden><span>Partner discount <small id="successDiscountCode"></small></span><strong id="successDiscount">-$0.00</strong></div>
+      <div class="success-order__row" id="successSalesTaxRow" hidden><span>Sales tax</span><strong id="successSalesTax">$0.00</strong></div>
     </div>
     <div class="success-total">
       <span>Your order total</span>
@@ -352,7 +492,9 @@
   </footer>
 
   <script src="/phone-validation.js"></script>
-  <script src="/config/order-config.js"></script>
-  <script src="/order.js"></script>
+  <script src="/config/order-config.js?v=20261019-welcome10-reactivated"></script>
+  <script src="/config/menu-details.js?v=20261019-launch-1"></script>
+  <script src="/sauce-program.js?v=20261019-sauce-review"></script>
+  <script src="/order.js?v=20261019-welcome10-reactivated"></script>
 </body>
 </html>

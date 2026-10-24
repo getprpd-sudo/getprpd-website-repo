@@ -1,7 +1,10 @@
 # Internal operating tools and proprietary production records.
 operations/
+private-records/
+config/*.batch*-draft.js
 open-label-studio.bat
 open-cook-day-planner.bat
+open-*.bat
 
 # Internal handoff, audits, tests, and legacy backends.
 README.md
@@ -17,10 +20,15 @@ dish-preview.html
 GetPRPD Website/
 .agents/
 .claude/
+.codex/
+.codex-temp/
+AGENTS.md
 tmp/
 .tmp/
 output/
+tmp-*.png
 scripts/
+Collin_Fall_2026_Degree_and_Registration_Plan.docx
 
 # Credentials and local environment state. These patterns are defense in depth;
 # matching files are also ignored by Git and must never be uploaded.

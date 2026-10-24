@@ -1,25 +1,29 @@
 {
   "crons": [
-    { "path": "/api/operator-brief", "schedule": "0 14 * * *" },
     { "path": "/api/menu-reminder/monday", "schedule": "0 23 * * 1" },
     { "path": "/api/menu-reminder/tuesday", "schedule": "0 23 * * 2" },
-    { "path": "/api/menu-reminder/wednesday", "schedule": "0 19 * * 3" }
+    { "path": "/api/menu-reminder/wednesday", "schedule": "0 20 * * 3" }
   ],
   "redirects": [
     { "source": "/index.html",   "destination": "/",        "permanent": true },
     { "source": "/order.html",   "destination": "/order",   "permanent": true },
+    { "source": "/halal-meals-north-dfw", "destination": "/halal-meal-prep-dfw", "permanent": true },
+    { "source": "/halal-meals-north-dfw/", "destination": "/halal-meal-prep-dfw", "permanent": true },
     { "source": "/halal-meal-prep-dfw.html", "destination": "/halal-meal-prep-dfw", "permanent": true },
     { "source": "/faq.html",     "destination": "/faq",     "permanent": true },
     { "source": "/privacy.html", "destination": "/privacy", "permanent": true }
   ],
   "rewrites": [
     { "source": "/operations/label-studio.html", "destination": "/" },
+    { "source": "/api/feedback", "destination": "/api/lead?service=feedback" },
     { "source": "/order", "destination": "/order.html" },
     { "source": "/order/", "destination": "/order.html" },
     { "source": "/halal-meal-prep-dfw", "destination": "/halal-meal-prep-dfw.html" },
     { "source": "/halal-meal-prep-dfw/", "destination": "/halal-meal-prep-dfw.html" },
     { "source": "/faq",   "destination": "/faq.html"   },
     { "source": "/faq/",  "destination": "/faq.html"   },
+    { "source": "/feedback", "destination": "/feedback.html" },
+    { "source": "/feedback/", "destination": "/feedback.html" },
     { "source": "/privacy",  "destination": "/privacy.html" },
     { "source": "/privacy/", "destination": "/privacy.html" }
   ],

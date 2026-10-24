@@ -15,6 +15,37 @@ const AUTOMATION_SENDER = 'PRPD Automation <automation@mail.getprpd.com>';
 const REPLY_EMAIL = 'hello@getprpd.com';
 const NEGATIVE_EVENTS = new Set(['email.bounced', 'email.failed', 'email.suppressed', 'email.complained']);
 const SUPPRESSION_EVENTS = new Set(['email.bounced', 'email.suppressed', 'email.complained']);
+const REDUNDANT_EVENTS = new Set(['email.sent']);
+const UPSTREAM_RETRY_ATTEMPTS = 5;
+
+function wait(milliseconds) {
+  return new Promise(resolve => setTimeout(resolve, milliseconds));
+}
+
+function isTransientUpstreamError(error) {
+  const status = Number(error?.status || error?.statusCode || error?.code || error?.response?.status);
+  if (status === 429 || (status >= 500 && status <= 599)) return true;
+  const code = String(error?.code || error?.cause?.code || '').toUpperCase();
+  return ['ECONNRESET', 'ETIMEDOUT', 'EAI_AGAIN', 'ENETUNREACH', 'UND_ERR_CONNECT_TIMEOUT'].includes(code);
+}
+
+async function retryTransient(task, options = {}) {
+  const attempts = Math.max(1, Number(options.attempts) || UPSTREAM_RETRY_ATTEMPTS);
+  const baseDelayMs = Math.max(1, Number(options.baseDelayMs) || 500);
+  const random = typeof options.random === 'function' ? options.random : Math.random;
+  const sleep = typeof options.sleep === 'function' ? options.sleep : wait;
+  for (let attempt = 0; attempt < attempts; attempt += 1) {
+    try {
+      return await task();
+    } catch (error) {
+      if (!isTransientUpstreamError(error) || attempt === attempts - 1) throw error;
+      const exponentialDelay = baseDelayMs * (2 ** attempt);
+      const jitter = Math.floor(random() * baseDelayMs);
+      await sleep(exponentialDelay + jitter);
+    }
+  }
+  throw new Error('Transient retry loop exited unexpectedly.');
+}
 
 function sendJson(response, status, body) {
   response.status(status).setHeader('Content-Type', 'application/json; charset=utf-8');
@@ -105,23 +136,31 @@ module.exports = async function handler(request, response) {
   try {
     const payload = await readRawBody(request);
     const event = verifyEvent(payload, request.headers || {});
+    if (REDUNDANT_EVENTS.has(String(event?.type || '').toLowerCase())) {
+      return sendJson(response, 200, { status: 'ignored-redundant' });
+    }
     const client = await getSheetsClient('https://www.googleapis.com/auth/spreadsheets');
-    const recorded = await recordDeliveryEvent(client, event, request.headers['svix-id']);
+    const recorded = await retryTransient(
+      () => recordDeliveryEvent(client, event, request.headers['svix-id'], { ensureSheet: false }),
+    );
     if (recorded.duplicate) return sendJson(response, 200, { status: 'duplicate' });
 
     if (SUPPRESSION_EVENTS.has(recorded.normalized.type) && recorded.normalized.recipient) {
-      await appendPreference(
-        client,
-        recorded.normalized.recipient,
-        'unsubscribed',
-        `Resend ${recorded.normalized.type}`,
+      await retryTransient(
+        () => appendPreference(
+          client,
+          recorded.normalized.recipient,
+          'unsubscribed',
+          `Resend ${recorded.normalized.type}`,
+        ),
       );
     }
 
     if (recorded.runId) {
-      const summary = await deliverySummary(client, recorded.runId);
+      const summary = recorded.summary
+        || await retryTransient(() => deliverySummary(client, recorded.runId));
       if (summary.complete && !summary.reported && await sendFinalDeliveryReport(summary)) {
-        await markDeliveryReported(client, recorded.runId);
+        await retryTransient(() => markDeliveryReported(client, recorded.runId));
       }
     }
     return sendJson(response, 200, {
@@ -129,7 +168,12 @@ module.exports = async function handler(request, response) {
     });
   } catch (error) {
     safeLogError('Resend webhook processing failed.', error);
-    return sendJson(response, 400, { error: 'Webhook could not be verified or recorded.' });
+    const transient = isTransientUpstreamError(error);
+    return sendJson(response, transient ? 503 : 400, {
+      error: transient
+        ? 'Webhook was verified but could not be recorded yet.'
+        : 'Webhook could not be verified or recorded.',
+    });
   }
 };
 
@@ -142,6 +186,9 @@ module.exports.config = {
 };
 
 module.exports._test = {
+  isTransientUpstreamError,
+  REDUNDANT_EVENTS,
   renderDeliveryReport,
+  retryTransient,
   verifyEvent,
 };

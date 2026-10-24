@@ -19,7 +19,7 @@
   <link rel="stylesheet" href="/ads-landing.css" />
   <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18371492048"></script>
   <script src="/google-ads.js" defer></script>
-  <script src="/funnel-tracking.js" defer></script>
+  <script src="/funnel-tracking.js?v=20261019-launch-1" defer></script>
 </head>
 <body data-funnel-stage="ads-landing">
   <div class="ads-topline">100% halal <span aria-hidden="true">•</span> Fresh weekly <span aria-hidden="true">•</span> Delivered across DFW</div>
@@ -29,7 +29,7 @@
       <strong>PRPD</strong>
       <span>MEALS. PREPPED.</span>
     </a>
-    <a class="ads-nav__cta" href="/order" data-funnel-detail="nav">See This Week's Menu</a>
+    <a class="ads-nav__cta" href="/order?promo=WELCOME10" data-funnel-detail="nav">See This Week's Menu</a>
   </header>
 
   <main>
@@ -37,11 +37,16 @@
       <div class="ads-hero__copy">
         <p class="ads-eyebrow">DFW HALAL MEAL PREP</p>
         <h1>High-protein meals.<br /><em>Already handled.</em></h1>
-        <p class="ads-hero__lead">Choose your meals in Lean or Bulk portions. We cook them fresh, list the macros, and deliver them on Saturday—so staying consistent takes less work.</p>
+        <p class="ads-hero__lead">Choose your meals in Lean or Bulk portions. We cook them fresh, list the macros, and deliver them on <span id="adsHeroDeliveryDay">the published delivery day</span>—so staying consistent takes less work.</p>
+        <p class="ads-hero__pricing">Meals from $10.99 <span aria-hidden="true">•</span> New customers save $10 on $60+ with WELCOME10 <span aria-hidden="true">•</span> No subscription <span aria-hidden="true">•</span> Free The Colony pickup</p>
         <div class="ads-hero__actions">
-          <a class="ads-button ads-button--primary" href="/order" data-funnel-detail="hero">Browse the Weekly Menu <span aria-hidden="true">→</span></a>
-          <a class="ads-button ads-button--quiet" href="#how-it-works">How it works</a>
+          <a class="ads-button ads-button--primary" href="/order?promo=WELCOME10" data-funnel-detail="hero">Browse the Weekly Menu <span aria-hidden="true">→</span></a>
+          <a class="ads-button ads-button--quiet" href="sms:+14695450781">Text Rida for Help</a>
         </div>
+        <a class="ads-hero__trust" href="#adsReviewTitle" data-funnel-detail="hero-review">
+          <span>Local food review</span>
+          <strong>See Halal Bay Eats try PRPD →</strong>
+        </a>
         <div class="ads-proof" aria-label="PRPD meal prep benefits">
           <div><strong>100%</strong><span>Halal</span></div>
           <div><strong>Lean + Bulk</strong><span>Portion choices</span></div>
@@ -73,8 +78,25 @@
       <article>
         <span>03</span>
         <h2>Local, not shipped</h2>
-        <p>PRPD prepares locally for Saturday delivery across the Dallas–Fort Worth area.</p>
+        <p>PRPD prepares locally for <span id="adsLocalDeliveryDay">weekly</span> delivery across the Dallas–Fort Worth area.</p>
       </article>
+    </section>
+
+    <section class="ads-social-proof" aria-labelledby="adsReviewTitle">
+      <div class="ads-social-proof__copy">
+        <p class="ads-eyebrow">A REAL LOCAL REVIEW</p>
+        <h2 id="adsReviewTitle">See the meals through a customer's eyes.</h2>
+        <p>Halal Bay Eats tried a curated PRPD box and shared an honest look at the food, portions, and ordering experience.</p>
+        <span class="ads-social-proof__disclosure">Gifted meal collaboration · Review opinions are their own</span>
+        <a class="ads-text-link" href="/order?promo=WELCOME10" data-funnel-detail="social-proof">Explore This Week's Menu →</a>
+      </div>
+      <figure class="ads-social-proof__media">
+        <video controls muted playsinline preload="metadata" data-social-proof-video data-funnel-detail="halal-bay-eats-review">
+          <source src="/assets/videos/halal-bay-eats-prpd-review.mp4" type="video/mp4" />
+          Your browser does not support the review video.
+        </video>
+        <figcaption>Halal Bay Eats reviews PRPD</figcaption>
+      </figure>
     </section>
 
     <section class="ads-menu" id="weekly-menu">
@@ -83,10 +105,10 @@
           <p class="ads-eyebrow">CURRENT WEEK</p>
           <h2>Food you will actually look forward to.</h2>
         </div>
-        <a href="/order" data-funnel-detail="menu-heading">View the full menu <span aria-hidden="true">→</span></a>
+        <a href="/order?promo=WELCOME10" data-funnel-detail="menu-heading">View the full menu <span aria-hidden="true">→</span></a>
       </div>
       <div class="ads-menu__grid" id="adsMenuGrid" aria-live="polite"></div>
-      <p class="ads-menu__status" id="adsMenuStatus" hidden>The next menu is being finalized. Check back Monday.</p>
+      <p class="ads-menu__status" id="adsMenuStatus" hidden></p>
     </section>
 
     <section class="ads-sizes">
@@ -104,7 +126,7 @@
           <div><strong>Bulk</strong><span>More food + protein</span></div>
           <p>Built for bigger appetites, demanding training, or days when you need more from a meal.</p>
         </div>
-        <a class="ads-text-link" href="/order" data-funnel-detail="portion-guide">Compare macros on this week's menu →</a>
+        <a class="ads-text-link" href="/order?promo=WELCOME10" data-funnel-detail="portion-guide">Compare macros on this week's menu →</a>
       </div>
     </section>
 
@@ -118,9 +140,9 @@
       <ol>
         <li><span>1</span><div><strong>Choose your meals</strong><p>Browse the fresh weekly menu and mix Lean, Bulk, breakfast, dessert, and Grab &amp; Go items.</p></div></li>
         <li><span>2</span><div><strong>Submit by Wednesday</strong><p>Enter your delivery ZIP at checkout for the exact minimum and delivery price.</p></div></li>
-        <li><span>3</span><div><strong>Receive them Saturday</strong><p>Your labeled meals arrive ready to refrigerate, reheat, and fit into your week.</p></div></li>
+        <li><span>3</span><div><strong>Receive them <span id="adsReceiveDeliveryDay">on delivery day</span></strong><p>Your labeled meals arrive ready to refrigerate, reheat, and fit into your week.</p></div></li>
       </ol>
-      <a class="ads-button ads-button--cream" href="/order" data-funnel-detail="process">Build My Order <span aria-hidden="true">→</span></a>
+      <a class="ads-button ads-button--cream" href="/order?promo=WELCOME10" data-funnel-detail="process">Build My Order <span aria-hidden="true">→</span></a>
     </section>
 
     <section class="ads-founder">
@@ -143,7 +165,7 @@
       <div class="ads-faq__grid">
         <details open><summary>Is every meal halal?</summary><p>Yes. PRPD's menu is 100% halal.</p></details>
         <details><summary>Where do you deliver?</summary><p>PRPD serves the DFW area. Enter your ZIP during checkout to confirm availability and see the exact delivery pricing.</p></details>
-        <details><summary>When does ordering close?</summary><p>The menu opens Monday and ordering closes Wednesday at 6:00 PM CT for Saturday delivery.</p></details>
+        <details><summary>When does ordering close?</summary><p id="adsScheduleAnswer">The live order page displays the final cutoff and delivery date for the current batch.</p></details>
         <details><summary>How much do I need to order?</summary><p>The order page calculates the exact minimum and delivery charge from your delivery ZIP before you submit.</p></details>
       </div>
     </section>
@@ -151,7 +173,7 @@
     <section class="ads-final">
       <p class="ads-eyebrow">YOUR NEXT WEEK CAN BE EASIER</p>
       <h2>Pick the meals. We'll handle the prep.</h2>
-      <a class="ads-button ads-button--cream" href="/order" data-funnel-detail="final">See This Week's Menu <span aria-hidden="true">→</span></a>
+      <a class="ads-button ads-button--cream" href="/order?promo=WELCOME10" data-funnel-detail="final">See This Week's Menu <span aria-hidden="true">→</span></a>
     </section>
   </main>
 
@@ -163,10 +185,10 @@
 
   <div class="ads-mobile-cta">
     <div><span>Fresh weekly menu</span><strong id="adsMobileDeadline">Order by Wednesday</strong></div>
-    <a href="/order" data-funnel-detail="mobile-sticky">View Menu</a>
+    <a href="/order?promo=WELCOME10" data-funnel-detail="mobile-sticky">View Menu</a>
   </div>
 
-  <script src="/config/order-config.js"></script>
-  <script src="/ads-landing.js"></script>
+  <script src="/config/order-config.js?v=20261019-welcome10-reactivated"></script>
+  <script src="/ads-landing.js?v=20261019-welcome10-reactivated"></script>
 </body>
 </html>

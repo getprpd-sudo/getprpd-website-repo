@@ -26,6 +26,27 @@
     return true;
   };
 
+  windowObject.trackGoogleAdsAddToCart = function trackGoogleAdsAddToCart(item) {
+    const itemId = String(item && item.id || '').trim();
+    const itemName = String(item && item.name || '').trim();
+    const quantity = Math.max(1, Math.floor(Number(item && item.quantity) || 1));
+    const price = Number(item && item.price);
+    if (!itemId || !itemName || !Number.isFinite(price) || price < 0) return false;
+
+    windowObject.gtag('event', 'add_to_cart', {
+      currency: 'USD',
+      value: price * quantity,
+      items: [{
+        item_id: itemId,
+        item_name: itemName,
+        item_variant: String(item && item.tier || 'single'),
+        price,
+        quantity,
+      }],
+    });
+    return true;
+  };
+
   windowObject.trackGoogleAdsCustomPlanInquiry = function trackGoogleAdsCustomPlanInquiry(leadId) {
     const transactionId = String(leadId || '').trim();
     if (!transactionId) return false;
@@ -54,6 +75,12 @@
       value: 0,
       currency: 'USD',
     });
+    if (typeof windowObject.trackPrpdFunnelEvent === 'function') {
+      windowObject.trackPrpdFunnelEvent('contact_click', {
+        detail: normalizedChannel,
+        repeatable: true,
+      });
+    }
     return true;
   }
 

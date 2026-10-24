@@ -84,7 +84,7 @@ function renderWeeklyHomepage() {
 
   if (!grid) return;
 
-  const preview = [...menu.mains, ...menu.breakfasts]
+  const preview = [...menu.mains, ...menu.breakfasts, ...menu.desserts, ...menu.addons]
     .filter(dish => dish.available !== false && dish.image)
     .slice(0, 4);
 
@@ -423,6 +423,9 @@ if (form) {
 
       if (typeof window.trackGoogleAdsCustomPlanInquiry === 'function') {
         window.trackGoogleAdsCustomPlanInquiry(result.leadId || data.leadId);
+      }
+      if (typeof window.trackPrpdFunnelEvent === 'function') {
+        window.trackPrpdFunnelEvent('lead_submit', { detail: 'custom-plan' });
       }
 
     } catch (err) {

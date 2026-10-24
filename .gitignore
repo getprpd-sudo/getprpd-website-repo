@@ -54,3 +54,46 @@ operations/records/finance/weekly-closeouts/WEEKLY_CLOSEOUT_20??-??-??.md
 
 .env*
 .vercel
+
+# Private operating context and portable recovery material.
+# The public GitHub repository contains deployable application code only.
+.codex-temp/
+.codex/
+AGENTS.md
+RECOVERY_START_HERE.md
+operations/active/
+operations/plans/
+operations/records/
+operations/source-documents/
+private-records/
+outputs/
+
+# Customer-specific one-off generators and private working evidence
+operations/tools/insert-*.cjs
+operations/tools/generate-*-invoice-preview.cjs
+operations/tools/generate_*_batch*_invoice.py
+operations/tools/generate_*_combined_invoice.py
+operations/tools/generate_*_partnership_documents.py
+operations/tools/render_*_review_pdfs.py
+batch*-order-verified.png
+tmp-*.png
+
+# Personal/non-PRPD files and large working media stay in Dropbox only
+Collin_Fall_2026_Degree_and_Registration_Plan.docx
+assets/marketing/
+assets/videos/
+
+# Private customer/history material that is not required by the public app
+operations/costing/BATCH_*_COST_RECONCILIATION_*.md
+operations/nutrition/PRPD_ACTIVE_MENU_NUTRITION_AUDIT.docx
+operations/recipes/CUSTOM_*.md
+operations/recipes/*_HIGH_PROTEIN_ROTATION_*.md
+operations/recipes/*_7_DAY_CUSTOM_PLAN_*.md
+operations/recipes/MANGO_HABANERO_WINGS_*.md
+operations/tools/build_batch15_grocery_doc.py
+operations/tools/generate_athlete_offer_pdf.py
+operations/tools/generate_batch7_label_pdf.py
+operations/tools/generate_mas_cyp_event_brief.py
+scripts/render-*-partnership-carousel.cjs
+tests/fixtures/batch13/orders-*.json
+tests/cook-day-batch13.test.js

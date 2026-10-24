@@ -10,12 +10,27 @@
   const mobileDeadline = documentObject.getElementById('adsMobileDeadline');
   const grid = documentObject.getElementById('adsMenuGrid');
   const status = documentObject.getElementById('adsMenuStatus');
+  const heroDeliveryDay = documentObject.getElementById('adsHeroDeliveryDay');
+  const localDeliveryDay = documentObject.getElementById('adsLocalDeliveryDay');
+  const receiveDeliveryDay = documentObject.getElementById('adsReceiveDeliveryDay');
+  const scheduleAnswer = documentObject.getElementById('adsScheduleAnswer');
+
+  const deliveryDayMatch = String(batch.deliveryDate || '').match(/^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)/i);
+  const deliveryDay = deliveryDayMatch ? deliveryDayMatch[1] : 'the published delivery day';
+
+  heroDeliveryDay.textContent = deliveryDay;
+  localDeliveryDay.textContent = deliveryDay;
+  receiveDeliveryDay.textContent = deliveryDay;
+  scheduleAnswer.textContent = batch.published === true
+    ? `Order by ${batch.cutoffLabel} for delivery on ${batch.deliveryDate}. The live order page reflects any owner-approved schedule change.`
+    : 'Ordering is currently closed. The next published menu will show its exact cutoff and delivery date here.';
 
   if (batch.published !== true) {
-    cutoff.textContent = 'Next menu coming Monday';
+    cutoff.textContent = 'Ordering currently closed';
     delivery.textContent = 'Fresh weekly delivery';
-    mobileDeadline.textContent = 'Next menu coming Monday';
+    mobileDeadline.textContent = 'Ordering currently closed';
     grid.hidden = true;
+    status.textContent = 'Ordering is currently closed. The next published weekly menu will appear here.';
     status.hidden = false;
     return;
   }
@@ -24,15 +39,23 @@
   delivery.textContent = `Delivery: ${batch.deliveryDate}`;
   mobileDeadline.textContent = batch.cutoffLabel;
 
-  const picks = (menu.mains || []).filter(dish => dish.available !== false && dish.image).slice(0, 3);
+  // Use every photographed part of the live menu so the preview stays balanced
+  // even when the newest main dishes are still waiting on photography.
+  const picks = [
+    ...(menu.mains || []),
+    ...(menu.breakfasts || []),
+    ...(menu.desserts || []),
+    ...(menu.addons || []),
+  ].filter(dish => dish.available !== false && dish.image).slice(0, 4);
   if (!picks.length) {
     grid.hidden = true;
+    status.textContent = `This week's menu is live for ${batch.deliveryDate}. View every dish, price, and macro on the full order page.`;
     status.hidden = false;
     return;
   }
 
   for (const dish of picks) {
-    const price = Number(prices[dish.category]?.lean || dish.price || 0);
+    const price = Number(prices[dish.category]?.lean ?? prices[dish.category]?.single ?? dish.price ?? 0);
     const card = documentObject.createElement('article');
     card.className = 'ads-meal-card';
 
@@ -60,7 +83,7 @@
     const from = documentObject.createElement('span');
     from.textContent = price ? `From $${price.toFixed(2)}` : 'Weekly menu';
     const link = documentObject.createElement('a');
-    link.href = '/order';
+    link.href = '/order?promo=WELCOME10';
     link.dataset.funnelDetail = `meal-${dish.id}`;
     link.textContent = 'Order →';
     footer.append(from, link);

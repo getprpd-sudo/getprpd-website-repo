@@ -7,6 +7,7 @@ const {
   safeLogError,
 } = require('./_security');
 const { sendWebEvent } = require('./_tiktok');
+const feedbackService = require('./_feedback-service');
 
 const SHEET_ID = process.env.GOOGLE_SHEET_ID;
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
@@ -43,8 +44,13 @@ const FUNNEL_KEYS = new Set([
   'detail', 'value', 'batch',
 ]);
 const FUNNEL_EVENT_NAMES = new Set([
-  'landing_view', 'menu_view', 'menu_click', 'cart_started', 'begin_checkout',
-  'delivery_quote', 'order_submit', 'order_error', 'purchase',
+  'landing_view', 'menu_view', 'menu_click', 'cart_started', 'cart_restored',
+  'begin_checkout', 'checkout_blocked',
+  'landing_engaged', 'menu_engaged', 'menu_filter', 'meal_engaged',
+  'social_proof_play', 'social_proof_complete',
+  'fulfillment_selected', 'delivery_quote', 'delivery_blocked',
+  'promo_applied', 'promo_rejected', 'order_submit', 'order_error',
+  'purchase', 'lead_submit', 'contact_click',
 ]);
 const FUNNEL_PAGES = new Set(['/', '/order', '/halal-meal-prep-dfw']);
 const FUNNEL_DEVICES = new Set(['desktop', 'mobile', 'tablet', 'unknown']);
@@ -297,6 +303,17 @@ async function sendLeadEmail(lead) {
 }
 
 module.exports = async function handler(request, response) {
+  const requestUrl = new URL(request.url || '/api/lead', 'https://getprpd.com');
+  if (requestUrl.searchParams.get('service') === 'feedback') {
+    if (request.method === 'POST') {
+      const contentType = String(request.headers['content-type'] || '').toLowerCase();
+      if (!contentType.includes('application/json')) return sendJson(response,415,{ error:'JSON content is required.' });
+      if (Number(request.headers['content-length'] || 0) > 512 * 1024) return sendJson(response,413,{ error:'Submission is too large.' });
+      try { if (typeof request.body === 'string') request.body = JSON.parse(request.body); }
+      catch { return sendJson(response,400,{ error:'Invalid JSON request.' }); }
+    }
+    return feedbackService(request,response);
+  }
   if (request.method !== 'POST') {
     response.setHeader('Allow', 'POST');
     return sendJson(response, 405, { status: 'error', message: 'Method not allowed.' });

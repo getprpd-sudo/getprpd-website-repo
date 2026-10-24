@@ -32,8 +32,10 @@ const ORDER_KEYS = new Set([
   'action', 'orderId', 'batch', 'deliveryDate', 'firstName', 'lastName', 'phone',
   'email', 'fulfillmentMethod', 'deliveryAddress', 'deliveryHasUnit', 'deliveryUnit', 'deliveryCity', 'deliveryState',
   'deliveryZip', 'deliveryInstructions',
-  'items', 'mealSubtotal', 'deliveryFee', 'exactTotal', 'total', 'promoCode',
-  'discountAmount', 'menuEmailOptIn', 'notes', 'submittedAt', 'website',
+  'items', 'sauces', 'mealSubtotal', 'deliveryFee', 'exactTotal', 'total', 'promoCode',
+  'discountAmount', 'taxableSubtotal', 'taxableDelivery', 'taxRate', 'salesTax',
+  'menuEmailOptIn', 'notes', 'submittedAt', 'website',
+  'discoverySource',
   'formStartedAt', 'utmSource', 'utmMedium', 'utmCampaign', 'utmContent',
   'utmTerm', 'landingPage', 'referrer', 'tiktokTtclid', 'tiktokTtp',
   'googleClickId', 'googleClickIdType', 'adMatchType', 'adDevice', 'adNetwork',
@@ -41,8 +43,13 @@ const ORDER_KEYS = new Set([
 const ORDER_ITEM_KEYS = new Set([
   'id', 'name', 'category', 'section', 'tier', 'qty', 'unitPrice', 'subtotal',
 ]);
+const SAUCE_SELECTION_KEYS = new Set(['id', 'qty']);
 
 const PRICES = ORDER_CONFIG.prices;
+const DISCOVERY_SOURCES = new Set([
+  '', 'Google Search', 'Instagram', 'TikTok', 'Friend or family', 'Gym or trainer',
+  'Mosque or community', 'Creator or food page', 'Other',
+]);
 
 function catalogForConfig(config) {
   return Object.values(config?.menu || {}).flat().reduce((catalog, dish) => {
@@ -51,7 +58,16 @@ function catalogForConfig(config) {
       category: dish.category,
       price: Number.isFinite(Number(dish.price)) ? Number(dish.price) : null,
       available: dish.available !== false,
+      taxClass: safeText(dish.taxClass || 'classification-pending', 60),
       maxQty: dish.maxQty || MAX_QTY_PER_ITEM,
+      servingCount: Number.isFinite(Number(dish.servingCount)) ? Number(dish.servingCount) : 1,
+      variants: Array.isArray(dish.variants)
+        ? dish.variants.map(variant => ({
+            id: safeText(variant.id, 40),
+            label: safeText(variant.label, 100),
+            price: Number.isFinite(Number(variant.price)) ? Number(variant.price) : null,
+          })).filter(variant => variant.id && variant.label)
+        : [],
     };
     return catalog;
   }, {});
@@ -72,6 +88,45 @@ function sendJson(response, status, body) {
 
 function money(value) {
   return Math.round((Number(value) + Number.EPSILON) * 100) / 100;
+}
+
+function calculateSalesTax(items, mealSubtotal, deliveryFee, discountAmount, taxPolicy = ORDER_CONFIG.tax) {
+  if (!taxPolicy?.enabled) {
+    return { taxableSubtotal: 0, taxableDelivery: 0, taxRate: 0, salesTax: 0 };
+  }
+
+  const rate = Number(taxPolicy.rate);
+  if (!Number.isFinite(rate) || rate < 0 || rate > 0.2) {
+    throw new Error('Sales-tax configuration is invalid.');
+  }
+  const taxableClasses = new Set(taxPolicy.taxableClasses || []);
+  const unresolved = items.filter(item => !item.taxClass || item.taxClass === 'classification-pending');
+  if (unresolved.length) {
+    throw new Error('Sales-tax classification is incomplete for one or more menu items.');
+  }
+
+  const merchandise = money(Math.max(0, mealSubtotal));
+  const taxableMerchandise = money(items.reduce((sum, item) => (
+    taxableClasses.has(item.taxClass) ? sum + item.subtotal : sum
+  ), 0));
+  const taxableRatio = merchandise > 0 ? Math.min(1, taxableMerchandise / merchandise) : 0;
+  const taxableDiscount = money(Math.max(0, discountAmount) * taxableRatio);
+  const taxableSubtotal = money(Math.max(0, taxableMerchandise - taxableDiscount));
+  const taxableDelivery = taxPolicy.deliveryMode === 'all-when-any'
+    ? (taxableSubtotal > 0 ? money(deliveryFee) : 0)
+    : taxPolicy.deliveryMode === 'none'
+      ? 0
+      : money(Math.max(0, deliveryFee) * taxableRatio);
+  const salesTax = money((taxableSubtotal + taxableDelivery) * rate);
+  return { taxableSubtotal, taxableDelivery, taxRate: rate, salesTax };
+}
+
+function roundedFoodSubtotal(value) {
+  return Math.ceil(money(value));
+}
+
+function orderMinimumReached(mealSubtotal, minimumOrder) {
+  return roundedFoodSubtotal(mealSubtotal) >= Number(minimumOrder);
 }
 
 function deliveryPolicyForZip(zipCode, policies = ORDER_CONFIG.policies) {
@@ -128,10 +183,19 @@ function normalizeItems(rawItems, catalog = CATALOG) {
     const catalogItem = catalog[id];
     if (!catalogItem) throw new Error('An unknown menu item was submitted.');
 
-    const { name, category, price, available, maxQty } = catalogItem;
+    const { name, category, price, available, maxQty, servingCount, taxClass } = catalogItem;
+    let selectedPrice = price;
+    const variants = Array.isArray(catalogItem.variants) ? catalogItem.variants : [];
     if (!available) throw new Error(`${name} is sold out for this batch.`);
     let tier;
-    if (category === 'dessert' || category === 'addon') {
+    let variantLabel = '';
+    if (variants.length > 0) {
+      const variant = variants.find(option => option.id === raw.tier);
+      if (!variant) throw new Error(`Choose a valid weekly split for ${name}.`);
+      tier = variant.id;
+      variantLabel = variant.label;
+      if (Number.isFinite(variant.price)) selectedPrice = variant.price;
+    } else if (category === 'dessert' || category === 'addon') {
       if (raw.tier !== null && raw.tier !== undefined && raw.tier !== '' && raw.tier !== 'single') {
         throw new Error(`Invalid tier for ${name}.`);
       }
@@ -146,7 +210,7 @@ function normalizeItems(rawItems, catalog = CATALOG) {
     const key = `${id}:${tier}`;
     const nextQty = (combined.get(key)?.qty || 0) + qty;
     if (nextQty > maxQty) throw new Error(`Too many servings of ${name}.`);
-    combined.set(key, { id, name, category, price, tier, qty: nextQty });
+    combined.set(key, { id, name, category, price: selectedPrice, tier, variantLabel, servingCount, taxClass, qty: nextQty });
   }
 
   const items = Array.from(combined.values()).map(item => {
@@ -159,6 +223,60 @@ function normalizeItems(rawItems, catalog = CATALOG) {
   return items;
 }
 
+function normalizeSauceSelections(rawSelections, items, sauceProgram = ORDER_CONFIG.sauceProgram) {
+  const disabled = !sauceProgram?.enabled;
+  const provided = Array.isArray(rawSelections) ? rawSelections : [];
+  if (rawSelections !== undefined && !Array.isArray(rawSelections)) {
+    throw new Error('Sauce selections are invalid.');
+  }
+  if (disabled) {
+    if (provided.length) throw new Error('Sauce selection is not available for this menu.');
+    return {
+      enabled: false, selections: [], requestedSelections: [], totalCredits: 0,
+      reservedCredits: 0, selectableCredits: 0, selectedQty: 0,
+      extraQty: 0, extraSubtotal: 0,
+    };
+  }
+
+  const choices = new Map((sauceProgram.choices || []).map(choice => [safeText(choice?.id, 60), {
+    id: safeText(choice?.id, 60),
+    name: safeText(choice?.name, 100),
+  }]).filter(([id, choice]) => id && choice.name));
+  if (choices.size === 0) throw new Error('Sauce choices are not configured.');
+
+  const requested = new Map();
+  for (const raw of provided) {
+    assertExactKeys(raw, SAUCE_SELECTION_KEYS, 'Sauce selection');
+    const id = safeText(raw?.id, 60);
+    if (!choices.has(id)) throw new Error('An unknown sauce was submitted.');
+    const qty = Number(raw?.qty);
+    if (!Number.isSafeInteger(qty) || qty < 1) throw new Error('Sauce quantities must be whole cups.');
+    requested.set(id, (requested.get(id) || 0) + qty);
+  }
+
+  if (provided.length && !items.some(item => Number(item.qty) > 0)) throw new Error('Add food before selecting sauces.');
+  const summary = require('../sauce-program').quote(Object.fromEntries(requested), items, sauceProgram);
+  const { totalCredits, reservedCredits, selectableCredits, selectedQty, extraQty } = summary;
+  const maxExtraCups = Math.max(0, Number(sauceProgram.maxExtraCups) || 50);
+  if (extraQty > maxExtraCups) throw new Error(`Choose no more than ${maxExtraCups} extra sauce cups.`);
+  const extraPrice = Number(sauceProgram.extraPrice);
+  if (!Number.isFinite(extraPrice) || extraPrice < 0) throw new Error('Extra sauce pricing is invalid.');
+
+  const final = new Map(requested);
+  const toSelection = ([id, qty]) => ({ id, name: choices.get(id).name, qty });
+  return {
+    enabled: true,
+    selections: Array.from(final.entries()).filter(([, qty]) => qty > 0).map(toSelection),
+    requestedSelections: Array.from(requested.entries()).filter(([, qty]) => qty > 0).map(toSelection),
+    totalCredits,
+    reservedCredits,
+    selectableCredits,
+    selectedQty,
+    extraQty,
+    extraSubtotal: money(extraQty * extraPrice),
+  };
+}
+
 function isValidOrderId(orderId, batchNumber = BATCH_NUMBER) {
   const orderIdPattern = new RegExp(`^PRPD-B${batchNumber}-\\d{8}-[A-F0-9]{4}(?:[A-F0-9]{4})?$`);
   return orderIdPattern.test(orderId);
@@ -169,6 +287,8 @@ function validateAndBuildOrder(raw, availablePromotions = PROMOTIONS.codes || []
   const batchNumber = context.batchNumber ?? BATCH_NUMBER;
   const cutoffIso = context.cutoffIso ?? ORDER_CUTOFF;
   const policies = context.policies || ORDER_CONFIG.policies;
+  const taxPolicy = context.tax || ORDER_CONFIG.tax;
+  const sauceProgram = context.sauceProgram ?? ORDER_CONFIG.sauceProgram;
   assertExactKeys(raw, ORDER_KEYS, 'Order request');
   if (!raw || raw.action !== 'order') throw new Error('Invalid order request.');
   const orderId = safeText(raw.orderId, 50);
@@ -187,6 +307,8 @@ function validateAndBuildOrder(raw, availablePromotions = PROMOTIONS.codes || []
   const deliveryZip = safeText(raw.deliveryZip, 10);
   const deliveryInstructions = safeText(raw.deliveryInstructions, 300);
   const notes = safeText(raw.notes, 500);
+  const discoverySource = safeText(raw.discoverySource, 60);
+  if (!DISCOVERY_SOURCES.has(discoverySource)) throw new Error('Invalid discovery source.');
   const promoCode = normalizePromoCode(raw.promoCode);
   const promotion = promoCode ? promotionForCode(promoCode, availablePromotions) : null;
   const menuEmailOptIn = raw.menuEmailOptIn === true;
@@ -211,15 +333,20 @@ function validateAndBuildOrder(raw, availablePromotions = PROMOTIONS.codes || []
   if (!PhoneValidation.isValid(phone)) throw new Error('A valid U.S. 10-digit phone number is required.');
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error('A valid email address is required.');
   if (!['delivery', 'pickup'].includes(fulfillmentMethod)) throw new Error('Choose delivery or pickup.');
-  if (fulfillmentMethod === 'delivery') {
-    if (!deliveryAddress) throw new Error('Delivery address is required.');
+  if (promoCode && !promotion) throw new Error('That referral or partner code is not active.');
+  const pickupReferralVerification = fulfillmentMethod === 'pickup' && promotion?.firstOrderOnly;
+  if (fulfillmentMethod === 'delivery' || pickupReferralVerification) {
+    if (!deliveryAddress) {
+      throw new Error(pickupReferralVerification
+        ? 'A home street address is required to verify first-order pickup eligibility.'
+        : 'Delivery address is required.');
+    }
     if (typeof raw.deliveryHasUnit !== 'boolean') throw new Error('Please indicate whether the address has an apartment, suite, or unit number.');
     if (deliveryHasUnit && !deliveryUnit) throw new Error('Apartment, suite, or unit number is required for this address.');
-    if (!deliveryCity) throw new Error('Delivery city is required.');
-    if (deliveryState !== 'TX') throw new Error('Delivery state must be TX.');
+    if (fulfillmentMethod === 'delivery' && !deliveryCity) throw new Error('Delivery city is required.');
+    if (deliveryState !== 'TX') throw new Error('Address state must be TX.');
     if (!/^\d{5}$/.test(deliveryZip)) throw new Error('A valid 5-digit ZIP code is required.');
   }
-  if (promoCode && !promotion) throw new Error('That referral or partner code is not active.');
   if (promotion?.ownerEmail && promotion.ownerEmail.toLowerCase() === email) {
     throw new Error('A referral code cannot be used by its owner.');
   }
@@ -231,7 +358,8 @@ function validateAndBuildOrder(raw, availablePromotions = PROMOTIONS.codes || []
   }
 
   const items = normalizeItems(raw.items, catalog);
-  const mealSubtotal = money(items.reduce((sum, item) => sum + item.subtotal, 0));
+  const sauces = normalizeSauceSelections(raw.sauces, items, sauceProgram);
+  const mealSubtotal = money(items.reduce((sum, item) => sum + item.subtotal, 0) + sauces.extraSubtotal);
   const deliveryPolicy = fulfillmentMethod === 'pickup'
     ? (policies.deliveryZones?.pickup || {
       id: 'pickup', label: 'Pickup', minimumOrder: policies.minimumOrder,
@@ -241,13 +369,17 @@ function validateAndBuildOrder(raw, availablePromotions = PROMOTIONS.codes || []
   if (!deliveryPolicy) {
     throw new Error('Delivery is not currently available for this ZIP. Please text Rida before placing the order.');
   }
-  if (mealSubtotal < deliveryPolicy.minimumOrder) {
+  if (!orderMinimumReached(mealSubtotal, deliveryPolicy.minimumOrder)) {
     throw new Error(`The $${deliveryPolicy.minimumOrder.toFixed(0)} ${deliveryPolicy.label} order minimum has not been met.`);
   }
   const deliveryFee = mealSubtotal >= deliveryPolicy.freeDeliveryThreshold ? 0 : deliveryPolicy.deliveryFee;
   const discountAmount = discountForPromotion(promotion, mealSubtotal);
-  const exactTotal = money(Math.max(0, mealSubtotal + deliveryFee - discountAmount));
-  const roundedTotal = Math.ceil(exactTotal);
+  const taxableItems = sauces.extraQty > 0
+    ? items.concat([{ taxClass: sauceProgram.taxClass || 'classification-pending', subtotal: sauces.extraSubtotal }])
+    : items;
+  const tax = calculateSalesTax(taxableItems, mealSubtotal, deliveryFee, discountAmount, taxPolicy);
+  const exactTotal = money(Math.max(0, mealSubtotal + deliveryFee - discountAmount + tax.salesTax));
+  const roundedTotal = taxPolicy?.enabled ? exactTotal : Math.ceil(exactTotal);
   if (!Number.isFinite(roundedTotal) || roundedTotal <= 0 || roundedTotal > 5000) {
     throw new Error('Invalid order total.');
   }
@@ -258,9 +390,9 @@ function validateAndBuildOrder(raw, availablePromotions = PROMOTIONS.codes || []
 
   return {
     orderId, firstName, lastName, phone, email, fulfillmentMethod, deliveryAddress, deliveryHasUnit, deliveryUnit,
-    deliveryCity, deliveryState, deliveryZip, deliveryInstructions, notes, items, submittedAt,
-    fullName: `${firstName} ${lastName}`,
-    mealSubtotal, deliveryFee, discountAmount, exactTotal, roundedTotal,
+    deliveryCity, deliveryState, deliveryZip, deliveryInstructions, notes, discoverySource, items, submittedAt,
+    fullName: `${firstName} ${lastName}`, sauces,
+    mealSubtotal, deliveryFee, discountAmount, ...tax, exactTotal, roundedTotal,
     deliveryZone: deliveryPolicy.id,
     deliveryZoneLabel: deliveryPolicy.label,
     pickupCity: fulfillmentMethod === 'pickup' ? safeText(deliveryPolicy.city || 'Frisco', 100) : '',
@@ -292,9 +424,10 @@ async function assertReferralEligibility(client, order, promotion) {
   const rows = await readRange(client, "'Orders'!A2:AK5000");
   const email = order.email.toLowerCase();
   const phone = order.phone.replace(/\D/g, '').slice(-10);
-  const household = order.fulfillmentMethod === 'delivery'
-    ? normalizedHouseholdAddress(order.deliveryUnit ? `${order.deliveryAddress} ${order.deliveryUnit}` : order.deliveryAddress, order.deliveryZip)
-    : '';
+  const household = normalizedHouseholdAddress(
+    order.deliveryUnit ? `${order.deliveryAddress} ${order.deliveryUnit}` : order.deliveryAddress,
+    order.deliveryZip,
+  );
   const previousOrder = promotion.firstOrderOnly && rows.some((row) => {
     const priorOrderId = safeText(row[10], 50);
     const priorEmail = safeText(row[11], 160).toLowerCase();
@@ -404,8 +537,8 @@ function nextRecordRow(rows, firstDataRow = 2) {
 
 async function ensureTrackingHeaders(client) {
   await Promise.all([
-    ensureSheetColumnCapacity(client, 'Orders', 37),
-    ensureSheetColumnCapacity(client, 'Payment Log', 16),
+    ensureSheetColumnCapacity(client, 'Orders', 42),
+    ensureSheetColumnCapacity(client, 'Payment Log', 20),
   ]);
   const headers = await Promise.all([
     readRange(client, "'Orders'!K1"),
@@ -416,6 +549,9 @@ async function ensureTrackingHeaders(client) {
     readRange(client, "'Orders'!AD1:AE1"),
     readRange(client, "'Orders'!AF1:AJ1"),
     readRange(client, "'Orders'!AK1"),
+    readRange(client, "'Orders'!AL1"),
+    readRange(client, "'Orders'!AM1:AP1"),
+    readRange(client, "'Payment Log'!Q1:T1"),
   ]);
   if (safeText(headers[0]?.[0]?.[0], 50) !== 'Order ID') {
     await updateRange(client, "'Orders'!K1", ['Order ID']);
@@ -450,18 +586,43 @@ async function ensureTrackingHeaders(client) {
   if (safeText(headers[7]?.[0]?.[0], 50) !== 'Fulfillment Method') {
     await updateRange(client, "'Orders'!AK1", ['Fulfillment Method']);
   }
+  if (safeText(headers[8]?.[0]?.[0], 50) !== 'Customer-Reported Source') {
+    await updateRange(client, "'Orders'!AL1", ['Customer-Reported Source']);
+  }
+  const taxHeaders = ['Taxable Merchandise', 'Taxable Delivery', 'Tax Rate', 'Sales Tax Collected'];
+  if (JSON.stringify(headers[9]?.[0] || []) !== JSON.stringify(taxHeaders)) {
+    await updateRange(client, "'Orders'!AM1:AP1", taxHeaders);
+  }
+  if (JSON.stringify(headers[10]?.[0] || []) !== JSON.stringify(taxHeaders)) {
+    await updateRange(client, "'Payment Log'!Q1:T1", taxHeaders);
+  }
 }
 
 function itemLines(order) {
-  return order.items.map(item => {
-    const tier = item.category === 'dessert' || item.category === 'addon' ? '' : ` (${titleCase(item.tier)})`;
+  const mealLines = order.items.map(item => {
+    const tier = item.variantLabel
+      ? ` (${item.variantLabel})`
+      : item.category === 'dessert' || item.category === 'addon'
+        ? ''
+        : ` (${titleCase(item.tier)})`;
     return `${item.qty}x ${item.name}${tier} - $${item.subtotal.toFixed(2)}`;
   });
+  const sauceLines = (order.sauces?.selections || []).map(selection => (
+    `${selection.qty}x Sauce cup: ${selection.name} - selected`
+  ));
+  if (Number(order.sauces?.extraQty) > 0) {
+    sauceLines.push(`Extra sauce cups: ${order.sauces.extraQty} - $${Number(order.sauces.extraSubtotal).toFixed(2)}`);
+  }
+  return mealLines.concat(sauceLines);
 }
 
 function paymentCounts(items) {
   return items.reduce((counts, item) => {
-    const paymentGroup = item.category === 'premium'
+    if (item.variantLabel) {
+      counts.standard += item.qty * (Number(item.servingCount) || 1);
+      return counts;
+    }
+    const paymentGroup = item.category === 'premium' || item.category === 'seafood'
       ? 'beef'
       : item.category === 'addon'
         ? 'standard'
@@ -472,15 +633,17 @@ function paymentCounts(items) {
 }
 
 function tierSummary(items) {
-  const tieredItems = items.filter(item => item.category !== 'dessert' && item.category !== 'addon');
+  const hasExclusive = items.some(item => item.variantLabel);
+  const tieredItems = items.filter(item => item.category !== 'dessert' && item.category !== 'addon' && !item.variantLabel);
   const tiers = new Set(tieredItems.map(item => item.tier));
   if (tiers.size === 0) {
+    if (hasExclusive) return 'Weekly Five';
     const hasDessert = items.some(item => item.category === 'dessert');
     const hasAddon = items.some(item => item.category === 'addon');
     if (hasDessert && hasAddon) return 'Desserts + Add-ons';
     return hasAddon ? 'Add-ons Only' : 'Dessert Only';
   }
-  if (tiers.size > 1) return 'Mixed';
+  if (tiers.size > 1 || hasExclusive) return 'Mixed';
   return titleCase(Array.from(tiers)[0]);
 }
 
@@ -492,9 +655,10 @@ async function ensureOrderSaved(client, order) {
   const lines = itemLines(order).concat([
     `${order.fulfillmentMethod === 'pickup' ? 'Pickup' : `Delivery (${order.deliveryZoneLabel || 'DFW'})`} - ${order.deliveryFee ? `$${order.deliveryFee.toFixed(2)}` : 'Free'}`,
     ...(order.discountAmount > 0 ? [`Partner discount (${order.promoCode}) - -$${order.discountAmount.toFixed(2)}`] : []),
+    ...(order.salesTax > 0 ? [`Sales tax - $${order.salesTax.toFixed(2)}`] : []),
   ]).join('\n');
   const targetRow = nextRecordRow(rows);
-  await updateRange(client, `'Orders'!A${targetRow}:AK${targetRow}`, [
+  await updateRange(client, `'Orders'!A${targetRow}:AP${targetRow}`, [
     order.submittedAt,
     `Batch ${BATCH_NUMBER}`,
     DELIVERY_DATE,
@@ -507,9 +671,11 @@ async function ensureOrderSaved(client, order) {
     order.notes,
     order.orderId,
     order.email,
-    order.fulfillmentMethod === 'pickup' ? 'Pickup - exact location sent after confirmation' : (order.deliveryUnit ? `${order.deliveryAddress}, ${order.deliveryUnit}` : order.deliveryAddress),
+    order.fulfillmentMethod === 'pickup' && !order.deliveryAddress
+      ? 'Pickup - exact location sent after confirmation'
+      : (order.deliveryUnit ? `${order.deliveryAddress}, ${order.deliveryUnit}` : order.deliveryAddress),
     order.fulfillmentMethod === 'pickup' ? (order.pickupCity || 'Frisco') : order.deliveryCity,
-    order.fulfillmentMethod === 'pickup' ? '' : order.deliveryZip,
+    order.fulfillmentMethod === 'pickup' && !order.deliveryAddress ? '' : order.deliveryZip,
     order.deliveryInstructions,
     order.mealSubtotal,
     order.deliveryFee,
@@ -532,19 +698,24 @@ async function ensureOrderSaved(client, order) {
     order.adDevice,
     order.adNetwork,
     titleCase(order.fulfillmentMethod),
+    order.discoverySource,
+    order.taxableSubtotal,
+    order.taxableDelivery,
+    order.taxRate,
+    order.salesTax,
   ]);
   return true;
 }
 
 async function ensurePaymentLogSaved(client, order) {
-  const rows = await readRange(client, "'Payment Log'!A2:P");
+  const rows = await readRange(client, "'Payment Log'!A2:T");
   if (rows.some(row => safeText(row[13], 50) === order.orderId)) return false;
 
   let index = rows.findIndex(row => !row.slice(0, 4).some(value => safeText(value, 200)));
   if (index === -1) index = rows.length;
   const targetRow = index + 2;
   const counts = paymentCounts(order.items);
-  await updateRange(client, `'Payment Log'!A${targetRow}:P${targetRow}`, [
+  await updateRange(client, `'Payment Log'!A${targetRow}:T${targetRow}`, [
     `Batch ${BATCH_NUMBER}`,
     DELIVERY_DATE,
     '',
@@ -561,6 +732,10 @@ async function ensurePaymentLogSaved(client, order) {
     order.orderId,
     order.promoCode,
     order.promotionPartner,
+    order.taxableSubtotal,
+    order.taxableDelivery,
+    order.taxRate,
+    order.salesTax,
   ]);
   return true;
 }
@@ -587,6 +762,7 @@ function acquisitionLabel(order) {
   if (order.googleClickId || source.toLowerCase() === 'google') return 'Google Ads / Search';
   if (source) return medium ? `${source} / ${medium}` : source;
   if (order.promotionPartner) return `Referral / ${order.promotionPartner}`;
+  if (order.discoverySource) return `Customer-reported / ${order.discoverySource}`;
   return 'Direct / unattributed';
 }
 
@@ -627,6 +803,7 @@ async function sendOwnerOrderEmail(order) {
     `Meal subtotal: $${order.mealSubtotal.toFixed(2)}`,
     `${isPickup ? 'Pickup' : `Delivery (${order.deliveryZoneLabel || 'DFW'})`}: ${order.deliveryFee ? `$${order.deliveryFee.toFixed(2)}` : 'Free'}`,
     order.discountAmount > 0 ? `Partner discount (${order.promoCode}): -$${order.discountAmount.toFixed(2)}` : '',
+    order.salesTax > 0 ? `Sales tax (${(order.taxRate * 100).toFixed(2)}%): $${order.salesTax.toFixed(2)}` : '',
     `Total due: $${order.roundedTotal.toFixed(2)}`,
     `Exact pre-round total: $${order.exactTotal.toFixed(2)}`,
     order.promotionPartner ? `Referral partner: ${order.promotionPartner}` : '',
@@ -652,6 +829,7 @@ async function sendOwnerOrderEmail(order) {
     <p>Meals subtotal: <strong>$${order.mealSubtotal.toFixed(2)}</strong><br>
     ${isPickup ? 'Pickup' : `Delivery (${escapeHtml(order.deliveryZoneLabel || 'DFW')})`}: <strong>${order.deliveryFee ? `$${order.deliveryFee.toFixed(2)}` : 'Free'}</strong><br>
     ${order.discountAmount > 0 ? `Partner discount (${escapeHtml(order.promoCode)}): <strong>-$${order.discountAmount.toFixed(2)}</strong><br>` : ''}
+    ${order.salesTax > 0 ? `Sales tax (${(order.taxRate * 100).toFixed(2)}%): <strong>$${order.salesTax.toFixed(2)}</strong><br>` : ''}
     Total due: <strong>$${order.roundedTotal.toFixed(2)}</strong></p>
     ${order.promotionPartner ? `<p><strong>Referral partner:</strong> ${escapeHtml(order.promotionPartner)}</p>` : ''}
     <p><strong>Acquisition:</strong> ${escapeHtml(acquisition)}<br>
@@ -674,16 +852,117 @@ async function sendOwnerOrderEmail(order) {
   }, `order-owner-${order.orderId}`);
 }
 
-async function sendCustomerConfirmationEmail(order) {
+function customerInvoiceVariant(item) {
+  if (item.variantLabel) return item.variantLabel;
+  if (item.category === 'dessert' || item.category === 'addon' || !item.tier) return '';
+  return titleCase(item.tier);
+}
+
+function assertCustomerInvoiceIntegrity(order) {
+  if (!order || !Array.isArray(order.items) || order.items.length === 0) {
+    throw new Error('Invoice requires at least one item.');
+  }
+  if (!order.orderId || !order.firstName || !order.email) {
+    throw new Error('Invoice customer details are incomplete.');
+  }
+
+  const lineSubtotal = money(order.items.reduce((sum, item) => {
+    const qty = Number(item.qty);
+    const subtotal = Number(item.subtotal);
+    if (!item.name || !Number.isInteger(qty) || qty < 1 || !Number.isFinite(subtotal) || subtotal < 0) {
+      throw new Error('Invoice contains an invalid item line.');
+    }
+    if (Number.isFinite(Number(item.unitPrice))) {
+      const extended = money(Number(item.unitPrice) * qty);
+      if (Math.abs(extended - money(subtotal)) > 0.01) {
+        throw new Error(`Invoice unit price mismatch for ${item.name}.`);
+      }
+    }
+    return sum + subtotal;
+  }, 0) + Number(order.sauces?.extraSubtotal || 0));
+  const mealSubtotal = Number(order.mealSubtotal);
+  const deliveryFee = Number(order.deliveryFee || 0);
+  const discountAmount = Number(order.discountAmount || 0);
+  const salesTax = Number(order.salesTax || 0);
+  const roundedTotal = Number(order.roundedTotal);
+  const amounts = [mealSubtotal, deliveryFee, discountAmount, salesTax, roundedTotal];
+  if (amounts.some(amount => !Number.isFinite(amount) || amount < 0)) {
+    throw new Error('Invoice contains an invalid total.');
+  }
+  if (Math.abs(lineSubtotal - money(mealSubtotal)) > 0.01) {
+    throw new Error('Invoice item total does not match the meal subtotal.');
+  }
+  if (discountAmount > mealSubtotal + deliveryFee) {
+    throw new Error('Invoice discount exceeds the eligible subtotal.');
+  }
+
+  const exactTotal = money(mealSubtotal + deliveryFee - discountAmount + salesTax);
+  if (Number.isFinite(Number(order.exactTotal)) && Math.abs(exactTotal - money(order.exactTotal)) > 0.01) {
+    throw new Error('Invoice exact total does not match its components.');
+  }
+  const acceptedTotals = [exactTotal, Math.ceil(exactTotal)];
+  if (!acceptedTotals.some(total => Math.abs(total - roundedTotal) <= 0.01)) {
+    throw new Error('Invoice total due does not match its components.');
+  }
+  return { lineSubtotal, exactTotal, roundedTotal };
+}
+
+function buildCustomerInvoiceMessage(order) {
+  assertCustomerInvoiceIntegrity(order);
   const lines = itemLines(order);
   const address = formattedDeliveryAddress(order);
   const isPickup = order.fulfillmentMethod === 'pickup';
+  const fulfillmentCompleted = order.fulfillmentCompleted === true;
+  const deliveryDate = order.deliveryDate || DELIVERY_DATE;
+  const mealInvoiceRows = order.items.map((item, index) => {
+    const quantity = Number(item.qty) || 0;
+    const subtotal = Number(item.subtotal) || 0;
+    const unitPrice = Number.isFinite(Number(item.unitPrice))
+      ? Number(item.unitPrice)
+      : quantity > 0
+        ? subtotal / quantity
+        : subtotal;
+    const variant = customerInvoiceVariant(item);
+    const background = index % 2 === 0 ? '#ffffff' : '#f3f8f2';
+    return `<tr style="background:${background}">
+      <td style="padding:12px 10px;border-bottom:1px solid #d9e4d7;color:#173c2b;font-weight:600">${escapeHtml(item.name)}</td>
+      <td style="padding:12px 10px;border-bottom:1px solid #d9e4d7;color:#496455">${variant ? escapeHtml(variant) : '&mdash;'}</td>
+      <td style="padding:12px 10px;border-bottom:1px solid #d9e4d7;color:#173c2b;text-align:center">${quantity}</td>
+      <td style="padding:12px 10px;border-bottom:1px solid #d9e4d7;color:#173c2b;text-align:right;white-space:nowrap">$${unitPrice.toFixed(2)}</td>
+      <td style="padding:12px 10px;border-bottom:1px solid #d9e4d7;color:#173c2b;text-align:right;white-space:nowrap;font-weight:700">$${subtotal.toFixed(2)}</td>
+    </tr>`;
+  }).join('');
+  const sauceStartIndex = order.items.length;
+  const sauceInvoiceRows = (order.sauces?.selections || []).map((selection, index) => {
+    const background = (sauceStartIndex + index) % 2 === 0 ? '#ffffff' : '#f3f8f2';
+    return `<tr style="background:${background}">
+      <td style="padding:12px 10px;border-bottom:1px solid #d9e4d7;color:#173c2b;font-weight:600">${escapeHtml(selection.name)} sauce</td>
+      <td style="padding:12px 10px;border-bottom:1px solid #d9e4d7;color:#496455">45 g cup</td>
+      <td style="padding:12px 10px;border-bottom:1px solid #d9e4d7;color:#173c2b;text-align:center">${Number(selection.qty)}</td>
+      <td style="padding:12px 10px;border-bottom:1px solid #d9e4d7;color:#173c2b;text-align:right;white-space:nowrap">Selected</td>
+      <td style="padding:12px 10px;border-bottom:1px solid #d9e4d7;color:#173c2b;text-align:right;white-space:nowrap;font-weight:700">$0.00</td>
+    </tr>`;
+  }).join('');
+  const extraSauceRow = Number(order.sauces?.extraQty) > 0 ? `<tr style="background:${(sauceStartIndex + (order.sauces?.selections || []).length) % 2 === 0 ? '#ffffff' : '#f3f8f2'}">
+      <td style="padding:12px 10px;border-bottom:1px solid #d9e4d7;color:#173c2b;font-weight:600">Extra sauce cups</td>
+      <td style="padding:12px 10px;border-bottom:1px solid #d9e4d7;color:#496455">After free order allowance</td>
+      <td style="padding:12px 10px;border-bottom:1px solid #d9e4d7;color:#173c2b;text-align:center">${Number(order.sauces.extraQty)}</td>
+      <td style="padding:12px 10px;border-bottom:1px solid #d9e4d7;color:#173c2b;text-align:right;white-space:nowrap">$${(Number(order.sauces.extraSubtotal) / Number(order.sauces.extraQty)).toFixed(2)}</td>
+      <td style="padding:12px 10px;border-bottom:1px solid #d9e4d7;color:#173c2b;text-align:right;white-space:nowrap;font-weight:700">$${Number(order.sauces.extraSubtotal).toFixed(2)}</td>
+    </tr>` : '';
+  const invoiceRows = mealInvoiceRows + sauceInvoiceRows + extraSauceRow;
+  const deliveryLabel = isPickup ? 'Pickup' : `Delivery (${escapeHtml(order.deliveryZoneLabel || 'DFW')})`;
+  const deliveryValue = order.deliveryFee ? `$${order.deliveryFee.toFixed(2)}` : 'Free';
   const text = [
-    `Thanks for your order, ${order.firstName}.`,
+    'PRPD INVOICE',
     '',
-    'PRPD received your weekly order. It is awaiting payment and final confirmation from Rida.',
-    `Order reference: ${order.orderId}`,
-    `${isPickup ? 'Pickup week' : 'Delivery'}: ${DELIVERY_DATE}`,
+    `Hi ${order.firstName},`,
+    '',
+    fulfillmentCompleted
+      ? `Here is your invoice for the order delivered on ${deliveryDate}. The balance is still due.`
+      : 'PRPD received your weekly order. It is awaiting payment and final confirmation from Rida.',
+    `Invoice: ${order.orderId}`,
+    `${isPickup ? 'Pickup week' : 'Delivery'}: ${deliveryDate}`,
     `${isPickup ? 'Pickup' : 'Delivery address'}: ${address}`,
     '',
     'YOUR ORDER:',
@@ -692,56 +971,106 @@ async function sendCustomerConfirmationEmail(order) {
     `Meals subtotal: $${order.mealSubtotal.toFixed(2)}`,
     `${isPickup ? 'Pickup' : `Delivery (${order.deliveryZoneLabel || 'DFW'})`}: ${order.deliveryFee ? `$${order.deliveryFee.toFixed(2)}` : 'Free'}`,
     order.discountAmount > 0 ? `Partner discount (${order.promoCode}): -$${order.discountAmount.toFixed(2)}` : '',
+    order.salesTax > 0 ? `Sales tax (${(order.taxRate * 100).toFixed(2)}%): $${order.salesTax.toFixed(2)}` : '',
     `Total due: $${order.roundedTotal.toFixed(2)}`,
     '',
     `Zelle $${order.roundedTotal.toFixed(2)} to ${PAYMENT_EMAIL}.`,
     'Confirm that the recipient displays PRPD before sending.',
     `Include your name or order reference ${order.orderId} in the memo.`,
-    'Your order is confirmed after Rida verifies the payment.',
+    fulfillmentCompleted
+      ? 'This invoice will be marked paid after Rida verifies the payment.'
+      : 'Your order is confirmed after Rida verifies the payment.',
     'Questions? Reply to this email or text (469) 545-0781.',
     order.menuEmailOptIn ? 'You asked to receive PRPD weekly menu and cutoff emails.' : '',
   ].filter(Boolean).join('\n');
 
-  const htmlItems = lines.map(line => `<li style="margin:8px 0">${escapeHtml(line)}</li>`).join('');
-  const html = `<div style="font-family:Arial,sans-serif;color:#1E2E1E;line-height:1.6;max-width:620px;margin:0 auto;background:#ECE7DF;padding:30px">
-    <div style="background:#1E2E1E;color:#ECE7DF;padding:20px 24px;margin-bottom:24px">
-      <div style="font-size:28px;font-weight:700;letter-spacing:2px">PRPD</div>
-      <div style="font-size:11px;letter-spacing:2px;color:#A8C4AB">MEALS. PREPPED.</div>
-    </div>
-    <h1 style="font-size:24px;margin:0 0 10px">Thanks for your order, ${escapeHtml(order.firstName)}.</h1>
-    <p style="margin:0 0 22px;color:#526452">We received your weekly order. It is awaiting payment and final confirmation from Rida.</p>
-    <div style="background:#fff;padding:20px 22px;border:1px solid #d8d2c9;margin-bottom:18px">
-      <p style="margin:0 0 6px"><strong>Order reference:</strong> ${escapeHtml(order.orderId)}</p>
-      <p style="margin:0 0 6px"><strong>${isPickup ? 'Pickup week' : 'Delivery'}:</strong> ${escapeHtml(DELIVERY_DATE)}</p>
-      <p style="margin:0"><strong>${isPickup ? 'Pickup' : 'Address'}:</strong> ${escapeHtml(address)}</p>
-    </div>
-    <div style="background:#fff;padding:20px 22px;border:1px solid #d8d2c9">
-      <h2 style="font-size:16px;margin:0 0 12px">Your order</h2>
-      <ul style="padding-left:20px;margin:0 0 18px">${htmlItems}</ul>
-      <hr style="border:0;border-top:1px solid #d8d2c9;margin:16px 0">
-      <p style="margin:4px 0">Meals subtotal: <strong>$${order.mealSubtotal.toFixed(2)}</strong></p>
-      <p style="margin:4px 0">${isPickup ? 'Pickup' : `Delivery (${escapeHtml(order.deliveryZoneLabel || 'DFW')})`}: <strong>${order.deliveryFee ? `$${order.deliveryFee.toFixed(2)}` : 'Free'}</strong></p>
-      ${order.discountAmount > 0 ? `<p style="margin:4px 0">Partner discount (${escapeHtml(order.promoCode)}): <strong>-$${order.discountAmount.toFixed(2)}</strong></p>` : ''}
-      <p style="margin:10px 0 0;font-size:18px">Total due: <strong>$${order.roundedTotal.toFixed(2)}</strong></p>
-    </div>
-    <div style="background:#fff;padding:20px 22px;border:2px solid #6f9a73;margin-top:18px">
-      <h2 style="font-size:16px;margin:0 0 10px">Pay by Zelle</h2>
-      <p style="margin:4px 0;font-size:18px">Send <strong>$${order.roundedTotal.toFixed(2)}</strong> to <strong>${PAYMENT_EMAIL}</strong>.</p>
-      <p style="margin:4px 0"><strong>Before sending:</strong> confirm that the recipient displays PRPD.</p>
-      <p style="margin:8px 0 0;color:#526452">Include your name or order reference <strong>${escapeHtml(order.orderId)}</strong> in the memo. Your order is confirmed after Rida verifies the payment.</p>
-    </div>
-    ${order.menuEmailOptIn ? '<p style="margin:6px 0;color:#526452">You asked to receive PRPD weekly menu and cutoff emails.</p>' : ''}
-    <p style="margin:0;color:#526452">Questions? Reply to this email or text <a href="sms:+14695450781" style="color:#1E2E1E">(469) 545-0781</a>.</p>
-  </div>`;
+  const html = `<!doctype html><html><body style="margin:0;padding:0;background:#edf3eb;font-family:Arial,sans-serif;color:#173c2b">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="width:100%;background:#edf3eb">
+      <tr><td align="center" style="padding:24px 12px">
+        <table role="presentation" width="680" cellspacing="0" cellpadding="0" border="0" style="width:100%;max-width:680px;background:#ffffff;border:1px solid #cbdac8;border-radius:14px;overflow:hidden">
+          <tr><td style="background:#173c2b;padding:26px 28px;color:#ffffff">
+            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0"><tr>
+              <td style="font-size:30px;font-weight:800;letter-spacing:3px;color:#ffffff">PRPD</td>
+              <td align="right" style="font-size:13px;font-weight:700;letter-spacing:1px;color:#ffffff">INVOICE</td>
+            </tr></table>
+            <div style="margin-top:5px;font-size:11px;letter-spacing:2px;color:#b9d2bb">MEALS. PREPPED.</div>
+          </td></tr>
+          <tr><td style="padding:26px 28px 14px">
+            <h1 style="font-size:24px;line-height:1.25;margin:0 0 8px;color:#173c2b">${fulfillmentCompleted
+              ? `Hi ${escapeHtml(order.firstName)}, here is your invoice.`
+              : `Hi ${escapeHtml(order.firstName)}, your order is in.`}</h1>
+            <p style="margin:0;color:#58705f;line-height:1.55">${fulfillmentCompleted
+              ? `This invoice is for your order delivered on ${escapeHtml(deliveryDate)}. The balance is still due.`
+              : 'Your weekly order is awaiting payment and final confirmation from Rida.'}</p>
+          </td></tr>
+          <tr><td style="padding:8px 28px 20px">
+            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="width:100%;background:#f3f8f2;border:1px solid #d9e4d7;border-radius:8px">
+              <tr><td style="padding:16px 18px;line-height:1.7;color:#173c2b">
+                <strong>Invoice:</strong> ${escapeHtml(order.orderId)}<br>
+                <strong>${isPickup ? 'Pickup week' : 'Delivery'}:</strong> ${escapeHtml(deliveryDate)}<br>
+                <strong>${isPickup ? 'Pickup' : 'Address'}:</strong> ${escapeHtml(address)}
+              </td></tr>
+            </table>
+          </td></tr>
+          <tr><td style="padding:0 28px 24px">
+            <table width="100%" cellspacing="0" cellpadding="0" border="0" style="width:100%;border-collapse:collapse;border:1px solid #d9e4d7">
+              <thead><tr style="background:#24563d;color:#ffffff">
+                <th align="left" style="padding:12px 10px;font-size:12px;letter-spacing:.4px">ITEM</th>
+                <th align="left" style="padding:12px 10px;font-size:12px;letter-spacing:.4px">TYPE</th>
+                <th align="center" style="padding:12px 10px;font-size:12px;letter-spacing:.4px">QTY</th>
+                <th align="right" style="padding:12px 10px;font-size:12px;letter-spacing:.4px">PRICE</th>
+                <th align="right" style="padding:12px 10px;font-size:12px;letter-spacing:.4px">AMOUNT</th>
+              </tr></thead>
+              <tbody>${invoiceRows}</tbody>
+            </table>
+          </td></tr>
+          <tr><td style="padding:0 28px 24px">
+            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="width:100%;border-collapse:collapse">
+              <tr><td style="padding:5px 0;color:#58705f">Meals subtotal</td><td align="right" style="padding:5px 0;color:#173c2b;font-weight:700">$${order.mealSubtotal.toFixed(2)}</td></tr>
+              <tr><td style="padding:5px 0;color:#58705f">${deliveryLabel}</td><td align="right" style="padding:5px 0;color:#173c2b;font-weight:700">${deliveryValue}</td></tr>
+              ${order.discountAmount > 0 ? `<tr><td style="padding:5px 0;color:#58705f">Discount (${escapeHtml(order.promoCode)})</td><td align="right" style="padding:5px 0;color:#173c2b;font-weight:700">-$${order.discountAmount.toFixed(2)}</td></tr>` : ''}
+              ${order.salesTax > 0 ? `<tr><td style="padding:5px 0;color:#58705f">Sales tax (${(order.taxRate * 100).toFixed(2)}%)</td><td align="right" style="padding:5px 0;color:#173c2b;font-weight:700">$${order.salesTax.toFixed(2)}</td></tr>` : ''}
+              <tr><td style="padding:14px 0 0;border-top:2px solid #173c2b;font-size:19px;font-weight:800;color:#173c2b">Total due</td><td align="right" style="padding:14px 0 0;border-top:2px solid #173c2b;font-size:19px;font-weight:800;color:#173c2b">$${order.roundedTotal.toFixed(2)}</td></tr>
+            </table>
+          </td></tr>
+          <tr><td style="padding:0 28px 24px">
+            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="width:100%;background:#f3f8f2;border:2px solid #6f9a73;border-radius:8px">
+              <tr><td style="padding:18px 20px;color:#173c2b;line-height:1.55">
+                <div style="font-size:16px;font-weight:800;margin-bottom:6px">Pay by Zelle</div>
+                Send <strong>$${order.roundedTotal.toFixed(2)}</strong> to <strong>${PAYMENT_EMAIL}</strong>.<br>
+                Confirm that the recipient displays PRPD before sending.<br>
+                <span style="color:#58705f">Include your name or invoice ${escapeHtml(order.orderId)} in the memo. ${fulfillmentCompleted
+                  ? 'This invoice will be marked paid after Rida verifies payment.'
+                  : 'Your order is confirmed after Rida verifies payment.'}</span>
+              </td></tr>
+            </table>
+          </td></tr>
+          <tr><td style="background:#173c2b;padding:18px 28px;color:#ffffff;font-size:13px;line-height:1.5">
+            Questions? Reply to this email or text <a href="sms:+14695450781" style="color:#ffffff;text-decoration:underline">(469) 545-0781</a>.
+            ${order.menuEmailOptIn ? '<br><span style="color:#b9d2bb">You asked to receive PRPD weekly menu and cutoff emails.</span>' : ''}
+          </td></tr>
+        </table>
+      </td></tr>
+    </table>
+  </body></html>`;
+
+  return {
+    subject: `PRPD Invoice - ${order.orderId} - $${order.roundedTotal.toFixed(2)}`,
+    text,
+    html,
+  };
+}
+
+async function sendCustomerConfirmationEmail(order, options = {}) {
+  const message = buildCustomerInvoiceMessage(order);
+  const idempotencyKey = options.idempotencyKey || `order-customer-${order.orderId}`;
 
   await sendResendEmail({
     from: SENDER_EMAIL,
     to: [order.email],
     reply_to: CUSTOMER_REPLY_EMAIL,
-    subject: `PRPD Order Received - ${order.orderId}`,
-    text,
-    html,
-  }, `order-customer-${order.orderId}`);
+    ...message,
+  }, idempotencyKey);
 }
 
 module.exports = async function handler(request, response) {
@@ -826,6 +1155,10 @@ module.exports = async function handler(request, response) {
         deliveryZone: order.deliveryZone,
         deliveryZoneLabel: order.deliveryZoneLabel,
         discountAmount: order.discountAmount,
+        taxableSubtotal: order.taxableSubtotal,
+        taxableDelivery: order.taxableDelivery,
+        taxRate: order.taxRate,
+        salesTax: order.salesTax,
         promoCode: order.promoCode,
         notificationSent: true,
         customerConfirmationSent: true,
@@ -876,7 +1209,12 @@ module.exports = async function handler(request, response) {
       deliveryZone: order.deliveryZone,
       deliveryZoneLabel: order.deliveryZoneLabel,
       discountAmount: order.discountAmount,
+      taxableSubtotal: order.taxableSubtotal,
+      taxableDelivery: order.taxableDelivery,
+      taxRate: order.taxRate,
+      salesTax: order.salesTax,
       promoCode: order.promoCode,
+      sauces: order.sauces,
       notificationSent,
       customerConfirmationSent,
       tiktokEventSent,
@@ -906,8 +1244,15 @@ module.exports._test = {
   ORDER_KEYS,
   ORDER_ITEM_KEYS,
   sendCustomerConfirmationEmail,
+  buildCustomerInvoiceMessage,
+  assertCustomerInvoiceIntegrity,
   acquisitionLabel,
   isMenuPublished,
   catalogForConfig,
   deliveryPolicyForZip,
+  roundedFoodSubtotal,
+  orderMinimumReached,
+  calculateSalesTax,
+  normalizeSauceSelections,
+  SAUCE_SELECTION_KEYS,
 };

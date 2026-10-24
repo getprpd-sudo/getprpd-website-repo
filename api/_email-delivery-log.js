@@ -27,6 +27,7 @@ const DELIVERY_STATUS_BY_EVENT = Object.freeze({
   'email.suppressed': 'suppressed',
   'email.complained': 'complained',
 });
+const deliverySheetReadiness = new WeakMap();
 
 function clean(value, maxLength = 1000) {
   return String(value ?? '')
@@ -69,7 +70,7 @@ function normalizeDeliveryEvent(event, webhookId) {
   };
 }
 
-async function ensureDeliverySheet(client) {
+async function prepareDeliverySheet(client) {
   if (!SHEET_ID) throw new Error('Google Sheet ID is not configured.');
   const metadata = await client.request({
     url: spreadsheetUrl(SHEET_ID, '?fields=sheets.properties.title'),
@@ -100,8 +101,22 @@ async function ensureDeliverySheet(client) {
   });
 }
 
-async function readDeliveryRows(client) {
-  await ensureDeliverySheet(client);
+async function ensureDeliverySheet(client) {
+  if (!client || (typeof client !== 'object' && typeof client !== 'function')) {
+    throw new Error('A Google Sheets client is required.');
+  }
+  if (!deliverySheetReadiness.has(client)) {
+    const readiness = prepareDeliverySheet(client).catch(error => {
+      deliverySheetReadiness.delete(client);
+      throw error;
+    });
+    deliverySheetReadiness.set(client, readiness);
+  }
+  return deliverySheetReadiness.get(client);
+}
+
+async function readDeliveryRows(client, options = {}) {
+  if (options.ensure !== false) await ensureDeliverySheet(client);
   const range = encodeURIComponent(`'${DELIVERY_SHEET}'!A2:M5000`);
   const result = await client.request({
     url: spreadsheetUrl(SHEET_ID, `/values/${range}`),
@@ -128,6 +143,16 @@ async function appendRow(client, row) {
   });
 }
 
+async function appendRows(client, rows) {
+  if (!rows.length) return;
+  const range = encodeURIComponent(`'${DELIVERY_SHEET}'!A:M`);
+  await client.request({
+    url: spreadsheetUrl(SHEET_ID, `/values/${range}:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS`),
+    method: 'POST',
+    data: { values: rows },
+  });
+}
+
 async function putRow(client, rowNumber, row) {
   const range = encodeURIComponent(`'${DELIVERY_SHEET}'!A${rowNumber}:M${rowNumber}`);
   await client.request({
@@ -138,48 +163,75 @@ async function putRow(client, rowNumber, row) {
 }
 
 async function appendAcceptedEmail(client, record) {
-  await ensureDeliverySheet(client);
-  const now = clean(record.acceptedAt, 80) || new Date().toISOString();
-  const expectedCount = Math.max(0, Number(record.expectedCount) || 0);
-  const rows = await readDeliveryRows(client);
-  const index = rows.findIndex(row => clean(row[1], 160) === clean(record.emailId, 160));
-  if (index >= 0) {
-    const row = Array.from({ length: DELIVERY_HEADERS.length }, (_, column) => clean(rows[index][column]));
-    row[0] = clean(record.runId, 240);
-    row[2] ||= firstRecipient(record.recipient);
-    row[3] ||= clean(record.subject, 500);
-    row[4] ||= now;
-    row[5] = row[5] && row[5] !== 'event received' ? row[5] : 'accepted';
-    row[6] = row[6] && row[6] !== 'event received' ? row[6] : 'email.accepted';
-    row[7] ||= now;
-    row[10] = now;
-    row[12] = expectedCount || '';
-    await putRow(client, index + 2, row);
-    return;
-  }
-  await appendRow(client, [
-    clean(record.runId, 240),
-    clean(record.emailId, 160),
-    firstRecipient(record.recipient),
-    clean(record.subject, 500),
-    now,
-    'accepted',
-    'email.accepted',
-    now,
-    '',
-    '',
-    now,
-    '',
-    expectedCount || '',
-  ]);
+  return appendAcceptedEmails(client, [record]);
 }
 
-async function recordDeliveryEvent(client, event, webhookId) {
+async function appendAcceptedEmails(client, records) {
+  const acceptedRecords = Array.isArray(records) ? records.filter(Boolean) : [];
+  if (!acceptedRecords.length) return;
+  await ensureDeliverySheet(client);
+  const rows = await readDeliveryRows(client);
+  const indexesByEmailId = new Map(rows.map((row, index) => [clean(row[1], 160), index]));
+  const updates = [];
+  const additions = [];
+
+  for (const record of acceptedRecords) {
+    const now = clean(record.acceptedAt, 80) || new Date().toISOString();
+    const expectedCount = Math.max(0, Number(record.expectedCount) || 0);
+    const emailId = clean(record.emailId, 160);
+    const index = indexesByEmailId.get(emailId);
+    if (Number.isInteger(index)) {
+      const row = Array.from({ length: DELIVERY_HEADERS.length }, (_, column) => clean(rows[index][column]));
+      row[0] = clean(record.runId, 240);
+      row[2] ||= firstRecipient(record.recipient);
+      row[3] ||= clean(record.subject, 500);
+      row[4] ||= now;
+      row[5] = row[5] && row[5] !== 'event received' ? row[5] : 'accepted';
+      row[6] = row[6] && row[6] !== 'event received' ? row[6] : 'email.accepted';
+      row[7] ||= now;
+      row[10] = now;
+      row[12] = expectedCount || '';
+      updates.push({
+        range: `'${DELIVERY_SHEET}'!A${index + 2}:M${index + 2}`,
+        values: [row],
+      });
+      continue;
+    }
+    const row = [
+      clean(record.runId, 240),
+      emailId,
+      firstRecipient(record.recipient),
+      clean(record.subject, 500),
+      now,
+      'accepted',
+      'email.accepted',
+      now,
+      '',
+      '',
+      now,
+      '',
+      expectedCount || '',
+    ];
+    additions.push(row);
+    indexesByEmailId.set(emailId, rows.length + additions.length - 1);
+  }
+
+  if (updates.length) {
+    await client.request({
+      url: spreadsheetUrl(SHEET_ID, '/values:batchUpdate'),
+      method: 'POST',
+      data: { valueInputOption: 'RAW', data: updates },
+    });
+  }
+  await appendRows(client, additions);
+}
+
+async function recordDeliveryEvent(client, event, webhookId, options = {}) {
   const normalized = normalizeDeliveryEvent(event, webhookId);
   if (!normalized.type || !normalized.emailId || !normalized.webhookId) {
     throw new Error('Resend event is missing its type, email ID, or webhook ID.');
   }
-  const rows = await readDeliveryRows(client);
+  const rows = await readDeliveryRows(client, { ensure: options.ensureSheet !== false });
   if (rows.some(row => clean(row[9], 200) === normalized.webhookId)) {
     return { duplicate: true, runId: '', normalized };
   }
@@ -197,7 +249,15 @@ async function recordDeliveryEvent(client, event, webhookId) {
     row[9] = normalized.webhookId;
     row[10] = now;
     await putRow(client, index + 2, row);
-    return { duplicate: false, runId: row[0], normalized };
+    rows[index] = row;
+    return {
+      duplicate: false,
+      runId: row[0],
+      normalized,
+      summary: row[0]
+        ? summarizeDeliveryRows(rows.filter(source => clean(source[0], 240) === clean(row[0], 240)), row[0])
+        : null,
+    };
   }
 
   await appendRow(client, [
@@ -215,7 +275,7 @@ async function recordDeliveryEvent(client, event, webhookId) {
     '',
     '',
   ]);
-  return { duplicate: false, runId: '', normalized };
+  return { duplicate: false, runId: '', normalized, summary: null };
 }
 
 async function deliverySummary(client, runId) {
@@ -249,12 +309,23 @@ function summarizeDeliveryRows(rows, runId) {
 async function markDeliveryReported(client, runId) {
   const rows = await readDeliveryRows(client);
   const reportedAt = new Date().toISOString();
-  await Promise.all(rows.map(async (source, index) => {
+  const updates = [];
+  rows.forEach((source, index) => {
     if (clean(source[0], 240) !== clean(runId, 240)) return;
     const row = Array.from({ length: DELIVERY_HEADERS.length }, (_, column) => clean(source[column]));
     row[11] = reportedAt;
-    await putRow(client, index + 2, row);
-  }));
+    updates.push({
+      range: `'${DELIVERY_SHEET}'!A${index + 2}:M${index + 2}`,
+      values: [row],
+    });
+  });
+  if (updates.length) {
+    await client.request({
+      url: spreadsheetUrl(SHEET_ID, '/values:batchUpdate'),
+      method: 'POST',
+      data: { valueInputOption: 'RAW', data: updates },
+    });
+  }
   return reportedAt;
 }
 
@@ -264,6 +335,7 @@ module.exports = {
   TERMINAL_STATUSES,
   acceptedRecipientSetForRun,
   appendAcceptedEmail,
+  appendAcceptedEmails,
   deliverySummary,
   ensureDeliverySheet,
   markDeliveryReported,

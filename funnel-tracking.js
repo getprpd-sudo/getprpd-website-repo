@@ -4,8 +4,12 @@
   const ATTRIBUTION_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
   const GOOGLE_CLICK_KEYS = ['gclid', 'gbraid', 'wbraid'];
   const EVENT_NAMES = new Set([
-    'landing_view', 'menu_view', 'menu_click', 'cart_started', 'begin_checkout',
-    'delivery_quote', 'order_submit', 'order_error', 'purchase',
+    'landing_view', 'landing_engaged', 'menu_view', 'menu_engaged', 'menu_click',
+    'menu_filter', 'meal_engaged', 'social_proof_play', 'social_proof_complete',
+    'cart_started', 'cart_restored', 'begin_checkout', 'checkout_blocked',
+    'fulfillment_selected', 'delivery_quote', 'delivery_blocked',
+    'promo_applied', 'promo_rejected', 'order_submit', 'order_error',
+    'purchase', 'lead_submit', 'contact_click',
   ]);
   const memory = new Map();
 
@@ -44,6 +48,23 @@
         storageSet('utm_medium', 'cpc');
       }
     }
+    const referral = params.get('ref') || params.get('promo');
+    if (referral) {
+      const normalizedReferral = String(referral)
+        .trim()
+        .toUpperCase()
+        .replace(/[^A-Z0-9_-]/g, '')
+        .slice(0, 32);
+      if (normalizedReferral) {
+        storageSet('promo_code', normalizedReferral);
+        if (!storageGet('prpd_utm_source')) {
+          storageSet('prpd_utm_source', 'referral');
+          storageSet('utm_source', 'referral');
+          storageSet('prpd_utm_medium', 'partner');
+          storageSet('utm_medium', 'partner');
+        }
+      }
+    }
     if (!storageGet('landing_page')) storageSet('landing_page', windowObject.location.href.slice(0, 500));
     if (documentObject.referrer && !storageGet('referrer')) storageSet('referrer', documentObject.referrer.slice(0, 500));
   }
@@ -51,6 +72,15 @@
   function isGoogleAcquisition() {
     const source = storageGet('prpd_utm_source').toLowerCase();
     return source === 'google' || GOOGLE_CLICK_KEYS.some(key => storageGet(`prpd_${key}`));
+  }
+
+  function hasCampaignAttribution() {
+    return Boolean(
+      storageGet('prpd_utm_source') ||
+      storageGet('prpd_utm_campaign') ||
+      storageGet('promo_code') ||
+      GOOGLE_CLICK_KEYS.some(key => storageGet(`prpd_${key}`))
+    );
   }
 
   function sessionId() {
@@ -79,7 +109,7 @@
   }
 
   function track(eventName, options = {}) {
-    if (!EVENT_NAMES.has(eventName) || !isGoogleAcquisition()) return false;
+    if (!EVENT_NAMES.has(eventName) || !hasCampaignAttribution()) return false;
     const detail = safeDetail(options.detail);
     const dedupeKey = `prpd_funnel_sent_${eventName}${options.repeatable ? `_${detail}` : ''}`;
     if (!options.repeatable && storageGet(dedupeKey)) return false;
@@ -133,10 +163,40 @@
     if (stage === 'homepage' || stage === 'ads-landing') track('landing_view', { detail: stage });
     if (stage === 'order') track('menu_view', { detail: 'weekly-menu' });
 
+    const engagementEvent = stage === 'order' ? 'menu_engaged' : 'landing_engaged';
+    if (stage === 'homepage' || stage === 'ads-landing' || stage === 'order') {
+      windowObject.setTimeout(() => {
+        if (!documentObject.hidden) {
+          track(engagementEvent, { detail: `${stage}-15-seconds`, repeatable: true });
+        }
+      }, 15_000);
+
+      let scrollRecorded = false;
+      windowObject.addEventListener('scroll', () => {
+        if (scrollRecorded) return;
+        const root = documentObject.documentElement;
+        const scrollable = Math.max(1, (root?.scrollHeight || 0) - (windowObject.innerHeight || 0));
+        const progress = Math.max(0, windowObject.scrollY || root?.scrollTop || 0) / scrollable;
+        if (progress >= 0.35) {
+          scrollRecorded = true;
+          track(engagementEvent, { detail: `${stage}-35-percent-scroll`, repeatable: true });
+        }
+      }, { passive: true });
+    }
+
     documentObject.addEventListener('click', event => {
       const link = event.target.closest('a[href^="/order"], [data-funnel-event="menu_click"]');
       if (!link) return;
       track('menu_click', { detail: link.dataset.funnelDetail || 'order-cta' });
+    });
+
+    documentObject.querySelectorAll('[data-social-proof-video]').forEach(video => {
+      video.addEventListener('play', () => {
+        track('social_proof_play', { detail: video.dataset.funnelDetail || 'customer-review' });
+      }, { once: true });
+      video.addEventListener('ended', () => {
+        track('social_proof_complete', { detail: video.dataset.funnelDetail || 'customer-review' });
+      }, { once: true });
     });
   });
 }(window, document));
