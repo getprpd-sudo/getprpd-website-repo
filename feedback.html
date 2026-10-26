@@ -19,7 +19,7 @@
         <span class="eyebrow" id="customerGreeting">Your delivered order</span>
         <h1>Rate your meals</h1>
         <p class="intro-copy" id="introCopy"></p>
-        <div class="reward-banner"><span class="reward-amount">$5</span><div><strong id="rewardHeadline"></strong><span>Every dish needs a 1–10 rating and a short “What did you like?” response. One credit per delivered order, valid for 90 days, with a $30 active-wallet cap.</span></div></div>
+        <div class="reward-banner"><span class="reward-amount">$5</span><div><strong id="rewardHeadline"></strong><span>Earn $5 after every 6 different dishes reviewed across delivered orders. Any 1–10 score and a short, honest review count. Repeated dishes and Lean/Bulk portions count once. Credits are valid for 90 days, with a $30 active-wallet cap.</span><span id="lifetimeProgress"></span><span id="rewardNotice" aria-live="polite"></span></div></div>
       </section>
       <section class="progress-shell" aria-label="Feedback progress">
         <div class="progress-copy"><div class="progress-status"><span id="progressText"></span><small id="scoreText"></small></div><span id="rewardText"></span></div>
@@ -40,9 +40,10 @@
         <p class="save-status" id="saveStatus" aria-live="polite"></p>
         <button class="done-button" id="doneButton" type="button" disabled></button>
       </section>
-      <section class="success" id="success" tabindex="-1"><span class="eyebrow">Feedback saved</span><h2>You earned $5 in PRPD credit.</h2><p>Thank you. The credit is linked to this order and will be ready for a future purchase.</p><small id="creditDetail"></small></section>
+      <section class="success" id="success" tabindex="-1"><span class="eyebrow">Feedback saved</span><h2 id="successTitle">Your feedback is saved.</h2><p id="successCopy">Thank you for your honest reviews.</p><small id="creditDetail"></small></section>
     </div>
   </main>
-  <script src="/feedback.js?v=20261020.1"></script>
+  <script src="/feedback.js?v=20261026-unique-rewards-2"></script>
 </body>
 </html>
+

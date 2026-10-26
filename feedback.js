@@ -4,6 +4,7 @@
   const $ = id => document.getElementById(id);
   const token = new URLSearchParams(location.search).get('t') || '';
   let meals = [];
+  let rewardProgress = {uniqueDishCount:0,every:6,amount:5,remaining:6,identityReview:false};
   let saveTimer = null;
   let saving = false;
   let queuedSave = false;
@@ -54,7 +55,8 @@
       });
       const result = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(result.error || 'Your feedback could not be saved.');
-      $('saveStatus').textContent = finalize ? 'Feedback complete.' : 'Saved privately.';
+      applySavedResult(result);
+      $('saveStatus').textContent = finalize ? 'Feedback saved.' : 'Saved privately.';
       return result;
     } catch (error) {
       $('saveStatus').textContent = `${error.message} Please try again.`;
@@ -62,7 +64,7 @@
       return null;
     } finally {
       saving = false;
-      if (queuedSave && !finalize) { queuedSave = false; save(false); }
+      if (queuedSave) { queuedSave = false; save(false); }
     }
   }
 
@@ -83,14 +85,12 @@
   function refreshProgress() {
     const rated = meals.filter(meal => Number.isInteger(state[mealKey(meal)]?.score)).length;
     const completed = meals.filter(isMealComplete).length;
-    const missingNotes = meals.filter(meal => Number.isInteger(state[mealKey(meal)]?.score) && !isMealComplete(meal)).length;
-    const qualified = completed === meals.length;
     $('progressText').textContent = `${completed} of ${meals.length} reviews complete`;
     $('scoreText').textContent = `${rated} of ${meals.length} ratings selected`;
     $('progressFill').style.width = `${meals.length ? completed / meals.length * 100 : 0}%`;
-    $('rewardText').textContent = qualified ? '$5 credit unlocked' : rated === meals.length ? `${missingNotes} required note${missingNotes === 1 ? '' : 's'} left` : `${meals.length - completed} full review${meals.length - completed === 1 ? '' : 's'} left`;
-    $('doneButton').disabled = !qualified;
-    $('doneButton').textContent = qualified ? 'Finish and save feedback' : rated === meals.length ? `Add ${missingNotes} required note${missingNotes === 1 ? '' : 's'} to earn $5` : `Complete all ${meals.length} dish reviews to earn $5`;
+    $('rewardText').textContent = 'Each completed dish counts on its own';
+    $('doneButton').disabled = false;
+    $('doneButton').textContent = 'Save feedback and optional note';
     $('consentCard').classList.toggle('is-visible', Boolean(writtenCommentExists()));
     document.querySelectorAll('.meal-card').forEach((article,index) => refreshCard(article,meals[index]));
   }
@@ -100,7 +100,7 @@
     const article = document.createElement('article');
     article.className = 'meal-card';
     const image = meal.image || '/assets/images/favicon-1024-google.png';
-    article.innerHTML = `<div class="meal-header"><img class="meal-image" src="${escapeHtml(image)}" alt="${escapeHtml(meal.name)}"><div class="meal-heading"><span class="tier">${escapeHtml(meal.tier.toUpperCase())}</span><h2>${index + 1}. ${escapeHtml(meal.name)}</h2><p>${meal.quantity} ordered &middot; Rate this dish once</p></div></div><div class="rating-area"><div class="rating-question"><strong>How was it?</strong><span class="saved-state">Choose 1&ndash;10</span></div><div class="score-grid" role="group" aria-label="Score ${escapeHtml(meal.name)} from 1 to 10">${Array.from({length:10},(_,i) => `<button class="score-button" type="button" data-score="${i + 1}" aria-label="${i + 1} out of 10" aria-pressed="${value.score === i + 1}">${i + 1}</button>`).join('')}</div><div class="score-anchors"><span>Not for me</span><span>Loved it</span></div><div class="notes" ${value.score || value.liked || value.change ? '' : 'hidden'}><label class="feedback-prompt"><span class="prompt-row"><strong>What did you like?</strong><span class="required-mark">Required</span></span><textarea data-note="liked" required minlength="8" maxlength="500" aria-required="true" placeholder="Tell us about the flavor, portion, or texture">${escapeHtml(value.liked || '')}</textarea><span class="field-help">Required, minimum 8 characters</span></label><label class="feedback-prompt"><span class="prompt-row"><strong>What would you change?</strong><span class="optional-mark">Optional</span></span><textarea data-note="change" maxlength="500" placeholder="Skip this if you would not change anything">${escapeHtml(value.change || '')}</textarea></label></div></div>`;
+    article.innerHTML = `<div class="meal-header"><img class="meal-image" src="${escapeHtml(image)}" alt="${escapeHtml(meal.name)}"><div class="meal-heading"><span class="tier">${escapeHtml(meal.portionLabel || meal.tier.toUpperCase())}</span><h2>${index + 1}. ${escapeHtml(meal.name)}</h2><p>${meal.quantity} ordered &middot; ${meal.alreadyCounted ? 'Already counted for rewards. Updates are welcome.' : 'Rate this dish once'}</p></div></div><div class="rating-area"><div class="rating-question"><strong>How was it?</strong><span class="saved-state">Choose 1&ndash;10</span></div><div class="score-grid" role="group" aria-label="Score ${escapeHtml(meal.name)} from 1 to 10">${Array.from({length:10},(_,i) => `<button class="score-button" type="button" data-score="${i + 1}" aria-label="${i + 1} out of 10" aria-pressed="${value.score === i + 1}">${i + 1}</button>`).join('')}</div><div class="score-anchors"><span>Not for me</span><span>Loved it</span></div><div class="notes" ${value.score || value.liked || value.change ? '' : 'hidden'}><label class="feedback-prompt"><span class="prompt-row"><strong>Your honest review</strong><span class="required-mark">Required</span></span><textarea data-note="liked" required minlength="8" maxlength="500" aria-required="true" placeholder="What worked, or what would you change?">${escapeHtml(value.liked || '')}</textarea><span class="field-help">Required, minimum 8 characters</span></label><label class="feedback-prompt"><span class="prompt-row"><strong>Anything else to improve?</strong><span class="optional-mark">Optional</span></span><textarea data-note="change" maxlength="500" placeholder="Skip this if you would not change anything">${escapeHtml(value.change || '')}</textarea></label></div></div>`;
     article.querySelector('.meal-image').addEventListener('error', event => { event.currentTarget.src = '/assets/images/favicon-1024-google.png'; }, { once:true });
     article.querySelectorAll('.score-button').forEach(button => button.addEventListener('click', () => {
       const key = mealKey(meal);
@@ -125,14 +125,15 @@
 
   function hydrate(order) {
     meals = order.meals;
+    rewardProgress = order.rewardProgress || rewardProgress;
     meals.forEach(meal => { if (meal.feedback) state[mealKey(meal)] = meal.feedback; });
     state.overallNote = order.overallNote || '';
     state.testimonialConsent = order.testimonialConsent === true;
     state.testimonialDisplay = order.testimonialDisplay || 'first-name';
     $('customerGreeting').textContent = `Hey, ${order.customerFirstName}`;
-    $('introCopy').textContent = `Your ${meals.length} unique dish${meals.length === 1 ? ' is' : 'es are'} ready below. For each dish, choose a 1–10 rating and tell us briefly what you liked. Everything saves as you go.`;
-    $('rewardHeadline').textContent = `PRPD credit when you review all ${meals.length} dish${meals.length === 1 ? '' : 'es'}`;
-    $('completionCopy').textContent = `This final note is optional. You can finish after all ${meals.length} dish${meals.length === 1 ? '' : 'es'} have both a score and a short “What did you like?” response.`;
+    $('introCopy').textContent = `Your ${meals.length} unique dish${meals.length === 1 ? ' is' : 'es are'} ready below. Review any dishes you have tried. Give each a 1–10 rating and a short, honest review. All scores count equally. Each completed dish saves and counts on its own.`;
+    renderRewardProgress();
+    $('completionCopy').textContent = `This order note and testimonial permission are optional and save separately. Each dish counts when it has a score and a short review of at least 8 characters. You can return to the other dishes later.`;
     meals.forEach((meal,index) => $('mealList').appendChild(mealCard(meal,index)));
     $('overallNote').value = state.overallNote;
     $('testimonialConsent').checked = state.testimonialConsent;
@@ -142,6 +143,51 @@
     $('loadState').hidden = true;
     $('feedbackExperience').hidden = false;
     refreshProgress();
+  }
+
+  function applySavedResult(result) {
+    if (result.rewardProgress) { rewardProgress = result.rewardProgress; renderRewardProgress(); }
+    const credit = result.credit || {};
+    if (credit.earned) {
+      $('rewardNotice').textContent = `$${Number(credit.amount).toFixed(0)} credit earned and recorded.${credit.status === 'queued' ? ' Credit above the $30 active-wallet cap is queued.' : ''}`;
+    } else if (credit.status === 'pending') {
+      $('rewardNotice').textContent = 'Reviews saved. Reward processing needs another attempt. Use Save feedback to retry.';
+    } else if (credit.status === 'identity-review') {
+      $('rewardNotice').textContent = 'Reviews saved. Contact PRPD to link this order to your rewards.';
+    } else if (credit.alreadyRecorded?.length) {
+      $('rewardNotice').textContent = 'Your reached rewards are already recorded. Repeated dishes do not add another count.';
+    }
+  }
+
+  function renderRewardProgress() {
+    $('rewardHeadline').textContent = '$5 for every 6 different dishes reviewed';
+    $('lifetimeProgress').textContent = rewardProgress.identityReview
+      ? 'Your reviews still save. Contact PRPD to link this order to your rewards.'
+      : `${rewardProgress.uniqueDishCount} different dishes counted across your orders. ${rewardProgress.remaining} more to your next $5 credit.`;
+  }
+
+  function showCompletion(result) {
+    const credit = result.credit || {};
+    $('successTitle').textContent = credit.earned ? `You earned $${Number(credit.amount).toFixed(0)} in PRPD credit.` : 'Your feedback is saved.';
+    $('successCopy').textContent = credit.earned
+      ? 'Thank you for your honest reviews. Your progress carries across delivered orders.'
+      : 'Thank you. Repeated dishes do not add another reward count. Your progress carries across delivered orders.';
+    $('creditDetail').textContent = credit.status === 'identity-review'
+      ? 'Contact PRPD to link this order to your rewards. Your reviews have been saved.'
+      : credit.status === 'pending'
+        ? 'Your reviews are saved. Reward processing needs another attempt. Finish again to retry safely.'
+        : credit.status === 'queued'
+          ? 'Credit above the $30 active-wallet cap is recorded and queued. Credits are valid for 90 days.'
+          : credit.earned
+            ? 'Credits are valid for 90 days. Credit is not cash, is not transferable, and cannot be combined with Welcome10 or another promotion.'
+            : (credit.alreadyRecorded?.length ? 'Reached rewards are already recorded. ' : '') + (rewardProgress.identityReview ? 'Contact PRPD to link your rewards.' : `${rewardProgress.uniqueDishCount} different dishes counted. ${rewardProgress.remaining} more to your next $5 credit.`);
+    if (credit.status === 'pending') {
+      $('doneButton').disabled = false;
+      $('doneButton').textContent = 'Retry reward processing';
+    }
+    $('success').classList.add('is-visible');
+    $('success').focus();
+    $('success').scrollIntoView({ behavior:'smooth', block:'center' });
   }
 
   $('overallNote').addEventListener('input', () => { state.overallNote = $('overallNote').value; refreshProgress(); scheduleSave(); });
@@ -158,12 +204,7 @@
     while (saving) await new Promise(resolve => setTimeout(resolve,50));
     const result = await save(true);
     if (!result?.finalized) { refreshProgress(); return; }
-    $('creditDetail').textContent = result.credit?.status === 'queued'
-      ? 'Your $5 credit is recorded and queued because your active wallet is already at the $30 cap.'
-      : 'Credit is not cash, is not transferable, and cannot be combined with Welcome10 or another promotion.';
-    $('success').classList.add('is-visible');
-    $('success').focus();
-    $('success').scrollIntoView({ behavior:'smooth', block:'center' });
+    showCompletion(result);
   });
 
   (async () => {

@@ -1,6 +1,7 @@
 'use strict';
 
 const crypto = require('node:crypto');
+const rewards = require('./_feedback-rewards');
 
 const TOKEN_PATTERN = /^[A-Za-z0-9_-]{40,60}$/;
 const ORDER_ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9_-]{5,99}$/;
@@ -73,7 +74,7 @@ function normalizeProvision(raw) {
       return { id, tier, name, image, quantity };
     });
     return {
-      orderId, customerName, customerFirstName, meals,
+      orderId, customerName, customerFirstName, meals: rewards.uniqueMeals(meals),
       email: clean(entry.email, 254), phone: clean(entry.phone, 40),
     };
   });
@@ -100,10 +101,6 @@ function normalizeSave(raw, expectedMeals) {
     return { id, tier, score, liked, change };
   });
   const finalize = raw.finalize === true;
-  if (finalize) {
-    if (meals.length !== expected.size) inputError('Every unique dish must be reviewed before finishing.');
-    if (meals.some(meal => meal.liked.length < 8)) inputError('Every dish needs a short note about what you liked.');
-  }
   return {
     meals,
     overallNote: clean(raw.overallNote, 1000),
