@@ -9,6 +9,7 @@ open-*.bat
 # Internal handoff, audits, tests, and legacy backends.
 README.md
 CLAUDE.md
+design-qa.md
 SECURITY_AUDIT_*.md
 tests/
 apps-script.gs

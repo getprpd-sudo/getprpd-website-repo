@@ -58,7 +58,7 @@ const PRPD_MENU_DETAILS = {
           "lean": {
             "label": "LEAN",
             "netWeight": "10.8 oz (305 g)",
-            "ingredients": "high-fiber wheat tortilla, 90/10 ground beef, whole egg, egg whites, onion, fat-free mozzarella cheese, tomato paste.",
+            "ingredients": "Mission Carb Balance wheat tortilla, 90/10 ground beef, whole egg, egg whites, onion, fat-free mozzarella cheese, tomato paste.",
             "allergens": "CONTAINS: EGG, MILK, WHEAT.",
             "allergenAdvisory": "",
             "nutrition": {
@@ -76,7 +76,7 @@ const PRPD_MENU_DETAILS = {
           "bulk": {
             "label": "BULK",
             "netWeight": "14.0 oz (397 g)",
-            "ingredients": "high-fiber wheat tortilla, 90/10 ground beef, whole egg, fat-free mozzarella cheese, egg whites, onion, tomato paste.",
+            "ingredients": "Mission Carb Balance wheat tortilla, 90/10 ground beef, whole egg, fat-free mozzarella cheese, egg whites, onion, tomato paste.",
             "allergens": "CONTAINS: EGG, MILK, WHEAT.",
             "allergenAdvisory": "",
             "nutrition": {
@@ -103,7 +103,7 @@ const PRPD_MENU_DETAILS = {
           "lean": {
             "label": "LEAN",
             "netWeight": "10.4 oz (295 g)",
-            "ingredients": "boneless skinless chicken thigh, high-fiber wheat tortilla, whole egg, fat-free mozzarella cheese, egg whites, garlic powder, salt, onion powder, paprika, ground black pepper.",
+            "ingredients": "boneless skinless chicken thigh, Mission Carb Balance wheat tortilla, whole egg, fat-free mozzarella cheese, egg whites, garlic powder, salt, onion powder, paprika, ground black pepper.",
             "allergens": "CONTAINS: EGG, MILK, WHEAT.",
             "allergenAdvisory": "",
             "nutrition": {
@@ -121,7 +121,7 @@ const PRPD_MENU_DETAILS = {
           "bulk": {
             "label": "BULK",
             "netWeight": "13.5 oz (383 g)",
-            "ingredients": "high-fiber wheat tortilla, boneless skinless chicken thigh, fat-free mozzarella cheese, whole egg, egg whites, garlic powder, salt, onion powder, paprika, ground black pepper.",
+            "ingredients": "Mission Carb Balance wheat tortilla, boneless skinless chicken thigh, fat-free mozzarella cheese, whole egg, egg whites, garlic powder, salt, onion powder, paprika, ground black pepper.",
             "allergens": "CONTAINS: EGG, MILK, WHEAT.",
             "allergenAdvisory": "",
             "nutrition": {
@@ -193,7 +193,7 @@ const PRPD_MENU_DETAILS = {
           "lean": {
             "label": "LEAN",
             "netWeight": "8.8 oz (250 g)",
-            "ingredients": "King's Hawaiian Original Sweet Roll, boneless skinless chicken thigh, fat-free mozzarella cheese, onion, house refrigerator-pickled vegetables, ketchup, honey, light mayonnaise, sriracha sauce, avocado oil, garlic powder, salt, onion powder, paprika, ground black pepper.",
+            "ingredients": "King's Hawaiian Original Sweet Roll, boneless skinless chicken thigh, fat-free mozzarella cheese, onion, house refrigerator-pickled vegetables, ketchup, honey, Great Value light mayonnaise, sriracha sauce, avocado oil, garlic powder, salt, onion powder, paprika, ground black pepper.",
             "allergens": "CONTAINS: EGG, MILK, SOY, WHEAT.",
             "allergenAdvisory": "",
             "nutrition": {
@@ -211,7 +211,7 @@ const PRPD_MENU_DETAILS = {
           "bulk": {
             "label": "BULK",
             "netWeight": "11.4 oz (324 g)",
-            "ingredients": "King's Hawaiian Original Sweet Roll, boneless skinless chicken thigh, fat-free mozzarella cheese, onion, house refrigerator-pickled vegetables, ketchup, honey, light mayonnaise, sriracha sauce, avocado oil, garlic powder, salt, onion powder, paprika, ground black pepper.",
+            "ingredients": "King's Hawaiian Original Sweet Roll, boneless skinless chicken thigh, fat-free mozzarella cheese, onion, house refrigerator-pickled vegetables, ketchup, honey, Great Value light mayonnaise, sriracha sauce, avocado oil, garlic powder, salt, onion powder, paprika, ground black pepper.",
             "allergens": "CONTAINS: EGG, MILK, SOY, WHEAT.",
             "allergenAdvisory": "",
             "nutrition": {
@@ -238,7 +238,7 @@ const PRPD_MENU_DETAILS = {
           "lean": {
             "label": "LEAN",
             "netWeight": "15.8 oz (447 g)",
-            "ingredients": "boneless skinless chicken thigh, crushed tomatoes, onion, nonfat Greek yogurt, basmati rice, tomato paste, butter, shan butter chicken recipe mix (powder), lemon juice, garlic, ginger, paprika, cumin, ground coriander, ground turmeric, ground black pepper, ground cayenne.",
+            "ingredients": "boneless skinless chicken thigh, crushed tomatoes, onion, FAGE Total 0% nonfat Greek yogurt, basmati rice, tomato paste, butter, Shan Butter Chicken Recipe Mix (powder), lemon juice, garlic, ginger, paprika, cumin, ground coriander, ground turmeric, ground black pepper, ground cayenne.",
             "allergens": "CONTAINS: MILK, SOY.",
             "allergenAdvisory": "Supplier advisory: may contain sesame and tree nuts. The supplier also flags gluten, sulfites, and mustard.",
             "nutrition": {
@@ -256,7 +256,7 @@ const PRPD_MENU_DETAILS = {
           "bulk": {
             "label": "BULK",
             "netWeight": "21.4 oz (606 g)",
-            "ingredients": "crushed tomatoes, boneless skinless chicken thigh, onion, nonfat Greek yogurt, basmati rice, tomato paste, butter, shan butter chicken recipe mix (powder), lemon juice, garlic, ginger, paprika, cumin, ground coriander, ground turmeric, ground black pepper, ground cayenne.",
+            "ingredients": "crushed tomatoes, boneless skinless chicken thigh, onion, FAGE Total 0% nonfat Greek yogurt, basmati rice, tomato paste, butter, Shan Butter Chicken Recipe Mix (powder), lemon juice, garlic, ginger, paprika, cumin, ground coriander, ground turmeric, ground black pepper, ground cayenne.",
             "allergens": "CONTAINS: MILK, SOY.",
             "allergenAdvisory": "Supplier advisory: may contain sesame and tree nuts. The supplier also flags gluten, sulfites, and mustard.",
             "nutrition": {
@@ -283,7 +283,7 @@ const PRPD_MENU_DETAILS = {
           "lean": {
             "label": "LEAN",
             "netWeight": "16.3 oz (462 g)",
-            "ingredients": "potato, boneless skinless chicken thigh, broccoli, Buffalo sauce, water, avocado oil, apple cider vinegar, garlic powder, paprika, salt.",
+            "ingredients": "potato, boneless skinless chicken thigh, broccoli, Sweet Baby Ray's Mild Buffalo Wing Sauce, water, avocado oil, apple cider vinegar, garlic powder, paprika, salt.",
             "allergens": "CONTAINS: MILK.",
             "allergenAdvisory": "",
             "nutrition": {
@@ -301,7 +301,7 @@ const PRPD_MENU_DETAILS = {
           "bulk": {
             "label": "BULK",
             "netWeight": "18.9 oz (535 g)",
-            "ingredients": "potato, boneless skinless chicken thigh, broccoli, Buffalo sauce, water, avocado oil, apple cider vinegar, garlic powder, paprika, salt.",
+            "ingredients": "potato, boneless skinless chicken thigh, broccoli, Sweet Baby Ray's Mild Buffalo Wing Sauce, water, avocado oil, apple cider vinegar, garlic powder, paprika, salt.",
             "allergens": "CONTAINS: MILK.",
             "allergenAdvisory": "",
             "nutrition": {
@@ -328,7 +328,7 @@ const PRPD_MENU_DETAILS = {
           "lean": {
             "label": "LEAN",
             "netWeight": "9.7 oz (276 g)",
-            "ingredients": "boneless skinless chicken thigh, high-protein macaroni and cheese, sugar-free BBQ sauce, fat-free mozzarella cheese, apple cider vinegar, water, garlic powder, onion powder, paprika, ground black pepper.",
+            "ingredients": "boneless skinless chicken thigh, Muscle Mac high-protein macaroni and cheese, G Hughes Original Sugar-Free BBQ Sauce, fat-free mozzarella cheese, apple cider vinegar, water, garlic powder, onion powder, paprika, ground black pepper.",
             "allergens": "CONTAINS: MILK, WHEAT.",
             "allergenAdvisory": "",
             "nutrition": {
@@ -346,7 +346,7 @@ const PRPD_MENU_DETAILS = {
           "bulk": {
             "label": "BULK",
             "netWeight": "12.0 oz (339 g)",
-            "ingredients": "boneless skinless chicken thigh, high-protein macaroni and cheese, sugar-free BBQ sauce, fat-free mozzarella cheese, apple cider vinegar, water, garlic powder, onion powder, paprika, ground black pepper.",
+            "ingredients": "boneless skinless chicken thigh, Muscle Mac high-protein macaroni and cheese, G Hughes Original Sugar-Free BBQ Sauce, fat-free mozzarella cheese, apple cider vinegar, water, garlic powder, onion powder, paprika, ground black pepper.",
             "allergens": "CONTAINS: MILK, WHEAT.",
             "allergenAdvisory": "",
             "nutrition": {
@@ -373,7 +373,7 @@ const PRPD_MENU_DETAILS = {
           "lean": {
             "label": "LEAN",
             "netWeight": "11.6 oz (328 g)",
-            "ingredients": "90/10 ground beef, shawarma bread, onion, lettuce, nonfat Greek yogurt, cucumber, house refrigerator-pickled vegetables, jalapeno, shan seekh kabab recipe mix, cilantro, light mayonnaise, garlic, lemon juice, paprika, cumin, flat-leaf parsley, ground coriander, salt, ground black pepper, ground turmeric, ground cayenne.",
+            "ingredients": "90/10 ground beef, shawarma bread, onion, lettuce, FAGE Total 0% nonfat Greek yogurt, cucumber, house refrigerator-pickled vegetables, jalapeno, Shan Seekh Kabab Recipe Mix, cilantro, Great Value light mayonnaise, garlic, lemon juice, paprika, cumin, flat-leaf parsley, ground coriander, salt, ground black pepper, ground turmeric, ground cayenne.",
             "allergens": "CONTAINS: EGG, MILK, SOY, WHEAT.",
             "allergenAdvisory": "Supplier advisory: may contain sesame and tree nuts. The supplier also flags gluten, sulfites, and mustard.",
             "nutrition": {
@@ -391,7 +391,7 @@ const PRPD_MENU_DETAILS = {
           "bulk": {
             "label": "BULK",
             "netWeight": "14.7 oz (417 g)",
-            "ingredients": "90/10 ground beef, shawarma bread, onion, cucumber, lettuce, nonfat Greek yogurt, house refrigerator-pickled vegetables, jalapeno, shan seekh kabab recipe mix, cilantro, light mayonnaise, garlic, lemon juice, paprika, cumin, ground coriander, flat-leaf parsley, ground black pepper, salt, ground turmeric, ground cayenne.",
+            "ingredients": "90/10 ground beef, shawarma bread, onion, cucumber, lettuce, FAGE Total 0% nonfat Greek yogurt, house refrigerator-pickled vegetables, jalapeno, Shan Seekh Kabab Recipe Mix, cilantro, Great Value light mayonnaise, garlic, lemon juice, paprika, cumin, ground coriander, flat-leaf parsley, ground black pepper, salt, ground turmeric, ground cayenne.",
             "allergens": "CONTAINS: EGG, MILK, SOY, WHEAT.",
             "allergenAdvisory": "Supplier advisory: may contain sesame and tree nuts. The supplier also flags gluten, sulfites, and mustard.",
             "nutrition": {
@@ -463,7 +463,7 @@ const PRPD_MENU_DETAILS = {
           "lean": {
             "label": "LEAN",
             "netWeight": "Est. 16.4 oz (465 g)",
-            "ingredients": "water, beef short rib, cooked edible meat after deboning, green beans, onion, fat-free milk, carrots, Idahoan Original mashed potato flakes (potatoes, monoglycerides, sodium acid pyrophosphate, sodium bisulfite, citric acid, mixed tocopherols), celery, raw, tomato paste, butter, balsamic vinegar, garlic, avocado oil, salt, ground black pepper, dried thyme, garlic powder, fresh rosemary, ground coriander, bay leaf.",
+            "ingredients": "water, boneless beef short rib, green beans, onion, fat-free milk, carrots, Idahoan Original mashed potato flakes (potatoes, monoglycerides, sodium acid pyrophosphate, sodium bisulfite, citric acid, mixed tocopherols), celery, tomato paste, butter, balsamic vinegar, garlic, avocado oil, salt, ground black pepper, dried thyme, garlic powder, fresh rosemary, ground coriander, bay leaf.",
             "allergens": "CONTAINS: MILK.",
             "allergenAdvisory": "Contains sulfites (sodium bisulfite).",
             "nutrition": {
@@ -481,7 +481,7 @@ const PRPD_MENU_DETAILS = {
           "bulk": {
             "label": "BULK",
             "netWeight": "Est. 21.3 oz (605 g)",
-            "ingredients": "water, beef short rib, cooked edible meat after deboning, green beans, onion, fat-free milk, carrots, Idahoan Original mashed potato flakes (potatoes, monoglycerides, sodium acid pyrophosphate, sodium bisulfite, citric acid, mixed tocopherols), celery, raw, tomato paste, butter, balsamic vinegar, garlic, avocado oil, salt, ground black pepper, dried thyme, garlic powder, fresh rosemary, ground coriander, bay leaf.",
+            "ingredients": "water, boneless beef short rib, green beans, onion, fat-free milk, carrots, Idahoan Original mashed potato flakes (potatoes, monoglycerides, sodium acid pyrophosphate, sodium bisulfite, citric acid, mixed tocopherols), celery, tomato paste, butter, balsamic vinegar, garlic, avocado oil, salt, ground black pepper, dried thyme, garlic powder, fresh rosemary, ground coriander, bay leaf.",
             "allergens": "CONTAINS: MILK.",
             "allergenAdvisory": "Contains sulfites (sodium bisulfite).",
             "nutrition": {
@@ -508,7 +508,7 @@ const PRPD_MENU_DETAILS = {
           "single": {
             "label": "SINGLE",
             "netWeight": "9.0 oz (256 g)",
-            "ingredients": "boneless skinless chicken thigh, high-fiber wheat tortilla, nonfat Greek yogurt, lettuce, cucumber, red onion, tomato, lemon juice, light mayonnaise, garlic, cilantro, jalapeno, paprika, avocado oil, flat-leaf parsley, cumin, ground coriander, salt, chili powder.",
+            "ingredients": "boneless skinless chicken thigh, Mission Carb Balance wheat tortilla, FAGE Total 0% nonfat Greek yogurt, lettuce, cucumber, red onion, tomato, lemon juice, Great Value light mayonnaise, garlic, cilantro, jalapeno, paprika, avocado oil, flat-leaf parsley, cumin, ground coriander, salt, chili powder.",
             "allergens": "CONTAINS: EGG, MILK, WHEAT.",
             "allergenAdvisory": "",
             "nutrition": {
@@ -535,7 +535,7 @@ const PRPD_MENU_DETAILS = {
           "single": {
             "label": "SINGLE",
             "netWeight": "6.9 oz (195 g)",
-            "ingredients": "boneless skinless chicken thigh, high-fiber wheat tortilla, philadelphia original cream cheese, lettuce, fat-free mozzarella cheese, onion, Buffalo sauce, water, apple cider vinegar, avocado oil, garlic powder, onion powder, paprika, ground black pepper.",
+            "ingredients": "boneless skinless chicken thigh, Mission Carb Balance wheat tortilla, Philadelphia Original cream cheese, lettuce, fat-free mozzarella cheese, onion, Sweet Baby Ray's Mild Buffalo Wing Sauce, water, apple cider vinegar, avocado oil, garlic powder, onion powder, paprika, ground black pepper.",
             "allergens": "CONTAINS: MILK, WHEAT.",
             "allergenAdvisory": "",
             "nutrition": {
@@ -596,7 +596,7 @@ const PRPD_MENU_DETAILS = {
                 "reheat": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout.",
                 "label": "LEAN",
                 "netWeight": "15.8 oz (447 g)",
-                "ingredients": "boneless skinless chicken thigh, crushed tomatoes, onion, nonfat Greek yogurt, basmati rice, tomato paste, butter, shan butter chicken recipe mix (powder), lemon juice, garlic, ginger, paprika, cumin, ground coriander, ground turmeric, ground black pepper, ground cayenne.",
+                "ingredients": "boneless skinless chicken thigh, crushed tomatoes, onion, FAGE Total 0% nonfat Greek yogurt, basmati rice, tomato paste, butter, Shan Butter Chicken Recipe Mix (powder), lemon juice, garlic, ginger, paprika, cumin, ground coriander, ground turmeric, ground black pepper, ground cayenne.",
                 "allergens": "CONTAINS: MILK, SOY.",
                 "allergenAdvisory": "Supplier advisory: may contain sesame and tree nuts. The supplier also flags gluten, sulfites, and mustard.",
                 "nutrition": {
@@ -620,7 +620,7 @@ const PRPD_MENU_DETAILS = {
                 "reheat": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout. Add the matching Sweet Chili sauce from the customer bag after heating.",
                 "label": "LEAN",
                 "netWeight": "Est. 12.5 oz (354 g)",
-                "ingredients": "chicken thighs, sugar-free sweet chili sauce, basmati rice, low-sodium soy sauce, garlic, avocado oil, salt, garlic powder, onion powder, paprika, ground black pepper.",
+                "ingredients": "chicken thighs, G Hughes Sugar-Free Sweet Chili Sauce, basmati rice, low-sodium soy sauce, garlic, avocado oil, salt, garlic powder, onion powder, paprika, ground black pepper.",
                 "allergens": "CONTAINS: SOY, WHEAT.",
                 "allergenAdvisory": "",
                 "nutrition": {
@@ -649,7 +649,7 @@ const PRPD_MENU_DETAILS = {
                 "reheat": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout.",
                 "label": "LEAN",
                 "netWeight": "15.8 oz (447 g)",
-                "ingredients": "boneless skinless chicken thigh, crushed tomatoes, onion, nonfat Greek yogurt, basmati rice, tomato paste, butter, shan butter chicken recipe mix (powder), lemon juice, garlic, ginger, paprika, cumin, ground coriander, ground turmeric, ground black pepper, ground cayenne.",
+                "ingredients": "boneless skinless chicken thigh, crushed tomatoes, onion, FAGE Total 0% nonfat Greek yogurt, basmati rice, tomato paste, butter, Shan Butter Chicken Recipe Mix (powder), lemon juice, garlic, ginger, paprika, cumin, ground coriander, ground turmeric, ground black pepper, ground cayenne.",
                 "allergens": "CONTAINS: MILK, SOY.",
                 "allergenAdvisory": "Supplier advisory: may contain sesame and tree nuts. The supplier also flags gluten, sulfites, and mustard.",
                 "nutrition": {
@@ -673,7 +673,7 @@ const PRPD_MENU_DETAILS = {
                 "reheat": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout. Add the matching Sweet Chili sauce from the customer bag after heating.",
                 "label": "LEAN",
                 "netWeight": "Est. 12.5 oz (354 g)",
-                "ingredients": "chicken thighs, sugar-free sweet chili sauce, basmati rice, low-sodium soy sauce, garlic, avocado oil, salt, garlic powder, onion powder, paprika, ground black pepper.",
+                "ingredients": "chicken thighs, G Hughes Sugar-Free Sweet Chili Sauce, basmati rice, low-sodium soy sauce, garlic, avocado oil, salt, garlic powder, onion powder, paprika, ground black pepper.",
                 "allergens": "CONTAINS: SOY, WHEAT.",
                 "allergenAdvisory": "",
                 "nutrition": {
@@ -702,7 +702,7 @@ const PRPD_MENU_DETAILS = {
                 "reheat": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout.",
                 "label": "BULK",
                 "netWeight": "21.4 oz (606 g)",
-                "ingredients": "crushed tomatoes, boneless skinless chicken thigh, onion, nonfat Greek yogurt, basmati rice, tomato paste, butter, shan butter chicken recipe mix (powder), lemon juice, garlic, ginger, paprika, cumin, ground coriander, ground turmeric, ground black pepper, ground cayenne.",
+                "ingredients": "crushed tomatoes, boneless skinless chicken thigh, onion, FAGE Total 0% nonfat Greek yogurt, basmati rice, tomato paste, butter, Shan Butter Chicken Recipe Mix (powder), lemon juice, garlic, ginger, paprika, cumin, ground coriander, ground turmeric, ground black pepper, ground cayenne.",
                 "allergens": "CONTAINS: MILK, SOY.",
                 "allergenAdvisory": "Supplier advisory: may contain sesame and tree nuts. The supplier also flags gluten, sulfites, and mustard.",
                 "nutrition": {
@@ -726,7 +726,7 @@ const PRPD_MENU_DETAILS = {
                 "reheat": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout. Add the matching Sweet Chili sauce from the customer bag after heating.",
                 "label": "BULK",
                 "netWeight": "Est. 16.2 oz (458 g)",
-                "ingredients": "chicken thighs, sugar-free sweet chili sauce, basmati rice, low-sodium soy sauce, garlic, avocado oil, salt, garlic powder, onion powder, paprika, ground black pepper.",
+                "ingredients": "chicken thighs, G Hughes Sugar-Free Sweet Chili Sauce, basmati rice, low-sodium soy sauce, garlic, avocado oil, salt, garlic powder, onion powder, paprika, ground black pepper.",
                 "allergens": "CONTAINS: SOY, WHEAT.",
                 "allergenAdvisory": "",
                 "nutrition": {
@@ -755,7 +755,7 @@ const PRPD_MENU_DETAILS = {
                 "reheat": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout.",
                 "label": "BULK",
                 "netWeight": "21.4 oz (606 g)",
-                "ingredients": "crushed tomatoes, boneless skinless chicken thigh, onion, nonfat Greek yogurt, basmati rice, tomato paste, butter, shan butter chicken recipe mix (powder), lemon juice, garlic, ginger, paprika, cumin, ground coriander, ground turmeric, ground black pepper, ground cayenne.",
+                "ingredients": "crushed tomatoes, boneless skinless chicken thigh, onion, FAGE Total 0% nonfat Greek yogurt, basmati rice, tomato paste, butter, Shan Butter Chicken Recipe Mix (powder), lemon juice, garlic, ginger, paprika, cumin, ground coriander, ground turmeric, ground black pepper, ground cayenne.",
                 "allergens": "CONTAINS: MILK, SOY.",
                 "allergenAdvisory": "Supplier advisory: may contain sesame and tree nuts. The supplier also flags gluten, sulfites, and mustard.",
                 "nutrition": {
@@ -779,7 +779,7 @@ const PRPD_MENU_DETAILS = {
                 "reheat": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout. Add the matching Sweet Chili sauce from the customer bag after heating.",
                 "label": "BULK",
                 "netWeight": "Est. 16.2 oz (458 g)",
-                "ingredients": "chicken thighs, sugar-free sweet chili sauce, basmati rice, low-sodium soy sauce, garlic, avocado oil, salt, garlic powder, onion powder, paprika, ground black pepper.",
+                "ingredients": "chicken thighs, G Hughes Sugar-Free Sweet Chili Sauce, basmati rice, low-sodium soy sauce, garlic, avocado oil, salt, garlic powder, onion powder, paprika, ground black pepper.",
                 "allergens": "CONTAINS: SOY, WHEAT.",
                 "allergenAdvisory": "",
                 "nutrition": {

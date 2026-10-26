@@ -932,6 +932,30 @@
       line-height: 1.4;
       margin: 3px 0 5px;
     }
+    .dish-allergens {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .dish-allergen-badge {
+      max-width: 100%;
+      padding: 5px 8px;
+      border: 1px solid rgba(30,46,30,0.18);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.6);
+      color: var(--green);
+      font-size: 0.7rem;
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+    }
+    .dish-allergen-badge strong { font-weight: 800; }
+    .dish-allergen-badge__note { font-weight: 500; }
+    .dish-allergen-note {
+      margin: 0;
+      color: var(--green);
+      font-size: 0.7rem;
+      line-height: 1.45;
+    }
     .dish-macros {
       display: flex;
       flex-wrap: wrap;

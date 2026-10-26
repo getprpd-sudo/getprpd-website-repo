@@ -491,6 +491,38 @@ const ORDER_API_URL = '/api/order';
         .replaceAll("'", '&#039;');
     }
 
+    function cardAllergenNames(declaration) {
+      const match = String(declaration || '').trim().match(/^CONTAINS:\s*(.*?)\.?$/i);
+      if (!match) return null;
+      const names = match[1].split(',').map(name => name.trim());
+      if (names.some(name => !name)) return null;
+      return [...new Set(names.map(name => name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()))].sort();
+    }
+
+    function cardAllergenBadgesHtml(dishId) {
+      const detail = MENU_DETAILS_BY_BATCH[String(displayedMenuBatchNumber)]?.[dishId];
+      const pending = '<p class="dish-allergen-note">Allergen details pending. Contact us before ordering.</p>';
+      if (!detail) return pending;
+      const badge = (label, names, note = '') => `<span class="dish-allergen-badge"><strong>${escapeMealDetail(label)}</strong> ${escapeMealDetail(names.join(', '))}${note ? ` <span class="dish-allergen-badge__note">${escapeMealDetail(note)}</span>` : ''}</span>`;
+      if (detail.type === 'bundle') {
+        const variants = Object.values(detail.variants || {});
+        if (!variants.length || variants.some(variant => !Array.isArray(variant?.components) || !variant.components.length)) return pending;
+        const statements = variants.flatMap(variant => variant.components.map(component => cardAllergenNames(component?.allergens)));
+        if (statements.some(names => !names)) return pending;
+        const names = [...new Set(statements.flat())].sort();
+        return `<div class="dish-allergens">${badge('Bundle allergens:', names, '· varies by selection')}</div>`;
+      }
+      const tiers = Object.entries(detail.tiers || {}).map(([key, tier]) => ({
+        label: key === 'lean' ? 'Lean' : key === 'bulk' ? 'Bulk' : tier?.label || key,
+        names: cardAllergenNames(tier?.allergens),
+      }));
+      if (!tiers.length || tiers.some(tier => !tier.names)) return pending;
+      const shared = tiers.every(tier => tier.names.join(',') === tiers[0].names.join(','));
+      return `<div class="dish-allergens">${shared
+        ? badge('Contains:', tiers[0].names)
+        : tiers.map(tier => badge(`${tier.label} · Contains:`, tier.names)).join('')}</div>`;
+    }
+
     function detailNutritionHtml(nutrition = {}) {
       const rows = [
         ['Calories', nutrition.calories, ''],
@@ -745,7 +777,7 @@ const ORDER_API_URL = '/api/order';
         ? `Recent published menu${displayBatch.number ? ` · Batch ${displayBatch.number}` : ''}`
         : `Batch ${displayBatch.number}  ·  Delivery ${displayDeliveryDate}`;
       document.getElementById('orderCutoff').textContent = browseOnly
-        ? `Ordering closed${displayBatch.cutoffLabel ? ` · ${displayBatch.cutoffLabel}` : ''}`
+        ? 'Ordering closed'
         : displayBatch.cutoffLabel;
       document.getElementById('successDelivery').textContent = displayDeliveryDate;
       document.getElementById('activeDeliveryDay').textContent = `${displayDeliveryDay} delivery`;
@@ -782,6 +814,7 @@ const ORDER_API_URL = '/api/order';
               <div class="dish-body">
                 <div class="dish-name dish-name--sr">${dish.name}</div>
                 ${dish.description ? `<p class="dish-desc">${dish.description}</p>` : ''}
+                ${cardAllergenBadgesHtml(dish.id)}
                 <button type="button" class="meal-detail-trigger" data-open-meal-details="${dish.id}" aria-label="View ingredients, allergens and nutrition for ${dish.name}">
                   <span>Ingredients, allergens &amp; facts</span><span aria-hidden="true">&rsaquo;</span>
                 </button>
@@ -935,7 +968,7 @@ const ORDER_API_URL = '/api/order';
       const browseLink = document.getElementById('browseRecentMenuLink');
       if (closedTitle) closedTitle.textContent = browseMenuAvailable ? 'Ordering is closed for this week. Browse our recent menu.' : 'Our next menu is coming soon.';
       if (closedDescription) closedDescription.textContent = browseMenuAvailable
-        ? 'Explore our recent dishes, photos and prices below. This menu is for browsing only. The active cutoff displayed above belongs to this past menu.'
+        ? 'Explore our recent dishes, photos and prices below. This menu is for browsing only. Text MENU below to hear when ordering opens.'
         : 'The next menu is being prepared. Text MENU below to hear when ordering opens.';
       if (closedEyebrow) closedEyebrow.textContent = browseMenuAvailable ? 'Recent menu · Browse only' : 'Ordering is currently closed';
       if (browseLink) browseLink.hidden = !browseMenuAvailable;
