@@ -148,6 +148,7 @@
   function applySavedResult(result) {
     if (result.rewardProgress) { rewardProgress = result.rewardProgress; renderRewardProgress(); }
     const credit = result.credit || {};
+    $('rewardNotice').classList.toggle('is-confirmed', Boolean(credit.earned));
     if (credit.earned) {
       $('rewardNotice').textContent = `$${Number(credit.amount).toFixed(0)} credit earned and recorded.${credit.status === 'queued' ? ' Credit above the $30 active-wallet cap is queued.' : ''}`;
     } else if (credit.status === 'pending') {
@@ -161,9 +162,25 @@
 
   function renderRewardProgress() {
     $('rewardHeadline').textContent = '$5 for every 6 different dishes reviewed';
-    $('lifetimeProgress').textContent = rewardProgress.identityReview
+    const count = Math.max(0, Number(rewardProgress.uniqueDishCount) || 0);
+    const every = Math.max(1, Number(rewardProgress.every) || 6);
+    const next = (Math.floor(count / every) + 1) * every;
+    const current = count % every;
+    const needsIdentity = rewardProgress.identityReview === true;
+    $('uniqueDishTotal').textContent = needsIdentity ? 'Link account' : String(count);
+    $('nextMilestone').textContent = needsIdentity ? 'Not linked yet' : `${next} dishes`;
+    const meter = $('lifetimeMeter');
+    meter.hidden = needsIdentity;
+    meter.setAttribute('aria-valuemax', String(every));
+    meter.setAttribute('aria-valuenow', String(current));
+    meter.setAttribute('aria-valuetext', `${current} of ${every} different dishes toward the next reward`);
+    Array.from(meter.children).forEach((mark, index) => {
+      mark.classList.toggle('is-counted', index < current);
+      mark.setAttribute('aria-hidden', 'true');
+    });
+    $('lifetimeProgress').textContent = needsIdentity
       ? 'Your reviews still save. Contact PRPD to link this order to your rewards.'
-      : `${rewardProgress.uniqueDishCount} different dishes counted across your orders. ${rewardProgress.remaining} more to your next $5 credit.`;
+      : `${count} different dishes counted across your orders. ${rewardProgress.remaining} more to your next $5 credit.`;
   }
 
   function showCompletion(result) {

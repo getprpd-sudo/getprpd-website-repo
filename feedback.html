@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/feedback.css?v=20261020.1">
+  <link rel="stylesheet" href="/feedback.css?v=20261026-rewards-visual-1">
 </head>
 <body>
   <header class="site-header"><div class="brand"><span class="brand-mark">PRPD</span><span class="brand-sub">MEALS. PREPPED.</span></div><span class="private-mark">Private order feedback</span></header>
@@ -19,9 +19,16 @@
         <span class="eyebrow" id="customerGreeting">Your delivered order</span>
         <h1>Rate your meals</h1>
         <p class="intro-copy" id="introCopy"></p>
-        <div class="reward-banner"><span class="reward-amount">$5</span><div><strong id="rewardHeadline"></strong><span>Earn $5 after every 6 different dishes reviewed across delivered orders. Any 1–10 score and a short, honest review count. Repeated dishes and Lean/Bulk portions count once. Credits are valid for 90 days, with a $30 active-wallet cap.</span><span id="lifetimeProgress"></span><span id="rewardNotice" aria-live="polite"></span></div></div>
+        <section class="reward-banner" aria-labelledby="rewardHeadline">
+          <div class="reward-topline"><div><span class="reward-eyebrow">Your feedback adds up</span><strong id="rewardHeadline"></strong></div><span class="reward-amount">$5<small>PRPD credit</small></span></div>
+          <div class="reward-metrics"><div><span>Different dishes reviewed</span><strong id="uniqueDishTotal">0</strong><small>Across your delivered orders</small></div><div><span>Next $5 milestone</span><strong id="nextMilestone">6 dishes</strong><small>every 6 different dishes</small></div></div>
+          <div class="lifetime-meter" id="lifetimeMeter" role="progressbar" aria-label="Progress to your next six-dish reward" aria-valuemin="0" aria-valuemax="6" aria-valuenow="0"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          <p id="lifetimeProgress"></p>
+          <p id="rewardNotice" class="reward-notice" role="status" aria-live="polite"></p>
+          <details class="reward-rules"><summary>How it works</summary><p>Any 1–10 score and a short, honest review count. Repeated dishes and Lean/Bulk portions count once. Credits are valid for 90 days, with a $30 active-wallet cap. Comments stay private unless you give separate permission below.</p></details>
+        </section>
       </section>
-      <section class="progress-shell" aria-label="Feedback progress">
+      <section class="progress-shell" aria-label="This order’s reviews"><span class="order-progress-label">This order</span>
         <div class="progress-copy"><div class="progress-status"><span id="progressText"></span><small id="scoreText"></small></div><span id="rewardText"></span></div>
         <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
       </section>
@@ -43,7 +50,7 @@
       <section class="success" id="success" tabindex="-1"><span class="eyebrow">Feedback saved</span><h2 id="successTitle">Your feedback is saved.</h2><p id="successCopy">Thank you for your honest reviews.</p><small id="creditDetail"></small></section>
     </div>
   </main>
-  <script src="/feedback.js?v=20261026-unique-rewards-2"></script>
+  <script src="/feedback.js?v=20261026-rewards-visual-1"></script>
 </body>
 </html>
 
