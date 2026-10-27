@@ -2299,8 +2299,9 @@ body {
   background: linear-gradient(180deg, rgba(7,20,11,.22), transparent 38%, rgba(7,20,11,.9) 100%);
   pointer-events: none;
 }
-.menu-card__img img { transition: transform .45s ease; }
-.menu-card:hover .menu-card__img img { transform: scale(1.03); }
+.menu-card__img img { transform: rotate(var(--photo-rotate, 0deg)); transition: transform .45s ease; }
+.menu-card__img img.photo-crop--rotate-180 { --photo-rotate: 180deg; }
+.menu-card:hover .menu-card__img img { transform: rotate(var(--photo-rotate, 0deg)) scale(1.03); }
 .menu-card__photo-overlay {
   position: absolute;
   z-index: 2;

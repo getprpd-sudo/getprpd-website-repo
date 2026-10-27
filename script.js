@@ -98,6 +98,7 @@ function renderWeeklyHomepage() {
     image.src = dish.images?.lean || dish.image;
     image.alt = `${dish.name} by PRPD`;
     image.loading = 'lazy';
+    if (dish.imageCrop === 'rotate-180') image.classList.add('photo-crop--rotate-180');
     const placeholder = document.createElement('div');
     placeholder.className = 'menu-card__img-ph';
     placeholder.textContent = 'PRPD';

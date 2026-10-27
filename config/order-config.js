@@ -1,4 +1,3 @@
-// Approved Batch17 customer and order configuration.
 const ORDER_CONFIG = {
   "batch": {
     "number": 17,
@@ -400,7 +399,8 @@ const ORDER_CONFIG = {
         "image": "/assets/images/meals/menu/batch-15-2026-10-17/southwest-beef-taco-bowl.jpg",
         "newThisWeek": false,
         "nutritionReview": true,
-        "nutritionStatus": "Controlled calculation; physical yield and finished-weight verification remain open"
+        "nutritionStatus": "Controlled calculation; physical yield and finished-weight verification remain open",
+        "imageCrop": "rotate-180"
       },
       {
         "id": "m5",
@@ -450,7 +450,8 @@ const ORDER_CONFIG = {
         "image": "/assets/images/meals/menu/batch-13-2026-10-03/premium-ny-strip-steak-mashed-potatoes-batch-13.jpg",
         "newThisWeek": false,
         "nutritionReview": true,
-        "nutritionStatus": "Controlled calculation; physical yield and finished-weight verification remain open"
+        "nutritionStatus": "Controlled calculation; physical yield and finished-weight verification remain open",
+        "imageCrop": "rotate-180"
       }
     ],
     "addons": [
