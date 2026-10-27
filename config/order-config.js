@@ -104,9 +104,9 @@ const ORDER_CONFIG = {
         "name": "Garlic Herb Yogurt",
         "image": "/assets/images/sauces/garlic-herb-concept.png",
         "imageStatus": "concept",
-        "description": "Creamy yogurt, jalape\u00c3\u0192\u00c2\u00b1o, garlic and fresh herbs",
+        "description": "Creamy yogurt, jalapeno, garlic and fresh herbs",
         "steps": [
-          "Blend the displayed yogurt, light mayonnaise, lemon, cilantro, jalape\u00c3\u0192\u00c2\u00b1o, garlic, parsley, salt and cumin until smooth. Do not add water.",
+          "Blend the displayed yogurt, light mayonnaise, lemon, cilantro, jalapeno, garlic, parsley, salt and cumin until smooth. Do not add water.",
           "Fill exactly the selected count at 40 g net per cup. Record transfer loss, seal, label and refrigerate."
         ],
         "gramsPerCup": 40,
@@ -169,7 +169,7 @@ const ORDER_CONFIG = {
             "station": "Dry Prep & Seasonings"
           }
         ],
-        "customerIngredients": "Nonfat Greek yogurt, light mayonnaise, lemon, cilantro, jalape\u00c3\u0192\u00c2\u00b1o, garlic, parsley, salt, and cumin.",
+        "customerIngredients": "Nonfat Greek yogurt, light mayonnaise, lemon, cilantro, jalapeno, garlic, parsley, salt, and cumin.",
         "allergens": "CONTAINS: EGG, MILK."
       }
     ],
@@ -675,5 +675,5 @@ const ORDER_CONFIG = {
     ]
   }
 };
-if(typeof window!=="undefined") window.PRPD_ORDER_CONFIG=ORDER_CONFIG;
+if(typeof window!=="undefined")window.PRPD_ORDER_CONFIG=ORDER_CONFIG;
 if(typeof module!=="undefined"&&module.exports)module.exports=ORDER_CONFIG;

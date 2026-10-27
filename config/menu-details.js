@@ -1,5 +1,5 @@
 const PRPD_MENU_DETAILS = {
-  "version": "2026-10-26-b17-expanded",
+  "version": "2026-10-26-b17-readiness",
   "batches": {
     "16": {
       "b1": {
@@ -1043,7 +1043,7 @@ const PRPD_MENU_DETAILS = {
         "tiers": {
           "lean": {
             "label": "LEAN",
-            "netWeight": "Enter packed weight",
+            "netWeight": "",
             "ingredients": "chicken thighs, Barilla Classic Orzo (semolina [wheat], durum wheat flour, niacin, iron [ferrous sulfate], thiamin mononitrate, riboflavin, folic acid), zucchini, carrots, onion, lemon juice, water, avocado oil, garlic, flat-leaf parsley, salt, dried oregano, ground black pepper.",
             "allergens": "CONTAINS: WHEAT.",
             "allergenAdvisory": "Supplier advisory: may contain egg. Verify the exact purchased package.",
@@ -1062,7 +1062,7 @@ const PRPD_MENU_DETAILS = {
           },
           "bulk": {
             "label": "BULK",
-            "netWeight": "Enter packed weight",
+            "netWeight": "",
             "ingredients": "chicken thighs, Barilla Classic Orzo (semolina [wheat], durum wheat flour, niacin, iron [ferrous sulfate], thiamin mononitrate, riboflavin, folic acid), zucchini, carrots, onion, lemon juice, water, avocado oil, garlic, flat-leaf parsley, salt, dried oregano, ground black pepper.",
             "allergens": "CONTAINS: WHEAT.",
             "allergenAdvisory": "Supplier advisory: may contain egg. Verify the exact purchased package.",
@@ -1137,8 +1137,8 @@ const PRPD_MENU_DETAILS = {
         "tiers": {
           "lean": {
             "label": "LEAN",
-            "netWeight": "16.1 oz (456 g)",
-            "ingredients": "shrimp, zucchini, peas and carrots, basmati rice, FAGE Total 0% nonfat Greek yogurt, garlic, lemon juice, butter, lime juice, Great Value light mayonnaise, cilantro, cornstarch, jalapeno, salt, flat-leaf parsley, cumin.",
+            "netWeight": "15.9 oz (451 g)",
+            "ingredients": "shrimp, zucchini, peas and carrots, basmati rice, FAGE Total 0% nonfat Greek yogurt, garlic, lemon juice, butter, lime juice, Great Value light mayonnaise, cornstarch, cilantro, jalapeno, salt, flat-leaf parsley, cumin.",
             "allergens": "CONTAINS: EGG, MILK, SHELLFISH.",
             "allergenAdvisory": "",
             "nutritionBasis": "",
@@ -1156,8 +1156,8 @@ const PRPD_MENU_DETAILS = {
           },
           "bulk": {
             "label": "BULK",
-            "netWeight": "20.8 oz (591 g)",
-            "ingredients": "shrimp, zucchini, peas and carrots, basmati rice, FAGE Total 0% nonfat Greek yogurt, garlic, lemon juice, butter, lime juice, cornstarch, Great Value light mayonnaise, cilantro, jalapeno, salt, flat-leaf parsley, cumin.",
+            "netWeight": "20.7 oz (586 g)",
+            "ingredients": "shrimp, zucchini, peas and carrots, basmati rice, FAGE Total 0% nonfat Greek yogurt, garlic, lemon juice, butter, lime juice, cornstarch, cilantro, Great Value light mayonnaise, salt, jalapeno, flat-leaf parsley, cumin.",
             "allergens": "CONTAINS: EGG, MILK, SHELLFISH.",
             "allergenAdvisory": "",
             "nutritionBasis": "",
@@ -1578,5 +1578,5 @@ const PRPD_MENU_DETAILS = {
     }
   }
 };
-if(typeof window!=="undefined") window.PRPD_MENU_DETAILS=PRPD_MENU_DETAILS;
-if(typeof module!=="undefined"&&module.exports) module.exports=PRPD_MENU_DETAILS;
+if(typeof window!=="undefined")window.PRPD_MENU_DETAILS=PRPD_MENU_DETAILS;
+if(typeof module!=="undefined"&&module.exports)module.exports=PRPD_MENU_DETAILS;
