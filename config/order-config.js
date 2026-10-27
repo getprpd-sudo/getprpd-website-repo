@@ -358,10 +358,11 @@ const ORDER_CONFIG = {
           "fat": 19
         },
         "description": "Seasoned chicken thighs, yellow basmati rice, lettuce, and tomato.",
-        "image": "",
+        "image": "/assets/images/meals/menu/halal-cart-chicken-yellow-rice.jpg",
         "newThisWeek": false,
         "nutritionReview": true,
-        "nutritionStatus": "Controlled calculation; physical yield and finished-weight verification remain open"
+        "nutritionStatus": "Controlled calculation; physical yield and finished-weight verification remain open",
+        "imageStatus": "Existing library photo"
       },
       {
         "id": "m2",
@@ -455,10 +456,11 @@ const ORDER_CONFIG = {
           "fat": 10
         },
         "description": "Garlic-butter Wild Argentine red shrimp with basmati rice, zucchini, and peas and carrots.",
-        "image": "",
+        "image": "/assets/images/meals/menu/batch-6-2026-08-15/garlic-butter-shrimp-and-rice.jpg",
         "newThisWeek": false,
         "nutritionReview": true,
-        "nutritionStatus": "Controlled calculation; physical yield and finished-weight verification remain open"
+        "nutritionStatus": "Controlled calculation; physical yield and finished-weight verification remain open",
+        "imageStatus": "Historical library photo; updated Wild Argentine plating photo pending"
       },
       {
         "id": "m6",
@@ -481,9 +483,10 @@ const ORDER_CONFIG = {
         },
         "nutritionStatus": "Recipe estimate; package and physical yield verification pending",
         "taxClass": "exempt-reheatable-meal",
-        "image": "",
+        "image": "/assets/images/meals/menu/batch-15-2026-10-17/creamy-cajun-chicken-pasta.jpg",
         "newThisWeek": false,
-        "nutritionReview": true
+        "nutritionReview": true,
+        "imageStatus": "Owner actual Batch15 photo"
       }
     ],
     "premium": [
@@ -531,7 +534,7 @@ const ORDER_CONFIG = {
         "nutritionStatus": "Recipe estimate; package and physical yield verification pending",
         "taxClass": "taxable-prepared-food",
         "image": "/assets/images/meals/menu/batch-13-2026-10-03/chicken-tikka-snack-wrap-batch-13.jpg",
-        "imageCrop": "landscape-tikka-close",
+        "imageCrop": "rotate-180",
         "ownerApproved": true,
         "bulkMacros": null,
         "newThisWeek": false
