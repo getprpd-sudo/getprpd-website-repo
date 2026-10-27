@@ -1,6 +1,5 @@
-// Generated customer-facing meal details. Do not hand-edit.
 const PRPD_MENU_DETAILS = {
-  "version": "2026-10-19.7",
+  "version": "2026-10-26-b17",
   "batches": {
     "16": {
       "b1": {
@@ -310,7 +309,7 @@ const PRPD_MENU_DETAILS = {
               "carbs": 46,
               "fiber": 8,
               "fat": 23,
-              "satFat": 5.0,
+              "satFat": 5,
               "sugars": 4,
               "sodium": 990,
               "cholesterol": 250
@@ -427,7 +426,7 @@ const PRPD_MENU_DETAILS = {
               "carbs": 45,
               "fiber": 8,
               "fat": 17,
-              "satFat": 4.0,
+              "satFat": 4,
               "sugars": 5,
               "sodium": 650,
               "cholesterol": 110
@@ -629,7 +628,7 @@ const PRPD_MENU_DETAILS = {
                   "carbs": 42,
                   "fiber": 1,
                   "fat": 16,
-                  "satFat": 4.0,
+                  "satFat": 4,
                   "sugars": 0,
                   "sodium": 1470,
                   "cholesterol": 215
@@ -682,7 +681,7 @@ const PRPD_MENU_DETAILS = {
                   "carbs": 42,
                   "fiber": 1,
                   "fat": 16,
-                  "satFat": 4.0,
+                  "satFat": 4,
                   "sugars": 0,
                   "sodium": 1470,
                   "cholesterol": 215
@@ -798,9 +797,397 @@ const PRPD_MENU_DETAILS = {
           }
         }
       }
+    },
+    "17": {
+      "b1": {
+        "type": "meal",
+        "name": "High Protein Omelette",
+        "description": "Eggs, vegetables, fat-free cheese, and sourdough.",
+        "storageMode": "fridge",
+        "reheat": "Microwave 60-90 seconds, or until hot. Toast bread separately if desired.",
+        "tiers": {
+          "lean": {
+            "label": "LEAN",
+            "netWeight": "15.5 oz (440 g)",
+            "ingredients": "whole egg, tomato, egg whites, white mushrooms, fat-free mozzarella cheese, sourdough bread, jalapeno, avocado oil, salt.",
+            "allergens": "CONTAINS: EGG, MILK, WHEAT.",
+            "allergenAdvisory": "",
+            "nutrition": {
+              "calories": 400,
+              "protein": 42,
+              "carbs": 29,
+              "fiber": 3,
+              "fat": 13,
+              "satFat": 3.6,
+              "sugars": 6,
+              "sodium": 980,
+              "cholesterol": 380
+            }
+          },
+          "bulk": {
+            "label": "BULK",
+            "netWeight": "20.9 oz (593 g)",
+            "ingredients": "whole egg, egg whites, tomato, sourdough bread, fat-free mozzarella cheese, white mushrooms, jalapeno, avocado oil, salt.",
+            "allergens": "CONTAINS: EGG, MILK, WHEAT.",
+            "allergenAdvisory": "",
+            "nutrition": {
+              "calories": 625,
+              "protein": 63,
+              "carbs": 51,
+              "fiber": 4,
+              "fat": 20,
+              "satFat": 5.5,
+              "sugars": 8,
+              "sodium": 1520,
+              "cholesterol": 570
+            }
+          }
+        }
+      },
+      "b2": {
+        "type": "meal",
+        "name": "Blueberry Vanilla Protein Baked Oatmeal Squares",
+        "description": "Blueberry-vanilla baked oatmeal squares with egg whites, Greek yogurt, banana, and protein powder.",
+        "storageMode": "fridge",
+        "reheat": "Microwave 30-60 seconds, or enjoy chilled. Keep refrigerated.",
+        "tiers": {
+          "lean": {
+            "label": "LEAN",
+            "netWeight": "Est. 9.6 oz (272 g)",
+            "ingredients": "rolled oats, egg whites, blueberries, fat-free milk, FAGE Total 0% nonfat Greek yogurt, banana, whole egg, vanilla whey protein powder, honey, butter, vanilla extract, baking powder, cinnamon, salt.",
+            "allergens": "CONTAINS: EGG, MILK.",
+            "allergenAdvisory": "",
+            "nutrition": {
+              "calories": 435,
+              "protein": 31,
+              "carbs": 61,
+              "fiber": 8,
+              "fat": 8,
+              "satFat": 2.7,
+              "sugars": 17,
+              "sodium": 520,
+              "cholesterol": 70
+            }
+          },
+          "bulk": {
+            "label": "BULK",
+            "netWeight": "Est. 14.4 oz (408 g)",
+            "ingredients": "rolled oats, egg whites, blueberries, fat-free milk, FAGE Total 0% nonfat Greek yogurt, banana, whole egg, vanilla whey protein powder, honey, butter, vanilla extract, baking powder, cinnamon, salt.",
+            "allergens": "CONTAINS: EGG, MILK.",
+            "allergenAdvisory": "",
+            "nutrition": {
+              "calories": 655,
+              "protein": 47,
+              "carbs": 91,
+              "fiber": 12,
+              "fat": 12,
+              "satFat": 4.1,
+              "sugars": 26,
+              "sodium": 780,
+              "cholesterol": 110
+            }
+          }
+        }
+      },
+      "m1": {
+        "type": "meal",
+        "name": "Halal Cart Chicken + Yellow Rice",
+        "description": "Seasoned chicken thighs, yellow basmati rice, lettuce, and tomato.",
+        "storageMode": "freezer",
+        "reheat": "Remove the cold lettuce and tomato. Microwave chicken and rice 1.5-2 minutes until hot throughout, then add the cold vegetables.",
+        "tiers": {
+          "lean": {
+            "label": "LEAN",
+            "netWeight": "10.6 oz (300 g)",
+            "ingredients": "chicken thighs, basmati rice, tomato, lettuce, lemon juice, garlic powder, paprika, cumin, dried oregano, salt, ground turmeric.",
+            "allergens": "No major allergens identified from the recorded recipe.",
+            "allergenAdvisory": "",
+            "nutrition": {
+              "calories": 490,
+              "protein": 45,
+              "carbs": 44,
+              "fiber": 3,
+              "fat": 14,
+              "satFat": 3.9,
+              "sugars": 2,
+              "sodium": 490,
+              "cholesterol": 215
+            }
+          },
+          "bulk": {
+            "label": "BULK",
+            "netWeight": "14.0 oz (396 g)",
+            "ingredients": "chicken thighs, basmati rice, tomato, lettuce, lemon juice, garlic powder, paprika, cumin, dried oregano, salt, ground turmeric.",
+            "allergens": "No major allergens identified from the recorded recipe.",
+            "allergenAdvisory": "",
+            "nutrition": {
+              "calories": 645,
+              "protein": 59,
+              "carbs": 58,
+              "fiber": 4,
+              "fat": 19,
+              "satFat": 5.1,
+              "sugars": 3,
+              "sodium": 640,
+              "cholesterol": 280
+            }
+          }
+        }
+      },
+      "m2": {
+        "type": "meal",
+        "name": "Cheesy Achiote Chicken Tacos",
+        "description": "Achiote-citrus chicken thighs, melted cheese, pickled onion, Cotija, and cilantro in street-size corn tortillas.",
+        "storageMode": "fridge",
+        "reheat": "Reheat tacos until hot throughout.",
+        "tiers": {
+          "lean": {
+            "label": "LEAN",
+            "netWeight": "Est. 12.9 oz (365 g)",
+            "ingredients": "boneless skinless chicken thigh, mission white corn street taco tortilla, fat-free mozzarella cheese, red onion, Cotija cheese, el yucateco seasoned achiote paste, lime juice, apple cider vinegar, water, garlic, avocado oil, cilantro, salt, honey, cumin, paprika.",
+            "allergens": "CONTAINS: MILK.",
+            "allergenAdvisory": "",
+            "nutrition": {
+              "calories": 535,
+              "protein": 55,
+              "carbs": 32,
+              "fiber": 4,
+              "fat": 19,
+              "satFat": 6.1,
+              "sugars": 4,
+              "sodium": 1500,
+              "cholesterol": 205
+            }
+          },
+          "bulk": {
+            "label": "BULK",
+            "netWeight": "Est. 16.4 oz (465 g)",
+            "ingredients": "boneless skinless chicken thigh, mission white corn street taco tortilla, fat-free mozzarella cheese, red onion, Cotija cheese, el yucateco seasoned achiote paste, lime juice, apple cider vinegar, water, garlic, avocado oil, cilantro, salt, honey, cumin, paprika.",
+            "allergens": "CONTAINS: MILK.",
+            "allergenAdvisory": "",
+            "nutrition": {
+              "calories": 710,
+              "protein": 73,
+              "carbs": 43,
+              "fiber": 5,
+              "fat": 26,
+              "satFat": 8.1,
+              "sugars": 6,
+              "sodium": 2000,
+              "cholesterol": 270
+            }
+          }
+        }
+      },
+      "m3": {
+        "type": "meal",
+        "name": "Lemon Herb Chicken Orzo",
+        "description": "Chicken thighs, lemon-herb orzo, and roasted zucchini and carrots.",
+        "storageMode": "fridge",
+        "reheat": "Vent lid and microwave until hot throughout, stirring the orzo halfway.",
+        "tiers": {
+          "lean": {
+            "label": "LEAN",
+            "netWeight": "Enter packed weight",
+            "ingredients": "chicken thighs, Barilla Classic Orzo (semolina [wheat], durum wheat flour, niacin, iron [ferrous sulfate], thiamin mononitrate, riboflavin, folic acid), zucchini, carrots, onion, lemon juice, water, avocado oil, garlic, flat-leaf parsley, salt, dried oregano, ground black pepper.",
+            "allergens": "CONTAINS: WHEAT.",
+            "allergenAdvisory": "Supplier advisory: may contain egg. Verify the exact purchased package.",
+            "nutrition": {
+              "calories": 530,
+              "protein": 47,
+              "carbs": 42,
+              "fiber": 4,
+              "fat": 19,
+              "satFat": 4.4,
+              "sugars": 4,
+              "sodium": 590,
+              "cholesterol": 215
+            }
+          },
+          "bulk": {
+            "label": "BULK",
+            "netWeight": "Enter packed weight",
+            "ingredients": "chicken thighs, Barilla Classic Orzo (semolina [wheat], durum wheat flour, niacin, iron [ferrous sulfate], thiamin mononitrate, riboflavin, folic acid), zucchini, carrots, onion, lemon juice, water, avocado oil, garlic, flat-leaf parsley, salt, dried oregano, ground black pepper.",
+            "allergens": "CONTAINS: WHEAT.",
+            "allergenAdvisory": "Supplier advisory: may contain egg. Verify the exact purchased package.",
+            "nutrition": {
+              "calories": 700,
+              "protein": 61,
+              "carbs": 56,
+              "fiber": 6,
+              "fat": 26,
+              "satFat": 5.8,
+              "sugars": 6,
+              "sodium": 790,
+              "cholesterol": 280
+            }
+          }
+        }
+      },
+      "m4": {
+        "type": "meal",
+        "name": "Southwest Beef Taco Bowl",
+        "description": "Seasoned beef, cilantro-lime rice, black beans, corn and peppers, lettuce, and cotija.",
+        "storageMode": "fridge",
+        "reheat": "Remove lettuce. Vent lid and microwave the hot components 1.5-2.5 minutes, then add cold toppings.",
+        "tiers": {
+          "lean": {
+            "label": "LEAN",
+            "netWeight": "14.2 oz (403 g)",
+            "ingredients": "90/10 ground beef, sweet corn, black beans, basmati rice, green bell pepper, lettuce, onion, Cotija cheese, lime juice, cilantro, avocado oil, garlic, salt.",
+            "allergens": "CONTAINS: MILK.",
+            "allergenAdvisory": "",
+            "nutrition": {
+              "calories": 685,
+              "protein": 53,
+              "carbs": 62,
+              "fiber": 7,
+              "fat": 24,
+              "satFat": 9.5,
+              "sugars": 5,
+              "sodium": 730,
+              "cholesterol": 140
+            }
+          },
+          "bulk": {
+            "label": "BULK",
+            "netWeight": "18.8 oz (533 g)",
+            "ingredients": "90/10 ground beef, sweet corn, black beans, basmati rice, green bell pepper, onion, lettuce, Cotija cheese, lime juice, avocado oil, cilantro, garlic, salt.",
+            "allergens": "CONTAINS: MILK.",
+            "allergenAdvisory": "",
+            "nutrition": {
+              "calories": 935,
+              "protein": 74,
+              "carbs": 81,
+              "fiber": 9,
+              "fat": 35,
+              "satFat": 13.3,
+              "sugars": 6,
+              "sodium": 980,
+              "cholesterol": 200
+            }
+          }
+        }
+      },
+      "m5": {
+        "type": "meal",
+        "name": "Garlic Butter Wild Argentine Shrimp + Rice",
+        "description": "Garlic-butter Wild Argentine red shrimp with basmati rice, zucchini, and peas and carrots.",
+        "storageMode": "fridge",
+        "reheat": "Remove cold sauce. Vent lid and microwave at 50% power for 1-2 minutes, stirring halfway, until hot throughout.",
+        "tiers": {
+          "lean": {
+            "label": "LEAN",
+            "netWeight": "16.1 oz (456 g)",
+            "ingredients": "shrimp, zucchini, peas and carrots, basmati rice, FAGE Total 0% nonfat Greek yogurt, garlic, lemon juice, butter, lime juice, Great Value light mayonnaise, cilantro, cornstarch, jalapeno, salt, flat-leaf parsley, cumin.",
+            "allergens": "CONTAINS: EGG, MILK, SHELLFISH.",
+            "allergenAdvisory": "",
+            "nutrition": {
+              "calories": 455,
+              "protein": 43,
+              "carbs": 57,
+              "fiber": 4,
+              "fat": 7,
+              "satFat": 4.0,
+              "sugars": 7,
+              "sodium": 570,
+              "cholesterol": 300
+            }
+          },
+          "bulk": {
+            "label": "BULK",
+            "netWeight": "20.8 oz (591 g)",
+            "ingredients": "shrimp, zucchini, peas and carrots, basmati rice, FAGE Total 0% nonfat Greek yogurt, garlic, lemon juice, butter, lime juice, cornstarch, Great Value light mayonnaise, cilantro, jalapeno, salt, flat-leaf parsley, cumin.",
+            "allergens": "CONTAINS: EGG, MILK, SHELLFISH.",
+            "allergenAdvisory": "",
+            "nutrition": {
+              "calories": 615,
+              "protein": 58,
+              "carbs": 75,
+              "fiber": 6,
+              "fat": 10,
+              "satFat": 5.6,
+              "sugars": 9,
+              "sodium": 800,
+              "cholesterol": 405
+            }
+          }
+        }
+      },
+      "m7": {
+        "type": "meal",
+        "name": "Premium NY Strip Steak",
+        "description": "New York strip steak with Idahoan Original garlic mash, broccoli, and Honey Barbecue Mustard sauce.",
+        "storageMode": "fridge",
+        "reheat": "Remove the Honey Barbecue Mustard cup. Microwave at 50% power for 1-2 minutes, or until hot, to reduce overcooking.",
+        "tiers": {
+          "lean": {
+            "label": "LEAN",
+            "netWeight": "18.8 oz (532 g)",
+            "ingredients": "New York strip steak, water, broccoli, fat-free milk, Idahoan Original mashed potato flakes (potatoes, monoglycerides, sodium acid pyrophosphate, sodium bisulfite, citric acid, mixed tocopherols), prepared Dijon mustard, G Hughes Original Sugar-Free BBQ Sauce, butter, honey, garlic, apple cider vinegar, salt, garlic powder, smoked paprika, ground black pepper.",
+            "allergens": "CONTAINS: MILK.",
+            "allergenAdvisory": "Contains sulfites (sodium bisulfite).",
+            "nutrition": {
+              "calories": 640,
+              "protein": 57,
+              "carbs": 32,
+              "fiber": 4,
+              "fat": 31,
+              "satFat": 14.0,
+              "sugars": 3,
+              "sodium": 920,
+              "cholesterol": 165
+            }
+          },
+          "bulk": {
+            "label": "BULK",
+            "netWeight": "21.3 oz (604 g)",
+            "ingredients": "New York strip steak, broccoli, water, fat-free milk, Idahoan Original mashed potato flakes (potatoes, monoglycerides, sodium acid pyrophosphate, sodium bisulfite, citric acid, mixed tocopherols), prepared Dijon mustard, G Hughes Original Sugar-Free BBQ Sauce, butter, garlic, honey, apple cider vinegar, salt, garlic powder, smoked paprika, ground black pepper.",
+            "allergens": "CONTAINS: MILK.",
+            "allergenAdvisory": "Contains sulfites (sodium bisulfite).",
+            "nutrition": {
+              "calories": 755,
+              "protein": 70,
+              "carbs": 35,
+              "fiber": 5,
+              "fat": 37,
+              "satFat": 16.2,
+              "sugars": 4,
+              "sodium": 1050,
+              "cholesterol": 200
+            }
+          }
+        }
+      },
+      "a1": {
+        "type": "meal",
+        "name": "BBQ Chicken Lavash Flatbread",
+        "description": "Four smoky honey-lime BBQ chicken lavash wedges with fat-free mozzarella and red onion.",
+        "storageMode": "fridge",
+        "reheat": "Air fry at 350 F for 3-5 minutes for the best texture, or microwave 45-60 seconds until hot.",
+        "tiers": {
+          "single": {
+            "label": "SINGLE",
+            "netWeight": "7.4 oz (209 g)",
+            "ingredients": "boneless skinless chicken thigh, fat-free mozzarella cheese, G Hughes Original Sugar-Free BBQ Sauce, onion, lime juice, honey, cilantro, salt, garlic powder, whole-wheat lavash, avocado oil, onion powder, paprika, ground black pepper.",
+            "allergens": "CONTAINS: MILK, WHEAT.",
+            "allergenAdvisory": "",
+            "nutrition": {
+              "calories": 420,
+              "protein": 52,
+              "carbs": 26,
+              "fiber": 9,
+              "fat": 13,
+              "satFat": 3.2,
+              "sugars": 5,
+              "sodium": 1460,
+              "cholesterol": 155
+            }
+          }
+        }
+      }
     }
   }
 };
-
-if (typeof window !== 'undefined') window.PRPD_MENU_DETAILS = PRPD_MENU_DETAILS;
-if (typeof module !== 'undefined' && module.exports) module.exports = PRPD_MENU_DETAILS;
+if(typeof window!=="undefined") window.PRPD_MENU_DETAILS=PRPD_MENU_DETAILS;
+if(typeof module!=="undefined"&&module.exports) module.exports=PRPD_MENU_DETAILS;
