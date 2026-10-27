@@ -555,6 +555,7 @@ const ORDER_API_URL = '/api/order';
         <section class="meal-detail-section">
           <div class="meal-detail-section__head"><h3>Nutrition</h3>${tier.netWeight ? `<span>${escapeMealDetail(tier.netWeight)}</span>` : ''}</div>
           ${detailNutritionHtml(tier.nutrition)}
+          ${tier.nutritionBasis ? `<p>${escapeMealDetail(tier.nutritionBasis)}</p>` : ''}
         </section>
         <section class="meal-detail-section">
           <h3>Ingredients</h3>

@@ -104,9 +104,9 @@ const ORDER_CONFIG = {
         "name": "Garlic Herb Yogurt",
         "image": "/assets/images/sauces/garlic-herb-concept.png",
         "imageStatus": "concept",
-        "description": "Creamy yogurt, jalapeÃ±o, garlic and fresh herbs",
+        "description": "Creamy yogurt, jalape\u00c3\u0192\u00c2\u00b1o, garlic and fresh herbs",
         "steps": [
-          "Blend the displayed yogurt, light mayonnaise, lemon, cilantro, jalapeÃ±o, garlic, parsley, salt and cumin until smooth. Do not add water.",
+          "Blend the displayed yogurt, light mayonnaise, lemon, cilantro, jalape\u00c3\u0192\u00c2\u00b1o, garlic, parsley, salt and cumin until smooth. Do not add water.",
           "Fill exactly the selected count at 40 g net per cup. Record transfer loss, seal, label and refrigerate."
         ],
         "gramsPerCup": 40,
@@ -169,7 +169,7 @@ const ORDER_CONFIG = {
             "station": "Dry Prep & Seasonings"
           }
         ],
-        "customerIngredients": "Nonfat Greek yogurt, light mayonnaise, lemon, cilantro, jalapeÃ±o, garlic, parsley, salt, and cumin.",
+        "customerIngredients": "Nonfat Greek yogurt, light mayonnaise, lemon, cilantro, jalape\u00c3\u0192\u00c2\u00b1o, garlic, parsley, salt, and cumin.",
         "allergens": "CONTAINS: EGG, MILK."
       }
     ],
@@ -251,6 +251,14 @@ const ORDER_CONFIG = {
       ],
       "category": "standard",
       "plannerOnly": true
+    },
+    {
+      "id": "bw1",
+      "name": "Harissa Honey Chicken",
+      "category": "standard",
+      "plannerOnly": true,
+      "bundleOnly": true,
+      "description": "Harissa-honey chicken thighs with basmati rice and roasted broccoli. Available only in the Weekly Five."
     }
   ],
   "menu": {
@@ -280,28 +288,54 @@ const ORDER_CONFIG = {
         "nutritionStatus": "Controlled calculation; physical yield and finished-weight verification remain open"
       },
       {
-        "id": "b2",
-        "name": "Blueberry Vanilla Protein Baked Oatmeal Squares",
+        "id": "b3",
+        "name": "Strawberry Cheesecake Protein Pancakes",
         "category": "standard",
+        "description": "Protein pancakes with strawberries, cheesecake-yogurt topping, and sugar-free maple syrup.",
         "macros": {
-          "cal": 435,
-          "protein": 31,
-          "carbs": 61,
-          "fiber": 8,
-          "fat": 8
-        },
-        "bulkMacros": {
-          "cal": 655,
-          "protein": 47,
-          "carbs": 91,
-          "fiber": 12,
+          "cal": 505,
+          "protein": 43,
+          "carbs": 54,
+          "fiber": 3,
           "fat": 12
         },
-        "description": "Blueberry-vanilla baked oatmeal squares with egg whites, Greek yogurt, banana, and protein powder.",
-        "image": "",
+        "bulkMacros": {
+          "cal": 645,
+          "protein": 56,
+          "carbs": 69,
+          "fiber": 4,
+          "fat": 15
+        },
+        "nutritionStatus": "Recipe estimate; package and physical yield verification pending",
+        "taxClass": "exempt-reheatable-meal",
+        "image": "/assets/images/meals/menu/batch-8-2026-08-29/strawberry-cheesecake-protein-pancakes.webp",
         "newThisWeek": false,
-        "nutritionReview": true,
-        "nutritionStatus": "Controlled calculation; physical yield and finished-weight verification remain open"
+        "nutritionReview": true
+      },
+      {
+        "id": "b4",
+        "name": "PRPD Beef Bacon Breakfast Sandwich",
+        "category": "beef",
+        "description": "Halal beef bacon, egg-and-egg-white patty, cheese, and PRPD sauce on an English muffin.",
+        "macros": {
+          "cal": 515,
+          "protein": 36,
+          "carbs": 53,
+          "fiber": 4,
+          "fat": 18
+        },
+        "bulkMacros": {
+          "cal": 775,
+          "protein": 65,
+          "carbs": 54,
+          "fiber": 2,
+          "fat": 32
+        },
+        "nutritionStatus": "Recipe estimate; package and physical yield verification pending",
+        "taxClass": "taxable-prepared-food",
+        "image": "/assets/images/meals/menu/batch-6-2026-08-15/prpd-beef-bacon-breakfast-sandwich.webp",
+        "newThisWeek": false,
+        "nutritionReview": true
       }
     ],
     "mains": [
@@ -425,6 +459,31 @@ const ORDER_CONFIG = {
         "newThisWeek": false,
         "nutritionReview": true,
         "nutritionStatus": "Controlled calculation; physical yield and finished-weight verification remain open"
+      },
+      {
+        "id": "m6",
+        "name": "Creamy Cajun Chicken Pasta",
+        "category": "standard",
+        "description": "Cajun-spiced chicken thighs and protein spaghetti in a creamy crushed-tomato sauce.",
+        "macros": {
+          "cal": 570,
+          "protein": 52,
+          "carbs": 38,
+          "fiber": 9,
+          "fat": 25
+        },
+        "bulkMacros": {
+          "cal": 765,
+          "protein": 71,
+          "carbs": 50,
+          "fiber": 12,
+          "fat": 34
+        },
+        "nutritionStatus": "Recipe estimate; package and physical yield verification pending",
+        "taxClass": "exempt-reheatable-meal",
+        "image": "",
+        "newThisWeek": false,
+        "nutritionReview": true
       }
     ],
     "premium": [
@@ -456,27 +515,154 @@ const ORDER_CONFIG = {
     ],
     "addons": [
       {
-        "id": "a1",
-        "name": "BBQ Chicken Lavash Flatbread",
+        "id": "a2",
+        "name": "Chicken Tikka Snack Wrap",
         "category": "addon",
+        "price": 7.99,
+        "description": "A chilled high-fiber wrap with tikka-spiced chicken thighs, vegetables, and Garlic Herb Yogurt inside.",
         "macros": {
-          "cal": 420,
-          "protein": 52,
-          "carbs": 26,
-          "fiber": 9,
+          "cal": 300,
+          "protein": 35,
+          "carbs": 25,
+          "fiber": 16,
+          "fat": 12
+        },
+        "nutritionReview": true,
+        "nutritionStatus": "Recipe estimate; package and physical yield verification pending",
+        "taxClass": "taxable-prepared-food",
+        "image": "/assets/images/meals/menu/batch-13-2026-10-03/chicken-tikka-snack-wrap-batch-13.jpg",
+        "imageCrop": "landscape-tikka-close",
+        "ownerApproved": true,
+        "bulkMacros": null,
+        "newThisWeek": false
+      },
+      {
+        "id": "a3",
+        "name": "Buffalo Chicken Pinwheels",
+        "category": "addon",
+        "price": 7.99,
+        "description": "Four chilled pinwheel pieces made from one 70-calorie Mission tortilla with Buffalo chicken, cream cheese, mozzarella, lettuce, and onion.",
+        "macros": {
+          "cal": 325,
+          "protein": 31,
+          "carbs": 23,
+          "fiber": 16,
+          "fat": 18
+        },
+        "nutritionReview": true,
+        "nutritionStatus": "Recipe estimate; package and physical yield verification pending",
+        "taxClass": "taxable-prepared-food",
+        "image": "/assets/images/meals/menu/batch-8-2026-08-29/buffalo-chicken-pinwheels.webp",
+        "ownerApproved": true,
+        "bulkMacros": null,
+        "newThisWeek": false
+      },
+      {
+        "id": "a4",
+        "name": "Oven-Baked Popcorn Chicken",
+        "category": "addon",
+        "price": 7.99,
+        "description": "Bite-size chicken thighs in a seasoned panko coating, oven-baked with measured oil. Estimated nutrition; dip selected separately.",
+        "macros": {
+          "cal": 365,
+          "protein": 36,
+          "carbs": 25,
           "fat": 13
         },
         "bulkMacros": null,
-        "description": "Four smoky honey-lime BBQ chicken lavash wedges with fat-free mozzarella and red onion.",
         "image": "",
-        "newThisWeek": false,
+        "newThisWeek": true,
         "nutritionReview": true,
-        "nutritionStatus": "Controlled calculation; physical yield and finished-weight verification remain open",
-        "price": 7.99
+        "nutritionStatus": "Estimated per serving; excludes dip.",
+        "taxClass": "taxable-prepared-food"
       }
     ],
     "desserts": [],
-    "exclusives": []
+    "exclusives": [
+      {
+        "id": "x0",
+        "name": "Weekly Five: Cajun + Harissa Honey",
+        "category": "bundle",
+        "servingCount": 5,
+        "description": "Five meals featuring Creamy Cajun Chicken Pasta and bundle-exclusive Harissa Honey Chicken. Choose Lean or Bulk and your 3/2 split. No substitutions.",
+        "taxClass": "exempt-reheatable-meal",
+        "variants": [
+          {
+            "id": "lean-cajun3-harissa2",
+            "label": "Lean: 3 Cajun Pasta + 2 Harissa Honey Chicken",
+            "price": 49.95,
+            "compareAtPrice": 54.95,
+            "components": [
+              {
+                "id": "m6",
+                "tier": "lean",
+                "qty": 3
+              },
+              {
+                "id": "bw1",
+                "tier": "lean",
+                "qty": 2
+              }
+            ]
+          },
+          {
+            "id": "lean-cajun2-harissa3",
+            "label": "Lean: 2 Cajun Pasta + 3 Harissa Honey Chicken",
+            "price": 49.95,
+            "compareAtPrice": 54.95,
+            "components": [
+              {
+                "id": "m6",
+                "tier": "lean",
+                "qty": 2
+              },
+              {
+                "id": "bw1",
+                "tier": "lean",
+                "qty": 3
+              }
+            ]
+          },
+          {
+            "id": "bulk-cajun3-harissa2",
+            "label": "Bulk: 3 Cajun Pasta + 2 Harissa Honey Chicken",
+            "price": 59.95,
+            "compareAtPrice": 64.95,
+            "components": [
+              {
+                "id": "m6",
+                "tier": "bulk",
+                "qty": 3
+              },
+              {
+                "id": "bw1",
+                "tier": "bulk",
+                "qty": 2
+              }
+            ]
+          },
+          {
+            "id": "bulk-cajun2-harissa3",
+            "label": "Bulk: 2 Cajun Pasta + 3 Harissa Honey Chicken",
+            "price": 59.95,
+            "compareAtPrice": 64.95,
+            "components": [
+              {
+                "id": "m6",
+                "tier": "bulk",
+                "qty": 2
+              },
+              {
+                "id": "bw1",
+                "tier": "bulk",
+                "qty": 3
+              }
+            ]
+          }
+        ],
+        "image": ""
+      }
+    ]
   },
   "tax": {
     "enabled": false,
@@ -488,5 +674,5 @@ const ORDER_CONFIG = {
     ]
   }
 };
-if(typeof window!=="undefined")window.PRPD_ORDER_CONFIG=ORDER_CONFIG;
+if(typeof window!=="undefined") window.PRPD_ORDER_CONFIG=ORDER_CONFIG;
 if(typeof module!=="undefined"&&module.exports)module.exports=ORDER_CONFIG;
