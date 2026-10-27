@@ -583,6 +583,7 @@ const ORDER_CONFIG = {
         "id": "x0",
         "name": "Weekly Five: Cajun + Harissa Honey",
         "category": "bundle",
+        "price": 49.95,
         "servingCount": 5,
         "description": "Five meals featuring Creamy Cajun Chicken Pasta and bundle-exclusive Harissa Honey Chicken. Choose Lean or Bulk and your 3/2 split. No substitutions.",
         "taxClass": "exempt-reheatable-meal",
