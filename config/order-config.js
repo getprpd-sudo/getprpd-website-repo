@@ -524,11 +524,11 @@ const ORDER_CONFIG = {
         "price": 7.99,
         "description": "A chilled high-fiber wrap with tikka-spiced chicken thighs, vegetables, and Garlic Herb Yogurt inside.",
         "macros": {
-          "cal": 300,
-          "protein": 35,
-          "carbs": 25,
+          "cal": 220,
+          "protein": 25,
+          "carbs": 24,
           "fiber": 16,
-          "fat": 12
+          "fat": 8
         },
         "nutritionReview": true,
         "nutritionStatus": "Recipe estimate; package and physical yield verification pending",
@@ -565,11 +565,11 @@ const ORDER_CONFIG = {
         "name": "Oven-Baked Popcorn Chicken",
         "category": "addon",
         "price": 7.99,
-        "description": "Bite-size chicken thighs in a seasoned panko coating, oven-baked with measured oil. Estimated nutrition; dip selected separately.",
+        "description": "Bite-size chicken thighs in a seasoned plain cornflake coating, oven-baked with measured oil. Estimated nutrition; dip selected separately.",
         "macros": {
-          "cal": 365,
-          "protein": 36,
-          "carbs": 25,
+          "cal": 360,
+          "protein": 34,
+          "carbs": 26,
           "fat": 13
         },
         "bulkMacros": null,

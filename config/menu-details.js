@@ -866,7 +866,7 @@ const PRPD_MENU_DETAILS = {
               "carbs": 54,
               "fiber": 3,
               "fat": 12,
-              "satFat": 5.0,
+              "satFat": 5,
               "sugars": 15,
               "sodium": 900,
               "cholesterol": 220
@@ -885,7 +885,7 @@ const PRPD_MENU_DETAILS = {
               "carbs": 69,
               "fiber": 4,
               "fat": 15,
-              "satFat": 6.0,
+              "satFat": 6,
               "sugars": 18,
               "sodium": 1230,
               "cholesterol": 235
@@ -1148,7 +1148,7 @@ const PRPD_MENU_DETAILS = {
               "carbs": 57,
               "fiber": 4,
               "fat": 7,
-              "satFat": 4.0,
+              "satFat": 4,
               "sugars": 7,
               "sodium": 570,
               "cholesterol": 300
@@ -1242,7 +1242,7 @@ const PRPD_MENU_DETAILS = {
               "carbs": 32,
               "fiber": 4,
               "fat": 31,
-              "satFat": 14.0,
+              "satFat": 14,
               "sugars": 3,
               "sodium": 920,
               "cholesterol": 165
@@ -1278,21 +1278,21 @@ const PRPD_MENU_DETAILS = {
         "tiers": {
           "single": {
             "label": "SINGLE",
-            "netWeight": "9.0 oz (256 g)",
-            "ingredients": "boneless skinless chicken thigh, Mission Carb Balance wheat tortilla, FAGE Total 0% nonfat Greek yogurt, lettuce, cucumber, red onion, tomato, lemon juice, Great Value light mayonnaise, garlic, cilantro, jalapeno, paprika, avocado oil, flat-leaf parsley, cumin, ground coriander, salt, chili powder.",
+            "netWeight": "",
+            "ingredients": "boneless skinless chicken thigh, Mission Carb Balance wheat tortilla, FAGE Total 0% nonfat Greek yogurt, lettuce, cucumber, red onion, tomato, lemon juice, Great Value light mayonnaise, garlic, cilantro, jalapeno, paprika, flat-leaf parsley, avocado oil, cumin, salt, ground coriander, chili powder.",
             "allergens": "CONTAINS: EGG, MILK, WHEAT.",
             "allergenAdvisory": "",
             "nutritionBasis": "",
             "nutrition": {
-              "calories": 300,
-              "protein": 35,
-              "carbs": 25,
+              "calories": 220,
+              "protein": 25,
+              "carbs": 24,
               "fiber": 16,
-              "fat": 12,
-              "satFat": 2.5,
-              "sugars": 3,
-              "sodium": 560,
-              "cholesterol": 135
+              "fat": 8,
+              "satFat": 1.5,
+              "sugars": 2,
+              "sodium": 510,
+              "cholesterol": 80
             }
           }
         }
@@ -1328,21 +1328,21 @@ const PRPD_MENU_DETAILS = {
       "a4": {
         "type": "meal",
         "name": "Oven-Baked Popcorn Chicken",
-        "description": "Bite-size chicken thighs with a seasoned panko coating, oven-baked with measured oil. Dip selected separately.",
+        "description": "Bite-size chicken thighs with a seasoned plain cornflake coating, oven-baked with measured oil. Dip selected separately.",
         "storageMode": "fridge",
         "reheat": "Transfer to an oven-safe tray and reheat in an oven or air fryer until 165 F throughout. Remove any cold dip. Microwave reheating gives a softer coating.",
         "tiers": {
           "single": {
             "label": "SINGLE",
             "netWeight": "",
-            "ingredients": "boneless skinless chicken thigh, Kikkoman Panko Bread Crumbs (wheat flour, cane sugar, yeast, salt), egg whites, wheat flour, avocado oil, garlic powder, salt, paprika, ground black pepper.",
+            "ingredients": "boneless skinless chicken thigh, Kellogg's Corn Flakes (milled corn, sugar, malt flavor, salt, iron [ferric phosphate], niacinamide, vitamin B6 [pyridoxine hydrochloride], vitamin B2 [riboflavin], vitamin B1 [thiamin hydrochloride], folic acid, vitamin D3, vitamin B12), egg whites, wheat flour, avocado oil, garlic powder, salt, paprika, ground black pepper.",
             "allergens": "CONTAINS: EGG, WHEAT.",
-            "allergenAdvisory": "",
+            "allergenAdvisory": "Corn Flakes contain malt flavor, a source of gluten. This recipe is not gluten free. Verify the actual purchased package.",
             "nutritionBasis": "Estimated per serving; excludes dip.",
             "nutrition": {
-              "calories": 365,
-              "protein": 36,
-              "carbs": 25,
+              "calories": 360,
+              "protein": 34,
+              "carbs": 26,
               "fat": 13
             }
           }
