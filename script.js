@@ -105,7 +105,7 @@ function renderWeeklyHomepage() {
     image.src = dish.images?.lean || dish.image;
     image.alt = `${dish.name} by PRPD`;
     image.loading = 'lazy';
-    if (dish.imageCrop === 'rotate-180') image.classList.add('photo-crop--rotate-180');
+    if (['rotate-180', 'rotate-180-close', 'landscape-wrap-close', 'landscape-meal-close'].includes(dish.imageCrop)) image.classList.add(`photo-crop--${dish.imageCrop}`);
     const placeholder = document.createElement('div');
     placeholder.className = 'menu-card__img-ph';
     placeholder.textContent = 'PRPD';

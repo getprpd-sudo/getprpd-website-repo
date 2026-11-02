@@ -2306,9 +2306,12 @@ body {
   background: linear-gradient(180deg, rgba(7,20,11,.22), transparent 38%, rgba(7,20,11,.9) 100%);
   pointer-events: none;
 }
-.menu-card__img img { transform: rotate(var(--photo-rotate, 0deg)); transition: transform .45s ease; }
+.menu-card__img img { object-position: var(--photo-x, 50%) var(--photo-y, 50%); transform: rotate(var(--photo-rotate, 0deg)) scale(var(--photo-zoom, 1)); transition: transform .45s ease; }
 .menu-card__img img.photo-crop--rotate-180 { --photo-rotate: 180deg; }
-.menu-card:hover .menu-card__img img { transform: rotate(var(--photo-rotate, 0deg)) scale(1.03); }
+.menu-card__img img.photo-crop--rotate-180-close { --photo-rotate: 180deg; --photo-zoom: 1.35; --photo-x: 49%; --photo-y: 44%; }
+.menu-card__img img.photo-crop--landscape-wrap-close { --photo-zoom: 2.2; --photo-x: 50%; --photo-y: 33%; }
+.menu-card__img img.photo-crop--landscape-meal-close { --photo-zoom: 1.25; --photo-x: 50%; --photo-y: 20%; }
+.menu-card:hover .menu-card__img img { transform: rotate(var(--photo-rotate, 0deg)) scale(calc(var(--photo-zoom, 1) + .03)); }
 .menu-card__photo-overlay {
   position: absolute;
   z-index: 2;
