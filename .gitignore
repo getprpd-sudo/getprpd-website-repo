@@ -81,7 +81,8 @@ tmp-*.png
 # Personal/non-PRPD files and large working media stay in Dropbox only
 Collin_Fall_2026_Degree_and_Registration_Plan.docx
 assets/marketing/
-assets/videos/
+assets/videos/*
+!assets/videos/halal-bay-eats-prpd-review.mp4
 
 # Private customer/history material that is not required by the public app
 operations/costing/BATCH_*_COST_RECONCILIATION_*.md
