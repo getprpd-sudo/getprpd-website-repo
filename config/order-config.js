@@ -1,10 +1,10 @@
 const ORDER_CONFIG = {
   "batch": {
-    "number": 17,
+    "number": 18,
     "published": true,
     "remindersEnabled": false,
-    "deliveryDate": "Saturday, October 31, 2026",
-    "cutoffIso": "2026-10-28T18:00:00-05:00",
+    "deliveryDate": "Saturday, November 7, 2026",
+    "cutoffIso": "2026-11-04T18:00:00-06:00",
     "cutoffLabel": "Wednesday at 6:00 PM CT"
   },
   "policies": {
@@ -48,129 +48,43 @@ const ORDER_CONFIG = {
   },
   "sauceProgram": {
     "enabled": true,
-    "policyStatus": "Choose up to three free sauce cups per order. Additional cups are $1 each.",
+    "allowanceMode": "meal-tiered",
     "servingGrams": 40,
     "freeCupsPerOrder": 3,
     "extraPrice": 1,
     "maxExtraCups": 50,
     "taxClass": "taxable-prepared-food",
+    "policyStatus": "Free sauce cups scale with eligible meal count, with at least three per eligible order. Additional selected cups are $1 each.",
     "choices": [
       {
-        "id": "sweet-heat",
-        "componentRef": "batch13-sweet-heat",
-        "name": "PRPD Sweet Heat",
-        "image": "/assets/images/sauces/sweet-heat-concept.png",
-        "imageStatus": "concept",
-        "description": "Creamy Sriracha with a sweet finish",
-        "steps": [
-          "Weigh the displayed light mayonnaise, ketchup, honey and Sriracha. Whisk until uniform.",
-          "Fill exactly the selected count at 40 g net per cup. Record transfer loss, seal, label and refrigerate."
-        ],
+        "id": "cucumber-dill-tzatziki",
+        "componentRef": "cucumber-dill-tzatziki",
+        "name": "Cucumber Dill Tzatziki",
+        "image": "",
         "gramsPerCup": 40,
-        "batchSizeCups": 5,
-        "batchInputGrams": 225,
-        "batchIngredients": [
-          {
-            "key": "light_mayo",
-            "name": "Great Value light mayonnaise",
-            "grams": 55,
-            "station": "Sauces & Dairy"
-          },
-          {
-            "key": "ketchup",
-            "name": "Ketchup",
-            "grams": 66,
-            "station": "Sauces & Dairy"
-          },
-          {
-            "key": "honey",
-            "name": "Honey",
-            "grams": 66,
-            "station": "Sauces & Dairy"
-          },
-          {
-            "key": "sriracha",
-            "name": "Sriracha sauce",
-            "grams": 38,
-            "station": "Sauces & Dairy"
-          }
-        ],
-        "customerIngredients": "Light mayonnaise, ketchup, honey, and Sriracha.",
-        "allergens": "CONTAINS: EGG."
+        "customerIngredients": "Nonfat Greek yogurt, cucumber, lemon juice, olive oil, dill, garlic, salt, mint and black pepper.",
+        "allergens": "CONTAINS: MILK.",
+        "newThisWeek": true
       },
       {
-        "id": "garlic-herb-yogurt",
-        "componentRef": "garlic-herb-yogurt",
-        "name": "Garlic Herb Yogurt",
-        "image": "/assets/images/sauces/garlic-herb-concept.png",
-        "imageStatus": "concept",
-        "description": "Creamy yogurt, jalapeno, garlic and fresh herbs",
-        "steps": [
-          "Blend the displayed yogurt, light mayonnaise, lemon, cilantro, jalapeno, garlic, parsley, salt and cumin until smooth. Do not add water.",
-          "Fill exactly the selected count at 40 g net per cup. Record transfer loss, seal, label and refrigerate."
-        ],
+        "id": "mango-chipotle-lime",
+        "componentRef": "mango-chipotle-lime",
+        "name": "Mango Chipotle Lime",
+        "image": "",
         "gramsPerCup": 40,
-        "batchSizeCups": 5,
-        "batchInputGrams": 225,
-        "batchIngredients": [
-          {
-            "key": "fage",
-            "name": "FAGE Total 0%",
-            "grams": 165,
-            "station": "Sauces & Dairy"
-          },
-          {
-            "key": "light_mayo",
-            "name": "Great Value light mayonnaise",
-            "grams": 25,
-            "station": "Sauces & Dairy"
-          },
-          {
-            "key": "lemon",
-            "name": "Lemon juice, raw",
-            "grams": 10,
-            "station": "Cold Prep & Produce"
-          },
-          {
-            "key": "cilantro",
-            "name": "Cilantro, raw",
-            "grams": 10,
-            "station": "Cold Prep & Produce"
-          },
-          {
-            "key": "jalapeno",
-            "name": "Jalapeno, raw",
-            "grams": 6,
-            "station": "Cold Prep & Produce"
-          },
-          {
-            "key": "garlic",
-            "name": "Garlic, raw",
-            "grams": 3,
-            "station": "Cold Prep & Produce"
-          },
-          {
-            "key": "parsley",
-            "name": "Flat-leaf parsley, raw",
-            "grams": 3,
-            "station": "Cold Prep & Produce"
-          },
-          {
-            "key": "salt",
-            "name": "Table salt",
-            "grams": 2,
-            "station": "Dry Prep & Seasonings"
-          },
-          {
-            "key": "cumin",
-            "name": "Ground cumin",
-            "grams": 1,
-            "displayMeasure": "about 1/4 tsp",
-            "station": "Dry Prep & Seasonings"
-          }
-        ],
-        "customerIngredients": "Nonfat Greek yogurt, light mayonnaise, lemon, cilantro, jalapeno, garlic, parsley, salt, and cumin.",
-        "allergens": "CONTAINS: EGG, MILK."
+        "customerIngredients": "Mango, lime juice, Roland chipotle peppers in adobo sauce, honey, apple cider vinegar, garlic and salt.",
+        "allergens": "",
+        "newThisWeek": true
+      },
+      {
+        "id": "lemon-tahini",
+        "componentRef": "lemon-tahini",
+        "name": "Lemon Tahini",
+        "image": "",
+        "gramsPerCup": 40,
+        "customerIngredients": "Tahini (sesame), water, lemon juice, garlic, salt, cumin and black pepper.",
+        "allergens": "CONTAINS: SESAME.",
+        "newThisWeek": true
       }
     ],
     "creditsByDishId": {},
@@ -202,8 +116,8 @@ const ORDER_CONFIG = {
       "bulk": 15.99
     },
     "premium": {
-      "lean": 21.99,
-      "bulk": 26.99
+      "lean": 24.99,
+      "bulk": 31.99
     },
     "dessert": {
       "single": 6.99
@@ -214,315 +128,309 @@ const ORDER_CONFIG = {
     "seafood": {
       "lean": 14.99,
       "bulk": 16.99
+    },
+    "thai": {
+      "lean": 15.99,
+      "bulk": 18.99
+    },
+    "enchilada": {
+      "lean": 12.99,
+      "bulk": 15.99
     }
   },
   "plannerOnly": [
     {
-      "id": "p1",
-      "name": "High-Protein Beef Kofta & Roasted Vegetables",
-      "aliases": [
-        "96/4 Beef Kofta",
-        "96/4 Beef Kofta Meal",
-        "Beef Kofta",
-        "Beef Kafta",
-        "Custom Drained Ground Beef Mince",
-        "Custom Drained Ground Beef Mince Meal"
-      ],
-      "category": "standard",
-      "plannerOnly": true
-    },
-    {
-      "id": "p2",
-      "name": "Custom Lean Chicken Mince",
-      "aliases": [
-        "Custom Lean Chicken Mince Meal",
-        "Custom Chicken Breast Mince",
-        "Chicken Breast Mince"
-      ],
-      "category": "standard",
-      "plannerOnly": true
-    },
-    {
-      "id": "p3",
-      "name": "Custom Lebanese-Style Chicken Breast",
-      "aliases": [
-        "Custom Lebanese-Style Chicken Breast Meal",
-        "Custom Lebanese Chicken + Fattoush-Style Salad"
-      ],
-      "category": "standard",
-      "plannerOnly": true
-    },
-    {
       "id": "bw1",
-      "name": "Harissa Honey Chicken",
+      "name": "Chicken Shakshuka",
       "category": "standard",
+      "description": "Chicken and eggs in a tomato-pepper sauce with bread. Available only in the Weekly Five.",
+      "macros": {
+        "cal": 555,
+        "protein": 53,
+        "carbs": 36,
+        "fiber": 6,
+        "fat": 23
+      },
+      "bulkMacros": {
+        "cal": 730,
+        "protein": 66,
+        "carbs": 55,
+        "fiber": 8,
+        "fat": 28
+      },
+      "image": "/assets/images/meals/menu/batch-8-2026-08-29/chicken-shakshuka.webp",
+      "sauceEligible": true,
+      "taxClass": "exempt-reheatable-meal",
+      "newThisWeek": false,
       "plannerOnly": true,
-      "bundleOnly": true,
-      "description": "Harissa-honey chicken thighs with basmati rice and roasted broccoli. Available only in the Weekly Five."
+      "bundleOnly": true
     }
   ],
   "menu": {
     "breakfasts": [
       {
         "id": "b1",
-        "name": "High Protein Omelette",
+        "name": "French Toast",
         "category": "standard",
+        "description": "Protein French toast with strawberries, banana, whipped cream and a separate syrup cup.",
         "macros": {
-          "cal": 400,
-          "protein": 42,
-          "carbs": 29,
-          "fiber": 3,
-          "fat": 13
+          "cal": 505,
+          "protein": 34,
+          "carbs": 73,
+          "fiber": 6,
+          "fat": 8
         },
         "bulkMacros": {
-          "cal": 625,
-          "protein": 63,
-          "carbs": 51,
-          "fiber": 4,
-          "fat": 20
+          "cal": 655,
+          "protein": 45,
+          "carbs": 93,
+          "fiber": 7,
+          "fat": 11
         },
-        "description": "Eggs, vegetables, fat-free cheese, and sourdough.",
-        "image": "/assets/images/meals/menu/high-protein-omelette.jpg",
+        "image": "/assets/images/meals/menu/french-toast.jpg",
+        "sauceEligible": true,
+        "taxClass": "exempt-reheatable-meal",
         "newThisWeek": false,
-        "nutritionReview": true,
-        "nutritionStatus": "Controlled calculation; physical yield and finished-weight verification remain open"
+        "sideCupComponents": [
+          {
+            "name": "Sugar-free maple syrup",
+            "batchGroup": "maple-syrup",
+            "cupsPerMeal": 1,
+            "gramsPerMeal": 30
+          }
+        ]
+      },
+      {
+        "id": "b2",
+        "name": "Breakfast Quesadilla",
+        "category": "standard",
+        "description": "Seasoned chicken thighs, egg, egg whites and mozzarella in toasted tortillas.",
+        "macros": {
+          "cal": 450,
+          "protein": 57,
+          "carbs": 41,
+          "fiber": 30,
+          "fat": 17
+        },
+        "bulkMacros": {
+          "cal": 595,
+          "protein": 75,
+          "carbs": 61,
+          "fiber": 45,
+          "fat": 22
+        },
+        "image": "/assets/images/meals/menu/breakfast-quesadilla-lean.jpg",
+        "sauceEligible": true,
+        "taxClass": "exempt-reheatable-meal",
+        "newThisWeek": false,
+        "bulkImage": "/assets/images/meals/menu/breakfast-quesadilla-bulk.jpg"
       },
       {
         "id": "b3",
-        "name": "Strawberry Cheesecake Protein Pancakes",
-        "category": "standard",
-        "description": "Protein pancakes with strawberries, cheesecake-yogurt topping, and sugar-free maple syrup.",
-        "macros": {
-          "cal": 505,
-          "protein": 43,
-          "carbs": 54,
-          "fiber": 3,
-          "fat": 12
-        },
-        "bulkMacros": {
-          "cal": 645,
-          "protein": 56,
-          "carbs": 69,
-          "fiber": 4,
-          "fat": 15
-        },
-        "nutritionStatus": "Recipe estimate; package and physical yield verification pending",
-        "taxClass": "exempt-reheatable-meal",
-        "image": "/assets/images/meals/menu/batch-8-2026-08-29/strawberry-cheesecake-protein-pancakes.webp",
-        "newThisWeek": false,
-        "nutritionReview": true
-      },
-      {
-        "id": "b4",
-        "name": "PRPD Beef Bacon Breakfast Sandwich",
+        "name": "Beef Breakfast Skillet",
         "category": "beef",
-        "description": "Halal beef bacon, egg-and-egg-white patty, cheese, and PRPD sauce on an English muffin.",
+        "description": "Seasoned ground beef, eggs, mozzarella and potato hash.",
         "macros": {
-          "cal": 515,
-          "protein": 36,
-          "carbs": 53,
-          "fiber": 4,
-          "fat": 18
+          "cal": 565,
+          "protein": 59,
+          "carbs": 23,
+          "fiber": 3,
+          "fat": 25
         },
         "bulkMacros": {
-          "cal": 775,
-          "protein": 65,
-          "carbs": 54,
-          "fiber": 2,
-          "fat": 32
+          "cal": 790,
+          "protein": 83,
+          "carbs": 24,
+          "fiber": 3,
+          "fat": 39
         },
-        "nutritionStatus": "Recipe estimate; package and physical yield verification pending",
-        "taxClass": "taxable-prepared-food",
-        "image": "/assets/images/meals/menu/batch-6-2026-08-15/prpd-beef-bacon-breakfast-sandwich.webp",
-        "newThisWeek": false,
-        "nutritionReview": true
+        "image": "/assets/images/meals/menu/beef-breakfast-skillet.jpg",
+        "sauceEligible": true,
+        "taxClass": "exempt-reheatable-meal",
+        "newThisWeek": false
       }
     ],
     "mains": [
       {
         "id": "m1",
-        "name": "Halal Cart Chicken + Yellow Rice",
+        "name": "Creamy Chicken Parmesan",
         "category": "standard",
+        "description": "Whole breaded chicken thigh topped with mozzarella, served with protein pasta in creamy tomato-Parmesan sauce.",
         "macros": {
-          "cal": 490,
-          "protein": 45,
-          "carbs": 44,
-          "fiber": 3,
-          "fat": 14
-        },
-        "bulkMacros": {
-          "cal": 645,
-          "protein": 59,
-          "carbs": 58,
-          "fiber": 4,
-          "fat": 19
-        },
-        "description": "Seasoned chicken thighs, yellow basmati rice, lettuce, and tomato.",
-        "image": "/assets/images/meals/menu/halal-cart-chicken-yellow-rice.jpg",
-        "newThisWeek": false,
-        "nutritionReview": true,
-        "nutritionStatus": "Controlled calculation; physical yield and finished-weight verification remain open",
-        "imageStatus": "Existing library photo"
-      },
-      {
-        "id": "m2",
-        "name": "Cheesy Achiote Chicken Tacos",
-        "category": "standard",
-        "macros": {
-          "cal": 535,
-          "protein": 55,
-          "carbs": 32,
-          "fiber": 4,
-          "fat": 19
-        },
-        "bulkMacros": {
-          "cal": 710,
-          "protein": 73,
-          "carbs": 43,
-          "fiber": 5,
-          "fat": 26
-        },
-        "description": "Achiote-citrus chicken thighs, melted cheese, pickled onion, Cotija, and cilantro in street-size corn tortillas.",
-        "image": "",
-        "newThisWeek": false,
-        "nutritionReview": true,
-        "nutritionStatus": "Controlled calculation; physical yield and finished-weight verification remain open"
-      },
-      {
-        "id": "m3",
-        "name": "Lemon Herb Chicken Orzo",
-        "category": "standard",
-        "macros": {
-          "cal": 530,
-          "protein": 47,
-          "carbs": 42,
-          "fiber": 4,
-          "fat": 19
-        },
-        "bulkMacros": {
-          "cal": 700,
-          "protein": 61,
-          "carbs": 56,
-          "fiber": 6,
-          "fat": 26
-        },
-        "description": "Chicken thighs, lemon-herb orzo, and roasted zucchini and carrots.",
-        "image": "",
-        "newThisWeek": true,
-        "nutritionReview": true,
-        "nutritionStatus": "Controlled calculation; physical yield and finished-weight verification remain open"
-      },
-      {
-        "id": "m4",
-        "name": "Southwest Beef Taco Bowl",
-        "category": "beef",
-        "macros": {
-          "cal": 685,
-          "protein": 53,
-          "carbs": 62,
-          "fiber": 7,
-          "fat": 24
+          "cal": 660,
+          "protein": 69,
+          "carbs": 49,
+          "fiber": 8,
+          "fat": 22
         },
         "bulkMacros": {
           "cal": 935,
-          "protein": 74,
-          "carbs": 81,
-          "fiber": 9,
-          "fat": 35
+          "protein": 100,
+          "carbs": 66,
+          "fiber": 11,
+          "fat": 32
         },
-        "description": "Seasoned beef, cilantro-lime rice, black beans, corn and peppers, lettuce, and cotija.",
-        "image": "/assets/images/meals/menu/batch-15-2026-10-17/southwest-beef-taco-bowl.jpg",
+        "image": "",
+        "sauceEligible": true,
+        "taxClass": "exempt-reheatable-meal",
+        "newThisWeek": false
+      },
+      {
+        "id": "m2",
+        "name": "Loaded Buffalo Chicken Potato",
+        "category": "standard",
+        "description": "Buffalo chicken thighs over a loaded potato with broccoli.",
+        "macros": {
+          "cal": 520,
+          "protein": 44,
+          "carbs": 44,
+          "fiber": 7,
+          "fat": 19
+        },
+        "bulkMacros": {
+          "cal": 600,
+          "protein": 54,
+          "carbs": 46,
+          "fiber": 8,
+          "fat": 23
+        },
+        "image": "/assets/images/meals/menu/batch-13-2026-10-03/loaded-buffalo-chicken-potato-batch-13.jpg",
+        "sauceEligible": true,
+        "taxClass": "exempt-reheatable-meal",
         "newThisWeek": false,
-        "nutritionReview": true,
-        "nutritionStatus": "Controlled calculation; physical yield and finished-weight verification remain open",
-        "imageCrop": "rotate-180"
+        "imageCrop": "rotate-180-close"
+      },
+      {
+        "id": "m3",
+        "name": "Mediterranean Chicken Bowl",
+        "category": "standard",
+        "description": "Chicken and rice with a separate cold mix of cucumber, tomato, hummus, feta, olives and onion.",
+        "macros": {
+          "cal": 620,
+          "protein": 49,
+          "carbs": 51,
+          "fiber": 5,
+          "fat": 24
+        },
+        "bulkMacros": {
+          "cal": 825,
+          "protein": 65,
+          "carbs": 67,
+          "fiber": 7,
+          "fat": 32
+        },
+        "image": "",
+        "sauceEligible": true,
+        "taxClass": "exempt-reheatable-meal",
+        "newThisWeek": false
+      },
+      {
+        "id": "m4",
+        "name": "Thai Basil Beef + Jasmine Rice",
+        "category": "thai",
+        "description": "Garlic-chili minced beef with basil, jasmine rice and roasted green beans. Contains fish from anchovy fish sauce.",
+        "macros": {
+          "cal": 610,
+          "protein": 49,
+          "carbs": 48,
+          "fiber": 4,
+          "fat": 24
+        },
+        "bulkMacros": {
+          "cal": 890,
+          "protein": 71,
+          "carbs": 72,
+          "fiber": 7,
+          "fat": 34
+        },
+        "image": "",
+        "sauceEligible": true,
+        "taxClass": "exempt-reheatable-meal",
+        "newThisWeek": true
       },
       {
         "id": "m5",
-        "name": "Garlic Butter Wild Argentine Shrimp + Rice",
-        "category": "seafood",
+        "name": "Chicken Enchilada Bake",
+        "category": "enchilada",
+        "description": "Chicken, corn and tortillas baked in enchilada sauce with cheese.",
         "macros": {
-          "cal": 455,
-          "protein": 43,
-          "carbs": 57,
-          "fiber": 4,
-          "fat": 7
+          "cal": 565,
+          "protein": 61,
+          "carbs": 60,
+          "fiber": 34,
+          "fat": 20
         },
         "bulkMacros": {
-          "cal": 615,
-          "protein": 58,
-          "carbs": 75,
-          "fiber": 6,
-          "fat": 10
+          "cal": 830,
+          "protein": 91,
+          "carbs": 90,
+          "fiber": 52,
+          "fat": 30
         },
-        "description": "Garlic-butter Wild Argentine red shrimp with basmati rice, zucchini, and peas and carrots.",
-        "image": "/assets/images/meals/menu/batch-6-2026-08-15/garlic-butter-shrimp-and-rice.jpg",
+        "image": "/assets/images/meals/menu/batch-15-2026-10-17/chicken-enchilada-bake.jpg",
+        "sauceEligible": true,
+        "taxClass": "exempt-reheatable-meal",
         "newThisWeek": false,
-        "nutritionReview": true,
-        "nutritionStatus": "Controlled calculation; physical yield and finished-weight verification remain open",
-        "imageStatus": "Historical library photo; updated Wild Argentine plating photo pending"
+        "imageCrop": "landscape-meal-close"
       },
       {
         "id": "m6",
-        "name": "Creamy Cajun Chicken Pasta",
-        "category": "standard",
-        "description": "Cajun-spiced chicken thighs and protein spaghetti in a creamy crushed-tomato sauce.",
+        "name": "Lemon Pepper Tilapia with Garlic Potatoes",
+        "category": "seafood",
+        "description": "Lemon-pepper tilapia with garlic potatoes and broccoli.",
         "macros": {
-          "cal": 570,
-          "protein": 52,
-          "carbs": 38,
-          "fiber": 9,
-          "fat": 25
+          "cal": 510,
+          "protein": 55,
+          "carbs": 54,
+          "fiber": 8,
+          "fat": 10
         },
         "bulkMacros": {
-          "cal": 765,
-          "protein": 71,
-          "carbs": 50,
-          "fiber": 12,
-          "fat": 34
+          "cal": 675,
+          "protein": 74,
+          "carbs": 69,
+          "fiber": 11,
+          "fat": 14
         },
-        "nutritionStatus": "Recipe estimate; package and physical yield verification pending",
+        "image": "/assets/images/meals/menu/batch-15-2026-10-17/lemon-pepper-tilapia.jpg",
+        "sauceEligible": true,
         "taxClass": "exempt-reheatable-meal",
-        "image": "/assets/images/meals/menu/batch-15-2026-10-17/creamy-cajun-chicken-pasta.jpg",
         "newThisWeek": false,
-        "nutritionReview": true,
-        "imageStatus": "Owner actual Batch15 photo"
+        "imageCrop": "landscape-meal-close"
       }
     ],
     "premium": [
       {
         "id": "m7",
-        "name": "Premium NY Strip Steak",
+        "name": "Rosemary-Garlic Lamb Shoulder",
         "category": "premium",
+        "description": "Slow-roasted rosemary-garlic lamb shoulder with garlic mash and green beans.",
         "macros": {
-          "cal": 640,
-          "protein": 57,
-          "carbs": 32,
-          "fiber": 4,
-          "fat": 31
+          "cal": 785,
+          "protein": 42,
+          "carbs": 34,
+          "fiber": 5,
+          "fat": 54
         },
         "bulkMacros": {
-          "cal": 755,
-          "protein": 70,
-          "carbs": 35,
-          "fiber": 5,
-          "fat": 37
+          "cal": 1025,
+          "protein": 55,
+          "carbs": 44,
+          "fiber": 6,
+          "fat": 71
         },
-        "description": "New York strip steak with Idahoan Original garlic mash, broccoli, and Honey Barbecue Mustard sauce.",
-        "image": "/assets/images/meals/menu/batch-13-2026-10-03/premium-ny-strip-steak-mashed-potatoes-batch-13.jpg",
-        "newThisWeek": false,
-        "nutritionReview": true,
-        "nutritionStatus": "Controlled calculation; physical yield and finished-weight verification remain open",
-        "imageCrop": "rotate-180"
+        "image": "",
+        "sauceEligible": true,
+        "taxClass": "exempt-reheatable-meal",
+        "newThisWeek": true
       }
     ],
     "addons": [
       {
-        "id": "a2",
+        "id": "a1",
         "name": "Chicken Tikka Snack Wrap",
         "category": "addon",
-        "price": 7.99,
-        "description": "A chilled high-fiber wrap with tikka-spiced chicken thighs, vegetables, and Garlic Herb Yogurt inside.",
+        "description": "Chicken tikka, crisp salad and incorporated Garlic Herb Yogurt in one tortilla.",
         "macros": {
           "cal": 220,
           "protein": 25,
@@ -530,75 +438,101 @@ const ORDER_CONFIG = {
           "fiber": 16,
           "fat": 8
         },
-        "nutritionReview": true,
-        "nutritionStatus": "Recipe estimate; package and physical yield verification pending",
-        "taxClass": "taxable-prepared-food",
+        "bulkMacros": null,
         "image": "/assets/images/meals/menu/batch-13-2026-10-03/chicken-tikka-snack-wrap-batch-13.jpg",
-        "imageCrop": "rotate-180",
-        "ownerApproved": true,
-        "bulkMacros": null,
-        "newThisWeek": false
-      },
-      {
-        "id": "a3",
-        "name": "Buffalo Chicken Pinwheels",
-        "category": "addon",
-        "price": 7.99,
-        "description": "Four chilled pinwheel pieces made from one 70-calorie Mission tortilla with Buffalo chicken, cream cheese, mozzarella, lettuce, and onion.",
-        "macros": {
-          "cal": 325,
-          "protein": 31,
-          "carbs": 23,
-          "fiber": 16,
-          "fat": 18
-        },
-        "nutritionReview": true,
-        "nutritionStatus": "Recipe estimate; package and physical yield verification pending",
+        "sauceEligible": true,
         "taxClass": "taxable-prepared-food",
-        "image": "/assets/images/meals/menu/batch-8-2026-08-29/buffalo-chicken-pinwheels.webp",
-        "ownerApproved": true,
-        "bulkMacros": null,
-        "newThisWeek": false
+        "newThisWeek": false,
+        "price": 7.99,
+        "incorporatedSauces": [
+          {
+            "name": "PRPD Garlic Herb Yogurt",
+            "componentRef": "garlic-herb-yogurt",
+            "gramsPerServing": 25,
+            "delivery": "incorporated"
+          }
+        ],
+        "imageCrop": "landscape-wrap-close"
       },
       {
-        "id": "a4",
+        "id": "a2",
         "name": "Oven-Baked Popcorn Chicken",
         "category": "addon",
-        "price": 7.99,
-        "description": "Bite-size chicken thighs in a seasoned plain cornflake coating, oven-baked with measured oil. Estimated nutrition; dip selected separately.",
+        "description": "Bite-size chicken thighs in a seasoned cornflake coating, oven-baked. Choose any dip separately.",
         "macros": {
           "cal": 360,
           "protein": 34,
           "carbs": 26,
+          "fiber": 1,
           "fat": 13
         },
         "bulkMacros": null,
         "image": "",
+        "sauceEligible": true,
+        "taxClass": "taxable-prepared-food",
+        "newThisWeek": false,
+        "price": 7.99
+      },
+      {
+        "id": "a3",
+        "name": "Lemon-Feta Chickpea & Edamame Crunch Box",
+        "category": "addon",
+        "description": "A chilled box of chickpeas, edamame, crunchy vegetables, feta and lemon dressing.",
+        "macros": {
+          "cal": 335,
+          "protein": 21,
+          "carbs": 28,
+          "fiber": 10,
+          "fat": 17
+        },
+        "bulkMacros": null,
+        "image": "",
+        "sauceEligible": true,
+        "taxClass": "taxable-prepared-food",
         "newThisWeek": true,
-        "nutritionReview": true,
-        "nutritionStatus": "Estimated per serving; excludes dip.",
-        "taxClass": "taxable-prepared-food"
+        "price": 7.99
+      },
+      {
+        "id": "dr1",
+        "name": "Strawberry Protein Shake",
+        "category": "addon",
+        "price": 7.99,
+        "description": "Strawberry, banana, fat-free milk, Greek yogurt and unflavored whey, finished with strawberry pieces.",
+        "servingGrams": 330,
+        "macros": {
+          "cal": 235,
+          "protein": 25,
+          "carbs": 32,
+          "fiber": 3,
+          "fat": 2
+        },
+        "bulkMacros": null,
+        "image": "",
+        "newThisWeek": true,
+        "sauceEligible": false,
+        "taxClass": "taxable-prepared-food",
+        "allergens": "CONTAINS: MILK."
       }
     ],
     "desserts": [],
     "exclusives": [
       {
         "id": "x0",
-        "name": "Weekly Five: Cajun + Harissa Honey",
+        "name": "Weekly Five: Mediterranean Chicken + Chicken Shakshuka",
         "category": "bundle",
         "price": 49.95,
         "servingCount": 5,
-        "description": "Five meals featuring Creamy Cajun Chicken Pasta and bundle-exclusive Harissa Honey Chicken. Choose Lean or Bulk and your 3/2 split. No substitutions.",
+        "sauceEligible": true,
+        "description": "Five meals with Mediterranean Chicken Bowl and bundle-exclusive Chicken Shakshuka. Choose Lean or Bulk and your 3/2 split.",
         "taxClass": "exempt-reheatable-meal",
         "variants": [
           {
-            "id": "lean-cajun3-harissa2",
-            "label": "Lean: 3 Cajun Pasta + 2 Harissa Honey Chicken",
+            "id": "lean-med3-shak2",
+            "label": "Lean: 3 Mediterranean Chicken + 2 Chicken Shakshuka",
             "price": 49.95,
-            "compareAtPrice": 54.95,
             "components": [
               {
-                "id": "m6",
+                "id": "m3",
                 "tier": "lean",
                 "qty": 3
               },
@@ -610,13 +544,12 @@ const ORDER_CONFIG = {
             ]
           },
           {
-            "id": "lean-cajun2-harissa3",
-            "label": "Lean: 2 Cajun Pasta + 3 Harissa Honey Chicken",
+            "id": "lean-med2-shak3",
+            "label": "Lean: 2 Mediterranean Chicken + 3 Chicken Shakshuka",
             "price": 49.95,
-            "compareAtPrice": 54.95,
             "components": [
               {
-                "id": "m6",
+                "id": "m3",
                 "tier": "lean",
                 "qty": 2
               },
@@ -628,13 +561,12 @@ const ORDER_CONFIG = {
             ]
           },
           {
-            "id": "bulk-cajun3-harissa2",
-            "label": "Bulk: 3 Cajun Pasta + 2 Harissa Honey Chicken",
+            "id": "bulk-med3-shak2",
+            "label": "Bulk: 3 Mediterranean Chicken + 2 Chicken Shakshuka",
             "price": 59.95,
-            "compareAtPrice": 64.95,
             "components": [
               {
-                "id": "m6",
+                "id": "m3",
                 "tier": "bulk",
                 "qty": 3
               },
@@ -646,13 +578,12 @@ const ORDER_CONFIG = {
             ]
           },
           {
-            "id": "bulk-cajun2-harissa3",
-            "label": "Bulk: 2 Cajun Pasta + 3 Harissa Honey Chicken",
+            "id": "bulk-med2-shak3",
+            "label": "Bulk: 2 Mediterranean Chicken + 3 Chicken Shakshuka",
             "price": 59.95,
-            "compareAtPrice": 64.95,
             "components": [
               {
-                "id": "m6",
+                "id": "m3",
                 "tier": "bulk",
                 "qty": 2
               },
@@ -676,6 +607,10 @@ const ORDER_CONFIG = {
     "taxableClasses": [
       "taxable-prepared-food"
     ]
+  },
+  "release": {
+    "status": "published",
+    "websiteApproved": true
   }
 };
 if(typeof window!=="undefined")window.PRPD_ORDER_CONFIG=ORDER_CONFIG;

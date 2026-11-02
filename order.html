@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="/order.css?v=20261026-allergen-badges-1" />
+  <link rel="stylesheet" href="/order.css?v=20261102-grab-sip-photos-1" />
   <script src="/analytics.js" defer></script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18371492048"></script>
   <script src="/google-ads.js" defer></script>
@@ -140,22 +140,30 @@
             <span class="price-guide__title">Pricing at a glance</span>
             <div class="price-guide__item">
               <span>Chicken &amp; breakfast</span>
-              <strong>$10.99 Lean &middot; $12.99 Bulk</strong>
+              <strong data-price-category="standard">See meal prices</strong>
             </div>
             <div class="price-guide__item">
               <span>Beef</span>
-              <strong>$13.99 Lean &middot; $15.99 Bulk</strong>
+              <strong data-price-category="beef">See meal prices</strong>
             </div>
             <div class="price-guide__item">
               <span>Premium seafood</span>
-              <strong>$14.99 Lean &middot; $16.99 Bulk</strong>
+              <strong data-price-category="seafood">See meal prices</strong>
             </div>
             <div class="price-guide__item">
-              <span>Signature Special</span>
-              <strong>$21.99 Lean &middot; $26.99 Bulk</strong>
+              <span>Premium meals</span>
+              <strong data-price-category="premium">See meal prices</strong>
+            </div>
+            <div class="price-guide__item" hidden>
+              <span>Thai basil beef</span>
+              <strong data-price-category="thai">See meal prices</strong>
+            </div>
+            <div class="price-guide__item" hidden>
+              <span>Chicken enchilada bake</span>
+              <strong data-price-category="enchilada">See meal prices</strong>
             </div>
             <div class="price-guide__item">
-              <span>Grab &amp; Go</span>
+              <span>Grab &amp; Sip</span>
               <strong id="addonPriceGuide">See individual meal prices</strong>
             </div>
           </div>
@@ -174,7 +182,7 @@
       <nav class="menu-jump" aria-label="Jump to menu category">
         <a href="#menu-exclusives" class="menu-jump__exclusive" data-menu-section="exclusives" hidden>Weekly exclusive</a>
         <a href="#menu-breakfasts" data-menu-section="breakfasts">Breakfast</a>
-        <a href="#menu-addons" data-menu-section="addons">Grab &amp; Go</a>
+        <a href="#menu-addons" data-menu-section="addons">Grab &amp; Sip</a>
         <a href="#menu-mains" data-menu-section="mains">Mains</a>
         <a href="#menu-premium" class="menu-jump__premium" data-menu-section="premium">Premium Meals</a>
         <a href="#menu-desserts" data-menu-section="desserts">Desserts</a>
@@ -197,7 +205,7 @@
           <div>
             <span class="menu-section-kicker">Five meals, one easy bundle</span>
             <h2>Weekly Five</h2>
-            <p>Pick Lean or Bulk, then choose which featured dish you want three of. Save $5. No substitutions.</p>
+            <p>Pick Lean or Bulk, then choose which featured dish you want three of. No substitutions.</p>
           </div>
         </div>
         <div class="dish-grid dish-grid--exclusive" id="grid-exclusives"></div>
@@ -215,7 +223,7 @@
         <div class="menu-section-head">
           <span class="section-label">02</span>
           <div>
-            <h2>Grab &amp; Go</h2>
+            <h2>Grab &amp; Sip</h2>
           </div>
         </div>
         <div class="dish-grid" id="grid-addons"></div>
@@ -437,7 +445,7 @@
       <p class="meal-detail-description" id="mealDetailDescription"></p>
       <div class="meal-detail-tabs" id="mealDetailTabs" role="tablist" aria-label="Choose a portion"></div>
       <div class="meal-detail-content" id="mealDetailContent" aria-live="polite"></div>
-      <p class="meal-detail-disclaimer"><strong>Allergy note:</strong> PRPD uses a commercial kitchen that handles common allergens. Ingredient, major-allergen, and recorded supplier-advisory information is provided for each recipe. Supplier labels can change, and zero cross-contact cannot be guaranteed. Contact us before ordering with a food allergy. Macros are recipe-calculated estimates and may vary slightly. Optional sauces have their own allergens: PRPD Sweet Heat contains egg; Garlic Herb Yogurt contains egg and milk. Review the sauces selected with your order.</p>
+      <p class="meal-detail-disclaimer"><strong>Allergy note:</strong> PRPD uses a commercial kitchen that handles common allergens. Ingredient, major-allergen, and recorded supplier-advisory information is provided for each recipe. Supplier labels can change, and zero cross-contact cannot be guaranteed. Contact us before ordering with a food allergy. Macros are recipe-calculated estimates and may vary slightly. Optional sauces have their own ingredients and allergens. Review each sauce's current declaration when selecting it.</p>
     </div>
   </dialog>
 
@@ -492,10 +500,9 @@
   </footer>
 
   <script src="/phone-validation.js"></script>
-  <script src="/config/order-config.js?v=20261028-wrap-cornflakes-1"></script>
-  <script src="/config/menu-details.js?v=20261028-wrap-cornflakes-1"></script>
-  <script src="/sauce-program.js?v=20261019-sauce-review"></script>
-  <script src="/order.js?v=20261026-b17-expanded-1"></script>
+  <script src="/config/order-config.js?v=20261102-b18-review-1"></script>
+  <script src="/config/menu-details.js?v=20261102-b18-review-1"></script>
+  <script src="/sauce-program.js?v=20261102-meal-tiered-1"></script>
+  <script src="/order.js?v=20261102-grab-sip-photos-1"></script>
 </body>
 </html>
-

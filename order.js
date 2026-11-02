@@ -452,7 +452,7 @@ const ORDER_API_URL = '/api/order';
       if (section === 'exclusives') return 'Weekly exclusive';
       if (section === 'breakfasts') return 'Breakfast';
       if (section === 'desserts') return 'High-protein dessert';
-      if (section === 'addons') return 'Grab & go';
+      if (section === 'addons') return 'Grab & Sip';
       if (dish.displayCategory) return dish.displayCategory;
       if (dish.category === 'beef') return 'Beef';
       if (dish.category === 'premium') return 'Premium meal';
@@ -746,7 +746,7 @@ const ORDER_API_URL = '/api/order';
     // ════════════════════════════════════════
     function photoCropClass(dish) {
       // Reusable composition presets, not weekly dish IDs. External CSS respects CSP.
-      return ['portrait-low', 'portrait-low-soft', 'portrait-low-wide', 'portrait-center', 'portrait-tight', 'landscape-low', 'landscape-tight', 'landscape-closer', 'landscape-tikka-close', 'square-raised', 'square-low', 'rotate-180'].includes(dish.imageCrop)
+      return ['portrait-low', 'portrait-low-soft', 'portrait-low-wide', 'portrait-center', 'portrait-tight', 'landscape-low', 'landscape-tight', 'landscape-closer', 'landscape-tikka-close', 'landscape-meal-close', 'landscape-wrap-close', 'square-raised', 'square-low', 'rotate-180', 'rotate-180-close'].includes(dish.imageCrop)
         ? `photo-crop--${dish.imageCrop}` : '';
     }
 
@@ -1962,6 +1962,11 @@ const ORDER_API_URL = '/api/order';
     captureAttribution();
     renderMenu();
     initMealDetails();
+    document.querySelectorAll('[data-price-category]').forEach(priceNode => {
+      const dish = allDishes().find(item => item.category === priceNode.dataset.priceCategory);
+      priceNode.closest('.price-guide__item').hidden = !dish;
+      if (dish) priceNode.textContent = `$${getPrice(dish, 'lean').toFixed(2)} Lean · $${getPrice(dish, 'bulk').toFixed(2)} Bulk`;
+    });
     const addonPriceGuide = document.getElementById('addonPriceGuide');
     const addonPrices = (MENU.addons || []).filter(dish => dish.available !== false)
       .map(dish => getPrice(dish, 'single'));
