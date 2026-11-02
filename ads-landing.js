@@ -5,6 +5,10 @@
   if (!config) return;
 
   const { batch, menu, prices } = config;
+  const cutoffTime = new Date(batch.cutoffIso).getTime();
+  const orderingOpen = batch.published === true
+    && Number.isFinite(cutoffTime)
+    && Date.now() < cutoffTime;
   const cutoff = documentObject.getElementById('adsCutoff');
   const delivery = documentObject.getElementById('adsDelivery');
   const mobileDeadline = documentObject.getElementById('adsMobileDeadline');
@@ -21,11 +25,11 @@
   heroDeliveryDay.textContent = deliveryDay;
   localDeliveryDay.textContent = deliveryDay;
   receiveDeliveryDay.textContent = deliveryDay;
-  scheduleAnswer.textContent = batch.published === true
+  scheduleAnswer.textContent = orderingOpen
     ? `Order by ${batch.cutoffLabel} for delivery on ${batch.deliveryDate}. The live order page reflects any owner-approved schedule change.`
     : 'Ordering is currently closed. The next published menu will show its exact cutoff and delivery date here.';
 
-  if (batch.published !== true) {
+  if (!orderingOpen) {
     cutoff.textContent = 'Ordering currently closed';
     delivery.textContent = 'Fresh weekly delivery';
     mobileDeadline.textContent = 'Ordering currently closed';
