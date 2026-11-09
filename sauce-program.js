@@ -24,7 +24,7 @@
     const hasFood = (items || []).some(item => Number(item.qty) > 0);
     const eligibleMeals = eligibleMealCount(items);
     const allowance = config?.allowanceMode === 'meal-tiered'
-      ? (eligibleMeals > 0 ? Math.max(3, Math.ceil(eligibleMeals / 2)) : 0)
+      ? Math.ceil(eligibleMeals / 2)
       : (hasFood ? Math.max(0, Math.floor(Number(config?.freeCupsPerOrder) || 0)) : 0);
     const totalCredits = config?.enabled ? allowance : 0;
     const includedSelected = Math.min(selectedQty, totalCredits);

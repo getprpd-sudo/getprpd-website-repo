@@ -50,11 +50,10 @@ const ORDER_CONFIG = {
     "enabled": true,
     "allowanceMode": "meal-tiered",
     "servingGrams": 40,
-    "freeCupsPerOrder": 3,
     "extraPrice": 1,
     "maxExtraCups": 50,
     "taxClass": "taxable-prepared-food",
-    "policyStatus": "Free sauce cups scale with eligible meal count, with at least three per eligible order. Additional selected cups are $1 each.",
+    "policyStatus": "One free optional 40 g sauce cup per two eligible meals, rounded up. Additional selected cups are $1 each. Recipe-required cups are included separately.",
     "choices": [
       {
         "id": "cucumber-dill-tzatziki",
