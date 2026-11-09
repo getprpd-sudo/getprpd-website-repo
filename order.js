@@ -392,7 +392,7 @@ const ORDER_API_URL = '/api/order';
 
       const reservedNote = document.getElementById('sauceReservedNote');
       reservedNote.hidden = true;
-      document.getElementById('sauceAllowanceCopy').textContent = `Choose up to ${quote.totalCredits} free cups with your order. More are $${Number(SAUCE_PROGRAM.extraPrice).toFixed(2)} each.`;
+      document.getElementById('sauceAllowanceCopy').textContent = `One free optional 40 g cup per two eligible meals, rounded up. Your order includes ${quote.totalCredits} free optional cup${quote.totalCredits === 1 ? '' : 's'}; more are $${Number(SAUCE_PROGRAM.extraPrice).toFixed(2)} each. Recipe-required cups are included separately.`;
     }
 
     function changeSauceQty(id, delta) {
