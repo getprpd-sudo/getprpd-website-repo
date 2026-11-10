@@ -167,6 +167,7 @@
       position: relative;
       display: grid;
       grid-template-columns: 68% 32%;
+      grid-template-rows: minmax(0, 1fr);
       width: 5in;
       height: 3.5in;
       overflow: hidden;
@@ -175,12 +176,30 @@
       border: 1.4px solid var(--green);
     }
 
+    .label-proof-mark {
+      position: absolute;
+      z-index: 10;
+      top: 45%;
+      left: -12%;
+      width: 124%;
+      padding: 0.055in 0;
+      border-top: 2px solid #000;
+      border-bottom: 2px solid #000;
+      color: #000;
+      background: rgba(255, 255, 255, 0.94);
+      font: 900 12pt/1.2 Arial, sans-serif;
+      text-align: center;
+      transform: rotate(-22deg);
+      pointer-events: none;
+    }
+
     .brand-panel {
       position: relative;
       display: flex;
       flex-direction: column;
       min-width: 0;
-      padding: 0.18in 0.18in 0.14in 0.24in;
+      min-height: 0;
+      padding: 0.15in 0.16in 0.1in 0.22in;
       border-right: 1.5px solid var(--green);
     }
 
@@ -223,7 +242,7 @@
     .tier-pill.bulk { color: var(--green); background: var(--sage); }
 
     .category-line {
-      margin-top: 0.12in;
+      margin-top: 0.09in;
       width: fit-content;
       padding: 0.025in 0.07in;
       color: var(--bright-green);
@@ -245,7 +264,7 @@
       letter-spacing: 0;
       color: var(--green);
     }
-    .meal-name.long { font-size: 20pt; line-height: 1.05; }
+    .meal-name.long { font-size: 18pt; line-height: 1; }
 
     .meal-identity {
       margin: 0.05in 0 0;
@@ -268,8 +287,8 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 0.05in 0.12in;
-      margin-top: 0.11in;
-      padding: 0.07in 0;
+      margin-top: 0.075in;
+      padding: 0.055in 0;
       border-top: 1px solid var(--sage);
       border-bottom: 1px solid var(--sage);
       font-size: 6pt;
@@ -279,8 +298,8 @@
 
     .label-copy {
       display: grid;
-      gap: 0.025in;
-      margin-top: 0.07in;
+      gap: 0.02in;
+      margin-top: 0.05in;
       font-size: 6pt;
       line-height: 1.2;
     }
@@ -301,8 +320,18 @@
       font-weight: 700;
     }
 
+    .nutrition-review p {
+      margin: 0.04in 0;
+      font-size: 6.5pt;
+      line-height: 1.1;
+      overflow-wrap: anywhere;
+    }
+    .nutrition-review .nutrition-title { font-size: 15pt; line-height: 1; }
+    .nutrition-review .calories { margin-top: 0.06in; }
+    .nutrition-review .servings { margin-top: 0.05in; }
     .nutrition-panel {
-      padding: 0.065in 0.075in 0.045in;
+      min-height: 0;
+      padding: 0.05in 0.075in 0.035in;
       color: #050505;
       background: #fff;
       font-family: Arial, sans-serif;
@@ -338,7 +367,21 @@
     .nutrient.indent { padding-left: 0.08in; }
     .nutrient strong { font-weight: 900; }
     .protein-row { border-bottom: 4px solid #000; font-size: 7pt; }
-    .nutrition-foot { padding-top: 0.018in; font-size: 6pt; line-height: 1.02; }
+    .nutrition-foot { padding-top: 0.012in; font-size: 6pt; line-height: 1.02; }
+
+    .bag-label-panel { margin-top: 24px; padding: 14px; border: 1px solid #cdd2ca; border-radius: 9px; background: white; }
+    .bag-label-panel h2 { margin-top: 0; }
+    .bag-label-list { display: grid; gap: 5px; margin: 10px 0; padding: 0; list-style: none; font-size: .72rem; }
+    .bag-label-list li { display: flex; justify-content: space-between; gap: 8px; padding: 6px 0; border-bottom: 1px solid #e7e9e4; }
+    .bag-label-list small { color: var(--muted); }
+    .bag-print-button { width: 100%; border: 0; border-radius: 999px; padding: 10px 14px; color: white; background: var(--green); font-weight: 900; cursor: pointer; }
+    .bag-print-button:disabled { cursor: not-allowed; opacity: .45; }
+
+    .feedback-label{position:relative;display:grid;grid-template-rows:.37in 1.72in .83in;gap:.08in;width:5in;height:3.5in;padding:.18in .22in;color:#1e2e1e;background:#fffefa;border:1.5px solid #1e2e1e;font-family:Arial,Helvetica,sans-serif;overflow:hidden}
+    .bag-header{display:flex;align-items:center;justify-content:space-between;gap:.12in;border-bottom:1px solid #c8d2c3;padding-bottom:.09in}.bag-brand-lockup{display:flex;align-items:baseline;gap:.09in}.bag-brand-name{font-family:Cathez,Georgia,serif;font-size:28pt;line-height:.8;letter-spacing:.04em}.bag-brand-tagline{font-size:5.1pt;font-weight:900;letter-spacing:.12em}.bag-header-kicker{font-size:5.6pt;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#52634d}
+    .bag-main{display:grid;grid-template-columns:minmax(0,1fr) 1.36in;gap:.12in;min-height:0}.bag-headline{display:flex;flex-direction:column;justify-content:center;min-width:0}.bag-headline h1{margin:0;color:#1e2e1e;font-family:Cathez,Georgia,serif;font-size:45pt;font-weight:500;line-height:.76;letter-spacing:-.015em;text-transform:uppercase}.bag-headline h1 span{display:block}.bag-headline h1 span:last-child{font-size:1.1em}.bag-reward-line{display:flex;align-items:center;gap:.09in;margin-top:.13in}.bag-reward-value{font-family:Cathez,Georgia,serif;font-size:31pt;line-height:.8;color:#177934}.bag-reward-name{font-size:8pt;font-weight:900;line-height:1.22;color:#177934}.bag-reward-rule{margin:.07in 0 0;font-size:6.2pt;line-height:1.35;color:#485543}
+    .bag-scan-panel{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:0;padding:.05in;border:1px solid #b7c7b0;border-radius:.06in;background:#edf3e8}.bag-scan-title{margin:0 0 .07in;font-size:7pt;font-weight:900;letter-spacing:.05em}.bag-qr-frame{display:block;width:1.22in;height:1.22in;padding:.07in;background:white}.bag-qr-frame img{display:block;width:100%;height:100%;object-fit:contain}.bag-scan-copy{margin:.06in 0 0;font-size:5.8pt;font-weight:750;text-align:center;line-height:1.2}.bag-live-note{margin-top:.035in;font-size:5pt;color:#52634d;letter-spacing:.02em}
+    .bag-footer{display:grid;grid-template-rows:auto auto;gap:.065in;padding-top:.08in;border-top:1px solid #c8d2c3;min-height:0}.bag-order-context{display:grid;grid-template-columns:minmax(0,1fr) 1.4in;gap:.15in;align-items:center}.bag-customer-block{min-width:0}.bag-context-label{display:block;font-size:5pt;color:#64715d;font-weight:800;letter-spacing:.1em;text-transform:uppercase}.bag-customer-name{display:block;overflow:hidden;margin-top:.025in;font-size:11.5pt;line-height:1.15;font-weight:800;text-overflow:ellipsis;white-space:nowrap}.bag-customer-name.is-long{font-size:9pt}.bag-dish-count{display:flex;align-items:center;justify-content:flex-end;gap:.08in}.bag-dish-count strong{font-family:Cathez,Georgia,serif;color:#177934;font-size:25pt;line-height:.8}.bag-dish-count span{font-size:5.7pt;line-height:1.25;color:#52634d}.bag-privacy{margin:0;font-size:5.8pt;line-height:1.3;color:#52634d}
 
     .print-sheet { display: none; }
 
@@ -363,9 +406,11 @@
         background: white;
       }
       .studio-header, .workspace { display: none !important; }
-      .print-sheet { display: block; width: 8.5in; margin: 0; padding: 0; }
-      body.label-print-blocked .print-sheet { display: none !important; }
-      body.label-print-blocked .print-blocked-message {
+      .print-sheet { width: 8.5in; margin: 0; padding: 0; }
+      body[data-print-job="meals"] #printSheet, body[data-print-job="bags"] #bagPrintSheet { display:block; }
+      body[data-print-job="meals"] #bagPrintSheet, body[data-print-job="bags"] #printSheet { display:none !important; }
+      body.label-print-blocked[data-print-job="meals"] #printSheet { display: none !important; }
+      body.label-print-blocked[data-print-job="meals"] .print-blocked-message {
         display: block !important;
         margin: 0.75in;
         padding: 0.35in;
@@ -411,6 +456,13 @@
         transform-origin: 0 0;
         transform: translate(3.43in, 0.1in) rotate(90deg) scale(0.96);
       }
+      .print-slot .feedback-label {
+        position:absolute;
+        top:0;
+        left:0;
+        transform-origin:0 0;
+        transform:translate(3.43in, .1in) rotate(90deg) scale(.96);
+      }
     }
   </style>
 </head>
@@ -418,11 +470,11 @@
   <header class="studio-header">
     <div>
       <strong>PRPD LABEL STUDIO</strong>
-      <span>Internal production tool for Avery 5168 - print build 2026-08-03.1</span>
+      <span>Internal production tool for Avery 5168 - print build 2026-10-05.1</span>
     </div>
     <div class="studio-actions">
       <a class="business-switch" href="/operations/business-center">Business Center</a>
-      <span class="menu-switch" id="menuSwitch">Batch 7 controlled labels</span>
+      <span class="menu-switch" id="menuSwitch">Active batch controlled labels</span>
       <button class="print-button" id="printButton" type="button">Print exact label queue</button>
     </div>
   </header>
@@ -457,6 +509,13 @@
       <div class="sheet-selection" id="sheetSelection"></div>
       <p class="selection-count" id="selectionCount">0 labels selected</p>
 
+      <section class="bag-label-panel" aria-labelledby="bagLabelsHeading">
+        <h2 id="bagLabelsHeading">Customer bag feedback labels</h2>
+        <p id="bagLabelStatus">Open Label Studio from a locked Cook-Day Planner to load one bag label per customer order.</p>
+        <ul class="bag-label-list" id="bagLabelList"></ul>
+        <button class="bag-print-button" id="printBagLabelsButton" type="button" disabled>Print customer bag labels</button>
+      </section>
+
       <h2>Production details</h2>
       <div class="production-gate" id="productionGate" role="alert">Validating this label queue against the active batch...</div>
       <div class="field-row">
@@ -465,7 +524,7 @@
       </div>
       <div class="field-row">
         <div class="field"><label for="batchId">Batch (controlled)</label><input id="batchId" readonly></div>
-        <div class="field"><label for="netWeight">Net weight (generated)</label><input id="netWeight" readonly></div>
+        <div class="field"><label id="netWeightLabel" for="netWeight">Net weight (generated)</label><input id="netWeight" readonly></div>
       </div>
 
       <div class="field"><label for="ingredients">Ingredients (generated)</label><textarea id="ingredients" readonly></textarea></div>
@@ -516,23 +575,36 @@
   </main>
 
   <section class="print-sheet" id="printSheet" aria-hidden="true"></section>
-  <section class="print-blocked-message">PRINT BLOCKED: this label queue does not match the active batch production dates. Open the current Label Studio and resolve the date gate before printing.</section>
+  <section class="print-sheet" id="bagPrintSheet" aria-hidden="true"></section>
+  <section class="print-blocked-message">PRINT BLOCKED: this queue is not released for final food labeling. Open the current Label Studio and resolve its displayed production checks.</section>
 
-  <script src="/config/order-config.js?v=20260817.1"></script>
-  <script src="/operations/label-production-guard.js?v=20260810.2"></script>
-  <script src="nutrition/next-menu-label-data.js?v=20260810.2"></script>
+  <script src="/config/order-config.js?v=20260917-grocery"></script>
+  <script src="/operations/label-production-guard.js?v=20261005-proof-safety"></script>
+  <script src="nutrition/next-menu-label-data.js?v=20260917-grocery"></script>
+  <script src="nutrition/batch13-label-proof-data.js?v=20261005-proof-safety"></script>
   <script>
     (() => {
-      window.PRPD_LABEL_DATA = window.PRPD_NEXT_LABEL_DATA || null;
+      const params = new URLSearchParams(location.search);
+      const proofRequested = params.get('proof') === '1';
+      const currentReviewRequested = params.get('reviewProof') === '1';
+      window.PRPD_LABEL_DATA = proofRequested ? (window.PRPD_BATCH13_PROOF_DATA || null) : (window.PRPD_NEXT_LABEL_DATA || null);
+      if (currentReviewRequested && !proofRequested && window.PRPD_NEXT_LABEL_DATA) {
+        // A separate in-memory review copy never releases or changes controlled data.
+        window.PRPD_LABEL_DATA = JSON.parse(JSON.stringify(window.PRPD_NEXT_LABEL_DATA));
+        window.PRPD_LABEL_DATA.proofOnly = true;
+        window.PRPD_LABEL_DATA.currentReviewProof = true;
+        window.PRPD_LABEL_DATA.notice = 'DRAFT REVIEW ONLY. Dates and weights are provisional. Missing nutrients remain unknown. Not released for food labeling.';
+      }
       const heading = document.getElementById('datasetHeading');
       const notice = document.getElementById('datasetNotice');
       const menuSwitch = document.getElementById('menuSwitch');
       const batchNumber = window.PRPD_ORDER_CONFIG?.batch?.number;
       const label = batchNumber ? `Batch ${batchNumber}` : 'Active batch';
-      heading.textContent = window.PRPD_LABEL_DATA ? `${label} labels` : 'Label data unavailable';
+      const proofOnly = window.PRPD_LABEL_DATA?.proofOnly === true;
+      heading.textContent = window.PRPD_LABEL_DATA ? `${label} ${proofOnly ? 'review proof' : 'labels'}` : 'Label data unavailable';
       notice.textContent = window.PRPD_LABEL_DATA?.notice || 'PRINT BLOCKED: generated active-batch label data did not load.';
-      menuSwitch.textContent = `${label} controlled labels`;
-      document.title = `PRPD ${label} Label Studio - Internal`;
+      menuSwitch.textContent = `${label} ${proofOnly ? 'DRAFT - not for food labeling' : 'controlled labels'}`;
+      document.title = `PRPD ${label} Label Studio - ${proofOnly ? 'DRAFT PROOF' : 'Internal'}`;
     })();
   </script>
   <script type="text/plain" id="legacy-label-studio-script">
@@ -689,6 +761,6 @@
     document.querySelectorAll('input, textarea').forEach((field) => field.addEventListener('input', render));
     loadMeal();
   </script>
-  <script src="/operations/label-studio-app.js?v=20260810.2"></script>
+  <script src="/operations/label-studio-app.js?v=20261026-rewards-visual-1"></script>
 </body>
 </html>

@@ -1,6 +1,44 @@
-# High Protein Tiramisu - Taste-First Test
+# High Protein Tiramisu
 
-Status: Kitchen test required. Do not publish final macros or print a final label until this version passes an overnight test.
+Status October 12, 2026: the successful July 18 five-cup production batch is the controlled calculation source. Taste, texture and exact five-cup yield passed. Final labels remain blocked by unmeasured coffee pickup, finished cup weight, exact mascarpone and ladyfinger package panels, and a documented refrigerated hold result.
+
+## Current controlled five-cup production formula
+
+Source: `../records/batches/BATCH_2_PRODUCTION_NOTES_2026-07-17.md`.
+
+- Cottage cheese: 150 g
+- Water used while blending cottage cheese: approximately 45 g
+- Recorded blended cottage-cheese mixture: 195 g total
+- FAGE Total 0% Greek yogurt: 500 g
+- Mascarpone: 225 g
+- Vanilla protein powder: 29.1 g
+- Powdered sugar in cream: 55 g
+- Brown sugar: 15 g
+- Vanilla extract: 8.4 g
+- Ladyfingers: 150 g
+- Cooled strong coffee for dipping: staged as needed; consumed amount not recorded
+- Finish: 5 g cocoa powder plus 5 g powdered sugar
+- Recorded yield: exactly five finished cups
+
+The controlled calculation uses one-fifth of every recorded amount per cup. It includes approximately 9 g blending water per cup. It intentionally assigns zero grams of consumed dipping coffee until the coffee pickup is measured; coffee is still a required ingredient and must appear in the final ingredient statement. Do not use the untested suggestion to replace 30 g of the blending water with coffee unless a later measured test approves it.
+
+## Evidence-supported working calculation
+
+Using the current recorded nutrition profiles and excluding the unmeasured dipping-coffee uptake, one cup calculates to:
+
+- 460 calories
+- 22 g protein
+- 45 g carbohydrate
+- 1 g fiber
+- 21 g fat
+
+The exact mascarpone and ladyfinger package panels remain required before these values become label-ready.
+
+Current recorded price bases calculate approximately $2.43 food cost per cup. Adding the current $0.34 dessert cup and lid plus $0.05 shared consumables allowance produces a preliminary direct packed cost of approximately $2.82. At the staged $6.99 selling price, that is approximately 40.4% direct cost and $4.17 retained before labor, delivery and overhead. The coffee cost is excluded because its consumed quantity was not recorded. Mascarpone, ladyfingers, sugars and vanilla still use planning price bases, so this is not a final margin lock.
+
+The earlier three-cup formula below is retained only as development history. It is not an active nutrition, costing, grocery, label or production source.
+
+## Historical three-cup test, superseded
 
 ## Why the Old Version Failed
 
@@ -8,7 +46,7 @@ The previous three-cup formula used 250g cottage cheese, 300g Fage, and 1.5 scoo
 
 This version intentionally accepts more calories and less protein. Mascarpone supplies the recognizable tiramisu flavor, while Fage, a smaller amount of blended cottage cheese, and only half a scoop of protein powder keep the dessert meaningfully higher in protein than a standard cup.
 
-## Three-Cup Test Formula
+### Three-Cup Test Formula
 
 ### Cream
 

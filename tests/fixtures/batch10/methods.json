@@ -1,0 +1,3673 @@
+{
+  "version": "2026-09-11.2",
+  "batch": 10,
+  "labelExemptCustomers": [
+    "Talal"
+  ],
+  "familyPlatingReservations": [],
+  "groceryAdjustments": [],
+  "rawProteinReserveByDish": {},
+  "sharedProteinSeasoning": [],
+  "weeklySauces": {
+    "enabled": false,
+    "policy": "Batch 10 sauces belong to their exact controlled recipes; no extra weekly sauce batch.",
+    "cupSizeOz": 2,
+    "eligibleMealIds": [],
+    "customerCupsTotal": 0,
+    "kitchenUseCupsPerSauce": 0,
+    "qcCupsPerSauce": 0,
+    "sauces": []
+  },
+  "phases": [
+    {
+      "title": "1. Confirm live counts",
+      "detail": "Use only active Batch 10 orders and exact tiers. No automatic family meals, extras, or fixed custom counts."
+    },
+    {
+      "title": "2. Raw protein and marinades",
+      "detail": "Apply the shared savory base to compatible whole thighs, split and label, then add each finish. Keep Halal Cart, Biryani, Peri Peri, breast and mince separate."
+    },
+    {
+      "title": "3. Produce and measured prep",
+      "detail": "Sanitize after raw proteins. Chop shared produce once, divide by recipe, then make cold sauces, dessert batches, and assembly kits."
+    },
+    {
+      "title": "4. Concurrent cooking",
+      "detail": "Start the long oven pans and bone-in chicken first. Run plain, yellow, Biryani, and vegetable rice as separate compatible groups while watched stovetop and griddle work proceeds. Cook shrimp last."
+    },
+    {
+      "title": "5. Weigh and assemble",
+      "detail": "Record actual cooked yields, portion by tier, keep cold components cold, and verify piece and side-cup counts."
+    },
+    {
+      "title": "6. Customer pack-out",
+      "detail": "Reconcile one complete customer bag at a time against the current order import and exact labels."
+    }
+  ],
+  "meals": {
+    "b1": {
+      "phase": 4,
+      "order": 10,
+      "equipment": [
+        "digital scale",
+        "labeled pans"
+      ],
+      "temperature": "Cook pancake centers fully; keep topping cups cold.",
+      "steps": [
+        "Combine the wet and dry batter only until uniform.",
+        "Use the measured griddle oil and cook 3 Lean or 4 Bulk pancakes, turning when bubbles form; centers must be fully set.",
+        "Record pancake yield and pack both chilled topping cups separately."
+      ],
+      "plating": "Lean: 3 pancakes, one blueberry-cheesecake cup, and one syrup cup. Bulk: 4 pancakes, one blueberry-cheesecake cup, and one syrup cup.",
+      "hold": "Rapid-cool cooked food promptly; hold at 41 F or below.",
+      "sideCups": 2,
+      "sideBags": 0,
+      "validation": "Yogurt split preserves the historical measured method: 80 g Lean / 100 g Bulk batter plus 20 g topping. Record pancake and topping yields and day-three reheat quality.",
+      "prepSteps": [
+        "Measure the batter ingredients and cheesecake topping separately. Reserve 20 g yogurt per meal for topping; the remaining yogurt belongs in the batter (80 g Lean or 100 g Bulk).",
+        "Fill and seal one measured syrup cup per order; refrigerate."
+      ],
+      "prepBatches": [
+        {
+          "type": "measured-prep",
+          "name": "Pancake batter and topping split",
+          "instruction": "Measure the batter ingredients and cheesecake topping separately. Reserve 20 g yogurt per meal for topping; the remaining yogurt belongs in the batter (80 g Lean or 100 g Bulk).",
+          "ingredientKeys": [
+            "flour",
+            "baking_powder",
+            "whey_vanilla",
+            "egg",
+            "egg_white",
+            "fage",
+            "fairlife_milk",
+            "blueberry",
+            "reduced_cream_cheese",
+            "powdered_sugar",
+            "vanilla",
+            "cinnamon",
+            "sunflower_oil",
+            "salt"
+          ],
+          "steps": [
+            "Measure the batter ingredients and cheesecake topping separately. Reserve 20 g yogurt per meal for topping; the remaining yogurt belongs in the batter (80 g Lean or 100 g Bulk).",
+            "Cook blueberries to a thick compote, record yield, and cool. Mix cream cheese, powdered sugar, and the reserved topping yogurt.",
+            "Keep batter yogurt with the chilled wet batter kit; keep dry ingredients separate until griddling. Fill one combined compote-cheesecake cup per order."
+          ]
+        },
+        {
+          "type": "sauce",
+          "name": "Pancake syrup cups",
+          "instruction": "Fill and seal one measured syrup cup per order; refrigerate.",
+          "ingredientKeys": [
+            "maple_syrup"
+          ],
+          "steps": [
+            "Fill and seal one measured syrup cup per order; refrigerate."
+          ]
+        }
+      ],
+      "stepIngredients": {},
+      "groceryOverrides": {},
+      "sideCup": null,
+      "proteinCook": null,
+      "piecePlan": null,
+      "riceBatchGroup": "common",
+      "assemblyGuide": {
+        "lean": [
+          "Lean: 3 pancakes, one blueberry-cheesecake cup, and one syrup cup.",
+          "Close, apply the exact Lean label, and move to cold holding."
+        ],
+        "bulk": [
+          "Bulk: 4 pancakes, one blueberry-cheesecake cup, and one syrup cup.",
+          "Close, apply the exact Bulk label, and move to cold holding."
+        ]
+      },
+      "componentMap": [
+        {
+          "role": "complete",
+          "label": "Blueberry Cheesecake Protein Pancakes measured recipe",
+          "ingredientKeys": [
+            "flour",
+            "baking_powder",
+            "whey_vanilla",
+            "egg",
+            "egg_white",
+            "fage",
+            "fairlife_milk",
+            "blueberry",
+            "reduced_cream_cheese",
+            "powdered_sugar",
+            "vanilla",
+            "cinnamon",
+            "sunflower_oil",
+            "salt",
+            "maple_syrup"
+          ],
+          "handling": "Use the exact tier weights and the component instructions on the measured prep cards."
+        }
+      ],
+      "cookDayEquipment": {
+        "lane": "griddle",
+        "temperatureF": 0,
+        "estimatedMinutes": 25,
+        "sequence": 60
+      },
+      "panBatch": null,
+      "recipeName": "Blueberry Cheesecake Protein Pancakes",
+      "source": "Current controlled Batch 10 recipe; historical returns are not a substitute for live ingredient weights.",
+      "produceCuts": {
+        "onion": "Dice",
+        "red_onion": "Dice",
+        "garlic": "Mince",
+        "ginger": "Grate or mince",
+        "green_bell_pepper": "Dice",
+        "jalapeno": "Finely mince",
+        "green_onion": "Thinly slice",
+        "zucchini": "Even bite-size pieces",
+        "lettuce": "Shred and dry",
+        "cucumber": "Dice",
+        "tomato": "Dice",
+        "parsley": "Finely chop",
+        "cilantro": "Chop for garnish",
+        "strawberry": "Wash; slice when used",
+        "banana": "Keep whole until serving",
+        "lemon": "Juice; weigh the juice",
+        "lime": "Juice; weigh the juice",
+        "black_beans": "Drain and rinse",
+        "cannellini_beans": "Drain and rinse",
+        "canned_peas_carrots": "Drain",
+        "corn": "Drain if canned; keep frozen if frozen",
+        "pickles": "Drain; slice for serving"
+      }
+    },
+    "b2": {
+      "phase": 4,
+      "order": 20,
+      "equipment": [
+        "digital scale",
+        "labeled pans"
+      ],
+      "temperature": "Cook egg custard fully; keep fruit and cream chilled.",
+      "steps": [
+        "Briefly coat each slice in its tier-controlled custard; use the complete measured custard allocation.",
+        "Griddle in measured oil until both faces are golden and the egg custard is fully set.",
+        "Slice the banana, add the measured fruit and cold whipped cream, and pack the sealed syrup cup."
+      ],
+      "plating": "Lean: 3 French Toast slices, measured fruit and whipped cream, one 30 g syrup cup. Bulk: 4 French Toast slices, measured fruit and whipped cream, one 30 g syrup cup.",
+      "hold": "Rapid-cool cooked food promptly; hold at 41 F or below.",
+      "sideCups": 1,
+      "sideBags": 0,
+      "validation": "Record finished yield, portion weights, package fit, and cold-hold quality. No automatic owner portions.",
+      "prepSteps": [
+        "Blend the measured cottage cheese, eggs, whites, milk, protein powder, sugar, vanilla, and cinnamon smooth.",
+        "Wash and dry strawberries; keep banana whole until assembly.",
+        "Fill and seal one 30 g syrup cup per order."
+      ],
+      "prepBatches": [
+        {
+          "type": "mix",
+          "name": "French Toast custard",
+          "instruction": "Blend the measured cottage cheese, eggs, whites, milk, protein powder, sugar, vanilla, and cinnamon smooth.",
+          "ingredientKeys": [
+            "egg",
+            "egg_white",
+            "cottage",
+            "fairlife_milk",
+            "whey_vanilla",
+            "brown_sugar",
+            "vanilla",
+            "cinnamon",
+            "sunflower_oil",
+            "bread_slice"
+          ],
+          "steps": [
+            "Blend the measured cottage cheese, eggs, whites, milk, protein powder, sugar, vanilla, and cinnamon smooth.",
+            "Keep custard cold, bread dry, and the measured griddle oil separate; do not soak bread overnight."
+          ]
+        },
+        {
+          "type": "cold-kit",
+          "name": "French Toast fruit and cream",
+          "instruction": "Wash and dry strawberries; keep banana whole until assembly.",
+          "ingredientKeys": [
+            "strawberry",
+            "banana",
+            "whipped_cream"
+          ],
+          "steps": [
+            "Wash and dry strawberries; keep banana whole until assembly.",
+            "Keep whipped cream refrigerated and separate from warm toast."
+          ]
+        },
+        {
+          "type": "sauce",
+          "name": "French Toast syrup cups",
+          "instruction": "Fill and seal one 30 g syrup cup per order.",
+          "ingredientKeys": [
+            "maple_syrup"
+          ],
+          "steps": [
+            "Fill and seal one 30 g syrup cup per order."
+          ]
+        }
+      ],
+      "stepIngredients": [
+        [
+          "bread_slice"
+        ],
+        [
+          "sunflower_oil"
+        ],
+        [
+          "banana",
+          "strawberry",
+          "whipped_cream",
+          "maple_syrup"
+        ]
+      ],
+      "groceryOverrides": {},
+      "sideCup": null,
+      "proteinCook": null,
+      "piecePlan": null,
+      "riceBatchGroup": "common",
+      "assemblyGuide": {
+        "lean": [
+          "Lean: 3 French Toast slices, measured fruit and whipped cream, one 30 g syrup cup.",
+          "Close, apply the exact Lean label, and move to cold holding."
+        ],
+        "bulk": [
+          "Bulk: 4 French Toast slices, measured fruit and whipped cream, one 30 g syrup cup.",
+          "Close, apply the exact Bulk label, and move to cold holding."
+        ]
+      },
+      "componentMap": [
+        {
+          "role": "complete",
+          "label": "French Toast measured recipe",
+          "ingredientKeys": [
+            "egg",
+            "egg_white",
+            "cottage",
+            "fairlife_milk",
+            "whey_vanilla",
+            "brown_sugar",
+            "vanilla",
+            "cinnamon",
+            "sunflower_oil",
+            "bread_slice",
+            "strawberry",
+            "banana",
+            "whipped_cream",
+            "maple_syrup"
+          ],
+          "handling": "Use the exact tier weights and the component instructions on the measured prep cards."
+        }
+      ],
+      "cookDayEquipment": {
+        "lane": "griddle",
+        "temperatureF": 0,
+        "estimatedMinutes": 25,
+        "sequence": 60
+      },
+      "panBatch": null,
+      "recipeName": "French Toast",
+      "source": "Current controlled Batch 10 recipe; historical returns are not a substitute for live ingredient weights.",
+      "produceCuts": {
+        "onion": "Dice",
+        "red_onion": "Dice",
+        "garlic": "Mince",
+        "ginger": "Grate or mince",
+        "green_bell_pepper": "Dice",
+        "jalapeno": "Finely mince",
+        "green_onion": "Thinly slice",
+        "zucchini": "Even bite-size pieces",
+        "lettuce": "Shred and dry",
+        "cucumber": "Dice",
+        "tomato": "Dice",
+        "parsley": "Finely chop",
+        "cilantro": "Chop for garnish",
+        "strawberry": "Wash; slice when used",
+        "banana": "Keep whole until serving",
+        "lemon": "Juice; weigh the juice",
+        "lime": "Juice; weigh the juice",
+        "black_beans": "Drain and rinse",
+        "cannellini_beans": "Drain and rinse",
+        "canned_peas_carrots": "Drain",
+        "corn": "Drain if canned; keep frozen if frozen",
+        "pickles": "Drain; slice for serving"
+      }
+    },
+    "b3": {
+      "phase": 4,
+      "order": 30,
+      "equipment": [
+        "digital scale",
+        "labeled pans"
+      ],
+      "temperature": "Cook beef to 160 F and eggs fully.",
+      "steps": [
+        "Brown beef and onion to 160 F, drain the rendered fat, and cook in tomato paste until the filling is dry enough to wrap.",
+        "Cook the measured egg mixture until fully set. Split beef, eggs, cheese, and cilantro across the two correct-tier tortillas.",
+        "Roll tightly and dry-pan grill seam-side down, then turn until crisp and the cheese melts. No broth."
+      ],
+      "plating": "Lean: pack both small-tortilla burritos with the Lean beef and cheese allocation. Bulk: pack both large-tortilla burritos with the Bulk beef and cheese allocation.",
+      "hold": "Rapid-cool cooked food promptly; hold at 41 F or below.",
+      "sideCups": 0,
+      "sideBags": 0,
+      "validation": "Record finished yield, portion weights, package fit, and cold-hold quality. No automatic owner portions.",
+      "prepSteps": [
+        "Weigh the raw ground beef and its exact salt; keep it ground.",
+        "Dice the onion and measure the tomato paste, mozzarella, and cilantro into labeled containers."
+      ],
+      "prepBatches": [
+        {
+          "type": "marinade",
+          "name": "Breakfast Burrito beef pull",
+          "instruction": "Weigh the raw ground beef and its exact salt; keep it ground.",
+          "ingredientKeys": [
+            "beef_90_raw",
+            "salt"
+          ],
+          "steps": [
+            "Weigh the raw ground beef and its exact salt; keep it ground.",
+            "Cover, label, date, and refrigerate at 40 F or below; keep any plain reserve separate."
+          ],
+          "stage": "proteins"
+        },
+        {
+          "type": "mise-en-place",
+          "name": "Breakfast Burrito prep kit",
+          "instruction": "Dice the onion and measure the tomato paste, mozzarella, and cilantro into labeled containers.",
+          "ingredientKeys": [
+            "onion",
+            "tomato_paste",
+            "egg",
+            "egg_white",
+            "mozzarella",
+            "small_tortilla",
+            "large_tortilla",
+            "cilantro"
+          ],
+          "steps": [
+            "Dice the onion and measure the tomato paste, mozzarella, and cilantro into labeled containers.",
+            "Count the eggs and measure the egg-white requirement, but keep both uncracked and refrigerated. Cook the eggs fresh on Cook Day for better texture.",
+            "Count the correct Lean or Bulk tortillas and keep them sealed."
+          ],
+          "stage": "ahead"
+        }
+      ],
+      "stepIngredients": [
+        [
+          "onion",
+          "tomato_paste"
+        ],
+        [
+          "egg",
+          "egg_white",
+          "mozzarella",
+          "cilantro",
+          "small_tortilla",
+          "large_tortilla"
+        ],
+        []
+      ],
+      "groceryOverrides": {},
+      "sideCup": null,
+      "proteinCook": {
+        "name": "Grilled Cheese Breakfast Burrito",
+        "group": "beef",
+        "endpoint": "160 F",
+        "recipeKeys": [
+          "beef_90_raw"
+        ],
+        "sequence": 20,
+        "recipeSteps": [
+          "Brown beef and onion to 160 F, drain the rendered fat, and cook in tomato paste until the filling is dry enough to wrap.",
+          "Cook the measured egg mixture until fully set. Split beef, eggs, cheese, and cilantro across the two correct-tier tortillas.",
+          "Roll tightly and dry-pan grill seam-side down, then turn until crisp and the cheese melts. No broth."
+        ],
+        "instructions": [
+          "Brown beef and onion to 160 F, drain the rendered fat, and cook in tomato paste until the filling is dry enough to wrap.",
+          "Cook the measured egg mixture until fully set. Split beef, eggs, cheese, and cilantro across the two correct-tier tortillas.",
+          "Roll tightly and dry-pan grill seam-side down, then turn until crisp and the cheese melts. No broth."
+        ],
+        "prepDayComplete": false,
+        "lane": "stovetop",
+        "ovenTemperatureF": 0
+      },
+      "piecePlan": null,
+      "riceBatchGroup": "common",
+      "assemblyGuide": {
+        "lean": [
+          "Lean: pack both small-tortilla burritos with the Lean beef and cheese allocation.",
+          "Close, apply the exact Lean label, and move to cold holding."
+        ],
+        "bulk": [
+          "Bulk: pack both large-tortilla burritos with the Bulk beef and cheese allocation.",
+          "Close, apply the exact Bulk label, and move to cold holding."
+        ]
+      },
+      "componentMap": [
+        {
+          "role": "complete",
+          "label": "Grilled Cheese Breakfast Burrito measured recipe",
+          "ingredientKeys": [
+            "beef_90_raw",
+            "salt",
+            "onion",
+            "tomato_paste",
+            "egg",
+            "egg_white",
+            "mozzarella",
+            "small_tortilla",
+            "large_tortilla",
+            "cilantro"
+          ],
+          "handling": "Use the exact tier weights and the component instructions on the measured prep cards."
+        }
+      ],
+      "cookDayEquipment": {
+        "lane": "stovetop",
+        "temperatureF": 0,
+        "estimatedMinutes": 25,
+        "sequence": 20
+      },
+      "panBatch": null,
+      "recipeName": "Grilled Cheese Breakfast Burrito",
+      "source": "Current controlled Batch 10 recipe; historical returns are not a substitute for live ingredient weights.",
+      "produceCuts": {
+        "onion": "Dice",
+        "red_onion": "Dice",
+        "garlic": "Mince",
+        "ginger": "Grate or mince",
+        "green_bell_pepper": "Dice",
+        "jalapeno": "Finely mince",
+        "green_onion": "Thinly slice",
+        "zucchini": "Even bite-size pieces",
+        "lettuce": "Shred and dry",
+        "cucumber": "Dice",
+        "tomato": "Dice",
+        "parsley": "Finely chop",
+        "cilantro": "Chop for garnish",
+        "strawberry": "Wash; slice when used",
+        "banana": "Keep whole until serving",
+        "lemon": "Juice; weigh the juice",
+        "lime": "Juice; weigh the juice",
+        "black_beans": "Drain and rinse",
+        "cannellini_beans": "Drain and rinse",
+        "canned_peas_carrots": "Drain",
+        "corn": "Drain if canned; keep frozen if frozen",
+        "pickles": "Drain; slice for serving"
+      }
+    },
+    "b4": {
+      "phase": 5,
+      "order": 40,
+      "equipment": [
+        "digital scale",
+        "labeled pans"
+      ],
+      "temperature": "Chicken and eggs must reach 165 F.",
+      "steps": [
+        "Reheat the prepared tomato-pepper base to a simmer. Add the seasoned raw chicken pieces and cook until the chicken reaches 165 F.",
+        "Make wells, add the measured eggs, cover, and cook the eggs fully to 165 F; melt mozzarella over the top.",
+        "Record the finished pan yield, divide by tier, finish with cilantro, and pack bread separately."
+      ],
+      "plating": "Lean: measured Shakshuka with 2 fully cooked eggs and 1 separate bread slice. Bulk: measured Shakshuka with 2 fully cooked eggs and 2 separate bread slices.",
+      "hold": "Rapid-cool cooked food promptly; hold at 41 F or below.",
+      "sideCups": 0,
+      "sideBags": 1,
+      "validation": "Record finished yield, portion weights, package fit, and cold-hold quality. No automatic owner portions.",
+      "prepSteps": [
+        "Use the shared seasoned pull. Keep the tomato-base spices separate.",
+        "Soften the diced onion and green pepper in the measured oil. Add garlic, paprika, and cumin; cook briefly until fragrant.",
+        "Count eggs, weigh cheese and cilantro tomorrow before cooking."
+      ],
+      "prepBatches": [
+        {
+          "type": "marinade",
+          "name": "Shakshuka chicken",
+          "instruction": "Use the shared seasoned pull. Keep the tomato-base spices separate.",
+          "ingredientKeys": [
+            "chicken_thigh_raw",
+            "garlic_powder",
+            "onion_powder",
+            "paprika",
+            "black_pepper",
+            "salt"
+          ],
+          "steps": [
+            "Use the shared seasoned pull. Keep the tomato-base spices separate.",
+            "Cover, label, date, and refrigerate at 40 F or below; keep any plain reserve separate."
+          ],
+          "stage": "proteins",
+          "excludeComponentRefs": [
+            "shakshuka-base"
+          ],
+          "proteinForm": "Bite-size thigh pieces",
+          "seasoningFamily": "neutral-thigh-prep",
+          "seasoningFamilyName": "Shared savory thigh base",
+          "seasoningBaseForm": "Whole boneless skinless thighs",
+          "splitAfterSeasoning": true,
+          "poolStorage": false,
+          "seasoningFinishNote": "Add the displayed tomato-base paprika and cumin after splitting."
+        },
+        {
+          "type": "cook-ahead",
+          "name": "Shakshuka tomato-pepper base",
+          "instruction": "Soften the diced onion and green pepper in the measured oil. Add garlic, paprika, and cumin; cook briefly until fragrant.",
+          "ingredientKeys": [
+            "crushed_tomatoes",
+            "red_onion",
+            "green_bell_pepper",
+            "garlic",
+            "paprika",
+            "cumin",
+            "sunflower_oil"
+          ],
+          "steps": [
+            "Soften the diced onion and green pepper in the measured oil. Add garlic, paprika, and cumin; cook briefly until fragrant.",
+            "Add the crushed tomatoes and simmer until the base is thick, not watery. Record finished weight, rapid-cool in a shallow pan, cover, label, date, and refrigerate."
+          ],
+          "stage": "ahead",
+          "prepWave": "sauce-bases",
+          "prepWaveName": "Cooked tomato sauce bases",
+          "excludeComponentRefs": [
+            "shared-chicken-base"
+          ]
+        },
+        {
+          "type": "cold-kit",
+          "name": "Shakshuka eggs, cheese, bread and garnish",
+          "instruction": "Count eggs, weigh cheese and cilantro tomorrow before cooking.",
+          "ingredientKeys": [
+            "egg",
+            "mozzarella",
+            "bread_slice",
+            "cilantro"
+          ],
+          "steps": [
+            "Count eggs, weigh cheese and cilantro tomorrow before cooking.",
+            "Keep bread dry and separate: 1 Lean or 2 Bulk slices."
+          ]
+        }
+      ],
+      "stepIngredients": [
+        [
+          "crushed_tomatoes",
+          "red_onion",
+          "green_bell_pepper",
+          "garlic",
+          "paprika",
+          "cumin",
+          "sunflower_oil",
+          "chicken_thigh_raw"
+        ],
+        [
+          "egg",
+          "mozzarella"
+        ],
+        [
+          "cilantro",
+          "bread_slice"
+        ]
+      ],
+      "groceryOverrides": {},
+      "sideCup": null,
+      "proteinCook": {
+        "name": "Chicken Shakshuka",
+        "group": "chicken",
+        "endpoint": "165 F",
+        "recipeKeys": [
+          "chicken_thigh_raw"
+        ],
+        "sequence": 30,
+        "recipeSteps": [
+          "Reheat the prepared tomato-pepper base to a simmer. Add the seasoned raw chicken pieces and cook until the chicken reaches 165 F.",
+          "Make wells, add the measured eggs, cover, and cook the eggs fully to 165 F; melt mozzarella over the top.",
+          "Record the finished pan yield, divide by tier, finish with cilantro, and pack bread separately."
+        ],
+        "instructions": [
+          "Reheat the prepared tomato-pepper base to a simmer. Add the seasoned raw chicken pieces and cook until the chicken reaches 165 F.",
+          "Make wells, add the measured eggs, cover, and cook the eggs fully to 165 F; melt mozzarella over the top.",
+          "Record the finished pan yield, divide by tier, finish with cilantro, and pack bread separately."
+        ],
+        "prepDayComplete": false,
+        "lane": "stovetop",
+        "ovenTemperatureF": 0
+      },
+      "piecePlan": null,
+      "riceBatchGroup": "common",
+      "assemblyGuide": {
+        "lean": [
+          "Lean: measured Shakshuka with 2 fully cooked eggs and 1 separate bread slice.",
+          "Close, apply the exact Lean label, and move to cold holding."
+        ],
+        "bulk": [
+          "Bulk: measured Shakshuka with 2 fully cooked eggs and 2 separate bread slices.",
+          "Close, apply the exact Bulk label, and move to cold holding."
+        ]
+      },
+      "componentMap": [
+        {
+          "role": "complete",
+          "label": "Chicken Shakshuka measured recipe",
+          "ingredientKeys": [
+            "chicken_thigh_raw",
+            "garlic_powder",
+            "onion_powder",
+            "paprika",
+            "black_pepper",
+            "salt",
+            "crushed_tomatoes",
+            "red_onion",
+            "green_bell_pepper",
+            "garlic",
+            "cumin",
+            "sunflower_oil",
+            "egg",
+            "mozzarella",
+            "bread_slice",
+            "cilantro"
+          ],
+          "handling": "Use the exact tier weights and the component instructions on the measured prep cards."
+        }
+      ],
+      "cookDayEquipment": {
+        "lane": "stovetop",
+        "temperatureF": 0,
+        "estimatedMinutes": 25,
+        "sequence": 30
+      },
+      "panBatch": null,
+      "recipeName": "Chicken Shakshuka",
+      "source": "Current controlled Batch 10 recipe; historical returns are not a substitute for live ingredient weights.",
+      "produceCuts": {
+        "onion": "Dice",
+        "red_onion": "Dice",
+        "garlic": "Mince",
+        "ginger": "Grate or mince",
+        "green_bell_pepper": "Dice",
+        "jalapeno": "Finely mince",
+        "green_onion": "Thinly slice",
+        "zucchini": "Even bite-size pieces",
+        "lettuce": "Shred and dry",
+        "cucumber": "Dice",
+        "tomato": "Dice",
+        "parsley": "Finely chop",
+        "cilantro": "Chop for garnish",
+        "strawberry": "Wash; slice when used",
+        "banana": "Keep whole until serving",
+        "lemon": "Juice; weigh the juice",
+        "lime": "Juice; weigh the juice",
+        "black_beans": "Drain and rinse",
+        "cannellini_beans": "Drain and rinse",
+        "canned_peas_carrots": "Drain",
+        "corn": "Drain if canned; keep frozen if frozen",
+        "pickles": "Drain; slice for serving"
+      }
+    },
+    "m1": {
+      "phase": 5,
+      "order": 50,
+      "equipment": [
+        "digital scale",
+        "labeled pans"
+      ],
+      "temperature": "Cook chicken to 165 F; rapid-cool and hold at 41 F or below.",
+      "steps": [
+        "Roast the marinated leg quarters skin-side up on racks at 400 F while the plain rice cooks.",
+        "Probe the thickest meat away from bone to at least 165 F; rest briefly and record edible cooked yield separately from bones. Never brush cooked chicken with uncooked marinade.",
+        "Weigh the edible meat allocation for each tier, plate with measured rice, and finish with cilantro."
+      ],
+      "plating": "Lean: 215 g edible cooked leg-quarter meat, measured rice, and cilantro; bone weight does not count as meat. Bulk: 286 g edible cooked leg-quarter meat, measured rice, and cilantro; bone weight does not count as meat.",
+      "hold": "Rapid-cool cooked food promptly; hold at 41 F or below.",
+      "sideCups": 0,
+      "sideBags": 0,
+      "validation": "Leg quarters are bone-in, not boneless thighs. Raw-to-edible yield and 50% marinade retention are working assumptions; record actual marinade input, loss, bone weight, and edible yield.",
+      "prepSteps": [
+        "Keep the bone-in leg quarters intact; score the thick meat without cutting through the bone.",
+        "Cook the complete displayed dry-rice allocation today.",
+        "Wash, dry, and reserve the measured cilantro."
+      ],
+      "prepBatches": [
+        {
+          "type": "marinade",
+          "name": "Peri Peri leg-quarter marinade",
+          "instruction": "Keep the bone-in leg quarters intact; score the thick meat without cutting through the bone.",
+          "ingredientKeys": [
+            "leg_quarter_raw",
+            "jalapeno",
+            "garlic",
+            "lemon",
+            "paprika",
+            "chili_powder",
+            "cumin",
+            "sunflower_oil",
+            "salt"
+          ],
+          "steps": [
+            "Keep the bone-in leg quarters intact; score the thick meat without cutting through the bone.",
+            "Blend the displayed jalapeno, garlic, lemon, paprika, chili powder, cumin, oil, and salt. Coat the exact leg-quarter pull, including inside the scores.",
+            "Cover, label, date, and refrigerate at 40 F or below; keep any plain reserve separate."
+          ],
+          "stage": "proteins",
+          "proteinForm": "Keep bone-in leg quarters whole"
+        },
+        {
+          "type": "starch-ahead",
+          "name": "Peri Peri rice",
+          "instruction": "Cook the complete displayed dry-rice allocation today.",
+          "ingredientKeys": [
+            "rice_dry"
+          ],
+          "steps": [
+            "Cook the complete displayed dry-rice allocation today.",
+            "Record dry and cooked weights, spread in a shallow pan, rapid-cool, cover, label, date, and refrigerate at 41 F or below."
+          ],
+          "prepWave": "common",
+          "prepWaveName": "Shared plain rice cook"
+        },
+        {
+          "type": "cold-kit",
+          "name": "Peri Peri garnish",
+          "instruction": "Wash, dry, and reserve the measured cilantro.",
+          "ingredientKeys": [
+            "cilantro"
+          ],
+          "steps": [
+            "Wash, dry, and reserve the measured cilantro."
+          ]
+        }
+      ],
+      "stepIngredients": {},
+      "groceryOverrides": {},
+      "sideCup": null,
+      "proteinCook": {
+        "name": "Peri Peri Chicken",
+        "group": "chicken",
+        "endpoint": "165 F",
+        "recipeKeys": [
+          "leg_quarter_raw"
+        ],
+        "sequence": 10,
+        "recipeSteps": [
+          "Roast the marinated leg quarters skin-side up on racks at 400 F while the plain rice cooks.",
+          "Probe the thickest meat away from bone to at least 165 F; rest briefly and record edible cooked yield separately from bones. Never brush cooked chicken with uncooked marinade.",
+          "Weigh the edible meat allocation for each tier, plate with measured rice, and finish with cilantro."
+        ],
+        "instructions": [
+          "Roast the marinated leg quarters skin-side up on racks at 400 F while the plain rice cooks.",
+          "Probe the thickest meat away from bone to at least 165 F; rest briefly and record edible cooked yield separately from bones. Never brush cooked chicken with uncooked marinade.",
+          "Weigh the edible meat allocation for each tier, plate with measured rice, and finish with cilantro."
+        ],
+        "prepDayComplete": false,
+        "lane": "oven",
+        "ovenTemperatureF": 400
+      },
+      "piecePlan": null,
+      "riceBatchGroup": "common",
+      "assemblyGuide": {
+        "lean": [
+          "Lean: 215 g edible cooked leg-quarter meat, measured rice, and cilantro; bone weight does not count as meat.",
+          "Close, apply the exact Lean label, and move to cold holding."
+        ],
+        "bulk": [
+          "Bulk: 286 g edible cooked leg-quarter meat, measured rice, and cilantro; bone weight does not count as meat.",
+          "Close, apply the exact Bulk label, and move to cold holding."
+        ]
+      },
+      "componentMap": [
+        {
+          "role": "complete",
+          "label": "Peri Peri Chicken measured recipe",
+          "ingredientKeys": [
+            "leg_quarter_raw",
+            "jalapeno",
+            "garlic",
+            "lemon",
+            "paprika",
+            "chili_powder",
+            "cumin",
+            "sunflower_oil",
+            "salt",
+            "rice_dry",
+            "cilantro"
+          ],
+          "handling": "Use the exact tier weights and the component instructions on the measured prep cards."
+        }
+      ],
+      "cookDayEquipment": {
+        "lane": "oven",
+        "temperatureF": 400,
+        "estimatedMinutes": 50,
+        "sequence": 10
+      },
+      "panBatch": null,
+      "recipeName": "Peri Peri Chicken",
+      "source": "Current controlled Batch 10 recipe; historical returns are not a substitute for live ingredient weights.",
+      "produceCuts": {
+        "onion": "Dice",
+        "red_onion": "Dice",
+        "garlic": "Mince",
+        "ginger": "Grate or mince",
+        "green_bell_pepper": "Dice",
+        "jalapeno": "Rough-chop for marinade blender",
+        "green_onion": "Thinly slice",
+        "zucchini": "Even bite-size pieces",
+        "lettuce": "Shred and dry",
+        "cucumber": "Dice",
+        "tomato": "Dice",
+        "parsley": "Finely chop",
+        "cilantro": "Chop for garnish",
+        "strawberry": "Wash; slice when used",
+        "banana": "Keep whole until serving",
+        "lemon": "Juice; weigh the juice",
+        "lime": "Juice; weigh the juice",
+        "black_beans": "Drain and rinse",
+        "cannellini_beans": "Drain and rinse",
+        "canned_peas_carrots": "Drain",
+        "corn": "Drain if canned; keep frozen if frozen",
+        "pickles": "Drain; slice for serving"
+      }
+    },
+    "m2": {
+      "phase": 5,
+      "order": 60,
+      "equipment": [
+        "digital scale",
+        "labeled pans"
+      ],
+      "temperature": "Cook chicken to 165 F; rapid-cool and hold at 41 F or below.",
+      "steps": [
+        "Start the separate rice with its measured turmeric and reserved cumin and paprika; do not combine it with plain rice.",
+        "Heat a wide pan, then cook the seasoned thighs in uncrowded batches to 165 F, turning for deep browning. Rest briefly, chop, and record cooked yield. Do not add unmeasured oil.",
+        "Plate the exact chicken and yellow rice with cold lettuce, tomato, cilantro, and the measured white sauce cup."
+      ],
+      "plating": "Lean: exact Lean chicken, yellow rice, cold salad, and one 30 g white sauce cup. Bulk: exact Bulk chicken, yellow rice, cold salad, and one 30 g white sauce cup.",
+      "hold": "Rapid-cool cooked food promptly; hold at 41 F or below.",
+      "sideCups": 1,
+      "sideBags": 0,
+      "validation": "Chicken spices follow the historical source conversion. Yellow-rice spice gram weights are working conversions, not a historical tested formula; verify seasoning and cooked yield.",
+      "prepSteps": [
+        "Reserve 0.3 g cumin and 0.3 g paprika per meal for yellow rice. The displayed lemon is for chicken only; sauce lemon is already separated.",
+        "Cook this rice today with the displayed turmeric and the cumin and paprika explicitly reserved on the Halal chicken card. Keep it separate from plain rice.",
+        "Blend the measured yogurt, light mayonnaise, garlic and lemon until smooth.",
+        "Wash, dry, and chop lettuce and tomato; reserve cilantro."
+      ],
+      "prepBatches": [
+        {
+          "type": "marinade",
+          "name": "Halal Cart thigh seasoning",
+          "instruction": "Reserve 0.3 g cumin and 0.3 g paprika per meal for yellow rice. The displayed lemon is for chicken only; sauce lemon is already separated.",
+          "ingredientKeys": [
+            "chicken_thigh_raw",
+            "oregano",
+            "garlic_powder",
+            "cumin",
+            "paprika",
+            "lemon",
+            "salt"
+          ],
+          "steps": [
+            "Reserve 0.3 g cumin and 0.3 g paprika per meal for yellow rice. The displayed lemon is for chicken only; sauce lemon is already separated.",
+            "Coat chicken with the remaining spices, lemon and salt.",
+            "Cover, label, date, and refrigerate at 40 F or below; keep any plain reserve separate."
+          ],
+          "stage": "proteins",
+          "excludeComponentRefs": [
+            "white-garlic"
+          ],
+          "proteinForm": "Keep thighs whole; chop after pan-cooking"
+        },
+        {
+          "type": "starch-ahead",
+          "name": "Separate Halal Cart yellow rice",
+          "instruction": "Cook this rice today with the displayed turmeric and the cumin and paprika explicitly reserved on the Halal chicken card. Keep it separate from plain rice.",
+          "ingredientKeys": [
+            "rice_dry",
+            "turmeric"
+          ],
+          "steps": [
+            "Cook this rice today with the displayed turmeric and the cumin and paprika explicitly reserved on the Halal chicken card. Keep it separate from plain rice.",
+            "Record dry and cooked weights, spread in a shallow pan, rapid-cool, cover, label, date, and refrigerate at 41 F or below."
+          ],
+          "prepWave": "halal-yellow-rice",
+          "prepWaveName": "Separate Halal Cart yellow rice"
+        },
+        {
+          "type": "sauce",
+          "name": "White garlic sauce",
+          "instruction": "Blend the measured yogurt, light mayonnaise, garlic and lemon until smooth.",
+          "ingredientKeys": [
+            "fage",
+            "light_mayo",
+            "garlic",
+            "lemon"
+          ],
+          "steps": [
+            "Blend the measured yogurt, light mayonnaise, garlic and lemon until smooth.",
+            "Pack one sealed 30 g cup per meal. Keep at 41 F or below."
+          ],
+          "componentRef": "white-garlic",
+          "sharedSauceFamily": "house-garlic",
+          "sauceVariant": "white",
+          "sauceUse": "Pack one sealed 30 g cup per meal"
+        },
+        {
+          "type": "cold-kit",
+          "name": "Halal Cart salad and garnish",
+          "instruction": "Wash, dry, and chop lettuce and tomato; reserve cilantro.",
+          "ingredientKeys": [
+            "lettuce",
+            "tomato",
+            "cilantro"
+          ],
+          "steps": [
+            "Wash, dry, and chop lettuce and tomato; reserve cilantro.",
+            "Keep this cold salad separate from raw chicken and hot rice."
+          ]
+        }
+      ],
+      "stepIngredients": {},
+      "groceryOverrides": {},
+      "sideCup": null,
+      "proteinCook": {
+        "name": "Halal Cart Chicken + Yellow Rice",
+        "group": "chicken",
+        "endpoint": "165 F",
+        "recipeKeys": [
+          "chicken_thigh_raw"
+        ],
+        "sequence": 25,
+        "recipeSteps": [
+          "Start the separate rice with its measured turmeric and reserved cumin and paprika; do not combine it with plain rice.",
+          "Heat a wide pan, then cook the seasoned thighs in uncrowded batches to 165 F, turning for deep browning. Rest briefly, chop, and record cooked yield. Do not add unmeasured oil.",
+          "Plate the exact chicken and yellow rice with cold lettuce, tomato, cilantro, and the measured white sauce cup."
+        ],
+        "instructions": [
+          "Start the separate rice with its measured turmeric and reserved cumin and paprika; do not combine it with plain rice.",
+          "Heat a wide pan, then cook the seasoned thighs in uncrowded batches to 165 F, turning for deep browning. Rest briefly, chop, and record cooked yield. Do not add unmeasured oil.",
+          "Plate the exact chicken and yellow rice with cold lettuce, tomato, cilantro, and the measured white sauce cup."
+        ],
+        "prepDayComplete": false,
+        "lane": "stovetop",
+        "ovenTemperatureF": 0
+      },
+      "piecePlan": null,
+      "riceBatchGroup": "halal-yellow-rice",
+      "assemblyGuide": {
+        "lean": [
+          "Lean: exact Lean chicken, yellow rice, cold salad, and one 30 g white sauce cup.",
+          "Close, apply the exact Lean label, and move to cold holding."
+        ],
+        "bulk": [
+          "Bulk: exact Bulk chicken, yellow rice, cold salad, and one 30 g white sauce cup.",
+          "Close, apply the exact Bulk label, and move to cold holding."
+        ]
+      },
+      "componentMap": [
+        {
+          "role": "complete",
+          "label": "Halal Cart Chicken + Yellow Rice measured recipe",
+          "ingredientKeys": [
+            "chicken_thigh_raw",
+            "oregano",
+            "garlic_powder",
+            "cumin",
+            "paprika",
+            "lemon",
+            "salt",
+            "rice_dry",
+            "turmeric",
+            "fage",
+            "light_mayo",
+            "garlic",
+            "lettuce",
+            "tomato",
+            "cilantro"
+          ],
+          "handling": "Use the exact tier weights and the component instructions on the measured prep cards."
+        }
+      ],
+      "cookDayEquipment": {
+        "lane": "stovetop",
+        "temperatureF": 0,
+        "estimatedMinutes": 25,
+        "sequence": 25
+      },
+      "panBatch": null,
+      "recipeName": "Halal Cart Chicken + Yellow Rice",
+      "source": "Current controlled Batch 10 recipe; historical returns are not a substitute for live ingredient weights.",
+      "produceCuts": {
+        "onion": "Dice",
+        "red_onion": "Dice",
+        "garlic": "Mince",
+        "ginger": "Grate or mince",
+        "green_bell_pepper": "Dice",
+        "jalapeno": "Finely mince",
+        "green_onion": "Thinly slice",
+        "zucchini": "Even bite-size pieces",
+        "lettuce": "Shred and dry",
+        "cucumber": "Dice",
+        "tomato": "Dice",
+        "parsley": "Finely chop",
+        "cilantro": "Chop for garnish",
+        "strawberry": "Wash; slice when used",
+        "banana": "Keep whole until serving",
+        "lemon": "Juice; weigh the juice",
+        "lime": "Juice; weigh the juice",
+        "black_beans": "Drain and rinse",
+        "cannellini_beans": "Drain and rinse",
+        "canned_peas_carrots": "Drain",
+        "corn": "Drain if canned; keep frozen if frozen",
+        "pickles": "Drain; slice for serving"
+      }
+    },
+    "m3": {
+      "phase": 5,
+      "order": 70,
+      "equipment": [
+        "digital scale",
+        "labeled pans"
+      ],
+      "temperature": "Cook chicken to 165 F; rapid-cool and hold at 41 F or below.",
+      "steps": [
+        "Soften sliced onions in the measured oil. Add the chicken with ALL its Shan-yogurt marinade, then the tomatoes. Cover and simmer until chicken reaches 165 F. Add a measured splash of water only if the pot starts drying.",
+        "Boil the separate Biryani rice until about three-quarters cooked, drain, and layer over the cooked chicken masala. Cover tightly and steam on low until tender, about 5-10 minutes; check the rice rather than relying only on time.",
+        "Gently combine, record finished yield, divide into the exact tier portions, and finish with cilantro. No extra masala, salt or cucumber salad."
+      ],
+      "plating": "Lean: measured chicken, masala, rice, cilantro and one 30 g green garlic sauce cup. Bulk: measured chicken, masala, rice, cilantro and one 30 g green garlic sauce cup.",
+      "hold": "Rapid-cool cooked food promptly; hold at 41 F or below.",
+      "sideCups": 1,
+      "sideBags": 0,
+      "validation": "Standard Shan Biryani 50 g packet per kg raw meat. Confirm purchased variant; no extra salt. Cold sauce is included in nutrition, never in the marinade.",
+      "prepSteps": [
+        "Cut thighs into bite-size pieces. Mix the weighed Shan Biryani powder, yogurt, lemon, garlic and ginger; coat chicken. These quantities exclude the cold green serving sauce.",
+        "Blend the measured yogurt, light mayonnaise, garlic and lemon until smooth.",
+        "Slice onions, chop tomatoes, and measure the oil into the Biryani kit.",
+        "Weigh and label the complete dry Biryani rice allocation today. Keep it dry; do not cook it with today’s rice batches.",
+        "Wash, dry, and reserve cilantro."
+      ],
+      "prepBatches": [
+        {
+          "type": "marinade",
+          "name": "Shan Biryani marinade",
+          "instruction": "Cut thighs into bite-size pieces. Mix the weighed Shan Biryani powder, yogurt, lemon, garlic and ginger; coat chicken. These quantities exclude the cold green serving sauce.",
+          "ingredientKeys": [
+            "chicken_thigh_raw",
+            "fage",
+            "lemon",
+            "garlic",
+            "ginger",
+            "shan_biryani"
+          ],
+          "steps": [
+            "Cut thighs into bite-size pieces. Mix the weighed Shan Biryani powder, yogurt, lemon, garlic and ginger; coat chicken. These quantities exclude the cold green serving sauce.",
+            "Use 50 g standard powder per 1 kg raw thighs. Weigh partial packets; refrigerate overnight. No extra salt.",
+            "Cook all this marinade with the chicken; do not scrape it off.",
+            "Cover, label, date, and refrigerate at 40 F or below; keep any plain reserve separate."
+          ],
+          "stage": "proteins",
+          "proteinForm": "Bite-size thigh pieces; separate marinade",
+          "excludeComponentRefs": [
+            "green-garlic"
+          ]
+        },
+        {
+          "type": "sauce",
+          "name": "Green jalapeno garlic sauce",
+          "instruction": "Blend the measured yogurt, light mayonnaise, garlic and lemon until smooth.",
+          "ingredientKeys": [
+            "fage",
+            "light_mayo",
+            "garlic",
+            "lemon",
+            "jalapeno"
+          ],
+          "steps": [
+            "Blend the measured yogurt, light mayonnaise, garlic and lemon until smooth.",
+            "Blend the measured jalapeno into this allocated portion of the same white base.",
+            "Pack one sealed 30 g cup per meal; add cold after reheating. Keep at 41 F or below."
+          ],
+          "componentRef": "green-garlic",
+          "sharedSauceFamily": "house-garlic",
+          "sauceVariant": "green",
+          "sauceUse": "Pack one sealed 30 g cup per meal; add cold after reheating"
+        },
+        {
+          "type": "mise-en-place",
+          "name": "Biryani onion-tomato masala",
+          "instruction": "Slice onions, chop tomatoes, and measure the oil into the Biryani kit.",
+          "ingredientKeys": [
+            "onion",
+            "tomato",
+            "sunflower_oil"
+          ],
+          "steps": [
+            "Slice onions, chop tomatoes, and measure the oil into the Biryani kit."
+          ]
+        },
+        {
+          "type": "grain",
+          "name": "Biryani rice",
+          "instruction": "Weigh and label the complete dry Biryani rice allocation today. Keep it dry; do not cook it with today’s rice batches.",
+          "ingredientKeys": [
+            "rice_dry"
+          ],
+          "steps": [
+            "Weigh and label the complete dry Biryani rice allocation today. Keep it dry; do not cook it with today’s rice batches.",
+            "Cook this rice tomorrow to three-quarters done, drain, then steam it over the chicken masala as directed in Cook & finish."
+          ],
+          "prepWave": "biryani",
+          "prepWaveName": "Biryani rice",
+          "stage": "ahead",
+          "deferred": true
+        },
+        {
+          "type": "cold-kit",
+          "name": "Biryani garnish",
+          "instruction": "Wash, dry, and reserve cilantro.",
+          "ingredientKeys": [
+            "cilantro"
+          ],
+          "steps": [
+            "Wash, dry, and reserve cilantro."
+          ]
+        }
+      ],
+      "stepIngredients": [
+        [
+          "onion",
+          "sunflower_oil",
+          "tomato"
+        ],
+        [
+          "rice_dry"
+        ],
+        [
+          "cilantro"
+        ]
+      ],
+      "groceryOverrides": {},
+      "sideCup": {
+        "name": "Green jalapeno garlic sauce",
+        "gramsPerMeal": 30
+      },
+      "proteinCook": {
+        "name": "Chicken Biryani",
+        "group": "chicken",
+        "endpoint": "165 F",
+        "recipeKeys": [
+          "chicken_thigh_raw"
+        ],
+        "sequence": 20,
+        "recipeSteps": [
+          "Soften sliced onions in the measured oil. Add the chicken with ALL its Shan-yogurt marinade, then the tomatoes. Cover and simmer until chicken reaches 165 F. Add a measured splash of water only if the pot starts drying.",
+          "Boil the separate Biryani rice until about three-quarters cooked, drain, and layer over the cooked chicken masala. Cover tightly and steam on low until tender, about 5-10 minutes; check the rice rather than relying only on time.",
+          "Gently combine, record finished yield, divide into the exact tier portions, and finish with cilantro. No extra masala, salt or cucumber salad."
+        ],
+        "instructions": [
+          "Soften sliced onions in the measured oil. Add the chicken with ALL its Shan-yogurt marinade, then the tomatoes. Cover and simmer until chicken reaches 165 F. Add a measured splash of water only if the pot starts drying.",
+          "Boil the separate Biryani rice until about three-quarters cooked, drain, and layer over the cooked chicken masala. Cover tightly and steam on low until tender, about 5-10 minutes; check the rice rather than relying only on time.",
+          "Gently combine, record finished yield, divide into the exact tier portions, and finish with cilantro. No extra masala, salt or cucumber salad."
+        ],
+        "prepDayComplete": false,
+        "lane": "stovetop",
+        "ovenTemperatureF": 0
+      },
+      "piecePlan": null,
+      "riceBatchGroup": "biryani",
+      "assemblyGuide": {
+        "lean": [
+          "Lean: measured chicken, masala, rice, cilantro and one 30 g green garlic sauce cup.",
+          "Close, apply the exact Lean label, and move to cold holding."
+        ],
+        "bulk": [
+          "Bulk: measured chicken, masala, rice, cilantro and one 30 g green garlic sauce cup.",
+          "Close, apply the exact Bulk label, and move to cold holding."
+        ]
+      },
+      "componentMap": [
+        {
+          "role": "complete",
+          "label": "Chicken Biryani measured recipe",
+          "ingredientKeys": [
+            "chicken_thigh_raw",
+            "fage",
+            "lemon",
+            "garlic",
+            "ginger",
+            "shan_biryani",
+            "light_mayo",
+            "jalapeno",
+            "onion",
+            "tomato",
+            "sunflower_oil",
+            "rice_dry",
+            "cilantro"
+          ],
+          "handling": "Use the exact tier weights and the component instructions on the measured prep cards."
+        }
+      ],
+      "cookDayEquipment": {
+        "lane": "stovetop",
+        "temperatureF": 0,
+        "estimatedMinutes": 25,
+        "sequence": 20
+      },
+      "panBatch": null,
+      "recipeName": "Chicken Biryani",
+      "source": "https://www.shanfoods.com/product/recipe-mixes/rice/biryani/ | PRPD adaptation with a separate green garlic mayonnaise sauce.",
+      "produceCuts": {
+        "onion": "Thinly slice",
+        "red_onion": "Dice",
+        "garlic": "Mince",
+        "ginger": "Grate or mince",
+        "green_bell_pepper": "Dice",
+        "jalapeno": "Finely mince",
+        "green_onion": "Thinly slice",
+        "zucchini": "Even bite-size pieces",
+        "lettuce": "Shred and dry",
+        "cucumber": "Dice",
+        "tomato": "Dice",
+        "parsley": "Finely chop",
+        "cilantro": "Chop for garnish",
+        "strawberry": "Wash; slice when used",
+        "banana": "Keep whole until serving",
+        "lemon": "Juice; weigh the juice",
+        "lime": "Juice; weigh the juice",
+        "black_beans": "Drain and rinse",
+        "cannellini_beans": "Drain and rinse",
+        "canned_peas_carrots": "Drain",
+        "corn": "Drain if canned; keep frozen if frozen",
+        "pickles": "Drain; slice for serving"
+      }
+    },
+    "m4": {
+      "phase": 5,
+      "order": 80,
+      "equipment": [
+        "digital scale",
+        "labeled pans"
+      ],
+      "temperature": "Bake the assembled pan to 165 F; chicken is already cooked and chilled.",
+      "steps": [
+        "Bake each assembled pan at 375 F until its center reaches 165 F.",
+        "Rest until the layers hold, then weigh each labeled tier section without its container.",
+        "Divide each tier section by its ordered container count. Do not mix tier sections."
+      ],
+      "plating": "Lean: divide the complete Lean section equally among Lean containers. Bulk: divide the complete Bulk section equally among Bulk containers.",
+      "hold": "Rapid-cool cooked food promptly; hold at 41 F or below.",
+      "sideCups": 0,
+      "sideBags": 0,
+      "validation": "Record finished yield, portion weights, package fit, and cold-hold quality. No automatic owner portions.",
+      "prepSteps": [
+        "Use the shared seasoned pull.",
+        "Drain the corn and use the diced onion from Produce. Check actual fill depth and leave at least 1.5 cm rim headspace; use another pan if needed."
+      ],
+      "prepBatches": [
+        {
+          "type": "marinade",
+          "name": "Enchilada chicken cook-ahead",
+          "instruction": "Use the shared seasoned pull.",
+          "ingredientKeys": [
+            "chicken_thigh_raw",
+            "garlic_powder",
+            "onion_powder",
+            "paprika",
+            "black_pepper",
+            "salt",
+            "sunflower_oil"
+          ],
+          "steps": [
+            "Keep thighs whole. Apply this allocation of the shared seasoning base.",
+            "Cook this split allocation at the cook-ahead station; keep other recipe pulls raw and refrigerated."
+          ],
+          "stage": "proteins",
+          "proteinForm": "Whole thighs; shred after cooking",
+          "releaseTiming": "prep-day",
+          "finishTiming": "prep-day",
+          "cookAhead": {
+            "lane": "stovetop",
+            "steps": [
+              "Cook the seasoned whole thighs in uncrowded batches to 165 F. Record cooked yield, rest, and shred.",
+              "Spread in a shallow pan and rapid-cool to 41 F or below before assembling the labeled Enchilada pans or separated tier sections."
+            ]
+          },
+          "seasoningFamily": "neutral-thigh-prep",
+          "seasoningFamilyName": "Shared savory thigh base",
+          "seasoningBaseForm": "Whole boneless skinless thighs",
+          "splitAfterSeasoning": true,
+          "poolStorage": false,
+          "seasoningFinishNote": "Cook this allocation at the cook-ahead station, then shred."
+        },
+        {
+          "type": "mise-en-place",
+          "name": "Enchilada pan assembly",
+          "instruction": "Drain the corn and use the diced onion from Produce. Check actual fill depth and leave at least 1.5 cm rim headspace; use another pan if needed.",
+          "ingredientKeys": [
+            "small_tortilla",
+            "large_tortilla",
+            "corn",
+            "enchilada_sauce",
+            "mozzarella",
+            "red_onion"
+          ],
+          "steps": [
+            "Drain the corn and use the diced onion from Produce. Check actual fill depth and leave at least 1.5 cm rim headspace; use another pan if needed.",
+            "Keep Lean and Bulk ingredient allocations in physically separated, labeled sections or pans. Their tortilla, chicken, sauce, and cheese ratios differ; a different slice weight alone cannot reproduce both recipes.",
+            "Within each tier, mix chilled shredded chicken, corn, onion, and sauce. Build two even tortilla layers, distribute the tier cheese, cover and refrigerate."
+          ],
+          "stage": "ahead"
+        }
+      ],
+      "stepIngredients": {},
+      "groceryOverrides": {},
+      "sideCup": null,
+      "proteinCook": {
+        "name": "Chicken Enchilada Bake",
+        "group": "chicken",
+        "endpoint": "165 F",
+        "recipeKeys": [
+          "chicken_thigh_raw"
+        ],
+        "sequence": 10,
+        "recipeSteps": [
+          "Verify the cooked protein is fully chilled before assembly."
+        ],
+        "instructions": [
+          "Verify the cooked protein is fully chilled before assembly."
+        ],
+        "prepDayComplete": true,
+        "lane": "oven",
+        "ovenTemperatureF": 375
+      },
+      "piecePlan": null,
+      "riceBatchGroup": "common",
+      "assemblyGuide": {
+        "lean": [
+          "Lean: divide the complete Lean section equally among Lean containers.",
+          "Close, apply the exact Lean label, and move to cold holding."
+        ],
+        "bulk": [
+          "Bulk: divide the complete Bulk section equally among Bulk containers.",
+          "Close, apply the exact Bulk label, and move to cold holding."
+        ]
+      },
+      "componentMap": [
+        {
+          "role": "complete",
+          "label": "Chicken Enchilada Bake measured recipe",
+          "ingredientKeys": [
+            "chicken_thigh_raw",
+            "garlic_powder",
+            "onion_powder",
+            "paprika",
+            "black_pepper",
+            "salt",
+            "sunflower_oil",
+            "small_tortilla",
+            "large_tortilla",
+            "corn",
+            "enchilada_sauce",
+            "mozzarella",
+            "red_onion"
+          ],
+          "handling": "Use the exact tier weights and the component instructions on the measured prep cards."
+        }
+      ],
+      "cookDayEquipment": {
+        "lane": "oven",
+        "temperatureF": 375,
+        "estimatedMinutes": 35,
+        "sequence": 10
+      },
+      "panBatch": {
+        "name": "Deep casserole pan; verify fit",
+        "portionBasis": {
+          "lean": 448,
+          "bulk": 646
+        },
+        "separateTiers": true
+      },
+      "recipeName": "Chicken Enchilada Bake",
+      "source": "Current controlled Batch 10 recipe; historical returns are not a substitute for live ingredient weights.",
+      "produceCuts": {
+        "onion": "Dice",
+        "red_onion": "Dice",
+        "garlic": "Mince",
+        "ginger": "Grate or mince",
+        "green_bell_pepper": "Dice",
+        "jalapeno": "Finely mince",
+        "green_onion": "Thinly slice",
+        "zucchini": "Even bite-size pieces",
+        "lettuce": "Shred and dry",
+        "cucumber": "Dice",
+        "tomato": "Dice",
+        "parsley": "Finely chop",
+        "cilantro": "Chop for garnish",
+        "strawberry": "Wash; slice when used",
+        "banana": "Keep whole until serving",
+        "lemon": "Juice; weigh the juice",
+        "lime": "Juice; weigh the juice",
+        "black_beans": "Drain and rinse",
+        "cannellini_beans": "Drain and rinse",
+        "canned_peas_carrots": "Drain",
+        "corn": "Drain if canned; keep frozen if frozen",
+        "pickles": "Drain; slice for serving"
+      }
+    },
+    "m5": {
+      "phase": 5,
+      "order": 90,
+      "equipment": [
+        "digital scale",
+        "labeled pans"
+      ],
+      "temperature": "Cook ground-beef kebabs to 160 F.",
+      "steps": [
+        "Bake the formed kebabs at 400 F to 160 F, drain fat, and record cooked yield.",
+        "Warm the exact tier flatbread and spread its measured white garlic sauce.",
+        "Add the measured beef, lettuce, salad onion, pickles, and cilantro; roll or fold securely."
+      ],
+      "plating": "Lean: all Lean beef in 1 flatbread with its measured sauce and salad. Bulk: all Bulk beef across 1.5 flatbreads with its measured sauce and salad.",
+      "hold": "Rapid-cool cooked food promptly; hold at 41 F or below.",
+      "sideCups": 0,
+      "sideBags": 0,
+      "validation": "Record finished yield, portion weights, package fit, and cold-hold quality. No automatic owner portions.",
+      "prepSteps": [
+        "Mix beef with all the measured Shan Seekh Kabab powder, 50 g per kg raw beef. No extra salt, homemade spices, oil, suet or butter.",
+        "Blend the measured yogurt, light mayonnaise, garlic and lemon until smooth.",
+        "Wash and dry lettuce, slice the salad onion, and drain pickles."
+      ],
+      "prepBatches": [
+        {
+          "type": "marinade",
+          "name": "Shan Seekh beef mixture",
+          "instruction": "Mix beef with all the measured Shan Seekh Kabab powder, 50 g per kg raw beef. No extra salt, homemade spices, oil, suet or butter.",
+          "ingredientKeys": [
+            "beef_90_raw",
+            "shan_seekh"
+          ],
+          "steps": [
+            "Mix beef with all the measured Shan Seekh Kabab powder, 50 g per kg raw beef. No extra salt, homemade spices, oil, suet or butter.",
+            "Form short kebabs. Cover and refrigerate 2-3 hours or overnight for the prep schedule. Keep separate from any different beef specification.",
+            "Cover, label, date, and refrigerate at 40 F or below; keep any plain reserve separate."
+          ],
+          "stage": "proteins",
+          "proteinForm": "Ground beef; form short kebabs"
+        },
+        {
+          "type": "sauce",
+          "name": "White garlic sauce",
+          "instruction": "Blend the measured yogurt, light mayonnaise, garlic and lemon until smooth.",
+          "ingredientKeys": [
+            "fage",
+            "light_mayo",
+            "garlic",
+            "lemon"
+          ],
+          "steps": [
+            "Blend the measured yogurt, light mayonnaise, garlic and lemon until smooth.",
+            "Spread 30 g inside the bread for each meal; no extra cup. Keep at 41 F or below."
+          ],
+          "componentRef": "white-garlic",
+          "sharedSauceFamily": "house-garlic",
+          "sauceVariant": "white",
+          "sauceUse": "Spread 30 g inside the bread for each meal; no extra cup"
+        },
+        {
+          "type": "cold-kit",
+          "name": "Seekh bread, salad and garnish",
+          "instruction": "Wash and dry lettuce, slice the salad onion, and drain pickles.",
+          "ingredientKeys": [
+            "shawarma_bread",
+            "lettuce",
+            "onion",
+            "pickles",
+            "cilantro"
+          ],
+          "steps": [
+            "Wash and dry lettuce, slice the salad onion, and drain pickles.",
+            "Count the exact flatbread allocation and keep it dry."
+          ]
+        }
+      ],
+      "stepIngredients": {},
+      "groceryOverrides": {},
+      "sideCup": null,
+      "proteinCook": {
+        "name": "Beef Seekh Kabab Shawarma",
+        "group": "beef",
+        "endpoint": "160 F",
+        "recipeKeys": [
+          "beef_90_raw"
+        ],
+        "sequence": 20,
+        "recipeSteps": [
+          "Bake the formed kebabs at 400 F to 160 F, drain fat, and record cooked yield.",
+          "Warm the exact tier flatbread and spread its measured white garlic sauce.",
+          "Add the measured beef, lettuce, salad onion, pickles, and cilantro; roll or fold securely."
+        ],
+        "instructions": [
+          "Bake the formed kebabs at 400 F to 160 F, drain fat, and record cooked yield.",
+          "Warm the exact tier flatbread and spread its measured white garlic sauce.",
+          "Add the measured beef, lettuce, salad onion, pickles, and cilantro; roll or fold securely."
+        ],
+        "prepDayComplete": false,
+        "lane": "oven",
+        "ovenTemperatureF": 400
+      },
+      "piecePlan": null,
+      "riceBatchGroup": "common",
+      "assemblyGuide": {
+        "lean": [
+          "Lean: all Lean beef in 1 flatbread with its measured sauce and salad.",
+          "Close, apply the exact Lean label, and move to cold holding."
+        ],
+        "bulk": [
+          "Bulk: all Bulk beef across 1.5 flatbreads with its measured sauce and salad.",
+          "Close, apply the exact Bulk label, and move to cold holding."
+        ]
+      },
+      "componentMap": [
+        {
+          "role": "complete",
+          "label": "Beef Seekh Kabab Shawarma measured recipe",
+          "ingredientKeys": [
+            "beef_90_raw",
+            "shan_seekh",
+            "fage",
+            "light_mayo",
+            "garlic",
+            "lemon",
+            "shawarma_bread",
+            "lettuce",
+            "onion",
+            "pickles",
+            "cilantro"
+          ],
+          "handling": "Use the exact tier weights and the component instructions on the measured prep cards."
+        }
+      ],
+      "cookDayEquipment": {
+        "lane": "oven",
+        "temperatureF": 400,
+        "estimatedMinutes": 25,
+        "sequence": 20
+      },
+      "panBatch": null,
+      "recipeName": "Beef Seekh Kabab Shawarma",
+      "source": "Current controlled Batch 10 recipe; historical returns are not a substitute for live ingredient weights.",
+      "produceCuts": {
+        "onion": "Thinly slice for salad",
+        "red_onion": "Dice",
+        "garlic": "Mince",
+        "ginger": "Grate or mince",
+        "green_bell_pepper": "Dice",
+        "jalapeno": "Finely mince",
+        "green_onion": "Thinly slice",
+        "zucchini": "Even bite-size pieces",
+        "lettuce": "Shred and dry",
+        "cucumber": "Dice",
+        "tomato": "Dice",
+        "parsley": "Finely chop",
+        "cilantro": "Chop for garnish",
+        "strawberry": "Wash; slice when used",
+        "banana": "Keep whole until serving",
+        "lemon": "Juice; weigh the juice",
+        "lime": "Juice; weigh the juice",
+        "black_beans": "Drain and rinse",
+        "cannellini_beans": "Drain and rinse",
+        "canned_peas_carrots": "Drain",
+        "corn": "Drain if canned; keep frozen if frozen",
+        "pickles": "Drain; slice for serving"
+      }
+    },
+    "m6": {
+      "phase": 5,
+      "order": 100,
+      "equipment": [
+        "digital scale",
+        "labeled pans"
+      ],
+      "temperature": "Cook chicken to 165 F; rapid-cool and hold at 41 F or below.",
+      "steps": [
+        "Sear the seasoned thigh cubes in a wide nonstick pan in uncrowded batches; no unrecorded oil. Cook chicken to 165 F.",
+        "Add the prepared tomato-onion sauce base, measured water, and dry protein spaghetti. As strands soften, submerge and separate them; cover and simmer, stirring often.",
+        "Cook until spaghetti is tender. Add water only in measured increments if needed; do not use broth or assume a penne cook time.",
+        "Stir in the measured regular cream cheese until smooth, finish with green onion, and record the complete pan yield before portioning."
+      ],
+      "plating": "Lean: divide the measured Lean chicken, protein spaghetti, and creamy tomato sauce by the actual finished yield. Bulk: divide the measured Bulk chicken, protein spaghetti, and creamy tomato sauce by the actual finished yield.",
+      "hold": "Rapid-cool cooked food promptly; hold at 41 F or below.",
+      "sideCups": 0,
+      "sideBags": 0,
+      "validation": "Read all quantities from the current controlled recipe. Record added water and actual final pan weight; cooking water is not a guaranteed net weight.",
+      "prepSteps": [
+        "Use the shared seasoned pull. Cut this allocation into 1.5-2 cm cubes.",
+        "Soften the diced onion in the measured olive oil and butter. Add the crushed tomatoes and simmer until the raw tomato taste is gone and the sauce lightly thickens.",
+        "Weigh the dry protein spaghetti and measured water; keep them separate. Keep cream cheese and sliced green onion cold."
+      ],
+      "prepBatches": [
+        {
+          "type": "marinade",
+          "name": "Cajun chicken finish",
+          "instruction": "Use the shared seasoned pull. Cut this allocation into 1.5-2 cm cubes.",
+          "ingredientKeys": [
+            "chicken_thigh_raw",
+            "garlic_powder",
+            "onion_powder",
+            "paprika",
+            "black_pepper",
+            "salt",
+            "smoked_paprika",
+            "oregano",
+            "thyme",
+            "cayenne"
+          ],
+          "steps": [
+            "Use the shared seasoned pull. Cut this allocation into 1.5-2 cm cubes.",
+            "Add only the displayed smoked paprika, oregano, thyme, and cayenne finish.",
+            "Cover, label, date, and refrigerate at 40 F or below; keep any plain reserve separate."
+          ],
+          "stage": "proteins",
+          "proteinForm": "1.5-2 cm thigh cubes",
+          "seasoningFamily": "neutral-thigh-prep",
+          "seasoningFamilyName": "Shared savory thigh base",
+          "seasoningBaseForm": "Whole boneless skinless thighs",
+          "splitAfterSeasoning": true,
+          "poolStorage": false,
+          "seasoningFinishNote": "Cut into 1.5-2 cm cubes, then add the displayed Cajun finish."
+        },
+        {
+          "type": "cook-ahead",
+          "name": "Cajun tomato-onion sauce base",
+          "instruction": "Soften the diced onion in the measured olive oil and butter. Add the crushed tomatoes and simmer until the raw tomato taste is gone and the sauce lightly thickens.",
+          "ingredientKeys": [
+            "crushed_tomatoes",
+            "onion",
+            "olive_oil",
+            "butter"
+          ],
+          "steps": [
+            "Soften the diced onion in the measured olive oil and butter. Add the crushed tomatoes and simmer until the raw tomato taste is gone and the sauce lightly thickens.",
+            "Record finished weight, rapid-cool in a shallow pan, cover, label, date, and refrigerate. Do not add cream cheese yet."
+          ],
+          "stage": "ahead",
+          "prepWave": "sauce-bases",
+          "prepWaveName": "Cooked tomato sauce bases"
+        },
+        {
+          "type": "mise-en-place",
+          "name": "Creamy Cajun pasta setup",
+          "instruction": "Weigh the dry protein spaghetti and measured water; keep them separate. Keep cream cheese and sliced green onion cold.",
+          "ingredientKeys": [
+            "protein_pasta",
+            "water",
+            "regular_cream_cheese",
+            "green_onion"
+          ],
+          "steps": [
+            "Weigh the dry protein spaghetti and measured water; keep them separate. Keep cream cheese and sliced green onion cold.",
+            "Do not cook the spaghetti today. It cooks once in the sauce tomorrow so it does not soften twice or break during reheating."
+          ],
+          "stage": "ahead"
+        }
+      ],
+      "stepIngredients": [
+        [
+          "chicken_thigh_raw"
+        ],
+        [
+          "crushed_tomatoes",
+          "onion",
+          "olive_oil",
+          "butter",
+          "water",
+          "protein_pasta"
+        ],
+        [],
+        [
+          "regular_cream_cheese",
+          "green_onion"
+        ]
+      ],
+      "groceryOverrides": {},
+      "sideCup": null,
+      "proteinCook": {
+        "name": "Creamy Cajun Chicken Pasta",
+        "group": "chicken",
+        "endpoint": "165 F",
+        "recipeKeys": [
+          "chicken_thigh_raw"
+        ],
+        "sequence": 40,
+        "recipeSteps": [
+          "Sear the seasoned thigh cubes in a wide nonstick pan in uncrowded batches; no unrecorded oil. Cook chicken to 165 F.",
+          "Add the prepared tomato-onion sauce base, measured water, and dry protein spaghetti. As strands soften, submerge and separate them; cover and simmer, stirring often.",
+          "Cook until spaghetti is tender. Add water only in measured increments if needed; do not use broth or assume a penne cook time.",
+          "Stir in the measured regular cream cheese until smooth, finish with green onion, and record the complete pan yield before portioning."
+        ],
+        "instructions": [
+          "Sear the seasoned thigh cubes in a wide nonstick pan in uncrowded batches; no unrecorded oil. Cook chicken to 165 F.",
+          "Add the prepared tomato-onion sauce base, measured water, and dry protein spaghetti. As strands soften, submerge and separate them; cover and simmer, stirring often.",
+          "Cook until spaghetti is tender. Add water only in measured increments if needed; do not use broth or assume a penne cook time.",
+          "Stir in the measured regular cream cheese until smooth, finish with green onion, and record the complete pan yield before portioning."
+        ],
+        "prepDayComplete": false,
+        "lane": "stovetop",
+        "ovenTemperatureF": 0
+      },
+      "piecePlan": null,
+      "riceBatchGroup": "common",
+      "assemblyGuide": {
+        "lean": [
+          "Lean: divide the measured Lean chicken, protein spaghetti, and creamy tomato sauce by the actual finished yield.",
+          "Close, apply the exact Lean label, and move to cold holding."
+        ],
+        "bulk": [
+          "Bulk: divide the measured Bulk chicken, protein spaghetti, and creamy tomato sauce by the actual finished yield.",
+          "Close, apply the exact Bulk label, and move to cold holding."
+        ]
+      },
+      "componentMap": [
+        {
+          "role": "complete",
+          "label": "Creamy Cajun Chicken Pasta measured recipe",
+          "ingredientKeys": [
+            "chicken_thigh_raw",
+            "garlic_powder",
+            "onion_powder",
+            "paprika",
+            "black_pepper",
+            "salt",
+            "smoked_paprika",
+            "oregano",
+            "thyme",
+            "cayenne",
+            "crushed_tomatoes",
+            "onion",
+            "olive_oil",
+            "butter",
+            "protein_pasta",
+            "water",
+            "regular_cream_cheese",
+            "green_onion"
+          ],
+          "handling": "Use the exact tier weights and the component instructions on the measured prep cards."
+        }
+      ],
+      "cookDayEquipment": {
+        "lane": "stovetop",
+        "temperatureF": 0,
+        "estimatedMinutes": 25,
+        "sequence": 40
+      },
+      "panBatch": null,
+      "recipeName": "Creamy Cajun Chicken Pasta",
+      "source": "Budget Bytes One Pot Creamy Cajun Chicken Pasta, explicitly adapted to PRPD cubed thighs, protein spaghetti, and water instead of broth.",
+      "produceCuts": {
+        "onion": "Dice",
+        "red_onion": "Dice",
+        "garlic": "Mince",
+        "ginger": "Grate or mince",
+        "green_bell_pepper": "Dice",
+        "jalapeno": "Finely mince",
+        "green_onion": "Thinly slice",
+        "zucchini": "Even bite-size pieces",
+        "lettuce": "Shred and dry",
+        "cucumber": "Dice",
+        "tomato": "Dice",
+        "parsley": "Finely chop",
+        "cilantro": "Chop for garnish",
+        "strawberry": "Wash; slice when used",
+        "banana": "Keep whole until serving",
+        "lemon": "Juice; weigh the juice",
+        "lime": "Juice; weigh the juice",
+        "black_beans": "Drain and rinse",
+        "cannellini_beans": "Drain and rinse",
+        "canned_peas_carrots": "Drain",
+        "corn": "Drain if canned; keep frozen if frozen",
+        "pickles": "Drain; slice for serving"
+      }
+    },
+    "m7": {
+      "phase": 5,
+      "order": 110,
+      "equipment": [
+        "digital scale",
+        "labeled pans"
+      ],
+      "temperature": "Cook chicken to 165 F; rapid-cool and hold at 41 F or below.",
+      "steps": [
+        "Cook the measured rice with peas and carrots in the vegetable-rice wave; record finished yield.",
+        "Roast thighs at 400 F to 165 F and record cooked yield. Heat the measured garlic-sweet-chili glaze and coat the cooked chicken.",
+        "Plate the exact tier chicken and vegetable rice, then finish with cilantro."
+      ],
+      "plating": "Lean: measured Lean thigh chicken, sweet-chili glaze, and vegetable rice. Bulk: measured Bulk thigh chicken, sweet-chili glaze, and vegetable rice.",
+      "hold": "Rapid-cool cooked food promptly; hold at 41 F or below.",
+      "sideCups": 0,
+      "sideBags": 0,
+      "validation": "Record finished yield, portion weights, package fit, and cold-hold quality. No automatic owner portions.",
+      "prepSteps": [
+        "Use the shared seasoned pull. Keep the sweet-chili glaze separate until chicken is cooked.",
+        "Weigh this exact dry grain allocation and label its destination.",
+        "Mince garlic and whisk it with sweet-chili sauce and soy sauce. Cover and refrigerate without raw chicken contact.",
+        "Wash, dry, and reserve cilantro."
+      ],
+      "prepBatches": [
+        {
+          "type": "marinade",
+          "name": "Sweet Chili chicken",
+          "instruction": "Use the shared seasoned pull. Keep the sweet-chili glaze separate until chicken is cooked.",
+          "ingredientKeys": [
+            "chicken_thigh_raw",
+            "garlic_powder",
+            "onion_powder",
+            "paprika",
+            "black_pepper",
+            "salt",
+            "sunflower_oil"
+          ],
+          "steps": [
+            "Use the shared seasoned pull. Keep the sweet-chili glaze separate until chicken is cooked.",
+            "Cover, label, date, and refrigerate at 40 F or below; keep any plain reserve separate."
+          ],
+          "stage": "proteins",
+          "proteinForm": "Whole thighs; cut after cooking",
+          "seasoningFamily": "neutral-thigh-prep",
+          "seasoningFamilyName": "Shared savory thigh base",
+          "seasoningBaseForm": "Whole boneless skinless thighs",
+          "splitAfterSeasoning": true,
+          "poolStorage": false,
+          "seasoningFinishNote": "Cook whole; add the sweet-chili glaze after cooking."
+        },
+        {
+          "type": "grain",
+          "name": "Sweet Chili vegetable rice",
+          "instruction": "Weigh this exact dry grain allocation and label its destination.",
+          "ingredientKeys": [
+            "rice_dry",
+            "mixed_vegetables"
+          ],
+          "steps": [
+            "Weigh this exact dry grain allocation and label its destination.",
+            "Keep dry until the coordinated Cook Day grain wave; record the finished yield before dividing."
+          ],
+          "prepWave": "vegetable-rice",
+          "prepWaveName": "Sweet Chili vegetable rice"
+        },
+        {
+          "type": "sauce",
+          "name": "Sweet Chili finishing glaze",
+          "instruction": "Mince garlic and whisk it with sweet-chili sauce and soy sauce. Cover and refrigerate without raw chicken contact.",
+          "ingredientKeys": [
+            "sweet_chili",
+            "soy_sauce",
+            "garlic"
+          ],
+          "steps": [
+            "Mince garlic and whisk it with sweet-chili sauce and soy sauce. Cover and refrigerate without raw chicken contact."
+          ]
+        },
+        {
+          "type": "cold-kit",
+          "name": "Sweet Chili garnish",
+          "instruction": "Wash, dry, and reserve cilantro.",
+          "ingredientKeys": [
+            "cilantro"
+          ],
+          "steps": [
+            "Wash, dry, and reserve cilantro."
+          ]
+        }
+      ],
+      "stepIngredients": {},
+      "groceryOverrides": {},
+      "sideCup": null,
+      "proteinCook": {
+        "name": "Sweet Chili Chicken with Vegetable Rice",
+        "group": "chicken",
+        "endpoint": "165 F",
+        "recipeKeys": [
+          "chicken_thigh_raw"
+        ],
+        "sequence": 30,
+        "recipeSteps": [
+          "Cook the measured rice with peas and carrots in the vegetable-rice wave; record finished yield.",
+          "Roast thighs at 400 F to 165 F and record cooked yield. Heat the measured garlic-sweet-chili glaze and coat the cooked chicken.",
+          "Plate the exact tier chicken and vegetable rice, then finish with cilantro."
+        ],
+        "instructions": [
+          "Cook the measured rice with peas and carrots in the vegetable-rice wave; record finished yield.",
+          "Roast thighs at 400 F to 165 F and record cooked yield. Heat the measured garlic-sweet-chili glaze and coat the cooked chicken.",
+          "Plate the exact tier chicken and vegetable rice, then finish with cilantro."
+        ],
+        "prepDayComplete": false,
+        "lane": "oven",
+        "ovenTemperatureF": 400
+      },
+      "piecePlan": null,
+      "riceBatchGroup": "vegetable-rice",
+      "assemblyGuide": {
+        "lean": [
+          "Lean: measured Lean thigh chicken, sweet-chili glaze, and vegetable rice.",
+          "Close, apply the exact Lean label, and move to cold holding."
+        ],
+        "bulk": [
+          "Bulk: measured Bulk thigh chicken, sweet-chili glaze, and vegetable rice.",
+          "Close, apply the exact Bulk label, and move to cold holding."
+        ]
+      },
+      "componentMap": [
+        {
+          "role": "complete",
+          "label": "Sweet Chili Chicken with Vegetable Rice measured recipe",
+          "ingredientKeys": [
+            "chicken_thigh_raw",
+            "garlic_powder",
+            "onion_powder",
+            "paprika",
+            "black_pepper",
+            "salt",
+            "sunflower_oil",
+            "rice_dry",
+            "mixed_vegetables",
+            "sweet_chili",
+            "soy_sauce",
+            "garlic",
+            "cilantro"
+          ],
+          "handling": "Use the exact tier weights and the component instructions on the measured prep cards."
+        }
+      ],
+      "cookDayEquipment": {
+        "lane": "oven",
+        "temperatureF": 400,
+        "estimatedMinutes": 25,
+        "sequence": 30
+      },
+      "panBatch": null,
+      "recipeName": "Sweet Chili Chicken with Vegetable Rice",
+      "source": "Current controlled Batch 10 recipe; historical returns are not a substitute for live ingredient weights.",
+      "produceCuts": {
+        "onion": "Dice",
+        "red_onion": "Dice",
+        "garlic": "Mince",
+        "ginger": "Grate or mince",
+        "green_bell_pepper": "Dice",
+        "jalapeno": "Finely mince",
+        "green_onion": "Thinly slice",
+        "zucchini": "Even bite-size pieces",
+        "lettuce": "Shred and dry",
+        "cucumber": "Dice",
+        "tomato": "Dice",
+        "parsley": "Finely chop",
+        "cilantro": "Chop for garnish",
+        "strawberry": "Wash; slice when used",
+        "banana": "Keep whole until serving",
+        "lemon": "Juice; weigh the juice",
+        "lime": "Juice; weigh the juice",
+        "black_beans": "Drain and rinse",
+        "cannellini_beans": "Drain and rinse",
+        "canned_peas_carrots": "Drain",
+        "corn": "Drain if canned; keep frozen if frozen",
+        "pickles": "Drain; slice for serving"
+      }
+    },
+    "m8": {
+      "phase": 5,
+      "order": 120,
+      "equipment": [
+        "digital scale",
+        "labeled pans"
+      ],
+      "temperature": "Cook shrimp to 145 F; run seafood last.",
+      "steps": [
+        "Reheat the prepared vegetable rice and zucchini gently; do not recook them.",
+        "Melt butter, soften garlic briefly, add shrimp and salt, and cook to 145 F; shrimp should be opaque.",
+        "Mix cornstarch with a small recorded amount of cold cooking water, stir into the pan with lemon, and heat until the sauce thickens.",
+        "Record shrimp yield; plate with the prepared rice and zucchini, finish with cilantro, then rapid-cool."
+      ],
+      "plating": "Lean: measured Lean shrimp, garlic-butter sauce, vegetable rice, zucchini, and cilantro. Bulk: measured Bulk shrimp, garlic-butter sauce, vegetable rice, zucchini, and cilantro.",
+      "hold": "Rapid-cool cooked food promptly; hold at 41 F or below.",
+      "sideCups": 0,
+      "sideBags": 0,
+      "validation": "Record finished yield, portion weights, package fit, and cold-hold quality. No automatic owner portions.",
+      "prepSteps": [
+        "Thaw shrimp under refrigeration; peel, devein, drain, and weigh the exact raw allocation.",
+        "Drain the peas and carrots. Cook them with the complete displayed dry-rice allocation today.",
+        "Cut zucchini into even bite-size pieces. Roast on a lined pan without unrecorded oil until just tender; do not overcook.",
+        "Mince the garlic. Measure butter, lemon, cornstarch, and salt separately.",
+        "Use the chopped cilantro from Produce tomorrow for the final garnish."
+      ],
+      "prepBatches": [
+        {
+          "type": "protein-portion",
+          "name": "Shrimp thaw and portion",
+          "instruction": "Thaw shrimp under refrigeration; peel, devein, drain, and weigh the exact raw allocation.",
+          "ingredientKeys": [
+            "shrimp_raw"
+          ],
+          "steps": [
+            "Thaw shrimp under refrigeration; peel, devein, drain, and weigh the exact raw allocation.",
+            "Keep shrimp cold and separate; do not cook until the final seafood wave."
+          ]
+        },
+        {
+          "type": "starch-ahead",
+          "name": "Shrimp vegetable rice",
+          "instruction": "Drain the peas and carrots. Cook them with the complete displayed dry-rice allocation today.",
+          "ingredientKeys": [
+            "rice_dry",
+            "canned_peas_carrots"
+          ],
+          "steps": [
+            "Drain the peas and carrots. Cook them with the complete displayed dry-rice allocation today.",
+            "Record dry and cooked weights, spread in a shallow pan, rapid-cool, cover, label, date, and refrigerate at 41 F or below."
+          ],
+          "prepWave": "vegetable-rice",
+          "prepWaveName": "Shrimp vegetable rice"
+        },
+        {
+          "type": "vegetable-ahead",
+          "name": "Shrimp zucchini",
+          "instruction": "Cut zucchini into even bite-size pieces. Roast on a lined pan without unrecorded oil until just tender; do not overcook.",
+          "ingredientKeys": [
+            "zucchini"
+          ],
+          "steps": [
+            "Cut zucchini into even bite-size pieces. Roast on a lined pan without unrecorded oil until just tender; do not overcook.",
+            "Record finished weight, rapid-cool separately from the rice, cover, label, date, and refrigerate."
+          ],
+          "stage": "ahead",
+          "prepWave": "vegetables",
+          "prepWaveName": "Cook-ahead vegetables"
+        },
+        {
+          "type": "sauce",
+          "name": "Garlic-butter shrimp sauce setup",
+          "instruction": "Mince the garlic. Measure butter, lemon, cornstarch, and salt separately.",
+          "ingredientKeys": [
+            "butter",
+            "garlic",
+            "lemon",
+            "cornstarch",
+            "salt"
+          ],
+          "steps": [
+            "Mince the garlic. Measure butter, lemon, cornstarch, and salt separately.",
+            "Keep the cornstarch dry and lemon separate until tomorrow; cover and refrigerate the measured sauce ingredients."
+          ]
+        },
+        {
+          "type": "cold-kit",
+          "name": "Shrimp cilantro garnish",
+          "instruction": "Use the chopped cilantro from Produce tomorrow for the final garnish.",
+          "ingredientKeys": [
+            "cilantro"
+          ],
+          "steps": [
+            "Use the chopped cilantro from Produce tomorrow for the final garnish."
+          ]
+        }
+      ],
+      "stepIngredients": [
+        [
+          "rice_dry",
+          "canned_peas_carrots",
+          "zucchini"
+        ],
+        [
+          "butter",
+          "garlic",
+          "shrimp_raw",
+          "salt"
+        ],
+        [
+          "cornstarch",
+          "lemon"
+        ],
+        [
+          "cilantro"
+        ]
+      ],
+      "groceryOverrides": {},
+      "sideCup": null,
+      "proteinCook": {
+        "name": "Garlic Butter Shrimp + Rice",
+        "group": "seafood",
+        "endpoint": "145 F",
+        "recipeKeys": [
+          "shrimp_raw"
+        ],
+        "sequence": 90,
+        "recipeSteps": [
+          "Reheat the prepared vegetable rice and zucchini gently; do not recook them.",
+          "Melt butter, soften garlic briefly, add shrimp and salt, and cook to 145 F; shrimp should be opaque.",
+          "Mix cornstarch with a small recorded amount of cold cooking water, stir into the pan with lemon, and heat until the sauce thickens.",
+          "Record shrimp yield; plate with the prepared rice and zucchini, finish with cilantro, then rapid-cool."
+        ],
+        "instructions": [
+          "Reheat the prepared vegetable rice and zucchini gently; do not recook them.",
+          "Melt butter, soften garlic briefly, add shrimp and salt, and cook to 145 F; shrimp should be opaque.",
+          "Mix cornstarch with a small recorded amount of cold cooking water, stir into the pan with lemon, and heat until the sauce thickens.",
+          "Record shrimp yield; plate with the prepared rice and zucchini, finish with cilantro, then rapid-cool."
+        ],
+        "prepDayComplete": false,
+        "lane": "stovetop",
+        "ovenTemperatureF": 0
+      },
+      "piecePlan": null,
+      "riceBatchGroup": "vegetable-rice",
+      "assemblyGuide": {
+        "lean": [
+          "Lean: measured Lean shrimp, garlic-butter sauce, vegetable rice, zucchini, and cilantro.",
+          "Close, apply the exact Lean label, and move to cold holding."
+        ],
+        "bulk": [
+          "Bulk: measured Bulk shrimp, garlic-butter sauce, vegetable rice, zucchini, and cilantro.",
+          "Close, apply the exact Bulk label, and move to cold holding."
+        ]
+      },
+      "componentMap": [
+        {
+          "role": "complete",
+          "label": "Garlic Butter Shrimp + Rice measured recipe",
+          "ingredientKeys": [
+            "shrimp_raw",
+            "rice_dry",
+            "canned_peas_carrots",
+            "zucchini",
+            "butter",
+            "garlic",
+            "lemon",
+            "cornstarch",
+            "salt",
+            "cilantro"
+          ],
+          "handling": "Use the exact tier weights and the component instructions on the measured prep cards."
+        }
+      ],
+      "cookDayEquipment": {
+        "lane": "stovetop",
+        "temperatureF": 0,
+        "estimatedMinutes": 25,
+        "sequence": 90
+      },
+      "panBatch": null,
+      "recipeName": "Garlic Butter Shrimp + Rice",
+      "source": "Current controlled Batch 10 recipe; historical returns are not a substitute for live ingredient weights.",
+      "produceCuts": {
+        "onion": "Dice",
+        "red_onion": "Dice",
+        "garlic": "Mince",
+        "ginger": "Grate or mince",
+        "green_bell_pepper": "Dice",
+        "jalapeno": "Finely mince",
+        "green_onion": "Thinly slice",
+        "zucchini": "Even bite-size pieces",
+        "lettuce": "Shred and dry",
+        "cucumber": "Dice",
+        "tomato": "Dice",
+        "parsley": "Finely chop",
+        "cilantro": "Chop for garnish",
+        "strawberry": "Wash; slice when used",
+        "banana": "Keep whole until serving",
+        "lemon": "Juice; weigh the juice",
+        "lime": "Juice; weigh the juice",
+        "black_beans": "Drain and rinse",
+        "cannellini_beans": "Drain and rinse",
+        "canned_peas_carrots": "Drain",
+        "corn": "Drain if canned; keep frozen if frozen",
+        "pickles": "Drain; slice for serving"
+      }
+    },
+    "d1": {
+      "phase": 3,
+      "order": 130,
+      "equipment": [
+        "blender",
+        "baking pan",
+        "325 F oven"
+      ],
+      "temperature": "Release fully chilled cheesecake at 41 F or below; its egg-containing batter was baked to 160 F.",
+      "steps": [
+        "Verify the cheesecake is fully chilled.",
+        "Weigh the finished pan and divide it into equal customer portions.",
+        "Pack each portion cold and record the individual weights."
+      ],
+      "plating": "Pack one equal-weight chilled cheesecake portion.",
+      "hold": "Keep refrigerated at 41 F or below.",
+      "sideCups": 0,
+      "sideBags": 0,
+      "validation": "",
+      "prepSteps": [
+        "Cook strawberries and honey into a thick reduction, then cool it.",
+        "Blend the measured cheesecake batter until smooth and swirl in the cooled strawberry reduction.",
+        "Bake at 325 F, cool, and refrigerate intact until fully chilled."
+      ],
+      "prepBatches": [
+        {
+          "type": "measured-prep",
+          "name": "Baked Strawberry-Lemon Protein Cheesecake measured prep",
+          "instruction": "Complete every measured Prep Day component for Baked Strawberry-Lemon Protein Cheesecake measured prep.",
+          "ingredientKeys": [],
+          "steps": [
+            "Simmer strawberries and honey until thick, then cool the reduction.",
+            "Blend cream cheese, cottage cheese, yogurt, egg, whey, cornstarch, vanilla, lemon and salt until smooth. Pour into the prepared pan and swirl the strawberry reduction through it.",
+            "Bake at 325 F until the edges set and the center reaches 160 F. Cool using shallow portions or an approved rapid-cooling method, then cover and refrigerate until fully chilled."
+          ],
+          "includeAllRecipeIngredients": true,
+          "equipmentLane": "oven",
+          "ovenTemperatureF": 325,
+          "estimatedMinutes": 50,
+          "sequence": 10,
+          "background": true,
+          "stepIngredientKeys": [
+            [
+              "strawberry",
+              "honey"
+            ],
+            [
+              "reduced_cream_cheese",
+              "cottage",
+              "fage",
+              "egg",
+              "whey_vanilla",
+              "cornstarch",
+              "vanilla",
+              "lemon",
+              "salt"
+            ],
+            []
+          ]
+        }
+      ],
+      "stepIngredients": {},
+      "groceryOverrides": {},
+      "sideCup": null,
+      "proteinCook": null,
+      "piecePlan": null,
+      "riceBatchGroup": "common",
+      "assemblyGuide": {
+        "single": [
+          "Pack one equal-weight chilled cheesecake portion.",
+          "Close, apply the exact label, and refrigerate."
+        ]
+      },
+      "componentMap": [
+        {
+          "role": "complete",
+          "label": "Strawberry-lemon cheesecake",
+          "ingredientKeys": [
+            "reduced_cream_cheese",
+            "cottage",
+            "fage",
+            "egg",
+            "whey_vanilla",
+            "cornstarch",
+            "vanilla",
+            "lemon",
+            "salt",
+            "strawberry",
+            "honey"
+          ],
+          "handling": "Bake one controlled pan and portion only after fully chilled."
+        }
+      ],
+      "cookDayEquipment": {
+        "lane": "cold-release",
+        "estimatedMinutes": 10,
+        "sequence": 80
+      },
+      "panBatch": null,
+      "recipeName": "Baked Strawberry-Lemon Protein Cheesecake",
+      "produceCuts": {
+        "onion": "Dice",
+        "red_onion": "Dice",
+        "garlic": "Mince",
+        "ginger": "Grate or mince",
+        "green_bell_pepper": "Dice",
+        "jalapeno": "Finely mince",
+        "green_onion": "Thinly slice",
+        "zucchini": "Even bite-size pieces",
+        "lettuce": "Shred and dry",
+        "cucumber": "Dice",
+        "tomato": "Dice",
+        "parsley": "Finely chop",
+        "cilantro": "Chop for garnish",
+        "strawberry": "Wash; slice when used",
+        "banana": "Keep whole until serving",
+        "lemon": "Juice; weigh the juice",
+        "lime": "Juice; weigh the juice",
+        "black_beans": "Drain and rinse",
+        "cannellini_beans": "Drain and rinse",
+        "canned_peas_carrots": "Drain",
+        "corn": "Drain if canned; keep frozen if frozen",
+        "pickles": "Drain; slice for serving"
+      }
+    },
+    "d2": {
+      "phase": 3,
+      "order": 140,
+      "equipment": [
+        "digital scale",
+        "labeled pans"
+      ],
+      "temperature": "No final cook; keep cups at 41 F or below.",
+      "steps": [
+        "Verify the sealed portions are fully chilled and match the active count.",
+        "Check each portion weight and exact label.",
+        "Keep at 41 F or below through pack-out."
+      ],
+      "plating": "Pack one measured chilled Tiramisu cup.",
+      "hold": "Rapid-cool cooked food promptly; hold at 41 F or below.",
+      "sideCups": 0,
+      "sideBags": 0,
+      "validation": "The three-cup formula is a recipe ratio, not a required customer count. Coffee uptake and final cup weight must be measured.",
+      "prepSteps": [
+        "Blend cottage cheese smooth. Mix with mascarpone, yogurt, whey, vanilla, salt, and the measured cream sugar. Reserve 2 g powdered sugar per cup for the cocoa topping."
+      ],
+      "prepBatches": [
+        {
+          "type": "dessert",
+          "name": "Tiramisu cream, coffee and layers",
+          "instruction": "Blend cottage cheese smooth. Mix with mascarpone, yogurt, whey, vanilla, salt, and the measured cream sugar. Reserve 2 g powdered sugar per cup for the cocoa topping.",
+          "ingredientKeys": [
+            "mascarpone",
+            "fage",
+            "cottage",
+            "whey",
+            "powdered_sugar",
+            "vanilla",
+            "ladyfingers",
+            "granulated_sugar",
+            "cocoa",
+            "instant_coffee",
+            "water",
+            "salt"
+          ],
+          "steps": [
+            "Blend cottage cheese smooth. Mix with mascarpone, yogurt, whey, vanilla, salt, and the measured cream sugar. Reserve 2 g powdered sugar per cup for the cocoa topping.",
+            "Dissolve the displayed instant coffee in the measured water and cool. Divide the coffee solution in a 5:50 cream-to-dip ratio; fold the smaller portion into the cream and dissolve the granulated sugar in the dipping portion.",
+            "Briefly dip ladyfingers, layer with cream, and finish with cocoa and reserved powdered sugar. Record unused dipping coffee, filled cup weights, and count; seal and chill overnight."
+          ]
+        }
+      ],
+      "stepIngredients": {},
+      "groceryOverrides": {},
+      "sideCup": null,
+      "proteinCook": null,
+      "piecePlan": null,
+      "riceBatchGroup": "common",
+      "assemblyGuide": {
+        "single": [
+          "Pack one measured chilled Tiramisu cup.",
+          "Close, apply the exact label, and refrigerate."
+        ]
+      },
+      "componentMap": [
+        {
+          "role": "complete",
+          "label": "High Protein Tiramisu measured recipe",
+          "ingredientKeys": [
+            "mascarpone",
+            "fage",
+            "cottage",
+            "whey",
+            "powdered_sugar",
+            "vanilla",
+            "ladyfingers",
+            "granulated_sugar",
+            "cocoa",
+            "instant_coffee",
+            "water",
+            "salt"
+          ],
+          "handling": "Use the exact tier weights and the component instructions on the measured prep cards."
+        }
+      ],
+      "cookDayEquipment": {
+        "lane": "cold-release",
+        "temperatureF": 0,
+        "estimatedMinutes": 25,
+        "sequence": 80
+      },
+      "panBatch": null,
+      "recipeName": "High Protein Tiramisu",
+      "source": "Current PRPD TIRAMISU_TEST_PLAN.md three-cup formula, scaled to active portions.",
+      "produceCuts": {
+        "onion": "Dice",
+        "red_onion": "Dice",
+        "garlic": "Mince",
+        "ginger": "Grate or mince",
+        "green_bell_pepper": "Dice",
+        "jalapeno": "Finely mince",
+        "green_onion": "Thinly slice",
+        "zucchini": "Even bite-size pieces",
+        "lettuce": "Shred and dry",
+        "cucumber": "Dice",
+        "tomato": "Dice",
+        "parsley": "Finely chop",
+        "cilantro": "Chop for garnish",
+        "strawberry": "Wash; slice when used",
+        "banana": "Keep whole until serving",
+        "lemon": "Juice; weigh the juice",
+        "lime": "Juice; weigh the juice",
+        "black_beans": "Drain and rinse",
+        "cannellini_beans": "Drain and rinse",
+        "canned_peas_carrots": "Drain",
+        "corn": "Drain if canned; keep frozen if frozen",
+        "pickles": "Drain; slice for serving"
+      }
+    },
+    "d3": {
+      "phase": 3,
+      "order": 150,
+      "equipment": [
+        "digital scale",
+        "labeled pans"
+      ],
+      "temperature": "No cook; chill at least two hours and hold at 41 F or below.",
+      "steps": [
+        "Verify the sealed portions are fully chilled and match the active count.",
+        "Check each portion weight and exact label.",
+        "Keep at 41 F or below through pack-out."
+      ],
+      "plating": "Pack one measured Oreo Protein Cheesecake Cup with cocoa-maple drizzle and its quarter-cookie garnish.",
+      "hold": "Rapid-cool cooked food promptly; hold at 41 F or below.",
+      "sideCups": 0,
+      "sideBags": 0,
+      "validation": "Scale from the controlled per-cup ingredients. Two cups is the source ratio, not an automatic extra production requirement. Confirm the 4.2 oz Oreo pudding package.",
+      "prepSteps": [
+        "Blend cottage cheese completely smooth. Whisk in the measured whey and dry Oreo pudding mix, then stir in honey."
+      ],
+      "prepBatches": [
+        {
+          "type": "dessert",
+          "name": "Original Oreo cheesecake cups",
+          "instruction": "Blend cottage cheese completely smooth. Whisk in the measured whey and dry Oreo pudding mix, then stir in honey.",
+          "ingredientKeys": [
+            "cottage",
+            "whey",
+            "oreo_pudding_mix",
+            "honey",
+            "cocoa",
+            "maple_syrup",
+            "oreo_thin"
+          ],
+          "steps": [
+            "Blend cottage cheese completely smooth. Whisk in the measured whey and dry Oreo pudding mix, then stir in honey.",
+            "Divide the complete mixture by the active cup count. Mix cocoa and maple syrup, drizzle evenly, and add the measured Oreo Thin garnish.",
+            "The source formula makes two cups: split one physical whey scoop, one quarter pudding packet, and half an Oreo Thin across both cups. Seal and chill at least two hours; record finished weights."
+          ]
+        }
+      ],
+      "stepIngredients": {},
+      "groceryOverrides": {},
+      "sideCup": null,
+      "proteinCook": null,
+      "piecePlan": null,
+      "riceBatchGroup": "common",
+      "assemblyGuide": {
+        "single": [
+          "Pack one measured Oreo Protein Cheesecake Cup with cocoa-maple drizzle and its quarter-cookie garnish.",
+          "Close, apply the exact label, and refrigerate."
+        ]
+      },
+      "componentMap": [
+        {
+          "role": "complete",
+          "label": "Oreo Protein Cheesecake Cup measured recipe",
+          "ingredientKeys": [
+            "cottage",
+            "whey",
+            "oreo_pudding_mix",
+            "honey",
+            "cocoa",
+            "maple_syrup",
+            "oreo_thin"
+          ],
+          "handling": "Use the exact tier weights and the component instructions on the measured prep cards."
+        }
+      ],
+      "cookDayEquipment": {
+        "lane": "cold-release",
+        "temperatureF": 0,
+        "estimatedMinutes": 25,
+        "sequence": 80
+      },
+      "panBatch": null,
+      "recipeName": "Oreo Protein Cheesecake Cup",
+      "source": "PRPD_RECIPES_SOURCE_2026-07-13.pdf page 19, original two-cup formula.",
+      "produceCuts": {
+        "onion": "Dice",
+        "red_onion": "Dice",
+        "garlic": "Mince",
+        "ginger": "Grate or mince",
+        "green_bell_pepper": "Dice",
+        "jalapeno": "Finely mince",
+        "green_onion": "Thinly slice",
+        "zucchini": "Even bite-size pieces",
+        "lettuce": "Shred and dry",
+        "cucumber": "Dice",
+        "tomato": "Dice",
+        "parsley": "Finely chop",
+        "cilantro": "Chop for garnish",
+        "strawberry": "Wash; slice when used",
+        "banana": "Keep whole until serving",
+        "lemon": "Juice; weigh the juice",
+        "lime": "Juice; weigh the juice",
+        "black_beans": "Drain and rinse",
+        "cannellini_beans": "Drain and rinse",
+        "canned_peas_carrots": "Drain",
+        "corn": "Drain if canned; keep frozen if frozen",
+        "pickles": "Drain; slice for serving"
+      }
+    },
+    "a1": {
+      "phase": 4,
+      "order": 160,
+      "equipment": [
+        "digital scale",
+        "labeled pans"
+      ],
+      "temperature": "Pan-cook chicken to 165 F today; rapid-cool to 41 F or below before cold assembly.",
+      "steps": [
+        "Pan-cook the seasoned thighs in uncrowded batches to 165 F, turning for deep browning. Record yield, shred, then rapid-cool in a shallow pan to 41 F or below. Do not mix warm chicken into the filling.",
+        "Mix the chilled chicken into the prepared Buffalo filling base. Spread across two tortillas and add the dry lettuce.",
+        "Roll tightly, place seam-side down, and chill until firm. Cut each roll in half to make exactly 4 pinwheels total, then pack all 4 pieces in one chilled container."
+      ],
+      "plating": "Pack exactly 4 pinwheels made from the complete two-tortilla allocation.",
+      "hold": "Rapid-cool cooked food promptly; hold at 41 F or below.",
+      "sideCups": 0,
+      "sideBags": 0,
+      "validation": "Record finished yield, portion weights, package fit, and cold-hold quality. No automatic owner portions.",
+      "prepSteps": [
+        "Use the shared seasoned pull. Keep whole, covered, and refrigerated for Cook Day.",
+        "Mix the regular cream cheese, mozzarella, Buffalo sauce, and minced onion without the chicken.",
+        "Keep tortillas sealed and lettuce dry for tomorrow’s assembly."
+      ],
+      "prepBatches": [
+        {
+          "type": "marinade",
+          "name": "Pinwheel chicken",
+          "instruction": "Use the shared seasoned pull. Keep whole, covered, and refrigerated for Cook Day.",
+          "ingredientKeys": [
+            "chicken_thigh_raw",
+            "garlic_powder",
+            "onion_powder",
+            "paprika",
+            "black_pepper",
+            "salt",
+            "sunflower_oil"
+          ],
+          "steps": [
+            "Use the shared seasoned pull. Keep whole, covered, and refrigerated for Cook Day.",
+            "Cover, label, date, and refrigerate at 40 F or below; keep any plain reserve separate."
+          ],
+          "stage": "proteins",
+          "seasoningFamily": "neutral-thigh-prep",
+          "seasoningFamilyName": "Shared savory thigh base",
+          "seasoningBaseForm": "Whole boneless skinless thighs",
+          "proteinForm": "Whole thighs; shred after cooking",
+          "splitAfterSeasoning": true,
+          "poolStorage": false,
+          "seasoningFinishNote": "Cook whole, shred, chill, then add the Buffalo filling."
+        },
+        {
+          "type": "sauce",
+          "name": "Buffalo filling base",
+          "instruction": "Mix the regular cream cheese, mozzarella, Buffalo sauce, and minced onion without the chicken.",
+          "ingredientKeys": [
+            "regular_cream_cheese",
+            "mozzarella",
+            "buffalo_sauce",
+            "red_onion"
+          ],
+          "steps": [
+            "Mix the regular cream cheese, mozzarella, Buffalo sauce, and minced onion without the chicken.",
+            "Cover and refrigerate at 41 F or below. Add only the freshly cooked, rapidly chilled chicken on Cook Day."
+          ]
+        },
+        {
+          "type": "cold-kit",
+          "name": "Pinwheel tortillas and lettuce",
+          "instruction": "Keep tortillas sealed and lettuce dry for tomorrow’s assembly.",
+          "ingredientKeys": [
+            "small_tortilla",
+            "lettuce"
+          ],
+          "steps": [
+            "Keep tortillas sealed and lettuce dry for tomorrow’s assembly."
+          ]
+        }
+      ],
+      "stepIngredients": [
+        [
+          "small_tortilla",
+          "lettuce"
+        ],
+        [],
+        []
+      ],
+      "groceryOverrides": {},
+      "sideCup": null,
+      "proteinCook": {
+        "name": "Buffalo Chicken Pinwheels",
+        "group": "chicken",
+        "endpoint": "165 F",
+        "recipeKeys": [
+          "chicken_thigh_raw"
+        ],
+        "sequence": 35,
+        "recipeSteps": [
+          "Pan-cook the seasoned thighs in uncrowded batches to 165 F, turning for deep browning. Record yield, shred, then rapid-cool in a shallow pan to 41 F or below. Do not mix warm chicken into the filling.",
+          "Mix the chilled chicken into the prepared Buffalo filling base. Spread across two tortillas and add the dry lettuce.",
+          "Roll tightly, place seam-side down, and chill until firm. Cut each roll in half to make exactly 4 pinwheels total, then pack all 4 pieces in one chilled container."
+        ],
+        "instructions": [
+          "Pan-cook the seasoned thighs in uncrowded batches to 165 F, turning for deep browning. Record yield, shred, then rapid-cool in a shallow pan to 41 F or below. Do not mix warm chicken into the filling.",
+          "Mix the chilled chicken into the prepared Buffalo filling base. Spread across two tortillas and add the dry lettuce.",
+          "Roll tightly, place seam-side down, and chill until firm. Cut each roll in half to make exactly 4 pinwheels total, then pack all 4 pieces in one chilled container."
+        ],
+        "prepDayComplete": false,
+        "lane": "stovetop",
+        "ovenTemperatureF": 0
+      },
+      "piecePlan": null,
+      "riceBatchGroup": "common",
+      "assemblyGuide": {
+        "single": [
+          "Pack exactly 4 pinwheels made from the complete two-tortilla allocation.",
+          "Close, apply the exact label, and refrigerate."
+        ]
+      },
+      "componentMap": [
+        {
+          "role": "complete",
+          "label": "Buffalo Chicken Pinwheels measured recipe",
+          "ingredientKeys": [
+            "chicken_thigh_raw",
+            "garlic_powder",
+            "onion_powder",
+            "paprika",
+            "black_pepper",
+            "salt",
+            "sunflower_oil",
+            "regular_cream_cheese",
+            "mozzarella",
+            "buffalo_sauce",
+            "red_onion",
+            "small_tortilla",
+            "lettuce"
+          ],
+          "handling": "Use the exact tier weights and the component instructions on the measured prep cards."
+        }
+      ],
+      "cookDayEquipment": {
+        "lane": "stovetop",
+        "temperatureF": 0,
+        "estimatedMinutes": 25,
+        "sequence": 35
+      },
+      "panBatch": null,
+      "recipeName": "Buffalo Chicken Pinwheels",
+      "source": "Current controlled Batch 10 recipe; historical returns are not a substitute for live ingredient weights.",
+      "produceCuts": {
+        "onion": "Dice",
+        "red_onion": "Dice",
+        "garlic": "Mince",
+        "ginger": "Grate or mince",
+        "green_bell_pepper": "Dice",
+        "jalapeno": "Finely mince",
+        "green_onion": "Thinly slice",
+        "zucchini": "Even bite-size pieces",
+        "lettuce": "Shred and dry",
+        "cucumber": "Dice",
+        "tomato": "Dice",
+        "parsley": "Finely chop",
+        "cilantro": "Chop for garnish",
+        "strawberry": "Wash; slice when used",
+        "banana": "Keep whole until serving",
+        "lemon": "Juice; weigh the juice",
+        "lime": "Juice; weigh the juice",
+        "black_beans": "Drain and rinse",
+        "cannellini_beans": "Drain and rinse",
+        "canned_peas_carrots": "Drain",
+        "corn": "Drain if canned; keep frozen if frozen",
+        "pickles": "Drain; slice for serving"
+      }
+    },
+    "a2": {
+      "phase": 4,
+      "order": 170,
+      "equipment": [
+        "digital scale",
+        "labeled pans"
+      ],
+      "temperature": "Pan-cook chicken to 165 F today; rapid-cool to 41 F or below before packing the cold box.",
+      "steps": [
+        "Pan-cook the seasoned lemon chicken in uncrowded batches to 165 F, turning for deep browning. Record yield, dice, then rapid-cool in a shallow pan to 41 F or below.",
+        "Pack the chilled measured chicken, hummus, cucumber, tomato, feta, olives, and onion in separate sections.",
+        "Add the half-flatbread in a dry area, close without crushing, and refrigerate."
+      ],
+      "plating": "Pack one complete chilled box with the measured chicken, hummus, half flatbread, vegetables, feta, and olives.",
+      "hold": "Rapid-cool cooked food promptly; hold at 41 F or below.",
+      "sideCups": 0,
+      "sideBags": 0,
+      "validation": "Record finished yield, portion weights, package fit, and cold-hold quality. No automatic owner portions.",
+      "prepSteps": [
+        "Use the shared seasoned pull. Add the measured lemon, then keep whole, covered, and refrigerated for Cook Day.",
+        "Wash and dry produce, dice cucumber and tomato, slice onion, and drain olives tomorrow."
+      ],
+      "prepBatches": [
+        {
+          "type": "marinade",
+          "name": "Hummus Box lemon chicken",
+          "instruction": "Use the shared seasoned pull. Add the measured lemon, then keep whole, covered, and refrigerated for Cook Day.",
+          "ingredientKeys": [
+            "chicken_thigh_raw",
+            "garlic_powder",
+            "onion_powder",
+            "paprika",
+            "black_pepper",
+            "salt",
+            "lemon",
+            "sunflower_oil"
+          ],
+          "steps": [
+            "Use the shared seasoned pull. Add the measured lemon, then keep whole, covered, and refrigerated for Cook Day.",
+            "Cover, label, date, and refrigerate at 40 F or below; keep any plain reserve separate."
+          ],
+          "stage": "proteins",
+          "seasoningFamily": "neutral-thigh-prep",
+          "seasoningFamilyName": "Shared savory thigh base",
+          "seasoningBaseForm": "Whole boneless skinless thighs",
+          "proteinForm": "Whole thighs; dice after cooking",
+          "splitAfterSeasoning": true,
+          "poolStorage": false,
+          "seasoningFinishNote": "Add lemon, cook whole, then dice and chill."
+        },
+        {
+          "type": "cold-kit",
+          "name": "Hummus Box components",
+          "instruction": "Wash and dry produce, dice cucumber and tomato, slice onion, and drain olives tomorrow.",
+          "ingredientKeys": [
+            "hummus",
+            "shawarma_bread",
+            "cucumber",
+            "tomato",
+            "feta",
+            "olives",
+            "red_onion"
+          ],
+          "steps": [
+            "Wash and dry produce, dice cucumber and tomato, slice onion, and drain olives tomorrow.",
+            "Keep hummus, feta, and produce chilled in separate sections; keep the half-flatbread allocation dry."
+          ]
+        }
+      ],
+      "stepIngredients": {},
+      "groceryOverrides": {},
+      "sideCup": null,
+      "proteinCook": {
+        "name": "Mediterranean Chicken Hummus Box",
+        "group": "chicken",
+        "endpoint": "165 F",
+        "recipeKeys": [
+          "chicken_thigh_raw"
+        ],
+        "sequence": 35,
+        "recipeSteps": [
+          "Pan-cook the seasoned lemon chicken in uncrowded batches to 165 F, turning for deep browning. Record yield, dice, then rapid-cool in a shallow pan to 41 F or below.",
+          "Pack the chilled measured chicken, hummus, cucumber, tomato, feta, olives, and onion in separate sections.",
+          "Add the half-flatbread in a dry area, close without crushing, and refrigerate."
+        ],
+        "instructions": [
+          "Pan-cook the seasoned lemon chicken in uncrowded batches to 165 F, turning for deep browning. Record yield, dice, then rapid-cool in a shallow pan to 41 F or below.",
+          "Pack the chilled measured chicken, hummus, cucumber, tomato, feta, olives, and onion in separate sections.",
+          "Add the half-flatbread in a dry area, close without crushing, and refrigerate."
+        ],
+        "prepDayComplete": false,
+        "lane": "stovetop",
+        "ovenTemperatureF": 0
+      },
+      "piecePlan": null,
+      "riceBatchGroup": "common",
+      "assemblyGuide": {
+        "single": [
+          "Pack one complete chilled box with the measured chicken, hummus, half flatbread, vegetables, feta, and olives.",
+          "Close, apply the exact label, and refrigerate."
+        ]
+      },
+      "componentMap": [
+        {
+          "role": "complete",
+          "label": "Mediterranean Chicken Hummus Box measured recipe",
+          "ingredientKeys": [
+            "chicken_thigh_raw",
+            "garlic_powder",
+            "onion_powder",
+            "paprika",
+            "black_pepper",
+            "salt",
+            "lemon",
+            "sunflower_oil",
+            "hummus",
+            "shawarma_bread",
+            "cucumber",
+            "tomato",
+            "feta",
+            "olives",
+            "red_onion"
+          ],
+          "handling": "Use the exact tier weights and the component instructions on the measured prep cards."
+        }
+      ],
+      "cookDayEquipment": {
+        "lane": "stovetop",
+        "temperatureF": 0,
+        "estimatedMinutes": 25,
+        "sequence": 35
+      },
+      "panBatch": null,
+      "recipeName": "Mediterranean Chicken Hummus Box",
+      "source": "Current controlled Batch 10 recipe; historical returns are not a substitute for live ingredient weights.",
+      "produceCuts": {
+        "onion": "Dice",
+        "red_onion": "Thinly slice",
+        "garlic": "Mince",
+        "ginger": "Grate or mince",
+        "green_bell_pepper": "Dice",
+        "jalapeno": "Finely mince",
+        "green_onion": "Thinly slice",
+        "zucchini": "Even bite-size pieces",
+        "lettuce": "Shred and dry",
+        "cucumber": "Dice",
+        "tomato": "Dice",
+        "parsley": "Finely chop",
+        "cilantro": "Chop for garnish",
+        "strawberry": "Wash; slice when used",
+        "banana": "Keep whole until serving",
+        "lemon": "Juice; weigh the juice",
+        "lime": "Juice; weigh the juice",
+        "black_beans": "Drain and rinse",
+        "cannellini_beans": "Drain and rinse",
+        "canned_peas_carrots": "Drain",
+        "corn": "Drain if canned; keep frozen if frozen",
+        "pickles": "Drain; slice for serving"
+      }
+    },
+    "a3": {
+      "phase": 4,
+      "order": 180,
+      "equipment": [
+        "digital scale",
+        "labeled pans"
+      ],
+      "temperature": "Pan-cook chicken to 165 F today; rapid-cool to 41 F or below before cold assembly.",
+      "steps": [
+        "Pan-cook the seasoned thighs in uncrowded batches to 165 F, turning for deep browning. Record yield, dice, then rapid-cool in a shallow pan to 41 F or below.",
+        "Lay out two owner-standard 70-calorie tortillas per order. Split all chilled chicken, mozzarella, fresh salad, and house sauce evenly across both tortillas.",
+        "Roll tightly, pack both complete wraps together, and refrigerate immediately."
+      ],
+      "plating": "Pack both complete mini chicken wraps, using exactly two owner-standard 70-calorie tortillas.",
+      "hold": "Rapid-cool cooked food promptly; hold at 41 F or below.",
+      "sideCups": 0,
+      "sideBags": 0,
+      "validation": "Record finished yield, portion weights, package fit, and cold-hold quality. No automatic owner portions.",
+      "prepSteps": [
+        "Use the shared seasoned pull. Keep whole, covered, and refrigerated for Cook Day.",
+        "Blend the measured yogurt, light mayonnaise, garlic and lemon until smooth.",
+        "Wash, dry, and finely chop the fresh salad tomorrow. Keep cheese cold and tortillas sealed."
+      ],
+      "prepBatches": [
+        {
+          "type": "marinade",
+          "name": "Mini Wrap chicken",
+          "instruction": "Use the shared seasoned pull. Keep whole, covered, and refrigerated for Cook Day.",
+          "ingredientKeys": [
+            "chicken_thigh_raw",
+            "garlic_powder",
+            "onion_powder",
+            "paprika",
+            "black_pepper",
+            "salt",
+            "sunflower_oil"
+          ],
+          "steps": [
+            "Use the shared seasoned pull. Keep whole, covered, and refrigerated for Cook Day.",
+            "Cover, label, date, and refrigerate at 40 F or below; keep any plain reserve separate."
+          ],
+          "stage": "proteins",
+          "seasoningFamily": "neutral-thigh-prep",
+          "seasoningFamilyName": "Shared savory thigh base",
+          "seasoningBaseForm": "Whole boneless skinless thighs",
+          "proteinForm": "Whole thighs; dice after cooking",
+          "splitAfterSeasoning": true,
+          "poolStorage": false,
+          "seasoningFinishNote": "Cook whole, then dice and chill."
+        },
+        {
+          "type": "sauce",
+          "name": "Green jalapeno garlic sauce",
+          "instruction": "Blend the measured yogurt, light mayonnaise, garlic and lemon until smooth.",
+          "ingredientKeys": [
+            "fage",
+            "light_mayo",
+            "garlic",
+            "lemon",
+            "jalapeno"
+          ],
+          "steps": [
+            "Blend the measured yogurt, light mayonnaise, garlic and lemon until smooth.",
+            "Blend the measured jalapeno into this allocated portion of the same white base.",
+            "Split 25 g across both mini wraps per order; no extra cup. Keep at 41 F or below."
+          ],
+          "componentRef": "green-garlic",
+          "sharedSauceFamily": "house-garlic",
+          "sauceVariant": "green",
+          "sauceUse": "Split 25 g across both mini wraps per order; no extra cup"
+        },
+        {
+          "type": "cold-kit",
+          "name": "Mini Wrap fresh salad and tortillas",
+          "instruction": "Wash, dry, and finely chop the fresh salad tomorrow. Keep cheese cold and tortillas sealed.",
+          "ingredientKeys": [
+            "small_tortilla",
+            "mozzarella",
+            "lettuce",
+            "onion",
+            "tomato",
+            "cucumber"
+          ],
+          "steps": [
+            "Wash, dry, and finely chop the fresh salad tomorrow. Keep cheese cold and tortillas sealed.",
+            "Count two owner-standard 70-calorie Mission Carb Balance tortillas per order. No purchased pickled vegetable substitution."
+          ]
+        }
+      ],
+      "stepIngredients": {},
+      "groceryOverrides": {},
+      "sideCup": null,
+      "proteinCook": {
+        "name": "Mini Chicken Snack Wrap",
+        "group": "chicken",
+        "endpoint": "165 F",
+        "recipeKeys": [
+          "chicken_thigh_raw"
+        ],
+        "sequence": 35,
+        "recipeSteps": [
+          "Pan-cook the seasoned thighs in uncrowded batches to 165 F, turning for deep browning. Record yield, dice, then rapid-cool in a shallow pan to 41 F or below.",
+          "Lay out two owner-standard 70-calorie tortillas per order. Split all chilled chicken, mozzarella, fresh salad, and house sauce evenly across both tortillas.",
+          "Roll tightly, pack both complete wraps together, and refrigerate immediately."
+        ],
+        "instructions": [
+          "Pan-cook the seasoned thighs in uncrowded batches to 165 F, turning for deep browning. Record yield, dice, then rapid-cool in a shallow pan to 41 F or below.",
+          "Lay out two owner-standard 70-calorie tortillas per order. Split all chilled chicken, mozzarella, fresh salad, and house sauce evenly across both tortillas.",
+          "Roll tightly, pack both complete wraps together, and refrigerate immediately."
+        ],
+        "prepDayComplete": false,
+        "lane": "stovetop",
+        "ovenTemperatureF": 0
+      },
+      "piecePlan": null,
+      "riceBatchGroup": "common",
+      "assemblyGuide": {
+        "single": [
+          "Pack both complete mini chicken wraps, using exactly two owner-standard 70-calorie tortillas.",
+          "Close, apply the exact label, and refrigerate."
+        ]
+      },
+      "componentMap": [
+        {
+          "role": "complete",
+          "label": "Mini Chicken Snack Wrap measured recipe",
+          "ingredientKeys": [
+            "chicken_thigh_raw",
+            "garlic_powder",
+            "onion_powder",
+            "paprika",
+            "black_pepper",
+            "salt",
+            "sunflower_oil",
+            "fage",
+            "light_mayo",
+            "garlic",
+            "lemon",
+            "jalapeno",
+            "small_tortilla",
+            "mozzarella",
+            "lettuce",
+            "onion",
+            "tomato",
+            "cucumber"
+          ],
+          "handling": "Use the exact tier weights and the component instructions on the measured prep cards."
+        }
+      ],
+      "cookDayEquipment": {
+        "lane": "stovetop",
+        "temperatureF": 0,
+        "estimatedMinutes": 25,
+        "sequence": 35
+      },
+      "panBatch": null,
+      "recipeName": "Mini Chicken Snack Wrap",
+      "source": "Current controlled Batch 10 recipe; historical returns are not a substitute for live ingredient weights.",
+      "produceCuts": {
+        "onion": "Dice",
+        "red_onion": "Dice",
+        "garlic": "Mince",
+        "ginger": "Grate or mince",
+        "green_bell_pepper": "Dice",
+        "jalapeno": "Finely mince",
+        "green_onion": "Thinly slice",
+        "zucchini": "Even bite-size pieces",
+        "lettuce": "Shred and dry",
+        "cucumber": "Dice",
+        "tomato": "Dice",
+        "parsley": "Finely chop",
+        "cilantro": "Chop for garnish",
+        "strawberry": "Wash; slice when used",
+        "banana": "Keep whole until serving",
+        "lemon": "Juice; weigh the juice",
+        "lime": "Juice; weigh the juice",
+        "black_beans": "Drain and rinse",
+        "cannellini_beans": "Drain and rinse",
+        "canned_peas_carrots": "Drain",
+        "corn": "Drain if canned; keep frozen if frozen",
+        "pickles": "Drain; slice for serving"
+      }
+    },
+    "p1": {
+      "phase": 5,
+      "order": 190,
+      "equipment": [
+        "beef oven",
+        "vegetable tray"
+      ],
+      "temperature": "Cook kofta to 160 F.",
+      "steps": [
+        "Bake the formed kofta at 400 F until their centers reach 160 F.",
+        "Drain thoroughly and record the finished yield plus average cooked piece weight.",
+        "Pack exactly five kofta with one equal share of roasted vegetables in every active container."
+      ],
+      "plating": "Pack exactly 5 kofta with one equal share of roasted vegetables.",
+      "hold": "Rapid-cool promptly and refrigerate at 41 F or below.",
+      "sideCups": 0,
+      "sideBags": 0,
+      "validation": "",
+      "prepSteps": [
+        "Mix beef with all measured Shan Seekh Kabab powder, 50 g per kg raw beef. No extra salt, homemade spices, oil, suet or butter.",
+        "Weigh the complete seasoned mixture and divide into five equal logs per meal. Each contains 66 g beef plus 3.3 g Shan mix. Cover and refrigerate 2-3 hours or overnight.",
+        "Roast the measured zucchini, pepper and red onion separately."
+      ],
+      "prepBatches": [
+        {
+          "type": "form-and-marinate",
+          "name": "Nouman high-protein beef kofta",
+          "instruction": "Season the active customer portions and form exactly five kofta per meal today.",
+          "ingredientKeys": [
+            "beef_96_raw",
+            "shan_seekh"
+          ],
+          "steps": [
+            "Mix beef with all measured Shan Seekh Kabab powder, 50 g per kg raw beef. No extra salt, homemade spices, oil, suet or butter.",
+            "Weigh the complete seasoned mixture and divide into five equal logs per meal. Each contains 66 g beef plus 3.3 g Shan mix. Cover and refrigerate 2-3 hours or overnight."
+          ],
+          "proteinForm": "Five short logs per meal"
+        },
+        {
+          "type": "vegetable-ahead",
+          "name": "Nouman kofta vegetables",
+          "instruction": "Roast the complete vegetable side today.",
+          "ingredientKeys": [
+            "zucchini",
+            "green_bell_pepper",
+            "red_onion"
+          ],
+          "steps": [
+            "Cut evenly and roast until just tender.",
+            "Record yield, cool promptly, and refrigerate in the labeled Nouman pan."
+          ]
+        }
+      ],
+      "stepIngredients": {},
+      "groceryOverrides": {},
+      "sideCup": null,
+      "proteinCook": {
+        "name": "Nouman high-protein beef kofta",
+        "group": "beef",
+        "endpoint": "160 F",
+        "recipeKeys": [
+          "beef_96_raw"
+        ],
+        "sequence": 10,
+        "recipeSteps": [
+          "Bake the formed kofta at 400 F until their centers reach 160 F.",
+          "Drain thoroughly, record yield and average cooked piece weight, and move to Nouman staging."
+        ],
+        "instructions": [
+          "Bake the formed kofta at 400 F until their centers reach 160 F.",
+          "Drain thoroughly, record yield and average cooked piece weight, and move to Nouman staging."
+        ],
+        "lane": "oven",
+        "ovenTemperatureF": 400
+      },
+      "piecePlan": null,
+      "riceBatchGroup": "common",
+      "assemblyGuide": {
+        "lean": [
+          "Pack exactly 5 kofta with one equal share of roasted vegetables.",
+          "Close, apply the exact Lean label, and move to cold holding."
+        ],
+        "bulk": [
+          "Pack exactly 5 kofta with one equal share of roasted vegetables.",
+          "Close, apply the exact Bulk label, and move to cold holding."
+        ]
+      },
+      "componentMap": [
+        {
+          "role": "protein",
+          "label": "High-Protein Beef Kofta & Roasted Vegetables",
+          "ingredientKeys": [
+            "beef_96_raw",
+            "shan_seekh"
+          ],
+          "handling": "Weigh the complete seasoned mixture and divide into five equal logs per meal. Each contains 66 g beef plus 3.3 g Shan mix. Cover and refrigerate 2-3 hours or overnight."
+        },
+        {
+          "role": "side",
+          "label": "Roasted vegetables",
+          "ingredientKeys": [
+            "zucchini",
+            "green_bell_pepper",
+            "red_onion"
+          ],
+          "handling": "Roast separately and divide equally among the active meals."
+        }
+      ],
+      "cookDayEquipment": null,
+      "panBatch": null,
+      "source": "https://www.shanfoods.com/product/recipe-mixes/bbq/seekh-kabab/ | PRPD Shan-only seasoning adaptation; no added suet or butter.",
+      "produceCuts": {
+        "onion": "Dice",
+        "red_onion": "Dice",
+        "garlic": "Mince",
+        "ginger": "Grate or mince",
+        "green_bell_pepper": "Dice",
+        "jalapeno": "Finely mince",
+        "green_onion": "Thinly slice",
+        "zucchini": "Even bite-size pieces",
+        "lettuce": "Shred and dry",
+        "cucumber": "Dice",
+        "tomato": "Dice",
+        "parsley": "Finely chop",
+        "cilantro": "Chop for garnish",
+        "strawberry": "Wash; slice when used",
+        "banana": "Keep whole until serving",
+        "lemon": "Juice; weigh the juice",
+        "lime": "Juice; weigh the juice",
+        "black_beans": "Drain and rinse",
+        "cannellini_beans": "Drain and rinse",
+        "canned_peas_carrots": "Drain",
+        "corn": "Drain if canned; keep frozen if frozen",
+        "pickles": "Drain; slice for serving"
+      }
+    },
+    "p2": {
+      "phase": 5,
+      "order": 200,
+      "equipment": [
+        "nonstick skillet",
+        "green-bean tray"
+      ],
+      "temperature": "Cook chicken mince to 165 F.",
+      "steps": [
+        "Cook chicken mince in uncrowded batches to 165 F.",
+        "Record the cooked yield.",
+        "Divide chicken mince and the prepared green-bean mixture equally among the active containers."
+      ],
+      "plating": "Pack one equal share of chicken mince and green beans.",
+      "hold": "Rapid-cool promptly and refrigerate at 41 F or below.",
+      "sideCups": 0,
+      "sideBags": 0,
+      "validation": "",
+      "prepSteps": [
+        "Divide chicken mince into its labeled pull.",
+        "Cook green beans and onion with measured garlic, lemon, parsley, paprika, cumin, pepper, and salt; cool promptly."
+      ],
+      "prepBatches": [
+        {
+          "type": "protein-portion",
+          "name": "Nouman lean chicken mince",
+          "instruction": "Weigh the exact active chicken-mince pull.",
+          "ingredientKeys": [
+            "chicken_mince_raw"
+          ],
+          "steps": [
+            "Keep mince ground and refrigerated for Cook Day."
+          ],
+          "formulaIngredients": [
+            {
+              "key": "p2_chicken_salt",
+              "name": "Salt for chicken mince",
+              "unit": "g",
+              "includeInGrocery": false,
+              "lean": 0.5,
+              "sourceKey": "salt"
+            }
+          ]
+        },
+        {
+          "type": "vegetable-ahead",
+          "name": "Nouman lemon-herb green beans",
+          "instruction": "Prepare the complete vegetable side.",
+          "ingredientKeys": [
+            "green_beans",
+            "red_onion",
+            "garlic",
+            "lemon",
+            "parsley",
+            "paprika",
+            "cumin",
+            "black_pepper"
+          ],
+          "steps": [
+            "Cook green beans and onion with the displayed seasoning.",
+            "Cool promptly and refrigerate."
+          ],
+          "formulaIngredients": [
+            {
+              "key": "p2_side_salt",
+              "name": "Salt for chicken-mince side",
+              "unit": "g",
+              "includeInGrocery": false,
+              "lean": 0.5,
+              "sourceKey": "salt"
+            }
+          ]
+        }
+      ],
+      "stepIngredients": {},
+      "groceryOverrides": {},
+      "sideCup": null,
+      "proteinCook": {
+        "name": "Nouman chicken mince",
+        "group": "chicken",
+        "endpoint": "165 F",
+        "recipeKeys": [
+          "chicken_mince_raw"
+        ],
+        "sequence": 10,
+        "recipeSteps": [
+          "Cook in uncrowded batches to 165 F.",
+          "Record yield and move to Nouman staging."
+        ],
+        "instructions": [
+          "Cook in uncrowded batches to 165 F.",
+          "Record yield and move to Nouman staging."
+        ]
+      },
+      "piecePlan": null,
+      "riceBatchGroup": "common",
+      "assemblyGuide": {
+        "lean": [
+          "Pack one equal share of chicken mince and green beans.",
+          "Close, apply the exact Lean label, and move to cold holding."
+        ],
+        "bulk": [
+          "Pack one equal share of chicken mince and green beans.",
+          "Close, apply the exact Bulk label, and move to cold holding."
+        ]
+      },
+      "componentMap": [
+        {
+          "role": "protein",
+          "label": "Lean chicken mince",
+          "ingredientKeys": [
+            "chicken_mince_raw"
+          ],
+          "handling": "Cook to 165 F and divide by finished yield."
+        },
+        {
+          "role": "side",
+          "label": "Lemon-herb green beans",
+          "ingredientKeys": [
+            "green_beans",
+            "red_onion",
+            "garlic",
+            "lemon",
+            "parsley",
+            "paprika",
+            "cumin",
+            "black_pepper",
+            "salt"
+          ],
+          "handling": "Cook the measured side separately."
+        }
+      ],
+      "cookDayEquipment": null,
+      "panBatch": null,
+      "produceCuts": {
+        "onion": "Dice",
+        "red_onion": "Dice",
+        "garlic": "Mince",
+        "ginger": "Grate or mince",
+        "green_bell_pepper": "Dice",
+        "jalapeno": "Finely mince",
+        "green_onion": "Thinly slice",
+        "zucchini": "Even bite-size pieces",
+        "lettuce": "Shred and dry",
+        "cucumber": "Dice",
+        "tomato": "Dice",
+        "parsley": "Finely chop",
+        "cilantro": "Chop for garnish",
+        "strawberry": "Wash; slice when used",
+        "banana": "Keep whole until serving",
+        "lemon": "Juice; weigh the juice",
+        "lime": "Juice; weigh the juice",
+        "black_beans": "Drain and rinse",
+        "cannellini_beans": "Drain and rinse",
+        "canned_peas_carrots": "Drain",
+        "corn": "Drain if canned; keep frozen if frozen",
+        "pickles": "Drain; slice for serving"
+      }
+    },
+    "p3": {
+      "phase": 5,
+      "order": 210,
+      "equipment": [
+        "chicken oven",
+        "cold salad station",
+        "dressing cups"
+      ],
+      "temperature": "Cook chicken breast to 165 F.",
+      "steps": [
+        "Bake or grill the marinated chicken to 165 F and record yield.",
+        "Portion 225 g cooked chicken into each active hot-meal container; record any measured yield variance instead of silently shrinking a portion.",
+        "Pack one separate 200 g undressed salad and one sealed 15 g dressing cup per meal; never dress it before delivery."
+      ],
+      "plating": "Pack 225 g cooked chicken, one separate 200 g undressed salad, and one sealed 15 g dressing cup.",
+      "hold": "Rapid-cool promptly and refrigerate at 41 F or below.",
+      "sideCups": 1,
+      "sideBags": 1,
+      "validation": "",
+      "prepSteps": [
+        "Marinate chicken breast with the measured lemon, garlic, oil, paprika, cumin, pepper, and salt.",
+        "Wash and completely dry lettuce, cucumber, tomato, red onion, and parsley; keep the salad undressed.",
+        "Fill one measured lemon-garlic dressing cup per meal and refrigerate."
+      ],
+      "prepBatches": [
+        {
+          "type": "marinade",
+          "name": "Nouman Lebanese chicken marinade",
+          "instruction": "Marinate the exact 300 g raw chicken breast per meal without sumac.",
+          "ingredientKeys": [
+            "chicken_breast_raw",
+            "paprika",
+            "cumin"
+          ],
+          "steps": [
+            "Whisk the displayed marinade formula.",
+            "Coat only the customer chicken pull; keep reserve plain.",
+            "Cover, label, date, and refrigerate."
+          ],
+          "formulaIngredients": [
+            {
+              "key": "p3_marinade_lemon",
+              "name": "Lemon juice for chicken marinade",
+              "unit": "g",
+              "includeInGrocery": false,
+              "lean": 8,
+              "sourceKey": "lemon"
+            },
+            {
+              "key": "p3_marinade_garlic",
+              "name": "Garlic for chicken marinade",
+              "unit": "g",
+              "includeInGrocery": false,
+              "lean": 3,
+              "sourceKey": "garlic"
+            },
+            {
+              "key": "p3_marinade_oil",
+              "name": "Oil for chicken marinade",
+              "unit": "g",
+              "includeInGrocery": false,
+              "lean": 2,
+              "sourceKey": "sunflower_oil"
+            },
+            {
+              "key": "p3_marinade_pepper",
+              "name": "Black pepper for chicken marinade",
+              "unit": "g",
+              "includeInGrocery": false,
+              "lean": 0.4,
+              "sourceKey": "black_pepper"
+            },
+            {
+              "key": "p3_marinade_salt",
+              "name": "Salt for chicken marinade",
+              "unit": "g",
+              "includeInGrocery": false,
+              "lean": 0.75,
+              "sourceKey": "salt"
+            }
+          ]
+        },
+        {
+          "type": "sauce",
+          "name": "Nouman lemon-garlic dressing cups",
+          "instruction": "Make one 15 g cup per active meal without sumac.",
+          "ingredientKeys": [],
+          "steps": [
+            "Whisk until uniform.",
+            "Tare each cup, fill to 15 g net, seal, count, and refrigerate."
+          ],
+          "formulaIngredients": [
+            {
+              "key": "p3_dressing_lemon",
+              "name": "Lemon juice for dressing",
+              "unit": "g",
+              "includeInGrocery": false,
+              "lean": 12,
+              "sourceKey": "lemon"
+            },
+            {
+              "key": "p3_dressing_garlic",
+              "name": "Garlic for dressing",
+              "unit": "g",
+              "includeInGrocery": false,
+              "lean": 1,
+              "sourceKey": "garlic"
+            },
+            {
+              "key": "p3_dressing_oil",
+              "name": "Oil for dressing",
+              "unit": "g",
+              "includeInGrocery": false,
+              "lean": 1,
+              "sourceKey": "sunflower_oil"
+            },
+            {
+              "key": "p3_dressing_pepper",
+              "name": "Black pepper for dressing",
+              "unit": "g",
+              "includeInGrocery": false,
+              "lean": 0.1,
+              "sourceKey": "black_pepper"
+            },
+            {
+              "key": "p3_dressing_salt",
+              "name": "Salt for dressing",
+              "unit": "g",
+              "includeInGrocery": false,
+              "lean": 0.25,
+              "sourceKey": "salt"
+            }
+          ]
+        },
+        {
+          "type": "cold-kit",
+          "name": "Nouman 200 g salad kits",
+          "instruction": "Prepare one undressed salad per active meal.",
+          "ingredientKeys": [
+            "lettuce",
+            "cucumber",
+            "tomato",
+            "red_onion",
+            "parsley"
+          ],
+          "steps": [
+            "Wash and dry every vegetable thoroughly.",
+            "Portion 200 g per meal, cover, and refrigerate separately from hot chicken."
+          ]
+        }
+      ],
+      "stepIngredients": {},
+      "groceryOverrides": {},
+      "sideCup": {
+        "name": "Lemon-garlic dressing",
+        "batchGroup": "nouman-lemon-dressing",
+        "gramsPerMeal": 15,
+        "instruction": "Pack one sealed 15g cup with the separate salad."
+      },
+      "proteinCook": {
+        "name": "Nouman Lebanese chicken breast",
+        "group": "chicken",
+        "endpoint": "165 F",
+        "recipeKeys": [
+          "chicken_breast_raw"
+        ],
+        "sequence": 10,
+        "recipeSteps": [
+          "Cook the marinated breast to 165 F.",
+          "Record yield and portion 225 g cooked chicken into each active Nouman meal."
+        ],
+        "instructions": [
+          "Cook the marinated breast to 165 F.",
+          "Record yield and portion 225 g cooked chicken into each active Nouman meal."
+        ]
+      },
+      "piecePlan": null,
+      "riceBatchGroup": "common",
+      "assemblyGuide": {
+        "lean": [
+          "Pack 225 g cooked chicken, one separate 200 g undressed salad, and one sealed 15 g dressing cup.",
+          "Close, apply the exact Lean label, and move to cold holding."
+        ],
+        "bulk": [
+          "Pack 225 g cooked chicken, one separate 200 g undressed salad, and one sealed 15 g dressing cup.",
+          "Close, apply the exact Bulk label, and move to cold holding."
+        ]
+      },
+      "componentMap": [
+        {
+          "role": "protein",
+          "label": "Lebanese chicken breast",
+          "ingredientKeys": [
+            "chicken_breast_raw",
+            "paprika",
+            "cumin"
+          ],
+          "handling": "Marinate without sumac and cook to 165 F."
+        },
+        {
+          "role": "seasoning",
+          "label": "Marinade and dressing split",
+          "ingredientKeys": [
+            "lemon",
+            "garlic",
+            "sunflower_oil",
+            "black_pepper",
+            "salt"
+          ],
+          "handling": "Split the aggregate totals into the exact marinade and 15 g dressing formulas."
+        },
+        {
+          "role": "side",
+          "label": "Separate 200 g undressed salad",
+          "ingredientKeys": [
+            "lettuce",
+            "cucumber",
+            "tomato",
+            "red_onion",
+            "parsley"
+          ],
+          "handling": "Pack cold and separate from the hot chicken."
+        }
+      ],
+      "cookDayEquipment": null,
+      "panBatch": null,
+      "produceCuts": {
+        "onion": "Dice",
+        "red_onion": "Dice",
+        "garlic": "Mince",
+        "ginger": "Grate or mince",
+        "green_bell_pepper": "Dice",
+        "jalapeno": "Finely mince",
+        "green_onion": "Thinly slice",
+        "zucchini": "Even bite-size pieces",
+        "lettuce": "Shred and dry",
+        "cucumber": "Dice",
+        "tomato": "Dice",
+        "parsley": "Finely chop",
+        "cilantro": "Chop for garnish",
+        "strawberry": "Wash; slice when used",
+        "banana": "Keep whole until serving",
+        "lemon": "Juice; weigh the juice",
+        "lime": "Juice; weigh the juice",
+        "black_beans": "Drain and rinse",
+        "cannellini_beans": "Drain and rinse",
+        "canned_peas_carrots": "Drain",
+        "corn": "Drain if canned; keep frozen if frozen",
+        "pickles": "Drain; slice for serving"
+      }
+    }
+  },
+  "familyAllocations": [],
+  "productionExtras": [],
+  "servingSaucePolicy": {
+    "version": "2026-09-08",
+    "active": [
+      "white-garlic",
+      "green-garlic"
+    ],
+    "sharedBase": {
+      "fage": 100,
+      "light_mayo": 15,
+      "garlic": 6,
+      "lemon": 15
+    },
+    "greenAddition": {
+      "jalapeno": 10
+    },
+    "note": "Only these cold garlic serving sauces are active. Historical dips remain archived; intrinsic cooking sauces, glazes, dessert toppings and explicit custom dressings are not replaced."
+  },
+  "dishNames": {
+    "b1": "Blueberry Cheesecake Protein Pancakes",
+    "b2": "French Toast",
+    "b3": "Grilled Cheese Breakfast Burrito",
+    "b4": "Chicken Shakshuka",
+    "m1": "Peri Peri Chicken",
+    "m2": "Halal Cart Chicken + Yellow Rice",
+    "m3": "Chicken Biryani",
+    "m4": "Chicken Enchilada Bake",
+    "m5": "Beef Seekh Kabab Shawarma",
+    "m6": "Creamy Cajun Chicken Pasta",
+    "m7": "Sweet Chili Chicken with Vegetable Rice",
+    "m8": "Garlic Butter Shrimp + Rice",
+    "d1": "Baked Strawberry-Lemon Protein Cheesecake",
+    "d2": "High Protein Tiramisu",
+    "d3": "Oreo Protein Cheesecake Cup",
+    "a1": "Buffalo Chicken Pinwheels",
+    "a2": "Mediterranean Chicken Hummus Box",
+    "a3": "Mini Chicken Snack Wrap"
+  }
+}

@@ -2,6 +2,7 @@ const crypto = require('node:crypto');
 const { GoogleAuth } = require('google-auth-library');
 const ORDER_CONFIG = require('../config/order-config');
 const { safeLogError } = require('./_security');
+const orderApi = require('./order');
 
 const SHEET_ID = process.env.GOOGLE_SHEET_ID;
 const GOOGLE_SERVICE_ACCOUNT_JSON = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
@@ -44,7 +45,12 @@ const MANUAL_ORDER_KEYS = new Set([
   'submittedAt', 'firstName', 'lastName', 'phone', 'items', 'exactTotal',
   'totalRounded', 'notes', 'orderId',
 ]);
-const PLANNER_ONLY_ITEMS = ['BBQ Chicken Mac & Cheese', 'Premium NY Strip Steak'];
+const PLANNER_ONLY_ITEMS = [
+  'BBQ Chicken Mac & Cheese',
+  'Premium NY Strip Steak',
+  'Custom Lebanese Chicken + Fattoush-Style Salad',
+  'High-Protein Beef Kofta & Roasted Vegetables',
+];
 const MANUAL_ITEM_NAMES = new Set([
   ...Object.values(ORDER_CONFIG.menu).flat().map(item => item.name.toLowerCase()),
   ...(ORDER_CONFIG.plannerOnly || []).map(item => item.name.toLowerCase()),
@@ -61,6 +67,93 @@ function finiteMoney(value, label) {
   const amount = Number(value);
   if (!Number.isFinite(amount) || amount < 0 || amount > 5000) throw new Error(`${label} is invalid.`);
   return Math.round((amount + Number.EPSILON) * 100) / 100;
+}
+
+function finite(value) {
+  const text = String(value ?? '').trim();
+  const accountingNegative = /^\([\d,]+(?:\.\d+)?\)$/.test(text);
+  const normalized = text.replace(/[\s$,()]/g, '');
+  const number = Number(normalized);
+  if (accountingNegative && Number.isFinite(number)) return -number;
+  return Number.isFinite(number) ? number : 0;
+}
+
+function parseInvoiceItemLines(value) {
+  return String(value || '').split(/\r?\n/).map(line => line.trim()).flatMap((line) => {
+    if (/^(delivery|pickup|partner discount|sales tax)\b/i.test(line)) return [];
+    const match = line.match(/^(\d+)x\s+(.+?)(?:\s+\(([^)]+)\))?\s+-\s+\$([\d.]+)$/i);
+    if (!match) return [];
+    const qty = Number(match[1]);
+    const variant = String(match[3] || '').trim();
+    const subtotal = finite(match[4]);
+    const tier = /^(lean|bulk)$/i.test(variant) ? variant.toLowerCase() : '';
+    return [{
+      name: match[2].trim(),
+      category: tier ? 'standard' : 'addon',
+      tier,
+      variantLabel: tier ? '' : variant,
+      qty,
+      unitPrice: qty > 0 ? subtotal / qty : subtotal,
+      subtotal,
+    }];
+  });
+}
+
+function headerIndex(headers, name, fallback) {
+  const index = headers.findIndex(header => String(header || '').trim().toLowerCase() === name.toLowerCase());
+  return index >= 0 ? index : fallback;
+}
+
+function invoiceOrderFromRows(values, orderId) {
+  if (!Array.isArray(values) || values.length < 2) return null;
+  const headers = values[0] || [];
+  const index = (name, fallback) => headerIndex(headers, name, fallback);
+  const idIndex = index('Order ID', 10);
+  const row = values.slice(1).find(candidate => String(candidate?.[idIndex] || '').trim() === orderId);
+  if (!row) return null;
+
+  const fulfillmentMethod = String(row[index('Fulfillment Method', 36)] || 'Delivery').trim().toLowerCase() === 'pickup'
+    ? 'pickup'
+    : 'delivery';
+  const itemsText = row[index('Items', 6)] || '';
+  const sauceSelections=String(itemsText).split(/\r?\n/).flatMap(line=>{
+    const match=line.trim().match(/^(\d+)x\s+Sauce cup:\s+(.+?)\s+-\s+selected$/i);
+    return match ? [{name:match[2],qty:Number(match[1])}] : [];
+  });
+  const extraSauceMatch=String(itemsText).match(/^Extra sauce cups:\s*(\d+)\s+-\s+\$([\d.]+)$/mi);
+  const deliveryMatch = String(itemsText).match(/^Delivery\s+\(([^)]+)\)/mi);
+  const firstName = String(row[index('First Name', 3)] || '').trim();
+  const lastName = String(row[index('Last Name', 4)] || '').trim();
+  return {
+    orderId,
+    submittedAt: String(row[index('Submitted At', 0)] || '').trim(),
+    deliveryDate: String(row[index('Delivery Date', 2)] || '').trim(),
+    firstName,
+    lastName,
+    fullName: `${firstName} ${lastName}`.trim(),
+    phone: String(row[index('Phone', 5)] || '').trim(),
+    email: String(row[index('Email', 11)] || '').trim(),
+    fulfillmentMethod,
+    deliveryAddress: String(row[index('Address', 12)] || '').trim(),
+    deliveryUnit: '',
+    deliveryCity: String(row[index('City', 13)] || '').trim(),
+    deliveryState: String(row[index('State', 29)] || 'TX').trim() || 'TX',
+    deliveryZip: String(row[index('ZIP', 14)] || '').trim(),
+    pickupCity: String(row[index('City', 13)] || 'Frisco').trim() || 'Frisco',
+    pickupState: String(row[index('State', 29)] || 'TX').trim() || 'TX',
+    items: parseInvoiceItemLines(itemsText),
+    sauces: {enabled:sauceSelections.length>0,selections:sauceSelections,extraQty:Number(extraSauceMatch?.[1] || 0),extraSubtotal:Number(extraSauceMatch?.[2] || 0)},
+    mealSubtotal: finite(row[index('Meal Subtotal', 16)]),
+    deliveryFee: finite(row[index('Delivery Fee', 17)]),
+    deliveryZoneLabel: deliveryMatch ? deliveryMatch[1].trim() : (fulfillmentMethod === 'pickup' ? 'Pickup' : 'DFW'),
+    promoCode: String(row[index('Promo Code', 18)] || '').trim(),
+    discountAmount: finite(row[index('Discount Amount', 19)]),
+    menuEmailOptIn: /^yes$/i.test(String(row[index('Menu Email Opt-In', 21)] || '').trim()),
+    taxRate: finite(row[index('Tax Rate', 40)]),
+    salesTax: finite(row[index('Sales Tax Collected', 41)]),
+    exactTotal: finite(row[index('Exact Total', 7)]),
+    roundedTotal: finite(row[index('Total (Rounded)', 8)]),
+  };
 }
 
 function validateManualItemLines(items) {
@@ -177,6 +270,43 @@ async function insertManualOrders(raw) {
   return { inserted: pending.length, skipped: orders.length - pending.length, orderIds: orders.map(order => order.orderId), startRow, endRow };
 }
 
+async function resendInvoice(raw) {
+  const orderId = String(raw?.orderId || '').trim();
+  if (!raw || raw.action !== 'resend-invoice' || !/^PRPD-B\d+-\d{8}-[A-Z0-9]{8}$/.test(orderId)) {
+    throw new Error('A valid website order reference is required.');
+  }
+  if (!SHEET_ID) throw new Error('Google Sheet ID is not configured.');
+  const auth = new GoogleAuth({
+    credentials: getCredentials(),
+    scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
+  });
+  const client = await auth.getClient();
+  const range = "'Orders'!A1:AP5000";
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(range)}`;
+  const result = await client.request({ url, method: 'GET' });
+  const order = invoiceOrderFromRows(result.data.values || [], orderId);
+  if (!order || !order.email || !order.items.length) throw new Error('That invoice could not be found.');
+  try {
+    orderApi._test.buildCustomerInvoiceMessage(order);
+  } catch (error) {
+    error.code = 'invoice_integrity';
+    throw error;
+  }
+  const minute = new Date().toISOString().slice(0, 16).replace(/[-:T]/g, '');
+  try {
+    await orderApi._test.sendCustomerConfirmationEmail(order, {
+      idempotencyKey: `order-invoice-resend-${orderId}-${minute}`,
+    });
+  } catch (error) {
+    error.code = 'invoice_provider';
+    throw error;
+  }
+  return {
+    orderId,
+    sentTo: order.email.replace(/^(.).+(@.*)$/, '$1***$2'),
+  };
+}
+
 async function handler(request, response) {
   if (!['GET', 'POST'].includes(request.method)) return sendJson(response, 405, { error: 'Method not allowed.' });
   if (!PLANNER_KEY || !keysMatch(request.headers['x-prpd-planner-key'], PLANNER_KEY)) {
@@ -184,6 +314,10 @@ async function handler(request, response) {
   }
   try {
     if (request.method === 'POST') {
+      if (request.body?.action === 'resend-invoice') {
+        const result = await resendInvoice(request.body);
+        return sendJson(response, 200, { status: 'success', ...result });
+      }
       const result = await insertManualOrders(request.body);
       return sendJson(response, 200, { status: 'success', ...result });
     }
@@ -200,5 +334,12 @@ async function handler(request, response) {
   }
 }
 
-handler._test = { keysMatch, normalizeOrderRows, validateManualItemLines, validateManualOrders };
+handler._test = {
+  keysMatch,
+  normalizeOrderRows,
+  validateManualItemLines,
+  validateManualOrders,
+  parseInvoiceItemLines,
+  invoiceOrderFromRows,
+};
 module.exports = handler;

@@ -1,4 +1,4 @@
-"""Verify that the saved Batch 7 label dataset matches its recipe calculator."""
+"""Verify that the saved Batch 8 label dataset matches its recipe calculator."""
 
 from __future__ import annotations
 

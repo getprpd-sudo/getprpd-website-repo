@@ -1,6 +1,31 @@
 # Egg Bites - Current Working Recipe
 
-Status: July 18 tray test failed yield control; recipe must be recalibrated before returning to the menu
+Status updated September 21, 2026: **Batch 12 research-reconciled production formula.** The former per-meal multiplier is retired because it overproduced batter. This version uses a fixed 1,440 g raw batch, exactly 60 g in each of 24 standard muffin wells. The first complete run must record mixed batter, deposits, baked weights and leftovers.
+
+## Batch 12 controlled 24-well formula
+
+- 8 large eggs, modeled at 400 g out of shell
+- 503 g liquid egg whites
+- 200 g fat-free cottage cheese
+- 150 g fat-free mozzarella
+- 65 g spinach
+- 50 g tomato
+- 40 g white onion
+- 25 g jalapeno
+- 3 g table salt
+- 3 g garlic powder
+- 1 g ground black pepper
+- 3 g sunflower oil for the pan
+
+Total modeled raw batter: **1,440 g**, plus 3 g separate pan oil. Blend eggs, whites and cottage cheese smooth, fold in the remaining batter ingredients, weigh the complete batter, then deposit **60 g per well**. The pan oil is not part of the deposit weight. Fill only one-half to three-quarters full. Bake at 350 F until the centers reach 160 F.
+
+Lean receives four bites plus 120 g potato hash. Bulk receives six bites plus 150 g potato hash. Current working nutrition is **335 calories / 32 g protein Lean** and **475 calories / 48 g protein Bulk**.
+
+The yield basis is consistent with [Utah State University Extension](https://extension.usu.edu/createbetterhealth/kitchen/egg-and-veggie-muffins), which specifies 1/4-1/3 cup egg mixture and one-half to three-quarters full muffin wells, and the [American Egg Board](https://www.incredibleegg.org/recipe/caprese-egg-muffins/), which uses a 1/4-cup measure to distribute a 12-well egg-muffin recipe. These sources establish portioning practice, not PRPD's ingredient formula.
+
+## September 21 owner confirmation
+
+The owner answered "Yes, both worked" when asked whether Egg Bites and Cheeseburger Hot Pockets had been made successfully since their earlier tray-yield and dough problems. Do not keep describing the latest kitchen outcome as a failure. Before scaling and publishing nutrition, identify the quantities actually used in that successful version. The answer did not specify grams, well fill, finished yield or whether the proposed 50% pilot below was used unchanged.
 
 ## Finished Builds
 

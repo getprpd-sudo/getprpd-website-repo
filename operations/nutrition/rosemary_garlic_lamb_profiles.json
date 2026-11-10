@@ -1,0 +1,405 @@
+{
+  "basis": "All profiles per100g; nutrients in grams except sodium/cholesterol/calcium/iron/potassium mg and vitamin_d mcg.",
+  "downloadEvidence": {
+    "zipName": "usda-sr-legacy.zip",
+    "sha256": "b80817294b8850530aaedf2e515c02593b1824f763a0ff356e5c2081643e6fd0",
+    "sourcePage": "https://fdc.nal.usda.gov/download-datasets/",
+    "release": "SR Legacy April2018"
+  },
+  "profiles": {
+    "green_beans": {
+      "name": "Beans, snap, green, raw",
+      "nutrition": {
+        "calories": 31.0,
+        "protein": 1.83,
+        "carbs": 6.97,
+        "fiber": 2.7,
+        "fat": 0.22,
+        "saturated_fat": 0.05,
+        "sugars": 3.26,
+        "added_sugars": 0,
+        "sodium": 6.0,
+        "cholesterol": 0.0,
+        "trans_fat": 0.0,
+        "vitamin_d": 0.0,
+        "calcium": 37.0,
+        "iron": 1.03,
+        "potassium": 211.0
+      },
+      "source": "https://fdc.nal.usda.gov/food-details/169961/nutrients",
+      "fdcId": 169961,
+      "checked": "2026-11-02",
+      "derivedFields": {
+        "added_sugars": "Compositional zero for plain unfortified food, not a measured USDA result; no added sugar in plain ingredient."
+      }
+    },
+    "onion": {
+      "name": "Onions, raw",
+      "nutrition": {
+        "calories": 40.0,
+        "protein": 1.1,
+        "carbs": 9.34,
+        "fiber": 1.7,
+        "fat": 0.1,
+        "saturated_fat": 0.042,
+        "sugars": 4.24,
+        "added_sugars": 0,
+        "sodium": 4.0,
+        "cholesterol": 0.0,
+        "trans_fat": 0.0,
+        "vitamin_d": 0.0,
+        "calcium": 23.0,
+        "iron": 0.21,
+        "potassium": 146.0
+      },
+      "source": "https://fdc.nal.usda.gov/food-details/170000/nutrients",
+      "fdcId": 170000,
+      "checked": "2026-11-02",
+      "derivedFields": {
+        "added_sugars": "Compositional zero for plain unfortified food, not a measured USDA result; no added sugar in plain ingredient."
+      }
+    },
+    "garlic": {
+      "name": "Garlic, raw",
+      "nutrition": {
+        "calories": 149.0,
+        "protein": 6.36,
+        "carbs": 33.06,
+        "fiber": 2.1,
+        "fat": 0.5,
+        "saturated_fat": 0.089,
+        "sugars": 1.0,
+        "added_sugars": 0,
+        "sodium": 17.0,
+        "cholesterol": 0.0,
+        "trans_fat": 0.0,
+        "vitamin_d": 0.0,
+        "calcium": 181.0,
+        "iron": 1.7,
+        "potassium": 401.0
+      },
+      "source": "https://fdc.nal.usda.gov/food-details/169230/nutrients",
+      "fdcId": 169230,
+      "checked": "2026-11-02",
+      "derivedFields": {
+        "added_sugars": "Compositional zero for plain unfortified food, not a measured USDA result; no added sugar in plain ingredient."
+      }
+    },
+    "rosemary": {
+      "name": "Rosemary, fresh",
+      "nutrition": {
+        "calories": 131.0,
+        "protein": 3.31,
+        "carbs": 20.7,
+        "fiber": 14.1,
+        "fat": 5.86,
+        "saturated_fat": 2.838,
+        "sugars": 0.3,
+        "added_sugars": 0,
+        "sodium": 26.0,
+        "cholesterol": 0.0,
+        "trans_fat": 0.0,
+        "vitamin_d": 0.0,
+        "calcium": 317.0,
+        "iron": 6.65,
+        "potassium": 668.0
+      },
+      "source": "https://fdc.nal.usda.gov/food-details/173473/nutrients",
+      "fdcId": 173473,
+      "checked": "2026-11-02",
+      "derivedFields": {
+        "sugars": "Not reported in the selected fresh-rosemary USDA record. Use current PRPD fresh-basil sugar profile0.3g/100g as a disclosed fresh-herb proxy; not an observed rosemary value.",
+        "added_sugars": "Compositional zero for plain unfortified food, not a measured USDA result; no added sugar in plain ingredient."
+      }
+    },
+    "flour": {
+      "name": "Wheat flour, white, all-purpose, enriched, bleached",
+      "nutrition": {
+        "calories": 364.0,
+        "protein": 10.33,
+        "carbs": 76.31,
+        "fiber": 2.7,
+        "fat": 0.98,
+        "saturated_fat": 0.155,
+        "sugars": 0.27,
+        "added_sugars": 0,
+        "sodium": 2.0,
+        "cholesterol": 0.0,
+        "trans_fat": 0,
+        "vitamin_d": 0.0,
+        "calcium": 15.0,
+        "iron": 4.64,
+        "potassium": 107.0
+      },
+      "source": "https://fdc.nal.usda.gov/food-details/168894/nutrients",
+      "fdcId": 168894,
+      "checked": "2026-11-02",
+      "derivedFields": {
+        "added_sugars": "Compositional zero for plain unfortified food, not a measured USDA result; no added sugar in plain ingredient.",
+        "trans_fat": "Compositional zero for plain unfortified food, not a measured USDA result; no added sugar in plain ingredient."
+      }
+    },
+    "garlic_powder": {
+      "name": "Spices, garlic powder",
+      "nutrition": {
+        "calories": 331.0,
+        "protein": 16.55,
+        "carbs": 72.73,
+        "fiber": 9.0,
+        "fat": 0.73,
+        "saturated_fat": 0.249,
+        "sugars": 2.43,
+        "added_sugars": 0,
+        "sodium": 60.0,
+        "cholesterol": 0.0,
+        "trans_fat": 0.0,
+        "vitamin_d": 0.0,
+        "calcium": 79.0,
+        "iron": 5.65,
+        "potassium": 1193.0
+      },
+      "source": "https://fdc.nal.usda.gov/food-details/171325/nutrients",
+      "fdcId": 171325,
+      "checked": "2026-11-02",
+      "derivedFields": {
+        "added_sugars": "Compositional zero for plain unfortified food, not a measured USDA result; no added sugar in plain ingredient."
+      }
+    },
+    "black_pepper": {
+      "name": "Spices, pepper, black",
+      "nutrition": {
+        "calories": 251.0,
+        "protein": 10.39,
+        "carbs": 63.95,
+        "fiber": 25.3,
+        "fat": 3.26,
+        "saturated_fat": 1.392,
+        "sugars": 0.64,
+        "added_sugars": 0,
+        "sodium": 20.0,
+        "cholesterol": 0.0,
+        "trans_fat": 0.0,
+        "vitamin_d": 0.0,
+        "calcium": 443.0,
+        "iron": 9.71,
+        "potassium": 1329.0
+      },
+      "source": "https://fdc.nal.usda.gov/food-details/170931/nutrients",
+      "fdcId": 170931,
+      "checked": "2026-11-02",
+      "derivedFields": {
+        "added_sugars": "Compositional zero for plain unfortified food, not a measured USDA result; no added sugar in plain ingredient."
+      }
+    },
+    "butter": {
+      "name": "Butter, without salt",
+      "nutrition": {
+        "calories": 717.0,
+        "protein": 0.85,
+        "carbs": 0.06,
+        "fiber": 0.0,
+        "fat": 81.11,
+        "saturated_fat": 50.489,
+        "sugars": 0.06,
+        "added_sugars": 0,
+        "sodium": 11.0,
+        "cholesterol": 215.0,
+        "trans_fat": 3.278,
+        "vitamin_d": 0.0,
+        "calcium": 24.0,
+        "iron": 0.02,
+        "potassium": 24.0
+      },
+      "source": "https://fdc.nal.usda.gov/food-details/173430/nutrients",
+      "fdcId": 173430,
+      "checked": "2026-11-02",
+      "derivedFields": {
+        "added_sugars": "Compositional zero for plain unfortified food, not a measured USDA result; no added sugar in plain ingredient.",
+        "trans_fat": "USDA unsalted-butter record lacks total trans. Use existing PRPD butter supplemental value3.278g/100g from comparable dairy butter; explicitly derived proxy, not zero."
+      }
+    },
+    "lamb_shoulder_cooked": {
+      "name": "Lamb, New Zealand, imported, square-cut shoulder, separable lean and fat, cooked, slow roasted",
+      "nutrition": {
+        "calories": 294.0,
+        "protein": 20.88,
+        "carbs": 0.03,
+        "fiber": 0.0,
+        "fat": 23.39,
+        "saturated_fat": 9.332,
+        "sugars": 0.0,
+        "added_sugars": 0,
+        "sodium": 72.0,
+        "cholesterol": 72.0,
+        "trans_fat": 1.236,
+        "vitamin_d": 0.1,
+        "calcium": 12.0,
+        "iron": 1.41,
+        "potassium": 299.0
+      },
+      "source": "https://fdc.nal.usda.gov/food-details/174876/nutrients",
+      "fdcId": 174876,
+      "checked": "2026-11-02",
+      "derivedFields": {
+        "added_sugars": "Compositional zero for plain unfortified food, not a measured USDA result; no added sugar in plain ingredient."
+      }
+    },
+    "instant_potato_flakes": {
+      "name": "Idahoan Original mashed potato flakes",
+      "nutrition": {
+        "calories": 363.636,
+        "protein": 9.091,
+        "carbs": 77.273,
+        "fiber": 4.545,
+        "fat": 0,
+        "saturated_fat": 0,
+        "sugars": 0,
+        "added_sugars": 0,
+        "sodium": 45.455,
+        "cholesterol": 0,
+        "trans_fat": 0,
+        "vitamin_d": 0,
+        "calcium": 45.455,
+        "iron": 1.818,
+        "potassium": 1136.364
+      },
+      "source": "Idahoan Original 26.2 oz package: 80 calories, 2g protein, 17g carbohydrate, 1g fiber, 10mg sodium, 10mg calcium, 0.4mg iron, and 250mg potassium per 22g dry mix",
+      "note": "Use Idahoan Original unflavored flakes and the physical package directions. The controlled formula follows the box ratio of 6 cups water, 2.25 tsp salt, 9 tbsp butter, 3 cups cold milk, and one 13.75 oz box for 18 servings.",
+      "checked": "2026-11-02",
+      "derivedFields": {
+        "added_sugars": "Existing Idahoan original dry-panel transcription reports zero sugars; retain rounded zero.",
+        "trans_fat": "Existing package-panel working zero; not laboratory absence."
+      }
+    },
+    "fairlife_milk": {
+      "name": "Fairlife fat-free ultra-filtered milk",
+      "nutrition": {
+        "calories": 33.333,
+        "protein": 5.417,
+        "carbs": 2.5,
+        "fiber": 0,
+        "fat": 0,
+        "saturated_fat": 0,
+        "sugars": 2.5,
+        "added_sugars": 0,
+        "sodium": 50,
+        "cholesterol": 2.083,
+        "trans_fat": 0,
+        "vitamin_d": 2.083,
+        "calcium": 158.333,
+        "iron": 0,
+        "potassium": 166.66666666666669
+      },
+      "source": "https://fairlife.com/ultra-filtered-milk/fat-free-skim-milk/",
+      "note": "Per 240mL: 80 calories, 13g protein, 6g carbohydrate, 120mg sodium, 5mg cholesterol, 5mcg vitamin D, and 380mg calcium.",
+      "checked": "2026-11-02",
+      "derivedFields": {
+        "added_sugars": "No added sweetener in manufacturer ingredient list.",
+        "basis": "240 mL manufacturer serving treated as 240 g, preserving current PRPD working conversion; density not measured."
+      }
+    },
+    "avocado_oil": {
+      "name": "Avocado oil",
+      "nutrition": {
+        "calories": 884,
+        "protein": 0,
+        "carbs": 0,
+        "fiber": 0,
+        "fat": 100,
+        "saturated_fat": 11.6,
+        "sugars": 0,
+        "added_sugars": 0,
+        "sodium": 0,
+        "cholesterol": 0,
+        "trans_fat": 0,
+        "vitamin_d": 0,
+        "calcium": 0,
+        "iron": 0,
+        "potassium": 0
+      },
+      "source": "Working estimate from closest available product/database record",
+      "note": "",
+      "checked": "2026-11-02",
+      "derivedFields": {
+        "trace_fields": "Current PRPD pure-oil working profile, including zero protein/carbs/minerals; not a new manufacturer test."
+      }
+    },
+    "salt": {
+      "name": "Table salt",
+      "nutrition": {
+        "calories": 0,
+        "protein": 0,
+        "carbs": 0,
+        "fiber": 0,
+        "fat": 0,
+        "saturated_fat": 0,
+        "sugars": 0,
+        "added_sugars": 0,
+        "sodium": 39300,
+        "cholesterol": 0,
+        "trans_fat": 0,
+        "vitamin_d": 0,
+        "calcium": 0,
+        "iron": 0,
+        "potassium": 0
+      },
+      "source": "USDA FoodData Central SR Legacy",
+      "note": "",
+      "checked": "2026-11-02",
+      "derivedFields": {
+        "trace_minerals": "Existing refined-table-salt model tracks sodium; negligible trace minerals are modeled zero."
+      }
+    },
+    "water": {
+      "name": "Water",
+      "nutrition": {
+        "calories": 0,
+        "protein": 0,
+        "carbs": 0,
+        "fiber": 0,
+        "fat": 0,
+        "saturated_fat": 0,
+        "sugars": 0,
+        "added_sugars": 0,
+        "sodium": 0,
+        "cholesterol": 0,
+        "trans_fat": 0,
+        "vitamin_d": 0,
+        "calcium": 0,
+        "iron": 0,
+        "potassium": 0
+      },
+      "source": "Kitchen tap water",
+      "note": "",
+      "checked": "2026-11-02",
+      "derivedFields": {
+        "minerals": "Existing kitchen-water model uses no material nutrient contribution; water chemistry not analyzed."
+      }
+    },
+    "rendered_lamb_fat_model": {
+      "name": "Rendered lamb fat, pure-lipid planning model",
+      "nutrition": {
+        "calories": 900,
+        "protein": 0,
+        "carbs": 0,
+        "fiber": 0,
+        "fat": 100,
+        "saturated_fat": 39.89739204788371,
+        "sugars": 0,
+        "added_sugars": 0,
+        "sodium": 0,
+        "cholesterol": 307.823856348867,
+        "trans_fat": 5.284309533988884,
+        "vitamin_d": 0.4275331338178709,
+        "calcium": 0,
+        "iron": 0,
+        "potassium": 0
+      },
+      "source": "https://fdc.nal.usda.gov/food-details/174876/nutrients",
+      "checked": "2026-11-02",
+      "derivedFields": {
+        "all": "Not a separate measured fat profile. Pure lipid at 9 kcal/g, shoulder saturated/trans/cholesterol/vitamin-D-to-fat ratios. Protein, carbohydrate and aqueous minerals excluded by the pure-lipid model. Actual mixed pan fat composition unknown."
+      }
+    }
+  }
+}

@@ -37,9 +37,26 @@ function cleanCatalog(input) {
     const key = cleanText(rawKey);
     if (!key || !/^[a-z0-9:_|./ -]+$/i.test(key)) throw new Error('Grocery catalog contains an invalid item key.');
     if (!rawValue || typeof rawValue !== 'object' || Array.isArray(rawValue)) continue;
-    const price = Number(rawValue.price);
-    if (!Number.isFinite(price) || price < 0 || price > 100000) throw new Error('Grocery catalog contains an invalid price.');
-    output[key] = { price };
+    const entry = {};
+    if (rawValue.price !== undefined) {
+      const price = Number(rawValue.price);
+      if (!Number.isFinite(price) || price < 0 || price > 100000) throw new Error('Grocery catalog contains an invalid price.');
+      entry.price = price;
+    }
+    if (rawValue.packageSize !== undefined) {
+      const size = Number(rawValue.packageSize);
+      if (!Number.isFinite(size) || size < 0 || size > 1000000) throw new Error('Grocery catalog contains an invalid package size.');
+      entry.packageSize = size;
+    }
+    for (const field of ['packageLabel', 'store', 'confidence', 'query']) {
+      if (rawValue[field] !== undefined) entry[field] = cleanText(rawValue[field], 500);
+    }
+    if (rawValue.productUrl !== undefined) {
+      const url = cleanText(rawValue.productUrl, 2000);
+      if (url && !/^https?:\/\//i.test(url)) throw new Error('Grocery catalog contains an invalid product URL.');
+      entry.productUrl = url;
+    }
+    output[key] = entry;
   }
   return output;
 }

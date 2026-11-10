@@ -3,19 +3,21 @@ const PHASES = Object.freeze({
   monday: {
     subject: "This week's PRPD menu is open",
     heading: "This week's menu is ready",
-    intro: 'Choose your meals for Saturday delivery before {cutoff}.',
+    intro: 'Choose your meals for {deliveryDay} delivery before {cutoff}.',
     cta: "View this week's menu",
   },
   tuesday: {
     subject: 'PRPD orders close tomorrow at {cutoffTimeShort}',
     heading: 'A quick PRPD order reminder',
-    intro: "This week's menu is open, and orders close tomorrow at {cutoffTime}.",
+    intro: "This week's menu is open!",
+    featured: "We've introduced Blueberry Vanilla Protein Baked Oatmeal Squares, Cheesy Achiote Chicken Tacos with PRPD Garlic Herb Yogurt and Honey Barbecue Mustard, and premium Wild Argentine Red Shrimp.",
+    deadline: 'Orders close tomorrow at {cutoffTime}.',
     cta: 'Place your order',
   },
   wednesday: {
     subject: 'PRPD orders close today at {cutoffTimeShort}',
     heading: "Final call for this week's PRPD menu",
-    intro: 'Orders close today at {cutoffTime} for Saturday delivery.',
+    intro: 'Orders close today at {cutoffTime} for {deliveryDay} delivery.',
     cta: 'Order before cutoff',
   },
 });
@@ -60,7 +62,9 @@ function preferenceStatus(value) {
 function holdApplies(hold, options = {}) {
   if (!hold || typeof hold !== 'object') return false;
   if (clean(hold.status).toLowerCase() !== 'active') return false;
-  if (Number(hold.batchNumber) !== Number(options.batchNumber)) return false;
+  const holdBatch = clean(hold.batchNumber).toLowerCase();
+  const isAllBatchHold = holdBatch === 'all' || holdBatch === '*';
+  if (!isAllBatchHold && Number(hold.batchNumber) !== Number(options.batchNumber)) return false;
   const holdPhase = clean(hold.phase).toLowerCase() || 'all';
   const phase = clean(options.phase).toLowerCase();
   if (holdPhase !== 'all' && holdPhase !== phase) return false;
@@ -78,6 +82,7 @@ function recipientDecisions(orders, options = {}) {
   const latestByEmail = new Map();
   const consentByEmail = new Map();
   const orderedCurrentBatch = new Set();
+  const orderedCurrentBatchNames = new Set();
 
   for (const order of Array.isArray(orders) ? orders : []) {
     const email = normalizeEmail(order.Email);
@@ -85,7 +90,11 @@ function recipientDecisions(orders, options = {}) {
     latestByEmail.set(email, order);
     const consent = consentValue(order['Menu Email Opt-In']);
     if (consent !== null) consentByEmail.set(email, consent);
-    if (Number(options.batchNumberFromOrder?.(order)) === batchNumber) orderedCurrentBatch.add(email);
+    if (Number(options.batchNumberFromOrder?.(order)) === batchNumber) {
+      orderedCurrentBatch.add(email);
+      const name = normalizeName(customerName(order));
+      if (name) orderedCurrentBatchNames.add(name);
+    }
   }
 
   return Array.from(latestByEmail.entries()).map(([email, order]) => {
@@ -95,7 +104,7 @@ function recipientDecisions(orders, options = {}) {
       lastName: clean(order['Last Name']),
       audienceReason: consentByEmail.get(email) === true ? 'opted-in' : 'previous-customer',
     };
-    if (orderedCurrentBatch.has(email)) {
+    if (orderedCurrentBatch.has(email) || orderedCurrentBatchNames.has(normalizeName(customerName(order)))) {
       return { ...base, decision: 'suppressed', reason: 'current-batch-order' };
     }
     if (preferenceStatus(preferences.get(email)) === 'unsubscribed') {
@@ -131,10 +140,18 @@ function renderReminder(options) {
   const cutoff = clean(options.cutoffLabel) || 'Wednesday at 6:00 PM CT';
   const cutoffTime = cutoff.replace(/^Wednesday at\s+/i, '');
   const cutoffTimeShort = cutoffTime.replace(':00 ', ' ');
+  const deliveryDay = clean(options.deliveryDate).match(/^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\b/i)?.[1]
+    || 'Saturday';
   const subject = phase.subject.replace('{cutoffTimeShort}', cutoffTimeShort);
   const intro = phase.intro
     .replace('{cutoff}', cutoff)
-    .replace('{cutoffTime}', cutoffTime);
+    .replace('{cutoffTime}', cutoffTime)
+    .replace('{deliveryDay}', deliveryDay);
+  const featured = clean(phase.featured);
+  const deadline = clean(phase.deadline)
+    .replace('{cutoff}', cutoff)
+    .replace('{cutoffTime}', cutoffTime)
+    .replace('{deliveryDay}', deliveryDay);
   const menuUrl = clean(options.menuUrl) || 'https://getprpd.com/order';
   const unsubscribeUrl = clean(options.unsubscribeUrl);
   const postalAddress = clean(options.postalAddress);
@@ -146,13 +163,14 @@ function renderReminder(options) {
     `Hi ${firstName},`,
     '',
     intro,
+    featured ? featured : '',
+    deadline ? deadline : '',
     '',
     `Browse this week's menu and place your order: ${menuUrl}`,
     '',
-    'Saturday delivery across the DFW area.',
-    'Local delivery: $60 minimum, $9.99 delivery, free at $85.',
-    'Regional delivery: $80 minimum, $12.99 delivery, free at $125.',
-    'Extended delivery: $100 minimum, $14.99 delivery, free at $150.',
+    `${deliveryDay} delivery across the DFW area.`,
+    '',
+    'Thank you!',
     '',
     'Promotional email from PRPD LLC.',
     audienceText,
@@ -168,12 +186,12 @@ function renderReminder(options) {
     <div style="background:#fff;padding:28px;border:1px solid #ded8cf;border-top:0">
       <p style="margin:0 0 12px">Hi ${escapeHtml(firstName)},</p>
       <h1 style="font-size:23px;margin:0 0 12px">${escapeHtml(phase.heading)}</h1>
-      <p style="margin:0 0 22px">${escapeHtml(intro)}</p>
+      <p style="margin:0 0 12px">${escapeHtml(intro)}</p>
+      ${featured ? `<p style="margin:0 0 12px">${escapeHtml(featured)}</p>` : ''}
+      ${deadline ? `<p style="margin:0 0 22px">${escapeHtml(deadline)}</p>` : ''}
       <p style="margin:0 0 24px"><a href="${escapeHtml(menuUrl)}" style="display:inline-block;background:#1f7a3f;color:#fff;text-decoration:none;padding:13px 19px;font-weight:700">${escapeHtml(phase.cta)}</a></p>
-      <p style="margin:0">Saturday delivery across the DFW area.<br>
-      Local delivery: $60 minimum, $9.99 delivery, free at $85.<br>
-      Regional delivery: $80 minimum, $12.99 delivery, free at $125.<br>
-      Extended delivery: $100 minimum, $14.99 delivery, free at $150.</p>
+      <p style="margin:0 0 12px">${escapeHtml(deliveryDay)} delivery across the DFW area.</p>
+      <p style="margin:0">Thank you!</p>
       <hr style="border:0;border-top:1px solid #ded8cf;margin:26px 0 18px">
       <p style="font-size:12px;color:#667266;margin:0">Promotional email from PRPD LLC.<br>
       ${escapeHtml(audienceText)}
@@ -196,14 +214,19 @@ function renderOwnerReport(options) {
       return `- ${name} <${normalizeEmail(recipient.email)}>`;
     })
     : ['- None'];
-  const subject = `PRPD reminder report: ${recipients.length} sent (${phase})`;
+  const failed = status === 'failed';
+  const subject = failed
+    ? `PRPD reminder report: FAILED (${phase})`
+    : `PRPD reminder report: ${recipients.length} sent (${phase})`;
   const suppressionSummary = clean(options.suppressionSummary);
   const text = [
     `Automation: ${phase} weekly menu reminder`,
     `Batch: ${batchNumber}`,
     `Status: ${status.toUpperCase()}`,
     `Run ID: ${clean(options.runId)}`,
-    `Sent: ${recipients.length} of ${intendedCount}`,
+    failed
+      ? `Confirmed accepted before failure: ${recipients.length} of ${intendedCount}`
+      : `Sent: ${recipients.length} of ${intendedCount}`,
     '',
     'Recipients:',
     ...recipientLines,

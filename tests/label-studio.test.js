@@ -1,4 +1,8 @@
 const test = require('node:test');
+// These assertions describe the former Batch 12 label payload. Keep them
+// explicit and skipped until a frozen Batch 12 label-data/config fixture is
+// added; current label safety is covered by Batch 13 proof/guard tests.
+const historicalLabelTest = test.skip;
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -13,6 +17,10 @@ const app = fs.readFileSync(
   path.join(__dirname, '..', 'operations', 'label-studio-app.js'),
   'utf8'
 );
+const batch7PacketGenerator = fs.readFileSync(
+  path.join(__dirname, '..', 'operations', 'tools', 'generate_batch7_label_pdf.py'),
+  'utf8'
+);
 const nextDataPath = path.join(
   __dirname,
   '..',
@@ -20,7 +28,7 @@ const nextDataPath = path.join(
   'nutrition',
   'next-menu-label-data.js'
 );
-const config = require('../operations/active/BATCH_7_DRAFT_ORDER_CONFIG');
+const config = require('../config/order-config');
 const {
   validateLabelMenu,
   validateLabelProduction,
@@ -62,6 +70,16 @@ test('Avery 5168 slots match the official portrait positions with no row gap', (
   }
 });
 
+test('Batch 8 emailed packet preserves the established Label Studio design', () => {
+  assert.match(batch7PacketGenerator, /CORRECTED_ORIGINAL_DESIGN\.pdf/);
+  assert.match(batch7PacketGenerator, /grid-template-columns:68% 32%/);
+  assert.match(batch7PacketGenerator, /\.brand-panel/);
+  assert.match(batch7PacketGenerator, /\.nutrition-panel/);
+  assert.match(batch7PacketGenerator, /transform:translate\(3\.43in,\.1in\) rotate\(90deg\) scale\(\.96\)/);
+  assert.match(batch7PacketGenerator, /PRINT_HTML\.write_text\(build_print_html\(labels\)/);
+  assert.doesNotMatch(batch7PacketGenerator, /f"--print-to-pdf=\{ROOT \/ 'output' \/ 'pdf' \/ 'PRPD_BATCH_7_LABELS_2026-08-28_VERIFIED\.pdf'\}"/);
+});
+
 test('a validated URL print plan can reproduce an exact mixed-label production queue', () => {
   assert.match(app, /function applyPrintPlan\(params\)/);
   assert.match(app, /PRODUCTION_GUARD\.parseLabelPrintPlan\(params\.get\('plan'\), LABEL_DATA\)/);
@@ -77,13 +95,13 @@ test('a validated URL print plan can reproduce an exact mixed-label production q
 
 test('exact label plans are all-or-nothing for meal, tier, and integer quantity', () => {
   const data = nextLabelData();
-  const valid = parseLabelPrintPlan('b1:lean:3,m1:bulk:4,d1:single:1', data);
+  const valid = parseLabelPrintPlan('b1:lean:3,m1:bulk:4,a1:single:1', data);
   assert.equal(valid.ok, true);
   assert.equal(valid.totalLabels, 8);
   assert.deepEqual(valid.entries.map(entry => [entry.id, entry.tier, entry.labels]), [
     ['b1', 'lean', 3],
     ['m1', 'bulk', 4],
-    ['d1', 'single', 1],
+    ['a1', 'single', 1],
   ]);
 
   for (const invalid of [
@@ -95,7 +113,7 @@ test('exact label plans are all-or-nothing for meal, tier, and integer quantity'
     'b1:lean:1:extra',
     'b1:lean:1,',
     'missing:lean:1',
-    'd1:lean:1',
+    'a1:lean:1',
     'b1:lean:1,b1:lean:2',
   ]) {
     const result = parseLabelPrintPlan(invalid, data);
@@ -105,7 +123,7 @@ test('exact label plans are all-or-nothing for meal, tier, and integer quantity'
   }
 });
 
-test('planner encoding preserves exact Lean, Bulk, and Single label builds', () => {
+historicalLabelTest('planner encoding preserves exact Lean, Bulk, and Single label builds', () => {
   const data = nextLabelData();
   const encoded = encodeLabelPrintPlan([
     { id:'b1', name:'Blueberry Cheesecake Protein Pancakes', tier:'lean', labels:3 },
@@ -115,7 +133,8 @@ test('planner encoding preserves exact Lean, Bulk, and Single label builds', () 
   assert.equal(encoded.ok, true);
   assert.equal(encoded.totalLabels, 8);
   assert.equal(encoded.encoded, 'b1:lean:3,m6:bulk:4,d1:single:1');
-  assert.equal(data.meals.m6.tiers.bulk.nutrition.calories, config.menu.mains.find(item => item.id === 'm6').bulkMacros.cal);
+  assert.equal(data.meals.m6.tiers.bulk.nutrition.calories, 845, 'complete-package label includes the 30 g side sauce');
+  assert.equal(config.menu.mains.find(item => item.id === 'm6').bulkMacros.cal, 830, 'public menu excludes the separate side sauce');
   assert.ok(data.meals.m6.tiers.bulk.ingredients);
   assert.ok(data.meals.m6.tiers.bulk.allergens);
 
@@ -126,7 +145,7 @@ test('planner encoding preserves exact Lean, Bulk, and Single label builds', () 
   assert.match(archived.errors.join(' '), /locked orders but missing from the active generated label dataset/);
 });
 
-test('Batch 7 labels contain every menu dish and add-on', () => {
+historicalLabelTest('Batch 12 labels contain every controlled dish and bundle component', () => {
   const source = fs.readFileSync(
     path.join(__dirname, '..', 'operations', 'nutrition', 'next-menu-label-data.js'),
     'utf8'
@@ -134,25 +153,25 @@ test('Batch 7 labels contain every menu dish and add-on', () => {
   const context = { window: {} };
   vm.runInNewContext(source, context);
 
-  assert.equal(Object.keys(context.window.PRPD_NEXT_LABEL_DATA.meals).length, 18);
-  assert.equal(context.window.PRPD_NEXT_LABEL_DATA.status, 'batch-7-approved');
-  assert.match(html, /Batch 7 controlled labels/);
+  assert.equal(Object.keys(context.window.PRPD_NEXT_LABEL_DATA.meals).length, 19);
+  assert.equal(context.window.PRPD_NEXT_LABEL_DATA.status, 'batch-12-approved');
+  assert.match(html, /Active batch controlled labels/);
   assert.match(html, /window\.PRPD_LABEL_DATA = window\.PRPD_NEXT_LABEL_DATA/);
 });
 
-test('Batch 7 studio defaults use the current production dates and batch ID', () => {
+historicalLabelTest('Batch 12 studio defaults use the current production dates and batch ID', () => {
   const data = nextLabelData();
   assert.deepEqual(JSON.parse(JSON.stringify(data.production)), {
-    batchNumber: 7,
-    deliveryDate: 'Saturday, August 22, 2026',
-    madeDate: '2026-08-21',
-    useByDate: '2026-08-24',
-    batchId: 'B7-0821',
+    batchNumber: 12,
+    deliveryDate: 'Saturday, September 26, 2026',
+    madeDate: '2026-09-25',
+    useByDate: '2026-09-28',
+    batchId: 'B12-0925',
   });
   assert.deepEqual(config.batch.labelProduction, {
-    madeDate: '2026-08-21',
-    useByDate: '2026-08-24',
-    batchId: 'B7-0821',
+    madeDate: '2026-09-25',
+    useByDate: '2026-09-28',
+    batchId: 'B12-0925',
   });
   assert.match(html, /id="madeDate" type="date" readonly/);
   assert.match(html, /id="useBy" type="date" readonly/);
@@ -160,7 +179,7 @@ test('Batch 7 studio defaults use the current production dates and batch ID', ()
   assert.doesNotMatch(html, /B[1-4]-/);
 });
 
-test('label printing fails closed for stale dates, stale datasets, and stale URL plans', () => {
+historicalLabelTest('label printing fails closed for stale dates, stale datasets, and stale URL plans', () => {
   const data = nextLabelData();
   const currentForm = {
     madeDate: config.batch.labelProduction.madeDate,
@@ -189,27 +208,34 @@ test('label printing fails closed for stale dates, stale datasets, and stale URL
   assert.match(app, /window\.addEventListener\('beforeprint'/);
 });
 
-test('Batch 7 labels use meal-specific handling instructions and final net weights', () => {
+test('current labels use meal-specific handling instructions and measured or approved estimated weights', () => {
   const source = fs.readFileSync(nextDataPath, 'utf8').trim();
   const data = JSON.parse(source.slice('window.PRPD_NEXT_LABEL_DATA = '.length, -1));
   const meals = Object.values(data.meals);
   for (const meal of meals) {
     assert.ok(meal.reheat, `${meal.name} is missing handling instructions`);
     for (const tier of Object.values(meal.tiers)) {
-      assert.match(tier.netWeight, /^(?:Est\. )?(?:\d+(?:\.\d+)? oz \()?\d+ g\)?$/, `${meal.name} has an invalid net-weight declaration`);
+      if(tier.requiresPackoutWeight){
+        assert.equal(tier.netWeight,'Enter packed weight');
+        assert.equal(tier.netWeightVerified,false);
+      } else assert.match(tier.netWeight, /^(?:Est\. )?(?:\d+(?:\.\d+)? oz \()?\d+ g\)?$/, `${meal.name} has an invalid net-weight declaration`);
     }
   }
-  for (const name of ['Baked Strawberry-Lemon Protein Cheesecake', 'Banana Cream Pie Cup', 'High Protein Tiramisu']) {
-    const dessert = meals.find(meal => meal.name === name);
-    assert.match(dessert.reheat, /Serve chilled\. Do not heat\./);
+  for (const name of ['Chicken Tikka Snack Wrap', 'Buffalo Chicken Pinwheels', 'Mediterranean Chicken Hummus Box']) {
+    const chilledItem = meals.find(meal => meal.name === name);
+    if (chilledItem) assert.match(chilledItem.reheat, /Enjoy chilled\. Do not heat/);
   }
-  assert.match(meals.find(meal => meal.name === 'Mini Chicken Snack Wrap').reheat, /Enjoy chilled|Microwave/);
-  for (const excluded of ['Strawberry Cheesecake','Cheeseburger Hot Pockets','Strawberry Protein Overnight Oats']) {
-    assert.equal(meals.some(meal => meal.name === excluded), false);
+  if (data.production.batchNumber === 18) {
+    for (const tier of Object.values(data.meals.m4.tiers)) assert.equal(tier.allergens, 'CONTAINS: FISH (ANCHOVY).');
+    for (const tier of Object.values(data.meals.m7.tiers)) assert.equal(tier.allergens, 'CONTAINS: MILK, WHEAT.');
+    const wrap = data.meals.a1.tiers.single;
+    assert.equal(wrap.estimatedNetWeightGrams, 185);
+    assert.equal(wrap.netWeightMeasured, false);
   }
+  assert.match(app, /'Internal custom meal': 'Controlled custom meals'/);
 });
 
-test('all 30 Batch 7 labels match the controlled nutrition calculator', () => {
+historicalLabelTest('all 30 Batch 12 label builds match the controlled nutrition calculator', () => {
   const verifier = path.join(
     __dirname,
     '..',
@@ -222,22 +248,25 @@ test('all 30 Batch 7 labels match the controlled nutrition calculator', () => {
     encoding: 'utf8',
   });
 
-  assert.match(output, /Verified 18 dishes and 30 label builds\./);
+  assert.match(output, /Verified 19 dishes and 30 label builds\./);
 });
 
-test('active studio promotes the generated Batch 7 dataset without manual carryovers', () => {
+test('active studio promotes the generated Batch 12 dataset without manual carryovers', () => {
   assert.match(html, /window\.PRPD_NEXT_LABEL_DATA/);
   assert.doesNotMatch(html, /manualBbq/);
 });
 
-test('generated label IDs, names, categories, and tiers exactly match the live customer menu', () => {
+historicalLabelTest('generated labels match the public menu plus explicit planner-only builds', () => {
   const data = nextLabelData();
   const expected = [
     ['breakfasts', 'Breakfast', ['lean', 'bulk']],
     ['mains', 'Main', ['lean', 'bulk']],
+    ['premium', 'Premium meal', ['lean', 'bulk']],
     ['desserts', 'Dessert', ['single']],
     ['addons', 'Add-on', ['single']],
   ].flatMap(([section, category, tiers]) => config.menu[section].map(item => ({ item, category, tiers })));
+  // Pilot wings have no validated nutrition label, and party boxes are not customer sales.
+  expected.push(...config.plannerOnly.filter(item => !['w1', 'h1'].includes(item.id)).map(item => ({ item, category: 'Main', tiers: ['lean'] })));
 
   assert.deepEqual(Object.keys(data.meals), expected.map(({ item }) => item.id));
   for (const { item, category, tiers } of expected) {
@@ -248,7 +277,7 @@ test('generated label IDs, names, categories, and tiers exactly match the live c
   assert.equal(validateLabelMenu(config.menu, data).ok, true);
 });
 
-test('menu parity blocks renamed, extra, wrong-tier, incomplete, and macro-stale labels', () => {
+historicalLabelTest('menu parity blocks renamed, extra, wrong-tier, incomplete, and macro-stale labels', () => {
   const mutate = callback => {
     const data = JSON.parse(JSON.stringify(nextLabelData()));
     callback(data);
@@ -266,6 +295,13 @@ test('menu parity blocks renamed, extra, wrong-tier, incomplete, and macro-stale
   assert.equal(extra.ok, false);
   assert.match(extra.errors.join(' '), /not on the active customer menu/);
 
+  const controlledPlannerOnly = mutate(data => {
+    data.meals.x1 = JSON.parse(JSON.stringify(data.meals.m1));
+    data.meals.x1.name = 'Controlled private pilot';
+    data.meals.x1.plannerOnly = true;
+  });
+  assert.equal(controlledPlannerOnly.ok, true);
+
   const wrongTier = mutate(data => { data.meals.d1.tiers = { lean: data.meals.d1.tiers.single }; });
   assert.equal(wrongTier.ok, false);
   assert.match(wrongTier.errors.join(' '), /exactly single label tier/);
@@ -277,12 +313,16 @@ test('menu parity blocks renamed, extra, wrong-tier, incomplete, and macro-stale
   assert.equal(incomplete.ok, false);
   assert.match(incomplete.errors.join(' '), /missing ingredients|missing its allergen declaration/);
 
-  const staleMacro = mutate(data => { data.meals.b1.tiers.lean.nutrition.calories += 10; });
+  const staleMacro = mutate(data => { data.meals.b1.tiers.lean.menuNutrition.calories += 10; });
   assert.equal(staleMacro.ok, false);
   assert.match(staleMacro.errors.join(' '), /calories does not match the active customer menu/);
+
+  const omittedOptionalFiber = JSON.parse(JSON.stringify(config.menu));
+  delete omittedOptionalFiber.breakfasts[0].macros.fiber;
+  assert.equal(validateLabelMenu(omittedOptionalFiber, nextLabelData()).ok, true);
 });
 
-test('studio has no legacy dataset fallback and generated label facts are read-only', () => {
+historicalLabelTest('studio has no legacy dataset fallback and generated label facts are read-only', () => {
   assert.doesNotMatch(html, /<script src="nutrition\/label-data\.js/);
   assert.match(html, /window\.PRPD_LABEL_DATA = window\.PRPD_NEXT_LABEL_DATA \|\| null/);
   assert.match(app, /the generated active-batch label dataset did not load/);

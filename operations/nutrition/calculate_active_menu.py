@@ -10,6 +10,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, fields
 from pathlib import Path
+import meal_portion_standards as portions
 from typing import Iterable
 
 
@@ -52,6 +53,7 @@ class Ingredient:
     source: str
     confidence: str = "high"
     note: str = ""
+    nutrition_complete: bool = True
 
 
 @dataclass
@@ -60,6 +62,7 @@ class Portion:
     amount: float
     unit: str = "g"
     note: str = ""
+    include_in_menu_macros: bool = True
 
 
 @dataclass
@@ -122,7 +125,8 @@ INGREDIENTS: dict[str, Ingredient] = {
     "rice_dry": Ingredient("PRPD basmati/white rice, dry", n(355, 6.75, 78, 1.0, 0.7, 0.18, 0.1, 0, 5, 0), "100g", f"{PACKAGE} for calories/protein; USDA FDC 169756 for remaining fields", "medium"),
     "bread_slice": Ingredient("French toast bread", n(80, 3, 15, 1, 1, 0, 0.5, 0.5, 230, 0), "each (32g)", PACKAGE, "high", "Sugars and added sugars are recorded as 0.5g because the label states less than 1g."),
     "shawarma_bread": Ingredient("Shawarma bread", n(240, 8, 48, 0, 0, 0, 0, 0, 340, 0), "each", PACKAGE, "medium", "Sugars and saturated fat were not present in the transcription and remain provisional zeros."),
-    "small_tortilla": Ingredient("Mission Carb Balance small tortilla", n(70, 6, 19, 15, 2.5, 0, 0, 0, 320, 0), "each", f"{MANUFACTURER}; PRPD package record", "medium", "One standard small tortilla used only for Lean breakfast builds; confirm the physical package before final label printing."),
+    "small_tortilla": Ingredient("Mission Carb Balance medium soft-taco tortilla", n(70, 6, 19, 15, 2.5, 0, 0, 0, 320, 0), "each", f"{MANUFACTURER}; PRPD package record", "medium", "One 70-calorie soft-taco tortilla. The legacy key remains small_tortilla for compatibility, but this is the medium main-dish tortilla, not the 35-calorie street-taco tortilla."),
+    "street_taco_tortilla": Ingredient("Mission Carb Balance whole-wheat street-taco tortilla", n(35, 2.5, 11, 10, 1, 0, 0, 0, 115, 0), "each", "Mission Foods current Street Tacos Carb Balance Whole Wheat product page", "medium", "One tortilla from the 12-count street-taco package. Mission lists 70 calories, 5g protein, 22g carbohydrate, and 20g fiber per two-tortilla serving. Confirm fat and sodium from the physical package before final label printing."),
     "fajita_tortilla": Ingredient("Mission Carb Balance Fajita flour tortilla", n(45, 4, 12, 11, 2, 1, 0, 0, 220, 0), "each", "Mission Carb Balance Fajita Flour Tortillas current 8-count package listing; H-E-B product 1528858", "high", "One 28g tortilla used only for the Mini Chicken Snack Wrap. Contains wheat. Confirm the physical package still matches before final label printing."),
     "large_tortilla": Ingredient("Mission Carb Balance large tortilla", n(110, 10, 31, 28, 3.5, 0, 0, 0, 580, 0), "each", f"{PACKAGE} for calories/protein/fiber; remaining fields working estimate", "low"),
     "fage": Ingredient("FAGE Total 0%", n(52.9412, 10.5882, 2.9412, 0, 0, 0, 2.9412, 0, 38.2353, 5.8824), "100g", MANUFACTURER),
@@ -236,8 +240,14 @@ for key, values in SUPPLEMENTAL_NUTRIENTS.items():
     nutrient.trans_fat, nutrient.vitamin_d, nutrient.calcium, nutrient.iron, nutrient.potassium = values
 
 
-def p(key: str, amount: float, unit: str = "g", note: str = "") -> Portion:
-    return Portion(key, amount, unit, note)
+def p(
+    key: str,
+    amount: float,
+    unit: str = "g",
+    note: str = "",
+    include_in_menu_macros: bool = True,
+) -> Portion:
+    return Portion(key, amount, unit, note, include_in_menu_macros)
 
 
 def build(portions: Iterable[Portion], assumptions: Iterable[str], confidence: str) -> Build:
@@ -262,7 +272,7 @@ def beef_pan(raw_g: float) -> Portion:
 def common_french_sides() -> list[Portion]:
     return [
         p("strawberry", 50), p("banana", 40), p("whipped_cream", 10),
-        p("maple_syrup", 30, note="one 30g side cup"),
+        p("maple_syrup", 30, note="one 30g side cup", include_in_menu_macros=False),
     ]
 
 
@@ -312,7 +322,12 @@ def burrito(tier: str) -> Build:
 def halal_cart(tier: str) -> Build:
     portions = [chicken_thigh(235 if tier == "lean" else 330), p("rice_dry", 40), p("lettuce", 30), p("tomato", 50), p("salt", 0.75 if tier == "lean" else 1)]
     # 30g of a 136g sauce batch: 100g Fage, 15g light mayo, 6g garlic, 15g lemon.
-    portions += [p("fage", 22.06), p("light_mayo", 3.31), p("garlic", 1.32), p("lemon", 3.31)]
+    portions += [
+        p("fage", 22.06, note="separate white-sauce cup", include_in_menu_macros=False),
+        p("light_mayo", 3.31, note="separate white-sauce cup", include_in_menu_macros=False),
+        p("garlic", 1.32, note="separate white-sauce cup", include_in_menu_macros=False),
+        p("lemon", 3.31, note="separate white-sauce cup", include_in_menu_macros=False),
+    ]
     return build(portions, ["White sauce portion is assumed at 30g from the documented 136g batch.", "Rice oil is excluded; 0.75g/1g Lean/Bulk salt is modeled."], "medium")
 
 
@@ -377,14 +392,17 @@ def meatball_pasta(tier: str) -> Build:
 
 
 def halal_boy(tier: str) -> Build:
-    raw_beef = 210 if tier == "lean" else 300
-    portions = [
-        beef_pan(raw_beef), p("rice_dry", 40), p("sweet_chili", 30), p("soy_sauce", 15),
-        p("tomato", 50), p("mozzarella", 30), p("lettuce", 30), p("onion", 25),
-        p("garlic", 6), p("light_mayo", 15), p("ketchup", 15), p("mustard", 5),
+    raw_beef = portions.GROUND_BEEF_90_RAW_G[tier]
+    recipe_portions = [
+        beef_pan(raw_beef), p("rice_dry", 45 if tier == "lean" else 60), p("sweet_chili", 30), p("soy_sauce", 15),
+        p("tomato", 45 if tier == "lean" else 60), p("mozzarella", 30), p("lettuce", 30 if tier == "lean" else 40), p("onion", 25),
+        p("garlic", 6),
+        p("light_mayo", 15, note="separate sauce cup", include_in_menu_macros=False),
+        p("ketchup", 15, note="separate sauce cup", include_in_menu_macros=False),
+        p("mustard", 5, note="separate sauce cup", include_in_menu_macros=False),
         p("salt", 0.75 if tier == "lean" else 1),
     ]
-    return build(portions, ["Side cups assumed at 15g mayo, 15g ketchup, and 5g mustard.", "0.75g/1g Lean/Bulk salt is modeled."], "low")
+    return build(recipe_portions, [f"Owner-approved component standard uses {raw_beef:g}g raw 90/10 beef and a working {175 if tier == 'lean' else 250}g finished seasoned-component target pending measured 90/10 yield.", "Rice is controlled at 45g dry Lean / 60g dry Bulk pending measured 120g / 160g cooked yield.", "Vegetable topping is controlled at 75g Lean / 100g Bulk before the separate 30g cheese allocation.", "Side cups assumed at 15g mayo, 15g ketchup, and 5g mustard.", "0.75g/1g Lean/Bulk salt is modeled."], "low")
 
 
 def cheesecake() -> Build:
@@ -432,6 +450,10 @@ MEALS = [
 
 def portion_nutrition(portion: Portion) -> Nutrition:
     ingredient = INGREDIENTS[portion.ingredient]
+    if not ingredient.nutrition_complete:
+        raise ValueError(
+            f"Nutrition is not scalable for {ingredient.name}: {ingredient.note}"
+        )
     if portion.unit == "each":
         return ingredient.nutrition.scale(portion.amount)
     return ingredient.nutrition.scale(portion.amount / 100)
@@ -441,6 +463,24 @@ def total(build_record: Build) -> Nutrition:
     result = Nutrition()
     for portion in build_record.portions:
         result += portion_nutrition(portion)
+    return result
+
+
+def nutrition_is_complete(build_record: Build) -> bool:
+    """Whether every supplied ingredient has a scalable nutrition basis."""
+    return all(INGREDIENTS[portion.ingredient].nutrition_complete for portion in build_record.portions)
+
+
+def menu_total(build_record: Build) -> Nutrition:
+    """Nutrition displayed for the composed meal, excluding optional side cups.
+
+    Complete-package nutrition continues to use ``total`` so ingredients,
+    allergens and nutrition for everything supplied remain auditable.
+    """
+    result = Nutrition()
+    for portion in build_record.portions:
+        if portion.include_in_menu_macros:
+            result += portion_nutrition(portion)
     return result
 
 

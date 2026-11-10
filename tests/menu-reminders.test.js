@@ -76,6 +76,35 @@ test('rate-limited reminder work retries safely before succeeding', async () => 
   assert.equal(attempts, 3);
 });
 
+test('transient Google 503 reminder work retries before succeeding', async () => {
+  let attempts = 0;
+  const result = await ReminderHandler.retryRateLimited(async () => {
+    attempts += 1;
+    if (attempts < 3) {
+      const error = new Error('upstream unavailable');
+      error.status = 503;
+      throw error;
+    }
+    return 'ok';
+  }, { attempts: 3, baseDelayMs: 1 });
+
+  assert.equal(result, 'ok');
+  assert.equal(attempts, 3);
+  assert.equal(ReminderHandler.isTransientHttpStatus(503), true);
+  assert.equal(ReminderHandler.isTransientHttpStatus(400), false);
+});
+
+test('permanent upstream errors are not retried', async () => {
+  let attempts = 0;
+  await assert.rejects(ReminderHandler.retryRateLimited(async () => {
+    attempts += 1;
+    const error = new Error('bad request');
+    error.status = 400;
+    throw error;
+  }, { attempts: 5, baseDelayMs: 1 }), /bad request/);
+  assert.equal(attempts, 1);
+});
+
 test('eligible recipients include prior customers and skip current-batch orderers', () => {
   const orders = [
     order(),
@@ -108,6 +137,21 @@ test('eligible recipients include prior customers and skip current-batch orderer
       audienceReason: 'opted-in',
     },
   ]);
+});
+
+test('current-batch customer identity suppresses stale and mistyped email aliases', () => {
+  const orders = [
+    order({ Batch: 'Batch 3', 'First Name': 'Zee', 'Last Name': 'Hamoda', Email: 'zee.correct@example.com' }),
+    order({ Batch: 'Batch 15', 'First Name': 'Zee', 'Last Name': 'Hamoda', Email: 'zee.typo@example.com' }),
+    order({ Batch: 'Batch 3', 'First Name': 'Nabeeha', 'Last Name': 'Syeda', Email: 'nabeeha@example.com' }),
+  ];
+  const decisions = ReminderCore.recipientDecisions(orders, {
+    batchNumber: 15,
+    batchNumberFromOrder: row => Number(row.Batch.replace(/\D/g, '')),
+  });
+  assert.equal(decisions.find(entry => entry.email === 'zee.correct@example.com').reason, 'current-batch-order');
+  assert.equal(decisions.find(entry => entry.email === 'zee.typo@example.com').reason, 'current-batch-order');
+  assert.equal(decisions.find(entry => entry.email === 'nabeeha@example.com').decision, 'eligible');
 });
 
 test('order-form No does not unsubscribe a prior customer; dedicated preference does', () => {
@@ -182,6 +226,26 @@ test('phase-specific and dated holds fail open only when they no longer apply', 
     batchNumber: 6,
     phase: 'tuesday',
     now: new Date('2026-08-12T19:00:00-05:00'),
+  }), false);
+});
+
+test('all-batch hold suppresses every batch until its expiry', () => {
+  const hold = {
+    email: 'traveling@example.com',
+    batchNumber: 'all',
+    phase: 'all',
+    status: 'active',
+    expiresAt: '2026-09-28T05:00:00Z',
+  };
+  assert.equal(ReminderCore.holdApplies(hold, {
+    batchNumber: 11,
+    phase: 'monday',
+    now: new Date('2026-09-27T23:59:59-05:00'),
+  }), true);
+  assert.equal(ReminderCore.holdApplies(hold, {
+    batchNumber: 12,
+    phase: 'wednesday',
+    now: new Date('2026-09-28T00:00:00-05:00'),
   }), false);
 });
 
@@ -272,6 +336,12 @@ test('menu reminder send guard keeps a published menu quiet during owner review'
   });
 });
 
+test('intentional reminder disablement stays quiet while stale scheduling still alerts the owner', () => {
+  assert.equal(ReminderHandler.ownerReportRequiredForBlockedWindow({ status: 'disabled-owner-review' }), false);
+  assert.equal(ReminderHandler.ownerReportRequiredForBlockedWindow({ status: 'disabled-unpublished' }), false);
+  assert.equal(ReminderHandler.ownerReportRequiredForBlockedWindow({ status: 'disabled-stale-config' }), true);
+});
+
 test('menu reminder send guard blocks invalid or implausible delivery configuration', () => {
   const now = new Date('2026-08-10T15:00:00-05:00');
   const invalidCutoff = ReminderHandler.menuWindowStatus({
@@ -300,7 +370,7 @@ test('menu reminder send guard blocks invalid or implausible delivery configurat
   assert.equal(deliveryTooFarAway.reason, 'invalid-fulfillment-window');
 });
 
-test('reminder copy includes cutoff, ordering rules, address, and unsubscribe', () => {
+test('reminder copy includes the approved features, cutoff, Saturday delivery, address, and unsubscribe', () => {
   const reminder = ReminderCore.renderReminder({
     phase: 'tuesday',
     firstName: 'Aleena',
@@ -309,13 +379,28 @@ test('reminder copy includes cutoff, ordering rules, address, and unsubscribe', 
     postalAddress: '123 Business Rd, Frisco, TX 75035',
   });
   assert.match(reminder.subject, /tomorrow at 6 PM/);
-  assert.match(reminder.text, /\$60 minimum/);
-    assert.match(reminder.text, /Local delivery: \$60 minimum, \$9\.99 delivery, free at \$85/);
-    assert.match(reminder.text, /Regional delivery: \$80 minimum, \$12\.99 delivery, free at \$125/);
-    assert.match(reminder.text, /Extended delivery: \$100 minimum, \$14\.99 delivery, free at \$150/);
+  assert.match(reminder.text, /Blueberry Vanilla Protein Baked Oatmeal Squares/);
+  assert.match(reminder.text, /Cheesy Achiote Chicken Tacos/);
+  assert.match(reminder.text, /premium Wild Argentine Red Shrimp/);
+  assert.match(reminder.text, /Orders close tomorrow at 6:00 PM CT/);
+  assert.match(reminder.text, /Saturday delivery across the DFW area/);
+  assert.match(reminder.text, /Thank you!/);
+  assert.doesNotMatch(reminder.text, /minimum|delivery fee|free at \$/i);
   assert.match(reminder.text, /Unsubscribe/);
   assert.match(reminder.text, /123 Business Rd/);
   assert.match(reminder.text, /Promotional email/);
+});
+
+test('reminder copy follows a one-week Sunday delivery exception', () => {
+  const reminder = ReminderCore.renderReminder({
+    phase: 'monday',
+    firstName: 'Customer',
+    cutoffLabel: 'Wednesday at 6:00 PM CT',
+    deliveryDate: 'Sunday, September 20, 2026',
+    menuUrl: 'https://getprpd.com/order',
+  });
+  assert.match(reminder.text, /Sunday delivery/);
+  assert.doesNotMatch(reminder.text, /Saturday delivery/);
 });
 
 test('owner report confirms the exact recipients accepted by the email provider', () => {
@@ -336,6 +421,22 @@ test('owner report confirms the exact recipients accepted by the email provider'
   assert.match(report.text, /Nure Siddique <nure@example.com>/);
   assert.match(report.text, /Aleena Sajan <aleena@example.com>/);
   assert.match(report.text, /accepted by the email provider/);
+});
+
+test('failed owner reports cannot be mistaken for a successful zero-recipient send', () => {
+  const report = ReminderCore.renderOwnerReport({
+    phase: 'wednesday',
+    status: 'failed',
+    runId: 'menu-reminder-b7-wednesday-2026-08-19',
+    batchNumber: 7,
+    intendedCount: 0,
+    recipients: [],
+    note: 'The run failed during read-business-data.',
+  });
+  assert.match(report.subject, /FAILED \(wednesday\)/);
+  assert.doesNotMatch(report.subject, /0 sent/);
+  assert.match(report.text, /Confirmed accepted before failure: 0 of 0/);
+  assert.match(report.text, /read-business-data/);
 });
 
 test('unsubscribe contact tokens round-trip and reject changes', () => {

@@ -1,0 +1,840 @@
+{
+  "record_date": "2026-10-26",
+  "ready_for_sale": false,
+  "bottles_caps_on_hand": true,
+  "formula_documentation_complete": false,
+  "flavors": [
+    {
+      "flavor": "Strawberry Banana / Strawberry Vanilla working name",
+      "status": "FRESH397G_BASE_MADE_TASTED_ACCEPTED_CHUNKS_AND_BOTTLE_HOLD_NOT_TESTED",
+      "ingredients": [
+        {
+          "ingredient": "Ultra-filtered fat-free milk",
+          "formula_g": 200,
+          "working_product": "Fairlife fat-free",
+          "package_panel_verified": false,
+          "actual_execution_independently_reconfirmed": true,
+          "package_price": null,
+          "package_net_g": null,
+          "actual_line_cost": null
+        },
+        {
+          "ingredient": "Protein powder",
+          "formula_g": 20,
+          "working_product": "Gainful Everyday Whey, unflavored; owner28g serving120cal23g protein",
+          "package_panel_verified": false,
+          "actual_execution_independently_reconfirmed": true,
+          "package_price": null,
+          "package_net_g": null,
+          "actual_line_cost": null
+        },
+        {
+          "ingredient": "Plain Greek yogurt",
+          "formula_g": 30,
+          "working_product": "Actual freshV2 Great Value plain Greek; future production FAGE Total0%",
+          "package_panel_verified": false,
+          "actual_execution_independently_reconfirmed": true,
+          "package_price": null,
+          "package_net_g": null,
+          "actual_line_cost": null
+        },
+        {
+          "ingredient": "Washed/hulled raw strawberry",
+          "formula_g": 80,
+          "working_product": "Raw, not cooked/strained reduction",
+          "package_panel_verified": false,
+          "actual_execution_independently_reconfirmed": true,
+          "package_price": null,
+          "package_net_g": null,
+          "actual_line_cost": null
+        },
+        {
+          "ingredient": "Ripe peeled banana",
+          "formula_g": 50,
+          "working_product": "Owner-accepted flavor allocation",
+          "package_panel_verified": false,
+          "actual_execution_independently_reconfirmed": true,
+          "package_price": null,
+          "package_net_g": null,
+          "actual_line_cost": null
+        },
+        {
+          "ingredient": "Honey",
+          "formula_g": 16,
+          "working_product": "Owner-accepted sweetness allocation",
+          "package_panel_verified": false,
+          "actual_execution_independently_reconfirmed": true,
+          "package_price": null,
+          "package_net_g": null,
+          "actual_line_cost": null
+        },
+        {
+          "ingredient": "Vanilla extract",
+          "formula_g": 1,
+          "working_product": "Exact package panel pending",
+          "package_panel_verified": false,
+          "actual_execution_independently_reconfirmed": true,
+          "package_price": null,
+          "package_net_g": null,
+          "actual_line_cost": null
+        }
+      ],
+      "formula_input_g_before_loss": 397,
+      "actual": {
+        "flavor": "Owner accepted base sweetness and banana; wants strawberry pieces.",
+        "mouthfeel": "Dry lip coating gone/smooth after revised formula and refrigerated hydration; multiple variables changed.",
+        "actual_yogurt": "Great Value plain Greek",
+        "future_yogurt": "FAGE Total0%",
+        "hydration_minutes_refrigerated": 20,
+        "recovered_g": null,
+        "settled_volume_ml": null,
+        "net_fill_g": null,
+        "hold_sample_available": false
+      },
+      "chosen_base": "Keep tasted397g base. Do not repeat rejected powder/sweetness/banana reformulation.",
+      "chunk_addition": {
+        "proposed_g_per_full_base": 20,
+        "proposed_total_input_g": 417,
+        "added_after_blending": true,
+        "actual_made": false,
+        "dose_and_bottle_pour_verified": false
+      },
+      "freeze_dried_powder": {
+        "current_formula_g": 0,
+        "status": "Optional idea deferred; not required in chosen base"
+      },
+      "hold": [
+        {
+          "hour": 0,
+          "food_f": null,
+          "separation_mm": null,
+          "five_shake_remix": null,
+          "texture": null,
+          "aroma": null,
+          "leak": null,
+          "cap_condition": null,
+          "label_adhesion": null,
+          "result": null
+        },
+        {
+          "hour": 24,
+          "food_f": null,
+          "separation_mm": null,
+          "five_shake_remix": null,
+          "texture": null,
+          "aroma": null,
+          "leak": null,
+          "cap_condition": null,
+          "label_adhesion": null,
+          "result": null
+        },
+        {
+          "hour": 48,
+          "food_f": null,
+          "separation_mm": null,
+          "five_shake_remix": null,
+          "texture": null,
+          "aroma": null,
+          "leak": null,
+          "cap_condition": null,
+          "label_adhesion": null,
+          "result": null
+        },
+        {
+          "hour": 72,
+          "food_f": null,
+          "separation_mm": null,
+          "five_shake_remix": null,
+          "texture": null,
+          "aroma": null,
+          "leak": null,
+          "cap_condition": null,
+          "label_adhesion": null,
+          "result": null
+        },
+        {
+          "hour": 96,
+          "food_f": null,
+          "separation_mm": null,
+          "five_shake_remix": null,
+          "texture": null,
+          "aroma": null,
+          "leak": null,
+          "cap_condition": null,
+          "label_adhesion": null,
+          "result": null
+        }
+      ],
+      "remaining": "No retained strawberry sample. Remake chosen base only for chunk/bottle/hold checks; do not call an old sample available.",
+      "final_nutrition": null,
+      "actual_cost_per_bottle": null,
+      "source": "C:\\Users\\aazim\\Documents\\Codex\\2026-10-26\\okay-so-read-all-the-documents\\outputs\\PRPD_Strawberry_Shake_Physical_Result_2026-10-28.json"
+    },
+    {
+      "flavor": "Chocolate Peanut Butter",
+      "status": "YOGURT_4G_COCOA_REFINEMENT_MADE_OWNER_PREFERRED_267G_NET_BOTTLE_NEXT_DAY_PENDING",
+      "ingredients": [
+        {
+          "ingredient": "Ultra-filtered fat-free milk",
+          "formula_g": 245,
+          "working_product": "Fairlife fat-free",
+          "package_panel_verified": false,
+          "actual_execution_independently_reconfirmed": false,
+          "package_price": null,
+          "package_net_g": null,
+          "actual_line_cost": null
+        },
+        {
+          "ingredient": "Protein powder",
+          "formula_g": 20,
+          "working_product": "Gainful Everyday Whey, unflavored",
+          "package_panel_verified": false,
+          "actual_execution_independently_reconfirmed": false,
+          "package_price": null,
+          "package_net_g": null,
+          "actual_line_cost": null
+        },
+        {
+          "ingredient": "Plain fat-free Greek yogurt",
+          "formula_g": 30,
+          "working_product": "FAGE Total0% production direction; exact executed brand not reconfirmed",
+          "package_panel_verified": false,
+          "actual_execution_independently_reconfirmed": false,
+          "package_price": null,
+          "package_net_g": null,
+          "actual_line_cost": null
+        },
+        {
+          "ingredient": "Powdered peanut butter",
+          "formula_g": 12,
+          "working_product": "Exact brand/panel pending; previous calculations modeled PBfit",
+          "package_panel_verified": false,
+          "actual_execution_independently_reconfirmed": false,
+          "package_price": null,
+          "package_net_g": null,
+          "actual_line_cost": null
+        },
+        {
+          "ingredient": "Unsweetened cocoa",
+          "formula_g": 4,
+          "working_product": "Owner tentatively Great Value; exact tub/panel not verified",
+          "package_panel_verified": false,
+          "actual_execution_independently_reconfirmed": false,
+          "package_price": null,
+          "package_net_g": null,
+          "actual_line_cost": null
+        },
+        {
+          "ingredient": "Honey",
+          "formula_g": 16,
+          "working_product": "Current preferred working formula",
+          "package_panel_verified": false,
+          "actual_execution_independently_reconfirmed": false,
+          "package_price": null,
+          "package_net_g": null,
+          "actual_line_cost": null
+        },
+        {
+          "ingredient": "Vanilla extract",
+          "formula_g": 1,
+          "working_product": "Exact package panel pending",
+          "package_panel_verified": false,
+          "actual_execution_independently_reconfirmed": false,
+          "package_price": null,
+          "package_net_g": null,
+          "actual_line_cost": null
+        }
+      ],
+      "salt": "Same tiny pinch; exact executed mass not recorded",
+      "formula_input_g_before_loss": 328,
+      "formula_basis": "Immediately preceding working recipe, followed by owner made/tasted report. Exact executed yogurtbrand and deviations were not independently reconfirmed.",
+      "method": [
+        "Disperse20g Gainful in195g of245g milk; refrigerate20min.",
+        "Whisk remaining50g milk with12g PBpowder,4g cocoa,16g honey,1g vanilla and same tiny salt pinch.",
+        "Briefly blend with30g plain fat-free Greek yogurt, then chill/rest."
+      ],
+      "actual": {
+        "owner_taste": "Way better/milkier; yogurt improves it; subtler chocolate/PB accepted and preferred overall.",
+        "net_fill_g": 267,
+        "tare_confirmed": true,
+        "foam": "Minimal per owner",
+        "initial_leak_report": "No leaks reported; positions/duration unspecified",
+        "recovered_g": null,
+        "settled_volume_ml": null,
+        "density_g_per_ml": null,
+        "headspace_mm": null,
+        "blender_loss_g": null,
+        "next_day_quality_result": null,
+        "temperature_log": []
+      },
+      "earlier_V2_result": {
+        "formula": "275g milk,20g Gainful,12g PBpowder,6g cocoa,16g honey,1g vanilla,pinch; NO yogurt",
+        "recovered_g_approx": 307,
+        "taste": "Smooth/no lip coating, PB right, thin/watery/bitter. Historical result, not current preferred base."
+      },
+      "hold": [
+        {
+          "hour": 0,
+          "food_f": null,
+          "separation_mm": null,
+          "five_shake_remix": null,
+          "texture": null,
+          "aroma": null,
+          "leak": null,
+          "cap_condition": null,
+          "label_adhesion": null,
+          "result": null
+        },
+        {
+          "hour": 24,
+          "food_f": null,
+          "separation_mm": null,
+          "five_shake_remix": null,
+          "texture": null,
+          "aroma": null,
+          "leak": null,
+          "cap_condition": null,
+          "label_adhesion": null,
+          "result": null
+        },
+        {
+          "hour": 48,
+          "food_f": null,
+          "separation_mm": null,
+          "five_shake_remix": null,
+          "texture": null,
+          "aroma": null,
+          "leak": null,
+          "cap_condition": null,
+          "label_adhesion": null,
+          "result": null
+        },
+        {
+          "hour": 72,
+          "food_f": null,
+          "separation_mm": null,
+          "five_shake_remix": null,
+          "texture": null,
+          "aroma": null,
+          "leak": null,
+          "cap_condition": null,
+          "label_adhesion": null,
+          "result": null
+        },
+        {
+          "hour": 96,
+          "food_f": null,
+          "separation_mm": null,
+          "five_shake_remix": null,
+          "texture": null,
+          "aroma": null,
+          "leak": null,
+          "cap_condition": null,
+          "label_adhesion": null,
+          "result": null
+        }
+      ],
+      "real_chocolate": {
+        "current_formula_g": 0,
+        "status": "5g semisweet addition proposed then deferred; not made"
+      },
+      "nutrition_caution": "Earlier~290cal/~39g protein models the full328g working recipe before losses. It is not nutrition for267g in the bottle; no settledmL, total recovery or uniformity verification establishes final bottle nutrition. Do not infer61g blender loss.",
+      "final_nutrition": null,
+      "actual_cost_per_bottle": null,
+      "source": "C:\\Users\\aazim\\Documents\\Codex\\2026-10-26\\okay-so-read-all-the-documents\\outputs\\PRPD_Chocolate_Peanut_Butter_Pilot_V2_2026-10-28.json"
+    }
+  ],
+  "formula_controls": [
+    "Current powder is Gainful Everyday Whey, unflavored. Owner basis28g=120cal23g protein;20g per current recipe.",
+    "Fairlife fat-free milk is current. Future production yogurt is FAGE Total0%; do not retrospectively rename actual Great Value strawberry test.",
+    "Keep accepted strawberry banana50g/honey16g and chocolate PB12g/honey16g. Lower-honey/high-intensity-sweetener ideas are later comparisons, not adopted.",
+    "Keep20min refrigerated hydration as current process; its isolated causal contribution has not been established.",
+    "No creatine, melted chocolate, freeze-dried strawberry powder, water or xanthan is included in the chosen bases.",
+    "Current strawberry uses80g raw berries; old cooked/strained50g reduction is historical.",
+    "Record actual package panels, all executed masses, recovered batch mass, fill mass, settledmL and losses before final nutrition/cost."
+  ],
+  "packaging": {
+    "candidate": "Actual purchased NYHI12oz PET20-set with supplied matching black tamper-evident caps, ASINB0BPDWQ7XR",
+    "nominal_candidate_ml": 355,
+    "net_volume_claim_validated": false,
+    "purchase_authorized_by_record": true,
+    "historical_Cary_cap_limit": "68W40B recorded as not applicable for freezing; do not release a freezer plan with it.",
+    "minimum_test_bottles_per_flavor": 3,
+    "actual_leak_tamper_condensation_freeze_tests": [],
+    "purchase_status": "ORDER_PLACED_VERIFIED_DO_NOT_REORDER",
+    "purchase_record": "C:\\Users\\aazim\\Documents\\Codex\\2026-10-26\\okay-so-read-all-the-documents\\outputs\\PRPD_Shake_Bottle_Purchase_2026-10-27.json",
+    "order_id": "113-6060501-3967467",
+    "landed_set_cost": 19.47,
+    "sets": 20,
+    "listed_overall_inches": {
+      "height": 6.25,
+      "width": 2,
+      "depth": 2
+    },
+    "straight_label_area_height": null,
+    "body_perimeter": null,
+    "actual_remaining_count": null,
+    "receipt_delivery_status": "Estimated arrivalOct28; parcel delivery not independently rechecked in this audit.",
+    "filled_bottle_report": "267g NET chocolate pilot, minimal foam and initial no-leak owner report. Used-bottle brand was not separately named in that report.",
+    "decadorn": "Historical compared model only. Do not reuse2.1x6.7in dimensions or reorder."
+  },
+  "cost_inputs": {
+    "bottle_cap_landed_cost": 0.9735,
+    "label_cost": null,
+    "batch_labor_minutes": null,
+    "labor_rate_per_hour": null,
+    "batch_cold_chain_cost": null,
+    "batch_waste_cost": null,
+    "actual_saleable_bottles": null,
+    "owner_approved_price": null
+  },
+  "cost_formula": "Sum purchase-basis ingredient grams*package_price/package_net_g, then packaging/labels/labor/cold-chain/waste; divide by actual saleable bottles, not theoretical formula names.",
+  "label": {
+    "R&D_copy": [
+      "R&D - NOT FOR SALE",
+      "flavor",
+      "KEEP REFRIGERATED",
+      "SHAKE WELL",
+      "test batch/date"
+    ],
+    "final_ingredients_subingredients": null,
+    "final_CONTAINS": null,
+    "final_business_statement": null,
+    "made_use_through_rule": null,
+    "no_net_volume_or_protein_claim_before_verification": true,
+    "lecithin": "Actual Gainful Everyday ingredient identity includes sunflower lecithin; no strict seed-derived-ingredient-free claim. Exact ingredient/allergen panels still required."
+  },
+  "release_gates": [
+    {
+      "gate": "Purchased ingredient identity/panels locked",
+      "passed": false,
+      "evidence": null
+    },
+    {
+      "gate": "Actual formula/recovered volume accepted",
+      "passed": false,
+      "evidence": null
+    },
+    {
+      "gate": "Bottle/cap/headspace/tamper evidence pass",
+      "passed": false,
+      "evidence": null
+    },
+    {
+      "gate": "0/24/48/72/96-hour planned quality/leak hold completed",
+      "passed": false,
+      "evidence": null
+    },
+    {
+      "gate": "Any freezer claim passes actual freeze/thaw test",
+      "passed": false,
+      "evidence": null
+    },
+    {
+      "gate": "Nutrition/ingredients/allergens/net quantity finalized",
+      "passed": false,
+      "evidence": null
+    },
+    {
+      "gate": "Permitted operating scope and applicable safety/process review confirmed",
+      "passed": false,
+      "evidence": null
+    },
+    {
+      "gate": "Actual landed unit cost/approved price support launch",
+      "passed": false,
+      "evidence": null
+    },
+    {
+      "gate": "Owner approves public listing",
+      "passed": false,
+      "evidence": null
+    }
+  ],
+  "shelf_life": "96-hour sensory hold does not establish microbiological shelf life or automatically authorize a four-day sale window.",
+  "price_control": "NYHI20-set actual paid19.47USD receipt is recorded; ingredient/label/labor/cold-chain costs and saleable yield/price remain unresolved.",
+  "sources": [
+    "operations/recipes/BOTTLED_PROTEIN_SHAKE_RND_2026-08-10.md",
+    "operations/recipes/BOTTLED_PROTEIN_SHAKE_PILOT_RUN_2026-08-17.md",
+    "October26 owner no-bottles clarification",
+    "C:\\Users\\aazim\\Documents\\Codex\\2026-10-26\\okay-so-read-all-the-documents\\outputs\\PRPD_Chocolate_Peanut_Butter_Pilot_V2_2026-10-28.json",
+    "C:\\Users\\aazim\\Documents\\Codex\\2026-10-26\\okay-so-read-all-the-documents\\outputs\\PRPD_Strawberry_Shake_Physical_Result_2026-10-28.json",
+    "C:\\Users\\aazim\\Documents\\Codex\\2026-10-26\\okay-so-read-all-the-documents\\outputs\\PRPD_Shake_Bottle_Purchase_2026-10-27.json"
+  ],
+  "updated_as_of": "2026-10-29",
+  "status": "CHOSEN_BASES_TASTED_CHOCOLATE_BOTTLE_FILLED_OVERNIGHT_HOLD_PENDING_NOT_FOR_SALE",
+  "historical_starting_formulas": [
+    {
+      "flavor": "Chocolate Peanut Butter",
+      "status": "FORMULA_DOCUMENTED_PHYSICAL_TEST_PENDING",
+      "ingredients": [
+        {
+          "ingredient": "Ultra-filtered fat-free milk",
+          "formula_g": 275,
+          "recorded_model_product": "Fairlife; verify actual package",
+          "package_panel_verified": false,
+          "purchase_basis_g": 275,
+          "package_price": null,
+          "package_net_g": null,
+          "actual_line_cost": null
+        },
+        {
+          "ingredient": "Chocolate whey",
+          "formula_g": 30,
+          "recorded_model_product": "Premier Protein; verify actual package",
+          "package_panel_verified": false,
+          "purchase_basis_g": 30,
+          "package_price": null,
+          "package_net_g": null,
+          "actual_line_cost": null
+        },
+        {
+          "ingredient": "Powdered peanut butter",
+          "formula_g": 12,
+          "recorded_model_product": "PBfit; verify actual package",
+          "package_panel_verified": false,
+          "purchase_basis_g": 12,
+          "package_price": null,
+          "package_net_g": null,
+          "actual_line_cost": null
+        },
+        {
+          "ingredient": "Cocoa",
+          "formula_g": 5,
+          "recorded_model_product": null,
+          "package_panel_verified": false,
+          "purchase_basis_g": 5,
+          "package_price": null,
+          "package_net_g": null,
+          "actual_line_cost": null
+        },
+        {
+          "ingredient": "Vanilla",
+          "formula_g": 1,
+          "recorded_model_product": null,
+          "package_panel_verified": false,
+          "purchase_basis_g": 1,
+          "package_price": null,
+          "package_net_g": null,
+          "actual_line_cost": null
+        },
+        {
+          "ingredient": "Salt",
+          "formula_g": 0.2,
+          "recorded_model_product": null,
+          "package_panel_verified": false,
+          "purchase_basis_g": 0.2,
+          "package_price": null,
+          "package_net_g": null,
+          "actual_line_cost": null
+        }
+      ],
+      "sweetener": null,
+      "extra_milk_g": null,
+      "formula_input_g_before_loss": 323.2,
+      "development_estimate_not_a_verified_bottle_claim": {
+        "calories": 265,
+        "protein_g": 44,
+        "carbs_g": 16,
+        "fiber_g": 4,
+        "fat_g": 4
+      },
+      "expected_allergens_not_final": [
+        "milk",
+        "peanut"
+      ],
+      "actual": {
+        "ingredient_start_f": null,
+        "blend_seconds": null,
+        "recovered_g": null,
+        "blender_loss_g": null,
+        "settled_volume_ml": null,
+        "foam_height_mm": null,
+        "density_g_per_ml": null,
+        "safe_fill_net_g": null,
+        "safe_fill_ml": null,
+        "headspace_mm": null,
+        "bottle_cap_identity": null
+      },
+      "hold": [
+        {
+          "hour": 0,
+          "food_f": null,
+          "separation_mm": null,
+          "five_shake_remix": null,
+          "texture": null,
+          "aroma": null,
+          "leak": null,
+          "cap_condition": null,
+          "label_adhesion": null,
+          "result": null
+        },
+        {
+          "hour": 24,
+          "food_f": null,
+          "separation_mm": null,
+          "five_shake_remix": null,
+          "texture": null,
+          "aroma": null,
+          "leak": null,
+          "cap_condition": null,
+          "label_adhesion": null,
+          "result": null
+        },
+        {
+          "hour": 48,
+          "food_f": null,
+          "separation_mm": null,
+          "five_shake_remix": null,
+          "texture": null,
+          "aroma": null,
+          "leak": null,
+          "cap_condition": null,
+          "label_adhesion": null,
+          "result": null
+        },
+        {
+          "hour": 72,
+          "food_f": null,
+          "separation_mm": null,
+          "five_shake_remix": null,
+          "texture": null,
+          "aroma": null,
+          "leak": null,
+          "cap_condition": null,
+          "label_adhesion": null,
+          "result": null
+        },
+        {
+          "hour": 96,
+          "food_f": null,
+          "separation_mm": null,
+          "five_shake_remix": null,
+          "texture": null,
+          "aroma": null,
+          "leak": null,
+          "cap_condition": null,
+          "label_adhesion": null,
+          "result": null
+        }
+      ],
+      "actual_cost_per_bottle": null,
+      "final_nutrition": null
+    },
+    {
+      "flavor": "Strawberry Vanilla",
+      "status": "FORMULA_DOCUMENTED_PHYSICAL_TEST_PENDING",
+      "ingredients": [
+        {
+          "ingredient": "Ultra-filtered fat-free milk",
+          "formula_g": 220,
+          "recorded_model_product": "Fairlife; verify actual package",
+          "package_panel_verified": false,
+          "purchase_basis_g": 220,
+          "package_price": null,
+          "package_net_g": null,
+          "actual_line_cost": null
+        },
+        {
+          "ingredient": "Nonfat Greek yogurt",
+          "formula_g": 40,
+          "recorded_model_product": "FAGE0%; verify actual package",
+          "package_panel_verified": false,
+          "purchase_basis_g": 40,
+          "package_price": null,
+          "package_net_g": null,
+          "actual_line_cost": null
+        },
+        {
+          "ingredient": "Vanilla whey",
+          "formula_g": 30,
+          "recorded_model_product": "Premier Protein; verify actual package",
+          "package_panel_verified": false,
+          "purchase_basis_g": 30,
+          "package_price": null,
+          "package_net_g": null,
+          "actual_line_cost": null
+        },
+        {
+          "ingredient": "Cooked/strained strawberry reduction",
+          "formula_g": 50,
+          "recorded_model_product": null,
+          "package_panel_verified": false,
+          "purchase_basis_g": 75,
+          "package_price": null,
+          "package_net_g": null,
+          "actual_line_cost": null
+        },
+        {
+          "ingredient": "Vanilla",
+          "formula_g": 1,
+          "recorded_model_product": null,
+          "package_panel_verified": false,
+          "purchase_basis_g": 1,
+          "package_price": null,
+          "package_net_g": null,
+          "actual_line_cost": null
+        },
+        {
+          "ingredient": "Lemon juice",
+          "formula_g": 2,
+          "recorded_model_product": null,
+          "package_panel_verified": false,
+          "purchase_basis_g": 2,
+          "package_price": null,
+          "package_net_g": null,
+          "actual_line_cost": null
+        }
+      ],
+      "sweetener": null,
+      "extra_milk_g": null,
+      "formula_input_g_before_loss": 343,
+      "development_estimate_not_a_verified_bottle_claim": {
+        "calories": 240,
+        "protein_g": 40,
+        "carbs_g": 15,
+        "fiber_g": 2,
+        "fat_g": 2
+      },
+      "expected_allergens_not_final": [
+        "milk"
+      ],
+      "actual": {
+        "ingredient_start_f": null,
+        "blend_seconds": null,
+        "recovered_g": null,
+        "blender_loss_g": null,
+        "settled_volume_ml": null,
+        "foam_height_mm": null,
+        "density_g_per_ml": null,
+        "safe_fill_net_g": null,
+        "safe_fill_ml": null,
+        "headspace_mm": null,
+        "bottle_cap_identity": null
+      },
+      "hold": [
+        {
+          "hour": 0,
+          "food_f": null,
+          "separation_mm": null,
+          "five_shake_remix": null,
+          "texture": null,
+          "aroma": null,
+          "leak": null,
+          "cap_condition": null,
+          "label_adhesion": null,
+          "result": null
+        },
+        {
+          "hour": 24,
+          "food_f": null,
+          "separation_mm": null,
+          "five_shake_remix": null,
+          "texture": null,
+          "aroma": null,
+          "leak": null,
+          "cap_condition": null,
+          "label_adhesion": null,
+          "result": null
+        },
+        {
+          "hour": 48,
+          "food_f": null,
+          "separation_mm": null,
+          "five_shake_remix": null,
+          "texture": null,
+          "aroma": null,
+          "leak": null,
+          "cap_condition": null,
+          "label_adhesion": null,
+          "result": null
+        },
+        {
+          "hour": 72,
+          "food_f": null,
+          "separation_mm": null,
+          "five_shake_remix": null,
+          "texture": null,
+          "aroma": null,
+          "leak": null,
+          "cap_condition": null,
+          "label_adhesion": null,
+          "result": null
+        },
+        {
+          "hour": 96,
+          "food_f": null,
+          "separation_mm": null,
+          "five_shake_remix": null,
+          "texture": null,
+          "aroma": null,
+          "leak": null,
+          "cap_condition": null,
+          "label_adhesion": null,
+          "result": null
+        }
+      ],
+      "actual_cost_per_bottle": null,
+      "final_nutrition": null
+    }
+  ],
+  "bottles_caps_on_hand_basis": "Owner reported an actual filled/capped pilot bottle. Exact parcel delivery and remaining bottle/cap count are not recorded.",
+  "creatine": {
+    "included": false,
+    "status": "Future optional-add-on research/test only; not launched, not sold, no dose added."
+  },
+  "formula_documentation_status": "Chosen working formulas are documented; exact executed chocolate deviations, ingredient panels, recovered batch mass and final bottle nutrition remain unconfirmed.",
+  "latest_strawberry_test_2026_11_02": {
+    "date": "2026-11-02",
+    "source": "Owner report in current chat, including clarification",
+    "base_formula_input_as_instructed_g": 397,
+    "strawberry_chunks_added_to_whole_batch_approx_g": 30,
+    "recovered_after_foam_removal_including_chunks_g": 345,
+    "reported_bottle_net_fill_including_chunks_g": 330,
+    "bottle_fill_observation": "Near top with some headspace",
+    "foam_removed": "Owner says a lot; removed mass not separately measured",
+    "chunks_remaining": "Some remained in pouring container; exact per-bottle chunk mass not measured",
+    "calculation_permission": "Owner explicitly accepts rough recipe-based approximation",
+    "taste": "Tasted amazing, owner accepted flavor",
+    "texture": "Owner wants a little more thickness",
+    "settled_volume_ml": null,
+    "label_height_mm": null,
+    "label_wrap_length_mm": null,
+    "hold_results": null,
+    "measured_fridge_temperature": null,
+    "next_thickness_test": {
+      "status": "PROPOSED_NOT_MADE",
+      "milk_g": 180,
+      "previous_milk_g": 200,
+      "other_base_ingredients": "unchanged",
+      "base_input_g": 377,
+      "chunks_approx_g": 30,
+      "total_input_with_chunks_g": 407,
+      "method": "Refrigerated20-minute whey hydration, blend only until smooth, stir chunks in after blending; allow foam to settle under refrigeration before filling",
+      "limits": "Small taste comparison; do not overwrite the accepted397g base or assume identical yield/nutrition"
+    },
+    "other_owner_updates": {
+      "shoulder_price": "7.99/lb or more was uncertain, no confirmed species/cut/supplier quote; calls needed",
+      "sauces_and_edamame": "Owner likes proposed recipes; physical tests still ahead",
+      "basil_beef": "Owner suggests velveted strips; separate pilot prepared, not a production recipe change"
+    }
+  },
+  "current_strawberry_recipe_locked_2026_11_02": {
+    "owner_approved": true,
+    "milk_g": 180,
+    "gainful_unflavored_whey_g": 20,
+    "fage_0_g": 30,
+    "blended_strawberry_g": 80,
+    "banana_g": 50,
+    "honey_g": 16,
+    "vanilla_g": 1,
+    "chunks_approx_g": 30,
+    "base_input_g": 377,
+    "total_input_g": 407,
+    "working_bottle_fill_g": 330,
+    "additional_thickness_test_required": false,
+    "physical_result": "Updated formula adopted by owner; prior200g-milk trial remains separate actual result",
+    "nutrition_source_module": "strawberry_shake_current.py"
+  },
+  "shoulder_recipe_test_owner_waiver_2026_11_02": "Owner explicitly says no need to test shoulder recipe; finish source-based nutrition and cost estimates, preserving unknown physical results and supplier prices."
+}

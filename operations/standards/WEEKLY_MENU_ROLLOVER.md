@@ -1,5 +1,11 @@
 # PRPD Weekly Menu Rollover
 
+## October 19, 2026 owner policy: discontinue desserts
+
+The owner no longer wants to offer or make desserts. Future public menus and next-menu drafts must omit dessert cards, dessert production and dessert testing unless the owner explicitly reverses this policy. Do not automatically refill a dessert section when cloning a prior batch. An empty `menu.desserts` array is valid and must not create a blank category or a required dessert release gate.
+
+Preserve historical recipes, completed order lines, invoices, photos, labels and published-menu archives as evidence of what was actually offered or sold. This policy does not authorize deleting those records or changing old customer orders. It also does not discontinue ordinary breakfast dishes merely because they are sweet; the owner is still choosing breakfast options separately.
+
 Updated: August 10, 2026
 
 Use this procedure whenever the next menu is prepared. The July 14 nutrition audit created the ingredient library, calculation model, label layout, and approval rules. Future menus should reuse that work instead of recalculating every returning dish from zero.

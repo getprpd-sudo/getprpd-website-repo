@@ -1,4 +1,6 @@
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
 const test = require('node:test');
 
 process.env.CRON_SECRET = 'cron-secret-for-tests';
@@ -50,4 +52,9 @@ test('operator brief helpers use exact credentials and render an internal-only m
   assert.match(rendered.text, /No customer messages were sent/);
   assert.match(rendered.html, /Daily Operator Brief/);
   assert.match(rendered.html, /\$15\.00/);
+});
+
+test('operator brief remains available on demand but is not scheduled to email automatically', () => {
+  const vercelConfig = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'vercel.json'), 'utf8'));
+  assert.equal(vercelConfig.crons.some(cron => cron.path === '/api/operator-brief'), false);
 });

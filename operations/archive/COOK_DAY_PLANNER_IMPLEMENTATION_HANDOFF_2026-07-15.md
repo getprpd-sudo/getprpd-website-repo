@@ -1,6 +1,6 @@
 # PRPD Cook-Day Planner: Next Implementation Pass
 
-> Archived implementation handoff. The listed production-planner features were completed; use `../COOK_DAY_PLANNER_README.md` for current behavior and remaining limits.
+> Obsolete archived implementation handoff. This document records a retired extra-finished-meal design and must never be used for shopping or production. Use `../COOK_DAY_PLANNER_README.md` and the live planner for current behavior.
 
 Updated: July 15, 2026
 
@@ -14,7 +14,7 @@ This began as the handoff for the next implementation pass. The requested upgrad
 - The current real-order test produced 54 meals, 14 ordered dishes, seven phases, six oven jobs, 32 side cups, and zero missing cooking methods.
 - Every selected dish receives scaled batch ingredients, equipment, temperature, ordered production steps, plating, holding, and verification instructions.
 - The ingredients shown are totals for the entire selected weekly batch of that dish, not a one-serving recipe.
-- Production is visibly separated into customer meals, one shared PRPD extra per selected dish, and total output. If both tiers are ordered, that one extra uses the Bulk build. The PRPD extra covers quality control, tasting, photography, or an emergency replacement. Customer portion sizes do not change.
+- Historical only: this revision separated customer meals from one shared PRPD extra per selected dish. That rule has been removed. Current production equals sold customer meals exactly; only the pooled raw-protein reserve and temporary rice allowance affect ingredient pulls.
 - The Runbook begins with exact label sheets, raw protein pulls, dry rice, produce, and measured sauce/marinade/mix/dessert batches.
 
 ## Implemented Measurement Improvements
@@ -43,13 +43,13 @@ Example structure:
 
 The method must remain generated from structured recipe data. Do not hard-code a second set of numbers into prose because it could disagree with the scaled ingredient list.
 
-## Implemented PRPD Extra
+## Retired PRPD Extra
 
-The earlier hybrid rule made two separate extras for small dish/tier batches. It was replaced with one transparent rule:
+This historical rule is no longer implemented:
 
 `ordered servings + one shared PRPD extra per selected dish`
 
-The PRPD extra is the quality-check, tasting, photography, or emergency-replacement serving. When both Lean and Bulk are ordered, the one extra is Bulk-sized. No separate contingency serving or percentage is added. Countable items still round to complete usable units, and customer portion specifications never change.
+Do not apply this rule. Current finished production equals sold customer meals. A 5% pooled raw-protein reserve covers normal yield variation without creating extra finished meals, containers, sides, desserts, or labels.
 
 The label plan treats Avery 5168 as four identical labels per sheet. It shows paid customer labels required, sheets to print, and unused labels for every selected dish/tier. PRPD extras do not receive customer labels.
 

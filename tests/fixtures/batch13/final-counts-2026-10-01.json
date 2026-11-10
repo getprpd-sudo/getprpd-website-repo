@@ -1,0 +1,14 @@
+{
+  "source": "operations/active/BATCH_13_GROCERY_AFTER_TALAL_REVISION_2026-10-01.txt, active dish counts",
+  "batch": 13,
+  "customerItems": 118,
+  "counts": [
+    ["b2","lean",1],["b3","lean",9],["m3","lean",11],["m5","lean",7],
+    ["m6","lean",9],["d1","single",2],["m1","lean",7],["m2","lean",4],
+    ["m4","lean",4],["a3","single",5],["m7","lean",6],["a2","single",5],
+    ["m1","bulk",6],["m2","bulk",1],["m5","bulk",2],["m8","lean",2],
+    ["bw1","lean",5],["bw2","lean",5],["p3","lean",3],["p1","lean",3],
+    ["a1","single",4],["d3","single",1],["b3","bulk",2],["m4","bulk",4],
+    ["m3","bulk",2],["m7","bulk",2],["m6","bulk",3],["m8","bulk",3]
+  ]
+}

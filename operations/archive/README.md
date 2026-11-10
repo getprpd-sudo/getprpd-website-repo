@@ -4,11 +4,11 @@ This folder contains completed design records and implementation handoffs. These
 
 Use these active files instead:
 
+- `../active/HANDOFF_2026-09-28.md` for the current work queue and fresh-chat handoff.
 - `../OPERATIONS_INDEX.md` for the current document map.
-- `../RECIPE_DATA_SOURCE_OF_TRUTH.md` for recipe and label authority.
+- `../standards/RECIPE_DATA_SOURCE_OF_TRUTH.md` for recipe and label authority.
 - `../COOK_DAY_PLANNER_README.md` for the working production planner.
 - `../LABEL_STUDIO_README.md` for label generation and Avery 5168 printing.
-- `../NEXT_MENU_DRAFT_2026-07-25.md` for the July 25 menu readiness gate.
 
 Archived records:
 

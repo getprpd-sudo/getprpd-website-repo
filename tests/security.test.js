@@ -5,7 +5,7 @@ const test = require('node:test');
 
 const security = require('../api/_security');
 const orderApi = require('../api/order');
-const draftConfig = require('../operations/active/BATCH_7_DRAFT_ORDER_CONFIG');
+const draftConfig = require('../operations/active/BATCH_8_DRAFT_ORDER_CONFIG');
 const draftCatalog = orderApi._test.catalogForConfig(draftConfig);
 const draftOrderContext = {
   catalog: draftCatalog,
@@ -28,9 +28,9 @@ test('request schemas reject extra properties and invalid non-dessert tiers', ()
 test('order contact validation requires a usable email and delivery location', () => {
   const base = {
     action: 'order',
-    orderId: 'PRPD-B7-20260817-A1B2C3D4',
-    batch: 7,
-    deliveryDate: 'Saturday, August 22, 2026',
+    orderId: `PRPD-B${draftConfig.batch.number}-20260824-A1B2C3D4`,
+    batch: draftConfig.batch.number,
+    deliveryDate: draftConfig.batch.deliveryDate,
     firstName: 'Test',
     lastName: 'Customer',
     phone: '4695550100',
@@ -134,24 +134,26 @@ test('order storage expands undersized sheet grids before writing new tracking c
     },
   };
 
-  const expanded = await orderApi._test.ensureSheetColumnCapacity(client, 'Orders', 36);
+  const expanded = await orderApi._test.ensureSheetColumnCapacity(client, 'Orders', 38);
   assert.equal(expanded, true);
   assert.equal(requests.length, 2);
   assert.deepEqual(requests[1].data.requests, [{
     appendDimension: {
       sheetId: 123,
       dimension: 'COLUMNS',
-      length: 7,
+      length: 9,
     },
   }]);
 });
 
 test('order storage and email confirmation preserve canonical records', () => {
   const source = fs.readFileSync(path.join(__dirname, '..', 'api', 'order.js'), 'utf8');
-  assert.match(source, /'Orders'!A\$\{targetRow\}:AK\$\{targetRow\}/);
+  assert.match(source, /'Orders'!A\$\{targetRow\}:AP\$\{targetRow\}/);
   assert.match(source, /'Email', 'Delivery Address', 'City', 'ZIP Code', 'Delivery Instructions'/);
   assert.match(source, /'Meal Subtotal', 'Delivery Fee', 'Discount Code', 'Discount Amount'/);
   assert.match(source, /'Fulfillment Method'/);
+  assert.match(source, /'Customer-Reported Source'/);
+  assert.match(source, /'Taxable Merchandise', 'Taxable Delivery', 'Tax Rate', 'Sales Tax Collected'/);
   assert.match(source, /order-customer-\$\{order\.orderId\}/);
   assert.match(source, /awaiting payment and final confirmation from Rida/i);
   assert.match(source, /Promise\.allSettled/);

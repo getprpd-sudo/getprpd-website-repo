@@ -3,6 +3,7 @@
 
   const ATTRIBUTION_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
   const GOOGLE_CLICK_KEYS = ['gclid', 'gbraid', 'wbraid'];
+  const GOOGLE_AD_DETAIL_KEYS = ['matchtype', 'device', 'network'];
   const EVENT_NAMES = new Set([
     'landing_view', 'landing_engaged', 'menu_view', 'menu_engaged', 'menu_click',
     'menu_filter', 'meal_engaged', 'social_proof_play', 'social_proof_complete',
@@ -29,10 +30,10 @@
 
   function captureAttribution() {
     const params = new URLSearchParams(windowObject.location.search);
-    for (const key of [...ATTRIBUTION_KEYS, ...GOOGLE_CLICK_KEYS]) {
+    for (const key of [...ATTRIBUTION_KEYS, ...GOOGLE_CLICK_KEYS, ...GOOGLE_AD_DETAIL_KEYS]) {
       const value = params.get(key);
       if (value) {
-        const bounded = value.slice(0, key.endsWith('clid') ? 500 : 160);
+        const bounded = value.slice(0, GOOGLE_CLICK_KEYS.includes(key) ? 500 : 160);
         storageSet(`prpd_${key}`, bounded);
         // Keep the existing order attribution payload in sync across page navigation.
         storageSet(key, bounded);

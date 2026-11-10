@@ -176,6 +176,7 @@ const ORDER_API_URL = '/api/order';
     }
 
     async function resolvePromotionForCode(value) {
+      if (normalizePromoCode(value) === 'WELCOME10') return null;
       const local = promotionForCode(value);
       if (local) return local;
       if (!PROMOTIONS.remote) return null;
@@ -227,9 +228,8 @@ const ORDER_API_URL = '/api/order';
         if (referral) {
           const normalizedReferral = normalizePromoCode(referral);
           sessionStorage.setItem('promo_code', normalizedReferral);
-          const isWelcomeOffer = normalizedReferral === 'WELCOME10';
-          if (!sessionStorage.getItem('utm_source')) sessionStorage.setItem('utm_source', isWelcomeOffer ? 'offer' : 'referral');
-          if (!sessionStorage.getItem('utm_medium')) sessionStorage.setItem('utm_medium', isWelcomeOffer ? 'first_order' : 'partner');
+          if (!sessionStorage.getItem('utm_source')) sessionStorage.setItem('utm_source', 'referral');
+          if (!sessionStorage.getItem('utm_medium')) sessionStorage.setItem('utm_medium', 'partner');
         }
         if (!sessionStorage.getItem('landing_page')) {
           sessionStorage.setItem('landing_page', window.location.href.slice(0, 500));
@@ -392,7 +392,7 @@ const ORDER_API_URL = '/api/order';
 
       const reservedNote = document.getElementById('sauceReservedNote');
       reservedNote.hidden = true;
-      document.getElementById('sauceAllowanceCopy').textContent = `Choose up to ${quote.totalCredits} free cups with your order. More are $${Number(SAUCE_PROGRAM.extraPrice).toFixed(2)} each.`;
+      document.getElementById('sauceAllowanceCopy').textContent = `One free optional 40 g cup per two eligible meals, rounded up. Your order includes ${quote.totalCredits} free optional cup${quote.totalCredits === 1 ? '' : 's'}; more are $${Number(SAUCE_PROGRAM.extraPrice).toFixed(2)} each. Recipe-required cups are included separately.`;
     }
 
     function changeSauceQty(id, delta) {
@@ -452,7 +452,7 @@ const ORDER_API_URL = '/api/order';
       if (section === 'exclusives') return 'Weekly exclusive';
       if (section === 'breakfasts') return 'Breakfast';
       if (section === 'desserts') return 'High-protein dessert';
-      if (section === 'addons') return 'Grab & go';
+      if (section === 'addons') return 'Grab & Sip';
       if (dish.displayCategory) return dish.displayCategory;
       if (dish.category === 'beef') return 'Beef';
       if (dish.category === 'premium') return 'Premium meal';
@@ -491,6 +491,38 @@ const ORDER_API_URL = '/api/order';
         .replaceAll("'", '&#039;');
     }
 
+    function cardAllergenNames(declaration) {
+      const match = String(declaration || '').trim().match(/^CONTAINS:\s*(.*?)\.?$/i);
+      if (!match) return null;
+      const names = match[1].split(',').map(name => name.trim());
+      if (names.some(name => !name)) return null;
+      return [...new Set(names.map(name => name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()))].sort();
+    }
+
+    function cardAllergenBadgesHtml(dishId) {
+      const detail = MENU_DETAILS_BY_BATCH[String(displayedMenuBatchNumber)]?.[dishId];
+      const pending = '<p class="dish-allergen-note">Allergen details pending. Contact us before ordering.</p>';
+      if (!detail) return pending;
+      const badge = (label, names, note = '') => `<span class="dish-allergen-badge"><strong>${escapeMealDetail(label)}</strong> ${escapeMealDetail(names.join(', '))}${note ? ` <span class="dish-allergen-badge__note">${escapeMealDetail(note)}</span>` : ''}</span>`;
+      if (detail.type === 'bundle') {
+        const variants = Object.values(detail.variants || {});
+        if (!variants.length || variants.some(variant => !Array.isArray(variant?.components) || !variant.components.length)) return pending;
+        const statements = variants.flatMap(variant => variant.components.map(component => cardAllergenNames(component?.allergens)));
+        if (statements.some(names => !names)) return pending;
+        const names = [...new Set(statements.flat())].sort();
+        return `<div class="dish-allergens">${badge('Bundle allergens:', names, '· varies by selection')}</div>`;
+      }
+      const tiers = Object.entries(detail.tiers || {}).map(([key, tier]) => ({
+        label: key === 'lean' ? 'Lean' : key === 'bulk' ? 'Bulk' : tier?.label || key,
+        names: cardAllergenNames(tier?.allergens),
+      }));
+      if (!tiers.length || tiers.some(tier => !tier.names)) return pending;
+      const shared = tiers.every(tier => tier.names.join(',') === tiers[0].names.join(','));
+      return `<div class="dish-allergens">${shared
+        ? badge('Contains:', tiers[0].names)
+        : tiers.map(tier => badge(`${tier.label} · Contains:`, tier.names)).join('')}</div>`;
+    }
+
     function detailNutritionHtml(nutrition = {}) {
       const rows = [
         ['Calories', nutrition.calories, ''],
@@ -523,6 +555,7 @@ const ORDER_API_URL = '/api/order';
         <section class="meal-detail-section">
           <div class="meal-detail-section__head"><h3>Nutrition</h3>${tier.netWeight ? `<span>${escapeMealDetail(tier.netWeight)}</span>` : ''}</div>
           ${detailNutritionHtml(tier.nutrition)}
+          ${tier.nutritionBasis ? `<p>${escapeMealDetail(tier.nutritionBasis)}</p>` : ''}
         </section>
         <section class="meal-detail-section">
           <h3>Ingredients</h3>
@@ -713,7 +746,7 @@ const ORDER_API_URL = '/api/order';
     // ════════════════════════════════════════
     function photoCropClass(dish) {
       // Reusable composition presets, not weekly dish IDs. External CSS respects CSP.
-      return ['portrait-low', 'portrait-low-soft', 'portrait-low-wide', 'portrait-center', 'portrait-tight', 'landscape-low', 'landscape-tight', 'landscape-closer', 'landscape-tikka-close', 'square-raised', 'square-low', 'rotate-180'].includes(dish.imageCrop)
+      return ['portrait-low', 'portrait-low-soft', 'portrait-low-wide', 'portrait-center', 'portrait-tight', 'landscape-low', 'landscape-tight', 'landscape-closer', 'landscape-tikka-close', 'landscape-meal-close', 'landscape-wrap-close', 'landscape-wrap-raised', 'square-raised', 'square-low', 'rotate-180', 'rotate-180-close', 'rotate-180-low'].includes(dish.imageCrop)
         ? `photo-crop--${dish.imageCrop}` : '';
     }
 
@@ -745,7 +778,7 @@ const ORDER_API_URL = '/api/order';
         ? `Recent published menu${displayBatch.number ? ` · Batch ${displayBatch.number}` : ''}`
         : `Batch ${displayBatch.number}  ·  Delivery ${displayDeliveryDate}`;
       document.getElementById('orderCutoff').textContent = browseOnly
-        ? `Ordering closed${displayBatch.cutoffLabel ? ` · ${displayBatch.cutoffLabel}` : ''}`
+        ? 'Ordering closed'
         : displayBatch.cutoffLabel;
       document.getElementById('successDelivery').textContent = displayDeliveryDate;
       document.getElementById('activeDeliveryDay').textContent = `${displayDeliveryDay} delivery`;
@@ -782,6 +815,7 @@ const ORDER_API_URL = '/api/order';
               <div class="dish-body">
                 <div class="dish-name dish-name--sr">${dish.name}</div>
                 ${dish.description ? `<p class="dish-desc">${dish.description}</p>` : ''}
+                ${cardAllergenBadgesHtml(dish.id)}
                 <button type="button" class="meal-detail-trigger" data-open-meal-details="${dish.id}" aria-label="View ingredients, allergens and nutrition for ${dish.name}">
                   <span>Ingredients, allergens &amp; facts</span><span aria-hidden="true">&rsaquo;</span>
                 </button>
@@ -935,7 +969,7 @@ const ORDER_API_URL = '/api/order';
       const browseLink = document.getElementById('browseRecentMenuLink');
       if (closedTitle) closedTitle.textContent = browseMenuAvailable ? 'Ordering is closed for this week. Browse our recent menu.' : 'Our next menu is coming soon.';
       if (closedDescription) closedDescription.textContent = browseMenuAvailable
-        ? 'Explore our recent dishes, photos and prices below. This menu is for browsing only. The active cutoff displayed above belongs to this past menu.'
+        ? 'Explore our recent dishes, photos and prices below. This menu is for browsing only. Text MENU below to hear when ordering opens.'
         : 'The next menu is being prepared. Text MENU below to hear when ordering opens.';
       if (closedEyebrow) closedEyebrow.textContent = browseMenuAvailable ? 'Recent menu · Browse only' : 'Ordering is currently closed';
       if (browseLink) browseLink.hidden = !browseMenuAvailable;
@@ -1899,16 +1933,6 @@ const ORDER_API_URL = '/api/order';
       button.addEventListener('click', () => setFulfillmentMethod(button.dataset.fulfillment));
     });
     document.getElementById('applyPromoBtn').addEventListener('click', () => applyPromotion());
-    document.getElementById('applyWelcomeOffer').addEventListener('click', async () => {
-      document.getElementById('promoCode').value = 'WELCOME10';
-      await applyPromotion();
-      if (appliedPromotion?.code === 'WELCOME10') {
-        const button = document.getElementById('applyWelcomeOffer');
-        button.textContent = 'WELCOME10 applied';
-        button.disabled = true;
-        document.getElementById('welcomeOffer').classList.add('is-applied');
-      }
-    });
     document.getElementById('promoCode').addEventListener('input', () => {
       if (appliedPromotion && normalizePromoCode(appliedPromotion.code) !== normalizePromoCode(document.getElementById('promoCode').value)) {
         appliedPromotion = null;
@@ -1928,6 +1952,11 @@ const ORDER_API_URL = '/api/order';
     captureAttribution();
     renderMenu();
     initMealDetails();
+    document.querySelectorAll('[data-price-category]').forEach(priceNode => {
+      const dish = allDishes().find(item => item.category === priceNode.dataset.priceCategory);
+      priceNode.closest('.price-guide__item').hidden = !dish;
+      if (dish) priceNode.textContent = `$${getPrice(dish, 'lean').toFixed(2)} Lean · $${getPrice(dish, 'bulk').toFixed(2)} Bulk`;
+    });
     const addonPriceGuide = document.getElementById('addonPriceGuide');
     const addonPrices = (MENU.addons || []).filter(dish => dish.available !== false)
       .map(dish => getPrice(dish, 'single'));

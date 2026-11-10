@@ -201,7 +201,7 @@ function isActive(record, now = Date.now()) {
 
 async function findReferralCode(code) {
   const normalized = normalizeCode(code);
-  if (!normalized) return null;
+  if (!normalized || normalized === 'WELCOME10') return null;
   const record = (await readReferralCodes()).find(item => item.code === normalized);
   if (!isActive(record)) return null;
   return record;

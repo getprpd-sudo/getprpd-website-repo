@@ -14,8 +14,17 @@ const REMOTE_URL = process.env.PRPD_PLANNER_API_URL || 'https://getprpd.vercel.a
 const REMOTE_BUSINESS_URL = process.env.PRPD_BUSINESS_API_URL || 'https://getprpd.vercel.app/api/business-data';
 const REMOTE_TIKTOK_REPORT_URL = process.env.PRPD_TIKTOK_REPORT_API_URL || 'https://getprpd.vercel.app/api/tiktok-report';
 const REMOTE_REFERRALS_URL = process.env.PRPD_REFERRALS_API_URL || 'https://getprpd.vercel.app/api/referrals';
+const REMOTE_FEEDBACK_URL = process.env.PRPD_FEEDBACK_API_URL || 'https://getprpd.vercel.app/api/feedback';
 const LOCAL_SHEET_ID = process.env.GOOGLE_SHEET_ID || '1NV0QIpRINRP5IUs550kKPdYSQZcOrTm9ncHkTcXilFg';
 const BUSINESS_SNAPSHOT_FILE = path.join(__dirname, 'private-data', 'business-center', 'sheets-snapshot.json');
+
+function assertCurrentProductionPayload() {
+  const config = require('../config/order-config');
+  const production = require('./nutrition/production-data');
+  if (!config?.batch?.number || production?.batch !== config.batch.number) {
+    throw new Error(`Current production payload mismatch: menu is Batch ${config?.batch?.number || 'unknown'}, recipe payload is Batch ${production?.batch || 'unknown'}. Run operations/nutrition/generate_production_data.py before opening production tools.`);
+  }
+}
 
 const MIME = {
   '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8',
@@ -219,6 +228,25 @@ async function proxyReferrals(request, response) {
   }
 }
 
+async function proxyFeedbackAdmin(request, response) {
+  try {
+    const body = await readRequestBody(request, 512 * 1024);
+    const upstream = await fetch(REMOTE_FEEDBACK_URL, {
+      method: 'POST',
+      headers: {
+        'x-prpd-planner-key': plannerKey(),
+        accept: 'application/json',
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify(body),
+      signal: AbortSignal.timeout(30000),
+    });
+    return json(response, upstream.status, await upstream.json().catch(() => ({ error:'Invalid feedback-label response.' })));
+  } catch {
+    return json(response, 502, { error:'Feedback labels could not be connected to the live order-feedback service.' });
+  }
+}
+
 function readRequestBody(request, limit = 1024 * 1024) {
   return new Promise((resolve, reject) => {
     const chunks = [];
@@ -298,6 +326,7 @@ function serveFile(requestPath, response) {
     '/operations/cook-day-planner': 'operations/cook-day-planner.html',
     '/operations/grocery-list': 'operations/grocery-list.html',
     '/operations/business-center': 'operations/business-center.html',
+    '/feedback': 'feedback.html',
   };
   const relative = decoded === '/' ? 'operations/cook-day-planner.html' : aliases[decoded] || decoded.replace(/^\/+/, '');
   const filePath = path.resolve(ROOT, relative);
@@ -320,6 +349,7 @@ const server = http.createServer(async (request, response) => {
   if (pathname === '/api/grocery-state') return handleGroceryState(request, response);
   if (pathname === '/api/business-state') return handleBusinessState(request, response);
   if (pathname === '/api/referrals' && ['GET', 'POST'].includes(request.method)) return proxyReferrals(request, response);
+  if (pathname === '/api/feedback-admin' && request.method === 'POST') return proxyFeedbackAdmin(request, response);
   if (request.method !== 'GET') return json(response, 405, { error: 'Method not allowed.' });
   if (pathname === '/api/current-orders') return proxyOrders(response);
   if (pathname === '/api/business-data') return proxyBusinessData(response);
@@ -327,6 +357,7 @@ const server = http.createServer(async (request, response) => {
   serveFile(request.url, response);
 });
 
+assertCurrentProductionPayload();
 server.listen(PORT, '127.0.0.1', () => {
   console.log(`PRPD Cook-Day Planner: http://127.0.0.1:${PORT}/operations/cook-day-planner.html`);
 });

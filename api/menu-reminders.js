@@ -7,7 +7,7 @@ const { readPreferences } = require('./_menu-email-preferences');
 const { appendReminderDecisions, readReminderHolds } = require('./_menu-reminder-controls');
 const {
   acceptedRecipientSetForRun,
-  appendAcceptedEmail,
+  appendAcceptedEmails,
   ensureDeliverySheet,
 } = require('./_email-delivery-log');
 const { safeLogError } = require('./_security');
@@ -37,6 +37,18 @@ function isRateLimitError(error) {
   return Number(error?.status || error?.statusCode || error?.code) === 429;
 }
 
+function isTransientUpstreamError(error) {
+  const status = Number(error?.status || error?.statusCode || error?.code || error?.response?.status);
+  if (status === 429 || (status >= 500 && status <= 599)) return true;
+  const code = String(error?.code || error?.cause?.code || '').toUpperCase();
+  return ['ECONNRESET', 'ETIMEDOUT', 'EAI_AGAIN', 'ENETUNREACH', 'UND_ERR_CONNECT_TIMEOUT'].includes(code);
+}
+
+function isTransientHttpStatus(status) {
+  const value = Number(status);
+  return value === 429 || (value >= 500 && value <= 599);
+}
+
 async function retryRateLimited(task, options = {}) {
   const attempts = Math.max(1, Number(options.attempts) || RATE_LIMIT_RETRY_ATTEMPTS);
   const baseDelayMs = Math.max(100, Number(options.baseDelayMs) || 750);
@@ -44,7 +56,7 @@ async function retryRateLimited(task, options = {}) {
     try {
       return await task();
     } catch (error) {
-      if (!isRateLimitError(error) || attempt === attempts - 1) throw error;
+      if (!isTransientUpstreamError(error) || attempt === attempts - 1) throw error;
       await wait(baseDelayMs * (2 ** attempt));
     }
   }
@@ -107,6 +119,10 @@ function decisionSummary(decisions) {
     .sort(([left], [right]) => left.localeCompare(right))
     .map(([reason, count]) => `${reason}: ${count}`)
     .join(', ');
+}
+
+function ownerReportRequiredForBlockedWindow(menuWindow) {
+  return menuWindow?.status === 'disabled-stale-config';
 }
 
 function menuWindowStatus(config, now = new Date()) {
@@ -196,6 +212,13 @@ async function appendRun(client, values) {
   });
 }
 
+async function appendRunIdempotent(client, values) {
+  const runId = String(values?.[0] || '');
+  if (!runId) throw new Error('A reminder run ID is required.');
+  if (await findRun(client, runId)) return;
+  await appendRun(client, values);
+}
+
 function unsubscribeUrl(email) {
   const params = new URLSearchParams({
     contact: encodeContact(email),
@@ -211,6 +234,7 @@ async function sendReminder(recipient, phase, runId) {
     firstName: recipient.firstName,
     audienceReason: recipient.audienceReason,
     cutoffLabel: ORDER_CONFIG.batch.cutoffLabel,
+    deliveryDate: ORDER_CONFIG.batch.deliveryDate,
     menuUrl: MENU_URL,
     unsubscribeUrl: optOutUrl,
     postalAddress: POSTAL_ADDRESS,
@@ -239,7 +263,7 @@ async function sendReminder(recipient, phase, runId) {
   let result;
   for (let attempt = 0; attempt < RATE_LIMIT_RETRY_ATTEMPTS; attempt += 1) {
     result = await fetch('https://api.resend.com/emails', requestOptions);
-    if (result.status !== 429) break;
+    if (!isTransientHttpStatus(result.status)) break;
     if (attempt === RATE_LIMIT_RETRY_ATTEMPTS - 1) break;
     const retryAfterSeconds = Number(result.headers?.get?.('retry-after'));
     const delayMs = Number.isFinite(retryAfterSeconds) && retryAfterSeconds > 0
@@ -311,12 +335,18 @@ module.exports = async function handler(request, response) {
   const menuWindow = menuWindowStatus(ORDER_CONFIG);
   let intendedRecipients = [];
   const sentRecipients = [];
+  let stage = 'initialize';
   try {
-    const data = await readBusinessData();
+    stage = 'read-business-data';
+    const data = await retryRateLimited(() => readBusinessData());
     const orders = Core.normalizeOrders(data.orders);
+    stage = 'authorize-sheets';
     const client = await getSheetsClient('https://www.googleapis.com/auth/spreadsheets');
-    const preferences = await readPreferences(client);
-    const holds = await readReminderHolds(client);
+    stage = 'read-email-preferences';
+    const preferences = await retryRateLimited(() => readPreferences(client));
+    stage = 'read-reminder-holds';
+    const holds = await retryRateLimited(() => readReminderHolds(client));
+    stage = 'evaluate-recipients';
     const decisions = ReminderCore.recipientDecisions(orders, {
       batchNumber: ORDER_CONFIG.batch.number,
       batchNumberFromOrder: order => Core.batchNumber(order.Batch),
@@ -336,6 +366,7 @@ module.exports = async function handler(request, response) {
         firstName: 'Customer',
         audienceReason: 'previous-customer',
         cutoffLabel: ORDER_CONFIG.batch.cutoffLabel,
+        deliveryDate: ORDER_CONFIG.batch.deliveryDate,
         menuUrl: MENU_URL,
         unsubscribeUrl: 'https://getprpd.com/api/menu-unsubscribe?preview=1',
         postalAddress: POSTAL_ADDRESS || '[valid PRPD business mailing address required before sending]',
@@ -353,15 +384,20 @@ module.exports = async function handler(request, response) {
       });
     }
 
-    await ensureLogSheet(client);
-    await ensureDeliverySheet(client);
+    stage = 'prepare-automation-log';
+    await retryRateLimited(() => ensureLogSheet(client));
+    stage = 'prepare-delivery-log';
+    await retryRateLimited(() => ensureDeliverySheet(client));
     const runId = reportRunId;
-    if (await findRun(client, runId)) return sendJson(response, 200, { status: 'already-processed', runId });
-    const priorPhaseRun = await findSuccessfulPhaseRun(client, {
+    stage = 'check-existing-run';
+    if (await retryRateLimited(() => findRun(client, runId))) {
+      return sendJson(response, 200, { status: 'already-processed', runId });
+    }
+    const priorPhaseRun = await retryRateLimited(() => findSuccessfulPhaseRun(client, {
       batchNumber: ORDER_CONFIG.batch.number,
       phase,
       date: chicagoDate(),
-    });
+    }));
     if (priorPhaseRun) {
       return sendJson(response, 200, {
         status: 'already-processed-phase',
@@ -373,25 +409,29 @@ module.exports = async function handler(request, response) {
     );
     const pendingRecipients = recipients.filter(recipient => !alreadyAcceptedEmails.has(recipient.email));
     sentRecipients.push(...recipients.filter(recipient => alreadyAcceptedEmails.has(recipient.email)));
+    stage = 'record-recipient-decisions';
     await retryRateLimited(
       () => appendReminderDecisions(client, runId, ORDER_CONFIG.batch.number, phase, decisions),
     );
 
     if (!menuWindow.safeToSend) {
-      await appendRun(client, [
+      stage = 'record-blocked-run';
+      await retryRateLimited(() => appendRunIdempotent(client, [
         runId, new Date().toISOString(), `Menu Reminder - ${phase}`, menuWindow.status,
         `Customer send blocked because reminders are not owner-approved, the menu is unpublished, or its active dates are invalid`,
-      ]);
-      await sendOwnerReport({
-        phase,
-        status: menuWindow.status,
-        runId,
-        batchNumber: ORDER_CONFIG.batch.number,
-        intendedCount: recipients.length,
-        recipients: [],
-        note: 'No customer email was sent because reminders are not owner-approved, the menu is unpublished, or its cutoff/delivery dates are invalid.',
-        suppressionSummary,
-      });
+      ]));
+      if (ownerReportRequiredForBlockedWindow(menuWindow)) {
+        await sendOwnerReport({
+          phase,
+          status: menuWindow.status,
+          runId,
+          batchNumber: ORDER_CONFIG.batch.number,
+          intendedCount: recipients.length,
+          recipients: [],
+          note: 'No customer email was sent because the configured cutoff or delivery date is invalid.',
+          suppressionSummary,
+        });
+      }
       return sendJson(response, 200, {
         status: menuWindow.status,
         reason: menuWindow.reason,
@@ -401,10 +441,11 @@ module.exports = async function handler(request, response) {
     }
 
     if (!recipients.length) {
-      await appendRun(client, [
+      stage = 'record-no-recipient-run';
+      await retryRateLimited(() => appendRunIdempotent(client, [
         runId, new Date().toISOString(), `Menu Reminder - ${phase}`, 'no-recipients',
         `Batch ${ORDER_CONFIG.batch.number}: no eligible prior customers remained after suppression`,
-      ]);
+      ]));
       await sendOwnerReport({
         phase,
         status: 'no-recipients',
@@ -419,10 +460,11 @@ module.exports = async function handler(request, response) {
     }
 
     if (!POSTAL_ADDRESS) {
-      await appendRun(client, [
+      stage = 'record-disabled-run';
+      await retryRateLimited(() => appendRunIdempotent(client, [
         runId, new Date().toISOString(), `Menu Reminder - ${phase}`, 'disabled',
         `Batch ${ORDER_CONFIG.batch.number}: ${recipients.length} eligible; BUSINESS_POSTAL_ADDRESS is not configured`,
-      ]);
+      ]));
       await sendOwnerReport({
         phase,
         status: 'disabled',
@@ -442,22 +484,28 @@ module.exports = async function handler(request, response) {
     }
     if (!RESEND_API_KEY) throw new Error('Resend is not configured.');
 
+    const acceptedRecords = [];
+    stage = 'send-customer-reminders';
     for (const recipient of pendingRecipients) {
       const accepted = await sendReminder(recipient, phase, runId);
-      await retryRateLimited(() => appendAcceptedEmail(client, {
+      acceptedRecords.push({
         runId,
         emailId: accepted.emailId,
         recipient: recipient.email,
         subject: accepted.subject,
         acceptedAt: accepted.acceptedAt,
         expectedCount: recipients.length,
-      }));
+      });
       sentRecipients.push(recipient);
     }
-    await retryRateLimited(() => appendRun(client, [
+    stage = 'record-provider-acceptance';
+    await retryRateLimited(() => appendAcceptedEmails(client, acceptedRecords));
+    stage = 'record-successful-run';
+    await retryRateLimited(() => appendRunIdempotent(client, [
       runId, new Date().toISOString(), `Menu Reminder - ${phase}`, 'sent',
       `Batch ${ORDER_CONFIG.batch.number}: ${recipients.length} eligible customer reminder(s) sent`,
     ]));
+    stage = 'send-owner-report';
     await sendOwnerReport({
       phase,
       status: 'sent',
@@ -476,7 +524,7 @@ module.exports = async function handler(request, response) {
       newlyAcceptedRecipientCount: pendingRecipients.length,
     });
   } catch (error) {
-    safeLogError('Weekly menu reminder failed.', error);
+    safeLogError(`Weekly menu reminder failed during ${stage}.`, error);
     await sendOwnerReport({
       phase,
       status: 'failed',
@@ -484,9 +532,15 @@ module.exports = async function handler(request, response) {
       batchNumber: ORDER_CONFIG.batch.number,
       intendedCount: intendedRecipients.length,
       recipients: sentRecipients,
-      note: 'The run failed before every intended recipient was confirmed. Review the Vercel function log before retrying.',
+      note: `The run failed during ${stage} before every intended recipient was confirmed. Review the Vercel function log before retrying.`,
     });
-    return sendJson(response, 500, { error: 'The weekly menu reminder could not be processed.' });
+    return sendJson(response, 500, {
+      status: 'failed',
+      stage,
+      eligibleRecipientCount: intendedRecipients.length,
+      confirmedAcceptedCount: sentRecipients.length,
+      error: 'The weekly menu reminder could not be processed.',
+    });
   }
 };
 
@@ -497,7 +551,10 @@ module.exports._test = {
   manualCampaignKey,
   manualRequestAuthorized,
   menuWindowStatus,
+  ownerReportRequiredForBlockedWindow,
   decisionSummary,
+  isTransientHttpStatus,
+  isTransientUpstreamError,
   matchesSuccessfulPhaseRun,
   retryRateLimited,
   unsubscribeUrl,

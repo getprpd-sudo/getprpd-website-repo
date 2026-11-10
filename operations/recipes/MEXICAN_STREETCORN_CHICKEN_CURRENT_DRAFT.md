@@ -27,7 +27,7 @@ Traditional elote and esquites center on corn, mayonnaise or crema, Cotija, lime
 - Tajin or mild chile powder, 1g
 - Garlic powder, 0.5g
 - Salt to taste
-- Avocado oil, start with 2g total for chicken and charring corn
+- Avocado oil, 2g for cooking the chicken only; dry-char the corn
 
 ## Bulk Build
 
@@ -44,7 +44,7 @@ Traditional elote and esquites center on corn, mayonnaise or crema, Cotija, lime
 - Tajin or mild chile powder, 1.5g
 - Garlic powder, 0.5g
 - Salt to taste
-- Avocado oil, start with 3g total for chicken and charring corn
+- Avocado oil, 3g for cooking the chicken only; dry-char the corn
 
 ## Chicken Seasoning
 
@@ -62,7 +62,7 @@ Per 1,000g raw boneless skinless chicken thigh:
 1. Season chicken and rest 15-30 minutes.
 2. Cook over high heat until browned and safely cooked. Rest, then dice or slice.
 3. Cook the rice and finish with lime and cilantro.
-4. Char the corn in a hot pan with the measured oil.
+4. Dry-char the corn in a hot nonstick pan. Do not add oil to the corn.
 5. Add onion, jalapeno, and garlic powder; cook briefly so the vegetables soften without disappearing.
 6. Remove from high heat. Fold in Fage, light mayo, Cotija, lime, cilantro, Tajin, and salt.
 7. Plate rice, chicken, and creamy corn in three visible sections.

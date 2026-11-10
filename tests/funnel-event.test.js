@@ -38,6 +38,15 @@ test('funnel endpoint accepts only the bounded PII-free acquisition schema', () 
   assert.throws(() => validateFunnelEvent(validPayload({ email: 'customer@example.com' })), /unsupported fields/i);
   assert.throws(() => validateFunnelEvent(validPayload({ page: '/private' })), /page/i);
   assert.throws(() => validateFunnelEvent(validPayload({ event: 'customer_name' })), /event/i);
+  for (const event of [
+    'landing_engaged', 'menu_engaged', 'menu_filter', 'meal_engaged',
+    'social_proof_play', 'social_proof_complete',
+    'cart_restored', 'checkout_blocked', 'delivery_blocked',
+    'promo_applied', 'promo_rejected',
+    'fulfillment_selected', 'lead_submit', 'contact_click',
+  ]) {
+    assert.equal(validateFunnelEvent(validPayload({ event })).event, event);
+  }
 });
 
 test('funnel schema never accepts customer identity, address, or raw click fields', () => {

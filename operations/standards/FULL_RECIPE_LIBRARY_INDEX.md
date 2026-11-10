@@ -1,10 +1,18 @@
 # PRPD Full Recipe Library Index
 
-Updated: July 20, 2026
+**November 9, 2026 current breakfast addition:** Beef Bacon Breakfast Pizza is active on the Batch 19 menu. Its accepted separate-rectangle Lean/Bulk build is in [`BEEF_BACON_BREAKFAST_PIZZA_CURRENT_RECIPE.md`](../recipes/BEEF_BACON_BREAKFAST_PIZZA_CURRENT_RECIPE.md). The numbered inventory below is the original historical set and does not include this addition.
+
+**October 5 current audit:** See [Whole recipe-system audit](../active/RECIPE_SYSTEM_AUDIT_2026-10-05.md) for 63 registered recipes / 104 tier builds, 15 uncontrolled historical names, source conflicts and additional production-only prototypes. It overlays the latest Batch 13 revisions and the fixed-well Egg Bites formula rather than using historical menu slots. Use the [kitchen calibration workbook](../active/KITCHEN_CALIBRATION_WORKBOOK_2026-10-05.md) for physical measurements. No new menu or recipe release is implied.
+
+**October 4, 2026 status:** Historical inventory entry 14, Cheeseburger Hot Pockets, remains listed below for traceability, but its Batch 13 dough/oven version is **retired as-is** after an overly slow, tough production result. See [`BATCH_13_HOT_POCKET_DOUGH_PILOT_2026-10-01.md`](../recipes/BATCH_13_HOT_POCKET_DOUGH_PILOT_2026-10-01.md). No replacement Hot Pocket format is approved. Do not treat presence in this historical index as menu eligibility. The active recipe library needs measured calibration before future production promises; see the [current handoff](../active/HANDOFF_2026-10-04.md).
+
+Updated: September 14, 2026
 
 Source reviewed: `../source-documents/reference/PRPD_RECIPES_SOURCE_2026-07-13.pdf` plus the available historical DOCX versions. See `RECIPE_DATA_SOURCE_OF_TRUTH.md` for current decisions that override historical formulas.
 
 This is the complete recipe-library inventory. It is separate from `../active/ACTIVE_MENU_RECIPE_AUDIT.md`, which only covers the dishes currently offered on the live order page.
+
+The original 49-name historical inventory remains below. The current structured calculation inventory, including newer recipes and an explicit distinction between public composed-meal macros and complete-package nutrition, is in `../active/FULL_MENU_LIBRARY_MACRO_AUDIT_2026-09-14.md`. That audit covers 61 controlled products and identifies 15 historical names that still lack a publishable structured formula.
 
 ## Inventory Summary
 
@@ -35,7 +43,7 @@ This is the complete recipe-library inventory. It is separate from `../active/AC
 4. Cilantro Lime + Pinto Beans
 5. Chicken Burrito
 6. Loaded Buffalo Chicken Potato
-7. Cheesy Chicken Tacos
+7. Cheesy Achiote Chicken Tacos - current replacement draft; supersedes the incomplete historical Cheesy Chicken Tacos formula
 8. Chipotle Chicken Bowl
 9. BBQ Chicken Mac & Cheese
 10. Chicken Biryani

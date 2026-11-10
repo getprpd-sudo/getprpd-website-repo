@@ -1,0 +1,27 @@
+{
+  "source": "Protected Batch 14 current-order preview at 2026-10-07 15:24 CT",
+  "batch": 14,
+  "customerItems": 45,
+  "counts": [
+    ["a1", "single", 1],
+    ["a2", "single", 2],
+    ["a3", "single", 2],
+    ["b1", "bulk", 1],
+    ["b1", "lean", 1],
+    ["b2", "bulk", 1],
+    ["b3", "bulk", 1],
+    ["b3", "lean", 2],
+    ["b4", "bulk", 1],
+    ["bw1", "lean", 5],
+    ["d3", "single", 1],
+    ["m1", "bulk", 2],
+    ["m1", "lean", 6],
+    ["m2", "lean", 1],
+    ["m3", "lean", 1],
+    ["m4", "lean", 1],
+    ["m5", "bulk", 1],
+    ["m5", "lean", 3],
+    ["m6", "lean", 9],
+    ["m7", "bulk", 3]
+  ]
+}

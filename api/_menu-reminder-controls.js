@@ -44,14 +44,16 @@ async function readReminderHolds(client) {
   return (result.data.values || []).map(row => ({
     email: clean(row[0], 320).toLowerCase(),
     firstName: clean(row[1], 120),
-    batchNumber: Number(row[2]) || 0,
+    batchNumber: ['all', '*'].includes(clean(row[2], 40).toLowerCase())
+      ? 'all'
+      : Number(row[2]) || 0,
     phase: clean(row[3], 20).toLowerCase() || 'all',
     status: clean(row[4], 30).toLowerCase(),
     reason: clean(row[5], 500),
     expiresAt: clean(row[6], 80),
     addedAt: clean(row[7], 80),
     addedBy: clean(row[8], 120),
-  })).filter(row => row.email && row.batchNumber);
+  })).filter(row => row.email && (row.batchNumber === 'all' || row.batchNumber > 0));
 }
 
 function contactKey(email) {

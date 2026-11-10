@@ -20,7 +20,15 @@ test('homepage structured data and Vercel headers parse', () => {
   assert.ok(siteHeaders.some(header => header.key === 'Permissions-Policy'));
   assert.deepEqual(
     vercel.redirects.map(({ source, destination }) => [source, destination]),
-    [['/index.html', '/'], ['/order.html', '/order'], ['/halal-meal-prep-dfw.html', '/halal-meal-prep-dfw'], ['/faq.html', '/faq'], ['/privacy.html', '/privacy']]
+    [
+      ['/index.html', '/'],
+      ['/order.html', '/order'],
+      ['/halal-meals-north-dfw', '/halal-meal-prep-dfw'],
+      ['/halal-meals-north-dfw/', '/halal-meal-prep-dfw'],
+      ['/halal-meal-prep-dfw.html', '/halal-meal-prep-dfw'],
+      ['/faq.html', '/faq'],
+      ['/privacy.html', '/privacy'],
+    ]
   );
 });
 
@@ -33,16 +41,38 @@ test('the paid-search landing route is focused, current-menu driven, and measura
   assert.match(html, /data-funnel-stage="ads-landing"/);
   assert.match(html, /DFW HALAL MEAL PREP/);
   assert.match(html, /High-protein meals/);
-  assert.match(html, /src="\/funnel-tracking\.js"/);
-  assert.match(html, /src="\/config\/order-config\.js"/);
+  assert.match(html, /Meals from \$10\.99/);
+  assert.match(html, /Text Rida for Help/);
+  assert.match(html, /halal-bay-eats-prpd-review\.mp4/);
+  assert.match(html, /Gifted meal collaboration/);
+  assert.match(html, /src="\/funnel-tracking\.js(?:\?[^\"]+)?"/);
+  assert.match(html, /src="\/config\/order-config\.js(?:\?[^\"]+)?"/);
   assert.match(html, /<meta name="robots" content="noindex, follow"/);
-  assert.equal((html.match(/href="\/order"/g) || []).length >= 6, true);
+  assert.equal((html.match(/href="\/order(?:\?promo=WELCOME10)?"/g) || []).length >= 6, true);
+  assert.match(html, /New customers save \$10 on \$60\+ with WELCOME10/);
+  assert.equal((html.match(/href="\/order\?promo=WELCOME10"/g) || []).length >= 6, true);
+  assert.doesNotMatch(html, /The next menu is being finalized\. Check back Monday\./);
+  assert.doesNotMatch(html, /Saturday delivery across the Dallas/);
   assert.doesNotMatch(html, /<form|firstName|phone|deliveryAddress/);
   assert.match(app, /windowObject\.PRPD_ORDER_CONFIG/);
   assert.match(app, /batch\.published !== true/);
+  assert.match(app, /batch\.deliveryDate/);
+  assert.match(app, /batch\.cutoffLabel/);
+  assert.match(app, /This week's menu is live for/);
   assert.match(app, /dish\.macros\.protein/);
   assert.match(css, /\.ads-mobile-cta/);
   assert.ok(vercel.rewrites.some(route => route.source === '/halal-meal-prep-dfw' && route.destination === '/halal-meal-prep-dfw.html'));
+});
+
+test('homepage uses the real Halal Bay Eats review as disclosed social proof', () => {
+  const homepage = fs.readFileSync('index.html', 'utf8');
+  const videoPath = 'assets/videos/halal-bay-eats-prpd-review.mp4';
+  assert.match(homepage, /class="customer-proof"/);
+  assert.match(homepage, /Halal Bay Eats/);
+  assert.match(homepage, /Gifted meal collaboration/);
+  assert.match(homepage, /data-social-proof-video/);
+  assert.equal(fs.existsSync(videoPath), true);
+  assert.ok(fs.statSync(videoPath).size > 100_000);
 });
 
 test('search files expose the homepage, FAQ, privacy policy, and weekly order flow', () => {
@@ -101,7 +131,7 @@ test('homepage presents Rida as the sole operator and targets the real intake fo
   assert.match(faq, /fresh menu normally opens every Monday/i);
   assert.match(faq, /Wednesday at 6:00 PM CT/);
   assert.match(faq, /Local delivery has a \$60 order minimum/);
-  assert.match(faq, /Regional delivery has an \$80 order minimum/);
+  assert.match(faq, /Regional delivery has a \$70 order minimum/);
   assert.match(faq, /Extended delivery has a \$100 order minimum/);
   assert.match(faq, /Did the local order minimum change to \$100\?/);
   assert.match(faq, /do not repeatedly retry the transfer/i);
@@ -132,7 +162,7 @@ test('public pages expose the schedule, text-only contact paths, icons, and manu
   assert.match(order, /release a fresh menu every Monday/i);
   assert.match(order, /New menu opens/i);
   assert.match(order, /Delivery or pickup/i);
-  assert.match(order, /Wednesday at 6:00 PM CT/);
+  assert.match(order, /active cutoff displayed above/i);
   assert.match(order, /Saturday delivery/);
   assert.match(order, /referral pilot is approved manually/i);
   assert.match(faq, /manually approved referral pilot/i);
@@ -144,13 +174,27 @@ test('public pages expose the schedule, text-only contact paths, icons, and manu
   assert.ok(manifest.icons.some(icon => icon.src === '/assets/images/favicon-512.png' && icon.sizes === '512x512'));
 });
 
+test('public fulfillment copy consistently presents The Colony as the permanent free pickup location', () => {
+  const publicPages = ['index.html', 'order.html', 'faq.html', 'halal-meal-prep-dfw.html']
+    .map(file => [file, fs.readFileSync(file, 'utf8')]);
+
+  for (const [file, html] of publicPages) {
+    assert.match(html, /The Colony/i, `${file} must identify The Colony pickup`);
+    assert.doesNotMatch(html, /Frisco pickup/i, `${file} must not retain the old pickup city`);
+  }
+
+  const order = publicPages.find(([file]) => file === 'order.html')[1];
+  assert.doesNotMatch(order, /temporarily available|free for now/i);
+});
+
 test('order form requires identity, contact, and complete delivery details with conditional unit entry', () => {
   const order = fs.readFileSync('order.html', 'utf8');
   const orderApp = fs.readFileSync('order.js', 'utf8');
 
-  for (const field of ['firstName', 'lastName', 'phone', 'email', 'deliveryAddress', 'deliveryCity', 'deliveryState', 'deliveryZip']) {
+  for (const field of ['fullName', 'phone', 'email', 'deliveryAddress', 'deliveryCity', 'deliveryState', 'deliveryZip']) {
     assert.match(order, new RegExp(`id="${field}"[^>]*required`));
   }
+  assert.match(orderApp, /function splitFullName\(value\)/);
   assert.match(order, /id="deliveryAddress"[^>]*autocomplete="address-line1"/);
   assert.match(order, /id="deliveryHasUnit"[^>]*aria-controls="deliveryUnit"[^>]*aria-expanded="false"/);
   assert.match(order, /id="deliveryUnit"[^>]*autocomplete="address-line2"[^>]*hidden disabled/);

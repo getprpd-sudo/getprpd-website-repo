@@ -1,5 +1,7 @@
 # PRPD Nutrition Assumptions and Accuracy Upgrade Checklist
 
+> Historical reference notice, October 29, 2026: the July assumptions and "not blockers" wording below do not release current labels. Start with `../active/HANDOFF_2026-10-29.md` and `../active/CURRENT_MENU_COOK_RECORD.md`, then the current controlled recipe/product records and Label Studio release checks. Current supplier identity/allergens, supported nutrient values, truthful component dates, finished net quantities and physical print checks take precedence. The Popcorn full-nutrition hold and shake-sale hold remain open. Preserve the July text as history; do not reuse its old powder, oil or ingredient assumptions for current production.
+
 Updated: July 14, 2026
 
 The active-menu Nutrition Facts estimates are complete. Exact retail-package matching and laboratory analysis are not required for the current small-batch workflow. This file records the accepted assumptions and the measurements that will improve accuracy over time.

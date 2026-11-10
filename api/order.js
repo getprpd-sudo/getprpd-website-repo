@@ -61,6 +61,7 @@ function catalogForConfig(config) {
       taxClass: safeText(dish.taxClass || 'classification-pending', 60),
       maxQty: dish.maxQty || MAX_QTY_PER_ITEM,
       servingCount: Number.isFinite(Number(dish.servingCount)) ? Number(dish.servingCount) : 1,
+      ...(typeof dish.sauceEligible === 'boolean' ? { sauceEligible: dish.sauceEligible } : {}),
       variants: Array.isArray(dish.variants)
         ? dish.variants.map(variant => ({
             id: safeText(variant.id, 40),
@@ -183,7 +184,7 @@ function normalizeItems(rawItems, catalog = CATALOG) {
     const catalogItem = catalog[id];
     if (!catalogItem) throw new Error('An unknown menu item was submitted.');
 
-    const { name, category, price, available, maxQty, servingCount, taxClass } = catalogItem;
+    const { name, category, price, available, maxQty, servingCount, taxClass, sauceEligible } = catalogItem;
     let selectedPrice = price;
     const variants = Array.isArray(catalogItem.variants) ? catalogItem.variants : [];
     if (!available) throw new Error(`${name} is sold out for this batch.`);
@@ -210,7 +211,8 @@ function normalizeItems(rawItems, catalog = CATALOG) {
     const key = `${id}:${tier}`;
     const nextQty = (combined.get(key)?.qty || 0) + qty;
     if (nextQty > maxQty) throw new Error(`Too many servings of ${name}.`);
-    combined.set(key, { id, name, category, price: selectedPrice, tier, variantLabel, servingCount, taxClass, qty: nextQty });
+    combined.set(key, { id, name, category, price: selectedPrice, tier, variantLabel, servingCount, taxClass,
+      ...(typeof sauceEligible === 'boolean' ? { sauceEligible } : {}), qty: nextQty });
   }
 
   const items = Array.from(combined.values()).map(item => {

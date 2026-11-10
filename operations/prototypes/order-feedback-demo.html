@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Rate Your Meals | PRPD</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    @font-face { font-family:"Cathez"; src:url("../../fonts/Cathez.otf") format("opentype"); font-display:swap; }
+    :root { --forest:#1e2e1e; --green:#177934; --paper:#fffefa; --ink:#182218; --muted:#667066; --line:rgba(30,46,30,.13); --shadow:0 18px 52px rgba(30,46,30,.09); }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { min-height:100vh; margin:0; background:radial-gradient(circle at 88% 4%,rgba(127,168,130,.12),transparent 26rem),linear-gradient(180deg,#f8f5ec 0,#f4f1e9 100%); color:var(--ink); font-family:Manrope,"Aptos",Arial,Helvetica,sans-serif; }
+    button,textarea,input { font:inherit; }
+    button { cursor:pointer; }
+    .site-header { display:flex; width:min(100% - 32px,980px); min-height:72px; margin:0 auto; align-items:center; justify-content:space-between; border-bottom:1px solid var(--line); }
+    .brand { display:flex; align-items:baseline; gap:10px; color:var(--forest); }
+    .brand-mark { font-family:Cathez,Georgia,serif; font-size:2.1rem; line-height:1; letter-spacing:.045em; }
+    .brand-sub { font-size:.62rem; font-weight:900; letter-spacing:.16em; }
+    .private-mark { color:var(--muted); font-size:.76rem; font-weight:800; }
+    .page { width:min(100% - 28px,820px); margin:0 auto; padding:44px 0 112px; }
+    .eyebrow { color:var(--green); font-size:.72rem; font-weight:900; letter-spacing:.17em; text-transform:uppercase; }
+    .intro h1 { max-width:680px; margin:10px 0 12px; color:var(--forest); font-family:Cathez,Georgia,serif; font-size:clamp(3.8rem,12vw,7.3rem); font-weight:500; line-height:.78; letter-spacing:-.02em; text-transform:uppercase; }
+    .intro-copy { max-width:610px; margin:0; color:#485448; font-size:1rem; line-height:1.65; }
+    .reward-banner { display:grid; grid-template-columns:auto 1fr; gap:18px; align-items:center; margin-top:28px; padding:18px 20px; border:1px solid rgba(23,121,52,.2); border-radius:18px; background:rgba(255,254,250,.8); box-shadow:0 12px 36px rgba(30,46,30,.06); }
+    .reward-amount { color:var(--green); font-family:Cathez,Georgia,serif; font-size:3.2rem; line-height:.85; }
+    .reward-banner strong { display:block; color:var(--forest); font-size:.95rem; }
+    .reward-banner span:last-child { display:block; margin-top:4px; color:var(--muted); font-size:.78rem; line-height:1.45; }
+    .progress-shell { position:sticky; z-index:10; top:0; margin:30px 0 22px; padding:14px 16px; border:1px solid var(--line); border-radius:15px; background:rgba(255,254,250,.94); box-shadow:0 8px 24px rgba(30,46,30,.08); backdrop-filter:blur(12px); }
+    .progress-copy { display:flex; align-items:center; justify-content:space-between; gap:16px; color:var(--forest); font-size:.82rem; font-weight:850; }
+    .progress-copy span:last-child { color:var(--green); }
+    .progress-status { display:grid; gap:3px; }
+    .progress-status small { color:var(--muted); font-size:.68rem; font-weight:700; }
+    .progress-track { height:7px; margin-top:10px; overflow:hidden; border-radius:999px; background:#e2e6df; }
+    .progress-fill { width:0; height:100%; border-radius:inherit; background:var(--green); transition:width 220ms ease; }
+    .meal-list { display:grid; gap:18px; }
+    .meal-card { overflow:hidden; border:1px solid var(--line); border-radius:22px; background:var(--paper); box-shadow:var(--shadow); }
+    .meal-header { display:grid; grid-template-columns:142px 1fr; min-height:126px; }
+    .meal-image { width:100%; height:100%; min-height:126px; object-fit:cover; }
+    .meal-heading { display:flex; min-width:0; flex-direction:column; justify-content:center; padding:20px 22px; }
+    .tier { width:fit-content; margin-bottom:8px; padding:4px 8px; border-radius:999px; background:#e8f1e8; color:var(--green); font-size:.64rem; font-weight:900; letter-spacing:.12em; }
+    .meal-heading h2 { margin:0; color:var(--forest); font-size:clamp(1.15rem,4.4vw,1.55rem); line-height:1.15; }
+    .meal-heading p { margin:7px 0 0; color:var(--muted); font-size:.8rem; }
+    .rating-area { padding:20px 22px 22px; border-top:1px solid var(--line); }
+    .rating-question { display:flex; align-items:baseline; justify-content:space-between; gap:14px; margin-bottom:13px; }
+    .rating-question strong { color:var(--forest); }
+    .saved-state { color:var(--green); font-size:.72rem; font-weight:850; }
+    .score-grid { display:grid; grid-template-columns:repeat(10,minmax(0,1fr)); gap:7px; }
+    .score-button { min-height:44px; border:1px solid rgba(30,46,30,.2); border-radius:10px; background:#fbfaf5; color:var(--forest); font-weight:900; transition:140ms ease; }
+    .score-button:hover { border-color:var(--green); transform:translateY(-1px); }
+    .score-button:focus-visible { outline:3px solid rgba(23,121,52,.25); outline-offset:2px; }
+    .score-button[aria-pressed="true"] { border-color:var(--forest); background:var(--forest); color:#fff; }
+    .score-anchors { display:flex; justify-content:space-between; margin-top:7px; color:var(--muted); font-size:.67rem; font-weight:700; }
+    .notes[hidden] { display:none; }
+    .notes { display:grid; gap:15px; margin-top:18px; padding:17px; border-radius:15px; background:#f5f5ee; }
+    .feedback-prompt,.field-label { display:grid; gap:8px; color:var(--forest); font-size:.78rem; font-weight:800; letter-spacing:-.01em; }
+    .prompt-row { display:flex; align-items:baseline; justify-content:space-between; gap:12px; }
+    .prompt-row strong { font-size:.86rem; letter-spacing:-.025em; }
+    .required-mark { color:var(--green); font-size:.65rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+    .optional-mark,.field-label span { color:var(--muted); font-size:.65rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+    .field-help { color:var(--muted); font-size:.68rem; font-weight:600; line-height:1.4; }
+    .field-help.is-valid { color:var(--green); }
+    textarea { width:100%; min-height:78px; resize:vertical; padding:12px 13px; border:1px solid rgba(30,46,30,.18); border-radius:11px; background:#fff; color:var(--ink); line-height:1.45; }
+    textarea:focus { border-color:var(--green); outline:3px solid rgba(23,121,52,.12); }
+    .completion { margin-top:22px; padding:24px; border:1px solid var(--line); border-radius:22px; background:var(--paper); box-shadow:var(--shadow); }
+    .completion h2 { margin:6px 0 8px; color:var(--forest); font-size:1.55rem; }
+    .completion>p { margin:0; color:var(--muted); font-size:.88rem; line-height:1.55; }
+    .consent-card { display:none; margin-top:17px; padding:16px; border:1px solid var(--line); border-radius:14px; background:#faf9f3; }
+    .consent-card.is-visible { display:block; }
+    .check-row { display:grid; grid-template-columns:20px 1fr; gap:10px; align-items:start; color:var(--forest); font-size:.82rem; font-weight:750; line-height:1.45; }
+    .check-row input { width:18px; height:18px; margin:1px 0 0; accent-color:var(--green); }
+    .display-options { display:none; gap:8px; margin:14px 0 0 30px; flex-wrap:wrap; }
+    .display-options.is-visible { display:flex; }
+    .display-options label { color:var(--muted); font-size:.76rem; font-weight:700; }
+    .display-options input { accent-color:var(--green); }
+    .done-button { width:100%; min-height:54px; margin-top:18px; border:0; border-radius:13px; background:var(--forest); color:#fff; font-weight:900; letter-spacing:.025em; }
+    .done-button:disabled { cursor:not-allowed; opacity:.42; }
+    .success { display:none; margin-top:22px; padding:28px; border-radius:22px; background:var(--forest); color:#fff; box-shadow:var(--shadow); }
+    .success.is-visible { display:block; }
+    .success .eyebrow { color:#a8d5ad; }
+    .success h2 { margin:8px 0; font-size:1.75rem; }
+    .success p { margin:0; color:#dce5dc; line-height:1.55; }
+    .success small { display:block; margin-top:12px; color:#b9c6b9; line-height:1.5; }
+    .prototype-note { margin:22px 0 0; color:var(--muted); font-size:.7rem; line-height:1.5; text-align:center; }
+    @media(max-width:620px){.page{padding-top:30px}.private-mark{font-size:.66rem}.brand-sub{display:none}.reward-banner{grid-template-columns:1fr;gap:7px}.meal-header{grid-template-columns:112px 1fr}.meal-heading{padding:16px}.rating-area{padding:18px 16px 20px}.score-grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}.score-button{min-height:48px}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+  </style>
+</head>
+<body>
+  <header class="site-header"><div class="brand"><span class="brand-mark">PRPD</span><span class="brand-sub">MEALS. PREPPED.</span></div><span class="private-mark">Private order feedback</span></header>
+  <main class="page">
+    <section class="intro">
+      <span class="eyebrow" id="customerGreeting">Your delivered order</span>
+      <h1>Rate your meals</h1>
+      <p class="intro-copy">Your five dishes are ready below. For each dish, choose a 1–10 rating and tell us briefly what you liked. Everything saves as you go.</p>
+      <div class="reward-banner"><span class="reward-amount">$5</span><div><strong>PRPD credit when you review all 5 dishes</strong><span>Every dish needs a 1–10 rating and a short “What did you like?” response. One credit per delivered order, valid for 90 days, with a $30 active-wallet cap.</span></div></div>
+    </section>
+    <section class="progress-shell" aria-label="Feedback progress">
+      <div class="progress-copy"><div class="progress-status"><span id="progressText">0 of 5 reviews complete</span><small id="scoreText">0 of 5 ratings selected</small></div><span id="rewardText">Complete all 5 to unlock $5</span></div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    </section>
+    <section class="meal-list" id="mealList"></section>
+    <section class="completion" id="completion">
+      <span class="eyebrow">Finish when you’re ready</span>
+      <h2>Anything else about this order?</h2>
+      <p>This final note is optional. You can finish after all five dishes have both a score and a short “What did you like?” response.</p>
+      <label class="field-label" style="margin-top:16px">Overall order note <span>Optional</span><textarea id="overallNote" placeholder="Packaging, delivery, portions, or anything else"></textarea></label>
+      <div class="consent-card" id="consentCard">
+        <label class="check-row"><input type="checkbox" id="testimonialConsent"><span>PRPD may use my written comments as a testimonial. My scores and comments stay private unless I turn this on.</span></label>
+        <div class="display-options" id="displayOptions" aria-label="Testimonial display name">
+          <label><input type="radio" name="display" value="first-name" checked> First name</label><label><input type="radio" name="display" value="initials"> Initials</label><label><input type="radio" name="display" value="anonymous"> Anonymous</label>
+        </div>
+      </div>
+      <button class="done-button" id="doneButton" type="button" disabled>Complete all 5 dish reviews to earn $5</button>
+    </section>
+    <section class="success" id="success" tabindex="-1"><span class="eyebrow">Feedback saved</span><h2>You earned $5 in PRPD credit.</h2><p>Thank you. The credit is linked to this order and will be ready for a future purchase.</p><small>This prototype demonstrates the customer experience. It does not issue a real credit or send data to PRPD yet.</small></section>
+    <p class="prototype-note">Internal prototype. The sample link contains no customer name, email, phone, address, or raw order number.</p>
+  </main>
+  <script>
+    const meals=[
+      {id:"m2-lean",name:"Butter Chicken",tier:"LEAN",detail:"3 ordered",image:"../../assets/images/meals/menu/butter-chicken-lean.jpg"},
+      {id:"m3-lean",name:"Loaded Buffalo Chicken Potato",tier:"LEAN",detail:"1 ordered",image:"../../assets/images/meals/menu/loaded-buffalo-chicken-potato.jpg"},
+      {id:"m1-lean",name:"Hot Honey Chicken Sliders",tier:"LEAN",detail:"2 ordered",image:"../../assets/images/meals/menu/batch-6-2026-08-15/hot-honey-chicken-sliders.webp"},
+      {id:"m5-bulk",name:"Beef Seekh Kabab Shawarma",tier:"BULK",detail:"1 ordered",image:"../../assets/images/meals/beef-seekh-shawarma-landscape-v2.png"},
+      {id:"b2-bulk",name:"Grilled Cheese Breakfast Burrito",tier:"BULK",detail:"2 ordered",image:"../../assets/images/meals/menu/grilled-cheese-breakfast-burrito-bulk.jpg"}
+    ];
+    const order={customerFirstName:"Sample Customer",uniqueDishCount:meals.length};
+    document.getElementById("customerGreeting").textContent=`Hey, ${order.customerFirstName}`;
+    const feedbackToken=new URLSearchParams(location.search).get("t")||"sample-order-token";
+    const storageKey=`prpd-feedback-prototype-v2:${feedbackToken}`;
+    const state=JSON.parse(localStorage.getItem(storageKey)||"{}");
+    const mealList=document.getElementById("mealList"),progressText=document.getElementById("progressText"),scoreText=document.getElementById("scoreText"),progressFill=document.getElementById("progressFill"),rewardText=document.getElementById("rewardText"),doneButton=document.getElementById("doneButton"),consentCard=document.getElementById("consentCard");
+    function saveState(){state.overallNote=document.getElementById("overallNote").value;state.testimonialConsent=document.getElementById("testimonialConsent").checked;state.testimonialDisplay=document.querySelector('input[name="display"]:checked')?.value||"first-name";localStorage.setItem(storageKey,JSON.stringify(state))}
+    function writtenCommentExists(){return meals.some(meal=>state[meal.id]?.liked||state[meal.id]?.change)||document.getElementById("overallNote").value.trim()}
+    function isMealComplete(meal){const item=state[meal.id]||{};return Number.isInteger(item.score)&&String(item.liked||"").trim().length>=8}
+    function refreshCard(article,meal){const item=state[meal.id]||{},complete=isMealComplete(meal),status=article.querySelector(".saved-state"),help=article.querySelector(".field-help");status.textContent=complete?"Review complete":item.score?"Rating saved · note needed":"Choose 1–10";help.textContent=String(item.liked||"").trim().length>=8?"Response saved":"Required, minimum 8 characters";help.classList.toggle("is-valid",String(item.liked||"").trim().length>=8)}
+    function refreshProgress(){const rated=meals.filter(meal=>Number.isInteger(state[meal.id]?.score)).length,completed=meals.filter(isMealComplete).length,remaining=meals.length-completed,missingNotes=meals.filter(meal=>Number.isInteger(state[meal.id]?.score)&&!isMealComplete(meal)).length,qualified=completed===meals.length;progressText.textContent=`${completed} of ${meals.length} reviews complete`;scoreText.textContent=`${rated} of ${meals.length} ratings selected`;progressFill.style.width=`${completed/meals.length*100}%`;rewardText.textContent=qualified?"$5 credit unlocked":rated===meals.length?`${missingNotes} required note${missingNotes===1?"":"s"} left`:`${remaining} full review${remaining===1?"":"s"} left`;doneButton.disabled=!qualified;doneButton.textContent=qualified?"Finish and save feedback":rated===meals.length?`Add ${missingNotes} required note${missingNotes===1?"":"s"} to earn $5`:`Complete all ${meals.length} dish reviews to earn $5`;consentCard.classList.toggle("is-visible",Boolean(writtenCommentExists()));document.querySelectorAll(".meal-card").forEach((article,index)=>refreshCard(article,meals[index]))}
+    function mealCard(meal,index){const saved=state[meal.id]||{},article=document.createElement("article");article.className="meal-card";article.dataset.mealId=meal.id;article.innerHTML=`<div class="meal-header"><img class="meal-image" src="${meal.image}" alt="${meal.name}"><div class="meal-heading"><span class="tier">${meal.tier}</span><h2>${index+1}. ${meal.name}</h2><p>${meal.detail} · Rate this dish once</p></div></div><div class="rating-area"><div class="rating-question"><strong>How was it?</strong><span class="saved-state">Choose 1–10</span></div><div class="score-grid" role="group" aria-label="Score ${meal.name} from 1 to 10">${Array.from({length:10},(_,i)=>`<button class="score-button" type="button" data-score="${i+1}" aria-label="${i+1} out of 10" aria-pressed="${saved.score===i+1}">${i+1}</button>`).join("")}</div><div class="score-anchors"><span>Not for me</span><span>Loved it</span></div><div class="notes" ${saved.score||saved.liked||saved.change?"":"hidden"}><label class="feedback-prompt"><span class="prompt-row"><strong>What did you like?</strong><span class="required-mark">Required</span></span><textarea data-note="liked" required minlength="8" aria-required="true" placeholder="Tell us about the flavor, portion, or texture">${saved.liked||""}</textarea><span class="field-help">Required, minimum 8 characters</span></label><label class="feedback-prompt"><span class="prompt-row"><strong>What would you change?</strong><span class="optional-mark">Optional</span></span><textarea data-note="change" placeholder="Skip this if you would not change anything">${saved.change||""}</textarea></label></div></div>`;
+      article.querySelectorAll(".score-button").forEach(button=>button.addEventListener("click",()=>{state[meal.id]=state[meal.id]||{};state[meal.id].score=Number(button.dataset.score);article.querySelectorAll(".score-button").forEach(item=>item.setAttribute("aria-pressed",String(item===button)));const notes=article.querySelector(".notes");notes.hidden=false;saveState();refreshProgress();if(!state[meal.id].liked)notes.querySelector('[data-note="liked"]').focus()}));
+      article.querySelectorAll("textarea[data-note]").forEach(textarea=>textarea.addEventListener("input",()=>{state[meal.id]=state[meal.id]||{};state[meal.id][textarea.dataset.note]=textarea.value;saveState();refreshProgress()}));refreshCard(article,meal);return article}
+    meals.forEach((meal,index)=>mealList.appendChild(mealCard(meal,index)));
+    document.getElementById("overallNote").value=state.overallNote||"";document.getElementById("overallNote").addEventListener("input",()=>{saveState();refreshProgress()});
+    const consent=document.getElementById("testimonialConsent"),displayOptions=document.getElementById("displayOptions");consent.checked=Boolean(state.testimonialConsent);displayOptions.classList.toggle("is-visible",consent.checked);document.querySelector(`input[name="display"][value="${state.testimonialDisplay||"first-name"}"]`).checked=true;consent.addEventListener("change",()=>{displayOptions.classList.toggle("is-visible",consent.checked);saveState()});document.querySelectorAll('input[name="display"]').forEach(option=>option.addEventListener("change",saveState));
+    doneButton.addEventListener("click",()=>{if(doneButton.disabled)return;state.submitted=true;saveState();const success=document.getElementById("success");success.classList.add("is-visible");success.focus();success.scrollIntoView({behavior:"smooth",block:"center"})});
+    refreshProgress();if(state.submitted)document.getElementById("success").classList.add("is-visible");
+  </script>
+</body>
+</html>

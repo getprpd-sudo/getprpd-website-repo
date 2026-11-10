@@ -1,7 +1,11 @@
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
 const test = require('node:test');
 const Core = require('../api/_business-center-core');
 const Store = require('../operations/business-center-store');
+
+const ROOT = path.join(__dirname, '..');
 
 function samplePayload() {
   const orderHeader = Core.ORDER_HEADERS;
@@ -86,7 +90,7 @@ test('finance keeps inventory and equipment purchases out of operating contribut
   assert.equal(result.cashMovement, -153);
 });
 
-test('active Batch 4 recipes have mapped costs with the controlled cookie coating included', () => {
+test('legacy Batch 4 rates are retained but explicitly provisional', () => {
   const payload = samplePayload();
   payload.orders = [
     Core.ORDER_HEADERS,
@@ -98,7 +102,7 @@ test('active Batch 4 recipes have mapped costs with the controlled cookie coatin
   const model = Core.summarize(payload, { expenses:[], adImports:[] });
   const result = Core.financials(model);
   assert.deepEqual(result.unknownCostItems, []);
-  assert.deepEqual(result.provisionalCostItems, []);
+  assert.deepEqual(result.provisionalCostItems, ['Peri Peri Chicken', 'Meatball Arrabbiata Pasta', 'Chocolate-Dipped Cookie Dough Balls']);
   assert.equal(result.directCost, 8.84);
 });
 
@@ -108,17 +112,57 @@ test('current menu cost data has exact live-menu and tier parity', () => {
   const menu = Object.values(config.menu).flat();
   const expectedKeys = menu.flatMap(item => {
     const name = item.name.trim().toLowerCase();
+    if (Array.isArray(item.variants) && item.variants.length) {
+      return item.variants.map(variant => `${name}|${variant.label.trim().toLowerCase()}`);
+    }
     return item.bulkMacros ? [`${name}|lean`, `${name}|bulk`] : [`${name}|single`];
   }).sort();
   assert.equal(currentCosts.batchNumber, config.batch.number);
   assert.deepEqual(Object.keys(currentCosts.directCosts).sort(), expectedKeys);
 
-  const items = menu.map(item => item.bulkMacros
-    ? `1x ${item.name} (Lean) - $10.99\n1x ${item.name} (Bulk) - $12.99`
-    : `1x ${item.name} - $6.99`).join('\n');
+  const items = menu.flatMap(item => {
+    if (Array.isArray(item.variants) && item.variants.length) {
+      return item.variants.map(variant => `1x ${item.name} (${variant.label}) - $${variant.price.toFixed(2)}`);
+    }
+    return [item.bulkMacros
+      ? `1x ${item.name} (Lean) - $10.99\n1x ${item.name} (Bulk) - $12.99`
+      : `1x ${item.name} - $6.99`];
+  }).join('\n');
   const result = Core.orderCost({ Batch: `Batch ${config.batch.number}`, Items: items });
   assert.deepEqual(result.unknown, []);
   assert.equal(result.lines.length, expectedKeys.length);
+});
+
+test('current batch uses reconciled payment due instead of complimentary retail value', () => {
+  const payload = samplePayload();
+  payload.orders = [
+    Core.ORDER_HEADERS,
+    orderRow({
+      Batch: 'Batch 8',
+      'Order ID': 'ORDER-PARTNER',
+      Items: '1x Tandoori Chicken (Bulk) - $12.99',
+      'Exact Total': 199.86,
+      'Total (Rounded)': 200,
+    }),
+  ];
+  payload.payments = [
+    Core.PAYMENT_HEADERS,
+    ['Batch 8', 'Saturday', '', 'Partner', 'Bulk', 1, 0, 0, 25, 0, 25, '', '', 'ORDER-PARTNER', '', ''],
+  ];
+  const model = Core.summarize(payload, { expenses:[], adImports:[] });
+  assert.equal(model.orders[0].retailRevenue, 200);
+  assert.equal(Core.financials(model).booked, 25);
+});
+
+test('unrecoverable Batch 12 bundle costs are unavailable, not reconstructed from current prices', () => {
+  const result = Core.orderCost({
+    Batch: 'Batch 12',
+    Items: '1x Build-a-Week: Harissa + Buffalo (3 Harissa + 2 Buffalo) - $49.99\n1x Build-a-Week: Harissa + Buffalo (2 Harissa + 3 Buffalo) - $49.99',
+  });
+  assert.equal(result.amount, null);
+  assert.equal(result.complete, false);
+  assert.equal(result.unknown.length, 2);
+  assert.equal(result.provisional.length, 0);
 });
 
 test('source and referral summaries use UTM and partner fields', () => {
@@ -302,25 +346,32 @@ test('business state validation strips unsupported data and validates amounts', 
 });
 
 test('marketing campaign pack uses the active menu and generates distinct tracked links', () => {
-  const config = require('../operations/active/BATCH_7_DRAFT_ORDER_CONFIG');
-  const campaign = Core.generateMarketingCampaign(config, { featuredMealId:'m4' });
+  const config = require('../config/order-config');
+  const campaign = Core.generateMarketingCampaign(config, { featuredMealId:'m6' });
+  const featured = Object.values(config.menu).flat().find(meal => meal.id === 'm6');
 
-  assert.equal(campaign.batchNumber, 7);
-  assert.equal(campaign.featuredMeal, 'Sweet Chili Chicken with Vegetable Rice');
+  assert.equal(campaign.batchNumber, config.batch.number);
+  assert.equal(campaign.featuredMeal, featured.name);
   assert.equal(campaign.assets.length, 5);
-  assert.match(campaign.assets[0].caption, /Sweet Chili Chicken with Vegetable Rice/);
-  assert.equal(new Set(campaign.assets.map(asset => asset.trackedUrl)).size, 5);
+  assert.ok(campaign.assets[0].caption.includes(featured.name));
+  assert.equal(new Set(campaign.assets.map(asset => asset.trackedUrl)).size, campaign.assets.length);
   campaign.assets.forEach((asset) => {
     const url = new URL(asset.trackedUrl);
     assert.equal(url.origin, 'https://getprpd.com');
     assert.equal(url.pathname, '/order');
-    assert.match(url.searchParams.get('utm_campaign'), /^batch-7-/);
+    assert.match(url.searchParams.get('utm_campaign'), new RegExp(`^batch-${config.batch.number}-`));
     assert.ok(url.searchParams.get('utm_content'));
   });
 });
 
+test('partner referral links use the homepage while customer referrals retain direct ordering', () => {
+  const app = fs.readFileSync(path.join(ROOT, 'operations', 'business-center-app.js'), 'utf8');
+  assert.match(app, /programType === 'Partner' \? 'https:\/\/getprpd\.com\/' : 'https:\/\/getprpd\.com\/order'/);
+  assert.match(app, /utm_medium:programType === 'Partner' \? 'partner' : 'customer'/);
+});
+
 test('marketing summary and recommendations use recorded results without inventing data', () => {
-  const config = require('../operations/active/BATCH_7_DRAFT_ORDER_CONFIG');
+  const config = require('../operations/active/BATCH_8_DRAFT_ORDER_CONFIG');
   const campaign = Core.generateMarketingCampaign(config);
   campaign.assets[0].status = 'Posted';
   campaign.assets[0].metrics = { views:1000, clicks:50, leads:8, paidOrders:3, revenue:180, spend:20 };
@@ -334,7 +385,7 @@ test('marketing summary and recommendations use recorded results without inventi
 });
 
 test('business state persists sanitized marketing workflow and campaign history', () => {
-  const config = require('../operations/active/BATCH_7_DRAFT_ORDER_CONFIG');
+  const config = require('../operations/active/BATCH_8_DRAFT_ORDER_CONFIG');
   const currentCampaign = Core.generateMarketingCampaign(config);
   currentCampaign.assets[0].status = 'Approved';
   currentCampaign.assets[0].notes = 'Use the clean plating shot.';

@@ -1,83 +1,206 @@
-# PRPD Batch 6 Direct Packed-Cost Audit
+# PRPD Batch 17 Direct Packed-Cost Audit
 
-Generated: August 10, 2026
+Generated: October 28, 2026
 
 ## Scope
 
-This report prices the exact controlled builds in `../nutrition/calculate_next_menu.py`. It is a planning-grade direct-cost audit, not a final profit statement or customer-price approval.
+This report prices the named Batch 17 planning builds in the batch's exact recipe registry, matched to the current order configuration. Historical positional MEALS are not used. It is not a final profit statement, measured consumption, recipe release, or customer-price approval.
 
 Shared ingredients use the current active-menu price model. Next-menu-only products use visibly marked receipt, legacy, or retailer planning references. Direct packed cost includes recipe food, a 5% pooled allowance on raw meat and poultry, meal-specific packaging, and the approved per-meal gloves/cleaning allowance. It excludes delivery fuel, order-level paper bags, owner labor in the startup cash view, and expenses PRPD does not currently pay.
 
-Current unweighted average direct packed cost: **30.8%**. This is not a volume-weighted weekly margin.
+Receipt update: October 1 EPIC $113.45 plus Walmart $171.65 equals $285.10 shopping cash, not ingredient consumption. Receipt beef is 80/20 and is not substituted for the recipes' 90/10 or 96/4 cost bases. The four unmade internal spares are not evidence of actual production. No actual weekly margin has been replaced by this model. All totals remain provisional because yields, packaging and some package identities are unmeasured.
+
+Current unweighted average direct packed cost: **28.6%**. This is not a volume-weighted weekly margin.
 
 ## Controlled Build Costs
 
 | Category | Dish | Tier | Food incl. protein reserve | Packaging | Direct packed | Selling price | Retained before shared costs | Direct cost % | Status |
 |---|---|---|---:|---:|---:|---:|---:|---:|---|
-| Breakfast | PRPD Beef Bacon Breakfast Sandwich | Lean | $2.53 | $0.40 | $2.93 | $13.99 | $11.06 | 20.9% | Preliminary |
-| Breakfast | PRPD Beef Bacon Breakfast Sandwich | Bulk | $3.93 | $0.40 | $4.33 | $15.99 | $11.66 | 27.1% | Preliminary |
-| Breakfast | French Toast | Lean | $2.54 | $0.40 | $2.94 | $10.99 | $8.05 | 26.7% | Preliminary |
-| Breakfast | French Toast | Bulk | $3.16 | $0.40 | $3.55 | $12.99 | $9.44 | 27.4% | Preliminary |
-| Breakfast | Breakfast Quesadilla | Lean | $3.37 | $0.40 | $3.76 | $10.99 | $7.23 | 34.2% | Preliminary |
-| Breakfast | Breakfast Quesadilla | Bulk | $4.03 | $0.40 | $4.43 | $12.99 | $8.56 | 34.1% | Preliminary |
-| Breakfast | Grilled Cheese Breakfast Burrito | Lean | $3.62 | $0.34 | $3.96 | $13.99 | $10.03 | 28.3% | Preliminary |
-| Breakfast | Grilled Cheese Breakfast Burrito | Bulk | $4.45 | $0.34 | $4.79 | $15.99 | $11.20 | 29.9% | Preliminary |
-| Main | Loaded Beef Cottage Pie | Lean | $3.74 | $0.40 | $4.14 | $13.99 | $9.85 | 29.6% | Preliminary |
-| Main | Loaded Beef Cottage Pie | Bulk | $4.64 | $0.40 | $5.04 | $15.99 | $10.95 | 31.5% | Preliminary |
-| Main | Hot Honey Chicken Sliders | Lean | $2.91 | $0.34 | $3.25 | $10.99 | $7.74 | 29.6% | Preliminary |
-| Main | Hot Honey Chicken Sliders | Bulk | $3.91 | $0.34 | $4.25 | $12.99 | $8.74 | 32.7% | Preliminary |
-| Main | Loaded Buffalo Chicken Potato | Lean | $3.63 | $0.34 | $3.96 | $10.99 | $7.03 | 36.1% | Preliminary |
-| Main | Loaded Buffalo Chicken Potato | Bulk | $4.50 | $0.34 | $4.84 | $12.99 | $8.15 | 37.2% | Preliminary |
-| Main | Beef Seekh Kabab Shawarma | Lean | $3.35 | $0.34 | $3.68 | $13.99 | $10.31 | 26.3% | Preliminary |
-| Main | Beef Seekh Kabab Shawarma | Bulk | $4.26 | $0.34 | $4.60 | $15.99 | $11.39 | 28.8% | Preliminary |
-| Main | Harissa Honey Chicken | Lean | $3.06 | $0.34 | $3.39 | $10.99 | $7.60 | 30.9% | Preliminary |
-| Main | Harissa Honey Chicken | Bulk | $4.45 | $0.34 | $4.79 | $12.99 | $8.20 | 36.8% | Preliminary |
-| Main | Mexican Streetcorn Chicken Bowl | Lean | $2.53 | $0.34 | $2.86 | $10.99 | $8.13 | 26.1% | Preliminary |
-| Main | Mexican Streetcorn Chicken Bowl | Bulk | $3.37 | $0.34 | $3.71 | $12.99 | $9.28 | 28.5% | Preliminary |
-| Main | Garlic Butter Shrimp + Rice | Lean | $4.43 | $0.34 | $4.77 | $13.99 | $9.22 | 34.1% | Preliminary |
-| Main | Garlic Butter Shrimp + Rice | Bulk | $5.93 | $0.34 | $6.26 | $15.99 | $9.73 | 39.2% | Preliminary |
-| Main | BBQ Chicken Mac & Cheese | Lean | $2.76 | $0.40 | $3.16 | $10.99 | $7.83 | 28.8% | Preliminary |
-| Main | BBQ Chicken Mac & Cheese | Bulk | $3.60 | $0.40 | $3.99 | $12.99 | $9.00 | 30.7% | Preliminary |
-| Dessert | Chocolate-Dipped Cookie Dough Balls | Single | $2.11 | $0.39 | $2.50 | $6.99 | $4.49 | 35.8% | Preliminary |
-| Dessert | Chocolate Oreo Mousse | Single | $2.18 | $0.39 | $2.57 | $6.99 | $4.42 | 36.7% | Preliminary |
-| Dessert | Baked Strawberry-Lemon Protein Cheesecake Square | Single | $1.49 | $0.39 | $1.88 | $6.99 | $5.11 | 26.9% | Preliminary |
-| Add-on | PRPD Protein Box | Single | $1.34 | $0.34 | $1.68 | $7.99 | $6.31 | 21.0% | Preliminary |
-| Add-on | Mini Chicken Snack Wrap | Single | $2.41 | $0.34 | $2.75 | $7.99 | $5.24 | 34.4% | Preliminary |
-| Add-on | Strawberry Protein Overnight Oats | Single | $1.93 | $0.39 | $2.32 | $6.99 | $4.67 | 33.2% | Preliminary |
+| Breakfast | High Protein Omelette | Lean | $1.85 | $0.49 | $2.34 | $10.99 | $8.65 | 21.3% | Preliminary |
+| Breakfast | High Protein Omelette | Bulk | $2.50 | $0.49 | $2.99 | $12.99 | $10.00 | 23.0% | Preliminary |
+| Breakfast | Strawberry Cheesecake Protein Pancakes | Lean | $2.70 | $0.58 | $3.28 | $10.99 | $7.71 | 29.9% | Preliminary |
+| Breakfast | Strawberry Cheesecake Protein Pancakes | Bulk | $3.54 | $0.58 | $4.12 | $12.99 | $8.87 | 31.7% | Preliminary |
+| Breakfast | PRPD Beef Bacon Breakfast Sandwich | Lean | $2.30 | $0.40 | $2.70 | $13.99 | $11.29 | 19.3% | Preliminary |
+| Breakfast | PRPD Beef Bacon Breakfast Sandwich | Bulk | $3.65 | $0.40 | $4.05 | $15.99 | $11.94 | 25.3% | Preliminary |
+| Main | Halal Cart Chicken + Yellow Rice | Lean | $2.34 | $0.34 | $2.68 | $10.99 | $8.31 | 24.3% | Preliminary |
+| Main | Halal Cart Chicken + Yellow Rice | Bulk | $3.07 | $0.34 | $3.41 | $12.99 | $9.58 | 26.2% | Preliminary |
+| Main | Cheesy Achiote Chicken Tacos | Lean | $2.89 | $0.34 | $3.23 | $10.99 | $7.76 | 29.4% | Preliminary |
+| Main | Cheesy Achiote Chicken Tacos | Bulk | $3.85 | $0.34 | $4.19 | $12.99 | $8.80 | 32.3% | Preliminary |
+| Main | Lemon Herb Chicken Orzo | Lean | $2.45 | $0.34 | $2.79 | $10.99 | $8.20 | 25.4% | Preliminary |
+| Main | Lemon Herb Chicken Orzo | Bulk | $3.24 | $0.34 | $3.58 | $12.99 | $9.41 | 27.6% | Preliminary |
+| Main | Southwest Beef Taco Bowl | Lean | $3.72 | $0.34 | $4.06 | $13.99 | $9.93 | 29.0% | Preliminary |
+| Main | Southwest Beef Taco Bowl | Bulk | $5.18 | $0.34 | $5.52 | $15.99 | $10.47 | 34.5% | Preliminary |
+| Main | Garlic Butter Wild Argentine Shrimp + Rice | Lean | $4.51 | $0.40 | $4.91 | $14.99 | $10.08 | 32.7% | Preliminary |
+| Main | Garlic Butter Wild Argentine Shrimp + Rice | Bulk | $5.99 | $0.40 | $6.39 | $16.99 | $10.60 | 37.6% | Preliminary |
+| Main | Creamy Cajun Chicken Pasta | Lean | $2.77 | $0.34 | $3.11 | $10.99 | $7.88 | 28.3% | Preliminary |
+| Main | Creamy Cajun Chicken Pasta | Bulk | $3.73 | $0.34 | $4.07 | $12.99 | $8.92 | 31.4% | Preliminary |
+| Premium meal | Premium NY Strip Steak | Lean | $7.43 | $0.40 | $7.83 | $21.99 | $14.16 | 35.6% | Preliminary |
+| Premium meal | Premium NY Strip Steak | Bulk | $9.13 | $0.40 | $9.53 | $26.99 | $17.46 | 35.3% | Preliminary |
+| Add-on | Chicken Tikka Snack Wrap | Single | $1.59 | $0.34 | $1.93 | $7.99 | $6.06 | 24.1% | Preliminary |
+| Add-on | Buffalo Chicken Pinwheels | Single | $1.95 | $0.34 | $2.29 | $7.99 | $5.70 | 28.7% | Preliminary |
+| Add-on | Oven-Baked Popcorn Chicken | Single | $1.61 | $0.34 | $1.95 | $7.99 | $6.04 | 24.4% | Preliminary |
+
+## Weekly Bundle Costs
+
+Bundle direct cost includes all five individual meal containers and recipe food. Delivery fuel and the order-level paper bag remain separate shared order costs.
+
+| Bundle | Split | Direct packed | Selling price | Retained before shared costs | Direct cost % | Status |
+|---|---|---:|---:|---:|---:|---|
+| Weekly Five: Cajun + Harissa Honey | Lean: 3 Cajun Pasta + 2 Harissa Honey Chicken | $16.39 | $49.95 | $33.56 | 32.8% | Preliminary |
+| Weekly Five: Cajun + Harissa Honey | Lean: 2 Cajun Pasta + 3 Harissa Honey Chicken | $16.81 | $49.95 | $33.14 | 33.7% | Preliminary |
+| Weekly Five: Cajun + Harissa Honey | Bulk: 3 Cajun Pasta + 2 Harissa Honey Chicken | $21.26 | $59.95 | $38.69 | 35.5% | Preliminary |
+| Weekly Five: Cajun + Harissa Honey | Bulk: 2 Cajun Pasta + 3 Harissa Honey Chicken | $21.70 | $59.95 | $38.25 | 36.2% | Preliminary |
 
 ## Highest Direct-Cost Pressure
 
-- Garlic Butter Shrimp + Rice Bulk: 39.2% including the pooled raw-protein reserve, before labor, delivery, and overhead.
-- Loaded Buffalo Chicken Potato Bulk: 37.2% including the pooled raw-protein reserve, before labor, delivery, and overhead.
-- Harissa Honey Chicken Bulk: 36.8% including the pooled raw-protein reserve, before labor, delivery, and overhead.
-- Chocolate Oreo Mousse Single: 36.7% including the pooled raw-protein reserve, before labor, delivery, and overhead.
-- Loaded Buffalo Chicken Potato Lean: 36.1% including the pooled raw-protein reserve, before labor, delivery, and overhead.
-- Chocolate-Dipped Cookie Dough Balls Single: 35.8% including the pooled raw-protein reserve, before labor, delivery, and overhead.
-- Mini Chicken Snack Wrap Single: 34.4% including the pooled raw-protein reserve, before labor, delivery, and overhead.
-- Breakfast Quesadilla Lean: 34.2% including the pooled raw-protein reserve, before labor, delivery, and overhead.
+- Garlic Butter Wild Argentine Shrimp + Rice Bulk: 37.6% including the pooled raw-protein reserve, before labor, delivery, and overhead.
+- Premium NY Strip Steak Lean: 35.6% including the pooled raw-protein reserve, before labor, delivery, and overhead.
+- Premium NY Strip Steak Bulk: 35.3% including the pooled raw-protein reserve, before labor, delivery, and overhead.
+- Southwest Beef Taco Bowl Bulk: 34.5% including the pooled raw-protein reserve, before labor, delivery, and overhead.
+- Garlic Butter Wild Argentine Shrimp + Rice Lean: 32.7% including the pooled raw-protein reserve, before labor, delivery, and overhead.
+- Cheesy Achiote Chicken Tacos Bulk: 32.3% including the pooled raw-protein reserve, before labor, delivery, and overhead.
+- Strawberry Cheesecake Protein Pancakes Bulk: 31.7% including the pooled raw-protein reserve, before labor, delivery, and overhead.
+- Creamy Cajun Chicken Pasta Bulk: 31.4% including the pooled raw-protein reserve, before labor, delivery, and overhead.
 
 ## Ingredient-Level Cost Proof
 
 Recipe quantity is the amount in one customer build. Purchase-cost quantity reverses the documented cooked yield for meat and adds the 5% pooled raw-protein reserve so purchase cost is not understated.
 
+### High Protein Omelette - Lean
+
+Validation: Record physical yields and consumed inventory before actual margin.
+
+| Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
+|---|---:|---:|---|---:|---|
+| Whole egg | 2.00 each | 2.00 each | Walmart Great Value 12-count reference | $0.24 | Planning |
+| Liquid egg white | 92.00 g | 92.00 g | Walmart Great Value 32 oz reference | $0.49 | Planning |
+| H-E-B fat-free mozzarella | 40.00 g | 40.00 g | $10.00/5 lb current fat-free shredded cheese purchase | $0.18 | Verified |
+| White mushrooms, raw | 50.00 g | 50.00 g | Generic 8 oz package estimate | $0.46 | Planning |
+| Jalapeno, raw | 15.00 g | 15.00 g | Walmart receipt 2026-10-01: jalapeno $1.32/lb | $0.04 | Verified |
+| Sourdough bread | 1.00 each | 1.00 each | Planning loaf estimate | $0.20 | Planning |
+| Tomato, raw | 100.00 g | 100.00 g | Walmart receipt 2026-10-01: Roma tomato $0.97/lb | $0.21 | Verified |
+| Avocado oil | 2.00 g | 2.00 g | Earlier PRPD ingredient-price document | $0.02 | Legacy |
+| Table salt | 0.50 g | 0.50 g | Generic table-salt estimate | $0.00 | Planning |
+| **Ingredient subtotal** |  |  |  | **$1.85** |  |
+
+| Packaging / consumable | Quantity | Unit cost | Line cost |
+|---|---:|---:|---:|
+| Meal container with lid | 1 | $0.29 | $0.29 |
+| Zipper bag | 1 | $0.10 | $0.10 |
+| Parchment | 1 | $0.05 | $0.05 |
+| Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
+| **Packaging subtotal** |  |  | **$0.49** |
+| **Direct packed total** |  |  | **$2.34** |
+
+### High Protein Omelette - Bulk
+
+Validation: Record physical yields and consumed inventory before actual margin.
+
+| Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
+|---|---:|---:|---|---:|---|
+| Whole egg | 3.00 each | 3.00 each | Walmart Great Value 12-count reference | $0.37 | Planning |
+| Liquid egg white | 138.00 g | 138.00 g | Walmart Great Value 32 oz reference | $0.74 | Planning |
+| H-E-B fat-free mozzarella | 56.00 g | 56.00 g | $10.00/5 lb current fat-free shredded cheese purchase | $0.25 | Verified |
+| White mushrooms, raw | 50.00 g | 50.00 g | Generic 8 oz package estimate | $0.46 | Planning |
+| Jalapeno, raw | 15.00 g | 15.00 g | Walmart receipt 2026-10-01: jalapeno $1.32/lb | $0.04 | Verified |
+| Sourdough bread | 2.00 each | 2.00 each | Planning loaf estimate | $0.40 | Planning |
+| Tomato, raw | 100.00 g | 100.00 g | Walmart receipt 2026-10-01: Roma tomato $0.97/lb | $0.21 | Verified |
+| Avocado oil | 3.00 g | 3.00 g | Earlier PRPD ingredient-price document | $0.03 | Legacy |
+| Table salt | 0.75 g | 0.75 g | Generic table-salt estimate | $0.00 | Planning |
+| **Ingredient subtotal** |  |  |  | **$2.50** |  |
+
+| Packaging / consumable | Quantity | Unit cost | Line cost |
+|---|---:|---:|---:|
+| Meal container with lid | 1 | $0.29 | $0.29 |
+| Zipper bag | 1 | $0.10 | $0.10 |
+| Parchment | 1 | $0.05 | $0.05 |
+| Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
+| **Packaging subtotal** |  |  | **$0.49** |
+| **Direct packed total** |  |  | **$2.99** |
+
+### Strawberry Cheesecake Protein Pancakes - Lean
+
+Validation: Record physical yields and consumed inventory before actual margin.
+
+| Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
+|---|---:|---:|---|---:|---|
+| All-purpose flour | 45.00 g | 45.00 g | Generic 5 lb all-purpose flour estimate | $0.05 | Planning |
+| Baking powder | 3.00 g | 3.00 g | Generic package estimate | $0.03 | Planning |
+| Premier Protein powder, vanilla | 9.75 g | 9.75 g | PRPD confirmed Premier Protein powder midpoint | $0.48 | Verified |
+| Whole egg | 1.00 each | 1.00 each | Walmart Great Value 12-count reference | $0.12 | Planning |
+| Liquid egg white | 80.00 g | 80.00 g | Walmart Great Value 32 oz reference | $0.43 | Planning |
+| FAGE Total 0% | 100.00 g | 100.00 g | $3.00/32 oz current fat-free Greek yogurt purchase | $0.33 | Verified |
+| Fairlife fat-free ultra-filtered milk | 60.00 g | 60.00 g | $5.00/52 fl oz current fat-free milk purchase; 1 mL modeled as 1g | $0.20 | Verified |
+| Strawberries, raw | 80.00 g | 80.00 g | Generic local planning estimate | $0.44 | Planning |
+| Reduced-fat cream cheese | 20.00 g | 20.00 g | Current 8 oz reduced-fat cream-cheese planning estimate | $0.31 | Planning |
+| Powdered sugar | 4.00 g | 4.00 g | Generic 2 lb bag estimate | $0.01 | Planning |
+| Great Value reduced-calorie sugar-free syrup | 30.00 g | 30.00 g | Generic sugar-free syrup estimate | $0.12 | Planning |
+| Vanilla extract | 2.00 g | 2.00 g | Generic 2 fl oz bottle estimate | $0.17 | Planning |
+| Ground cinnamon | 0.50 g | 0.50 g | Generic spice bottle estimate | $0.01 | Planning |
+| Avocado oil | 2.00 g | 2.00 g | Earlier PRPD ingredient-price document | $0.02 | Legacy |
+| Table salt | 0.50 g | 0.50 g | Generic table-salt estimate | $0.00 | Planning |
+| **Ingredient subtotal** |  |  |  | **$2.70** |  |
+
+| Packaging / consumable | Quantity | Unit cost | Line cost |
+|---|---:|---:|---:|
+| Meal container with lid | 1 | $0.29 | $0.29 |
+| Sauce cup with lid | 2 | $0.06 | $0.12 |
+| Topping and syrup cups with lids | 2 | $0.06 | $0.12 |
+| Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
+| **Packaging subtotal** |  |  | **$0.58** |
+| **Direct packed total** |  |  | **$3.28** |
+
+### Strawberry Cheesecake Protein Pancakes - Bulk
+
+Validation: Record physical yields and consumed inventory before actual margin.
+
+| Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
+|---|---:|---:|---|---:|---|
+| All-purpose flour | 60.00 g | 60.00 g | Generic 5 lb all-purpose flour estimate | $0.06 | Planning |
+| Baking powder | 4.00 g | 4.00 g | Generic package estimate | $0.03 | Planning |
+| Premier Protein powder, vanilla | 14.62 g | 14.62 g | PRPD confirmed Premier Protein powder midpoint | $0.72 | Verified |
+| Whole egg | 1.00 each | 1.00 each | Walmart Great Value 12-count reference | $0.12 | Planning |
+| Liquid egg white | 120.00 g | 120.00 g | Walmart Great Value 32 oz reference | $0.64 | Planning |
+| FAGE Total 0% | 120.00 g | 120.00 g | $3.00/32 oz current fat-free Greek yogurt purchase | $0.40 | Verified |
+| Fairlife fat-free ultra-filtered milk | 75.00 g | 75.00 g | $5.00/52 fl oz current fat-free milk purchase; 1 mL modeled as 1g | $0.24 | Verified |
+| Strawberries, raw | 100.00 g | 100.00 g | Generic local planning estimate | $0.55 | Planning |
+| Reduced-fat cream cheese | 25.00 g | 25.00 g | Current 8 oz reduced-fat cream-cheese planning estimate | $0.38 | Planning |
+| Powdered sugar | 4.00 g | 4.00 g | Generic 2 lb bag estimate | $0.01 | Planning |
+| Great Value reduced-calorie sugar-free syrup | 30.00 g | 30.00 g | Generic sugar-free syrup estimate | $0.12 | Planning |
+| Vanilla extract | 2.50 g | 2.50 g | Generic 2 fl oz bottle estimate | $0.21 | Planning |
+| Ground cinnamon | 0.75 g | 0.75 g | Generic spice bottle estimate | $0.01 | Planning |
+| Avocado oil | 3.00 g | 3.00 g | Earlier PRPD ingredient-price document | $0.03 | Legacy |
+| Table salt | 0.75 g | 0.75 g | Generic table-salt estimate | $0.00 | Planning |
+| **Ingredient subtotal** |  |  |  | **$3.54** |  |
+
+| Packaging / consumable | Quantity | Unit cost | Line cost |
+|---|---:|---:|---:|
+| Meal container with lid | 1 | $0.29 | $0.29 |
+| Sauce cup with lid | 2 | $0.06 | $0.12 |
+| Topping and syrup cups with lids | 2 | $0.06 | $0.12 |
+| Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
+| **Packaging subtotal** |  |  | **$0.58** |
+| **Direct packed total** |  |  | **$4.12** |
+
 ### PRPD Beef Bacon Breakfast Sandwich - Lean
+
+Validation: Record physical yields and consumed inventory before actual margin.
 
 | Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
 |---|---:|---:|---|---:|---|
 | English muffin | 1.00 each | 1.00 each | Six-count English muffin planning reference | $0.58 | Planning |
 | Deen Halal beef breakfast slice | 1.00 each | 1.00 each | Deen Halal 5 lb case; modeled as 113 x 20 g slices | $0.45 | Planning |
 | Whole egg | 1.00 each | 1.00 each | Walmart Great Value 12-count reference | $0.12 | Planning |
-| Liquid egg white | 80.00 g | 80.00 g | Walmart Great Value 32 oz reference | $0.43 | Planning |
-| H-E-B fat-free cottage cheese | 40.00 g | 40.00 g | $3.00/24 oz current purchase | $0.18 | Verified |
+| Liquid egg white | 75.00 g | 75.00 g | Walmart Great Value 32 oz reference | $0.40 | Planning |
 | H-E-B fat-free mozzarella | 28.00 g | 28.00 g | $10.00/5 lb current fat-free shredded cheese purchase | $0.12 | Verified |
 | Potato, flesh and skin, raw | 150.00 g | 150.00 g | Generic local planning estimate | $0.33 | Planning |
 | Avocado oil | 2.00 g | 2.00 g | Earlier PRPD ingredient-price document | $0.02 | Legacy |
 | Table salt | 0.50 g | 0.50 g | Generic table-salt estimate | $0.00 | Planning |
-| Great Value light mayonnaise | 11.03 g | 11.03 g | Earlier PRPD ingredient-price document | $0.04 | Legacy |
-| Ketchup | 13.24 g | 13.24 g | Generic 38 oz bottle estimate | $0.04 | Planning |
-| Honey | 13.24 g | 13.24 g | Earlier PRPD ingredient-price document | $0.15 | Legacy |
-| Sriracha sauce | 7.50 g | 7.50 g | Earlier PRPD ingredient-price document | $0.07 | Legacy |
-| **Ingredient subtotal** |  |  |  | **$2.53** |  |
+| Great Value light mayonnaise | 9.78 g | 9.78 g | Earlier PRPD ingredient-price document | $0.03 | Legacy |
+| Ketchup | 11.73 g | 11.73 g | Generic 38 oz bottle estimate | $0.04 | Planning |
+| Honey | 11.73 g | 11.73 g | Earlier PRPD ingredient-price document | $0.13 | Legacy |
+| Sriracha sauce | 6.76 g | 6.76 g | Earlier PRPD ingredient-price document | $0.06 | Legacy |
+| **Ingredient subtotal** |  |  |  | **$2.30** |  |
 
 | Packaging / consumable | Quantity | Unit cost | Line cost |
 |---|---:|---:|---:|
@@ -85,26 +208,26 @@ Recipe quantity is the amount in one customer build. Purchase-cost quantity reve
 | Sauce cup with lid | 1 | $0.06 | $0.06 |
 | Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
 | **Packaging subtotal** |  |  | **$0.40** |
-| **Direct packed total** |  |  | **$2.93** |
+| **Direct packed total** |  |  | **$2.70** |
 
 ### PRPD Beef Bacon Breakfast Sandwich - Bulk
+
+Validation: Record physical yields and consumed inventory before actual margin.
 
 | Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
 |---|---:|---:|---|---:|---|
 | English muffin | 2.00 each | 2.00 each | Six-count English muffin planning reference | $1.16 | Planning |
 | Deen Halal beef breakfast slice | 2.00 each | 2.00 each | Deen Halal 5 lb case; modeled as 113 x 20 g slices | $0.90 | Planning |
-| Whole egg | 1.00 each | 1.00 each | Walmart Great Value 12-count reference | $0.12 | Planning |
+| Whole egg | 2.00 each | 2.00 each | Walmart Great Value 12-count reference | $0.24 | Planning |
 | Liquid egg white | 150.00 g | 150.00 g | Walmart Great Value 32 oz reference | $0.81 | Planning |
-| H-E-B fat-free cottage cheese | 60.00 g | 60.00 g | $3.00/24 oz current purchase | $0.26 | Verified |
-| H-E-B fat-free mozzarella | 42.00 g | 42.00 g | $10.00/5 lb current fat-free shredded cheese purchase | $0.19 | Verified |
-| Potato, flesh and skin, raw | 80.00 g | 80.00 g | Generic local planning estimate | $0.17 | Planning |
+| H-E-B fat-free mozzarella | 56.00 g | 56.00 g | $10.00/5 lb current fat-free shredded cheese purchase | $0.25 | Verified |
 | Avocado oil | 1.50 g | 1.50 g | Earlier PRPD ingredient-price document | $0.02 | Legacy |
 | Table salt | 0.75 g | 0.75 g | Generic table-salt estimate | $0.00 | Planning |
-| Great Value light mayonnaise | 11.03 g | 11.03 g | Earlier PRPD ingredient-price document | $0.04 | Legacy |
-| Ketchup | 13.24 g | 13.24 g | Generic 38 oz bottle estimate | $0.04 | Planning |
-| Honey | 13.24 g | 13.24 g | Earlier PRPD ingredient-price document | $0.15 | Legacy |
-| Sriracha sauce | 7.50 g | 7.50 g | Earlier PRPD ingredient-price document | $0.07 | Legacy |
-| **Ingredient subtotal** |  |  |  | **$3.93** |  |
+| Great Value light mayonnaise | 9.78 g | 9.78 g | Earlier PRPD ingredient-price document | $0.03 | Legacy |
+| Ketchup | 11.73 g | 11.73 g | Generic 38 oz bottle estimate | $0.04 | Planning |
+| Honey | 11.73 g | 11.73 g | Earlier PRPD ingredient-price document | $0.13 | Legacy |
+| Sriracha sauce | 6.76 g | 6.76 g | Earlier PRPD ingredient-price document | $0.06 | Legacy |
+| **Ingredient subtotal** |  |  |  | **$3.65** |  |
 
 | Packaging / consumable | Quantity | Unit cost | Line cost |
 |---|---:|---:|---:|
@@ -112,504 +235,309 @@ Recipe quantity is the amount in one customer build. Purchase-cost quantity reve
 | Sauce cup with lid | 1 | $0.06 | $0.06 |
 | Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
 | **Packaging subtotal** |  |  | **$0.40** |
-| **Direct packed total** |  |  | **$4.33** |
+| **Direct packed total** |  |  | **$4.05** |
 
-### French Toast - Lean
+### Halal Cart Chicken + Yellow Rice - Lean
 
-| Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
-|---|---:|---:|---|---:|---|
-| Whole egg | 0.75 each | 0.75 each | Walmart Great Value 12-count reference | $0.09 | Planning |
-| Liquid egg white | 56.25 g | 56.25 g | Walmart Great Value 32 oz reference | $0.30 | Planning |
-| H-E-B fat-free cottage cheese | 56.25 g | 56.25 g | $3.00/24 oz current purchase | $0.25 | Verified |
-| Fairlife fat-free ultra-filtered milk | 30.00 g | 30.00 g | $5.00/52 fl oz current fat-free milk purchase; 1 mL modeled as 1g | $0.10 | Verified |
-| Premier Protein powder, vanilla/chocolate | 6.52 g | 6.52 g | Midpoint of user-confirmed $30-$35 range | $0.32 | Verified |
-| Brown sugar | 9.00 g | 9.00 g | Generic 2 lb bag estimate | $0.02 | Planning |
-| Vanilla extract | 1.88 g | 1.88 g | Generic 2 fl oz bottle estimate | $0.16 | Planning |
-| Ground cinnamon | 0.98 g | 0.98 g | Generic spice bottle estimate | $0.02 | Planning |
-| Avocado oil | 0.75 g | 0.75 g | Earlier PRPD ingredient-price document | $0.01 | Legacy |
-| French toast bread | 3.00 each | 3.00 each | $3.50/20 oz D'Italiano loaf; 32g recorded slice weight | $0.59 | Verified |
-| Strawberries, raw | 50.00 g | 50.00 g | Generic local planning estimate | $0.27 | Planning |
-| Banana, raw | 40.00 g | 40.00 g | $0.30 per medium banana; provisional edible weight | $0.10 | Verified |
-| Sugar-free whipped cream | 10.00 g | 10.00 g | Generic sugar-free whipped cream estimate | $0.19 | Planning |
-| Great Value reduced-calorie sugar-free syrup | 30.00 g | 30.00 g | Generic sugar-free syrup estimate | $0.12 | Planning |
-| **Ingredient subtotal** |  |  |  | **$2.54** |  |
-
-| Packaging / consumable | Quantity | Unit cost | Line cost |
-|---|---:|---:|---:|
-| Meal container with lid | 1 | $0.29 | $0.29 |
-| Sauce cup with lid | 1 | $0.06 | $0.06 |
-| Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
-| **Packaging subtotal** |  |  | **$0.40** |
-| **Direct packed total** |  |  | **$2.94** |
-
-### French Toast - Bulk
+Validation: Record physical yields and consumed inventory before actual margin.
 
 | Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
 |---|---:|---:|---|---:|---|
-| Whole egg | 1.00 each | 1.00 each | Walmart Great Value 12-count reference | $0.12 | Planning |
-| Liquid egg white | 75.00 g | 75.00 g | Walmart Great Value 32 oz reference | $0.40 | Planning |
-| H-E-B fat-free cottage cheese | 75.00 g | 75.00 g | $3.00/24 oz current purchase | $0.33 | Verified |
-| Fairlife fat-free ultra-filtered milk | 40.00 g | 40.00 g | $5.00/52 fl oz current fat-free milk purchase; 1 mL modeled as 1g | $0.13 | Verified |
-| Premier Protein powder, vanilla/chocolate | 8.70 g | 8.70 g | Midpoint of user-confirmed $30-$35 range | $0.43 | Verified |
-| Brown sugar | 12.00 g | 12.00 g | Generic 2 lb bag estimate | $0.03 | Planning |
-| Vanilla extract | 2.50 g | 2.50 g | Generic 2 fl oz bottle estimate | $0.21 | Planning |
-| Ground cinnamon | 1.30 g | 1.30 g | Generic spice bottle estimate | $0.02 | Planning |
-| Avocado oil | 1.00 g | 1.00 g | Earlier PRPD ingredient-price document | $0.01 | Legacy |
-| French toast bread | 4.00 each | 4.00 each | $3.50/20 oz D'Italiano loaf; 32g recorded slice weight | $0.79 | Verified |
-| Strawberries, raw | 50.00 g | 50.00 g | Generic local planning estimate | $0.27 | Planning |
-| Banana, raw | 40.00 g | 40.00 g | $0.30 per medium banana; provisional edible weight | $0.10 | Verified |
-| Sugar-free whipped cream | 10.00 g | 10.00 g | Generic sugar-free whipped cream estimate | $0.19 | Planning |
-| Great Value reduced-calorie sugar-free syrup | 30.00 g | 30.00 g | Generic sugar-free syrup estimate | $0.12 | Planning |
-| **Ingredient subtotal** |  |  |  | **$3.16** |  |
-
-| Packaging / consumable | Quantity | Unit cost | Line cost |
-|---|---:|---:|---:|
-| Meal container with lid | 1 | $0.29 | $0.29 |
-| Sauce cup with lid | 1 | $0.06 | $0.06 |
-| Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
-| **Packaging subtotal** |  |  | **$0.40** |
-| **Direct packed total** |  |  | **$3.55** |
-
-### Breakfast Quesadilla - Lean
-
-| Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
-|---|---:|---:|---|---:|---|
-| Chicken thigh, meat only, roasted | 90.00 g | 126.00 g | $143.60/40 lb Restaurant Depot chicken-thigh case | $1.00 | Verified |
-| Mission Carb Balance small tortilla | 2.00 each | 2.00 each | $10.00/16 current standard small-tortilla purchase | $1.25 | Verified |
-| Whole egg | 2.00 each | 2.00 each | Walmart Great Value 12-count reference | $0.24 | Planning |
-| Liquid egg white | 61.30 g | 61.30 g | Walmart Great Value 32 oz reference | $0.33 | Planning |
-| H-E-B fat-free mozzarella | 56.00 g | 56.00 g | $10.00/5 lb current fat-free shredded cheese purchase | $0.25 | Verified |
-| FAGE Total 0% | 30.00 g | 30.00 g | $3.00/32 oz current fat-free Greek yogurt purchase | $0.10 | Verified |
-| Prepared salsa | 30.00 g | 30.00 g | Earlier PRPD ingredient-price document | $0.20 | Legacy |
+| Chicken thigh, meat only, roasted | 160.00 g | 244.19 g | EPIC receipt 2026-10-01: owner-identified boneless thighs at $3.29/lb raw; October 7 direct-component yield is 430/625 | $1.77 | Verified |
+| PRPD basmati/white rice, dry | 45.00 g | 45.00 g | $19.79/20 lb Royal basmati rice, Restaurant Depot 2026-08-27 | $0.10 | Verified |
+| Green leaf lettuce, raw | 30.00 g | 30.00 g | $2/head with 500g provisional usable yield | $0.12 | Verified |
+| Tomato, raw | 45.00 g | 45.00 g | Walmart receipt 2026-10-01: Roma tomato $0.97/lb | $0.10 | Verified |
 | Table salt | 0.75 g | 0.75 g | Generic table-salt estimate | $0.00 | Planning |
-| **Ingredient subtotal** |  |  |  | **$3.37** |  |
+| Dried oregano | 0.99 g | 0.99 g | Spice jar estimate | $0.06 | Planning |
+| Ground cumin | 2.08 g | 2.08 g | Generic spice bottle estimate | $0.05 | Planning |
+| Paprika | 2.28 g | 2.28 g | Generic spice bottle estimate | $0.04 | Planning |
+| Garlic powder | 3.07 g | 3.07 g | Spice jar estimate | $0.04 | Planning |
+| Bottled lemon juice | 9.90 g | 9.90 g | Current bottled-lemon catalog: Great Value 15oz, approximately443g, $1.94 online reference checked2026-10-21; physical panel and receipt remain required | $0.04 | Planning |
+| Ground turmeric | 0.30 g | 0.30 g | Spice jar estimate | $0.01 | Planning |
+| Ground cumin | 0.30 g | 0.30 g | Generic spice bottle estimate | $0.01 | Planning |
+| Paprika | 0.30 g | 0.30 g | Generic spice bottle estimate | $0.01 | Planning |
+| **Ingredient subtotal** |  |  |  | **$2.34** |  |
 
 | Packaging / consumable | Quantity | Unit cost | Line cost |
 |---|---:|---:|---:|
 | Meal container with lid | 1 | $0.29 | $0.29 |
-| Sauce cup with lid | 1 | $0.06 | $0.06 |
 | Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
-| **Packaging subtotal** |  |  | **$0.40** |
-| **Direct packed total** |  |  | **$3.76** |
+| **Packaging subtotal** |  |  | **$0.34** |
+| **Direct packed total** |  |  | **$2.68** |
 
-### Breakfast Quesadilla - Bulk
+### Halal Cart Chicken + Yellow Rice - Bulk
+
+Validation: Record physical yields and consumed inventory before actual margin.
 
 | Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
 |---|---:|---:|---|---:|---|
-| Chicken thigh, meat only, roasted | 150.00 g | 210.00 g | $143.60/40 lb Restaurant Depot chicken-thigh case | $1.66 | Verified |
-| Mission Carb Balance large tortilla | 2.00 each | 2.00 each | $10.00/16 current tortilla purchase; exact size mapping pending | $1.25 | Verified |
-| Whole egg | 2.00 each | 2.00 each | Walmart Great Value 12-count reference | $0.24 | Planning |
-| Liquid egg white | 61.30 g | 61.30 g | Walmart Great Value 32 oz reference | $0.33 | Planning |
-| H-E-B fat-free mozzarella | 56.00 g | 56.00 g | $10.00/5 lb current fat-free shredded cheese purchase | $0.25 | Verified |
-| FAGE Total 0% | 30.00 g | 30.00 g | $3.00/32 oz current fat-free Greek yogurt purchase | $0.10 | Verified |
-| Prepared salsa | 30.00 g | 30.00 g | Earlier PRPD ingredient-price document | $0.20 | Legacy |
+| Chicken thigh, meat only, roasted | 210.00 g | 320.49 g | EPIC receipt 2026-10-01: owner-identified boneless thighs at $3.29/lb raw; October 7 direct-component yield is 430/625 | $2.32 | Verified |
+| PRPD basmati/white rice, dry | 60.00 g | 60.00 g | $19.79/20 lb Royal basmati rice, Restaurant Depot 2026-08-27 | $0.13 | Verified |
+| Green leaf lettuce, raw | 40.00 g | 40.00 g | $2/head with 500g provisional usable yield | $0.16 | Verified |
+| Tomato, raw | 60.00 g | 60.00 g | Walmart receipt 2026-10-01: Roma tomato $0.97/lb | $0.13 | Verified |
 | Table salt | 1.00 g | 1.00 g | Generic table-salt estimate | $0.00 | Planning |
-| **Ingredient subtotal** |  |  |  | **$4.03** |  |
-
-| Packaging / consumable | Quantity | Unit cost | Line cost |
-|---|---:|---:|---:|
-| Meal container with lid | 1 | $0.29 | $0.29 |
-| Sauce cup with lid | 1 | $0.06 | $0.06 |
-| Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
-| **Packaging subtotal** |  |  | **$0.40** |
-| **Direct packed total** |  |  | **$4.43** |
-
-### Grilled Cheese Breakfast Burrito - Lean
-
-| Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
-|---|---:|---:|---|---:|---|
-| Ground beef 90/10, crumbles, pan-browned | 82.80 g | 126.00 g | $5.50/lb raw 90/10 ground beef | $1.53 | Verified |
-| Mission Carb Balance small tortilla | 2.00 each | 2.00 each | $10.00/16 current standard small-tortilla purchase | $1.25 | Verified |
-| Whole egg | 2.00 each | 2.00 each | Walmart Great Value 12-count reference | $0.24 | Planning |
-| Liquid egg white | 61.30 g | 61.30 g | Walmart Great Value 32 oz reference | $0.33 | Planning |
-| H-E-B fat-free mozzarella | 28.00 g | 28.00 g | $10.00/5 lb current fat-free shredded cheese purchase | $0.12 | Verified |
-| Tomato paste | 16.00 g | 16.00 g | Earlier PRPD ingredient-price document | $0.09 | Legacy |
-| Onion, raw | 25.00 g | 25.00 g | Generic local planning estimate | $0.05 | Planning |
-| Table salt | 0.75 g | 0.75 g | Generic table-salt estimate | $0.00 | Planning |
-| **Ingredient subtotal** |  |  |  | **$3.62** |  |
+| Dried oregano | 1.30 g | 1.30 g | Spice jar estimate | $0.08 | Planning |
+| Ground cumin | 2.73 g | 2.73 g | Generic spice bottle estimate | $0.06 | Planning |
+| Paprika | 2.99 g | 2.99 g | Generic spice bottle estimate | $0.06 | Planning |
+| Garlic powder | 4.03 g | 4.03 g | Spice jar estimate | $0.05 | Planning |
+| Bottled lemon juice | 12.99 g | 12.99 g | Current bottled-lemon catalog: Great Value 15oz, approximately443g, $1.94 online reference checked2026-10-21; physical panel and receipt remain required | $0.06 | Planning |
+| Ground turmeric | 0.30 g | 0.30 g | Spice jar estimate | $0.01 | Planning |
+| Ground cumin | 0.30 g | 0.30 g | Generic spice bottle estimate | $0.01 | Planning |
+| Paprika | 0.30 g | 0.30 g | Generic spice bottle estimate | $0.01 | Planning |
+| **Ingredient subtotal** |  |  |  | **$3.07** |  |
 
 | Packaging / consumable | Quantity | Unit cost | Line cost |
 |---|---:|---:|---:|
 | Meal container with lid | 1 | $0.29 | $0.29 |
 | Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
 | **Packaging subtotal** |  |  | **$0.34** |
-| **Direct packed total** |  |  | **$3.96** |
+| **Direct packed total** |  |  | **$3.41** |
 
-### Grilled Cheese Breakfast Burrito - Bulk
+### Cheesy Achiote Chicken Tacos - Lean
 
-| Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
-|---|---:|---:|---|---:|---|
-| Ground beef 90/10, crumbles, pan-browned | 124.20 g | 189.00 g | $5.50/lb raw 90/10 ground beef | $2.29 | Verified |
-| Mission Carb Balance large tortilla | 2.00 each | 2.00 each | $10.00/16 current tortilla purchase; exact size mapping pending | $1.25 | Verified |
-| Whole egg | 2.00 each | 2.00 each | Walmart Great Value 12-count reference | $0.24 | Planning |
-| Liquid egg white | 61.30 g | 61.30 g | Walmart Great Value 32 oz reference | $0.33 | Planning |
-| H-E-B fat-free mozzarella | 42.00 g | 42.00 g | $10.00/5 lb current fat-free shredded cheese purchase | $0.19 | Verified |
-| Tomato paste | 16.00 g | 16.00 g | Earlier PRPD ingredient-price document | $0.09 | Legacy |
-| Onion, raw | 25.00 g | 25.00 g | Generic local planning estimate | $0.05 | Planning |
-| Table salt | 1.00 g | 1.00 g | Generic table-salt estimate | $0.00 | Planning |
-| **Ingredient subtotal** |  |  |  | **$4.45** |  |
-
-| Packaging / consumable | Quantity | Unit cost | Line cost |
-|---|---:|---:|---:|
-| Meal container with lid | 1 | $0.29 | $0.29 |
-| Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
-| **Packaging subtotal** |  |  | **$0.34** |
-| **Direct packed total** |  |  | **$4.79** |
-
-### Loaded Beef Cottage Pie - Lean
+Validation: Record physical yields and consumed inventory before actual margin.
 
 | Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
 |---|---:|---:|---|---:|---|
-| Ground beef 90/10, crumbles, pan-browned | 117.30 g | 178.50 g | $5.50/lb raw 90/10 ground beef | $2.16 | Verified |
-| Potato, flesh and skin, raw | 220.00 g | 220.00 g | Generic local planning estimate | $0.48 | Planning |
-| H-E-B fat-free cottage cheese | 50.00 g | 50.00 g | $3.00/24 oz current purchase | $0.22 | Verified |
-| H-E-B fat-free mozzarella | 28.00 g | 28.00 g | $10.00/5 lb current fat-free shredded cheese purchase | $0.12 | Verified |
-| Frozen peas and carrots | 80.00 g | 80.00 g | 12 oz frozen peas-and-carrots planning reference; replace with the latest receipt price | $0.23 | Verified |
-| Onion, raw | 40.00 g | 40.00 g | Generic local planning estimate | $0.09 | Planning |
-| Tomato paste | 20.00 g | 20.00 g | Earlier PRPD ingredient-price document | $0.12 | Legacy |
-| Avocado oil | 2.00 g | 2.00 g | Earlier PRPD ingredient-price document | $0.02 | Legacy |
-| Table salt | 0.75 g | 0.75 g | Generic table-salt estimate | $0.00 | Planning |
-| Great Value light mayonnaise | 11.03 g | 11.03 g | Earlier PRPD ingredient-price document | $0.04 | Legacy |
-| Ketchup | 13.24 g | 13.24 g | Generic 38 oz bottle estimate | $0.04 | Planning |
-| Honey | 13.24 g | 13.24 g | Earlier PRPD ingredient-price document | $0.15 | Legacy |
-| Sriracha sauce | 7.50 g | 7.50 g | Earlier PRPD ingredient-price document | $0.07 | Legacy |
-| **Ingredient subtotal** |  |  |  | **$3.74** |  |
-
-| Packaging / consumable | Quantity | Unit cost | Line cost |
-|---|---:|---:|---:|
-| Meal container with lid | 1 | $0.29 | $0.29 |
-| Sauce cup with lid | 1 | $0.06 | $0.06 |
-| Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
-| **Packaging subtotal** |  |  | **$0.40** |
-| **Direct packed total** |  |  | **$4.14** |
-
-### Loaded Beef Cottage Pie - Bulk
-
-| Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
-|---|---:|---:|---|---:|---|
-| Ground beef 90/10, crumbles, pan-browned | 151.80 g | 231.00 g | $5.50/lb raw 90/10 ground beef | $2.80 | Verified |
-| Potato, flesh and skin, raw | 240.00 g | 240.00 g | Generic local planning estimate | $0.52 | Planning |
-| H-E-B fat-free cottage cheese | 65.00 g | 65.00 g | $3.00/24 oz current purchase | $0.29 | Verified |
-| H-E-B fat-free mozzarella | 35.00 g | 35.00 g | $10.00/5 lb current fat-free shredded cheese purchase | $0.15 | Verified |
-| Frozen peas and carrots | 100.00 g | 100.00 g | 12 oz frozen peas-and-carrots planning reference; replace with the latest receipt price | $0.29 | Verified |
-| Onion, raw | 50.00 g | 50.00 g | Generic local planning estimate | $0.11 | Planning |
-| Tomato paste | 26.00 g | 26.00 g | Earlier PRPD ingredient-price document | $0.15 | Legacy |
-| Avocado oil | 3.00 g | 3.00 g | Earlier PRPD ingredient-price document | $0.03 | Legacy |
-| Table salt | 1.00 g | 1.00 g | Generic table-salt estimate | $0.00 | Planning |
-| Great Value light mayonnaise | 11.03 g | 11.03 g | Earlier PRPD ingredient-price document | $0.04 | Legacy |
-| Ketchup | 13.24 g | 13.24 g | Generic 38 oz bottle estimate | $0.04 | Planning |
-| Honey | 13.24 g | 13.24 g | Earlier PRPD ingredient-price document | $0.15 | Legacy |
-| Sriracha sauce | 7.50 g | 7.50 g | Earlier PRPD ingredient-price document | $0.07 | Legacy |
-| **Ingredient subtotal** |  |  |  | **$4.64** |  |
-
-| Packaging / consumable | Quantity | Unit cost | Line cost |
-|---|---:|---:|---:|
-| Meal container with lid | 1 | $0.29 | $0.29 |
-| Sauce cup with lid | 1 | $0.06 | $0.06 |
-| Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
-| **Packaging subtotal** |  |  | **$0.40** |
-| **Direct packed total** |  |  | **$5.04** |
-
-### Hot Honey Chicken Sliders - Lean
-
-| Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
-|---|---:|---:|---|---:|---|
-| Chicken thigh, meat only, roasted | 105.00 g | 147.00 g | $143.60/40 lb Restaurant Depot chicken-thigh case | $1.16 | Verified |
-| Sara Lee Artesano Bakery Roll | 3.00 each | 3.00 each | Sara Lee Artesano Bakery Rolls 12-count planning estimate; replace with receipt | $1.25 | Planning |
-| H-E-B fat-free mozzarella | 28.00 g | 28.00 g | $10.00/5 lb current fat-free shredded cheese purchase | $0.12 | Verified |
-| Great Value light mayonnaise | 9.00 g | 9.00 g | Earlier PRPD ingredient-price document | $0.03 | Legacy |
-| Sriracha sauce | 6.00 g | 6.00 g | Earlier PRPD ingredient-price document | $0.06 | Legacy |
-| Honey | 6.00 g | 6.00 g | Earlier PRPD ingredient-price document | $0.07 | Legacy |
-| Frank's-style hot sauce | 12.00 g | 12.00 g | Generic Frank's-style bottle estimate | $0.12 | Planning |
-| Onion, raw | 15.00 g | 15.00 g | Generic local planning estimate | $0.03 | Planning |
-| House refrigerator-pickled vegetables | 15.00 g | 15.00 g | Generic 24 oz jar estimate | $0.07 | Planning |
-| Avocado oil | 1.00 g | 1.00 g | Earlier PRPD ingredient-price document | $0.01 | Legacy |
-| Table salt | 0.50 g | 0.50 g | Generic table-salt estimate | $0.00 | Planning |
-| **Ingredient subtotal** |  |  |  | **$2.91** |  |
-
-| Packaging / consumable | Quantity | Unit cost | Line cost |
-|---|---:|---:|---:|
-| Meal container with lid | 1 | $0.29 | $0.29 |
-| Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
-| **Packaging subtotal** |  |  | **$0.34** |
-| **Direct packed total** |  |  | **$3.25** |
-
-### Hot Honey Chicken Sliders - Bulk
-
-| Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
-|---|---:|---:|---|---:|---|
-| Chicken thigh, meat only, roasted | 140.25 g | 196.35 g | $143.60/40 lb Restaurant Depot chicken-thigh case | $1.55 | Verified |
-| Sara Lee Artesano Bakery Roll | 4.00 each | 4.00 each | Sara Lee Artesano Bakery Rolls 12-count planning estimate; replace with receipt | $1.66 | Planning |
-| H-E-B fat-free mozzarella | 42.00 g | 42.00 g | $10.00/5 lb current fat-free shredded cheese purchase | $0.19 | Verified |
-| Great Value light mayonnaise | 12.00 g | 12.00 g | Earlier PRPD ingredient-price document | $0.04 | Legacy |
-| Sriracha sauce | 8.00 g | 8.00 g | Earlier PRPD ingredient-price document | $0.07 | Legacy |
-| Honey | 8.00 g | 8.00 g | Earlier PRPD ingredient-price document | $0.09 | Legacy |
-| Frank's-style hot sauce | 16.00 g | 16.00 g | Generic Frank's-style bottle estimate | $0.16 | Planning |
-| Onion, raw | 20.00 g | 20.00 g | Generic local planning estimate | $0.04 | Planning |
-| House refrigerator-pickled vegetables | 20.00 g | 20.00 g | Generic 24 oz jar estimate | $0.09 | Planning |
-| Avocado oil | 1.50 g | 1.50 g | Earlier PRPD ingredient-price document | $0.02 | Legacy |
-| Table salt | 0.75 g | 0.75 g | Generic table-salt estimate | $0.00 | Planning |
-| **Ingredient subtotal** |  |  |  | **$3.91** |  |
-
-| Packaging / consumable | Quantity | Unit cost | Line cost |
-|---|---:|---:|---:|
-| Meal container with lid | 1 | $0.29 | $0.29 |
-| Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
-| **Packaging subtotal** |  |  | **$0.34** |
-| **Direct packed total** |  |  | **$4.25** |
-
-### Loaded Buffalo Chicken Potato - Lean
-
-| Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
-|---|---:|---:|---|---:|---|
-| Chicken thigh, meat only, roasted | 168.75 g | 236.25 g | $143.60/40 lb Restaurant Depot chicken-thigh case | $1.87 | Verified |
-| Potato, flesh and skin, raw | 300.00 g | 300.00 g | Generic local planning estimate | $0.65 | Planning |
-| Broccoli, raw | 80.00 g | 80.00 g | $2.00/12 oz current frozen broccoli purchase | $0.47 | Verified |
-| Buffalo sauce | 60.00 g | 60.00 g | Generic Frank's-style bottle estimate | $0.59 | Planning |
-| Avocado oil | 4.00 g | 4.00 g | Earlier PRPD ingredient-price document | $0.04 | Legacy |
-| Table salt | 0.50 g | 0.50 g | Generic table-salt estimate | $0.00 | Planning |
-| **Ingredient subtotal** |  |  |  | **$3.63** |  |
-
-| Packaging / consumable | Quantity | Unit cost | Line cost |
-|---|---:|---:|---:|
-| Meal container with lid | 1 | $0.29 | $0.29 |
-| Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
-| **Packaging subtotal** |  |  | **$0.34** |
-| **Direct packed total** |  |  | **$3.96** |
-
-### Loaded Buffalo Chicken Potato - Bulk
-
-| Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
-|---|---:|---:|---|---:|---|
-| Chicken thigh, meat only, roasted | 247.50 g | 346.50 g | $143.60/40 lb Restaurant Depot chicken-thigh case | $2.74 | Verified |
-| Potato, flesh and skin, raw | 300.00 g | 300.00 g | Generic local planning estimate | $0.65 | Planning |
-| Broccoli, raw | 80.00 g | 80.00 g | $2.00/12 oz current frozen broccoli purchase | $0.47 | Verified |
-| Buffalo sauce | 60.00 g | 60.00 g | Generic Frank's-style bottle estimate | $0.59 | Planning |
-| Avocado oil | 4.00 g | 4.00 g | Earlier PRPD ingredient-price document | $0.04 | Legacy |
-| Table salt | 0.75 g | 0.75 g | Generic table-salt estimate | $0.00 | Planning |
-| **Ingredient subtotal** |  |  |  | **$4.50** |  |
-
-| Packaging / consumable | Quantity | Unit cost | Line cost |
-|---|---:|---:|---:|
-| Meal container with lid | 1 | $0.29 | $0.29 |
-| Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
-| **Packaging subtotal** |  |  | **$0.34** |
-| **Direct packed total** |  |  | **$4.84** |
-
-### Beef Seekh Kabab Shawarma - Lean
-
-| Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
-|---|---:|---:|---|---:|---|
-| Ground beef 90/10, loaf, baked | 122.40 g | 178.50 g | $5.50/lb raw 90/10 ground beef | $2.16 | Verified |
-| Shawarma bread | 1.00 each | 1.00 each | $5.00/8 current shawarma breads | $0.62 | Verified |
-| Green leaf lettuce, raw | 25.00 g | 25.00 g | $2/head with 500g provisional usable yield | $0.10 | Verified |
-| Onion, raw | 15.00 g | 15.00 g | Generic local planning estimate | $0.03 | Planning |
-| House refrigerator-pickled vegetables | 30.00 g | 30.00 g | Generic 24 oz jar estimate | $0.13 | Planning |
-| FAGE Total 0% | 22.00 g | 22.00 g | $3.00/32 oz current fat-free Greek yogurt purchase | $0.07 | Verified |
-| Great Value light mayonnaise | 3.30 g | 3.30 g | Earlier PRPD ingredient-price document | $0.01 | Legacy |
-| Garlic, raw | 1.30 g | 1.30 g | Generic bulb/usable-yield estimate | $0.01 | Planning |
-| Lemon juice, raw | 3.30 g | 3.30 g | $1/lemon with provisional juice yield | $0.07 | Verified |
-| Avocado oil | 2.38 g | 2.38 g | Earlier PRPD ingredient-price document | $0.03 | Legacy |
-| Onion, raw | 18.70 g | 18.70 g | Generic local planning estimate | $0.04 | Planning |
-| Garlic, raw | 2.04 g | 2.04 g | Generic bulb/usable-yield estimate | $0.02 | Planning |
-| Paprika | 0.78 g | 0.78 g | Generic spice bottle estimate | $0.02 | Planning |
-| Ground cumin | 0.71 g | 0.71 g | Generic spice bottle estimate | $0.02 | Planning |
-| Chili powder | 0.46 g | 0.46 g | Generic spice bottle estimate | $0.01 | Planning |
-| Table salt | 0.75 g | 0.75 g | Generic table-salt estimate | $0.00 | Planning |
-| **Ingredient subtotal** |  |  |  | **$3.35** |  |
-
-| Packaging / consumable | Quantity | Unit cost | Line cost |
-|---|---:|---:|---:|
-| Meal container with lid | 1 | $0.29 | $0.29 |
-| Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
-| **Packaging subtotal** |  |  | **$0.34** |
-| **Direct packed total** |  |  | **$3.68** |
-
-### Beef Seekh Kabab Shawarma - Bulk
-
-| Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
-|---|---:|---:|---|---:|---|
-| Ground beef 90/10, loaf, baked | 151.20 g | 220.50 g | $5.50/lb raw 90/10 ground beef | $2.67 | Verified |
-| Shawarma bread | 1.50 each | 1.50 each | $5.00/8 current shawarma breads | $0.94 | Verified |
-| Green leaf lettuce, raw | 25.00 g | 25.00 g | $2/head with 500g provisional usable yield | $0.10 | Verified |
-| Onion, raw | 15.00 g | 15.00 g | Generic local planning estimate | $0.03 | Planning |
-| House refrigerator-pickled vegetables | 45.00 g | 45.00 g | Generic 24 oz jar estimate | $0.20 | Planning |
-| FAGE Total 0% | 22.00 g | 22.00 g | $3.00/32 oz current fat-free Greek yogurt purchase | $0.07 | Verified |
-| Great Value light mayonnaise | 3.30 g | 3.30 g | Earlier PRPD ingredient-price document | $0.01 | Legacy |
-| Garlic, raw | 1.30 g | 1.30 g | Generic bulb/usable-yield estimate | $0.01 | Planning |
-| Lemon juice, raw | 3.30 g | 3.30 g | $1/lemon with provisional juice yield | $0.07 | Verified |
-| Avocado oil | 2.94 g | 2.94 g | Earlier PRPD ingredient-price document | $0.03 | Legacy |
-| Onion, raw | 23.10 g | 23.10 g | Generic local planning estimate | $0.05 | Planning |
-| Garlic, raw | 2.52 g | 2.52 g | Generic bulb/usable-yield estimate | $0.03 | Planning |
-| Paprika | 0.97 g | 0.97 g | Generic spice bottle estimate | $0.02 | Planning |
-| Ground cumin | 0.88 g | 0.88 g | Generic spice bottle estimate | $0.02 | Planning |
-| Chili powder | 0.57 g | 0.57 g | Generic spice bottle estimate | $0.01 | Planning |
-| Table salt | 1.00 g | 1.00 g | Generic table-salt estimate | $0.00 | Planning |
-| **Ingredient subtotal** |  |  |  | **$4.26** |  |
-
-| Packaging / consumable | Quantity | Unit cost | Line cost |
-|---|---:|---:|---:|
-| Meal container with lid | 1 | $0.29 | $0.29 |
-| Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
-| **Packaging subtotal** |  |  | **$0.34** |
-| **Direct packed total** |  |  | **$4.60** |
-
-### Harissa Honey Chicken - Lean
-
-| Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
-|---|---:|---:|---|---:|---|
-| Chicken thigh, meat only, roasted | 150.00 g | 210.00 g | $143.60/40 lb Restaurant Depot chicken-thigh case | $1.66 | Verified |
-| PRPD basmati/white rice, dry | 55.00 g | 55.00 g | $13.00/20 lb current rice purchase | $0.08 | Verified |
-| Broccoli, raw | 100.00 g | 100.00 g | $2.00/12 oz current frozen broccoli purchase | $0.59 | Verified |
-| Harissa paste | 12.00 g | 12.00 g | Current 10 oz harissa-paste planning estimate | $0.38 | Planning |
-| Honey | 8.00 g | 8.00 g | Earlier PRPD ingredient-price document | $0.09 | Legacy |
-| Tomato paste | 6.00 g | 6.00 g | Earlier PRPD ingredient-price document | $0.04 | Legacy |
-| Lemon juice, raw | 6.00 g | 6.00 g | $1/lemon with provisional juice yield | $0.12 | Verified |
-| Garlic, raw | 3.00 g | 3.00 g | Generic bulb/usable-yield estimate | $0.03 | Planning |
-| Avocado oil | 4.00 g | 4.00 g | Earlier PRPD ingredient-price document | $0.04 | Legacy |
-| Paprika | 0.60 g | 0.60 g | Generic spice bottle estimate | $0.01 | Planning |
-| Ground coriander | 0.60 g | 0.60 g | Current ground-coriander planning estimate | $0.01 | Planning |
-| Table salt | 1.60 g | 1.60 g | Generic table-salt estimate | $0.00 | Planning |
-| **Ingredient subtotal** |  |  |  | **$3.06** |  |
-
-| Packaging / consumable | Quantity | Unit cost | Line cost |
-|---|---:|---:|---:|
-| Meal container with lid | 1 | $0.29 | $0.29 |
-| Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
-| **Packaging subtotal** |  |  | **$0.34** |
-| **Direct packed total** |  |  | **$3.39** |
-
-### Harissa Honey Chicken - Bulk
-
-| Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
-|---|---:|---:|---|---:|---|
-| Chicken thigh, meat only, roasted | 225.00 g | 315.00 g | $143.60/40 lb Restaurant Depot chicken-thigh case | $2.49 | Verified |
-| PRPD basmati/white rice, dry | 70.00 g | 70.00 g | $13.00/20 lb current rice purchase | $0.10 | Verified |
-| Broccoli, raw | 130.00 g | 130.00 g | $2.00/12 oz current frozen broccoli purchase | $0.76 | Verified |
-| Harissa paste | 18.00 g | 18.00 g | Current 10 oz harissa-paste planning estimate | $0.57 | Planning |
-| Honey | 12.00 g | 12.00 g | Earlier PRPD ingredient-price document | $0.13 | Legacy |
-| Tomato paste | 9.00 g | 9.00 g | Earlier PRPD ingredient-price document | $0.05 | Legacy |
-| Lemon juice, raw | 9.00 g | 9.00 g | $1/lemon with provisional juice yield | $0.19 | Verified |
-| Garlic, raw | 4.50 g | 4.50 g | Generic bulb/usable-yield estimate | $0.04 | Planning |
-| Avocado oil | 6.00 g | 6.00 g | Earlier PRPD ingredient-price document | $0.06 | Legacy |
-| Paprika | 0.90 g | 0.90 g | Generic spice bottle estimate | $0.02 | Planning |
-| Ground coriander | 0.90 g | 0.90 g | Current ground-coriander planning estimate | $0.02 | Planning |
-| Table salt | 2.40 g | 2.40 g | Generic table-salt estimate | $0.00 | Planning |
-| **Ingredient subtotal** |  |  |  | **$4.45** |  |
-
-| Packaging / consumable | Quantity | Unit cost | Line cost |
-|---|---:|---:|---:|
-| Meal container with lid | 1 | $0.29 | $0.29 |
-| Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
-| **Packaging subtotal** |  |  | **$0.34** |
-| **Direct packed total** |  |  | **$4.79** |
-
-### Mexican Streetcorn Chicken Bowl - Lean
-
-| Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
-|---|---:|---:|---|---:|---|
-| Chicken thigh, meat only, roasted | 150.00 g | 210.00 g | $143.60/40 lb Restaurant Depot chicken-thigh case | $1.66 | Verified |
-| PRPD basmati/white rice, dry | 40.00 g | 40.00 g | $13.00/20 lb current rice purchase | $0.06 | Verified |
-| Sweet yellow corn, cooked, no salt | 88.00 g | 88.00 g | Generic 15.25 oz can estimate | $0.20 | Planning |
-| Onion, raw | 10.00 g | 10.00 g | Generic local planning estimate | $0.02 | Planning |
-| Jalapeno, raw | 4.00 g | 4.00 g | Generic local planning estimate | $0.01 | Planning |
-| FAGE Total 0% | 25.00 g | 25.00 g | $3.00/32 oz current fat-free Greek yogurt purchase | $0.08 | Verified |
-| Great Value light mayonnaise | 7.00 g | 7.00 g | Earlier PRPD ingredient-price document | $0.02 | Legacy |
-| Cotija cheese | 10.00 g | 10.00 g | Generic 10 oz package estimate | $0.16 | Planning |
-| Cilantro, raw | 3.00 g | 3.00 g | $0.50/bunch with provisional usable yield | $0.03 | Verified |
-| Lime juice, raw | 10.00 g | 10.00 g | Generic one-lime juice yield | $0.11 | Planning |
-| Avocado oil | 2.00 g | 2.00 g | Earlier PRPD ingredient-price document | $0.02 | Legacy |
-| Table salt | 0.50 g | 0.50 g | Generic table-salt estimate | $0.00 | Planning |
-| Green bell pepper, raw | 30.00 g | 30.00 g | User-supplied $0.78 each; modeled at 160g usable weight | $0.15 | Planning |
-| **Ingredient subtotal** |  |  |  | **$2.53** |  |
-
-| Packaging / consumable | Quantity | Unit cost | Line cost |
-|---|---:|---:|---:|
-| Meal container with lid | 1 | $0.29 | $0.29 |
-| Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
-| **Packaging subtotal** |  |  | **$0.34** |
-| **Direct packed total** |  |  | **$2.86** |
-
-### Mexican Streetcorn Chicken Bowl - Bulk
-
-| Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
-|---|---:|---:|---|---:|---|
-| Chicken thigh, meat only, roasted | 206.25 g | 288.75 g | $143.60/40 lb Restaurant Depot chicken-thigh case | $2.29 | Verified |
-| PRPD basmati/white rice, dry | 55.00 g | 55.00 g | $13.00/20 lb current rice purchase | $0.08 | Verified |
-| Sweet yellow corn, cooked, no salt | 110.00 g | 110.00 g | Generic 15.25 oz can estimate | $0.25 | Planning |
-| Onion, raw | 12.00 g | 12.00 g | Generic local planning estimate | $0.03 | Planning |
-| Jalapeno, raw | 5.00 g | 5.00 g | Generic local planning estimate | $0.02 | Planning |
-| FAGE Total 0% | 30.00 g | 30.00 g | $3.00/32 oz current fat-free Greek yogurt purchase | $0.10 | Verified |
-| Great Value light mayonnaise | 7.00 g | 7.00 g | Earlier PRPD ingredient-price document | $0.02 | Legacy |
-| Cotija cheese | 12.00 g | 12.00 g | Generic 10 oz package estimate | $0.19 | Planning |
-| Cilantro, raw | 4.00 g | 4.00 g | $0.50/bunch with provisional usable yield | $0.04 | Verified |
+| Chicken thigh, meat only, roasted | 135.00 g | 189.00 g | EPIC receipt 2026-10-01: owner-identified boneless thighs at $3.29/lb raw | $1.37 | Verified |
+| Mission White Corn Street Taco tortilla | 3.00 each | 3.00 each | Mission White Corn Street Taco tortillas, 24-count, UPC 073731071502; exact product identity with planning price, confirm the physical panel because retailer listings conflict | $0.31 | Planning |
+| H-E-B fat-free mozzarella | 45.00 g | 45.00 g | $10.00/5 lb current fat-free shredded cheese purchase | $0.20 | Verified |
+| Cotija cheese | 15.00 g | 15.00 g | Generic 10 oz package estimate | $0.24 | Planning |
+| Red onion, raw | 30.00 g | 30.00 g | Generic red-onion produce estimate | $0.08 | Planning |
+| Apple cider vinegar | 6.00 g | 6.00 g | Great Value apple cider vinegar 32 fl oz, Walmart online 2026-09-21; modeled at approximately 1g/mL | $0.02 | Planning |
+| Water | 6.00 g | 6.00 g | Kitchen tap water | $0.00 | Verified |
+| Honey | 0.60 g | 0.60 g | Earlier PRPD ingredient-price document | $0.01 | Legacy |
+| Table salt | 0.30 g | 0.30 g | Generic table-salt estimate | $0.00 | Planning |
+| El Yucateco seasoned achiote paste | 14.40 g | 14.40 g | El Yucateco seasoned achiote paste 100g, EAN 7501017660039; exact product identity with planning price until receipt | $0.43 | Planning |
 | Lime juice, raw | 12.00 g | 12.00 g | Generic one-lime juice yield | $0.13 | Planning |
-| Avocado oil | 3.00 g | 3.00 g | Earlier PRPD ingredient-price document | $0.03 | Legacy |
+| Garlic, raw | 3.00 g | 3.00 g | Generic bulb/usable-yield estimate | $0.03 | Planning |
+| Ground cumin | 0.60 g | 0.60 g | Generic spice bottle estimate | $0.01 | Planning |
+| Paprika | 0.60 g | 0.60 g | Generic spice bottle estimate | $0.01 | Planning |
+| Avocado oil | 2.10 g | 2.10 g | Earlier PRPD ingredient-price document | $0.02 | Legacy |
 | Table salt | 0.75 g | 0.75 g | Generic table-salt estimate | $0.00 | Planning |
-| Green bell pepper, raw | 40.00 g | 40.00 g | User-supplied $0.78 each; modeled at 160g usable weight | $0.20 | Planning |
-| **Ingredient subtotal** |  |  |  | **$3.37** |  |
+| Cilantro, raw | 2.10 g | 2.10 g | $0.50/bunch with provisional usable yield | $0.02 | Verified |
+| **Ingredient subtotal** |  |  |  | **$2.89** |  |
 
 | Packaging / consumable | Quantity | Unit cost | Line cost |
 |---|---:|---:|---:|
 | Meal container with lid | 1 | $0.29 | $0.29 |
 | Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
 | **Packaging subtotal** |  |  | **$0.34** |
-| **Direct packed total** |  |  | **$3.71** |
+| **Direct packed total** |  |  | **$3.23** |
 
-### Garlic Butter Shrimp + Rice - Lean
+### Cheesy Achiote Chicken Tacos - Bulk
+
+Validation: Record physical yields and consumed inventory before actual margin.
+
+| Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
+|---|---:|---:|---|---:|---|
+| Chicken thigh, meat only, roasted | 180.00 g | 252.00 g | EPIC receipt 2026-10-01: owner-identified boneless thighs at $3.29/lb raw | $1.83 | Verified |
+| Mission White Corn Street Taco tortilla | 4.00 each | 4.00 each | Mission White Corn Street Taco tortillas, 24-count, UPC 073731071502; exact product identity with planning price, confirm the physical panel because retailer listings conflict | $0.41 | Planning |
+| H-E-B fat-free mozzarella | 60.00 g | 60.00 g | $10.00/5 lb current fat-free shredded cheese purchase | $0.26 | Verified |
+| Cotija cheese | 20.00 g | 20.00 g | Generic 10 oz package estimate | $0.32 | Planning |
+| Red onion, raw | 40.00 g | 40.00 g | Generic red-onion produce estimate | $0.11 | Planning |
+| Apple cider vinegar | 8.00 g | 8.00 g | Great Value apple cider vinegar 32 fl oz, Walmart online 2026-09-21; modeled at approximately 1g/mL | $0.02 | Planning |
+| Water | 8.00 g | 8.00 g | Kitchen tap water | $0.00 | Verified |
+| Honey | 0.80 g | 0.80 g | Earlier PRPD ingredient-price document | $0.01 | Legacy |
+| Table salt | 0.40 g | 0.40 g | Generic table-salt estimate | $0.00 | Planning |
+| El Yucateco seasoned achiote paste | 19.20 g | 19.20 g | El Yucateco seasoned achiote paste 100g, EAN 7501017660039; exact product identity with planning price until receipt | $0.58 | Planning |
+| Lime juice, raw | 16.00 g | 16.00 g | Generic one-lime juice yield | $0.18 | Planning |
+| Garlic, raw | 4.00 g | 4.00 g | Generic bulb/usable-yield estimate | $0.04 | Planning |
+| Ground cumin | 0.80 g | 0.80 g | Generic spice bottle estimate | $0.02 | Planning |
+| Paprika | 0.80 g | 0.80 g | Generic spice bottle estimate | $0.02 | Planning |
+| Avocado oil | 2.80 g | 2.80 g | Earlier PRPD ingredient-price document | $0.03 | Legacy |
+| Table salt | 1.00 g | 1.00 g | Generic table-salt estimate | $0.00 | Planning |
+| Cilantro, raw | 2.80 g | 2.80 g | $0.50/bunch with provisional usable yield | $0.03 | Verified |
+| **Ingredient subtotal** |  |  |  | **$3.85** |  |
+
+| Packaging / consumable | Quantity | Unit cost | Line cost |
+|---|---:|---:|---:|
+| Meal container with lid | 1 | $0.29 | $0.29 |
+| Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
+| **Packaging subtotal** |  |  | **$0.34** |
+| **Direct packed total** |  |  | **$4.19** |
+
+### Lemon Herb Chicken Orzo - Lean
+
+Validation: Record physical yields and consumed inventory before actual margin.
+
+| Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
+|---|---:|---:|---|---:|---|
+| Chicken thigh, meat only, roasted | 160.00 g | 244.19 g | EPIC receipt 2026-10-01: owner-identified boneless thighs at $3.29/lb raw; October 7 direct-component yield is 430/625 | $1.77 | Verified |
+| Barilla Classic Blue Box Orzo, 16 oz | 45.00 g | 45.00 g | Barilla US Classic Orzo16oz GTIN00076808513981, Walmart product10309188 $1.88 reference checked2026-10-26; exact local store stock and receipt unverified | $0.19 | Planning |
+| Zucchini, raw | 45.00 g | 45.00 g | Walmart receipt 2026-10-01: zucchini $1.42/lb | $0.14 | Verified |
+| Carrot, raw | 30.00 g | 30.00 g | Walmart receipt 2026-07-23, 2 lb bag | $0.07 | Verified |
+| Onion, raw | 15.00 g | 15.00 g | Walmart receipt 2026-10-01: onions $0.94/lb | $0.03 | Verified |
+| Garlic, raw | 3.00 g | 3.00 g | Generic bulb/usable-yield estimate | $0.03 | Planning |
+| Bottled lemon juice | 12.00 g | 12.00 g | Current bottled-lemon catalog: Great Value 15oz, approximately443g, $1.94 online reference checked2026-10-21; physical panel and receipt remain required | $0.05 | Planning |
+| Flat-leaf parsley, raw | 3.00 g | 3.00 g | Walmart receipt 2026-08-26, one fresh parsley bunch | $0.05 | Verified |
+| Dried oregano | 0.50 g | 0.50 g | Spice jar estimate | $0.03 | Planning |
+| Avocado oil | 5.00 g | 5.00 g | Earlier PRPD ingredient-price document | $0.05 | Legacy |
+| Paprika | 1.00 g | 1.00 g | Generic spice bottle estimate | $0.02 | Planning |
+| Onion powder | 0.50 g | 0.50 g | Spice jar estimate | $0.01 | Planning |
+| Table salt | 1.00 g | 1.00 g | Generic table-salt estimate | $0.00 | Planning |
+| Ground black pepper | 0.30 g | 0.30 g | Generic three-ounce ground black-pepper estimate | $0.01 | Planning |
+| Water | 10.00 g | 10.00 g | Kitchen tap water | $0.00 | Verified |
+| **Ingredient subtotal** |  |  |  | **$2.45** |  |
+
+| Packaging / consumable | Quantity | Unit cost | Line cost |
+|---|---:|---:|---:|
+| Meal container with lid | 1 | $0.29 | $0.29 |
+| Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
+| **Packaging subtotal** |  |  | **$0.34** |
+| **Direct packed total** |  |  | **$2.79** |
+
+### Lemon Herb Chicken Orzo - Bulk
+
+Validation: Record physical yields and consumed inventory before actual margin.
+
+| Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
+|---|---:|---:|---|---:|---|
+| Chicken thigh, meat only, roasted | 210.00 g | 320.49 g | EPIC receipt 2026-10-01: owner-identified boneless thighs at $3.29/lb raw; October 7 direct-component yield is 430/625 | $2.32 | Verified |
+| Barilla Classic Blue Box Orzo, 16 oz | 60.00 g | 60.00 g | Barilla US Classic Orzo16oz GTIN00076808513981, Walmart product10309188 $1.88 reference checked2026-10-26; exact local store stock and receipt unverified | $0.25 | Planning |
+| Zucchini, raw | 60.00 g | 60.00 g | Walmart receipt 2026-10-01: zucchini $1.42/lb | $0.19 | Verified |
+| Carrot, raw | 40.00 g | 40.00 g | Walmart receipt 2026-07-23, 2 lb bag | $0.09 | Verified |
+| Onion, raw | 20.00 g | 20.00 g | Walmart receipt 2026-10-01: onions $0.94/lb | $0.04 | Verified |
+| Garlic, raw | 4.00 g | 4.00 g | Generic bulb/usable-yield estimate | $0.04 | Planning |
+| Bottled lemon juice | 16.00 g | 16.00 g | Current bottled-lemon catalog: Great Value 15oz, approximately443g, $1.94 online reference checked2026-10-21; physical panel and receipt remain required | $0.07 | Planning |
+| Flat-leaf parsley, raw | 4.00 g | 4.00 g | Walmart receipt 2026-08-26, one fresh parsley bunch | $0.06 | Verified |
+| Dried oregano | 0.70 g | 0.70 g | Spice jar estimate | $0.04 | Planning |
+| Avocado oil | 7.00 g | 7.00 g | Earlier PRPD ingredient-price document | $0.07 | Legacy |
+| Paprika | 1.30 g | 1.30 g | Generic spice bottle estimate | $0.03 | Planning |
+| Onion powder | 0.70 g | 0.70 g | Spice jar estimate | $0.01 | Planning |
+| Table salt | 1.35 g | 1.35 g | Generic table-salt estimate | $0.00 | Planning |
+| Ground black pepper | 0.40 g | 0.40 g | Generic three-ounce ground black-pepper estimate | $0.02 | Planning |
+| Water | 14.00 g | 14.00 g | Kitchen tap water | $0.00 | Verified |
+| **Ingredient subtotal** |  |  |  | **$3.24** |  |
+
+| Packaging / consumable | Quantity | Unit cost | Line cost |
+|---|---:|---:|---:|
+| Meal container with lid | 1 | $0.29 | $0.29 |
+| Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
+| **Packaging subtotal** |  |  | **$0.34** |
+| **Direct packed total** |  |  | **$3.58** |
+
+### Southwest Beef Taco Bowl - Lean
+
+Validation: Record physical yields and consumed inventory before actual margin.
+
+| Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
+|---|---:|---:|---|---:|---|
+| Ground beef 90/10, crumbles, pan-browned | 144.90 g | 220.50 g | $5.74/lb raw 90/10 ground beef, Restaurant Depot 2026-08-27 | $2.79 | Verified |
+| PRPD basmati/white rice, dry | 45.00 g | 45.00 g | $19.79/20 lb Royal basmati rice, Restaurant Depot 2026-08-27 | $0.10 | Verified |
+| Cilantro, raw | 2.00 g | 2.00 g | $0.50/bunch with provisional usable yield | $0.02 | Verified |
+| Garlic, raw | 1.00 g | 1.00 g | Generic bulb/usable-yield estimate | $0.01 | Planning |
+| Lime juice, raw | 5.00 g | 5.00 g | Generic one-lime juice yield | $0.06 | Planning |
+| Black beans, canned, drained | 55.00 g | 55.00 g | Generic 15 oz canned black beans | $0.11 | Planning |
+| Sweet yellow corn, cooked, no salt | 60.00 g | 60.00 g | Generic 15.25 oz can estimate | $0.14 | Planning |
+| Green bell pepper, raw | 30.00 g | 30.00 g | User-supplied $0.78 each; modeled at 160g usable weight | $0.15 | Planning |
+| Onion, raw | 20.00 g | 20.00 g | Walmart receipt 2026-10-01: onions $0.94/lb | $0.04 | Verified |
+| Green leaf lettuce, raw | 25.00 g | 25.00 g | $2/head with 500g provisional usable yield | $0.10 | Verified |
+| Cotija cheese | 12.00 g | 12.00 g | Generic 10 oz package estimate | $0.19 | Planning |
+| Avocado oil | 2.00 g | 2.00 g | Earlier PRPD ingredient-price document | $0.02 | Legacy |
+| Table salt | 0.75 g | 0.75 g | Generic table-salt estimate | $0.00 | Planning |
+| **Ingredient subtotal** |  |  |  | **$3.72** |  |
+
+| Packaging / consumable | Quantity | Unit cost | Line cost |
+|---|---:|---:|---:|
+| Meal container with lid | 1 | $0.29 | $0.29 |
+| Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
+| **Packaging subtotal** |  |  | **$0.34** |
+| **Direct packed total** |  |  | **$4.06** |
+
+### Southwest Beef Taco Bowl - Bulk
+
+Validation: Record physical yields and consumed inventory before actual margin.
+
+| Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
+|---|---:|---:|---|---:|---|
+| Ground beef 90/10, crumbles, pan-browned | 207.00 g | 315.00 g | $5.74/lb raw 90/10 ground beef, Restaurant Depot 2026-08-27 | $3.99 | Verified |
+| PRPD basmati/white rice, dry | 60.00 g | 60.00 g | $19.79/20 lb Royal basmati rice, Restaurant Depot 2026-08-27 | $0.13 | Verified |
+| Cilantro, raw | 2.67 g | 2.67 g | $0.50/bunch with provisional usable yield | $0.03 | Verified |
+| Garlic, raw | 1.33 g | 1.33 g | Generic bulb/usable-yield estimate | $0.01 | Planning |
+| Lime juice, raw | 6.67 g | 6.67 g | Generic one-lime juice yield | $0.07 | Planning |
+| Black beans, canned, drained | 70.00 g | 70.00 g | Generic 15 oz canned black beans | $0.14 | Planning |
+| Sweet yellow corn, cooked, no salt | 75.00 g | 75.00 g | Generic 15.25 oz can estimate | $0.17 | Planning |
+| Green bell pepper, raw | 40.00 g | 40.00 g | User-supplied $0.78 each; modeled at 160g usable weight | $0.20 | Planning |
+| Onion, raw | 25.00 g | 25.00 g | Walmart receipt 2026-10-01: onions $0.94/lb | $0.05 | Verified |
+| Green leaf lettuce, raw | 25.00 g | 25.00 g | $2/head with 500g provisional usable yield | $0.10 | Verified |
+| Cotija cheese | 16.00 g | 16.00 g | Generic 10 oz package estimate | $0.25 | Planning |
+| Avocado oil | 3.00 g | 3.00 g | Earlier PRPD ingredient-price document | $0.03 | Legacy |
+| Table salt | 1.00 g | 1.00 g | Generic table-salt estimate | $0.00 | Planning |
+| **Ingredient subtotal** |  |  |  | **$5.18** |  |
+
+| Packaging / consumable | Quantity | Unit cost | Line cost |
+|---|---:|---:|---:|
+| Meal container with lid | 1 | $0.29 | $0.29 |
+| Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
+| **Packaging subtotal** |  |  | **$0.34** |
+| **Direct packed total** |  |  | **$5.52** |
+
+### Garlic Butter Wild Argentine Shrimp + Rice - Lean
+
+Validation: Record physical yields and consumed inventory before actual margin.
 
 | Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
 |---|---:|---:|---|---:|---|
 | Shrimp, cooked | 150.00 g | 210.00 g | Current $13.89 per 2 lb raw shrimp purchase | $3.22 | Verified |
-| PRPD basmati/white rice, dry | 45.00 g | 45.00 g | $13.00/20 lb current rice purchase | $0.06 | Verified |
-| Shelled edamame, cooked | 74.00 g | 74.00 g | Earlier PRPD ingredient-price document | $0.42 | Legacy |
-| Zucchini, raw | 100.00 g | 100.00 g | User-supplied $1.42/lb | $0.31 | Verified |
+| PRPD basmati/white rice, dry | 45.00 g | 45.00 g | $19.79/20 lb Royal basmati rice, Restaurant Depot 2026-08-27 | $0.10 | Verified |
+| Cilantro, raw | 2.00 g | 2.00 g | $0.50/bunch with provisional usable yield | $0.02 | Verified |
+| Garlic, raw | 1.00 g | 1.00 g | Generic bulb/usable-yield estimate | $0.01 | Planning |
+| Lime juice, raw | 5.00 g | 5.00 g | Generic one-lime juice yield | $0.06 | Planning |
+| Peas and carrots, canned, drained | 74.00 g | 74.00 g | Del Monte peas and carrots 8.5 oz, Walmart online 2026-09-09 | $0.38 | Verified |
+| Zucchini, raw | 100.00 g | 100.00 g | Walmart receipt 2026-10-01: zucchini $1.42/lb | $0.31 | Verified |
 | Butter | 7.00 g | 7.00 g | Earlier PRPD ingredient-price document | $0.07 | Legacy |
 | Garlic, raw | 12.00 g | 12.00 g | Generic bulb/usable-yield estimate | $0.12 | Planning |
-| Lemon juice, raw | 10.00 g | 10.00 g | $1/lemon with provisional juice yield | $0.21 | Verified |
+| Bottled lemon juice | 10.00 g | 10.00 g | Current bottled-lemon catalog: Great Value 15oz, approximately443g, $1.94 online reference checked2026-10-21; physical panel and receipt remain required | $0.04 | Planning |
 | Cornstarch | 4.00 g | 4.00 g | Earlier PRPD ingredient-price document | $0.02 | Legacy |
 | Table salt | 0.50 g | 0.50 g | Generic table-salt estimate | $0.00 | Planning |
-| **Ingredient subtotal** |  |  |  | **$4.43** |  |
+| FAGE Total 0% | 29.33 g | 29.33 g | $3.00/32 oz current fat-free Greek yogurt purchase | $0.10 | Verified |
+| Great Value light mayonnaise | 4.44 g | 4.44 g | Earlier PRPD ingredient-price document | $0.02 | Legacy |
+| Bottled lemon juice | 1.78 g | 1.78 g | Current bottled-lemon catalog: Great Value 15oz, approximately443g, $1.94 online reference checked2026-10-21; physical panel and receipt remain required | $0.01 | Planning |
+| Cilantro, raw | 1.78 g | 1.78 g | $0.50/bunch with provisional usable yield | $0.02 | Verified |
+| Jalapeno, raw | 1.07 g | 1.07 g | Walmart receipt 2026-10-01: jalapeno $1.32/lb | $0.00 | Verified |
+| Garlic, raw | 0.53 g | 0.53 g | Generic bulb/usable-yield estimate | $0.01 | Planning |
+| Flat-leaf parsley, raw | 0.53 g | 0.53 g | Walmart receipt 2026-08-26, one fresh parsley bunch | $0.01 | Verified |
+| Table salt | 0.36 g | 0.36 g | Generic table-salt estimate | $0.00 | Planning |
+| Ground cumin | 0.18 g | 0.18 g | Generic spice bottle estimate | $0.00 | Planning |
+| **Ingredient subtotal** |  |  |  | **$4.51** |  |
 
 | Packaging / consumable | Quantity | Unit cost | Line cost |
 |---|---:|---:|---:|
 | Meal container with lid | 1 | $0.29 | $0.29 |
+| Sauce cup with lid | 1 | $0.06 | $0.06 |
 | Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
-| **Packaging subtotal** |  |  | **$0.34** |
-| **Direct packed total** |  |  | **$4.77** |
+| **Packaging subtotal** |  |  | **$0.40** |
+| **Direct packed total** |  |  | **$4.91** |
 
-### Garlic Butter Shrimp + Rice - Bulk
+### Garlic Butter Wild Argentine Shrimp + Rice - Bulk
+
+Validation: Record physical yields and consumed inventory before actual margin.
 
 | Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
 |---|---:|---:|---|---:|---|
 | Shrimp, cooked | 202.50 g | 283.50 g | Current $13.89 per 2 lb raw shrimp purchase | $4.34 | Verified |
-| PRPD basmati/white rice, dry | 60.00 g | 60.00 g | $13.00/20 lb current rice purchase | $0.09 | Verified |
-| Shelled edamame, cooked | 100.00 g | 100.00 g | Earlier PRPD ingredient-price document | $0.56 | Legacy |
-| Zucchini, raw | 130.00 g | 130.00 g | User-supplied $1.42/lb | $0.41 | Verified |
+| PRPD basmati/white rice, dry | 60.00 g | 60.00 g | $19.79/20 lb Royal basmati rice, Restaurant Depot 2026-08-27 | $0.13 | Verified |
+| Cilantro, raw | 2.67 g | 2.67 g | $0.50/bunch with provisional usable yield | $0.03 | Verified |
+| Garlic, raw | 1.33 g | 1.33 g | Generic bulb/usable-yield estimate | $0.01 | Planning |
+| Lime juice, raw | 6.67 g | 6.67 g | Generic one-lime juice yield | $0.07 | Planning |
+| Peas and carrots, canned, drained | 100.00 g | 100.00 g | Del Monte peas and carrots 8.5 oz, Walmart online 2026-09-09 | $0.51 | Verified |
+| Zucchini, raw | 130.00 g | 130.00 g | Walmart receipt 2026-10-01: zucchini $1.42/lb | $0.41 | Verified |
 | Butter | 10.00 g | 10.00 g | Earlier PRPD ingredient-price document | $0.11 | Legacy |
 | Garlic, raw | 15.00 g | 15.00 g | Generic bulb/usable-yield estimate | $0.15 | Planning |
-| Lemon juice, raw | 12.00 g | 12.00 g | $1/lemon with provisional juice yield | $0.25 | Verified |
+| Bottled lemon juice | 12.00 g | 12.00 g | Current bottled-lemon catalog: Great Value 15oz, approximately443g, $1.94 online reference checked2026-10-21; physical panel and receipt remain required | $0.05 | Planning |
 | Cornstarch | 5.00 g | 5.00 g | Earlier PRPD ingredient-price document | $0.02 | Legacy |
 | Table salt | 0.75 g | 0.75 g | Generic table-salt estimate | $0.00 | Planning |
-| **Ingredient subtotal** |  |  |  | **$5.93** |  |
-
-| Packaging / consumable | Quantity | Unit cost | Line cost |
-|---|---:|---:|---:|
-| Meal container with lid | 1 | $0.29 | $0.29 |
-| Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
-| **Packaging subtotal** |  |  | **$0.34** |
-| **Direct packed total** |  |  | **$6.26** |
-
-### BBQ Chicken Mac & Cheese - Lean
-
-| Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
-|---|---:|---:|---|---:|---|
-| Chicken thigh, meat only, roasted | 150.00 g | 210.00 g | $143.60/40 lb Restaurant Depot chicken-thigh case | $1.66 | Verified |
-| Muscle Mac high-protein macaroni and cheese | 76.00 g | 76.00 g | Current 11.9 oz box; exact receipt price still pending | $0.56 | Planning |
-| G Hughes sugar-free BBQ sauce | 60.00 g | 60.00 g | Earlier PRPD ingredient-price document | $0.42 | Legacy |
-| H-E-B fat-free mozzarella | 28.00 g | 28.00 g | $10.00/5 lb current fat-free shredded cheese purchase | $0.12 | Verified |
-| Table salt | 0.50 g | 0.50 g | Generic table-salt estimate | $0.00 | Planning |
-| **Ingredient subtotal** |  |  |  | **$2.76** |  |
+| FAGE Total 0% | 29.33 g | 29.33 g | $3.00/32 oz current fat-free Greek yogurt purchase | $0.10 | Verified |
+| Great Value light mayonnaise | 4.44 g | 4.44 g | Earlier PRPD ingredient-price document | $0.02 | Legacy |
+| Bottled lemon juice | 1.78 g | 1.78 g | Current bottled-lemon catalog: Great Value 15oz, approximately443g, $1.94 online reference checked2026-10-21; physical panel and receipt remain required | $0.01 | Planning |
+| Cilantro, raw | 1.78 g | 1.78 g | $0.50/bunch with provisional usable yield | $0.02 | Verified |
+| Jalapeno, raw | 1.07 g | 1.07 g | Walmart receipt 2026-10-01: jalapeno $1.32/lb | $0.00 | Verified |
+| Garlic, raw | 0.53 g | 0.53 g | Generic bulb/usable-yield estimate | $0.01 | Planning |
+| Flat-leaf parsley, raw | 0.53 g | 0.53 g | Walmart receipt 2026-08-26, one fresh parsley bunch | $0.01 | Verified |
+| Table salt | 0.36 g | 0.36 g | Generic table-salt estimate | $0.00 | Planning |
+| Ground cumin | 0.18 g | 0.18 g | Generic spice bottle estimate | $0.00 | Planning |
+| **Ingredient subtotal** |  |  |  | **$5.99** |  |
 
 | Packaging / consumable | Quantity | Unit cost | Line cost |
 |---|---:|---:|---:|
@@ -617,18 +545,98 @@ Recipe quantity is the amount in one customer build. Purchase-cost quantity reve
 | Sauce cup with lid | 1 | $0.06 | $0.06 |
 | Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
 | **Packaging subtotal** |  |  | **$0.40** |
-| **Direct packed total** |  |  | **$3.16** |
+| **Direct packed total** |  |  | **$6.39** |
 
-### BBQ Chicken Mac & Cheese - Bulk
+### Creamy Cajun Chicken Pasta - Lean
+
+Validation: Record physical yields and consumed inventory before actual margin.
 
 | Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
 |---|---:|---:|---|---:|---|
-| Chicken thigh, meat only, roasted | 225.00 g | 315.00 g | $143.60/40 lb Restaurant Depot chicken-thigh case | $2.49 | Verified |
-| Muscle Mac high-protein macaroni and cheese | 76.00 g | 76.00 g | Current 11.9 oz box; exact receipt price still pending | $0.56 | Planning |
-| G Hughes sugar-free BBQ sauce | 60.00 g | 60.00 g | Earlier PRPD ingredient-price document | $0.42 | Legacy |
-| H-E-B fat-free mozzarella | 28.00 g | 28.00 g | $10.00/5 lb current fat-free shredded cheese purchase | $0.12 | Verified |
+| Chicken thigh, meat only, roasted | 150.00 g | 210.00 g | EPIC receipt 2026-10-01: owner-identified boneless thighs at $3.29/lb raw | $1.52 | Verified |
+| Table salt | 1.60 g | 1.60 g | Generic table-salt estimate | $0.00 | Planning |
+| Garlic powder | 1.35 g | 1.35 g | Spice jar estimate | $0.02 | Planning |
+| Onion powder | 0.80 g | 0.80 g | Spice jar estimate | $0.01 | Planning |
+| Paprika | 0.60 g | 0.60 g | Generic spice bottle estimate | $0.01 | Planning |
+| Ground black pepper | 0.40 g | 0.40 g | Generic three-ounce ground black-pepper estimate | $0.02 | Planning |
+| Kroger protein pasta | 50.00 g | 50.00 g | Earlier PRPD ingredient-price document | $0.44 | Legacy |
+| Canned crushed tomatoes | 93.61 g | 93.61 g | Planning 28 oz can | $0.18 | Legacy |
+| Water | 104.63 g | 104.63 g | Kitchen tap water | $0.00 | Verified |
+| Philadelphia Original cream cheese | 12.56 g | 12.56 g | 8 oz original cream cheese planning allowance; verify receipt | $0.19 | Planning |
+| Onion, raw | 33.04 g | 33.04 g | Walmart receipt 2026-10-01: onions $0.94/lb | $0.07 | Verified |
+| Green onion | 9.91 g | 9.91 g | Usable bunch estimate; verify weight and receipt | $0.10 | Planning |
+| Olive oil | 2.97 g | 2.97 g | 750mL bottle planning allowance; density0.92 | $0.03 | Planning |
+| Butter | 3.08 g | 3.08 g | Earlier PRPD ingredient-price document | $0.03 | Legacy |
+| Smoked paprika | 2.03 g | 2.03 g | Spice jar estimate | $0.09 | Planning |
+| Dried oregano | 0.44 g | 0.44 g | Spice jar estimate | $0.03 | Planning |
+| Dried thyme | 0.44 g | 0.44 g | Spice jar estimate | $0.03 | Planning |
+| Ground cayenne | 0.20 g | 0.20 g | Spice jar estimate | $0.00 | Planning |
+| **Ingredient subtotal** |  |  |  | **$2.77** |  |
+
+| Packaging / consumable | Quantity | Unit cost | Line cost |
+|---|---:|---:|---:|
+| Meal container with lid | 1 | $0.29 | $0.29 |
+| Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
+| **Packaging subtotal** |  |  | **$0.34** |
+| **Direct packed total** |  |  | **$3.11** |
+
+### Creamy Cajun Chicken Pasta - Bulk
+
+Validation: Record physical yields and consumed inventory before actual margin.
+
+| Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
+|---|---:|---:|---|---:|---|
+| Chicken thigh, meat only, roasted | 206.25 g | 288.75 g | EPIC receipt 2026-10-01: owner-identified boneless thighs at $3.29/lb raw | $2.09 | Verified |
+| Table salt | 2.20 g | 2.20 g | Generic table-salt estimate | $0.00 | Planning |
+| Garlic powder | 1.86 g | 1.86 g | Spice jar estimate | $0.02 | Planning |
+| Onion powder | 1.10 g | 1.10 g | Spice jar estimate | $0.01 | Planning |
+| Paprika | 0.82 g | 0.82 g | Generic spice bottle estimate | $0.02 | Planning |
+| Ground black pepper | 0.55 g | 0.55 g | Generic three-ounce ground black-pepper estimate | $0.03 | Planning |
+| Kroger protein pasta | 65.00 g | 65.00 g | Earlier PRPD ingredient-price document | $0.57 | Legacy |
+| Canned crushed tomatoes | 121.70 g | 121.70 g | Planning 28 oz can | $0.23 | Legacy |
+| Water | 136.01 g | 136.01 g | Kitchen tap water | $0.00 | Verified |
+| Philadelphia Original cream cheese | 16.32 g | 16.32 g | 8 oz original cream cheese planning allowance; verify receipt | $0.25 | Planning |
+| Onion, raw | 42.95 g | 42.95 g | Walmart receipt 2026-10-01: onions $0.94/lb | $0.09 | Verified |
+| Green onion | 12.89 g | 12.89 g | Usable bunch estimate; verify weight and receipt | $0.13 | Planning |
+| Olive oil | 3.87 g | 3.87 g | 750mL bottle planning allowance; density0.92 | $0.04 | Planning |
+| Butter | 4.01 g | 4.01 g | Earlier PRPD ingredient-price document | $0.04 | Legacy |
+| Smoked paprika | 2.79 g | 2.79 g | Spice jar estimate | $0.12 | Planning |
+| Dried oregano | 0.61 g | 0.61 g | Spice jar estimate | $0.04 | Planning |
+| Dried thyme | 0.61 g | 0.61 g | Spice jar estimate | $0.04 | Planning |
+| Ground cayenne | 0.27 g | 0.27 g | Spice jar estimate | $0.01 | Planning |
+| **Ingredient subtotal** |  |  |  | **$3.73** |  |
+
+| Packaging / consumable | Quantity | Unit cost | Line cost |
+|---|---:|---:|---:|
+| Meal container with lid | 1 | $0.29 | $0.29 |
+| Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
+| **Packaging subtotal** |  |  | **$0.34** |
+| **Direct packed total** |  |  | **$4.07** |
+
+### Premium NY Strip Steak - Lean
+
+Validation: Record physical yields and consumed inventory before actual margin.
+
+| Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
+|---|---:|---:|---|---:|---|
+| NY strip steak, cooked, trimmed | 180.00 g | 252.00 g | EPIC receipt 2026-10-01: steak $10.99/lb; exact NY strip cut not printed, confirm cut | $6.11 | Planning |
+| Idahoan Original mashed potato flakes | 29.04 g | 29.04 g | Idahoan Original mashed potatoes 13.75 oz Walmart planning price; replace with receipt | $0.19 | Planning |
+| Water | 105.97 g | 105.97 g | Kitchen tap water | $0.00 | Verified |
+| Fairlife fat-free ultra-filtered milk | 54.58 g | 54.58 g | $5.00/52 fl oz current fat-free milk purchase; 1 mL modeled as 1g | $0.18 | Verified |
+| Butter | 9.41 g | 9.41 g | Earlier PRPD ingredient-price document | $0.10 | Legacy |
+| Table salt | 1.01 g | 1.01 g | Generic table-salt estimate | $0.00 | Planning |
+| Broccoli, raw | 100.00 g | 100.00 g | $2.00/12 oz current frozen broccoli purchase | $0.59 | Verified |
+| Garlic, raw | 6.00 g | 6.00 g | Generic bulb/usable-yield estimate | $0.06 | Planning |
 | Table salt | 0.75 g | 0.75 g | Generic table-salt estimate | $0.00 | Planning |
-| **Ingredient subtotal** |  |  |  | **$3.60** |  |
+| Prepared Dijon mustard | 18.00 g | 18.00 g | Generic 20 oz bottle estimate | $0.04 | Planning |
+| G Hughes sugar-free BBQ sauce | 15.00 g | 15.00 g | One-gallon bulk BBQ sauce, Restaurant Depot receipt 2026-08-27 | $0.05 | Verified |
+| Honey | 8.00 g | 8.00 g | Earlier PRPD ingredient-price document | $0.09 | Legacy |
+| Apple cider vinegar | 3.00 g | 3.00 g | Great Value apple cider vinegar 32 fl oz, Walmart online 2026-09-21; modeled at approximately 1g/mL | $0.01 | Planning |
+| Garlic powder | 0.30 g | 0.30 g | Spice jar estimate | $0.00 | Planning |
+| Smoked paprika | 0.30 g | 0.30 g | Spice jar estimate | $0.01 | Planning |
+| Ground black pepper | 0.20 g | 0.20 g | Generic three-ounce ground black-pepper estimate | $0.01 | Planning |
+| Table salt | 0.20 g | 0.20 g | Generic table-salt estimate | $0.00 | Planning |
+| **Ingredient subtotal** |  |  |  | **$7.43** |  |
 
 | Packaging / consumable | Quantity | Unit cost | Line cost |
 |---|---:|---:|---:|
@@ -636,150 +644,136 @@ Recipe quantity is the amount in one customer build. Purchase-cost quantity reve
 | Sauce cup with lid | 1 | $0.06 | $0.06 |
 | Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
 | **Packaging subtotal** |  |  | **$0.40** |
-| **Direct packed total** |  |  | **$3.99** |
+| **Direct packed total** |  |  | **$7.83** |
 
-### Chocolate-Dipped Cookie Dough Balls - Single
+### Premium NY Strip Steak - Bulk
 
-| Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
-|---|---:|---:|---|---:|---|
-| H-E-B fat-free cottage cheese | 113.00 g | 113.00 g | $3.00/24 oz current purchase | $0.50 | Verified |
-| Premier Protein powder, vanilla/chocolate | 19.50 g | 19.50 g | Midpoint of user-confirmed $30-$35 range | $0.96 | Verified |
-| Old-fashioned rolled oats | 45.00 g | 45.00 g | Earlier PRPD ingredient-price document | $0.11 | Legacy |
-| Creamy peanut butter | 16.00 g | 16.00 g | Earlier PRPD ingredient-price document | $0.09 | Legacy |
-| Honey | 7.00 g | 7.00 g | Earlier PRPD ingredient-price document | $0.08 | Legacy |
-| Vanilla extract | 2.00 g | 2.00 g | Generic 2 fl oz bottle estimate | $0.17 | Planning |
-| Mini semisweet chocolate chips | 14.00 g | 14.00 g | Walmart receipt 2026-07-23, 12 oz bag | $0.20 | Verified |
-| **Ingredient subtotal** |  |  |  | **$2.11** |  |
-
-| Packaging / consumable | Quantity | Unit cost | Line cost |
-|---|---:|---:|---:|
-| Dessert cup with lid | 1 | $0.34 | $0.34 |
-| Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
-| **Packaging subtotal** |  |  | **$0.39** |
-| **Direct packed total** |  |  | **$2.50** |
-
-### Chocolate Oreo Mousse - Single
+Validation: Record physical yields and consumed inventory before actual margin.
 
 | Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
 |---|---:|---:|---|---:|---|
-| FAGE Total 0% | 200.00 g | 200.00 g | $3.00/32 oz current fat-free Greek yogurt purchase | $0.66 | Verified |
-| Premier Protein powder, vanilla/chocolate | 19.50 g | 19.50 g | Midpoint of user-confirmed $30-$35 range | $0.96 | Verified |
-| Hershey's natural unsweetened cocoa | 10.00 g | 10.00 g | Earlier PRPD ingredient-price document | $0.18 | Legacy |
-| Honey | 7.00 g | 7.00 g | Earlier PRPD ingredient-price document | $0.08 | Legacy |
-| Oreo Thin | 2.00 each | 2.00 each | Earlier PRPD ingredient-price document | $0.31 | Legacy |
-| **Ingredient subtotal** |  |  |  | **$2.18** |  |
-
-| Packaging / consumable | Quantity | Unit cost | Line cost |
-|---|---:|---:|---:|
-| Dessert cup with lid | 1 | $0.34 | $0.34 |
-| Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
-| **Packaging subtotal** |  |  | **$0.39** |
-| **Direct packed total** |  |  | **$2.57** |
-
-### Baked Strawberry-Lemon Protein Cheesecake Square - Single
-
-| Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
-|---|---:|---:|---|---:|---|
-| Reduced-fat cream cheese | 42.50 g | 42.50 g | Current 8 oz reduced-fat cream-cheese planning estimate | $0.65 | Planning |
-| H-E-B fat-free cottage cheese | 37.50 g | 37.50 g | $3.00/24 oz current purchase | $0.17 | Verified |
-| FAGE Total 0% | 12.50 g | 12.50 g | $3.00/32 oz current fat-free Greek yogurt purchase | $0.04 | Verified |
-| Whole egg | 0.25 each | 0.25 each | Walmart Great Value 12-count reference | $0.03 | Planning |
-| Premier Protein powder, vanilla/chocolate | 5.00 g | 5.00 g | Midpoint of user-confirmed $30-$35 range | $0.25 | Verified |
-| Cornstarch | 2.88 g | 2.88 g | Earlier PRPD ingredient-price document | $0.01 | Legacy |
-| Vanilla extract | 0.50 g | 0.50 g | Generic 2 fl oz bottle estimate | $0.04 | Planning |
-| Lemon juice, raw | 2.25 g | 2.25 g | $1/lemon with provisional juice yield | $0.05 | Verified |
-| Table salt | 0.12 g | 0.12 g | Generic table-salt estimate | $0.00 | Planning |
-| Strawberries, raw | 31.25 g | 31.25 g | Generic local planning estimate | $0.17 | Planning |
-| Honey | 7.81 g | 7.81 g | Earlier PRPD ingredient-price document | $0.09 | Legacy |
-| **Ingredient subtotal** |  |  |  | **$1.49** |  |
-
-| Packaging / consumable | Quantity | Unit cost | Line cost |
-|---|---:|---:|---:|
-| Dessert cup with lid | 1 | $0.34 | $0.34 |
-| Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
-| **Packaging subtotal** |  |  | **$0.39** |
-| **Direct packed total** |  |  | **$1.88** |
-
-### PRPD Protein Box - Single
-
-| Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
-|---|---:|---:|---|---:|---|
-| Whole egg | 2.00 each | 2.00 each | Walmart Great Value 12-count reference | $0.24 | Planning |
-| Deen Halal beef breakfast slice | 1.00 each | 1.00 each | Deen Halal 5 lb case; modeled as 113 x 20 g slices | $0.45 | Planning |
-| H-E-B fat-free mozzarella | 28.00 g | 28.00 g | $10.00/5 lb current fat-free shredded cheese purchase | $0.12 | Verified |
-| Apple, raw with skin | 70.00 g | 70.00 g | Generic produce estimate | $0.23 | Planning |
-| Cucumber with peel, raw | 60.00 g | 60.00 g | Generic produce estimate | $0.13 | Planning |
-| FAGE Total 0% | 22.00 g | 22.00 g | $3.00/32 oz current fat-free Greek yogurt purchase | $0.07 | Verified |
-| Great Value light mayonnaise | 4.00 g | 4.00 g | Earlier PRPD ingredient-price document | $0.01 | Legacy |
-| Lemon juice, raw | 2.40 g | 2.40 g | $1/lemon with provisional juice yield | $0.05 | Verified |
-| Jalapeno, raw | 2.40 g | 2.40 g | Generic local planning estimate | $0.01 | Planning |
-| Garlic, raw | 1.20 g | 1.20 g | Generic bulb/usable-yield estimate | $0.01 | Planning |
-| Avocado oil | 0.40 g | 0.40 g | Earlier PRPD ingredient-price document | $0.00 | Legacy |
-| Table salt | 0.30 g | 0.30 g | Generic table-salt estimate | $0.00 | Planning |
-| Ground cumin | 0.10 g | 0.10 g | Generic spice bottle estimate | $0.00 | Planning |
-| **Ingredient subtotal** |  |  |  | **$1.34** |  |
-
-| Packaging / consumable | Quantity | Unit cost | Line cost |
-|---|---:|---:|---:|
-| Meal container with lid | 1 | $0.29 | $0.29 |
-| Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
-| **Packaging subtotal** |  |  | **$0.34** |
-| **Direct packed total** |  |  | **$1.68** |
-
-### Mini Chicken Snack Wrap - Single
-
-| Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
-|---|---:|---:|---|---:|---|
-| Chicken thigh, meat only, roasted | 97.50 g | 136.50 g | $143.60/40 lb Restaurant Depot chicken-thigh case | $1.08 | Verified |
-| Mission Carb Balance Fajita flour tortilla | 2.00 each | 2.00 each | $3.72/8 Mission Carb Balance Fajita tortillas from the current H-E-B listing; replace with the Batch 6 receipt | $0.93 | Planning |
-| H-E-B fat-free mozzarella | 20.00 g | 20.00 g | $10.00/5 lb current fat-free shredded cheese purchase | $0.09 | Verified |
-| Green leaf lettuce, raw | 25.00 g | 25.00 g | $2/head with 500g provisional usable yield | $0.10 | Verified |
-| Onion, raw | 12.00 g | 12.00 g | Generic local planning estimate | $0.03 | Planning |
-| Tomato, raw | 10.00 g | 10.00 g | Generic local planning estimate | $0.04 | Planning |
-| Cucumber with peel, raw | 10.00 g | 10.00 g | Generic produce estimate | $0.02 | Planning |
-| FAGE Total 0% | 17.00 g | 17.00 g | $3.00/32 oz current fat-free Greek yogurt purchase | $0.06 | Verified |
-| Great Value light mayonnaise | 3.00 g | 3.00 g | Earlier PRPD ingredient-price document | $0.01 | Legacy |
-| Lemon juice, raw | 1.90 g | 1.90 g | $1/lemon with provisional juice yield | $0.04 | Verified |
-| Jalapeno, raw | 1.90 g | 1.90 g | Generic local planning estimate | $0.01 | Planning |
-| Garlic, raw | 0.90 g | 0.90 g | Generic bulb/usable-yield estimate | $0.01 | Planning |
-| Avocado oil | 0.30 g | 0.30 g | Earlier PRPD ingredient-price document | $0.00 | Legacy |
-| Table salt | 0.25 g | 0.25 g | Generic table-salt estimate | $0.00 | Planning |
-| Ground cumin | 0.08 g | 0.08 g | Generic spice bottle estimate | $0.00 | Planning |
-| **Ingredient subtotal** |  |  |  | **$2.41** |  |
-
-| Packaging / consumable | Quantity | Unit cost | Line cost |
-|---|---:|---:|---:|
-| Meal container with lid | 1 | $0.29 | $0.29 |
-| Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
-| **Packaging subtotal** |  |  | **$0.34** |
-| **Direct packed total** |  |  | **$2.75** |
-
-### Strawberry Protein Overnight Oats - Single
-
-| Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
-|---|---:|---:|---|---:|---|
-| Old-fashioned rolled oats | 40.00 g | 40.00 g | Earlier PRPD ingredient-price document | $0.10 | Legacy |
-| FAGE Total 0% | 120.00 g | 120.00 g | $3.00/32 oz current fat-free Greek yogurt purchase | $0.40 | Verified |
-| Fairlife fat-free ultra-filtered milk | 75.00 g | 75.00 g | $5.00/52 fl oz current fat-free milk purchase; 1 mL modeled as 1g | $0.24 | Verified |
-| Premier Protein powder, vanilla/chocolate | 15.00 g | 15.00 g | Midpoint of user-confirmed $30-$35 range | $0.74 | Verified |
-| Strawberries, raw | 45.00 g | 45.00 g | Generic local planning estimate | $0.25 | Planning |
-| Chia seeds | 5.00 g | 5.00 g | Generic 2 lb package estimate | $0.05 | Planning |
-| Honey | 7.00 g | 7.00 g | Earlier PRPD ingredient-price document | $0.08 | Legacy |
-| Vanilla extract | 1.00 g | 1.00 g | Generic 2 fl oz bottle estimate | $0.08 | Planning |
+| NY strip steak, cooked, trimmed | 225.00 g | 315.00 g | EPIC receipt 2026-10-01: steak $10.99/lb; exact NY strip cut not printed, confirm cut | $7.63 | Planning |
+| Idahoan Original mashed potato flakes | 29.04 g | 29.04 g | Idahoan Original mashed potatoes 13.75 oz Walmart planning price; replace with receipt | $0.19 | Planning |
+| Water | 105.97 g | 105.97 g | Kitchen tap water | $0.00 | Verified |
+| Fairlife fat-free ultra-filtered milk | 54.58 g | 54.58 g | $5.00/52 fl oz current fat-free milk purchase; 1 mL modeled as 1g | $0.18 | Verified |
+| Butter | 9.41 g | 9.41 g | Earlier PRPD ingredient-price document | $0.10 | Legacy |
+| Table salt | 1.01 g | 1.01 g | Generic table-salt estimate | $0.00 | Planning |
+| Broccoli, raw | 125.00 g | 125.00 g | $2.00/12 oz current frozen broccoli purchase | $0.73 | Verified |
+| Garlic, raw | 8.00 g | 8.00 g | Generic bulb/usable-yield estimate | $0.08 | Planning |
+| Table salt | 1.00 g | 1.00 g | Generic table-salt estimate | $0.00 | Planning |
+| Prepared Dijon mustard | 18.00 g | 18.00 g | Generic 20 oz bottle estimate | $0.04 | Planning |
+| G Hughes sugar-free BBQ sauce | 15.00 g | 15.00 g | One-gallon bulk BBQ sauce, Restaurant Depot receipt 2026-08-27 | $0.05 | Verified |
+| Honey | 8.00 g | 8.00 g | Earlier PRPD ingredient-price document | $0.09 | Legacy |
+| Apple cider vinegar | 3.00 g | 3.00 g | Great Value apple cider vinegar 32 fl oz, Walmart online 2026-09-21; modeled at approximately 1g/mL | $0.01 | Planning |
+| Garlic powder | 0.30 g | 0.30 g | Spice jar estimate | $0.00 | Planning |
+| Smoked paprika | 0.30 g | 0.30 g | Spice jar estimate | $0.01 | Planning |
+| Ground black pepper | 0.20 g | 0.20 g | Generic three-ounce ground black-pepper estimate | $0.01 | Planning |
 | Table salt | 0.20 g | 0.20 g | Generic table-salt estimate | $0.00 | Planning |
-| **Ingredient subtotal** |  |  |  | **$1.93** |  |
+| **Ingredient subtotal** |  |  |  | **$9.13** |  |
 
 | Packaging / consumable | Quantity | Unit cost | Line cost |
 |---|---:|---:|---:|
-| Dessert cup with lid | 1 | $0.34 | $0.34 |
+| Meal container with lid | 1 | $0.29 | $0.29 |
+| Sauce cup with lid | 1 | $0.06 | $0.06 |
 | Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
-| **Packaging subtotal** |  |  | **$0.39** |
-| **Direct packed total** |  |  | **$2.32** |
+| **Packaging subtotal** |  |  | **$0.40** |
+| **Direct packed total** |  |  | **$9.53** |
+
+### Chicken Tikka Snack Wrap - Single
+
+Validation: Record physical yields and consumed inventory before actual margin.
+
+| Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
+|---|---:|---:|---|---:|---|
+| Chicken thigh, meat only, roasted | 58.50 g | 81.90 g | EPIC receipt 2026-10-01: owner-identified boneless thighs at $3.29/lb raw | $0.59 | Verified |
+| Mission Carb Balance medium soft-taco tortilla | 1.00 each | 1.00 each | $10.00/16 current standard small-tortilla purchase | $0.62 | Verified |
+| FAGE Total 0% | 12.00 g | 12.00 g | $3.00/32 oz current fat-free Greek yogurt purchase | $0.04 | Verified |
+| Bottled lemon juice | 3.00 g | 3.00 g | Current bottled-lemon catalog: Great Value 15oz, approximately443g, $1.94 online reference checked2026-10-21; physical panel and receipt remain required | $0.01 | Planning |
+| Garlic, raw | 1.20 g | 1.20 g | Generic bulb/usable-yield estimate | $0.01 | Planning |
+| Paprika | 0.36 g | 0.36 g | Generic spice bottle estimate | $0.01 | Planning |
+| Ground cumin | 0.12 g | 0.12 g | Generic spice bottle estimate | $0.00 | Planning |
+| Ground coriander | 0.18 g | 0.18 g | Current ground-coriander planning estimate | $0.00 | Planning |
+| Chili powder | 0.09 g | 0.09 g | Generic spice bottle estimate | $0.00 | Planning |
+| Avocado oil | 0.30 g | 0.30 g | Earlier PRPD ingredient-price document | $0.00 | Legacy |
+| Green leaf lettuce, raw | 25.00 g | 25.00 g | $2/head with 500g provisional usable yield | $0.10 | Verified |
+| Red onion, raw | 12.00 g | 12.00 g | Generic red-onion produce estimate | $0.03 | Planning |
+| Cucumber with peel, raw | 15.00 g | 15.00 g | Generic produce estimate | $0.03 | Planning |
+| Tomato, raw | 10.00 g | 10.00 g | Walmart receipt 2026-10-01: Roma tomato $0.97/lb | $0.02 | Verified |
+| FAGE Total 0% | 18.33 g | 18.33 g | $3.00/32 oz current fat-free Greek yogurt purchase | $0.06 | Verified |
+| Great Value light mayonnaise | 2.78 g | 2.78 g | Earlier PRPD ingredient-price document | $0.01 | Legacy |
+| Bottled lemon juice | 1.11 g | 1.11 g | Current bottled-lemon catalog: Great Value 15oz, approximately443g, $1.94 online reference checked2026-10-21; physical panel and receipt remain required | $0.00 | Planning |
+| Cilantro, raw | 1.11 g | 1.11 g | $0.50/bunch with provisional usable yield | $0.01 | Verified |
+| Jalapeno, raw | 0.67 g | 0.67 g | Walmart receipt 2026-10-01: jalapeno $1.32/lb | $0.00 | Verified |
+| Garlic, raw | 0.33 g | 0.33 g | Generic bulb/usable-yield estimate | $0.00 | Planning |
+| Flat-leaf parsley, raw | 0.33 g | 0.33 g | Walmart receipt 2026-08-26, one fresh parsley bunch | $0.01 | Verified |
+| Table salt | 0.22 g | 0.22 g | Generic table-salt estimate | $0.00 | Planning |
+| Ground cumin | 0.11 g | 0.11 g | Generic spice bottle estimate | $0.00 | Planning |
+| **Ingredient subtotal** |  |  |  | **$1.59** |  |
+
+| Packaging / consumable | Quantity | Unit cost | Line cost |
+|---|---:|---:|---:|
+| Meal container with lid | 1 | $0.29 | $0.29 |
+| Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
+| **Packaging subtotal** |  |  | **$0.34** |
+| **Direct packed total** |  |  | **$1.93** |
+
+### Buffalo Chicken Pinwheels - Single
+
+Validation: Record physical yields and consumed inventory before actual margin.
+
+| Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
+|---|---:|---:|---|---:|---|
+| Chicken thigh, meat only, roasted | 75.00 g | 105.00 g | EPIC receipt 2026-10-01: owner-identified boneless thighs at $3.29/lb raw | $0.76 | Verified |
+| Garlic powder | 0.68 g | 0.68 g | Spice jar estimate | $0.01 | Planning |
+| Onion powder | 0.40 g | 0.40 g | Spice jar estimate | $0.01 | Planning |
+| Paprika | 0.30 g | 0.30 g | Generic spice bottle estimate | $0.01 | Planning |
+| Ground black pepper | 0.20 g | 0.20 g | Generic three-ounce ground black-pepper estimate | $0.01 | Planning |
+| Mission Carb Balance medium soft-taco tortilla | 1.00 each | 1.00 each | $10.00/16 current standard small-tortilla purchase | $0.62 | Verified |
+| Philadelphia Original cream cheese | 20.00 g | 20.00 g | 8 oz original cream cheese planning allowance; verify receipt | $0.31 | Planning |
+| H-E-B fat-free mozzarella | 14.00 g | 14.00 g | $10.00/5 lb current fat-free shredded cheese purchase | $0.06 | Verified |
+| Sweet Baby Ray's Mild Buffalo Wing Sauce | 5.00 g | 5.00 g | Generic Frank's-style bottle estimate | $0.05 | Planning |
+| Apple cider vinegar | 2.00 g | 2.00 g | Great Value apple cider vinegar 32 fl oz, Walmart online 2026-09-21; modeled at approximately 1g/mL | $0.01 | Planning |
+| Water | 3.00 g | 3.00 g | Kitchen tap water | $0.00 | Verified |
+| Green leaf lettuce, raw | 20.00 g | 20.00 g | $2/head with 500g provisional usable yield | $0.08 | Verified |
+| Onion, raw | 10.00 g | 10.00 g | Walmart receipt 2026-10-01: onions $0.94/lb | $0.02 | Verified |
+| Avocado oil | 1.00 g | 1.00 g | Earlier PRPD ingredient-price document | $0.01 | Legacy |
+| **Ingredient subtotal** |  |  |  | **$1.95** |  |
+
+| Packaging / consumable | Quantity | Unit cost | Line cost |
+|---|---:|---:|---:|
+| Meal container with lid | 1 | $0.29 | $0.29 |
+| Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
+| **Packaging subtotal** |  |  | **$0.34** |
+| **Direct packed total** |  |  | **$2.29** |
+
+### Oven-Baked Popcorn Chicken - Single
+
+Validation: Record physical yields and consumed inventory before actual margin.
+
+| Ingredient | Recipe quantity | Purchase-cost quantity | Price basis | Line cost | Status |
+|---|---:|---:|---|---:|---|
+| Chicken thigh, meat only, roasted | 120.00 g | 168.00 g | EPIC receipt 2026-10-01: owner-identified boneless thighs at $3.29/lb raw | $1.22 | Verified |
+| Kellogg's Corn Flakes, plain unfrosted | 25.00 g | 25.00 g | Walmart web18oz Kellogg's Corn Flakes product10818608 reference checked2026-10-28, not local stock or receipt; weigh25g BEFORE crushing | $0.24 | Planning |
+| All-purpose flour | 5.00 g | 5.00 g | Generic 5 lb all-purpose flour estimate | $0.01 | Planning |
+| Liquid egg white | 15.00 g | 15.00 g | Walmart Great Value 32 oz reference | $0.08 | Planning |
+| Avocado oil | 3.00 g | 3.00 g | Earlier PRPD ingredient-price document | $0.03 | Legacy |
+| Garlic powder | 1.00 g | 1.00 g | Spice jar estimate | $0.01 | Planning |
+| Paprika | 0.50 g | 0.50 g | Generic spice bottle estimate | $0.01 | Planning |
+| Ground black pepper | 0.20 g | 0.20 g | Generic three-ounce ground black-pepper estimate | $0.01 | Planning |
+| Table salt | 0.75 g | 0.75 g | Generic table-salt estimate | $0.00 | Planning |
+| **Ingredient subtotal** |  |  |  | **$1.61** |  |
+
+| Packaging / consumable | Quantity | Unit cost | Line cost |
+|---|---:|---:|---:|
+| Meal container with lid | 1 | $0.29 | $0.29 |
+| Shared gloves and cleaning allowance | 1 | $0.05 | $0.05 |
+| **Packaging subtotal** |  |  | **$0.34** |
+| **Direct packed total** |  |  | **$1.95** |
 
 ## Required Before Price Approval
 
 1. Replace planning prices for sourdough, tortillas, produce, dessert products, and estimated consumables with receipts as they become available.
-2. Test the sliders and steak, confirm the Bulk Hot Pocket fit, and record one cooked yield for beef strips, shrimp, steak, and drained ground beef.
+2. Close the current recipe holds and record cooked protein, sauce, portion and packaging yields. A cost calculation does not close a recipe or label hold.
 3. Replace the default 5% pooled raw-protein reserve with measured batch yields once enough production records exist.
 4. Add the actual weekly fuel allocation and any paid kitchen or consumable expense before calling retained dollars profit.
 5. Keep owner labor separate in the startup cash view, while still recording hours for future sustainable pricing.

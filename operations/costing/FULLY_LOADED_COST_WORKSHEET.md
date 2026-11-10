@@ -10,6 +10,7 @@ Use this after orders close and again after delivery. Direct recipe cost alone i
 | Customer orders delivered | | |
 | Meal revenue before delivery fees | | |
 | Delivery fees collected | | |
+| Sales tax collected on confirmed taxable lines, excluded from revenue | | |
 | Ingredient and packaging cost for customer meals | | |
 | Shared QC meal cost | | |
 | Other wasted, refunded, or replacement food | | |
@@ -53,6 +54,8 @@ This measures cash fuel only. Keep a separate vehicle-cost benchmark for mainten
 ### Estimated weekly operating profit
 
 `meal revenue + delivery fees collected - fully loaded weekly cost`
+
+Do not assume every PRPD food line is taxable. If sales tax is collected on a confirmed taxable line, use food and delivery revenue before tax for margin. The tax belongs to the taxing authority and is neither revenue nor profit. Record it separately, even when a processor deposits one combined customer payment. See `../finance/SALES_TAX_IMPLEMENTATION_DECISION_2026-10-11.md` for the current chilled-meal classification.
 
 ### Fully loaded cost per customer meal
 

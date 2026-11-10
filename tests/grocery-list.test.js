@@ -75,6 +75,31 @@ test('purchase list subtracts pantry stock and rounds up whole packages', () => 
   assert.equal(rows[0].usageCost, 4.88);
 });
 
+test('whole-egg shopping need rounds up to a usable egg count', () => {
+  const [egg] = grocery.buildPurchaseRows([
+    { key:'egg', name:'Whole egg', unit:'each', required:25.7, section:'Dairy & Eggs', sources:[] },
+  ], {
+    egg:{ packageSize:18, price:5.58, packageLabel:'18-count carton' },
+  });
+  assert.equal(egg.needed,26);
+  assert.equal(egg.suggestedPackages,2);
+});
+
+test('audited catalog rows retain their exact product page', () => {
+  const rows = grocery.buildPurchaseRows([
+    { key:'tomatoes', name:'Tomatoes', unit:'g', section:'Produce', required:500, sources:['Recipes'] },
+  ], {
+    tomatoes:{
+      packageSize:794,
+      price:1.52,
+      packageLabel:'28 oz can',
+      store:'Walmart online',
+      productUrl:'https://www.walmart.com/ip/10415230',
+    },
+  }, { onHand:{}, catalog:{}, buyPackages:{} });
+  assert.equal(rows[0].productUrl, 'https://www.walmart.com/ip/10415230');
+});
+
 test('count-friendly produce exposes a conservative shopping estimate without replacing recipe weight', () => {
   const rows = grocery.buildPurchaseRows([
     { key:'apple', name:'Small apples', unit:'g', section:'Produce', required:470, sources:['Recipes'] },
@@ -97,6 +122,27 @@ test('grocery rows follow a short grocery-store aisle order', () => {
   assert.deepEqual(requirements.map(row => row.section), [
     'Meat & Seafood', 'Produce', 'Bread & Tortillas', 'Pantry & Sauces',
   ]);
+});
+
+test('current salmon is grouped under Meat & Seafood', () => {
+  assert.equal(grocery.shoppingSection({ key:'pink_salmon_raw' }), 'Meat & Seafood');
+});
+
+test('all current raw chicken formats are grouped under Meat & Seafood', () => {
+  const requirements = grocery.mergeRequirements([
+    { key: 'chicken_thigh_raw', name: 'Chicken thighs', unit: 'g', bufferedAmount: 1000 },
+    { key: 'chicken_breast_raw', name: 'Chicken breast', unit: 'g', bufferedAmount: 500 },
+    { key: 'chicken_mince_raw', name: 'Chicken mince', unit: 'g', bufferedAmount: 750 },
+  ], { sauces: [] });
+
+  assert.deepEqual(
+    requirements.map(item => [item.key, item.section]),
+    [
+      ['chicken_breast_raw', 'Meat & Seafood'],
+      ['chicken_mince_raw', 'Meat & Seafood'],
+      ['chicken_thigh_raw', 'Meat & Seafood'],
+    ],
+  );
 });
 
 test('checkout cost and consumed batch value stay separate', () => {
@@ -142,6 +188,35 @@ test('packaging counts physical sauce cups but excludes bulk squeeze-bottle sauc
   assert.equal(rows.find(row => row.key === 'kitchen_consumable_allowance').required, 13);
 });
 
+test('current Grab & Go boxes stay separate from meal containers and dessert cups', () => {
+  const rows = grocery.packagingRequirements([
+    { id:'m2', tier:'lean', total:5 },
+    { id:'a2', tier:'single', total:1 },
+    { id:'a3', tier:'single', total:3 },
+    { id:'d3', tier:'single', total:1 },
+  ], [], { sauces:[] }, 10, 0);
+  assert.equal(rows.find(row => row.key === 'meal_container').required, 5);
+  assert.equal(rows.find(row => row.key === 'grab_go_container').required, 4);
+  assert.equal(rows.find(row => row.key === 'dessert_cup').required, 1);
+  assert.equal(rows.find(row => row.key === 'kitchen_consumable_allowance').required, 10);
+});
+
+test('shared sauce formula does not hide recipe-specific cups from other dishes', () => {
+  const planned = [
+    { id:'b4', total:3 },
+    { id:'m8', total:8 },
+    { id:'a3', total:3 },
+  ];
+  const methods = { meals:{
+    b4:{ sideCups:1, sideCup:{ batchGroup:'southwest-yogurt' } },
+    m8:{ sideCups:1, sideCup:{ batchGroup:'southwest-yogurt' } },
+    a3:{ sideCups:1, sideCup:{ batchGroup:'caesar-dressing' } },
+  }};
+  const sauceConfig = { eligibleMealIds:['b2','b4'] };
+  const saucePlan = { sauces:[{ name:'Weekly yogurt sauce' }] };
+  assert.equal(grocery.dishSpecificSauceCupCount(planned, methods, saucePlan, sauceConfig), 11);
+});
+
 test('weekly sauce already modeled in recipes adds only QC and kitchen reserve ingredients', () => {
   const rows = grocery.mergeRequirements([
     { key:'honey', name:'Honey', unit:'g', bufferedAmount:100 },
@@ -153,4 +228,22 @@ test('weekly sauce already modeled in recipes adds only QC and kitchen reserve i
   const honey = rows.find(row => row.key === 'honey');
   assert.equal(honey.required, 110);
   assert.ok(honey.sources.includes('Weekly sauce QC / kitchen reserve: Controlled sauce'));
+});
+
+test('buyer list keeps bottled lemon juice separate from a fresh lemon needed for zest', () => {
+  const rows = grocery.buildPurchaseRows([
+    {key:'lemon',name:'Lemon juice',unit:'g',required:480,section:'Produce',sources:[]},
+    {key:'lemon_zest',name:'Lemon zest',unit:'g',required:8,section:'Produce',sources:[]},
+    {key:'water',name:'Water',unit:'g',required:240,section:'Pantry & Sauces',sources:[]},
+    {key:'kitchen_consumable_allowance',name:'Cleaning allowance',unit:'each',required:10,section:'Packaging',sources:[]},
+  ],{
+    lemon:{packageSize:443,price:1.94},
+    lemon_zest:{packageSize:2,price:.58},
+    water:{packageSize:1000,price:0},
+    kitchen_consumable_allowance:{packageSize:1,price:.05},
+  });
+  assert.deepEqual(rows.filter(row=>row.needed>0).map(row=>row.key),['lemon','lemon_zest']);
+  assert.equal(grocery.summary(rows).buyItems,2);
+  assert.equal(grocery.summary(rows).stockedItems,0);
+  assert.equal(grocery.summary(rows).estimatedCost,6.2);
 });

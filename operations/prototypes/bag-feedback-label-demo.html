@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>PRPD Bag Feedback Label Demo</title>
+  <style>
+    @font-face { font-family: "Cathez"; src: url("../../fonts/Cathez.otf") format("opentype"); font-display: swap; }
+    :root { --forest:#1e2e1e; --green:#177934; --paper:#fffefa; --ink:#172117; }
+    * { box-sizing:border-box; }
+    body { min-height:100vh; margin:0; display:grid; place-items:center; background:#d9dcd6; color:var(--ink); font-family:Arial,Helvetica,sans-serif; }
+    .label-shell { padding:20px; background:#c8cbc5; box-shadow:0 16px 40px rgba(30,46,30,.15); }
+    .feedback-label { position:relative; display:grid; grid-template-rows:.48in 1.6in 1.42in; width:5in; height:3.5in; overflow:hidden; padding-left:.25in; background:var(--paper); border:1.5px solid var(--forest); }
+    .feedback-label::before { content:""; position:absolute; z-index:4; inset:0 auto 0 0; width:.085in; background:var(--forest); }
+    .contour { position:absolute; z-index:0; pointer-events:none; filter:brightness(0) saturate(100%) invert(17%) sepia(13%) saturate(863%) hue-rotate(71deg) brightness(88%) contrast(91%); }
+    .contour-bottom { left:-.16in; bottom:-.18in; width:4.05in; opacity:.105; }
+    .contour-top { z-index:1; top:-.42in; right:-.38in; width:1.82in; opacity:.16; transform:rotate(180deg); }
+    .label-header,.headline,.label-footer { position:relative; z-index:2; min-width:0; }
+    .label-header { display:grid; grid-template-columns:auto auto minmax(0,1fr); column-gap:.1in; align-items:end; padding:.12in .2in 0 0; }
+    .brand-lockup { display:contents; color:var(--forest); }
+    .brand-name { font-family:Cathez,Georgia,serif; font-size:30pt; line-height:.8; letter-spacing:.055em; }
+    .brand-tagline,.header-kicker { padding-bottom:.035in; font-size:5.75pt; font-weight:900; line-height:1; letter-spacing:.14em; white-space:nowrap; }
+    .header-kicker { justify-self:end; padding-right:.42in; color:var(--green); text-transform:uppercase; }
+    .headline { display:flex; flex-direction:column; justify-content:center; padding:.02in .2in .02in 0; border-bottom:1.5px solid rgba(30,46,30,.72); }
+    .headline h1 { margin:0; color:var(--forest); font-family:Cathez,Georgia,serif; font-size:59pt; font-weight:500; line-height:.74; letter-spacing:-.014em; text-transform:uppercase; }
+    .headline h1 span { display:block; }
+    .headline h1 span:last-child { font-size:1.18em; }
+    .headline-subline { display:flex; align-items:center; gap:.09in; margin-top:.09in; }
+    .headline-subline::before { content:""; width:.36in; height:2px; background:var(--green); }
+    .headline-subline span { color:var(--green); font-size:6.2pt; font-weight:900; letter-spacing:.17em; text-transform:uppercase; }
+    .label-footer { display:grid; grid-template-columns:minmax(0,1fr) 1.62in; gap:.17in; padding:.12in .17in .1in 0; }
+    .reward-panel { display:grid; min-width:0; grid-template-rows:auto 1fr auto; }
+    .reward-line { display:flex; align-items:baseline; gap:.07in; white-space:nowrap; }
+    .reward-kicker,.reward-name { color:var(--forest); font-size:7.6pt; font-weight:900; letter-spacing:.11em; }
+    .reward-value { color:var(--green); font-family:Cathez,Georgia,serif; font-size:31pt; line-height:.72; }
+    .reward-rule { max-width:2.78in; margin:.055in 0 0; color:#384638; font-size:5.8pt; font-weight:800; line-height:1.32; }
+    .order-context { align-self:center; display:grid; grid-template-columns:minmax(0,1fr) .86in; gap:.1in; margin:.055in 0 .045in; }
+    .customer-block { min-width:0; padding:.055in .08in .045in; border-left:3px solid var(--green); background:rgba(232,241,232,.72); }
+    .context-label { display:block; color:#657065; font-size:4.6pt; font-weight:900; letter-spacing:.14em; text-transform:uppercase; }
+    .customer-name { display:block; overflow:hidden; margin-top:.018in; color:var(--forest); font-family:Cathez,Georgia,serif; font-size:13.2pt; line-height:.92; letter-spacing:.018em; text-overflow:ellipsis; white-space:nowrap; }
+    .dish-count { display:flex; align-items:center; justify-content:center; gap:.045in; border-top:1.5px solid var(--forest); border-bottom:1.5px solid var(--forest); color:var(--forest); }
+    .dish-count strong { color:var(--green); font-family:Cathez,Georgia,serif; font-size:20pt; line-height:.8; }
+    .dish-count span { max-width:.42in; font-size:5pt; font-weight:900; line-height:1.05; letter-spacing:.07em; text-transform:uppercase; }
+    .privacy { max-width:2.86in; margin:0; color:var(--forest); font-size:5.05pt; font-weight:700; line-height:1.22; }
+    .scan-panel { position:relative; z-index:2; display:grid; grid-template-columns:.82in 1fr; grid-template-rows:auto 1fr auto; column-gap:.08in; align-items:center; min-width:0; padding:.08in; border:1.5px solid var(--forest); background:rgba(255,254,250,.94); }
+    .scan-title { grid-column:1/-1; margin:0 0 .05in; color:var(--forest); font-size:8.8pt; font-weight:900; line-height:1; letter-spacing:.06em; }
+    .qr-frame { display:block; width:.82in; height:.82in; padding:.03in; background:#fff; }
+    .qr-frame img { display:block; width:100%; height:100%; object-fit:contain; }
+    .scan-copy { margin:0; color:var(--forest); font-size:5.45pt; font-weight:800; line-height:1.35; }
+    .demo-note { grid-column:1/-1; margin-top:.04in; color:#596459; font-size:4.5pt; font-weight:900; letter-spacing:.11em; text-transform:uppercase; }
+    @media print { @page { size:5in 3.5in; margin:0; } body{background:#fff}.label-shell{padding:0;box-shadow:none}*{print-color-adjust:exact;-webkit-print-color-adjust:exact} }
+  </style>
+</head>
+<body>
+  <main class="label-shell">
+    <article class="feedback-label" aria-label="PRPD sample customer bag feedback label">
+      <img class="contour contour-bottom" src="assets/bag-feedback-contour-lines-v3.png" alt="">
+      <img class="contour contour-top" src="assets/bag-feedback-contour-lines-v3.png" alt="">
+      <header class="label-header">
+        <div class="brand-lockup"><span class="brand-name">PRPD</span><span class="brand-tagline">MEALS. PREPPED.</span></div>
+        <span class="header-kicker">Your order · Your feedback</span>
+      </header>
+      <section class="headline">
+        <h1><span>Rate Your</span><span>Meals</span></h1>
+        <div class="headline-subline"><span>It takes about one minute</span></div>
+      </section>
+      <footer class="label-footer">
+        <section class="reward-panel" aria-label="Earn five dollars PRPD credit">
+          <div>
+            <div class="reward-line"><span class="reward-kicker">EARN</span><span class="reward-value">$5</span><span class="reward-name">PRPD CREDIT</span></div>
+            <p class="reward-rule">Review every unique dish in this order. Each review needs a 1–10 rating and a short “What did you like?” note.</p>
+          </div>
+          <div class="order-context" aria-label="Customer and order summary">
+            <div class="customer-block"><span class="context-label">Prepared for</span><strong class="customer-name" data-customer-name>Sample Customer</strong></div>
+            <div class="dish-count"><strong data-unique-dishes>5</strong><span>unique dishes</span></div>
+          </div>
+          <p class="privacy">Private by default. A comment is shared only when you separately approve it.</p>
+        </section>
+        <aside class="scan-panel">
+          <h2 class="scan-title">SCAN TO REVIEW</h2>
+          <a class="qr-frame" href="order-feedback-demo.html?t=sample-order-token&amp;m=m2" aria-label="Open the sample feedback experience"><img src="assets/bag-feedback-demo-qr.png" alt="Sample feedback QR code"></a>
+          <p class="scan-copy">Your meals appear automatically. Rate 1–10 and add one short note per dish.</p>
+          <div class="demo-note">Sample QR · Not live</div>
+        </aside>
+      </footer>
+    </article>
+  </main>
+  <script>
+    // The print queue replaces these values for each customer. They never appear in the QR URL.
+    const labelJob={customerFirstName:"Sample Customer",uniqueDishes:5};
+    document.querySelector("[data-customer-name]").textContent=labelJob.customerFirstName;
+    document.querySelector("[data-unique-dishes]").textContent=labelJob.uniqueDishes;
+  </script>
+</body>
+</html>

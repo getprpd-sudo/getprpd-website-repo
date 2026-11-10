@@ -421,39 +421,6 @@
     }
     .order-growth-fields.has-no-promotions { grid-template-columns: 1fr; }
 
-    .welcome-offer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      margin-top: 12px;
-      margin-bottom: 10px;
-      padding: 12px 18px;
-      border: 1px solid rgba(30,46,30,0.16);
-      border-radius: var(--radius-sm);
-      background: #eef3e9;
-      color: var(--green);
-    }
-    .welcome-offer > div { display: grid; gap: 3px; }
-    .welcome-offer__eyebrow { color: #54745a; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; }
-    .welcome-offer strong { font-family: var(--font-display); font-size: clamp(1rem, 2vw, 1.18rem); }
-    .welcome-offer small { color: var(--text-muted); line-height: 1.45; }
-    .welcome-offer button {
-      flex: 0 0 auto;
-      border: 0;
-      border-radius: 999px;
-      padding: 11px 16px;
-      background: var(--green);
-      color: var(--cream);
-      font: 800 0.74rem/1 var(--font-body);
-      letter-spacing: 0.04em;
-      cursor: pointer;
-    }
-    .welcome-offer button:hover,
-    .welcome-offer button:focus-visible { background: #304830; outline: 2px solid var(--sage); outline-offset: 2px; }
-    .welcome-offer.is-applied { border-color: rgba(84,116,90,.42); background: #e4eedf; }
-    .welcome-offer button:disabled { opacity: .78; cursor: default; }
-
     .delivery-preview {
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(150px, 190px);
@@ -780,7 +747,7 @@
       width: 100%; height: 100%;
       object-fit: cover;
       object-position: center center;
-      transform: rotate(var(--photo-rotate, 0deg)) scale(var(--photo-zoom, 1));
+      transform: translateY(var(--photo-shift-y, 0px)) rotate(var(--photo-rotate, 0deg)) scale(var(--photo-zoom, 1));
       transform-origin: var(--photo-x, 50%) var(--photo-y, 50%);
       position: absolute; inset: 0;
       display: block;
@@ -802,6 +769,11 @@
     .dish-img img.photo-crop--square-raised { object-position: center bottom; }
     .dish-img img.photo-crop--square-low { --photo-zoom: 1.05; --photo-x: 50%; --photo-y: 72%; }
     .dish-img img.photo-crop--rotate-180 { --photo-rotate: 180deg; --photo-zoom: 1.04; }
+    .dish-img img.photo-crop--rotate-180-low { --photo-rotate: 180deg; --photo-zoom: 1.5; --photo-x: 50%; --photo-y: 50%; }
+    .dish-img img.photo-crop--rotate-180-close { --photo-rotate: 180deg; --photo-zoom: 1.35; --photo-x: 49%; --photo-y: 44%; }
+    .dish-img img.photo-crop--landscape-wrap-close { --photo-rotate: 180deg; --photo-zoom: 2.2; --photo-x: 50%; --photo-y: 50%; }
+    .dish-img img.photo-crop--landscape-wrap-raised { --photo-rotate: 180deg; --photo-zoom: 2.2; --photo-x: 50%; --photo-y: 50%; --photo-shift-y: -12px; }
+    .dish-img img.photo-crop--landscape-meal-close { --photo-rotate: 180deg; --photo-zoom: 1.25; --photo-x: 50%; --photo-y: 50%; }
     .dish-img img.dish-photo--bright-low {
       object-position: center 36%;
       filter: brightness(1.18) saturate(1.06) contrast(1.02);
@@ -931,6 +903,30 @@
       color: rgba(30,46,30,0.52);
       line-height: 1.4;
       margin: 3px 0 5px;
+    }
+    .dish-allergens {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .dish-allergen-badge {
+      max-width: 100%;
+      padding: 5px 8px;
+      border: 1px solid rgba(30,46,30,0.18);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.6);
+      color: var(--green);
+      font-size: 0.7rem;
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+    }
+    .dish-allergen-badge strong { font-weight: 800; }
+    .dish-allergen-badge__note { font-weight: 500; }
+    .dish-allergen-note {
+      margin: 0;
+      color: var(--green);
+      font-size: 0.7rem;
+      line-height: 1.45;
     }
     .dish-macros {
       display: flex;
@@ -1555,10 +1551,6 @@
       font-weight: 800;
     }
     @media (max-width: 560px) {
-      .welcome-offer { align-items: center; margin-top: 8px; padding: 11px 12px; gap: 10px; }
-      .welcome-offer strong { font-size: .96rem; }
-      .welcome-offer small { font-size: .7rem; }
-      .welcome-offer button { min-height: 44px; padding-inline: 13px; }
       .delivery-preview { grid-template-columns: minmax(0, 1fr) 104px; margin-top: 8px; margin-bottom: 14px; padding: 11px 12px; }
       .delivery-preview small { display: none; }
       .delivery-preview__status { grid-column: 1 / -1; }
@@ -1911,7 +1903,7 @@
     .dish-img img.dish-photo--soft {
       filter: brightness(1.02) saturate(.97);
     }
-    .dish-card:hover .dish-img img { transform: rotate(var(--photo-rotate, 0deg)) scale(calc(var(--photo-zoom, 1) * 1.025)); }
+    .dish-card:hover .dish-img img { transform: translateY(var(--photo-shift-y, 0px)) rotate(var(--photo-rotate, 0deg)) scale(calc(var(--photo-zoom, 1) * 1.025)); }
     .dish-photo-overlay {
       position: absolute;
       z-index: 3;
@@ -2041,7 +2033,6 @@
 
 /* Closed-week browse mode keeps the last published menu readable without exposing ordering actions. */
 body.is-ordering-closed .delivery-preview,
-body.is-ordering-closed .welcome-offer,
 body.is-menu-browse-only #orderForm > aside,
 body.is-menu-browse-only .checkout-section,
 body.is-menu-browse-only .sauce-program-note,

@@ -70,9 +70,52 @@
   })();
   const CURRENT_BATCH_NUMBER = Number(CURRENT_COST_DATA.batchNumber) || 0;
   const CURRENT_DIRECT_COSTS = Object.freeze({ ...(CURRENT_COST_DATA.directCosts || {}) });
+  const HISTORICAL_COST_DATA = (() => {
+    if (root?.PRPDHistoricalMenuCosts) return root.PRPDHistoricalMenuCosts;
+    if (typeof module === 'object' && module.exports) return require('./_historical-menu-costs-data.json');
+    return Object.freeze({ snapshots: {} });
+  })();
+  // Internal custom meals do not appear on the public order menu, so the
+  // generated public-menu cost file cannot include them. These Batch 8 values
+  // are planning-grade ingredient + packaging costs from the controlled
+  // production builds for Nouman's three custom meals.
+  const BATCH_8_PLANNER_ONLY_DIRECT_COSTS = Object.freeze({
+    'high-protein beef kofta & roasted vegetables|lean': 6.01,
+    '96/4 beef kofta|lean': 6.01,
+    'custom drained ground beef mince meal|lean': 6.16,
+    'custom lean chicken mince meal|lean': 4.18,
+    'custom lebanese-style chicken breast meal|lean': 3.73,
+  });
+  const CURRENT_BATCH_DIRECT_COSTS = Object.freeze({
+    ...CURRENT_DIRECT_COSTS,
+    ...(CURRENT_COST_DATA.plannerOnlyCosts || {}),
+  });
   const DIRECT_COSTS = Object.freeze({ ...HISTORICAL_DIRECT_COSTS, ...CURRENT_DIRECT_COSTS });
-  const CURRENT_PROVISIONAL_COSTS = Object.freeze(new Set(CURRENT_COST_DATA.provisionalCosts || []));
+  const CURRENT_PROVISIONAL_COSTS = Object.freeze(new Set([
+    ...(CURRENT_COST_DATA.provisionalCosts || []),
+    ...(CURRENT_COST_DATA.plannerOnlyProvisionalCosts || []),
+  ]));
   const PROVISIONAL_COSTS = CURRENT_PROVISIONAL_COSTS;
+
+  function costDataForBatch(batch) {
+    if (batch === CURRENT_BATCH_NUMBER && batch > 0) {
+      return { costs: CURRENT_BATCH_DIRECT_COSTS, provisional: CURRENT_PROVISIONAL_COSTS, basis: 'current planning snapshot' };
+    }
+    const snapshot = HISTORICAL_COST_DATA.snapshots?.[String(batch)];
+    if (snapshot && Number(snapshot.batchNumber) === batch) {
+      const costs = { ...(snapshot.directCosts || {}), ...(snapshot.plannerOnlyCosts || {}) };
+      return { costs, provisional: new Set(Object.keys(costs)), basis: 'preserved batch planning snapshot' };
+    }
+    // These pre-snapshot rates were already used by the legacy Batch 1-6
+    // reports. Keep them visibly provisional, never use them for later batches.
+    if (Number.isInteger(batch) && batch >= 1 && batch <= 6) {
+      return { costs: HISTORICAL_DIRECT_COSTS, provisional: new Set(Object.keys(HISTORICAL_DIRECT_COSTS)), basis: 'legacy unversioned estimate' };
+    }
+    if (batch === 8) {
+      return { costs: BATCH_8_PLANNER_ONLY_DIRECT_COSTS, provisional: new Set(Object.keys(BATCH_8_PLANNER_ONLY_DIRECT_COSTS)), basis: 'legacy Batch 8 custom estimate' };
+    }
+    return { costs: {}, provisional: new Set(), basis: 'batch cost snapshot unavailable' };
+  }
 
   function clean(value) { return String(value ?? '').trim().replace(/^'/, ''); }
   function number(value) {
@@ -137,30 +180,36 @@
 
   function parseItemLines(items, options = {}) {
     return clean(items).split(/\r?\n/).map(line => line.trim()).filter(Boolean).flatMap((line) => {
-      if (/^delivery\b/i.test(line)) return [];
-      const match = line.match(/^(\d+)x\s+(.+?)(?:\s+\((Lean|Bulk|Single)\))?\s*(?:[-\u2013\u2014]\s*\$?[\d,.]+)?$/i);
+      if (/^(?:delivery|pickup)\b/i.test(line)) return [];
+      const match = line.match(/^(\d+)x\s+(.+?)(?:\s+\(([^)]+)\))?\s*(?:[-\u2013\u2014]\s*\$?[\d,.]+)?$/i);
       if (!match) return [{ quantity: 0, name: line, tier: '', cost: 0, known: false }];
       const quantity = Number(match[1]);
       const name = match[2].trim();
-      const currentBatch = Number(options.batchNumber) === CURRENT_BATCH_NUMBER;
-      const costSource = currentBatch ? CURRENT_DIRECT_COSTS : HISTORICAL_DIRECT_COSTS;
+      const snapshot = costDataForBatch(Number(options.batchNumber));
+      const costSource = snapshot.costs;
       let tier = (match[3] || (/(cup|cheesecake|cream pie|mousse|tiramisu|cookie dough ball)/i.test(name) ? 'Single' : '')).trim();
       const normalizedName = normalizeMealName(name);
       if (!tier && costSource[`${normalizedName}|single`] !== undefined) tier = 'Single';
+      if (!tier
+        && costSource[`${normalizedName}|lean`] !== undefined
+        && costSource[`${normalizedName}|bulk`] === undefined) tier = 'Lean';
       const costKey = `${normalizedName}|${tier.toLowerCase()}`;
       const unitCost = costSource[costKey];
+      const known = Number.isFinite(unitCost) && unitCost >= 0;
       return [{
-        quantity, name, tier, cost: unitCost ? quantity * unitCost : 0, known: Boolean(unitCost),
-        provisional: currentBatch && CURRENT_PROVISIONAL_COSTS.has(costKey),
+        quantity, name, tier, cost: known ? quantity * unitCost : null, known,
+        provisional: known && snapshot.provisional.has(costKey), costBasis: snapshot.basis,
       }];
     });
   }
 
   function orderCost(order) {
     const lines = parseItemLines(order.Items, { batchNumber: batchNumber(order.Batch) });
+    const unknown = lines.filter(line => !line.known).map(line => line.name);
+    const knownAmount = Math.round(lines.reduce((sum, line) => sum + (line.cost ?? 0), 0) * 100) / 100;
     return {
-      amount: Math.round(lines.reduce((sum, line) => sum + line.cost, 0) * 100) / 100,
-      unknown: lines.filter(line => !line.known).map(line => line.name),
+      amount: unknown.length ? null : knownAmount, knownAmount, complete: unknown.length === 0,
+      unknown,
       provisional: lines.filter(line => line.provisional).map(line => line.name), lines,
     };
   }
@@ -184,17 +233,24 @@
       balance: number(row.Balance),
     }));
     const leadByPhone = new Map(leads.map(lead => [phone(lead.Phone), lead]).filter(([key]) => key));
-    const enrichedOrders = orders.map((order) => {
-      const cost = orderCost(order);
-      return {
-        ...order, batchNumber: batchNumber(order.Batch), revenue: number(order['Total (Rounded)']) || number(order['Exact Total']),
-        directCost: cost.amount, unknownCostItems: cost.unknown, provisionalCostItems: cost.provisional,
-        source: sourceForOrder(order, leadByPhone),
-      };
-    });
     const enrichedPayments = payments.map(row => ({
       ...row, batchNumber: batchNumber(row.Batch), due: number(row['Total Due']), paid: number(row['Amount Paid']), balance: number(row.Balance),
     }));
+    const paymentDueByOrder = new Map(enrichedPayments
+      .map(payment => [clean(payment['Order ID']), payment.due])
+      .filter(([orderId, due]) => orderId && due > 0));
+    const enrichedOrders = orders.map((order) => {
+      const cost = orderCost(order);
+      const retailRevenue = number(order['Total (Rounded)']) || number(order['Exact Total']);
+      const reconciledDue = paymentDueByOrder.get(clean(order['Order ID']));
+      return {
+        ...order, batchNumber: batchNumber(order.Batch), retailRevenue,
+        revenue: reconciledDue || retailRevenue,
+        directCost: cost.amount, knownDirectCost: cost.knownAmount, costComplete: cost.complete,
+        unknownCostItems: cost.unknown, provisionalCostItems: cost.provisional,
+        source: sourceForOrder(order, leadByPhone),
+      };
+    });
     const expenses = Array.isArray(state.expenses) ? state.expenses : [];
     const adImports = Array.isArray(state.adImports) ? state.adImports : [];
     const batchIds = [...new Set([
@@ -221,7 +277,10 @@
     const collected = model.payments.reduce((sum, row) => sum + row.paid, 0);
     const sheetOutstanding = model.payments.reduce((sum, row) => sum + Math.max(0, row.balance), 0);
     const outstanding = sheetOutstanding || Math.max(0, booked - collected);
-    const directCost = model.orders.reduce((sum, order) => sum + order.directCost, 0);
+    const unknownCostItems = [...new Set(model.orders.flatMap(order => order.unknownCostItems || []))];
+    const costComplete = !unknownCostItems.length && model.orders.every(order => order.costComplete !== false && Number.isFinite(order.directCost));
+    const knownDirectCost = model.orders.reduce((sum, order) => sum + (order.knownDirectCost ?? order.directCost ?? 0), 0);
+    const directCost = costComplete ? knownDirectCost : null;
     const cashPurchases = model.expenses.reduce((sum, row) => sum + number(row.amount), 0);
     const categoryTotal = category => model.expenses
       .filter(row => clean(row.category).toLowerCase() === category.toLowerCase())
@@ -230,16 +289,16 @@
     const equipmentPurchases = categoryTotal('Equipment');
     const operatingExpenses = cashPurchases - inventoryPurchases - equipmentPurchases;
     const adSpend = model.adImports.reduce((sum, row) => sum + number(row.spend), 0);
-    const contribution = booked - directCost - operatingExpenses - adSpend;
+    const contribution = costComplete ? booked - directCost - operatingExpenses - adSpend : null;
     const cashMovement = collected - cashPurchases - adSpend;
     return {
-      booked, collected, outstanding, directCost,
+      booked, collected, outstanding, directCost, knownDirectCost, costComplete,
       expenses: operatingExpenses, operatingExpenses, inventoryPurchases, equipmentPurchases, cashPurchases,
       adSpend, contribution, cashMovement,
       orderCount: model.orders.length, aov: model.orders.length ? booked / model.orders.length : 0,
-      directCostPct: booked ? directCost / booked : 0,
-      contributionPct: booked ? contribution / booked : 0,
-      unknownCostItems: [...new Set(model.orders.flatMap(order => order.unknownCostItems))],
+      directCostPct: !costComplete ? null : booked ? directCost / booked : 0,
+      contributionPct: !costComplete ? null : booked ? contribution / booked : 0,
+      unknownCostItems,
       provisionalCostItems: [...new Set(model.orders.flatMap(order => order.provisionalCostItems || []))],
     };
   }

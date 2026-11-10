@@ -1,6 +1,6 @@
 # PRPD Working Macro Standard
 
-Updated: July 14, 2026
+Updated: September 14, 2026
 
 ## Purpose
 
@@ -39,13 +39,24 @@ Carbohydrates, fat, fiber, sodium, detailed yields, and exact brand records are 
 - Cooking oil and butter: include the amount normally used. A consistent measured amount is more important than pretending every retained gram can be known exactly.
 - Marinades and sauces: include the retained or plated amount, not automatically the entire preparation batch.
 
+## Public Menu Versus Complete Package
+
+PRPD keeps two nutrition views from one controlled ingredient record:
+
+- **Public menu macros** describe the composed meal and exclude only an optional sauce, dressing, or syrup supplied in its own sealed cup.
+- **Complete-package nutrition** retains every component supplied to the customer. This view is used for production, costing, ingredients, allergens, and package-label control.
+
+Core meal components remain included even when they are packed separately for quality. This includes bread, salad, fruit, cold toppings, hummus, cheese, croutons, and any sauce or glaze incorporated into the food. Physical separation by itself is not a reason to remove nutrition.
+
+Every excluded side-cup ingredient must be explicitly tagged in the controlled recipe. Do not infer exclusions from prose or ingredient names. A future meal therefore cannot silently drop nutrition merely because a component is called a sauce.
+
 ## Sauce System
 
 PRPD may rotate two sauces weekly without editing every meal recipe.
 
 1. Create one controlled record per sauce.
 2. Standardize the plated grams per sauce cup.
-3. Calculate calories and macros for that plated amount once.
+3. Calculate calories and macros for that plated amount once. Retain those values in complete-package nutrition even when the public composed-meal display excludes the cup.
 4. Test every permitted two-sauce pairing.
 5. If all pairings remain inside a narrow agreed range, publish one conservative two-sauce allowance. If a pairing exceeds the allowance, use that pairing's actual value.
 

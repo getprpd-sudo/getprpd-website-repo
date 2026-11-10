@@ -7,7 +7,7 @@
   let referralRegistry = [];
   let model = Core.summarize(payload, state);
 
-  const money = value => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(Number(value) || 0);
+  const money = value => value === null ? 'Unavailable' : new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(Number(value) || 0);
   const percent = value => new Intl.NumberFormat('en-US', { style: 'percent', maximumFractionDigits: 1 }).format(Number(value) || 0);
   const integer = value => new Intl.NumberFormat('en-US').format(Math.round(Number(value) || 0));
   const escape = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[char]);
@@ -124,7 +124,8 @@
       utm_campaign:'referral_program',
       utm_content:code,
     });
-    return `https://getprpd.com/order?${query}`;
+    const destination = programType === 'Partner' ? 'https://getprpd.com/' : 'https://getprpd.com/order';
+    return `${destination}?${query}`;
   }
 
   function renderReferralProgram() {
@@ -150,22 +151,22 @@
     $('#financeMetrics').innerHTML = [
       metric('Booked sales', money(summary.booked)), metric('Cash collected', money(summary.collected)),
       metric('Outstanding', money(summary.outstanding), summary.outstanding > 0),
-      metric('Food consumed + packed cost', money(summary.directCost)),
+      metric('Estimated food + packed cost', money(summary.directCost)),
       metric('Operating expenses', money(summary.operatingExpenses)),
       metric('Inventory bought', money(summary.inventoryPurchases)),
-      metric('Operating contribution', money(summary.contribution), summary.contribution < 0),
+      metric('Estimated operating contribution', money(summary.contribution), summary.contribution < 0),
       metric('Net cash movement', money(summary.cashMovement), summary.cashMovement < 0),
     ].join('');
     const warning = $('#costWarning');
     if (summary.unknownCostItems.length) {
       warning.className = 'notice warn';
-      warning.innerHTML = `<strong>Incomplete cost match:</strong> ${escape(summary.unknownCostItems.join(', '))}. Contribution is understated until these recipes are mapped.`;
+      warning.innerHTML = `<strong>Cost estimate unavailable:</strong> ${escape(summary.unknownCostItems.join(', '))}. A matching batch cost record is missing. Total cost and contribution are withheld, not treated as zero. Cash collected and cash movement are still shown.`;
     } else if (summary.provisionalCostItems.length) {
       warning.className = 'notice warn';
-      warning.innerHTML = `<strong>Provisional recipe cost:</strong> ${escape(summary.provisionalCostItems.join(', '))}. Its chocolate-coating cost still needs one measured production run. All other active-menu recipes are mapped.`;
+      warning.innerHTML = `<strong>Planning estimate, not actual margin:</strong> ${escape(summary.provisionalCostItems.join(', '))}. Recipe yields, inventory consumed and packaging still need production evidence. Historical estimates use preserved batch records or explicitly provisional legacy rates, never current-menu substitutions.`;
     } else {
       warning.className = 'notice';
-      warning.innerHTML = '<strong>How to read this:</strong> operating contribution uses food actually consumed, packaging, and operating expenses. Net cash movement uses purchases paid during the period. Neither number is tax-accounting net profit.';
+      warning.innerHTML = '<strong>How to read this:</strong> estimated contribution uses modeled food, packaging and recorded operating expenses. Net cash movement uses purchases paid during the period. Neither number is measured actual margin or tax-accounting net profit.';
     }
     const batches = Core.batchRows(model);
     $('#batchRows').innerHTML = batches.length ? batches.map(row => `<tr><td>Batch ${row.batch}</td><td class="number">${row.orderCount}</td><td class="number">${money(row.booked)}</td><td class="number">${money(row.collected)}</td><td class="number">${money(row.outstanding)}</td><td class="number">${money(row.directCost)}</td><td class="number">${money(row.operatingExpenses)}</td><td class="number">${money(row.contribution)}</td><td class="number">${money(row.cashMovement)}</td></tr>`).join('') : emptyRow(9, 'No batches found.');

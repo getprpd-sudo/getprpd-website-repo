@@ -45,10 +45,11 @@ def load_nutrition_module():
 # values are marked legacy. Generic/local planning estimates must be replaced by
 # a receipt when that ingredient is next purchased.
 COSTS = {
-    "chicken_thigh_cooked": per_g(143.60, 18143.7, "verified", "$143.60/40 lb Restaurant Depot chicken-thigh case"),
+    "chicken_thigh_cooked": per_g(70.00, 18143.7, "verified", "$70.00/40 lb Restaurant Depot chicken-thigh case, 2026-08-27"),
+    "chicken_thigh_standard_cooked": per_g(70.00, 18143.7, "verified", "$70.00/40 lb Restaurant Depot chicken-thigh case, 2026-08-27"),
     "leg_quarter_cooked": per_g(0.89, 453.592, "verified", "$0.89/lb raw bone-in chicken leg quarters"),
-    "beef_90_baked": per_g(5.50, 453.592, "verified", "$5.50/lb raw 90/10 ground beef"),
-    "beef_90_pan": per_g(5.50, 453.592, "verified", "$5.50/lb raw 90/10 ground beef"),
+    "beef_90_baked": per_g(5.74, 453.592, "verified", "$5.74/lb raw 90/10 ground beef, Restaurant Depot 2026-08-27"),
+    "beef_90_pan": per_g(5.74, 453.592, "verified", "$5.74/lb raw 90/10 ground beef, Restaurant Depot 2026-08-27"),
     "egg": each(1.47, 12, "planning", "Walmart Great Value 12-count reference"),
     "egg_white": per_g(4.87, 907.185, "planning", "Walmart Great Value 32 oz reference"),
     "cottage": per_g(3.00, 680, "verified", "$3.00/24 oz current purchase"),
@@ -57,7 +58,7 @@ COSTS = {
     "mozzarella": per_g(10.00, 2267.96, "verified", "$10.00/5 lb current fat-free shredded cheese purchase"),
     "fairlife_milk": per_g(5.00, 1538, "verified", "$5.00/52 fl oz current fat-free milk purchase; 1 mL modeled as 1g"),
     "whey": per_g(32.50, 663, "verified", "Midpoint of user-confirmed $30-$35 range"),
-    "rice_dry": per_g(13.00, 9071.85, "verified", "$13.00/20 lb current rice purchase"),
+    "rice_dry": per_g(19.79, 9071.85, "verified", "$19.79/20 lb Royal basmati rice, Restaurant Depot 2026-08-27"),
     "small_tortilla": each(10.00, 16, "verified", "$10.00/16 current standard small-tortilla purchase"),
     "fajita_tortilla": each(3.72, 8, "planning", "$3.72/8 Mission Carb Balance Fajita tortillas from the current H-E-B listing; replace with the Batch 6 receipt"),
     "large_tortilla": each(10.00, 16, "verified", "$10.00/16 current tortilla purchase; exact size mapping pending"),
@@ -115,7 +116,8 @@ COSTS = {
 
 RAW_YIELD = {
     "chicken_thigh_cooked": 0.75,
-    "leg_quarter_cooked": 0.55,
+    "chicken_thigh_standard_cooked": 430 / 625,
+    "leg_quarter_cooked": 0.50,
     "beef_90_baked": 0.72,
     "beef_90_pan": 0.69,
 }
@@ -131,7 +133,7 @@ SIDE_CUPS = {
 }
 
 SAUCE_CUP_COST = 15.00 / 250
-MEAL_CONTAINER_COST = 42.99 / 150
+MEAL_CONTAINER_COST = 46.35 / 150
 SHARED_CONSUMABLE_ALLOWANCE = 0.05
 
 

@@ -23,7 +23,10 @@ function validateLog(input) {
   for (const [rawKey, rawValue] of entries) {
     const key = cleanText(rawKey, 240).trim();
     if (!key || !/^[a-z0-9:_|.-]+$/i.test(key)) throw new Error('Cook log contains an invalid field key.');
-    fields[key] = cleanText(rawValue, key.startsWith('lock:') ? MAX_LOCK_VALUE_LENGTH : MAX_VALUE_LENGTH);
+    const limit = key.startsWith('lock:') || key.startsWith('plan:') ? MAX_LOCK_VALUE_LENGTH : MAX_VALUE_LENGTH;
+    if ((key.startsWith('lock:') || key.startsWith('plan:')) && String(rawValue ?? '').length > limit)
+      throw new Error('The saved production snapshot is too large. It was not truncated or replaced.');
+    fields[key] = cleanText(rawValue, limit);
   }
   if (fields['lock:status'] === 'locked') {
     try {
@@ -66,8 +69,19 @@ function saveLog(input) {
   const filePath = fileForBatch(log.batchKey);
   const tempPath = `${filePath}.${process.pid}.tmp`;
   if (fs.existsSync(filePath)) fs.copyFileSync(filePath, `${filePath}.bak`);
+  // A prior failed Windows replace can leave this process's temp file behind.
+  // It is never authoritative; the verified JSON and .bak files are.
+  fs.rmSync(tempPath, { force: true });
   fs.writeFileSync(tempPath, `${JSON.stringify(log, null, 2)}\n`, { encoding: 'utf8', flag: 'wx' });
-  fs.renameSync(tempPath, filePath);
+  try {
+    fs.renameSync(tempPath, filePath);
+  } catch (error) {
+    // Windows does not consistently replace an existing destination with
+    // renameSync. Copy over the verified destination while retaining .bak.
+    if (!['EEXIST', 'EPERM'].includes(error?.code)) throw error;
+    fs.copyFileSync(tempPath, filePath);
+    fs.rmSync(tempPath, { force: true });
+  }
   const verified = readJson(filePath);
   if (!verified || verified.batchKey !== log.batchKey || verified.updatedAt !== log.updatedAt) {
     throw new Error('Cook log verification failed after saving.');
@@ -78,8 +92,21 @@ function saveLog(input) {
 function preserveLockFields(existing, incoming) {
   if (!existing?.fields || !incoming?.fields) return incoming;
   const fields = Object.fromEntries(Object.entries(incoming.fields).filter(([key]) => !key.startsWith('lock:')));
+  const savedReview = Date.parse(existing.fields['plan:reviewed-at']) || 0;
+  const incomingReview = Date.parse(incoming.fields['plan:reviewed-at']) || 0;
+  const stalePlan = savedReview > 0 && incomingReview <= savedReview;
   for (const [key,value] of Object.entries(existing.fields)) {
     if (key.startsWith('lock:')) fields[key] = value;
+    // Older tabs do not know the shared-run fields. An omitted plan is not a
+    // request to erase the kitchen/shopping agreement.
+    if (key.startsWith('plan:') && (stalePlan || !Object.hasOwn(fields, key))) fields[key] = value;
+  }
+  // A second planner tab can autosave a valid cook log that predates the
+  // per-batch saved-customer choice. Missing is not the same as deliberately
+  // disabled: preserve the last explicit selection unless the incoming record
+  // carries its own enabled/disabled value.
+  if (!Object.hasOwn(fields, 'recurring:selections') && Object.hasOwn(existing.fields, 'recurring:selections')) {
+    fields['recurring:selections'] = existing.fields['recurring:selections'];
   }
   return { ...incoming, fields };
 }

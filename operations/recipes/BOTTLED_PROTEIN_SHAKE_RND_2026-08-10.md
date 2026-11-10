@@ -1,9 +1,26 @@
 # Bottled Protein Shake R&D Plan
 
+## Current recipe and physical status, October29,2026
+
+Read SHAKE_PILOT_CAPTURE_2026-10-26.json (updatedOctober29) and the dated standalone result JSONs in this chat's outputs before using any historical formula below. Fresh strawberry397g base was made/tasted and accepted;20g strawberry chunks are requested but untested. Chocolate245g milk/20g Gainful/30g plainfatfreeGreek/12g PBpowder/4g cocoa/16g honey/1g vanilla/tiny pinch is the current preferred working base after owner tasting, with exact executed yogurtbrand/deviations not independently reconfirmed. The owner confirmed267g NET shake in the bottle, minimal foam and initial no leaks; next-day cold-hold result, settledmL and total recovered batch mass remain pending. Do not repeat the old no-yogurt V2 as the latest failed result or assign whole-batch macros to267g.
+
+Actual powder is unflavored Gainful Everyday Whey (owner28g=120cal23g protein), milk Fairlife fat-free; FAGE Total0% is future production direction. Strawberry's actual tasted yogurt was Great Value plain Greek. Current strawberry has raw fruit, banana and honey; old reductions/flavored Premier formulas below are history.
+
+Actual purchase is NYHI12oz20bottle+20matching-cap set, ASINB0BPDWQ7XR, verified Amazon receipt19.47USD/order113-6060501-3967467. Do not reorder or carry over DECADORN dimensions. Listed NYHI overall6.25x2x2in is not the measured label area or safe-fill volume. Remaining inventory/parcel delivery not rechecked here. Bottle fill and initial owner no-leak report do not complete tamper/leak, wrap-fit, laser/condensation or storage validation.
+
+Owner rejected cooking cold-wrap chicken Thursday. Cook Tikka/Pinwheel chicken FRIDAY; no earlier cook was implemented. These beverage and operational sensory observations do not validate a five-day shelf life, authorize final food labels or release shakes for sale. Creatine, semisweet chocolate and freeze-dried powder remain deferred/not included.
+
+The dated August/October planning material below is retained for provenance, not current directions when it conflicts with this status.
+
+
 Date: August 10, 2026
 Status: **FOLLOWING-BATCH DEVELOPMENT ONLY / NOT APPROVED FOR SALE**
 
+October 26 clarification: SHAKE_PILOT_CAPTURE_2026-10-26.json holds the current physical capture. No new physical results or bottles/caps are recorded. The original 72-hour proposal below is development history, not approved shelf life. The planned four-day-use screen includes 96 hours; appearance/taste alone cannot establish safety or a saleable date. Final formula/fill, purchased panels, package, applicable process/operating scope, actual cost and owner approval remain open. The 265-calorie/44 g protein and 240-calorie/40 g protein estimates describe starting formulas, not verified filled bottles. Historical quotes are not current purchase instructions.
+
 The first launch should be two flavors, not a large beverage menu. These are refrigerated prepared beverages, not shelf-stable shakes.
+
+October 11 custom-plan control: Tommy Brachey's inquiry would require 14 full bottles split into 28 half-servings and two fresh production drops. This does not accelerate approval. The exact Premier Protein powders currently specified contain sunflower lecithin, so the customer's `no seed oils` meaning must be confirmed before making a zero-seed-oil claim. Use a verified halal single-ingredient whey without lecithin if he requires zero seed-derived ingredients, then recalculate the formula, cost and nutrition. Extend the physical hold through 96 hours before assigning any four-day use-through window. See `TOMMY_BRACHEY_7_DAY_CUSTOM_PLAN_RND_2026-10-11.md`.
 
 ## Packaging Direction
 
@@ -20,7 +37,7 @@ The first launch should be two flavors, not a large beverage menu. These are ref
 
 - Launch size decision: **12 fl oz**, not 16 fl oz. Current major ready-to-drink examples range from Premier Protein and Ensure Max at 11-11.5 fl oz, through Core Power at 14 fl oz, to Lean Body at 17 fl oz. A 12 fl oz PRPD bottle is a normal portable size while carrying a comparatively high 40-44 g development protein target. A 16 fl oz size can be tested later as a separate Bulk beverage only if customers want more volume.
 - Do **not** buy a 122-228 bottle case yet. Buy a first test lot of **24 bottles and 30 matching caps**.
-- Preferred true-355 mL test candidate: The Cary Company item 68W13B, a 12 oz / 355 mL clear PET bullet bottle with a 38 mm 358DBJ neck. The August 17 live listing is **$0.562 each** at quantity 1. Matching black 38 mm 358DBJ tamper-evident cap item 68W40B remains **$0.088 each** at quantity 1. The current 24-bottle/30-cap planning subtotal is **$16.13 before shipping and tax**. Both products are sold individually even though their bag/case packs are much larger.
+- Preferred true-355 mL test candidate: The Cary Company item 68W13B, a 12 oz / 355 mL clear PET bullet bottle with a 38 mm 358DBJ neck. The August 17 live listing is **$0.538 each** at quantity 1. Matching black 38 mm 358DBJ tamper-evident cap item 68W40B is **$0.088 each** at quantity 1. The current 24-bottle/30-cap planning subtotal is **$15.55 before shipping and tax**. Both products are sold individually even though their bag/case packs are much larger.
 - The prior U.S. Plastic 350 mL candidate is not preferred for a `12 FL OZ (355 mL)` launch claim. Even with the true-355 mL candidate, do not print the net-volume statement until a physical safe-fill/headspace test proves every filled bottle contains the claimed amount and closes without leakage.
 - Buy the bottle and cap from the same supplier for this pilot, but still run the supplier-required compatibility, cap-torque, leak, and tamper-band tests. The cap is not for hot fill, carbonation, nitrogen dosing, or freezing.
 - For the first recipe tests, use plain-paper fit mockups. For the physical condensation test, Avery 15513 is a smaller 100-count, 2 x 4 inch waterproof permanent-film option listed at **$17.62** on August 17; it is laser-only. Two labels per bottle can test a front panel and information panel without committing to a full wrap. OnlineLabels OL125LP is another 2 x 4 inch weatherproof polyester laser option sold with no minimum, currently starting at 10 sheets / 100 labels. Do not buy either until the actual production printer is confirmed laser-compatible. Avery 5524 remains usable but its 300-label pack is unnecessary for this pilot.

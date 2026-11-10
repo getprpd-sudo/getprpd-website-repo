@@ -62,6 +62,11 @@ function getAttributionData() {
 captureAttribution();
 
 // Keep the homepage preview synchronized with the live weekly order configuration.
+function homepageOrderingOpen(batch,now=Date.now()) {
+  const cutoff=Date.parse(batch?.cutoffIso || '');
+  return batch?.published===true && Number.isFinite(cutoff) && Number(now)<cutoff;
+}
+
 function renderWeeklyHomepage() {
   const config = window.PRPD_ORDER_CONFIG;
   if (!config) return;
@@ -71,16 +76,18 @@ function renderWeeklyHomepage() {
   const weeklyCutoff = document.getElementById('weeklyCutoff');
   const weeklyDelivery = document.getElementById('weeklyDelivery');
   const grid = document.getElementById('homeMenuGrid');
-  if (batch.published !== true) {
-    if (heroCutoff) heroCutoff.textContent = 'Ordering currently closed';
-    if (weeklyCutoff) weeklyCutoff.textContent = 'Next menu being finalized';
-    if (weeklyDelivery) weeklyDelivery.textContent = 'Announced with the next menu';
-    if (grid) grid.replaceChildren();
-    return;
-  }
-  if (heroCutoff) heroCutoff.textContent = `${batch.cutoffLabel} cutoff`;
-  if (weeklyCutoff) weeklyCutoff.textContent = batch.cutoffLabel;
-  if (weeklyDelivery) weeklyDelivery.textContent = batch.deliveryDate;
+  const open=homepageOrderingOpen(batch);
+  if (heroCutoff) heroCutoff.textContent = open ? `${batch.cutoffLabel} cutoff` : 'Ordering currently closed';
+  if (weeklyCutoff) weeklyCutoff.textContent = open ? batch.cutoffLabel : 'Next menu being finalized';
+  if (weeklyDelivery) weeklyDelivery.textContent = open ? batch.deliveryDate : 'Announced with the next menu';
+  const previewLabel=document.getElementById('homeMenuStatus');
+  if(previewLabel)previewLabel.textContent=open?"This Week's Preview":'Recent Menu';
+  document.querySelectorAll('a[href="/order"]').forEach(link=>{
+    if(!link.dataset.orderOpenLabel)link.dataset.orderOpenLabel=link.textContent;
+    link.textContent=open?link.dataset.orderOpenLabel:'Browse Recent Menu';
+  });
+  if (grid) grid.replaceChildren();
+  if(batch.published!==true)return;
 
   if (!grid) return;
 
@@ -98,6 +105,7 @@ function renderWeeklyHomepage() {
     image.src = dish.images?.lean || dish.image;
     image.alt = `${dish.name} by PRPD`;
     image.loading = 'lazy';
+    if (['rotate-180', 'rotate-180-close', 'landscape-wrap-close', 'landscape-meal-close'].includes(dish.imageCrop)) image.classList.add(`photo-crop--${dish.imageCrop}`);
     const placeholder = document.createElement('div');
     placeholder.className = 'menu-card__img-ph';
     placeholder.textContent = 'PRPD';
@@ -156,6 +164,35 @@ function renderWeeklyHomepage() {
 }
 
 renderWeeklyHomepage();
+
+// Owner-confirmed customer quotes, with explicit controls and no timed rotation.
+function initializeCustomerStories() {
+  const region=document.querySelector('.form-section__aside');
+  if(!region || region.classList.contains('testimonials-ready'))return;
+  const cards=[...region.querySelectorAll('.form-aside-card')];
+  if(cards.length<2)return;
+  region.classList.add('testimonials-ready');
+  region.setAttribute('role','region');region.setAttribute('aria-label','Customer stories');
+  const tabs=document.createElement('div');
+  tabs.className='testimonial-tabs';tabs.setAttribute('role','tablist');tabs.setAttribute('aria-label','Choose a customer story');
+  const buttons=cards.map((card,index)=>{
+    const button=document.createElement('button');button.type='button';
+    button.textContent=card.querySelector('span').textContent;
+    button.id=`customer-story-tab-${index}`;button.setAttribute('role','tab');
+    card.id=`customer-story-${index}`;card.setAttribute('role','tabpanel');
+    card.setAttribute('aria-labelledby',button.id);card.tabIndex=0;
+    button.setAttribute('aria-controls',card.id);
+    button.addEventListener('click',()=>select(index));
+    button.addEventListener('keydown',event=>{
+      const target=event.key==='ArrowRight'?(index+1)%cards.length:event.key==='ArrowLeft'?(index+cards.length-1)%cards.length:event.key==='Home'?0:event.key==='End'?cards.length-1:null;
+      if(target===null)return;event.preventDefault();select(target);buttons[target].focus();
+    });
+    tabs.append(button);return button;
+  });
+  function select(index){cards.forEach((card,i)=>{card.hidden=i!==index;buttons[i].setAttribute('aria-selected',String(i===index));buttons[i].tabIndex=i===index?0:-1;});}
+  region.prepend(tabs);select(0);
+}
+initializeCustomerStories();
 
 // ════════════════════════════════
 // NAV — scroll shrink

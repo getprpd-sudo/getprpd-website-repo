@@ -1277,6 +1277,13 @@ img[src*="halal-cart-chicken"] { filter: brightness(1.28) saturate(1.1) contrast
   gap: 16px;
   flex-wrap: wrap;
 }
+.form-section__aside.testimonials-ready { display:block; width:min(100%,620px); }
+.testimonials-ready .form-aside-card { max-width:100%; }
+.testimonials-ready .form-aside-card[hidden] { display:none; }
+.testimonial-tabs { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
+.testimonial-tabs button { border:1px solid rgba(255,255,255,.25); border-radius:999px; padding:9px 15px; color:var(--cream); background:transparent; font:inherit; font-size:.8rem; cursor:pointer; }
+.testimonial-tabs button[aria-selected="true"] { background:var(--cream); color:var(--green); border-color:var(--cream); }
+.testimonial-tabs button:focus-visible { outline:3px solid var(--sage-light); outline-offset:3px; }
 
 .form-menu-route {
   position: relative;
@@ -2299,8 +2306,12 @@ body {
   background: linear-gradient(180deg, rgba(7,20,11,.22), transparent 38%, rgba(7,20,11,.9) 100%);
   pointer-events: none;
 }
-.menu-card__img img { transition: transform .45s ease; }
-.menu-card:hover .menu-card__img img { transform: scale(1.03); }
+.menu-card__img img { object-position: var(--photo-x, 50%) var(--photo-y, 50%); transform: rotate(var(--photo-rotate, 0deg)) scale(var(--photo-zoom, 1)); transition: transform .45s ease; }
+.menu-card__img img.photo-crop--rotate-180 { --photo-rotate: 180deg; }
+.menu-card__img img.photo-crop--rotate-180-close { --photo-rotate: 180deg; --photo-zoom: 1.35; --photo-x: 49%; --photo-y: 44%; }
+.menu-card__img img.photo-crop--landscape-wrap-close { --photo-rotate: 180deg; --photo-zoom: 2.2; --photo-x: 50%; --photo-y: 50%; }
+.menu-card__img img.photo-crop--landscape-meal-close { --photo-rotate: 180deg; --photo-zoom: 1.25; --photo-x: 50%; --photo-y: 50%; }
+.menu-card:hover .menu-card__img img { transform: rotate(var(--photo-rotate, 0deg)) scale(calc(var(--photo-zoom, 1) + .03)); }
 .menu-card__photo-overlay {
   position: absolute;
   z-index: 2;

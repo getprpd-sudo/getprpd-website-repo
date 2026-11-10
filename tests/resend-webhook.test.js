@@ -2,6 +2,7 @@ const assert = require('node:assert/strict');
 const test = require('node:test');
 const { Webhook } = require('svix');
 
+process.env.GOOGLE_SHEET_ID ||= 'test-sheet-id';
 const DeliveryLog = require('../api/_email-delivery-log');
 const ResendWebhook = require('../api/resend-webhook');
 const WebhookHandler = ResendWebhook._test;
@@ -47,6 +48,79 @@ test('Resend webhook verification rejects altered content', () => {
   };
   assert.equal(WebhookHandler.verifyEvent(payload, headers, secret).type, 'email.delivered');
   assert.throws(() => WebhookHandler.verifyEvent(`${payload} `, headers, secret));
+});
+
+test('Resend webhook retries transient Sheets throttling before succeeding', async () => {
+  let attempts = 0;
+  const delays = [];
+  const result = await WebhookHandler.retryTransient(async () => {
+    attempts += 1;
+    if (attempts < 3) {
+      const error = new Error('Sheets quota throttled');
+      error.status = 429;
+      throw error;
+    }
+    return 'recorded';
+  }, {
+    attempts: 4,
+    baseDelayMs: 100,
+    random: () => 0.5,
+    sleep: async delay => delays.push(delay),
+  });
+
+  assert.equal(result, 'recorded');
+  assert.equal(attempts, 3);
+  assert.deepEqual(delays, [150, 250]);
+  assert.equal(WebhookHandler.isTransientUpstreamError({ status: 503 }), true);
+  assert.equal(WebhookHandler.isTransientUpstreamError({ status: 400 }), false);
+});
+
+test('Resend webhook treats provider sent events as redundant with accepted logging', () => {
+  assert.equal(WebhookHandler.REDUNDANT_EVENTS.has('email.sent'), true);
+  assert.equal(WebhookHandler.REDUNDANT_EVENTS.has('email.delivered'), false);
+});
+
+test('delivery events reuse one row read for recording and completion summary', async () => {
+  const runId = 'menu-reminder-b9-wednesday-2026-09-02';
+  const requests = [];
+  const acceptedRow = [
+    runId,
+    'email_123',
+    'customer@example.com',
+    'PRPD orders close today at 6:00 PM CT',
+    '2026-09-02T20:17:43.000Z',
+    'accepted',
+    'email.accepted',
+    '2026-09-02T20:17:43.000Z',
+    '',
+    '',
+    '2026-09-02T20:17:43.000Z',
+    '',
+    '1',
+  ];
+  const client = {
+    request: async request => {
+      requests.push(request);
+      if (request.method === 'GET') return { data: { values: [acceptedRow] } };
+      return { data: {} };
+    },
+  };
+
+  const recorded = await DeliveryLog.recordDeliveryEvent(client, {
+    type: 'email.delivered',
+    created_at: '2026-09-02T20:17:52.000Z',
+    data: {
+      email_id: 'email_123',
+      to: ['customer@example.com'],
+      subject: 'PRPD orders close today at 6:00 PM CT',
+    },
+  }, 'webhook_123', { ensureSheet: false });
+
+  assert.equal(recorded.summary.complete, true);
+  assert.equal(recorded.summary.counts.delivered, 1);
+  assert.equal(requests.length, 2);
+  assert.equal(requests[0].method, 'GET');
+  assert.equal(requests[1].method, 'PUT');
 });
 
 test('delivery report distinguishes delivered from failed recipients', () => {
