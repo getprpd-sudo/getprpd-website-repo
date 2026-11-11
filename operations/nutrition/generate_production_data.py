@@ -159,6 +159,8 @@ STATIONS = {
     "zucchini": "Cold Prep & Produce",
     "english_muffin": "Bread & Packaging",
     "beef_bacon": "Beef",
+    "sharifa_beef_bacon": "Beef",
+    "red_chili_flakes": "Dry Prep & Seasonings",
     "tilapia_cooked": "Seafood",
     "pink_salmon_raw": "Seafood",
     "quinoa_dry": "Starches & Hot Sides",

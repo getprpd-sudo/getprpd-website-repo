@@ -302,24 +302,6 @@ const ORDER_CONFIG = {
       ],
       "category": "standard",
       "plannerOnly": true
-    },
-    {
-      "id": "w1",
-      "name": "Mango Habanero Chicken Wings",
-      "aliases": [
-        "Mango Habanero Wings"
-      ],
-      "category": "standard",
-      "plannerOnly": true,
-      "privateFamilyOnly": true,
-      "tiers": [
-        "lean",
-        "bulk"
-      ],
-      "labelsEnabled": false,
-      "finalLabelReady": false,
-      "nutritionReleaseHold": "Private counted wing boxes; actual weights and purchased sauce/ranch panels pending. No consumer nutrition release.",
-      "description": "Private family order: Lean 8 or Bulk 10 individual flats/drumettes, one separate 40 g bottled-ranch planning cup. No starch or vegetable side."
     }
   ],
   "menu": {

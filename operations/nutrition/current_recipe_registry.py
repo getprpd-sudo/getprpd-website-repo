@@ -51,6 +51,19 @@ r.add_ingredient("beef_broth", "Verified low-sodium halal beef broth", r.n(7, 1.
 r.add_ingredient("celery", "Celery, raw", r.n(14, .69, 2.97, 1.6, .17, .04, 1.34, 0, 80, 0), source="USDA FoodData Central", confidence="high")
 r.add_ingredient("rosemary", "Fresh rosemary", r.n(131, 3.31, 20.7, 14.1, 5.86, 2.84, 0, 0, 26, 0), source="USDA FoodData Central", confidence="high")
 r.add_ingredient("bay_leaf", "Bay leaf", r.n(313, 7.6, 75, 26, 8.36, 2.28, 0, 0, 23, 0), source="USDA FoodData Central", confidence="high")
+r.add_ingredient(
+    "sharifa_beef_bacon", "Sharifa Halal beef bacon, as packaged",
+    r.n(45 * 100 / 28, 5 * 100 / 28, 0, 0, 3 * 100 / 28, 0, 0, 0, 0, 0),
+    source="Sharifa online listing: 45 kcal, 5 g protein and 3 g fat per 28 g; purchased package still controls",
+    confidence="planning", nutrition_complete=False,
+    note="Planning profile only. Sodium and remaining panel fields were not verified; weigh bacon before cooking and inspect the purchased Sharifa package before final labels.",
+)
+r.add_ingredient(
+    "red_chili_flakes", "Crushed red chili flakes",
+    r.active.INGREDIENTS["paprika"].nutrition,
+    source="Generic red-pepper seasoning proxy for a small house-sauce quantity",
+    confidence="planning",
+)
 
 
 GARLIC_HERB_COMPONENT = "garlic-herb-yogurt"
@@ -208,6 +221,45 @@ def breakfast_sandwich(tier: str):
             "Record actual sauce recovery and filled cup weights; the operational 40g target is not a completed physical yield test.",
         ],
     )
+
+
+def beef_bacon_breakfast_pizza(tier: str):
+    """Batch 19 owner-tested rectangle; egg and finished sauce yields await measurement."""
+    if tier not in {"lean", "bulk"}:
+        raise ValueError("Breakfast pizza requires Lean or Bulk.")
+    dough_grams = 100 if tier == "lean" else 125
+    # The accepted pair uses 225 g from a 235 g dough. Include the remaining
+    # dough in purchasing while excluding its nutrition from the packed pizza.
+    made_share = dough_grams / 225
+    eaten_share = dough_grams / 235
+    spare_share = made_share - eaten_share
+    dough = {"flour": 140, "water": 85, "instant_yeast": 2, "salt": 3, "olive_oil": 5}
+    portions = []
+    for key, grams in dough.items():
+        portions.append(r.p(key, grams * eaten_share, note="component:pizza-dough"))
+        portions.append(r.p(key, grams * spare_share, note="component:pizza-dough-spare",
+                            include_in_menu_macros=False))
+    portions.extend([
+        r.p("egg", .45 if tier == "lean" else .55, "each", note="component:pizza-eggs"),
+        r.p("egg_white", 80 if tier == "lean" else 95, note="component:pizza-eggs"),
+        r.p("green_bell_pepper", 15, note="component:pizza-vegetables"),
+        r.p("onion", 15, note="component:pizza-vegetables"),
+        r.p("crushed_tomatoes", 15, note="component:pizza-house-sauce"),
+        r.p("garlic", .5, note="component:pizza-house-sauce"),
+        r.p("olive_oil", .5, note="component:pizza-house-sauce"),
+        r.p("italian_seasoning", .2, note="component:pizza-house-sauce"),
+        r.p("red_chili_flakes", .1, note="component:pizza-house-sauce"),
+        r.p("mozzarella", 30 if tier == "lean" else 58),
+        r.p("sharifa_beef_bacon", 50 if tier == "lean" else 60),
+    ])
+    return r.build(portions, [
+        f"Shape one {dough_grams} g raw dough rectangle for this {tier.title()} meal; no cut after baking.",
+        "The full 235 g dough batch makes one 100 g Lean and one 125 g Bulk rectangle; the unserved 10 g is included in purchasing but excluded from served nutrition.",
+        "The one-medium-egg plus 175 g whites pair is a planning basis. Lean uses an estimated 45% of the egg and 80 g whites; Bulk 55% and 95 g. Record actual cooked egg allocations on Cook Day.",
+        "Use only H-E-B fat-free mozzarella: 30 g Lean or 58 g Bulk. Use 50 g or 60 g Sharifa bacon by raw package weight, cook it before topping, then add crisp bits after baking.",
+        "Each pizza gets 30 g peppers/onion and 15 g finished house tomato sauce. Sauce input and olive-oil yield remain estimates; record the finished sauce batch and actual portion weight.",
+        "Bake on a preheated 425 F stone on the second-lowest rack. The owner's ground-beef placeholder trial finished in 9–10 minutes; customer production uses Sharifa bacon.",
+    ], "planning-owner-tested")
 
 
 def nouman_lemon_garlic_dressing():
@@ -603,6 +655,7 @@ RECIPES = {
     "Breakfast Quesadilla": (r.breakfast_quesadilla, False),
     "Blueberry Vanilla Protein Baked Oatmeal Squares": (baked_oatmeal_squares, False),
     "Beef Breakfast Skillet": (lambda tier: _without_component(r.breakfast_skillet(tier), MUSTARD_BBQ_COMPONENT, "Mustard BBQ"), False),
+    "Beef Bacon Breakfast Pizza": (beef_bacon_breakfast_pizza, False),
     "Creamy Cajun Chicken Pasta": (r.creamy_cajun_chicken_pasta, False),
     "Harissa Honey Chicken": (r.harissa_honey_chicken, False),
     "BBQ Chicken Mac & Cheese": (r.bbq_mac, False),
@@ -672,6 +725,15 @@ SERVICE = {
         "componentRef": private_wings.RANCH_COMPONENT,
         "cupsPerMeal": 1,
         "gramsPerMeal": private_wings.RANCH_CUP_GRAMS,
+        "weightBasis": "finished",
+        "planningOnly": True,
+        "productPanelVerified": False,
+    }, {
+        "name": "Mango habanero dip",
+        "batchGroup": "wings-extra-dip",
+        "componentRef": "wings-extra-dip",
+        "cupsPerMeal": 1,
+        "gramsPerMeal": private_wings.MANGO_DIP_GRAMS,
         "weightBasis": "finished",
         "planningOnly": True,
         "productPanelVerified": False,

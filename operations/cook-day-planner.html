@@ -855,6 +855,7 @@
         <div class="view active" data-panel="summary">
           <div class="section-head"><div><h2>Final production count</h2><p>One line per dish and tier.</p></div></div>
           <div class="card section-card"><div class="table-wrap"><table><thead><tr><th>Meal</th><th>Tier</th><th>Ordered / home meals</th><th>Finished production</th><th>Recipe status</th></tr></thead><tbody id="countRows"></tbody></table></div></div>
+          <div id="complimentaryCookieSummary"></div>
         </div>
 
         <div class="view" data-panel="runbook">
@@ -879,6 +880,7 @@
         <div class="view" data-panel="production">
           <div class="section-head"><div><h2>Component and shopping quantities</h2><p>Base requirement, explicit buffer, on hand, and amount to buy.</p></div></div>
           <div class="card section-card"><div class="table-wrap"><table><thead><tr><th>Station</th><th>Ingredient</th><th>Base</th><th>With buffer</th><th>On hand</th><th>Buy/prep</th><th>Confidence</th></tr></thead><tbody id="ingredientRows"></tbody></table></div></div>
+          <div id="complimentaryCookieShopping"></div>
         </div>
 
         <div class="view" data-panel="stations">
@@ -947,6 +949,7 @@
   <script src="/operations/grocery-list-core.js?v=20261005-shared-run"></script>
   <script src="/operations/production-engine.js?v=20261005-shared-run"></script>
   <script src="/operations/production-run.js?v=20261005-shared-run"></script>
+  <script src="/operations/complimentary-cookie-plan.js?v=20261111-b19"></script>
   <script src="/operations/kitchen-dashboard.js?v=20261106-batch18-stations"></script>
   <script src="/operations/recurring-customers.js?v=20260908.2"></script>
   <script>
@@ -958,6 +961,7 @@
     const METHODS = window.PRPD_COOK_METHODS;
     const ENGINE = window.PRPD_PRODUCTION_ENGINE;
     const RUN = window.PRPD_PRODUCTION_RUN;
+    const COOKIES = window.PRPD_COMPLIMENTARY_COOKIES;
     const plannerOnlyMains = Object.entries(DATA.meals)
       .filter(([, meal]) => meal.plannerOnly)
       .map(([id, meal]) => ({ id, name: meal.name, aliases: meal.aliases || [], category: meal.orderCategory || 'standard', packageType: meal.packageType || '', plannerOnly: true }));
@@ -1191,6 +1195,35 @@
         ...order,
         items:(order.items || []).filter(item => !METHODS.meals[item.id]?.prepDayOnly),
       })).filter(order => order.items.length);
+    }
+
+    function complimentaryCookiePlan() {
+      return COOKIES.plan(customerPackoutOrders().length, CONFIG.batch.number);
+    }
+
+    function complimentaryCookieCard(plan) {
+      if (!plan.needed) return '';
+      const quantities = plan.ingredients.map(item => `<tr><td>${esc(item.name)}</td><td class="amount"><strong>${esc(String(item.amount))} ${esc(item.unit)}</strong></td></tr>`).join('');
+      return `<article class="card section-card complimentary-cookie-card"><h3>Complimentary chocolate chip cookies</h3>
+        <p><strong>${plan.needed} confirmed customer orders = ${plan.needed} cookies to pack.</strong> Bake ${plan.batches} full 12-cookie batch${plan.batches===1?'':'es'} (${plan.produced} cookies total; ${plan.spare} spare${plan.spare===1?'':'s'}). One cookie goes in each customer order bag, including pickup. Internal meals do not get one.</p>
+        <div class="table-wrap"><table><thead><tr><th>Ingredient</th><th>For ${plan.batches} full batch${plan.batches===1?'':'es'}</th></tr></thead><tbody>${quantities}</tbody></table></div>
+        <p><strong>Egg purchase:</strong> ${plan.eggsToBuy} eggs total. Use ${plan.batches*2} whole eggs and the yolks from ${plan.batches*2} additional eggs.</p>
+        <ol><li>Beat softened butter with both sugars for 2–3 minutes on medium. Mix in whole eggs, extra yolks and vanilla.</li>
+        <li>Whisk flour, baking soda, baking powder and salt separately. Mix dry ingredients into the wet mixture on low just until combined; fold in chocolate.</li>
+        <li>Weigh the complete dough and divide each full recipe batch into exactly 12 equal, tall balls. Record the actual raw weight per ball.</li>
+        <li>Chill at least 30 minutes; 2–6 hours is preferred. Bake one tray at a time at 365°F, checking the first tray at 10 minutes. Expect about 10–12 minutes; remove when edges are golden and centers are soft but not liquid.</li>
+        <li>Cool on the sheet for 10 minutes, then on a rack. Once fully cool, pack each cookie separately and place one in each customer bag.</li></ol>
+        <p><strong>Allergen check:</strong> wheat, milk and egg; check the purchased chocolate package for soy and nut statements. Keep cookies separate from meals. No cookie nutrition claim is approved.</p></article>`;
+    }
+
+    function complimentaryCookieShopping(plan) {
+      if (!plan.needed) return [];
+      return [...plan.ingredients.filter(item => !/^(Whole eggs|Extra egg yolks)$/.test(item.name)),
+        {name:'Eggs for cookies (whole eggs and extra yolks)',amount:plan.eggsToBuy,unit:'each'}]
+        .map(item => ({key:`complimentary-cookie-${item.name.toLowerCase().replace(/[^a-z0-9]+/g,'-')}`,
+          name:item.name,station:'Complimentary Cookie Prep',unit:item.unit,
+          baseAmount:item.amount,bufferedAmount:item.amount,confidence:'owner recipe',
+          note:item.name.startsWith('Eggs for cookies')?'Two whole eggs plus two additional yolks per 12 cookies.':'Batch 19 full-batch cookie formula.'}));
     }
 
     function customerLabelPlan() {
@@ -1672,7 +1705,9 @@
         showPacketStatus(`Plan needs correction: ${compiled.diagnostics.errors.join(' ')}`, true);
         return false;
       }
-      state.ingredients = compiled.operational.totals.map(item => ({...item})).sort((a,b) => a.station.localeCompare(b.station) || a.name.localeCompare(b.name));
+      state.ingredients = [...compiled.operational.totals.map(item => ({...item})),
+        ...complimentaryCookieShopping(complimentaryCookiePlan())]
+        .sort((a,b) => a.station.localeCompare(b.station) || a.name.localeCompare(b.name));
       state.warnings = [...state.importWarnings, ...compiled.operational.warnings, ...compiled.diagnostics.holds];
       const labelPlan = customerLabelPlan();
       if (state.preview) setLabelStudioState('', ['Preview only. Reconcile and lock final orders before printing labels.']);
@@ -2450,6 +2485,7 @@
         const yieldPlan = planByKey.get(countKey(count.id,count.tier));
         return `<tr><td><strong>${esc(count.name)}</strong></td><td>${tierLabel(count.tier)}</td><td class="amount">${yieldPlan.customer}</td><td class="amount"><strong>${yieldPlan.total}</strong></td><td>${esc(meal?.status || 'Missing')}</td></tr>`;
       }).join('');
+      $('complimentaryCookieSummary').innerHTML = complimentaryCookieCard(complimentaryCookiePlan());
     }
 
     function renderRunbook(counts) {
@@ -2461,7 +2497,7 @@
       const model = PRPD_KITCHEN.buildFromPlan(compileCurrentPlan(counts, planOrders(counts)), counts);
       state.kitchenModel = model;
       const draw = () => {
-        $('runbookContent').innerHTML = PRPD_KITCHEN.render(model, state.kitchenStage || 'all', state.recipeQuery || '', {preview:state.preview,locked:batchPlanLock().locked,prepCompleted:state.cookLog.fields['batch:prep-completed-note'] || ''});
+        $('runbookContent').innerHTML = complimentaryCookieCard(complimentaryCookiePlan()) + PRPD_KITCHEN.render(model, state.kitchenStage || 'all', state.recipeQuery || '', {preview:state.preview,locked:batchPlanLock().locked,prepCompleted:state.cookLog.fields['batch:prep-completed-note'] || ''});
         bindCookLogInputs();
         $('runbookContent').querySelectorAll('[data-kd-stage]').forEach(button => button.addEventListener('click', () => {
           readCookLogInputs();
@@ -2841,6 +2877,10 @@
     }
 
     function renderIngredients() {
+      const cookie = complimentaryCookiePlan();
+      $('complimentaryCookieShopping').innerHTML = cookie.needed
+        ? `<article class="card section-card"><strong>Cookie shopping is included above.</strong> ${cookie.batches} full batch${cookie.batches===1?'':'es'} make ${cookie.produced} cookies for ${cookie.needed} customer orders. Check inventory before buying. The cookie quantities are separate from meal ingredients.</article>`
+        : '';
       $('ingredientRows').innerHTML = state.ingredients.map((item,index) => {
         const low = item.confidence === 'low';
         return `<tr><td>${esc(item.station)}</td><td><strong>${esc(item.name)}</strong>${item.note ? `<br><span class="muted">${esc(item.note)}</span>` : ''}</td><td class="amount">${esc(dualAmount(item,item.baseAmount))}</td><td class="amount">${esc(dualAmount(item,item.bufferedAmount,true))}</td><td><input class="buy-input" type="number" min="0" step="1" value="0" data-onhand="${index}" aria-label="On hand ${esc(item.name)}"></td><td class="amount" id="buy-${index}">${esc(dualAmount(item,item.bufferedAmount,true))}</td><td class="${low?'confidence-low':'muted'}">${esc(item.confidence)}</td></tr>`;
@@ -2910,7 +2950,11 @@
 
     function packoutCardComplete(order) {
       const prefix = packoutPrefix(order.key);
-      return fieldChecked(`${prefix}:packed`) && bagSaucesReady(order,prefix) && bagSaladReady(order,prefix);
+      return fieldChecked(`${prefix}:packed`) && bagSaucesReady(order,prefix) && bagSaladReady(order,prefix) && bagCookieReady(prefix);
+    }
+
+    function bagCookieReady(prefix) {
+      return CONFIG.batch.number !== COOKIES.BATCH || fieldChecked(`${prefix}:cookie-added`);
     }
 
     function bagSaladCount(order) {
@@ -2978,7 +3022,7 @@
       const totalUnits = plan.reduce((sum,order) => sum + order.totalItems, 0);
       const pct = plan.length ? completed / plan.length * 100 : 0;
       $('packoutProgressBar').style.width = `${pct}%`;
-      $('packoutProgressText').textContent = `${completed} of ${plan.length} bags packed · ${totalUnits} ordered items planned`;
+      $('packoutProgressText').textContent = `${completed} of ${plan.length} bags packed · ${totalUnits} ordered items planned${CONFIG.batch.number===COOKIES.BATCH?` · ${plan.length} complimentary cookies`:''}`;
       document.querySelectorAll('[data-pack-card]').forEach(card => {
         const order = plan.find(item => packoutPrefix(item.key) === card.dataset.packCard);
         const complete = order ? packoutCardComplete(order) : false;
@@ -2986,12 +3030,13 @@
         const status = card.querySelector('.packout-card-status');
         const cupsReady=order && bagSaucesReady(order,card.dataset.packCard);
         const saladReady=order && bagSaladReady(order,card.dataset.packCard);
-        const ready=cupsReady && saladReady;
-        if (status) status.textContent = complete ? 'Complete' : ready ? 'Not packed' : cupsReady ? 'Cold salad check open' : 'Cups missing';
+        const cookieReady=bagCookieReady(card.dataset.packCard);
+        const ready=cupsReady && saladReady && cookieReady;
+        if (status) status.textContent = complete ? 'Complete' : ready ? 'Not packed' : !cupsReady ? 'Cups missing' : !saladReady ? 'Cold salad check open' : 'Cookie missing';
         const button = card.querySelector('[data-pack-toggle]');
         if (button) {
           button.disabled=!complete && !ready;
-          button.textContent = complete ? 'Packed — tap to reopen' : ready ? 'Seal and mark bag packed' : cupsReady ? 'Verify and add the cold salad before sealing' : 'Add the cups above before sealing';
+          button.textContent = complete ? 'Packed — tap to reopen' : ready ? 'Seal and mark bag packed' : !cupsReady ? 'Add the cups above before sealing' : !saladReady ? 'Verify and add the cold salad before sealing' : 'Add the complimentary cookie before sealing';
         }
       });
       document.querySelectorAll('[data-sauce-checklist]').forEach(section=>{
@@ -3011,10 +3056,11 @@
       const notesByKey = new Map(CORE.customerNotePlan(customerPackoutOrders(),DATA,METHODS).map(note => [note.key,note]));
       const locked = batchPlanLock().locked;
       const runnable = locked || (!state.preview && state.packetOrdersSignature && state.packetOrdersSignature === orderPlanSignature(productionOrders()) && state.packetCountsSignature === hashText(JSON.stringify(selectedCounts())));
+      const cookieCopy=CONFIG.batch.number===COOKIES.BATCH ? ' and the complimentary cookie' : '';
       $('packoutHeadline').textContent = runnable ? 'Pack one customer bag at a time' : 'Run the kitchen plan before packing';
       $('packoutCopy').textContent = locked
-        ? 'Add the meals. Check every loose cup as it enters the bag. Then seal and mark packed.'
-        : runnable ? 'Add the meals. Check every loose cup as it enters the bag. Then seal and mark packed. Changed orders need a fresh kitchen run.'
+        ? `Add the meals, check every loose cup${cookieCopy}, then seal and mark packed.`
+        : runnable ? `Add the meals, check every loose cup${cookieCopy}, then seal and mark packed. Changed orders need a fresh kitchen run.`
           : 'Sync and reconcile orders, then run the editable kitchen plan. A changed order or quantity requires a fresh run.';
       if (!runnable) {
         $('packoutContent').innerHTML = '<article class="card empty">The current order and meal counts need a fresh kitchen run before customer bags are assembled.</article>';
@@ -3033,18 +3079,21 @@
         const customerNote=notesByKey.get(order.key);
         const cupCount=bagSauceRows(order).reduce((sum,row)=>sum+row.cups,0);
         const bagSauces=bagSauceChecklist(order,prefix)+bagSaladChecklist(order,prefix);
+        const cookieCheck=CONFIG.batch.number===COOKIES.BATCH
+          ? `<section class="packout-sauces"><h4>Complimentary cookie</h4><label class="packout-cup-check"><input type="checkbox" data-log-key="${esc(prefix)}:cookie-added"><span>Added 1 separately packed chocolate chip cookie to this customer order</span></label></section>`
+          : '';
         const itemRows = order.items.map(item => {
           const actions=customerNote?.items.find(build=>build.id===item.id && build.tier===item.tier)?.actions || [];
           return `<div class="packout-item"><div><strong>${item.qty} × ${esc(item.name)}</strong><span>${tierLabel(item.tier)}</span></div><strong>${item.qty}</strong>${actions.length?`<div class="customer-build-warning">${actions.map(action=>esc(action.text)).join(' ')}</div>`:''}</div>`;
         }).join('');
         const complete = packoutCardComplete(order);
-        return `<article class="card packout-card${complete ? ' complete' : ''}" data-pack-card="${esc(prefix)}"><div class="packout-card-head"><div><h3>${esc(order.customer)}</h3><p>${esc(order.fulfillment || 'Fulfillment not recorded')}${order.orderId ? ` · ${esc(order.orderId)}` : ''}</p></div><span class="packout-card-status">${complete ? 'Complete' : 'Not packed'}</span></div><div class="packout-body"><div class="packout-bag-targets"><div class="packout-count-banner"><span>Meals</span><strong>${order.totalItems}</strong></div><div class="packout-cup-target"><span>Loose cups</span><strong>${cupCount}</strong></div></div>${bagSauces}${customerNote?`<div class="customer-build-warning"><strong>Customer food note:</strong> ${esc(customerNote.note)}<p>Read against every item before sealing.</p></div>`:''}${order.fulfillment || location || contact || order.deliveryNotes ? `<div class="packout-address">${order.fulfillment ? `<strong>Fulfillment:</strong> ${esc(order.fulfillment)}<br>` : ''}${location ? `<strong>${/^Pickup/i.test(order.fulfillment || '') ? 'Pickup location' : 'Deliver to'}:</strong> ${esc(location)}<br>` : ''}${contact ? `<strong>Contact:</strong> ${esc(contact)}<br>` : ''}${order.deliveryNotes ? `<strong>Delivery note:</strong> ${esc(order.deliveryNotes)}` : ''}</div>` : ''}${order.notes ? `<div class="packout-address"><strong>Original order note:</strong> ${esc(order.notes)}</div>` : ''}<div class="packout-items">${itemRows}</div><button type="button" class="packout-toggle" data-pack-toggle="${esc(prefix)}">${complete ? 'Packed — tap to reopen' : 'Mark entire bag packed'}</button><label class="packout-notes">Shortage, substitution, or handoff note<textarea maxlength="1000" data-log-key="${prefix}:notes"></textarea></label></div></article>`;
+        return `<article class="card packout-card${complete ? ' complete' : ''}" data-pack-card="${esc(prefix)}"><div class="packout-card-head"><div><h3>${esc(order.customer)}</h3><p>${esc(order.fulfillment || 'Fulfillment not recorded')}${order.orderId ? ` · ${esc(order.orderId)}` : ''}</p></div><span class="packout-card-status">${complete ? 'Complete' : 'Not packed'}</span></div><div class="packout-body"><div class="packout-bag-targets"><div class="packout-count-banner"><span>Meals</span><strong>${order.totalItems}</strong></div><div class="packout-cup-target"><span>Loose cups</span><strong>${cupCount}</strong></div></div>${bagSauces}${cookieCheck}${customerNote?`<div class="customer-build-warning"><strong>Customer food note:</strong> ${esc(customerNote.note)}<p>Read against every item before sealing.</p></div>`:''}${order.fulfillment || location || contact || order.deliveryNotes ? `<div class="packout-address">${order.fulfillment ? `<strong>Fulfillment:</strong> ${esc(order.fulfillment)}<br>` : ''}${location ? `<strong>${/^Pickup/i.test(order.fulfillment || '') ? 'Pickup location' : 'Deliver to'}:</strong> ${esc(location)}<br>` : ''}${contact ? `<strong>Contact:</strong> ${esc(contact)}<br>` : ''}${order.deliveryNotes ? `<strong>Delivery note:</strong> ${esc(order.deliveryNotes)}` : ''}</div>` : ''}${order.notes ? `<div class="packout-address"><strong>Original order note:</strong> ${esc(order.notes)}</div>` : ''}<div class="packout-items">${itemRows}</div><button type="button" class="packout-toggle" data-pack-toggle="${esc(prefix)}">${complete ? 'Packed — tap to reopen' : 'Mark entire bag packed'}</button><label class="packout-notes">Shortage, substitution, or handoff note<textarea maxlength="1000" data-log-key="${prefix}:notes"></textarea></label></div></article>`;
       }).join('');
       bindCookLogInputs();
       document.querySelectorAll('[data-pack-toggle]').forEach(button => button.addEventListener('click', () => {
         const key = `${button.dataset.packToggle}:packed`;
         const order=plan.find(item=>packoutPrefix(item.key)===button.dataset.packToggle);
-        if(state.cookLog.fields[key]!=='1' && (!order || !bagSaucesReady(order,button.dataset.packToggle) || !bagSaladReady(order,button.dataset.packToggle)))return;
+        if(state.cookLog.fields[key]!=='1' && (!order || !bagSaucesReady(order,button.dataset.packToggle) || !bagSaladReady(order,button.dataset.packToggle) || !bagCookieReady(button.dataset.packToggle)))return;
         state.cookLog.fields[key] = state.cookLog.fields[key] === '1' ? '' : '1';
         updatePackoutProgress();
         scheduleCookLogSave();
@@ -3228,6 +3277,7 @@
           const value = input.type === 'checkbox' ? (input.checked ? '1' : '') : String(input.value ?? '');
           state.cookLog.fields[key] = value;
           if(key.startsWith('pack:') && key.includes(':cup:'))state.cookLog.fields[`${key.slice(0,key.indexOf(':cup:'))}:packed`]='';
+          if(key.startsWith('pack:') && key.endsWith(':cookie-added') && value!=='1')state.cookLog.fields[`${key.slice(0,-':cookie-added'.length)}:packed`]='';
           document.querySelectorAll('[data-log-key], [data-cook-log-key]').forEach(peer => {
             const peerKey = peer.dataset.logKey || peer.dataset.cookLogKey;
             if (peer !== input && peerKey === key) {

@@ -5364,19 +5364,23 @@
     data.labelExemptCustomers=[...new Set([...(data.labelExemptCustomers || []),'Home'])];
     const wings=Object.values(data.meals).find(method=>method.recipeName==='Mango Habanero Chicken Wings');
     if(wings) {
+      const currentWingPieces=Number(data.batch)>=19?{lean:6,bulk:8}:{lean:8,bulk:10};
       wings.single=false;
-      wings.wingPiecesByTier={lean:8,bulk:10};
+      wings.wingPiecesByTier=currentWingPieces;
       wings.prepBatches=[
         prep('marinade','Count and season split wings','Count individual flats and drumettes, not whole joined wings.',['chicken_wings_raw','sunflower_oil','salt','paprika','garlic_powder','onion_powder'],[
-          'Count 8 individual split flats/drumettes per Lean box and at least 10 per Bulk box. Keep mixed flats and drumettes. Weigh the actual raw bone-in pull; the displayed gram model is provisional, not a required physical yield.',
+          `Count ${currentWingPieces.lean} individual split flats/drumettes per Lean box and ${currentWingPieces.bulk} per Bulk box. Keep mixed flats and drumettes. Weigh the actual raw bone-in pull; the displayed gram model is provisional, not a required physical yield.`,
           'Apply only the displayed oil and dry seasoning. Cover, label, date and refrigerate separately from boneless chicken.',
-        ],{proteinForm:'Individual bone-in flats/drumettes; Lean 8 pieces, Bulk at least 10'}),
+        ],{proteinForm:`Individual bone-in flats/drumettes; Lean ${currentWingPieces.lean} pieces, Bulk ${currentWingPieces.bulk}`}),
         prep('sauce','Stage clean mango habanero finish','Keep the complete displayed tier sauce allocation separate from raw chicken.',['mango_habanero_sauce'],[
           'Verify the exact purchased sauce and allergen panel. Measure the displayed allocation into a covered clean container; do not reuse raw-contact marinade as a finishing sauce.',
         ]),
         prep('sauce','Fill bottled ranch cups','Use one separate 40 g planning cup per wing box; purchased bottle identity and panel remain pending.',['bottled_ranch'],[
           'Verify the exact ranch product before release. Tare and fill one 40 g net cup per wing box, seal, label and refrigerate at 41 F or below.',
         ],{componentRef:'bottled-ranch'}),
+        ...(Number(data.batch)>=19?[prep('sauce','Fill mango habanero dip cups','Use one separate 20 g clean mango-habanero dip cup per wing box.',['mango_habanero_sauce'],[
+          'Use only sauce that has never touched raw wings. Tare and fill one 20 g net cup per box, seal, label and refrigerate at 41 F or below.',
+        ],{componentRef:'wings-extra-dip'})]:[]),
       ];
       wings.proteinCook={...(wings.proteinCook || {}),group:'chicken_wings_raw',recipeKeys:['chicken_wings_raw'],endpoint:'165 F away from bone',recipeSteps:[
         'Air-fry or oven-cook the counted seasoned wings in uncrowded batches until crisp and 165 F in the thickest edible meat away from bone. Record actual settings, tray load, raw bone-in weight, finished count and yield.',
@@ -5384,23 +5388,56 @@
       wings.steps=[
         ...wings.proteinCook.recipeSteps,
         'Toss the cooked wings with only the measured clean mango habanero finish. Do not add a second unmeasured coating.',
-        'Pack 8 split pieces per Lean box or at least 10 per Bulk box. Include one separately sealed 40 g bottled ranch cup per box. No starch or vegetable side is assigned. Cool under protection, record both checkpoints and refrigerate.',
+        `Pack ${currentWingPieces.lean} split pieces per Lean box or ${currentWingPieces.bulk} per Bulk box. Include one separately sealed 40 g bottled ranch cup${Number(data.batch)>=19?' and one 20 g mango-habanero dip cup':''} per box. No starch or vegetable side is assigned. Cool under protection, record both checkpoints and refrigerate.`,
       ];
       wings.cookPackSteps=wings.steps;
       wings.cookDayReservations=wings.steps;
-      wings.temperature='Cook wings to 165 F away from bone. Lean 8 individual pieces; Bulk at least 10. Actual raw weight and edible yield remain unmeasured.';
+      wings.temperature=`Cook wings to 165 F away from bone. Lean ${currentWingPieces.lean} individual pieces; Bulk ${currentWingPieces.bulk}. Actual raw weight and edible yield remain unmeasured.`;
       wings.sideCup=null;
-      wings.sideCups=1;
-      wings.sideCupComponents=[{name:'Bottled ranch',batchGroup:'bottled-ranch',componentRef:'bottled-ranch',ingredientKeys:['bottled_ranch'],cupsPerMeal:1,gramsPerMeal:40}];
+      wings.sideCups=Number(data.batch)>=19?2:1;
+      wings.sideCupComponents=[
+        {name:'Bottled ranch',batchGroup:'bottled-ranch',componentRef:'bottled-ranch',ingredientKeys:['bottled_ranch'],cupsPerMeal:1,gramsPerMeal:40},
+        ...(Number(data.batch)>=19?[{name:'Mango habanero dip',batchGroup:'wings-extra-dip',componentRef:'wings-extra-dip',ingredientKeys:['mango_habanero_sauce'],cupsPerMeal:1,gramsPerMeal:20}]:[]),
+      ];
       wings.packBuildByTier={
-        lean:[{amount:'8 individual pieces',name:'cooked mango-habanero-coated split flats/drumettes'}],
-        bulk:[{amount:'at least 10 individual pieces',name:'cooked mango-habanero-coated split flats/drumettes'}],
+        lean:[{amount:`${currentWingPieces.lean} individual pieces`,name:'cooked mango-habanero-coated split flats/drumettes'}],
+        bulk:[{amount:`${currentWingPieces.bulk} individual pieces`,name:'cooked mango-habanero-coated split flats/drumettes'}],
       };
       wings.assemblyGuide={
-        lean:['Pack 8 individual split flats/drumettes and one separate 40 g bottled ranch cup. Record actual raw and cooked weights; no nutrition label is released.'],
-        bulk:['Pack at least 10 individual split flats/drumettes and one separate 40 g bottled ranch cup. Record actual raw and cooked weights; no nutrition label is released.'],
+        lean:[`Pack ${currentWingPieces.lean} individual split flats/drumettes, one separate 40 g bottled ranch cup${Number(data.batch)>=19?' and one 20 g mango-habanero dip cup':''}. Record actual raw and cooked weights; no nutrition label is released.`],
+        bulk:[`Pack ${currentWingPieces.bulk} individual split flats/drumettes, one separate 40 g bottled ranch cup${Number(data.batch)>=19?' and one 20 g mango-habanero dip cup':''}. Record actual raw and cooked weights; no nutrition label is released.`],
       };
       wings.validation='Purchased mango sauce and ranch identity/panels, seasoning taste, actual piece weights, cooked edible yield, fit and cooling require physical verification. No full nutrition label is released.';
+    }
+    if(Number(data.batch)>=19) {
+      const pizza=Object.values(data.meals).find(method=>method.recipeName==='Beef Bacon Breakfast Pizza');
+      if(pizza) {
+        pizza.equipment=['digital gram scale','mixing bowl','skillet','pizza stone','parchment rated for 425 F','instant-read thermometer'];
+        pizza.temperature='Preheat the stone at 425 F for 45–60 minutes. Bake on the second-lowest rack, check at 8 minutes; the owner trial took about 9–10 minutes. Cook egg to 160 F before topping.';
+        pizza.prepBatches=[prep('measured-prep','Prepare breakfast pizza dough, toppings and sauce','Use the current 100 g Lean and 125 g Bulk dough rectangles. Keep cooked toppings cold until Cook Day.',
+          ['flour','water','instant_yeast','salt','olive_oil','egg','egg_white','green_bell_pepper','onion','crushed_tomatoes','garlic','italian_seasoning','red_chili_flakes','mozzarella','sharifa_beef_bacon'],[
+            'Mix the measured dough; one 235 g batch makes one 100 g Lean rectangle and one 125 g Bulk rectangle, with 10 g unused. Refrigerate the portioned dough.',
+            'Simmer canned tomato, garlic, olive oil, Italian seasoning and chili flakes. Record finished sauce yield; reserve 15 g for each pizza.',
+            'Saute 30 g pepper/onion per pizza until excess moisture evaporates. Scramble the egg and whites gently to 160 F; weigh the finished mixture and record each tier allocation.',
+            'Weigh Sharifa bacon as packaged at 50 g Lean or 60 g Bulk. Cook it fully before topping; reserve one pliable cooked slice for each pizza, then crisp and chop the rest.',
+            'Keep the cooked toppings protected at 41 F or below. Stage 30 g H-E-B fat-free mozzarella for Lean and 58 g for Bulk.',
+          ])];
+        pizza.prepSteps=pizza.prepBatches.map(task=>task.instruction);
+        pizza.steps=[
+          'Preheat the pizza stone to 425 F for 45–60 minutes on the second-lowest rack. Shape one 100 g Lean or 125 g Bulk dough portion into its own box-fitting rectangle on oven-rated parchment.',
+          'Top with 15 g finished house sauce, its measured cooked egg, 30 g sauteed vegetables, one cooked bacon slice and the tier mozzarella. Hold the crisp chopped bacon until after baking.',
+          'Bake on the hot stone; check at 8 minutes and continue until the underside is browned, center is cooked and cheese is melted. The owner trial took about 9–10 minutes.',
+          'Scatter the reserved crisp bacon bits over the baked pizza. Cool briefly on a rack, pack each whole rectangle, check lid fit and record net weight.',
+        ];
+        pizza.cookPackSteps=pizza.steps;
+        pizza.cookDayReservations=pizza.steps;
+        pizza.packBuildByTier={
+          lean:[{amount:'one whole 100 g dough rectangle',name:'breakfast pizza with 50 g raw-weight cooked Sharifa bacon, 30 g H-E-B fat-free mozzarella and measured egg/vegetables/sauce'}],
+          bulk:[{amount:'one whole 125 g dough rectangle',name:'breakfast pizza with 60 g raw-weight cooked Sharifa bacon, 58 g H-E-B fat-free mozzarella and measured egg/vegetables/sauce'}],
+        };
+        pizza.assemblyGuide={lean:[pizza.steps[3]],bulk:[pizza.steps[3]]};
+        pizza.validation='The owner tested the dough and bake with ground beef as a placeholder. Record purchased Sharifa panel, actual cooked egg allocation, house sauce oil and yield, bacon cooked yield, packed weight, lid fit and next-day reheat before final nutrition labels.';
+      }
     }
     const currentTikka=Object.values(data.meals).find(method=>method.recipeName==='Chicken Tikka Snack Wrap');
     if(currentTikka) {
@@ -5681,7 +5718,7 @@
         'Creamy Cajun Chicken Pasta':['Weigh the finished pasta with sauce and the cooked chicken separately. Portion each using the batch-weight shares below, then combine in each container.'],
         'Premium NY Strip Steak':['Pack the finished tier steak with the prepared mashed-potato and broccoli shares. Add the existing Honey Barbecue Mustard cup.'],
         'Oven-Baked Popcorn Chicken':['After protected cooling, pack one complete Popcorn chicken serving per ordered box. Check the actual finished fill and container fit; no recipe-required dip.'],
-        'Mango Habanero Chicken Wings':['Toss the cooked wings with only the measured clean mango-habanero finish. Do not reuse raw-contact sauce or add a second coating.','Pack 8 individual split pieces per Lean box or at least 10 per Bulk box, with one existing sealed 40 g ranch cup per box. No starch or vegetable side.'],
+        'Mango Habanero Chicken Wings':['Toss the cooked wings with only the measured clean mango-habanero finish. Do not reuse raw-contact sauce or add a second coating.',`Pack ${Number(data.batch)>=19?6:8} individual split pieces per Lean box or ${Number(data.batch)>=19?8:10} per Bulk box, with one existing sealed 40 g ranch cup${Number(data.batch)>=19?' and one sealed 20 g mango dip cup':''} per box. No starch or vegetable side.`],
         'Harissa Honey Chicken':['Pack the complete cooked tier chicken/glaze share, its prepared plain-rice share and prepared broccoli share. No recipe-required sauce cup or extra glaze batch.'],
         'High-Protein Beef Kofta & Roasted Vegetables':['Pack the complete cooked kofta share, one existing 205 g cold salad box and two existing 40 g Sweet Heat cups per beef meal.'],
         'Custom Lean Chicken Mince':['Pack the complete cooked moist chicken-qeema share, one existing 205 g cold salad box, one existing 40 g Sweet Heat cup and the controlled lemon-garlic dressing cup.'],

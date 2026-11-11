@@ -910,7 +910,8 @@ function assertCustomerInvoiceIntegrity(order) {
 }
 
 function buildCustomerInvoiceMessage(order) {
-  assertCustomerInvoiceIntegrity(order);
+  const { exactTotal, roundedTotal } = assertCustomerInvoiceIntegrity(order);
+  const roundingAdjustment = money(roundedTotal - exactTotal);
   const lines = itemLines(order);
   const address = formattedDeliveryAddress(order);
   const isPickup = order.fulfillmentMethod === 'pickup';
@@ -974,6 +975,7 @@ function buildCustomerInvoiceMessage(order) {
     `${isPickup ? 'Pickup' : `Delivery (${order.deliveryZoneLabel || 'DFW'})`}: ${order.deliveryFee ? `$${order.deliveryFee.toFixed(2)}` : 'Free'}`,
     order.discountAmount > 0 ? `Partner discount (${order.promoCode}): -$${order.discountAmount.toFixed(2)}` : '',
     order.salesTax > 0 ? `Sales tax (${(order.taxRate * 100).toFixed(2)}%): $${order.salesTax.toFixed(2)}` : '',
+    roundingAdjustment > 0 ? `Whole-dollar rounding: $${roundingAdjustment.toFixed(2)}` : '',
     `Total due: $${order.roundedTotal.toFixed(2)}`,
     '',
     `Zelle $${order.roundedTotal.toFixed(2)} to ${PAYMENT_EMAIL}.`,
@@ -1032,6 +1034,7 @@ function buildCustomerInvoiceMessage(order) {
               <tr><td style="padding:5px 0;color:#58705f">${deliveryLabel}</td><td align="right" style="padding:5px 0;color:#173c2b;font-weight:700">${deliveryValue}</td></tr>
               ${order.discountAmount > 0 ? `<tr><td style="padding:5px 0;color:#58705f">Discount (${escapeHtml(order.promoCode)})</td><td align="right" style="padding:5px 0;color:#173c2b;font-weight:700">-$${order.discountAmount.toFixed(2)}</td></tr>` : ''}
               ${order.salesTax > 0 ? `<tr><td style="padding:5px 0;color:#58705f">Sales tax (${(order.taxRate * 100).toFixed(2)}%)</td><td align="right" style="padding:5px 0;color:#173c2b;font-weight:700">$${order.salesTax.toFixed(2)}</td></tr>` : ''}
+              ${roundingAdjustment > 0 ? `<tr><td style="padding:5px 0;color:#58705f">Whole-dollar rounding</td><td align="right" style="padding:5px 0;color:#173c2b;font-weight:700">$${roundingAdjustment.toFixed(2)}</td></tr>` : ''}
               <tr><td style="padding:14px 0 0;border-top:2px solid #173c2b;font-size:19px;font-weight:800;color:#173c2b">Total due</td><td align="right" style="padding:14px 0 0;border-top:2px solid #173c2b;font-size:19px;font-weight:800;color:#173c2b">$${order.roundedTotal.toFixed(2)}</td></tr>
             </table>
           </td></tr>
