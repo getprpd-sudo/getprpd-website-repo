@@ -2,13 +2,27 @@
   const node = typeof module !== 'undefined' && module.exports;
   const api = factory(node ? require('./production-engine') : root.PRPD_PRODUCTION_ENGINE,
     node ? require('./production-run') : root.PRPD_PRODUCTION_RUN,
-    node ? require('./grocery-list-core') : root.PRPD_GROCERY_CORE);
+    node ? require('./grocery-list-core') : root.PRPD_GROCERY_CORE,
+    node ? require('./cook-day-core') : root.PRPD_COOK_DAY,
+    node ? require('./complimentary-cookie-plan') : root.PRPD_COMPLIMENTARY_COOKIES);
   if (node) module.exports = api;
   else root.PRPD_GROCERY_DASHBOARD = api;
-})(typeof globalThis !== 'undefined' ? globalThis : this, function (engine, run, grocery) {
+})(typeof globalThis !== 'undefined' ? globalThis : this, function (engine, run, grocery, cook, cookies) {
   'use strict';
   const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
   const money = value => `$${Number(value || 0).toFixed(2)}`;
+  function withCookieGroceries(requirements, cookiePlan) {
+    const combined = (requirements || []).map(item => ({...item,sources:[...(item.sources||[])]}));
+    for(const item of cookies.groceryIngredients(cookiePlan)) {
+      const existing=combined.find(row => row.key===item.key && row.unit===item.unit);
+      if(existing) {
+        existing.required=Math.round((Number(existing.required)+item.amount)*10)/10;
+        if(!existing.sources.includes('Complimentary cookies'))existing.sources.push('Complimentary cookies');
+      } else combined.push({key:item.key,name:item.name,unit:item.unit,station:'Complimentary Cookie Prep',
+        section:item.section,required:item.amount,sources:['Complimentary cookies'],confidence:'owner recipe'});
+    }
+    return combined.sort((a,b)=>grocery.SECTION_ORDER.indexOf(a.section)-grocery.SECTION_ORDER.indexOf(b.section)||a.name.localeCompare(b.name));
+  }
   function amount(value, unit) {
     const n = Number(value) || 0;
     if (unit === 'g') return n >= 453.59237 ? `${(n / 453.59237).toFixed(n >= 4535.9237 ? 1 : 2)} lb` : `${(n / 28.3495).toFixed(1)} oz`;
@@ -56,14 +70,18 @@
       };
     }
     const plan = engine.compileProduction({orders:selection.orders,data,methods,config,...settings});
+    const customerOrders=cook.confirmedOrders(selection.orders).filter(order =>
+      (order.items||[]).some(item => !methods.meals[item.id]?.prepDayOnly));
+    const cookiePlan=cookies.plan(customerOrders.length,configuredBatch);
+    const shoppingRequirements=withCookieGroceries(plan.requirements,cookiePlan);
     const snapshot = run.snapshotStatus(plan, record);
     const blocked = selection.changed || !plan.diagnostics.ok || (!snapshot.ok && !snapshot.legacy);
     const message = selection.changed ? 'Orders changed after the kitchen plan was locked. Review the changes in Cook Day Planner before shopping.' : !plan.diagnostics.ok ? 'The kitchen plan has unresolved calculation errors. Review it in Cook Day Planner.' : snapshot.message || selection.message;
     // A legacy lock can be inspected, but it is never presented as an exact locked run.
     const exact = !blocked && snapshot.ok && !snapshot.legacy && ['locked','reviewed'].includes(selection.mode) &&
       Boolean(run.read(record, selection.mode === 'locked' ? 'lock:engine-snapshot-json' : 'plan:engine-snapshot-json'));
-    return {selection,settings,plan,snapshot,blocked,exact,message,
-      rows:blocked ? [] : grocery.buildPurchaseRows(plan.requirements, catalog, saved)};
+    return {selection,settings,plan,snapshot,blocked,exact,message,cookiePlan,shoppingRequirements,
+      rows:blocked ? [] : grocery.buildPurchaseRows(shoppingRequirements, catalog, saved)};
   }
   function selectRecord(remote, local, batchKey) {
     const valid = [remote,local].filter(record => record?.batchKey === batchKey);
@@ -139,5 +157,5 @@
     else return false;
     return true;
   }
-  return {build,selectRecord,visibleRows,sections,allocations,coverage,renderRows,edit,amount,esc,money};
+  return {build,withCookieGroceries,selectRecord,visibleRows,sections,allocations,coverage,renderRows,edit,amount,esc,money};
 });

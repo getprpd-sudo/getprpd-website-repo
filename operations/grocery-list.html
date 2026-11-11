@@ -29,6 +29,13 @@
 
     <section class="metrics" id="metrics" aria-label="Shopping totals" hidden></section>
 
+    <section class="panel" id="cookiePanel" aria-label="Complimentary cookie groceries" hidden>
+      <div class="panel-heading"><div><p class="eyebrow">Batch 19 only</p><h2 id="cookieTitle">Complimentary cookies</h2></div></div>
+      <p class="muted" id="cookieDescription"></p>
+      <div class="table-wrap"><table><thead><tr><th>Cookie ingredient</th><th>Recipe quantity</th></tr></thead><tbody id="cookieRows"></tbody></table></div>
+      <p class="muted">These quantities are included in the shopping list and checkout estimate below. Pantry stock and package counts are set there. Baking soda, baking powder and salt are converted from teaspoons to approximate grams for shopping.</p>
+    </section>
+
     <section class="panel" id="listPanel" hidden>
       <div class="panel-heading"><div><p class="eyebrow">Pantry → purchase</p><h2>Shopping list</h2></div><div class="actions screen-only"><button class="btn small" id="showStockedBtn">Show stocked items (0)</button><button class="btn small" id="exportBtn">Export CSV</button><button class="btn small" id="printBtn">Print buy list</button></div></div>
       <p class="muted screen-only">Enter what you have, or tap “Have enough”. Purchase counts update without changing the kitchen recipe.</p>
@@ -49,8 +56,9 @@
   <script src="/operations/production-engine.js?v=20261005-shared-run"></script>
   <script src="/operations/production-run.js?v=20261005-shared-plan"></script>
   <script src="/operations/grocery-catalog.js?v=20261005-receipts"></script>
+  <script src="/operations/complimentary-cookie-plan.js?v=20261111-b19-18"></script>
   <script src="/operations/recurring-customers.js?v=20260908.2"></script>
-  <script src="/operations/grocery-dashboard.js?v=20261014-coverage"></script>
-  <script src="/operations/grocery-list-app.js?v=20261014-coverage"></script>
+  <script src="/operations/grocery-dashboard.js?v=20261111-b19-cookies"></script>
+  <script src="/operations/grocery-list-app.js?v=20261111-b19-cookies"></script>
 </body>
 </html>

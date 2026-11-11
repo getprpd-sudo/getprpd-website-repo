@@ -949,7 +949,7 @@
   <script src="/operations/grocery-list-core.js?v=20261005-shared-run"></script>
   <script src="/operations/production-engine.js?v=20261005-shared-run"></script>
   <script src="/operations/production-run.js?v=20261005-shared-run"></script>
-  <script src="/operations/complimentary-cookie-plan.js?v=20261111-b19"></script>
+  <script src="/operations/complimentary-cookie-plan.js?v=20261111-b19-18"></script>
   <script src="/operations/kitchen-dashboard.js?v=20261106-batch18-stations"></script>
   <script src="/operations/recurring-customers.js?v=20260908.2"></script>
   <script>
@@ -1205,12 +1205,12 @@
       if (!plan.needed) return '';
       const quantities = plan.ingredients.map(item => `<tr><td>${esc(item.name)}</td><td class="amount"><strong>${esc(String(item.amount))} ${esc(item.unit)}</strong></td></tr>`).join('');
       return `<article class="card section-card complimentary-cookie-card"><h3>Complimentary chocolate chip cookies</h3>
-        <p><strong>${plan.needed} confirmed customer orders = ${plan.needed} cookies to pack.</strong> Bake ${plan.batches} full 12-cookie batch${plan.batches===1?'':'es'} (${plan.produced} cookies total; ${plan.spare} spare${plan.spare===1?'':'s'}). One cookie goes in each customer order bag, including pickup. Internal meals do not get one.</p>
-        <div class="table-wrap"><table><thead><tr><th>Ingredient</th><th>For ${plan.batches} full batch${plan.batches===1?'':'es'}</th></tr></thead><tbody>${quantities}</tbody></table></div>
+        <p><strong>Bake ${plan.produced} cookies for this Batch 19 run.</strong> ${plan.needed} confirmed customer orders need one each, leaving ${plan.spare} spare${plan.spare===1?'':'s'}. Scale the original 12-cookie recipe ${plan.batches}×. One cookie goes in each customer order bag, including pickup. Internal meals do not get one.</p>
+        <div class="table-wrap"><table><thead><tr><th>Ingredient</th><th>For ${plan.produced} cookies</th></tr></thead><tbody>${quantities}</tbody></table></div>
         <p><strong>Egg purchase:</strong> ${plan.eggsToBuy} eggs total. Use ${plan.batches*2} whole eggs and the yolks from ${plan.batches*2} additional eggs.</p>
         <ol><li>Beat softened butter with both sugars for 2–3 minutes on medium. Mix in whole eggs, extra yolks and vanilla.</li>
         <li>Whisk flour, baking soda, baking powder and salt separately. Mix dry ingredients into the wet mixture on low just until combined; fold in chocolate.</li>
-        <li>Weigh the complete dough and divide each full recipe batch into exactly 12 equal, tall balls. Record the actual raw weight per ball.</li>
+        <li>Weigh the complete dough and divide it into exactly ${plan.produced} equal, tall balls. Record the actual raw weight per ball.</li>
         <li>Chill at least 30 minutes; 2–6 hours is preferred. Bake one tray at a time at 365°F, checking the first tray at 10 minutes. Expect about 10–12 minutes; remove when edges are golden and centers are soft but not liquid.</li>
         <li>Cool on the sheet for 10 minutes, then on a rack. Once fully cool, pack each cookie separately and place one in each customer bag.</li></ol>
         <p><strong>Allergen check:</strong> wheat, milk and egg; check the purchased chocolate package for soy and nut statements. Keep cookies separate from meals. No cookie nutrition claim is approved.</p></article>`;
@@ -1218,12 +1218,11 @@
 
     function complimentaryCookieShopping(plan) {
       if (!plan.needed) return [];
-      return [...plan.ingredients.filter(item => !/^(Whole eggs|Extra egg yolks)$/.test(item.name)),
-        {name:'Eggs for cookies (whole eggs and extra yolks)',amount:plan.eggsToBuy,unit:'each'}]
+      return COOKIES.groceryIngredients(plan)
         .map(item => ({key:`complimentary-cookie-${item.name.toLowerCase().replace(/[^a-z0-9]+/g,'-')}`,
           name:item.name,station:'Complimentary Cookie Prep',unit:item.unit,
           baseAmount:item.amount,bufferedAmount:item.amount,confidence:'owner recipe',
-          note:item.name.startsWith('Eggs for cookies')?'Two whole eggs plus two additional yolks per 12 cookies.':'Batch 19 full-batch cookie formula.'}));
+          note:item.key==='egg'?'Half are whole eggs; the other half supply extra yolks.':'Batch 19 scaled cookie formula.'}));
     }
 
     function customerLabelPlan() {
@@ -2879,7 +2878,7 @@
     function renderIngredients() {
       const cookie = complimentaryCookiePlan();
       $('complimentaryCookieShopping').innerHTML = cookie.needed
-        ? `<article class="card section-card"><strong>Cookie shopping is included above.</strong> ${cookie.batches} full batch${cookie.batches===1?'':'es'} make ${cookie.produced} cookies for ${cookie.needed} customer orders. Check inventory before buying. The cookie quantities are separate from meal ingredients.</article>`
+        ? `<article class="card section-card"><strong>Cookie shopping is included above.</strong> Make ${cookie.produced} cookies for ${cookie.needed} customer orders. Check inventory before buying. The cookie quantities are separate from meal ingredients.</article>`
         : '';
       $('ingredientRows').innerHTML = state.ingredients.map((item,index) => {
         const low = item.confidence === 'low';

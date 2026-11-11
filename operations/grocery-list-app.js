@@ -141,7 +141,7 @@
   }
   function clearList() {
     state.rows = []; state.model = null;
-    $('listPanel').hidden = true; $('metrics').hidden = true; $('planPanel').hidden = true;
+    $('listPanel').hidden = true; $('metrics').hidden = true; $('planPanel').hidden = true; $('cookiePanel').hidden = true;
     $('generateBtn').disabled = true;
   }
 
@@ -201,7 +201,7 @@
       renderPlan();
       $('listPanel').hidden = state.model.blocked;
       $('metrics').hidden = state.model.blocked;
-      if (!state.model.blocked) { renderRows(); renderMetrics(); }
+      if (!state.model.blocked) { renderCookiePanel(); renderRows(); renderMetrics(); }
     } catch (error) {
       clearList();
       $('status').className = 'status warn'; $('status').textContent = error.message;
@@ -210,8 +210,16 @@
 
   function refreshInventory() {
     if (!state.model || state.model.blocked) return;
-    state.rows = GROCERY.buildPurchaseRows(state.model.plan.requirements, CATALOG, state.saved);
+    state.rows = GROCERY.buildPurchaseRows(state.model.shoppingRequirements, CATALOG, state.saved);
     renderRows(); renderMetrics();
+  }
+  function renderCookiePanel() {
+    const cookie=state.model?.cookiePlan;
+    $('cookiePanel').hidden=!cookie?.needed;
+    if(!cookie?.needed)return;
+    $('cookieTitle').textContent=`Complimentary cookies: ${cookie.produced} total`;
+    $('cookieDescription').textContent=`${cookie.needed} customer orders get one cookie each; ${cookie.spare} extra. This is a one-time Batch 19 recipe scaled ${cookie.batches}× from the 12-cookie base. Buy ${cookie.eggsToBuy} eggs: ${cookie.eggsToBuy/2} whole and ${cookie.eggsToBuy/2} for the extra yolks.`;
+    $('cookieRows').innerHTML=cookie.ingredients.map(item=>`<tr><td>${esc(item.name)}</td><td>${esc(item.amount)} ${esc(item.unit)}</td></tr>`).join('');
   }
   function renderPlan() {
     const model = state.model, plan = model.plan;
