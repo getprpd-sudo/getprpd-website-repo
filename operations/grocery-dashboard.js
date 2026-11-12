@@ -21,6 +21,9 @@
       } else combined.push({key:item.key,name:item.name,unit:item.unit,station:'Complimentary Cookie Prep',
         section:item.section,required:item.amount,sources:['Complimentary cookies'],confidence:'owner recipe'});
     }
+    if (cookiePlan?.needed) combined.push({key:'cookie_sleeve',name:'Food-safe individual cookie sleeves or bags',
+      unit:'each',station:'Complimentary Cookie Packout',section:'Packaging',required:cookiePlan.needed,
+      sources:['One complimentary cookie per customer order'],confidence:'planning'});
     return combined.sort((a,b)=>grocery.SECTION_ORDER.indexOf(a.section)-grocery.SECTION_ORDER.indexOf(b.section)||a.name.localeCompare(b.name));
   }
   function amount(value, unit) {
@@ -50,6 +53,7 @@
       sauce_lid:`Covers ${row.required} sauce portions`,
       paper_bag:`Covers ${row.required} customer orders`,
       printed_label:`Covers ${row.required} labeled items`,
+      cookie_sleeve:`Covers ${row.required} complimentary customer cookies`,
     };
     if (packaging[row.key]) return packaging[row.key];
     const usefulSources = (row.sources || []).filter(source => !['Recipes','Packaging'].includes(source));

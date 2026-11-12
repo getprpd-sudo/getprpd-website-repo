@@ -18,7 +18,7 @@
     'Dairy & Eggs': new Set(['egg','egg_white','mascarpone','philadelphia_no_bake','regular_cream_cheese','reduced_cream_cheese','cotija','fage','fairlife_milk','cottage','mozzarella','part_skim_mozzarella','part_skim_ricotta','parmesan','feta','butter','simple_truth_yogurt','whipped_cream','batch18_fage_0']),
     'Bread & Tortillas': new Set(['large_tortilla','small_tortilla','street_taco_tortilla','fajita_tortilla','shawarma_bread','bread_slice','hawaiian_roll','sourdough_slice','english_muffin']),
     'Sweets & Baking': new Set(['banana_pudding_mix','biscoff_cookie','biscoff_spread','brown_sugar','chia','chocolate_chips','cinnamon','cocoa','coriander','honey','ladyfingers','oats','oreo_thin','peanut_butter','powdered_sugar','whey','vanilla']),
-    'Packaging': new Set(['sauce_cup','sauce_lid','printed_label','dessert_cup','small_dessert_box','grab_go_container','meal_container','paper_bag','food_prep_gloves','kitchen_consumable_allowance','parchment_roll','aluminum_foil_roll','cling_film_roll']),
+    'Packaging': new Set(['sauce_cup','sauce_lid','printed_label','dessert_cup','small_dessert_box','grab_go_container','meal_container','paper_bag','cookie_sleeve','food_prep_gloves','kitchen_consumable_allowance','parchment_roll','aluminum_foil_roll','cling_film_roll']),
   };
   const PACKAGING_KEYS = SECTION_KEYS.Packaging;
   SECTION_KEYS['Dairy & Eggs'].add('heavy_cream').add('whole_milk');

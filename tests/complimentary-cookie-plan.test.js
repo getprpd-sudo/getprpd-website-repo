@@ -29,6 +29,8 @@ test('grocery builder adds cookie demand once to shared shopping requirements', 
   assert.equal(rows.find(row=>row.key==='flour').required,650);
   assert.equal(rows.find(row=>row.key==='egg').required,6);
   assert.equal(rows.find(row=>row.key==='chocolate_chips').required,390);
+  assert.equal(rows.find(row=>row.key==='cookie_sleeve').required,9);
+  assert.equal(rows.find(row=>row.key==='cookie_sleeve').section,'Packaging');
   assert.equal(mealFlour.required,200);
   assert.equal(groceryDashboard.withCookieGroceries([mealFlour],cookies.plan(9,20)).length,1);
 });
