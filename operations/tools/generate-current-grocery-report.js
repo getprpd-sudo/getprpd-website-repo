@@ -108,7 +108,7 @@ function printReport(source, report, log = console.log) {
     for (const cup of group.cupPlan) log(`  ${cup.name}: ${cup.cups} ${cup.audience === 'internal' ? 'internal' : 'customer'} cups${cup.gramsPerMeal == null ? ', fill requires measurement' : `, ${cup.gramsPerMeal} g per meal (${cup.weightBasis || 'finished'} basis)`}.`);
     for (const reserve of group.reserves) log(`  ${reserve.name}: ${reserve.kind === 'qc' ? `${reserve.cups} QC cup(s)` : 'internal recipe allocation'}, ${amount(reserve.grams,'g')} (${reserve.weightBasis || 'input'} basis).`);
   }
-  log(`Customer recipe cups: ${plan.cups.totalCustomer}; internal cups: ${plan.cups.totalExtras}; QC cups: ${plan.cups.totalQc}.`);
+  log(`Customer cups, including selected and complimentary weekly sauces: ${plan.cups.totalCustomer}; internal recipe cups: ${plan.cups.totalExtras}; QC cups: ${plan.cups.totalQc}.`);
   for (const sauce of plan.saucePlan.sauces || []) log(`- ${sauce.name}: ${sauce.customerCups} customer + ${sauce.qcCups} QC + ${sauce.kitchenUseCups} kitchen = ${sauce.totalCups} weekly cups.`);
   const cups = plan.requirements.find(row => row.key === 'sauce_cup');
   log(`Canonical cup-and-lid purchasing requirement: ${cups?.required || 0}.`);
