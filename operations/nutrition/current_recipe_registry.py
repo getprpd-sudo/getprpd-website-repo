@@ -17,12 +17,12 @@ import mango_habanero_wings as private_wings
 
 r.add_ingredient(
     "corn_street_tortilla",
-    "Mission White Corn Street Taco tortilla",
-    r.n(100 / 3, 2 / 3, 19 / 3, 3 / 3, 1 / 3, 0, 2 / 3, 0, 20 / 3, 0, 0, 0, 20 / 3, 0, 80 / 3),
+    "Great Value 6-inch white corn tortilla",
+    r.n(50, 1, 10, 1.5, .5, 0, 1, 0, 10, 0, 0, 0, 20, 0, 40),
     basis="each",
-    source="Mission White Corn Street Taco 24-count package listing, UPC 073731071502: 3 tortillas (45g) per serving",
+    source="Great Value 6-inch white corn tortilla 30-count Walmart package listing: 2 tortillas (47g) per serving",
     confidence="medium",
-    note="One 15g tortilla. Target and Smart & Final list 100 calories, 2g protein, 19g carbohydrate, 3g fiber, 1g fat and 20mg sodium per three tortillas; ShopRite conflicts at 20g carbohydrate and 2g fiber. Confirm the purchased UPC panel before production.",
+    note="One approximately 23.5g tortilla. The listed serving is 100 calories, 2g protein, 20g carbohydrate, 3g fiber, 1g fat and 20mg sodium per two tortillas. Confirm the purchased package panel before production.",
 )
 r.add_ingredient(
     "achiote_paste",
@@ -710,7 +710,7 @@ QUALITY_CHECKS = {
     "Lemon Herb Chicken Orzo": "New PRPD adaptation. Verify the purchased Barilla Orzo panel, uncrowded 500 g oven trial, edible chicken yield, dry-to-cooked orzo and roasted-vegetable yields, actual packed weight, and 24-hour reheat. Keep all oil and salt allocations separate; no recipe-required sauce cup.",
     "Hot Honey Chicken Sliders": "Use the exact King's Hawaiian Original Sweet Roll build with three Lean or four Bulk sliders and incorporated reduced-Sriracha hot-honey mayo. The source's 75% chicken-yield assumption is method-specific and still needs an exact-method capture; do not silently replace it with the separate 68.8% standard-chicken run. Verify the current roll panel and container fit. The historical photo's visible cup is stale presentation and does not authorize a recipe-required cup.",
     "Blueberry Vanilla Protein Baked Oatmeal Squares": "Labels use the owner-approved conservative estimated net weights. Still record the baked slab weight, cut eight equal squares, and continue the 24/48/72-hour texture log for recipe improvement.",
-    "Cheesy Achiote Chicken Tacos": "Labels use the owner-approved conservative estimated net weights. Use Mission White Corn Street Taco tortillas and El Yucateco seasoned achiote paste, and record tortilla/reheat quality.",
+    "Cheesy Achiote Chicken Tacos": "Use Great Value 6-inch white corn tortillas and El Yucateco seasoned achiote paste. Record the purchased tortilla panel, finished taco weight and reheat quality before the revised nutrition label is printed.",
     "Caprese Protein Pasta Box": "Drizzle the measured oil-free 20g balsamic-yogurt dressing over the finished chilled box before sealing; it is not packed in a cup. Keep the owner-approved conservative estimated net weight for package planning, continue the cold-hold log, and withhold customer macros and the final nutrition label until the physical Barilla Protein+ Rotini panel confirms serving grams.",
     "BBQ Chicken Mac & Cheese": "Owner approved one matching 30g BBQ side cup per meal in addition to the 30g incorporated lower-sodium BBQ finish. Keep both allocations separate and never replace the required BBQ cup with a weekly sauce selection.",
     "Cajun Garlic Salmon": "Record thawed and drained purchased salmon, skin and pin-bone loss, skinless cooked yield, quinoa yield, green-bean yield and plated weights. Use the honest branded placeholder until an exact current dish photo is approved.",

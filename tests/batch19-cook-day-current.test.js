@@ -6,6 +6,7 @@ const production = require('../operations/nutrition/production-data');
 const methods = require('../operations/cook-day-methods');
 const engine = require('../operations/production-engine');
 const report = require('../operations/tools/generate-current-grocery-report');
+const kitchen = require('../operations/kitchen-dashboard');
 
 test('current planner matches the published Batch 19 wing and pizza builds', () => {
   assert.equal(config.batch.number, 19);
@@ -38,4 +39,27 @@ test('Batch 19 BBQ Mac, burrito, and wing cards compile into a shoppable plan', 
   const plan = engine.compileProduction({orders,data:production,methods,config,...report.defaultSettings(methods)});
   assert.deepEqual(plan.diagnostics.errors, []);
   assert.ok(plan.requirements.some(item => item.key === 'mango_habanero_sauce' && item.required > 0));
+});
+
+test('Batch 19 kitchen cards follow the prep and cook day handoff', () => {
+  const orders = [{orderId:'B19-WORKFLOW-QA',customer:'Fixture customer',included:true,sourceStatus:'active',items:[
+    {id:'b3',tier:'lean',qty:1},{id:'b2',tier:'lean',qty:1},
+    {id:'m4',tier:'lean',qty:1},{id:'m3',tier:'lean',qty:1},
+    {id:'m6',tier:'lean',qty:1},{id:'m1',tier:'lean',qty:1},
+    {id:'a1',tier:'single',qty:1},{id:'a2',tier:'single',qty:1},
+  ]}];
+  const plan = engine.compileProduction({orders,data:production,methods,config,...report.defaultSettings(methods)});
+  assert.deepEqual(plan.diagnostics.errors, []);
+  const model = kitchen.buildFromPlan(plan,plan.counts);
+  const prep = kitchen.render(model,'batch');
+  const cook = kitchen.render(model,'cook');
+  assert.ok(prep.indexOf('Quick-pickle red onion') < prep.indexOf('PRPD lasagna tomato meat sauce'));
+  assert.ok(prep.indexOf('PRPD lasagna tomato meat sauce') < prep.indexOf('Lasagna ricotta layer'));
+  assert.ok(prep.indexOf('Lasagna ricotta layer') < prep.indexOf('Make Garlic Herb Yogurt'));
+  assert.ok(!prep.includes('Prepare Popcorn breading station'));
+  assert.ok(!prep.includes('Breakfast Skillet eggs'));
+  assert.ok(!prep.includes('Toss wings with clean mango habanero after cooking'));
+  assert.ok(cook.indexOf('Beef Bacon Breakfast Pizza') < cook.indexOf('BBQ Chicken Mac &amp; Cheese'));
+  assert.match(cook,/Cook the tier eggs fresh/);
+  assert.match(cook,/immediately before baking/);
 });

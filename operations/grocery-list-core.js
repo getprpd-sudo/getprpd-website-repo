@@ -24,8 +24,9 @@
   SECTION_KEYS['Dairy & Eggs'].add('heavy_cream').add('whole_milk');
   SECTION_KEYS.Produce.add('lemon_zest');
   const PURCHASE_ALIASES = {
-    simple_truth_yogurt: { key: 'fage', name: 'Nonfat Greek yogurt' },
-    fage: { key: 'fage', name: 'Nonfat Greek yogurt' },
+    simple_truth_yogurt: { key: 'fage', name: 'FAGE Total 0% plain Greek yogurt' },
+    fage: { key: 'fage', name: 'FAGE Total 0% plain Greek yogurt' },
+    batch18_fage_0: { key: 'fage', name: 'FAGE Total 0% plain Greek yogurt' },
     batch18_water: { key: 'water' },
     batch18_cucumber_squeezed: { key: 'cucumber', name: 'Fresh cucumber', purchaseFactor: 2, sourceNote: '50% raw-to-squeezed allowance' },
     batch18_honey: { key: 'honey' },

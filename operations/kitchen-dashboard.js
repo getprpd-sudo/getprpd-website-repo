@@ -849,7 +849,8 @@
     return 'other';
   }
   function prepSequence(model) {
-    const ahead=(model.jobs || []).filter(job=>job.stage==='ahead');
+    const ahead=(model.jobs || []).filter(job=>job.stage==='ahead' && !job.hidePrepCard
+      && job.name!=='Toss wings with clean mango habanero after cooking');
     const early=ahead.filter(job=>['protein-cook-ahead','prep-flow'].includes(job.type)
       && job.recipe && cookStation([job.recipe])==='braise'
       && !job.preparedPull && !job.preparedPanProtein && !job.deferred);
@@ -884,7 +885,15 @@
   }
 
   function sauceWorkstations(model) {
-    const jobs=model.jobs.filter(job=>job.stage==='sauces').sort((a,b)=>(a.sequence||999)-(b.sequence||999));
+    const sauceOrder=[
+      /Quick-pickle red onion/i,/lasagna tomato meat sauce/i,/Lasagna ricotta layer/i,
+      /Garlic Herb Yogurt/i,/Cucumber Dill Tzatziki/i,/Mango Chipotle Lime/i,
+      /Lemon Tahini/i,/BBQ Mac customer sauce cups/i,/bottled ranch/i,/mango habanero dip/i,
+    ];
+    const rank=job=>{const index=sauceOrder.findIndex(pattern=>pattern.test(job.name || ''));return index<0?99:index;};
+    const currentPizza=model.recipes.some(recipe=>recipe.name==='Beef Bacon Breakfast Pizza');
+    const jobs=model.jobs.filter(job=>job.stage==='sauces' && !job.hidePrepCard)
+      .sort((a,b)=>currentPizza?rank(a)-rank(b)||(a.sequence||999)-(b.sequence||999):(a.sequence||999)-(b.sequence||999));
     const qcRows=model.qcSideCups || [];
     const cupRows=[...(model.sideCups || []),...(model.extraSideCups || []),...qcRows];
     if(!jobs.length && !cupRows.length) return '<div class="kd-empty">No separate sauce work for this selection.</div>';
@@ -960,9 +969,13 @@
   }
   function cookSequence(grouped) {
     const sequence=recipe=>recipe.method.productionSequence ?? recipe.method.cookDayEquipment?.sequence ?? 50;
-    const hot=cookStations.flatMap(station=>{
+    const stations=grouped.some(recipes=>recipes[0].name==='Beef Bacon Breakfast Pizza')
+      ? [...cookStations].sort((a,b)=>(a.id==='breakfast'?-1:0)-(b.id==='breakfast'?-1:0))
+      : cookStations;
+    const hot=stations.flatMap(station=>{
       const groups=grouped.filter(recipes=>cookStation(recipes)===station.id)
-        .sort((a,b)=>sequence(a[0])-sequence(b[0])||a[0].name.localeCompare(b[0].name));
+        .sort((a,b)=>(a[0].name==='Beef Bacon Breakfast Pizza'?-1:0)-(b[0].name==='Beef Bacon Breakfast Pizza'?-1:0)
+          ||sequence(a[0])-sequence(b[0])||a[0].name.localeCompare(b[0].name));
       return groups.length?[{...station,groups}]:[];
     });
     return {hot,cold:grouped.filter(recipes=>recipes[0].method.coldAssembly===true)};
@@ -975,21 +988,28 @@
   }
   function cookWorkstations(grouped, productionExtras=[], context={}) {
     const run=cookSequence(grouped);
+    const pizzaFirst=grouped.some(recipes=>recipes[0].name==='Beef Bacon Breakfast Pizza');
+    const plating=run.hot.map(station=>{
+      const groups=station.groups.filter(recipes=>!recipes[0].method.coldAssembly);
+      return groups.length?`<section class="kd-workstation kd-pack-category"><h3>${escape(station.name)}</h3>${groups.map(recipes=>combinedCookCard(recipes,productionExtras,'assembly')).join('')}</section>`:'';
+    }).join('')+(run.cold.length?`<section class="kd-workstation kd-pack-category"><h3>Chilled wraps and boxes</h3>${run.cold.map(recipes=>combinedCookCard(recipes,productionExtras,'cold')).join('')}</section>`:'');
     if(grouped.some(recipes=>Array.isArray(recipes[0].method.cookDayComponentSteps))) {
       const proteins=run.hot.filter(station=>!['breakfast','dessert','other'].includes(station.id));
       const componentGroups=remainingComponentGroups(grouped);
       const completed=context.prepCompleted ? `<section class="kd-primary-block kd-prep-complete"><h3>Prep already done</h3><p>${escape(context.prepCompleted)}</p><p>Use those prepared components. The steps below cover the work still to do.</p></section>` : '';
       return completed+checklistCard('Cook Day opening and hardware inspection',openingChecks,'cook-opening')
+        +(pizzaFirst?'<p class="kd-rule"><b>Start first:</b> Preheat the pizza stone now. Cook and pack the breakfast pizza in the first hot work block; use its measured Cook Day bacon and eggs.</p>':'')
         +'<section class="kd-primary-block" data-cook-step="proteins"><h2>1. Cook the proteins</h2><p>Keep the chicken batches labeled. Prepare the Popcorn coating immediately before its chicken cook. Move each cooked batch into protected safe holding; start chilling cold-wrap chicken while you finish the rest.</p>'
         +proteins.map(station=>`<section class="kd-workstation kd-cook-station" data-cook-station="${station.id}"><header class="kd-workstation-heading"><div><h3>${escape(station.name)}</h3><p>${escape(station.hint)}</p></div></header>${station.groups.map(recipes=>combinedCookCard(recipes,productionExtras,'protein')).join('')}</section>`).join('')+'</section>'
         +checklistCard('Close and sanitize the raw station',rawClosureChecks.slice(0,3),'raw-closure')
         +'<section class="kd-primary-block" data-cook-step="components"><h2>2. Finish remaining cooking</h2>'
         +componentGroups.map(group=>`<section class="kd-workstation" data-component-group="${group.id}"><h3>${group.name}</h3>${group.groups.map(recipes=>combinedCookCard(recipes,productionExtras,'components')).join('')}</section>`).join('')+'</section>'
         +'<section class="kd-primary-block" data-cook-step="plating"><h2>3. Plate and pack</h2><p>Cold-wrap components must be 41 F or below before assembly.</p>'
-        +grouped.map(recipes=>combinedCookCard(recipes,productionExtras,recipes[0].method.coldAssembly?'cold':'assembly')).join('')+'</section>';
+        +plating+'</section>';
     }
     return checklistCard('Cook Day opening and hardware inspection',openingChecks,'cook-opening')
       +'<p class="kd-rule">Keep raw loading separate from clean food. Before any clean plating during hot work, remove raw tools, wash hands and sanitize the shared station. Return food to safe holding between short runs.</p>'
+      +(pizzaFirst?'<p class="kd-rule"><b>Start first:</b> Preheat the pizza stone; cook the pizza bacon and eggs fresh. Finish the breakfast pizza before the other meal builds.</p>':'')
       +run.hot.map((station,index)=>`<section class="kd-workstation kd-cook-station" data-cook-station="${station.id}"><header class="kd-workstation-heading"><div><span class="kd-eyebrow">Hot work ${index+1}</span><h3>${escape(station.name)}</h3><p>${escape(station.hint)}</p></div><b>${station.groups.length} ${station.groups.length===1?'dish':'dishes'}</b></header><div class="kd-workstation-jobs">${station.groups.map(recipes=>combinedCookCard(recipes,productionExtras,recipes[0].method.coldAssembly?'protein':'complete')).join('')}</div></section>`).join('')
       +checklistCard('Close and sanitize the raw station before cold assembly',rawClosureChecks,'raw-closure')
       +(run.cold.length?`<section class="kd-workstation" data-cook-station="cold-assembly"><header><h3>Cold assembly after raw-station closure</h3><p>Use only released chilled chicken and cold components. No raw food is opened here.</p></header>${run.cold.map(recipes=>combinedCookCard(recipes,productionExtras,'cold')).join('')}</section>`:'');
@@ -1187,7 +1207,7 @@
       const reset=(key)=>`<section class="kd-primary-block" data-prep-step="${key}"><h3>Sanitation reset</h3><ol>${sequence.reset.map(line=>`<li>${escape(line)}</li>`).join('')}</ol></section>`;
         content=(sequence.early.length?`<section class="kd-primary-block" data-prep-step="early"><h2>Start the slow roast or braise</h2><p>Start this measured batch after produce prep. Set its timer and sanitize the raw area before working on clean batches.</p>${aheadWorkstations(sequence.early)}</section>${reset('early-reset')}`:'')
         +`<section class="kd-primary-block" data-prep-step="sauces"><div class="kd-section-title"><div><span class="kd-eyebrow">Clean measured batches</span><h2>Sauces &amp; cups</h2></div></div>${sauceWorkstations(model)}</section>
-        <section class="kd-primary-block" data-prep-step="clean-ahead"><h2>Clean make-ahead work</h2><p>Complete assigned starches, vegetables and other nonmeat jobs before ordinary raw-protein prep. Protect cooling food, set checkpoint timers and reset between raw-egg and ready-to-eat work.</p>${aheadWorkstations(sequence.clean) || '<div class="kd-empty">No clean make-ahead batches for this run.</div>'}</section>`
+        <section class="kd-primary-block" data-prep-step="clean-ahead"><h2>Potatoes, vegetables, grains and cold kits</h2><p>These are the remaining clean Prep Day jobs. Keep cooked food protected while it cools; record the cooling checkpoints.</p>${aheadWorkstations(sequence.clean) || '<div class="kd-empty">No clean make-ahead batches for this run.</div>'}</section>`
         +(sequence.hasRawPrep?proteinBlock()+reset('raw-reset'):'')
         +(sequence.late.length?`<section class="kd-primary-block" data-prep-step="late-protein"><h2>Complete cook-ahead proteins</h2><p>Use the labeled raw pulls prepared above. Keep raw-loading utensils separate from cooked-food utensils; reset after raw handling. Record finished yield and cooling checkpoints.</p>${aheadWorkstations(sequence.late)}</section>${reset('late-reset')}`:'');
     }

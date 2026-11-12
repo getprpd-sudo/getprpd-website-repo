@@ -114,12 +114,12 @@ add_ingredient(
 )
 add_ingredient(
     "corn_street_tortilla",
-    "Mission White Corn Street Taco tortilla",
-    n(100 / 3, 2 / 3, 19 / 3, 3 / 3, 1 / 3, 0, 2 / 3, 0, 20 / 3, 0, 0, 0, 20 / 3, 0, 80 / 3),
+    "Great Value 6-inch white corn tortilla",
+    n(50, 1, 10, 1.5, .5, 0, 1, 0, 10, 0, 0, 0, 20, 0, 40),
     basis="each",
-    source="Mission White Corn Street Taco 24-count package listing, UPC 073731071502",
+    source="Great Value 6-inch white corn tortilla 30-count Walmart package listing",
     confidence="medium",
-    note="One 15g tortilla. Three tortillas provide 100 calories and 20mg sodium. Confirm the purchased UPC panel before production.",
+    note="One approximately 23.5g tortilla. Two tortillas provide 100 calories and 20mg sodium. Confirm the purchased package panel before production.",
 )
 add_ingredient("hot_sauce", "Sriracha sauce", n(93, 1.3, 19.2, 0.9, 0.9, 0.1, 15, 10, 2000, 0), source="Legacy key mapped to the current approved Sriracha profile", confidence="medium", note="Legacy key retained for older builders. Current sauce identity is Sriracha; confirm the physical package panel before final label printing.")
 add_ingredient("sunflower_oil", "Altunsa sunflower oil", n(884, 0, 0, 0, 100, 10.3, 0, 0, 0, 0), source="Generic pure sunflower-oil profile; purchased Altunsa 5 L package", confidence="medium", note="Confirm the physical package is 100% sunflower oil before final label printing.")
@@ -175,7 +175,7 @@ add_ingredient("part_skim_ricotta", "Part-skim ricotta cheese", n(129.03, 8.06, 
 add_ingredient("part_skim_mozzarella", "Part-skim mozzarella cheese", n(321.43, 25, 3.57, 0, 21.43, 12.5, 1.79, 0, 714.29, 53.57), source="Generic packaged part-skim mozzarella profile", confidence="medium", note="Modeled from 90 calories and 7g protein per 28g. Confirm the purchased package.")
 add_ingredient("marinara", "Marinara sauce", n(56, 1.6, 8, 1.6, 2, 0.4, 4, 0, 336, 0), source="Generic lower-sugar marinara package profile", confidence="medium", note="Modeled from 70 calories per 125g. Confirm the purchased jar.")
 add_ingredient("italian_seasoning", "Italian seasoning", n(265, 9, 69, 42, 4.3, 1.6, 4.1, 0, 25, 0), source="Generic dried-herb blend estimate", confidence="medium", note="Use the current salt-free Italian seasoning blend.")
-add_ingredient("lasagna_sheet", "Oven-ready lasagna sheet", n(60, 2.2, 12.6, 1, .3, .05, .5, 0, 20, 0), basis="each", source="Barilla-style oven-ready lasagna package profile", confidence="medium", note="One modeled sheet is approximately 17g. Confirm the purchased box.")
+add_ingredient("lasagna_sheet", "Barilla Wavy Lasagne, regular boil-first, dry", n(352.94, 12.94, 74.12, 5.88, 1.76, .294, 2.94, 0, 0, 0), source="Barilla regular Wavy Lasagne dry-weight planning profile", confidence="medium", note="Weigh dry pasta for the batch. The 306g modeled allocation preserves the prior pasta dry weight; confirm the purchased 16oz box panel and cooked sheet coverage.")
 add_ingredient("hummus", "Prepared hummus", n(166, 7.9, 14.3, 6, 9.6, 1.4, .3, 0, 379, 0), source="USDA FoodData Central comparable prepared hummus", confidence="medium")
 add_ingredient("feta", "Feta cheese", n(264, 14.2, 4.1, 0, 21.3, 14.9, 4.1, 0, 1116, 89), source="USDA FoodData Central", confidence="medium")
 add_ingredient("olives", "Black olives, drained", n(116, .8, 6, 1.6, 10.9, 2.3, 0, 0, 735, 0), source="USDA FoodData Central comparable canned olives", confidence="medium")
@@ -1344,7 +1344,7 @@ def high_protein_beef_lasagna(tier: str) -> Build:
         beef_pan(1134 / divisor), p("crushed_tomatoes", 1360 / divisor),
         p("tomato_paste", 85 / divisor), p("water", 120 / divisor),
         p("italian_seasoning", 6 / divisor),
-        p("lasagna_sheet", 12 / divisor, "each"), p("part_skim_ricotta", 425 / divisor),
+        p("lasagna_sheet", 204 / divisor), p("part_skim_ricotta", 425 / divisor),
         p("mozzarella", 226 / divisor), p("parmesan", 56 / divisor),
         p("egg", 2 / divisor, "each"), p("onion", 120 / divisor),
         p("garlic", 16 / divisor), p("parsley", 15 / divisor), p("black_pepper", 2 / divisor),

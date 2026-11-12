@@ -218,7 +218,8 @@
     $('cookiePanel').hidden=!cookie?.needed;
     if(!cookie?.needed)return;
     $('cookieTitle').textContent=`Complimentary cookies: ${cookie.produced} total`;
-    $('cookieDescription').textContent=`${cookie.needed} customer orders get one cookie each; ${cookie.spare} extra. This is a one-time Batch 19 recipe scaled ${cookie.batches}× from the 12-cookie base. Buy ${cookie.eggsToBuy} eggs: ${cookie.eggsToBuy/2} whole and ${cookie.eggsToBuy/2} for the extra yolks.`;
+    const eggs=cookie.produced===20?'3 whole eggs and 4 extra yolks from 7 shell eggs':`${cookie.batches*2} whole eggs and ${cookie.batches*2} extra yolks`;
+    $('cookieDescription').textContent=`${cookie.needed} customer orders get one full-size cookie each; ${cookie.spare} extra. The one-time Batch 19 recipe is scaled from the 12-cookie base to ${cookie.produced} cookies. Use ${eggs}; the shopping list subtracts eggs already at home.`;
     $('cookieRows').innerHTML=cookie.ingredients.map(item=>`<tr><td>${esc(item.name)}</td><td>${esc(item.amount)} ${esc(item.unit)}</td></tr>`).join('');
   }
   function renderPlan() {

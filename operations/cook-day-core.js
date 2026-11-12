@@ -657,6 +657,10 @@
               : Number(result.buffer.rawProteinBufferPct) || 0)
           : 0;
         current.bufferedAmount += amount * (1 + reservePct / 100);
+        if (Number(ingredient.minimumPieces) > 0) {
+          current.minimumPieceCount = (Number(current.minimumPieceCount) || 0)
+            + Number(ingredient.minimumPieces) * servings;
+        }
         totals.set(mapKey, current);
       }
     }
@@ -1621,8 +1625,19 @@
       };
     };
     if (config.selectionMode === 'order-selections' && config.enabled !== false) {
-      const selections = (orders || []).filter(order => order.included !== false && !order.planningOnly)
-        .flatMap(order => (order.sauces?.selections || order.sauces || []).map(sauce => ({...sauce, customer:order.customer, orderId:order.orderId})));
+      const activeOrders = (orders || []).filter(order => order.included !== false && !order.planningOnly);
+      const knownSauces = new Set((config.sauces || []).map(sauce => sauce.id));
+      const selections = activeOrders.flatMap(order => {
+        const ordered = (order.sauces?.selections || order.sauces || [])
+          .map(sauce => ({...sauce, customer:order.customer, orderId:order.orderId}));
+        const complimentaryCount = Math.max(0, Number(config.complimentaryPerOrder) || 0);
+        if (!Number.isSafeInteger(complimentaryCount)) throw new Error('Complimentary sauce count per order must be a whole number.');
+        if (!complimentaryCount) return ordered;
+        const match = ordered.find(sauce => knownSauces.has(sauce.id) && Number(sauce.qty) > 0);
+        const id = match?.id || config.complimentaryDefaultSauceId;
+        if (!knownSauces.has(id)) throw new Error('The complimentary default sauce has no current production formula.');
+        return [...ordered, {id,qty:complimentaryCount,customer:order.customer,orderId:order.orderId,complimentary:true}];
+      });
       const sauces = (config.sauces || []).map(sauce => {
         const destinations = selections.filter(selection => selection.id === sauce.id);
         const customerCups = destinations.reduce((sum, row) => sum + Number(row.qty || 0), 0);

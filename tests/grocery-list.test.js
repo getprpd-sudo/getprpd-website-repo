@@ -35,14 +35,14 @@ test('Batch 19 sauce groceries combine identical products and include raw cucumb
   assert.ok(requirements.find(row => row.key === 'cucumber').sources.some(source => source.includes('50% raw-to-squeezed')));
 });
 
-test('interchangeable nonfat Greek yogurt brands consolidate into one purchase line', () => {
+test('legacy nonfat yogurt inputs consolidate into the required FAGE purchase line', () => {
   const requirements = grocery.mergeRequirements([
     { key:'fage', name:'FAGE Total 0%', unit:'g', bufferedAmount:1000 },
     { key:'simple_truth_yogurt', name:'Simple Truth nonfat Greek yogurt', unit:'g', bufferedAmount:500 },
   ], null, []);
   assert.equal(requirements.length, 1);
   assert.equal(requirements[0].key, 'fage');
-  assert.equal(requirements[0].name, 'Nonfat Greek yogurt');
+  assert.equal(requirements[0].name, 'FAGE Total 0% plain Greek yogurt');
   assert.equal(requirements[0].required, 1500);
 });
 

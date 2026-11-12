@@ -7,7 +7,7 @@
 
   const BATCH = 19;
   const YIELD_PER_BATCH = 12;
-  const ONE_TIME_MINIMUM = 18;
+  const ONE_TIME_MINIMUM = 20;
   const formula = [
     { name: 'Unsalted butter', amount: 226, unit: 'g' },
     { name: 'Brown sugar', amount: 210, unit: 'g' },
@@ -19,7 +19,7 @@
     { name: 'Baking soda', amount: 1, unit: 'tsp' },
     { name: 'Baking powder', amount: 0.5, unit: 'tsp' },
     { name: 'Salt', amount: 0.5, unit: 'tsp' },
-    { name: 'Chocolate chips or chunks', amount: 260, unit: 'g' },
+    { name: 'Chocolate chips', amount: 260, unit: 'g' },
   ];
 
   function plan(orderCount, batchNumber) {
@@ -32,8 +32,10 @@
       batches,
       produced,
       spare: produced - needed,
-      ingredients: formula.map(item => ({ ...item, amount: item.amount * batches })),
-      eggsToBuy: batches * 4,
+      ingredients: formula.map(item => ({ ...item, amount: produced === ONE_TIME_MINIMUM && item.name === 'Whole eggs' ? 3
+        : produced === ONE_TIME_MINIMUM && item.name === 'Extra egg yolks' ? 4
+        : Math.round(item.amount * batches * 10) / 10 })),
+      eggsToBuy: Math.ceil(batches * 4),
     };
   }
 
@@ -44,13 +46,13 @@
       { key:'butter', name:'Unsalted butter', amount:226*scale, unit:'g', section:'Dairy & Eggs' },
       { key:'brown_sugar', name:'Brown sugar', amount:210*scale, unit:'g', section:'Sweets & Baking' },
       { key:'granulated_sugar', name:'Granulated white sugar', amount:100*scale, unit:'g', section:'Sweets & Baking' },
-      { key:'egg', name:'Eggs for whole eggs and extra yolks', amount:4*scale, unit:'each', section:'Dairy & Eggs' },
+      { key:'egg', name:'Eggs for whole eggs and extra yolks', amount:cookiePlan.eggsToBuy, unit:'each', section:'Dairy & Eggs' },
       { key:'vanilla', name:'Vanilla extract', amount:20*scale, unit:'g', section:'Sweets & Baking' },
       { key:'flour', name:'All-purpose flour', amount:300*scale, unit:'g', section:'Pantry & Sauces' },
       { key:'baking_soda', name:'Baking soda', amount:4.6*scale, unit:'g', section:'Sweets & Baking' },
       { key:'baking_powder', name:'Baking powder', amount:2*scale, unit:'g', section:'Sweets & Baking' },
       { key:'salt', name:'Salt', amount:3*scale, unit:'g', section:'Pantry & Sauces' },
-      { key:'chocolate_chips', name:'Chocolate chips or chunks', amount:260*scale, unit:'g', section:'Sweets & Baking' },
+      { key:'chocolate_chips', name:'Chocolate chips', amount:260*scale, unit:'g', section:'Sweets & Baking' },
     ].map(item => ({...item,amount:Math.round(item.amount*10)/10}));
   }
 

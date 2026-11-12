@@ -252,23 +252,23 @@ const PRPD_MENU_DETAILS = {
       "m3": {
         "type": "meal",
         "name": "Cheesy Achiote Chicken Tacos",
-        "description": "Achiote-citrus chicken thighs, melted cheese, pickled onion, Cotija, and cilantro in street-size corn tortillas.",
+        "description": "Achiote-citrus chicken thighs, melted cheese, pickled onion, Cotija, and cilantro in 6-inch white corn tortillas.",
         "storageMode": "fridge",
         "reheat": "Reheat tacos until hot throughout.",
         "tiers": {
           "lean": {
             "label": "LEAN",
-            "netWeight": "Est. 12.9 oz (365 g)",
-            "ingredients": "boneless skinless chicken thigh, mission white corn street taco tortilla, H-E-B fat-free mozzarella, red onion, Cotija cheese, el yucateco seasoned achiote paste, lime juice, apple cider vinegar, water, garlic, avocado oil, cilantro, salt, honey, cumin, paprika.",
+            "netWeight": "Est. 13.8 oz (391 g)",
+            "ingredients": "boneless skinless chicken thigh, Great Value 6-inch white corn tortilla, H-E-B fat-free mozzarella, red onion, Cotija cheese, el yucateco seasoned achiote paste, lime juice, apple cider vinegar, water, garlic, avocado oil, cilantro, salt, honey, cumin, paprika.",
             "allergens": "CONTAINS: MILK.",
             "allergenAdvisory": "",
             "nutritionBasis": "",
             "nutrition": {
-              "calories": 535,
-              "protein": 55,
-              "carbs": 32,
-              "fiber": 4,
-              "fat": 19,
+              "calories": 585,
+              "protein": 56,
+              "carbs": 43,
+              "fiber": 5,
+              "fat": 20,
               "satFat": 6.1,
               "sugars": 4,
               "sodium": 1500,
@@ -277,16 +277,16 @@ const PRPD_MENU_DETAILS = {
           },
           "bulk": {
             "label": "BULK",
-            "netWeight": "Est. 16.4 oz (465 g)",
-            "ingredients": "boneless skinless chicken thigh, mission white corn street taco tortilla, H-E-B fat-free mozzarella, red onion, Cotija cheese, el yucateco seasoned achiote paste, lime juice, apple cider vinegar, water, garlic, avocado oil, cilantro, salt, honey, cumin, paprika.",
+            "netWeight": "Est. 17.6 oz (499 g)",
+            "ingredients": "boneless skinless chicken thigh, Great Value 6-inch white corn tortilla, H-E-B fat-free mozzarella, red onion, Cotija cheese, el yucateco seasoned achiote paste, lime juice, apple cider vinegar, water, garlic, avocado oil, cilantro, salt, honey, cumin, paprika.",
             "allergens": "CONTAINS: MILK.",
             "allergenAdvisory": "",
             "nutritionBasis": "",
             "nutrition": {
-              "calories": 710,
-              "protein": 73,
-              "carbs": 43,
-              "fiber": 5,
+              "calories": 780,
+              "protein": 74,
+              "carbs": 58,
+              "fiber": 7,
               "fat": 26,
               "satFat": 8.1,
               "sugars": 6,
@@ -299,14 +299,14 @@ const PRPD_MENU_DETAILS = {
       "m4": {
         "type": "meal",
         "name": "High-Protein Beef Lasagna",
-        "description": "Halal 90/10 beef, house tomato sauce, ricotta, mozzarella, Parmesan, and oven-ready pasta.",
+        "description": "Halal 90/10 beef, house tomato sauce, ricotta, mozzarella, Parmesan, and classic lasagna pasta.",
         "storageMode": "freezer",
         "reheat": "Vent lid and microwave 2-3 minutes until hot throughout; rest 1 minute.",
         "tiers": {
           "lean": {
             "label": "LEAN",
             "netWeight": "",
-            "ingredients": "Halal 90/10 ground beef, house tomato sauce, oven-ready wheat pasta, part-skim ricotta, H-E-B fat-free mozzarella, Parmesan, seasonings.",
+            "ingredients": "Halal 90/10 ground beef, house tomato sauce, boiled wheat lasagna pasta, part-skim ricotta, H-E-B fat-free mozzarella, Parmesan, seasonings.",
             "allergens": "CONTAINS: MILK, WHEAT.",
             "nutritionBasis": "Recipe-calculated estimate per complete serving.",
             "nutrition": {
@@ -321,7 +321,7 @@ const PRPD_MENU_DETAILS = {
           "bulk": {
             "label": "BULK",
             "netWeight": "",
-            "ingredients": "Halal 90/10 ground beef, house tomato sauce, oven-ready wheat pasta, part-skim ricotta, H-E-B fat-free mozzarella, Parmesan, seasonings.",
+            "ingredients": "Halal 90/10 ground beef, house tomato sauce, boiled wheat lasagna pasta, part-skim ricotta, H-E-B fat-free mozzarella, Parmesan, seasonings.",
             "allergens": "CONTAINS: MILK, WHEAT.",
             "nutritionBasis": "Recipe-calculated estimate per complete serving.",
             "nutrition": {

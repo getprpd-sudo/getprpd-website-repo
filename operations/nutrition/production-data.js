@@ -1650,7 +1650,7 @@ const PRPD_PRODUCTION_DATA = {
       "category": "Main",
       "aliases": [],
       "status": "Batch 19 controlled planning recipe",
-      "recommendation": "Labels use the owner-approved conservative estimated net weights. Use Mission White Corn Street Taco tortillas and El Yucateco seasoned achiote paste, and record tortilla/reheat quality.",
+      "recommendation": "Use Great Value 6-inch white corn tortillas and El Yucateco seasoned achiote paste. Record the purchased tortilla panel, finished taco weight and reheat quality before the revised nutrition label is printed.",
       "tiers": {
         "lean": {
           "ingredients": [
@@ -1670,7 +1670,7 @@ const PRPD_PRODUCTION_DATA = {
             {
               "key": "corn_street_tortilla",
               "sourceKey": "corn_street_tortilla",
-              "name": "Mission White Corn Street Taco tortilla",
+              "name": "Great Value 6-inch white corn tortilla",
               "amount": 3,
               "unit": "each",
               "station": "Other",
@@ -1901,7 +1901,7 @@ const PRPD_PRODUCTION_DATA = {
             {
               "key": "corn_street_tortilla",
               "sourceKey": "corn_street_tortilla",
-              "name": "Mission White Corn Street Taco tortilla",
+              "name": "Great Value 6-inch white corn tortilla",
               "amount": 4,
               "unit": "each",
               "station": "Other",
@@ -2116,7 +2116,7 @@ const PRPD_PRODUCTION_DATA = {
         }
       },
       "plannerOnly": false,
-      "qualityChecks": "Labels use the owner-approved conservative estimated net weights. Use Mission White Corn Street Taco tortillas and El Yucateco seasoned achiote paste, and record tortilla/reheat quality."
+      "qualityChecks": "Use Great Value 6-inch white corn tortillas and El Yucateco seasoned achiote paste. Record the purchased tortilla panel, finished taco weight and reheat quality before the revised nutrition label is printed."
     },
     "m4": {
       "name": "High-Protein Beef Lasagna",
@@ -2183,9 +2183,9 @@ const PRPD_PRODUCTION_DATA = {
             {
               "key": "lasagna_sheet",
               "sourceKey": "lasagna_sheet",
-              "name": "Oven-ready lasagna sheet",
-              "amount": 1.5,
-              "unit": "each",
+              "name": "Barilla Wavy Lasagne, regular boil-first, dry",
+              "amount": 25.5,
+              "unit": "g",
               "station": "Starches & Hot Sides",
               "note": "",
               "confidence": "medium"
@@ -2356,9 +2356,9 @@ const PRPD_PRODUCTION_DATA = {
             {
               "key": "lasagna_sheet",
               "sourceKey": "lasagna_sheet",
-              "name": "Oven-ready lasagna sheet",
-              "amount": 2.0,
-              "unit": "each",
+              "name": "Barilla Wavy Lasagne, regular boil-first, dry",
+              "amount": 34.0,
+              "unit": "g",
               "station": "Starches & Hot Sides",
               "note": "",
               "confidence": "medium"

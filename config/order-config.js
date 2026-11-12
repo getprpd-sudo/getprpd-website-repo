@@ -447,20 +447,20 @@ const ORDER_CONFIG = {
         "name": "Cheesy Achiote Chicken Tacos",
         "category": "standard",
         "macros": {
-          "cal": 535,
-          "protein": 55,
-          "carbs": 32,
-          "fiber": 4,
-          "fat": 19
-        },
-        "bulkMacros": {
-          "cal": 710,
-          "protein": 73,
+          "cal": 585,
+          "protein": 56,
           "carbs": 43,
           "fiber": 5,
+          "fat": 20
+        },
+        "bulkMacros": {
+          "cal": 780,
+          "protein": 74,
+          "carbs": 58,
+          "fiber": 7,
           "fat": 26
         },
-        "description": "Achiote-citrus chicken thighs, melted cheese, pickled onion, Cotija, and cilantro in street-size corn tortillas.",
+        "description": "Achiote-citrus chicken thighs, melted cheese, pickled onion, Cotija, and cilantro in 6-inch white corn tortillas.",
         "image": "",
         "newThisWeek": false,
         "nutritionReview": true,
@@ -471,7 +471,7 @@ const ORDER_CONFIG = {
         "name": "High-Protein Beef Lasagna",
         "category": "beef",
         "laterWeek": true,
-        "description": "Halal 90/10 beef, house tomato sauce, ricotta, mozzarella, Parmesan, and oven-ready pasta.",
+        "description": "Halal 90/10 beef, house tomato sauce, ricotta, mozzarella, Parmesan, and classic lasagna pasta.",
         "macros": {
           "cal": 530,
           "protein": 51,

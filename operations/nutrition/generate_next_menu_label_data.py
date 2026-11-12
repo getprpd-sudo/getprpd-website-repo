@@ -24,8 +24,7 @@ EACH_GRAMS = {
     "biscoff_cookie": 8,
     "english_muffin": 57,
     "beef_bacon": 20,
-    "lasagna_sheet": 17,
-    "corn_street_tortilla": 15,
+    "corn_street_tortilla": 23.5,
 }
 
 ESTIMATED_NET_WEIGHTS = {
@@ -125,7 +124,7 @@ DISPLAY_INGREDIENTS = {
     "part_skim_ricotta": "part-skim ricotta cheese",
     "part_skim_mozzarella": "part-skim mozzarella cheese",
     "marinara": "marinara sauce",
-    "lasagna_sheet": "oven-ready wheat lasagna",
+    "lasagna_sheet": "regular boiled wheat lasagna",
     "hummus": "hummus",
     "feta": "feta cheese",
     "olives": "black olives",
@@ -306,7 +305,7 @@ META = {
     "Tandoori Chicken": ("Tandoori-spiced bone-in chicken leg quarters with basmati rice and roasted broccoli.", "A measured bone-in tandoori build for the week.", "freezer"),
     "Pepper Steak Bowl": ("Lean beef strips with peppers, onions, basmati rice, and a savory garlic sauce.", "Pepper steak, bowl format.", "freezer"),
     "Chicken Enchilada Bake": ("Layered chicken, high-fiber tortillas, corn, red enchilada sauce, and cheese.", "Layered, loaded, and not here to be subtle.", "freezer"),
-    "High-Protein Beef Lasagna": ("Thoroughly drained ground beef, PRPD house tomato sauce, oven-ready pasta, part-skim ricotta, mozzarella, and Parmesan.", "Classic lasagna structure with a measured high-protein build.", "freezer"),
+    "High-Protein Beef Lasagna": ("Thoroughly drained ground beef, PRPD house tomato sauce, boiled lasagna pasta, part-skim ricotta, mozzarella, and Parmesan.", "Classic lasagna structure with a measured high-protein build.", "freezer"),
     "Chocolate Peanut Butter Protein Brownie": ("A baked chocolate protein brownie with PBfit and semisweet chocolate.", "Chocolate and peanut butter, with the protein handled.", "fridge"),
     "Buffalo Chicken Pinwheels": ("Four chilled pinwheel pieces cut from one 70-calorie Mission tortilla with buffalo chicken, regular cream cheese, cheese, lettuce, and red onion.", "Buffalo chicken in its snack era.", "fridge"),
     "BBQ Chicken Lavash Flatbread": ("Four smoky honey-lime BBQ chicken lavash wedges with fat-free mozzarella and red onion.", "A crisp, protein-forward flatbread built for Grab & Go.", "fridge"),

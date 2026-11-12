@@ -5258,23 +5258,32 @@
       {key:'canned_peas',name:'Canned sweet peas, drained',unit:'g',delta:37,station:'Cold Prep & Produce',reason:'Batch 14 owner pantry substitution: use 37 g of the canned peas already at home for the Shrimp meal.'},
       {key:'carrot',name:'Fresh carrot',unit:'g',delta:37,station:'Cold Prep & Produce',reason:'Batch 14 owner pantry substitution: buy one carrot and use 37 g in the Shrimp meal.'},
     ] : [];
+    if(liveProduction.batch===19) data.groceryAdjustments.push({
+      key:'tortilla_chips',name:'Tortilla chips, owner shopping item',unit:'each',delta:1,
+      station:'Pantry & Sauces',reason:'One bag requested for this week; no meal recipe allocation.',
+    });
     data.rawProteinReserveByDish=liveProduction.batch===16 ? {m5:100/7,p1:8} : {};
     data.sharedProteinSeasoning=[];
     data.extraPackaging=liveProduction.batch===16 ? [{
       key:'cling_film_roll',name:'Clear food-service cling film / transparent plastic wrap',unit:'each',station:'Packaging',required:1,
     }] : [];
+    if(liveProduction.batch===19) data.extraPackaging.push({
+      key:'food_prep_gloves',name:'Disposable food-prep gloves',unit:'box',station:'Packaging',required:1,
+    });
     const buildInternalExtra = (dishId, label, ownerServings, tier='lean') => {
       const sideCups=(methods[dishId]?.sideCupComponents || [])
         .reduce((sum,cup)=>sum+(Number(cup.cupsPerMeal)||1),0);
+      const packageType=liveProduction.meals[dishId]?.packageType
+        || (liveProduction.meals[dishId]?.category==='Add-on'?'grab_go':'meal');
       return {
-        id:`batch15-internal-${dishId}-${tier}`,
+        id:`batch${liveProduction.batch}-internal-${dishId}-${tier}`,
         dishId,
         label:`Internal ${label} x ${ownerServings}`,
         ownerServings,
         tier,
         optional:false,
         enabled:true,
-        note:`Make ${ownerServings} additional ${tier === 'lean' ? 'Lean ' : 'Bulk '}${label} ${ownerServings === 1 ? 'meal' : 'meals'} for home. These are explicit internal meals, not customer orders, and receive no customer labels.`,
+        note:`Make ${ownerServings} additional ${tier === 'single' ? '' : tier === 'lean' ? 'Lean ' : 'Bulk '}${label} ${ownerServings === 1 ? 'meal' : 'meals'} for home. These are explicit internal meals, not customer orders, and receive no customer labels.`,
         ingredients:(liveProduction.meals[dishId]?.tiers?.[tier]?.ingredients || []).map(ingredient=>({
           ...JSON.parse(JSON.stringify(ingredient)),
           amount:(Number(ingredient.amount)||0)*ownerServings,
@@ -5284,12 +5293,17 @@
           ])),
         })),
         packaging:[
-          {key:'meal_container',name:'Meal container with lid',unit:'each',station:'Packaging',required:ownerServings},
+          {key:packageType==='grab_go'?'grab_go_container':'meal_container',name:packageType==='grab_go'?'12 oz Grab & Go box with lid':'Meal container with lid',unit:'each',station:'Packaging',required:ownerServings},
           ...(sideCups ? [{key:'sauce_cup',name:'2 oz sauce cup with lid',unit:'each',station:'Packaging',required:sideCups*ownerServings}] : []),
         ],
       };
     };
-    data.productionExtras=liveProduction.batch===16 ? [
+    data.productionExtras=liveProduction.batch===19 ? [
+      buildInternalExtra('m6','Mango Habanero Chicken Wings',2,'bulk'),
+      buildInternalExtra('b3','Beef Bacon Breakfast Pizza',1,'lean'),
+      buildInternalExtra('m1','BBQ Chicken Mac & Cheese',2,'lean'),
+      buildInternalExtra('a1','Oven-Baked Popcorn Chicken',2,'single'),
+    ] : liveProduction.batch===16 ? [
       buildInternalExtra('m1','Hot Honey Chicken Sliders',1),
       buildInternalExtra('m4','BBQ Chicken Mac & Cheese',1),
       buildInternalExtra('m2','Butter Chicken',2),
@@ -5335,9 +5349,13 @@
       data.weeklySauces={
         enabled:true,
         selectionMode:'order-selections',
+        complimentaryPerOrder:liveProduction.batch===19?1:0,
+        complimentaryDefaultSauceId:'cucumber-dill-tzatziki',
         eligibleMealIds:[],
         sauces:liveConfig.sauceProgram.choices || [],
-        policy:'Only customer-selected order-level cups. Recipe cups remain separate.',
+        policy:liveProduction.batch===19
+          ? 'Customer-selected order-level cups plus one complimentary 40 g weekly sauce cup per customer order. Match an ordered sauce when present; otherwise pack Cucumber Dill Tzatziki. Recipe cups remain separate.'
+          : 'Only customer-selected order-level cups. Recipe cups remain separate.',
       };
     } else {
       data.weeklySauces={
@@ -5410,13 +5428,42 @@
       wings.validation='Purchased mango sauce and ranch identity/panels, seasoning taste, actual piece weights, cooked edible yield, fit and cooling require physical verification. No full nutrition label is released.';
     }
     if(Number(data.batch)>=19) {
+      const lasagna=Object.values(data.meals).find(method=>method.recipeName==='High-Protein Beef Lasagna');
+      if(lasagna) {
+        const sauce=lasagna.prepBatches.find(task=>task.name==='PRPD lasagna tomato meat sauce');
+        if(sauce) {
+          sauce.instruction='Make the complete house tomato meat sauce once for the active Lean and Bulk lasagna pans.';
+          sauce.steps=[
+            'Blend the canned tomatoes smooth if needed.',
+            'Brown the 90/10 ground beef with the measured onion and garlic to 160 F, then drain the rendered fat thoroughly.',
+            'Stir in crushed tomatoes, tomato paste, water, Italian seasoning, black pepper, and salt.',
+            'Simmer until thick enough for already-boiled pasta; record finished sauce weight. Do not leave it watery for no-boil noodles.',
+          ];
+        }
+        const ricotta=lasagna.prepBatches.find(task=>task.name==='Lasagna ricotta layer');
+        if(ricotta) ricotta.instruction='Mix the complete ricotta layer once for the active Lean and Bulk lasagna pans.';
+        const bake=lasagna.prepBatches.find(task=>task.name==='Assemble, fully bake, and chill Lasagna pans');
+        if(bake) {
+          bake.instruction='On Prep Day, boil the exact displayed dry weight of regular lasagna pasta, assemble the active tier pans, bake, and chill intact.';
+          bake.steps=[
+            'Weigh the exact dry Barilla Wavy Lasagne allocation. Boil the regular sheets according to the package, stopping just short of fully tender; drain and separate without adding unmeasured oil.',
+            'Tare and label one pan for each active tier. Fit the boiled sheets to the pan without adding pasta beyond the weighed dry allocation; note the actual sheet count and trim.',
+            'Layer the thickened PRPD tomato meat sauce, boiled pasta, ricotta mixture, and H-E-B fat-free mozzarella. Finish with sauce and mozzarella.',
+            'Cover and bake at 375 F until every pan center reaches 165 F; uncover briefly for browning if needed.',
+            'Record each finished hot pan weight, then start rapid cooling immediately in the approved shallow-pan setup.',
+            'Log 135 F to 70 F within 2 hours and 70 F to 41 F or below within 4 additional hours. Do not release an out-of-limit pan.',
+            'Once 41 F or below, cover, label, date, and chill the pans intact overnight. Cut and weigh the exact customer portions on Cook Day.',
+          ];
+        }
+        lasagna.prepSteps=lasagna.prepBatches.map(task=>task.instruction);
+      }
       const pizza=Object.values(data.meals).find(method=>method.recipeName==='Beef Bacon Breakfast Pizza');
       if(pizza) {
         pizza.equipment=['digital gram scale','mixing bowl','skillet','pizza stone','parchment rated for 425 F','instant-read thermometer'];
         pizza.temperature='Preheat the stone at 425 F for 45–60 minutes. Bake on the second-lowest rack, check at 8 minutes; the owner trial took about 9–10 minutes. Cook egg to 160 F before topping.';
         pizza.prepBatches=[prep('measured-prep','Prepare breakfast pizza dough, toppings and sauce','Use the current 100 g Lean and 125 g Bulk dough rectangles. Keep cooked toppings cold until Cook Day.',
           ['flour','water','instant_yeast','salt','olive_oil','egg','egg_white','green_bell_pepper','onion','crushed_tomatoes','garlic','italian_seasoning','red_chili_flakes','mozzarella','sharifa_beef_bacon'],[
-            'Mix the measured dough; one 235 g batch makes one 100 g Lean rectangle and one 125 g Bulk rectangle, with 10 g unused. Refrigerate the portioned dough.',
+            'Mix the measured dough on Prep Day; one 235 g batch makes one 100 g Lean rectangle and one 125 g Bulk rectangle, with 10 g unused. Cover and refrigerate the portioned dough overnight for a slow rise. Do not first mix it on Cook Day.',
             'Simmer canned tomato, garlic, olive oil, Italian seasoning and chili flakes. Record finished sauce yield; reserve 15 g for each pizza.',
             'Saute 30 g pepper/onion per pizza until excess moisture evaporates. Scramble the egg and whites gently to 160 F; weigh the finished mixture and record each tier allocation.',
             'Weigh Sharifa bacon as packaged at 50 g Lean or 60 g Bulk. Cook it fully before topping; reserve one pliable cooked slice for each pizza, then crisp and chop the rest.',
@@ -5986,10 +6033,93 @@
     const wings = byName('Mango Habanero Chicken Wings');
     const wingFinish = wings?.prepBatches?.find(task => task.name === 'Stage clean mango habanero finish');
     if (wingFinish) {
+      wingFinish.type = 'measured-prep';
+      wingFinish.name = 'Toss wings with clean mango habanero after cooking';
+      wingFinish.instruction = 'Reserve the measured wing-coating sauce for the Cook Day toss.';
+      wingFinish.steps = ['After the wings reach 165 F, measure and toss the clean finish. Keep the separate 20 g dip cups untouched.'];
       wingFinish.componentRef = 'wings-finish';
-      wingFinish.instruction = 'Measure only the mango-habanero finish for the wings; reserve the separate 20 g dip allocation for its own cups.';
-      wingFinish.steps = ['Measure the displayed wings-finish allocation into a clean covered container.', 'Keep it separate from raw chicken and from the 20 g customer dip cups.'];
+      wingFinish.deferred = true;
+      wingFinish.releaseTiming = 'cook-day';
+      wingFinish.finishTiming = 'cook-day';
+      wingFinish.hidePrepCard = true;
+      wings.steps = [
+        'Cook the counted split wings in uncrowded batches to 165 F, probing thick meat away from bone.',
+        'After cooking, toss with the measured clean mango-habanero finish. Keep the separate 20 g dip cups clean and sealed.',
+        'Pack 6 pieces per Lean or 8 per Bulk with one 40 g bottled ranch cup and one 20 g mango-habanero dip cup.',
+      ];
+      wings.cookPackSteps = wings.steps;
+      wings.cookDayReservations = wings.steps;
       wings.prepSteps = wings.prepBatches.map(task => task.instruction);
+    }
+    const tacos = byName('Cheesy Achiote Chicken Tacos');
+    const pickle = tacos?.prepBatches?.find(task => task.name === 'Quick-pickle red onion');
+    if (pickle) {
+      pickle.type = 'sauce';
+      pickle.prepWave = 'sauces';
+      pickle.prepWaveName = 'Sauces and cold garnishes';
+      tacos.prepSteps = tacos.prepBatches.map(task => task.instruction);
+    }
+    const lasagna = byName('High-Protein Beef Lasagna');
+    const ricotta = lasagna?.prepBatches?.find(task => task.name === 'Lasagna ricotta layer');
+    if (ricotta) {
+      ricotta.type = 'sauce';
+      ricotta.prepWave = 'sauces';
+      ricotta.prepWaveName = 'Sauces and cold garnishes';
+      lasagna.prepSteps = lasagna.prepBatches.map(task => task.instruction);
+    }
+    const skillet = byName('Beef Breakfast Skillet');
+    if (skillet) {
+      skillet.prepBatches = skillet.prepBatches.filter(task => task.name !== 'Breakfast Skillet eggs');
+      skillet.steps = [
+        'On Cook Day, brown the measured beef with its garlic to 160 F; drain.',
+        'Cook the tier eggs fresh and fully set. Use the prepared potatoes.',
+        'Pack beef, potatoes, eggs, red onion and H-E-B fat-free mozzarella by tier.',
+      ];
+      skillet.cookPackSteps = skillet.steps;
+      skillet.cookDayReservations = skillet.steps;
+      if (skillet.proteinCook) skillet.proteinCook.recipeSteps = [skillet.steps[0]];
+      skillet.prepSteps = skillet.prepBatches.map(task => task.instruction);
+    }
+    const popcorn = byName('Oven-Baked Popcorn Chicken');
+    if (popcorn) {
+      popcorn.prepBatches = popcorn.prepBatches.filter(task => task.name !== 'Prepare Popcorn breading station');
+      popcorn.steps = [
+        'On Cook Day, immediately before baking, weigh per serving: 5 g flour, 15 g egg white, 25 g plain Corn Flakes before crushing, 1 g garlic powder, 0.5 g paprika, 0.2 g pepper, 0.75 g salt and 3 g oil total.',
+        'Make separate flour, egg-white and seasoned-crumb bowls. Coat the cold chicken in that order; discard raw-contact leftovers.',
+        'Bake in an uncrowded layer to 165 F in the thickest pieces. Record the actual oven setting, time and yield.',
+        'Cool under protection, pack one complete serving per box and refrigerate.',
+      ];
+      popcorn.cookPackSteps = popcorn.steps;
+      popcorn.cookDayReservations = popcorn.steps;
+      if (popcorn.proteinCook) popcorn.proteinCook.recipeSteps = popcorn.steps.slice(0,3);
+      popcorn.cookIngredientKeys = ['flour','egg_white','kelloggs_corn_flakes_plain','garlic_powder','paprika','black_pepper','salt','avocado_oil'];
+      popcorn.prepSteps = popcorn.prepBatches.map(task => task.instruction);
+    }
+    const pizza = byName('Beef Bacon Breakfast Pizza');
+    if (pizza) {
+      const prepCard = pizza.prepBatches.find(task => task.name === 'Prepare breakfast pizza dough, toppings and sauce');
+      if (prepCard) {
+        prepCard.name = 'Pizza dough balls, sauce and vegetables';
+        prepCard.instruction = 'Make the dough, sauce and vegetables on Prep Day; eggs and bacon cook fresh on Cook Day.';
+        prepCard.ingredientKeys = prepCard.ingredientKeys.filter(key => !['egg','egg_white','sharifa_beef_bacon'].includes(key));
+        prepCard.steps = [
+          'Mix the measured dough. Divide into 100 g Lean dough balls and 125 g Bulk dough balls; these are unshaped portions, not finished rectangles. Cover and refrigerate overnight.',
+          'Simmer the measured canned tomato, garlic, olive oil, Italian seasoning and chili flakes. Reserve 15 g finished sauce per pizza.',
+          'Saute 30 g pepper and onion per pizza until excess moisture evaporates; cool and refrigerate.',
+          'Stage H-E-B fat-free mozzarella: 30 g Lean or 58 g Bulk. Leave the eggs and Sharifa beef bacon raw and refrigerated until Cook Day.',
+        ];
+      }
+      pizza.steps = [
+        'Start first: preheat the pizza stone at 425 F for 45–60 minutes on the second-lowest rack.',
+        'Cook the measured eggs and whites fully to 160 F. Cook the Sharifa beef bacon to its package endpoint; reserve one pliable cooked slice per pizza and crisp the remaining pieces for bits.',
+        'Shape each cold 100 g Lean or 125 g Bulk dough ball into its own box-fitting rectangle on oven-rated parchment. A dough ball is one whole pizza, with no cutting after baking.',
+        'Add 15 g house sauce, the tier egg share, 30 g vegetables, one cooked bacon slice and 30 g Lean or 58 g Bulk H-E-B fat-free mozzarella.',
+        'Bake on the hot stone; check at 8 minutes, then continue until the crust is browned and the cheese melts. The owner trial took 9–10 minutes.',
+        'Add crisp bacon bits after baking so they do not char. Cool briefly on a rack; pack the whole rectangle and check the 8 × 5.2 inch box fit.',
+      ];
+      pizza.cookPackSteps = pizza.steps;
+      pizza.cookDayReservations = pizza.steps;
+      pizza.prepSteps = pizza.prepBatches.map(task => task.instruction);
     }
   }
 

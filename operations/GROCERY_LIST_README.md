@@ -1,8 +1,8 @@
 # PRPD Grocery Builder
 
-**Batch 19 one-time complimentary cookies:** The Grocery Builder shows the scaled 18-cookie recipe in its own panel and includes all ingredients in the shared shopping requirements, package estimates, pantry subtraction and CSV. The 12-cookie Gmail formula is multiplied by 1.5; six purchased eggs cover three whole eggs and three extra yolks. Small teaspoon ingredients use approximate gram conversions for shopping only. This rule is gated to Batch 19 and grows to 24 cookies only if customer orders exceed 18.
+**Batch 19 one-time complimentary cookies:** The Grocery Builder shows 20 full-size cookies and includes their ingredients in the shared shopping requirements, package estimates, pantry subtraction and CSV. The 12-cookie Gmail formula is multiplied by 20/12. The practical egg measure is three whole eggs plus four extra yolks from seven shell eggs. Mix and portion the dough on Prep Day; bake after raw-meat cleanup on Cook Day, cool fully, and pack one cookie per customer order. Small teaspoon ingredients use approximate gram conversions for shopping only. This rule is gated to Batch 19 and grows to 24 cookies if customer orders exceed 20.
 
-**Current Batch 17, October 29, 2026:** Reviewed planner and actual Grocery Builder match at 98 portions, 19 cups, 73 label demand. Read [`active/HANDOFF_2026-10-29.md`](active/HANDOFF_2026-10-29.md) and current cook record. Current CSV `PRPD_Batch17_Grocery_List_2026-10-28.csv` is in `C:\Users\aazim\Documents\Codex\2026-10-26\okay-so-read-all-the-documents\outputs`. Priced checkout estimate $172.10 excludes bottled ranch, owner-added tortilla chips, tax and store changes; it is not an actual expense or complete quoted total.
+**Historical Batch 17, October 29, 2026:** The archived reviewed planner and Grocery Builder matched at 98 portions, 19 cups and 73 labels. The old CSV `PRPD_Batch17_Grocery_List_2026-10-28.csv` is in `C:\Users\aazim\Documents\Codex\2026-10-26\okay-so-read-all-the-documents\outputs`. Its price estimate is historical and does not apply to the current batch.
 
 **Owner state survives reload:** 52 stocked rows, partial inventory and manual buys retained. Package size/label/store choices now persist per batch; existing price sharing remains. Preserve black beans at estimated 241 g drained per standard can, 28 oz CRUSHED tomatoes, one-dozen eggs and one-pound red onion. Do not restore an old export wholesale and lose updated paprika/onion-powder stock. Containers already ordered: zero buys means ordered, not received. Wings require at least 44 individual split pieces and five 40 g ranch cups; estimated grams do not replace counting. Four persistence checks and actual save/reload passed. Older empty-pantry/package/batch defaults below are history.
 
@@ -20,7 +20,7 @@ Updated: September 8, 2026
 
 The Grocery Builder converts the reviewed current-batch orders and controlled recipes into one consolidated shopping list. It is an internal localhost-only tool and is excluded from the public Vercel deployment.
 
-Current Batch 10 checkpoint: the builder uses five orders and 50 items from the reviewed lock. It resolves 67 buy-list rows and no unresolved items. After the September 9 receipt and Walmart package-price audit, food consumed is estimated at $169.36 and packaging consumed at $24.55, for $193.91 of direct variable cost. The displayed $464.78 empty-pantry checkout buys whole packages with zero pantry items marked stocked, so it is a replacement-value control and not an approved purchase total. Enter only physically verified pantry stock before shopping.
+Historical Batch 10 checkpoint: the builder uses five orders and 50 items from the reviewed lock. It resolves 67 buy-list rows and no unresolved items. After the September 9 receipt and Walmart package-price audit, food consumed is estimated at $169.36 and packaging consumed at $24.55, for $193.91 of direct variable cost. The displayed $464.78 empty-pantry checkout buys whole packages with zero pantry items marked stocked, so it is a replacement-value control and not an approved purchase total. Enter only physically verified pantry stock before shopping.
 
 ## Open It
 
@@ -94,7 +94,7 @@ Restaurant Depot's online pickup and delivery prices may be higher than warehous
 
 ## Historical Batch 8 Controls
 
-The bullets in this section document the former Batch 8 implementation. Current Batch 10 quantities and dish activation come from the approved config plus the reviewed `1ssz4b8` lock.
+The bullets in this section document the former Batch 8 implementation. Historical Batch 10 quantities and dish activation come from the approved config plus the reviewed `1ssz4b8` lock.
 
 - The builder supports all 18 public Batch 8 dishes plus the three approved internal-only Nouman recipes and uses the same generated production data as the planner.
 - Historical Sheet names ending in `Meal` are accepted as aliases for the Nouman builds, so those paid custom meals cannot disappear from grocery or production totals.
