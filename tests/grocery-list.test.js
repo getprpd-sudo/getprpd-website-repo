@@ -18,6 +18,23 @@ test('grocery requirements merge recipes, weekly sauces, and packaging by ingred
   assert.equal(requirements.find(row => row.key === 'sauce_cup').required, 9);
 });
 
+test('Batch 19 sauce groceries combine identical products and include raw cucumber yield', () => {
+  const requirements = grocery.mergeRequirements([
+    {key:'cucumber',name:'Cucumber',unit:'g',bufferedAmount:125},
+    {key:'honey',name:'Honey',unit:'g',bufferedAmount:7.8},
+    {key:'garlic',name:'Jarred minced garlic',unit:'g',bufferedAmount:100},
+  ], {sauces:[{name:'Current sauces',ingredients:[
+    {key:'batch18_cucumber_squeezed',name:'Squeezed cucumber',totalGrams:35},
+    {key:'batch18_honey',name:'Honey',totalGrams:6},
+    {key:'batch18_garlic',name:'Fresh garlic',totalGrams:4},
+  ]}]});
+  assert.equal(requirements.find(row => row.key === 'cucumber').required, 195);
+  assert.equal(requirements.find(row => row.key === 'honey').required, 13.8);
+  assert.equal(requirements.find(row => row.key === 'garlic').required, 100);
+  assert.equal(requirements.find(row => row.key === 'batch18_garlic').required, 4);
+  assert.ok(requirements.find(row => row.key === 'cucumber').sources.some(source => source.includes('50% raw-to-squeezed')));
+});
+
 test('interchangeable nonfat Greek yogurt brands consolidate into one purchase line', () => {
   const requirements = grocery.mergeRequirements([
     { key:'fage', name:'FAGE Total 0%', unit:'g', bufferedAmount:1000 },

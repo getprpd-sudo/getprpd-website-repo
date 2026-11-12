@@ -13,9 +13,9 @@
     'Packaging',
   ];
   const SECTION_KEYS = {
-    'Meat & Seafood': new Set(['beef_90_raw','beef_96_raw','ny_strip_raw','short_rib_cooked','leg_quarter_raw','chicken_thigh_raw','chicken_wings_raw','chicken_breast_raw','chicken_mince_raw','shrimp_raw','tilapia_raw','pink_salmon_raw','beef_strips_raw','beef_bacon']),
-    'Produce': new Set(['apple','banana','blueberry','bok_choy','broccoli','carrot','cilantro','cucumber','garlic','ginger','green_bell_pepper','red_bell_pepper','lettuce','jalapeno','lemon','lime','mushroom','mixed_vegetables','onion','red_onion','spinach','strawberry','tomato','potato','zucchini','green_beans','green_onion','parsley']),
-    'Dairy & Eggs': new Set(['egg','egg_white','mascarpone','philadelphia_no_bake','regular_cream_cheese','reduced_cream_cheese','cotija','fage','fairlife_milk','cottage','mozzarella','part_skim_mozzarella','part_skim_ricotta','parmesan','feta','butter','simple_truth_yogurt','whipped_cream']),
+    'Meat & Seafood': new Set(['beef_90_raw','beef_96_raw','ny_strip_raw','short_rib_cooked','leg_quarter_raw','chicken_thigh_raw','chicken_wings_raw','chicken_breast_raw','chicken_mince_raw','shrimp_raw','tilapia_raw','pink_salmon_raw','beef_strips_raw','beef_bacon','sharifa_beef_bacon']),
+    'Produce': new Set(['apple','banana','blueberry','bok_choy','broccoli','carrot','cilantro','cucumber','garlic','ginger','green_bell_pepper','red_bell_pepper','lettuce','jalapeno','lemon','lime','mushroom','mixed_vegetables','onion','red_onion','spinach','strawberry','tomato','potato','zucchini','green_beans','green_onion','parsley','batch18_dill','batch18_garlic','batch18_mango','batch18_mint']),
+    'Dairy & Eggs': new Set(['egg','egg_white','mascarpone','philadelphia_no_bake','regular_cream_cheese','reduced_cream_cheese','cotija','fage','fairlife_milk','cottage','mozzarella','part_skim_mozzarella','part_skim_ricotta','parmesan','feta','butter','simple_truth_yogurt','whipped_cream','batch18_fage_0']),
     'Bread & Tortillas': new Set(['large_tortilla','small_tortilla','street_taco_tortilla','fajita_tortilla','shawarma_bread','bread_slice','hawaiian_roll','sourdough_slice','english_muffin']),
     'Sweets & Baking': new Set(['banana_pudding_mix','biscoff_cookie','biscoff_spread','brown_sugar','chia','chocolate_chips','cinnamon','cocoa','coriander','honey','ladyfingers','oats','oreo_thin','peanut_butter','powdered_sugar','whey','vanilla']),
     'Packaging': new Set(['sauce_cup','sauce_lid','printed_label','dessert_cup','small_dessert_box','grab_go_container','meal_container','paper_bag','food_prep_gloves','kitchen_consumable_allowance','parchment_roll','aluminum_foil_roll','cling_film_roll']),
@@ -26,6 +26,15 @@
   const PURCHASE_ALIASES = {
     simple_truth_yogurt: { key: 'fage', name: 'Nonfat Greek yogurt' },
     fage: { key: 'fage', name: 'Nonfat Greek yogurt' },
+    batch18_water: { key: 'water' },
+    batch18_cucumber_squeezed: { key: 'cucumber', name: 'Fresh cucumber', purchaseFactor: 2, sourceNote: '50% raw-to-squeezed allowance' },
+    batch18_honey: { key: 'honey' },
+    batch18_lemon: { key: 'lemon' },
+    batch18_lime: { key: 'lime' },
+    batch18_olive_oil: { key: 'olive_oil' },
+    batch18_black_pepper: { key: 'black_pepper' },
+    batch18_salt: { key: 'salt' },
+    batch18_vinegar: { key: 'apple_cider_vinegar' },
   };
   // Practical shopping estimates only. Recipe weights remain the source of truth because
   // individual produce size and usable yield vary. Values are average usable grams per item.
@@ -85,13 +94,13 @@
         key, name: alias?.name || item.name || key, unit, station: item.station || 'Other',
         required: 0, sources: new Set(), confidence: item.confidence || 'planning',
       };
-      current.required += Math.max(0, Number(amount) || 0);
+      current.required += Math.max(0, Number(amount) || 0) * (alias?.purchaseFactor || 1);
       if (Number(item.minimumPieceCount) > 0) {
         current.minimumPieceCount = (Number(current.minimumPieceCount) || 0) + Number(item.minimumPieceCount);
         current.pieceCountBasis = item.pieceCountBasis || 'individual pieces';
         current.estimatedWeight = item.estimatedWeight === true;
       }
-      current.sources.add(source);
+      current.sources.add(alias?.sourceNote ? `${source} (${alias.sourceNote})` : source);
       merged.set(mapKey, current);
     };
 

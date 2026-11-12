@@ -5957,5 +5957,41 @@
 
   }
 
+  if (Number(data.batch) === 19) {
+    const byName = name => Object.values(data.meals).find(meal => meal.recipeName === name);
+    const removeSalt = task => {
+      if (!task) return;
+      task.ingredientKeys = (task.ingredientKeys || []).filter(key => key !== 'salt');
+    };
+    const bbq = byName('BBQ Chicken Mac & Cheese');
+    const bbqChicken = bbq?.prepBatches?.find(task => task.name === 'BBQ Mac chicken');
+    removeSalt(bbqChicken);
+    if (bbqChicken) {
+      delete bbqChicken.seasoningFamily;
+      delete bbqChicken.seasoningFamilyName;
+      bbqChicken.splitAfterSeasoning = false;
+      bbqChicken.instruction = 'Season the BBQ Mac whole-thigh pull separately with its measured salt-free garlic, onion, paprika, and pepper.';
+      bbqChicken.steps = [bbqChicken.instruction, 'Keep thighs whole; cut or shred only after cooking to 165 F and resting.'];
+      bbqChicken.seasoningFinishNote = 'No added salt in the BBQ Mac chicken pull.';
+      bbq.prepSteps = bbq.prepBatches.map(task => task.instruction);
+    }
+    const burrito = byName('Grilled Cheese Breakfast Burrito');
+    const burritoBeef = burrito?.prepBatches?.find(task => task.name === 'Stage breakfast-burrito beef filling');
+    removeSalt(burritoBeef);
+    if (burritoBeef) {
+      burritoBeef.instruction = 'Keep raw beef isolated and weigh the exact beef, onion, and tomato paste. Add no salt.';
+      burritoBeef.steps = [burritoBeef.instruction, 'Cover, label, and refrigerate. Cook to 160 F and drain well on Cook Day.'];
+      burrito.prepSteps = burrito.prepBatches.map(task => task.instruction);
+    }
+    const wings = byName('Mango Habanero Chicken Wings');
+    const wingFinish = wings?.prepBatches?.find(task => task.name === 'Stage clean mango habanero finish');
+    if (wingFinish) {
+      wingFinish.componentRef = 'wings-finish';
+      wingFinish.instruction = 'Measure only the mango-habanero finish for the wings; reserve the separate 20 g dip allocation for its own cups.';
+      wingFinish.steps = ['Measure the displayed wings-finish allocation into a clean covered container.', 'Keep it separate from raw chicken and from the 20 g customer dip cups.'];
+      wings.prepSteps = wings.prepBatches.map(task => task.instruction);
+    }
+  }
+
   return data;
 });
