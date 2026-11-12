@@ -2976,9 +2976,9 @@ const PRPD_PRODUCTION_DATA = {
               "estimatedWeight": true
             },
             {
-              "key": "sunflower_oil",
-              "sourceKey": "sunflower_oil",
-              "name": "Altunsa sunflower oil",
+              "key": "avocado_oil",
+              "sourceKey": "avocado_oil",
+              "name": "Avocado oil",
               "amount": 5.0,
               "unit": "g",
               "station": "Dry Prep & Seasonings",
@@ -2986,6 +2986,10 @@ const PRPD_PRODUCTION_DATA = {
               "confidence": "medium",
               "allocations": {
                 "wings-seasoning": 5.0
+              },
+              "measure": {
+                "type": "liquid",
+                "density": 0.91
               }
             },
             {
@@ -3142,9 +3146,9 @@ const PRPD_PRODUCTION_DATA = {
               "estimatedWeight": true
             },
             {
-              "key": "sunflower_oil",
-              "sourceKey": "sunflower_oil",
-              "name": "Altunsa sunflower oil",
+              "key": "avocado_oil",
+              "sourceKey": "avocado_oil",
+              "name": "Avocado oil",
               "amount": 6.6667,
               "unit": "g",
               "station": "Dry Prep & Seasonings",
@@ -3152,6 +3156,10 @@ const PRPD_PRODUCTION_DATA = {
               "confidence": "medium",
               "allocations": {
                 "wings-seasoning": 6.6667
+              },
+              "measure": {
+                "type": "liquid",
+                "density": 0.91
               }
             },
             {

@@ -5368,7 +5368,7 @@
       wings.single=false;
       wings.wingPiecesByTier=currentWingPieces;
       wings.prepBatches=[
-        prep('marinade','Count and season split wings','Count individual flats and drumettes, not whole joined wings.',['chicken_wings_raw','sunflower_oil','salt','paprika','garlic_powder','onion_powder'],[
+        prep('marinade','Count and season split wings','Count individual flats and drumettes, not whole joined wings.',['chicken_wings_raw',Number(data.batch)>=19?'avocado_oil':'sunflower_oil','salt','paprika','garlic_powder','onion_powder'],[
           `Count ${currentWingPieces.lean} individual split flats/drumettes per Lean box and ${currentWingPieces.bulk} per Bulk box. Keep mixed flats and drumettes. Weigh the actual raw bone-in pull; the displayed gram model is provisional, not a required physical yield.`,
           'Apply only the displayed oil and dry seasoning. Cover, label, date and refrigerate separately from boneless chicken.',
         ],{proteinForm:`Individual bone-in flats/drumettes; Lean ${currentWingPieces.lean} pieces, Bulk ${currentWingPieces.bulk}`}),

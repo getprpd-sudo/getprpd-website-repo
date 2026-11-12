@@ -18,6 +18,8 @@ test('current planner matches the published Batch 19 wing and pizza builds', () 
   assert.deepEqual(methods.meals.m6.wingPiecesByTier, { lean: 6, bulk: 8 });
   assert.deepEqual(methods.meals.m6.sideCupComponents.map(cup => cup.gramsPerMeal), [40, 20]);
   assert.equal(production.meals.m6.tiers.bulk.portionControl.minimumPieces, 8);
+  assert.ok(production.meals.m6.tiers.lean.ingredients.some(item => item.key === 'avocado_oil'));
+  assert.ok(!production.meals.m6.tiers.lean.ingredients.some(item => item.key === 'sunflower_oil'));
 
   assert.equal(production.meals.b3.name, 'Beef Bacon Breakfast Pizza');
   assert.match(methods.meals.b3.steps.join(' '), /pizza stone.*425 F.*125 g Bulk/s);

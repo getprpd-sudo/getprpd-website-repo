@@ -96,7 +96,7 @@ def mango_habanero_wings(tier):
     return r.build([
         r.p(WING_KEY, PILOT_RAW_GRAMS*scale, note="component:"+SEASONING_COMPONENT,
             include_in_menu_macros=False),
-        r.p("sunflower_oil",5*scale,note="component:"+SEASONING_COMPONENT),
+        r.p("avocado_oil",5*scale,note="component:"+SEASONING_COMPONENT),
         r.p("salt",2*scale,note="component:"+SEASONING_COMPONENT),
         r.p("paprika",2*scale,note="component:"+SEASONING_COMPONENT),
         r.p("garlic_powder",1*scale,note="component:"+SEASONING_COMPONENT),
