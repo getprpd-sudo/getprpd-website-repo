@@ -278,7 +278,13 @@
     if (byKey.garlic && /in water/i.test(byKey.garlic.packageLabel)) warnings.push('Garlic: jarred minced garlic in water is not dry fresh minced garlic. Do not add jar liquid to Nouman kofta; record the actual drained ingredient.');
     if (byKey.printed_label && byKey.printed_label.packagePrice === 0) warnings.push(`Label stock uses a zero marginal-cost allowance, not a verified empty-pantry purchase price. Confirm ${Math.ceil(byKey.printed_label.required/4)} Avery sheets for ${byKey.printed_label.required} labels. Duaa Khan's family exemption was owner-confirmed September 30. Print only from the verified current-batch Label Studio queue.`);
     if (byKey.beef_90_raw || byKey.chicken_thigh_raw) warnings.push('Case-meat prices are per-pound allocations from case receipts. Confirm available stock or actual whole-case purchase size; the displayed package checkout is not a supplier quote.');
-    if (Number(byKey.chicken_wings_raw?.minimumPieceCount) > 0) warnings.push(`Wings: count at least ${Math.ceil(byKey.chicken_wings_raw.minimumPieceCount)} usable individual split flats/drumettes for the plan. Raw pounds and the old catalog price are planning estimates. Count and weigh the actual halal supplier lot before deciding package quantities; weight-based pantry stock does not verify its piece count.`);
+    if (Number(byKey.chicken_wings_raw?.minimumPieceCount) > 0) {
+      const pieces = Math.ceil(byKey.chicken_wings_raw.minimumPieceCount);
+      const measuredBatch19 = /49-piece purchased lot average/i.test(byKey.chicken_wings_raw.name || '');
+      warnings.push(measuredBatch19
+        ? `Wings: current plan needs ${pieces} split flats/drumettes. The owner-reported Batch 19 purchased lot has 49 pieces / 3768 g raw bone-in, leaving ${49-pieces} pieces before cooking or added orders. Weigh actual portion pulls and verify the receipt price; gram-based on-hand stock alone does not verify piece count.`
+        : `Wings: count at least ${pieces} usable individual split flats/drumettes for the plan. Raw pounds and the catalog price are planning estimates. Count and weigh the actual supplier lot; gram-based on-hand stock alone does not verify piece count.`);
+    }
     if (byKey.mango_habanero_sauce) warnings.push('Mango-habanero sauce: the saved bottle mass and price are historical planning allowances. Verify the actual bottle, usable stock, ingredients/allergens and current package price; fluid ounces are not measured grams.');
     if (byKey.bottled_ranch) warnings.push('Bottled ranch: confirm the exact purchased product, package mass, ingredients/allergens and price. The recipe targets 40 g net per wing-box cup; an unconfigured row is unpriced, not free.');
     return warnings;

@@ -5387,7 +5387,7 @@
       wings.wingPiecesByTier=currentWingPieces;
       wings.prepBatches=[
         prep('marinade','Count and season split wings','Count individual flats and drumettes, not whole joined wings.',['chicken_wings_raw',Number(data.batch)>=19?'avocado_oil':'sunflower_oil','salt','paprika','garlic_powder','onion_powder'],[
-          `Count ${currentWingPieces.lean} individual split flats/drumettes per Lean box and ${currentWingPieces.bulk} per Bulk box. Keep mixed flats and drumettes. Weigh the actual raw bone-in pull; the displayed gram model is provisional, not a required physical yield.`,
+          `Count ${currentWingPieces.lean} individual split flats/drumettes per Lean box and ${currentWingPieces.bulk} per Bulk box. Keep mixed flats and drumettes. ${Number(data.batch)>=19?'The owner-measured purchase lot is 49 split pieces / 3768 g raw bone-in (76.9 g each on average). Compare this stock with the current order count. ':''}Weigh each actual raw bone-in portion; the displayed grams are a lot-average planning allocation, not an exact portion target.`,
           'Apply only the displayed oil and dry seasoning. Cover, label, date and refrigerate separately from boneless chicken.',
         ],{proteinForm:`Individual bone-in flats/drumettes; Lean ${currentWingPieces.lean} pieces, Bulk ${currentWingPieces.bulk}`}),
         prep('sauce','Stage clean mango habanero finish','Keep the complete displayed tier sauce allocation separate from raw chicken.',['mango_habanero_sauce'],[
@@ -5410,7 +5410,7 @@
       ];
       wings.cookPackSteps=wings.steps;
       wings.cookDayReservations=wings.steps;
-      wings.temperature=`Cook wings to 165 F away from bone. Lean ${currentWingPieces.lean} individual pieces; Bulk ${currentWingPieces.bulk}. Actual raw weight and edible yield remain unmeasured.`;
+      wings.temperature=`Cook wings to 165 F away from bone. Lean ${currentWingPieces.lean} individual pieces; Bulk ${currentWingPieces.bulk}. The purchased-lot average is measured for Batch 19; actual portion weights and cooked edible yield remain unmeasured.`;
       wings.sideCup=null;
       wings.sideCups=Number(data.batch)>=19?2:1;
       wings.sideCupComponents=[
@@ -5425,7 +5425,7 @@
         lean:[`Pack ${currentWingPieces.lean} individual split flats/drumettes, one separate 40 g bottled ranch cup${Number(data.batch)>=19?' and one 20 g mango-habanero dip cup':''}. Record actual raw and cooked weights; no nutrition label is released.`],
         bulk:[`Pack ${currentWingPieces.bulk} individual split flats/drumettes, one separate 40 g bottled ranch cup${Number(data.batch)>=19?' and one 20 g mango-habanero dip cup':''}. Record actual raw and cooked weights; no nutrition label is released.`],
       };
-      wings.validation='Purchased mango sauce and ranch identity/panels, seasoning taste, actual piece weights, cooked edible yield, fit and cooling require physical verification. No full nutrition label is released.';
+      wings.validation='Batch 19 owner-measured wing lot is 49 split pieces / 3768 g raw bone-in; weigh actual portion pulls and verify purchased sauce/ranch panels, seasoning coverage, cooked edible yield, fit and cooling. No full nutrition label is released.';
     }
     if(Number(data.batch)>=19) {
       const lasagna=Object.values(data.meals).find(method=>method.recipeName==='High-Protein Beef Lasagna');

@@ -2949,22 +2949,22 @@ const PRPD_PRODUCTION_DATA = {
       "name": "Mango Habanero Chicken Wings",
       "category": "Main",
       "aliases": [],
-      "status": "Private family wing planning recipe; measured weights and package panels pending",
-      "recommendation": "Pack six individual split flats/drumettes for Lean and eight for Bulk, plus one separate 40 g NET bottled-ranch planning cup and a separate 20 g clean mango-habanero dip per box. No rice or vegetable side. Raw masses and scaled seasoning/glaze are old-pilot planning estimates, not measured piece weights or yields. Count/weigh the supplier lot, verify both sauce panels and stock, record raw/cooked output and fit, and measure 165 F away from bone. Keep ranch cold and separate. Wing size, actual raw/cooked/edible weights, mango-habanero and bottled-ranch product panels/costs and container fit are unverified. No consumer macros or complete Nutrition Facts may be released.",
+      "status": "Batch 19 purchased wing lot measured; cooked yield and sauce panels pending",
+      "recommendation": "Pack six individual split flats/drumettes for Lean and eight for Bulk, plus one separate 40 g NET bottled-ranch planning cup and a separate 20 g clean mango-habanero dip per box. No rice or vegetable side. Owner-measured Batch 19 purchase lot: 49 split pieces, 3768 g raw bone-in, averaging 76.9 g per piece. Lean and Bulk raw gram allocations use that lot average for planning; weigh actual portions because pieces vary. Verify both sauce panels, record cooked output and fit, and measure 165 F away from bone. Keep ranch cold and separate. Cooked/edible yield, sauce/ranch panels and container fit are unverified. No consumer macros or complete Nutrition Facts may be released.",
       "tiers": {
         "lean": {
           "ingredients": [
             {
               "key": "chicken_wings_raw",
               "sourceKey": "chicken_wings_raw",
-              "name": "Split chicken wings, raw bone-in (estimated mass; count pieces)",
-              "amount": 400.0,
+              "name": "Split chicken wings, raw bone-in (49-piece purchased lot average; count pieces)",
+              "amount": 461.3878,
               "unit": "g",
               "station": "Poultry",
-              "note": "component:wings-seasoning; ESTIMATED mass from old400 g / about 6-piece pilot; count and weigh actual lot.",
+              "note": "component:wings-seasoning; 6 pieces x measured purchased-lot average 3768 g / 49 pieces; weigh actual portion.",
               "confidence": "planning-unmeasured",
               "allocations": {
-                "wings-seasoning": 400.0
+                "wings-seasoning": 461.3878
               },
               "measure": {
                 "type": "meat",
@@ -3091,8 +3091,8 @@ const PRPD_PRODUCTION_DATA = {
           "confidence": "planning-unmeasured",
           "assumptions": [
             "Owner-confirmed Lean box: at least 6 INDIVIDUAL flats/drumettes, not whole unsplit wings.",
-            "ESTIMATED raw bone-in planning mass 400.0 g from the old400 g / about 6-piece pilot. No measured piece weight or cooked/edible yield.",
-            "The old pilot's oil, dry seasoning and 45 g finishing sauce scale with that provisional raw-mass estimate. Count/weigh actual wings and confirm coverage before locking production quantities.",
+            "Batch 19 purchased lot measured 3768 g across 49 split pieces (76.9 g/piece average); six pieces project to 461.4 g raw bone-in. Weigh actual portions; cooked/edible yield is unmeasured.",
+            "Oil, dry seasoning and finishing sauce retain the controlled recipe amounts. Confirm coating coverage against the larger measured wing size on Cook Day.",
             "Count usable individual split pieces as a separate purchase/pack floor. The normal 5% raw-mass shopping reserve does not replace the required piece count.",
             "Pack ONE separate 40 g NET bottled-ranch planning cup and ONE separate 20 g clean mango-habanero dip per box. Product ingredients, allergens, package cost and exact filled recovery remain unverified.",
             "No rice, starch or vegetable side is included. Keep bones accounted for; bone-in packed mass is not edible meat.",
@@ -3104,9 +3104,9 @@ const PRPD_PRODUCTION_DATA = {
             "wingPiecesPerMeal": 6,
             "pieceCountBasis": "individual split flats/drumettes",
             "minimumPieces": 6,
-            "rawMassPlanningGrams": 400.0,
+            "rawMassPlanningGrams": 461.3878,
             "rawWeightVerified": false,
-            "rawMassBasis": "Old pilot400 g / about 6 pieces; count and weigh actual purchased wings.",
+            "rawMassBasis": "Owner-measured Batch 19 purchase lot: 3768 g / 49 split pieces x 6; actual portion weight varies.",
             "cookedYieldVerified": false,
             "edibleMeatYieldVerified": false,
             "ranchCupsPerMeal": 1,
@@ -3127,14 +3127,14 @@ const PRPD_PRODUCTION_DATA = {
             {
               "key": "chicken_wings_raw",
               "sourceKey": "chicken_wings_raw",
-              "name": "Split chicken wings, raw bone-in (estimated mass; count pieces)",
-              "amount": 533.3333,
+              "name": "Split chicken wings, raw bone-in (49-piece purchased lot average; count pieces)",
+              "amount": 615.1837,
               "unit": "g",
               "station": "Poultry",
-              "note": "component:wings-seasoning; ESTIMATED mass from old400 g / about 6-piece pilot; count and weigh actual lot.",
+              "note": "component:wings-seasoning; 8 pieces x measured purchased-lot average 3768 g / 49 pieces; weigh actual portion.",
               "confidence": "planning-unmeasured",
               "allocations": {
-                "wings-seasoning": 533.3333
+                "wings-seasoning": 615.1837
               },
               "measure": {
                 "type": "meat",
@@ -3261,8 +3261,8 @@ const PRPD_PRODUCTION_DATA = {
           "confidence": "planning-unmeasured",
           "assumptions": [
             "Owner-confirmed Bulk box: at least 8 INDIVIDUAL flats/drumettes, not whole unsplit wings.",
-            "ESTIMATED raw bone-in planning mass 533.3 g from the old400 g / about 6-piece pilot. No measured piece weight or cooked/edible yield.",
-            "The old pilot's oil, dry seasoning and 45 g finishing sauce scale with that provisional raw-mass estimate. Count/weigh actual wings and confirm coverage before locking production quantities.",
+            "Batch 19 purchased lot measured 3768 g across 49 split pieces (76.9 g/piece average); eight pieces project to 615.2 g raw bone-in. Weigh actual portions; cooked/edible yield is unmeasured.",
+            "Oil, dry seasoning and finishing sauce retain the controlled recipe amounts. Confirm coating coverage against the larger measured wing size on Cook Day.",
             "Count usable individual split pieces as a separate purchase/pack floor. The normal 5% raw-mass shopping reserve does not replace the required piece count.",
             "Pack ONE separate 40 g NET bottled-ranch planning cup and ONE separate 20 g clean mango-habanero dip per box. Product ingredients, allergens, package cost and exact filled recovery remain unverified.",
             "No rice, starch or vegetable side is included. Keep bones accounted for; bone-in packed mass is not edible meat.",
@@ -3274,9 +3274,9 @@ const PRPD_PRODUCTION_DATA = {
             "wingPiecesPerMeal": 8,
             "pieceCountBasis": "individual split flats/drumettes",
             "minimumPieces": 8,
-            "rawMassPlanningGrams": 533.3333333333334,
+            "rawMassPlanningGrams": 615.1837,
             "rawWeightVerified": false,
-            "rawMassBasis": "Old pilot400 g / about 6 pieces; count and weigh actual purchased wings.",
+            "rawMassBasis": "Owner-measured Batch 19 purchase lot: 3768 g / 49 split pieces x 8; actual portion weight varies.",
             "cookedYieldVerified": false,
             "edibleMeatYieldVerified": false,
             "ranchCupsPerMeal": 1,
@@ -3322,7 +3322,7 @@ const PRPD_PRODUCTION_DATA = {
           }
         ]
       },
-      "qualityChecks": "Pack six individual split flats/drumettes for Lean and eight for Bulk, plus one separate 40 g NET bottled-ranch planning cup and a separate 20 g clean mango-habanero dip per box. No rice or vegetable side. Raw masses and scaled seasoning/glaze are old-pilot planning estimates, not measured piece weights or yields. Count/weigh the supplier lot, verify both sauce panels and stock, record raw/cooked output and fit, and measure 165 F away from bone. Keep ranch cold and separate. Wing size, actual raw/cooked/edible weights, mango-habanero and bottled-ranch product panels/costs and container fit are unverified. No consumer macros or complete Nutrition Facts may be released."
+      "qualityChecks": "Owner-measured Batch 19 purchase lot: 49 individual split pieces, 3768 g raw bone-in (76.9 g each on average). Compare the current customer and owner piece demand with this purchased count before cooking. Weigh each allocated portion because piece sizes vary. Pack one separate 40 g bottled-ranch cup and one 20 g clean mango-habanero dip per box. Confirm sauce panels, cooked and edible yields, container fit and 165 F in thick meat away from bone. No consumer macros or complete Nutrition Facts may be released."
     },
     "m7": {
       "name": "Braised Beef Short Rib",
