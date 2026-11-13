@@ -55,6 +55,15 @@ ESTIMATED_NET_WEIGHTS = {
     # 58.5 g modeled cooked thigh, 43 g tortilla, 62 g produce and 25 g
     # incorporated sauce. Excludes raw-contact marinade; round down to 5 g.
     ("Chicken Tikka Snack Wrap", "single"): 185,
+    # November 13 owner-directed advance print estimates for Batch 19. These
+    # are deliberately below modeled cooked component mass; replace with
+    # measured packed weights if the first finished containers differ.
+    ("Beef Bacon Breakfast Pizza", "lean"): 275,
+    ("Beef Bacon Breakfast Pizza", "bulk"): 350,
+    ("Mexican Streetcorn Chicken Bowl", "lean"): 420,
+    ("Mexican Streetcorn Chicken Bowl", "bulk"): 520,
+    ("Mango Habanero Chicken Wings", "lean"): 350,
+    ("Mango Habanero Chicken Wings", "bulk"): 475,
 }
 
 # Owner-approved benchmark for the main meal only. The separate Sweet Heat cup

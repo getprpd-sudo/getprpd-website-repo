@@ -211,3 +211,17 @@ test('final labels can retain an earlier prepared-component date without resetti
   Object.assign(data.production, production);
   assert.equal(guard.validateLabelProduction({activeBatch:config.batch,activeMenu:config.menu,labelData:data,form:production}).ok,false);
 });
+
+test('advance printing needs explicit approval and a delivery-day planned date', () => {
+  const { data, config } = fixture();
+  const production = {
+    ...config.batch.labelProduction,
+    madeDate: '2026-10-03', useByDate: '2026-10-06', batchId: 'B13-1003',
+    refrigeratedDays: 4, dateBasis: 'owner-approved-advance-print', advancePrintApproved: true,
+  };
+  config.batch.labelProduction = production;
+  data.production = {...data.production, ...production};
+  assert.equal(guard.validateLabelProduction({activeBatch:config.batch,activeMenu:config.menu,labelData:data,form:production}).ok,true);
+  config.batch.labelProduction.advancePrintApproved = false;
+  assert.equal(guard.validateLabelProduction({activeBatch:config.batch,activeMenu:config.menu,labelData:data,form:production}).ok,false);
+});

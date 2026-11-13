@@ -10,7 +10,7 @@ window.PRPD_NEXT_LABEL_DATA = {
     "batchId": "B19-1114",
     "refrigeratedDays": 5
   },
-  "recipeFingerprint": "2c87ad807c1be96ab2b92e1081b1e70c93fce3adcf737d218d404488431888fe",
+  "recipeFingerprint": "468ebc65cb11d3af0d2ba19b7a4799d57c53f912da6e37a767c113fa223bc3ee",
   "notice": "Batch 19 calculated label data generated from the active customer menu and controlled recipes. Resolve every listed physical validation gate before final printing.",
   "meals": {
     "b1": {
@@ -217,7 +217,7 @@ window.PRPD_NEXT_LABEL_DATA = {
       "tiers": {
         "lean": {
           "label": "LEAN",
-          "netWeight": "Enter packed weight",
+          "netWeight": "9.7 oz (275 g)",
           "ingredients": "egg whites, all-purpose flour, Sharifa halal beef bacon (beef, water, sea salt, cane sugar, sodium phosphate, sodium nitrate, vinegar, sodium erythorbate), water, fat-free mozzarella cheese, whole egg, green bell pepper, onion, crushed tomatoes, olive oil, salt, instant baker's yeast, garlic, italian seasoning, crushed red chili flakes.",
           "allergens": "CONTAINS: EGG, MILK, WHEAT.",
           "allergenAdvisory": "",
@@ -258,14 +258,15 @@ window.PRPD_NEXT_LABEL_DATA = {
           "confidence": "planning-owner-tested",
           "nutritionBasis": "Owner-approved Batch 19 served-pizza recipe estimate; unserved dough excluded",
           "inputMassGrams": 333,
-          "netWeightVerified": false,
-          "netWeightStatus": "packout-required",
-          "requiresPackoutWeight": true,
-          "netWeightBasis": "Enter the actual packed net weight before printing."
+          "netWeightStatus": "estimated",
+          "requiresPackoutWeight": false,
+          "netWeightBasis": "Owner-approved conservative finished-food estimate",
+          "netWeightMeasured": false,
+          "estimatedNetWeightGrams": 275
         },
         "bulk": {
           "label": "BULK",
-          "netWeight": "Enter packed weight",
+          "netWeight": "12.3 oz (350 g)",
           "ingredients": "egg whites, all-purpose flour, Sharifa halal beef bacon (beef, water, sea salt, cane sugar, sodium phosphate, sodium nitrate, vinegar, sodium erythorbate), fat-free mozzarella cheese, water, whole egg, green bell pepper, onion, crushed tomatoes, olive oil, salt, instant baker's yeast, garlic, italian seasoning, crushed red chili flakes.",
           "allergens": "CONTAINS: EGG, MILK, WHEAT.",
           "allergenAdvisory": "",
@@ -306,10 +307,11 @@ window.PRPD_NEXT_LABEL_DATA = {
           "confidence": "planning-owner-tested",
           "nutritionBasis": "Owner-approved Batch 19 served-pizza recipe estimate; unserved dough excluded",
           "inputMassGrams": 417,
-          "netWeightVerified": false,
-          "netWeightStatus": "packout-required",
-          "requiresPackoutWeight": true,
-          "netWeightBasis": "Enter the actual packed net weight before printing."
+          "netWeightStatus": "estimated",
+          "requiresPackoutWeight": false,
+          "netWeightBasis": "Owner-approved conservative finished-food estimate",
+          "netWeightMeasured": false,
+          "estimatedNetWeightGrams": 350
         }
       }
     },
@@ -423,7 +425,7 @@ window.PRPD_NEXT_LABEL_DATA = {
       "tiers": {
         "lean": {
           "label": "LEAN",
-          "netWeight": "Enter packed weight",
+          "netWeight": "14.8 oz (420 g)",
           "ingredients": "chicken thighs, sweet corn, basmati rice, green bell pepper, FAGE Total 0% nonfat Greek yogurt, onion, Cotija cheese, lime juice, Great Value light mayonnaise, jalapeno, cilantro, avocado oil, salt, garlic powder, onion powder, paprika, ground black pepper.",
           "allergens": "CONTAINS: EGG, MILK.",
           "allergenAdvisory": "",
@@ -463,14 +465,15 @@ window.PRPD_NEXT_LABEL_DATA = {
           },
           "confidence": "medium",
           "inputMassGrams": 400,
-          "netWeightVerified": false,
-          "netWeightStatus": "packout-required",
-          "requiresPackoutWeight": true,
-          "netWeightBasis": "Enter the actual packed net weight before printing."
+          "netWeightStatus": "estimated",
+          "requiresPackoutWeight": false,
+          "netWeightBasis": "Owner-approved conservative finished-food estimate",
+          "netWeightMeasured": false,
+          "estimatedNetWeightGrams": 420
         },
         "bulk": {
           "label": "BULK",
-          "netWeight": "Enter packed weight",
+          "netWeight": "18.3 oz (520 g)",
           "ingredients": "chicken thighs, sweet corn, basmati rice, green bell pepper, FAGE Total 0% nonfat Greek yogurt, onion, Cotija cheese, lime juice, Great Value light mayonnaise, jalapeno, cilantro, avocado oil, salt, garlic powder, onion powder, paprika, ground black pepper.",
           "allergens": "CONTAINS: EGG, MILK.",
           "allergenAdvisory": "",
@@ -510,10 +513,11 @@ window.PRPD_NEXT_LABEL_DATA = {
           },
           "confidence": "medium",
           "inputMassGrams": 512,
-          "netWeightVerified": false,
-          "netWeightStatus": "packout-required",
-          "requiresPackoutWeight": true,
-          "netWeightBasis": "Enter the actual packed net weight before printing."
+          "netWeightStatus": "estimated",
+          "requiresPackoutWeight": false,
+          "netWeightBasis": "Owner-approved conservative finished-food estimate",
+          "netWeightMeasured": false,
+          "estimatedNetWeightGrams": 520
         }
       }
     },
@@ -831,7 +835,7 @@ window.PRPD_NEXT_LABEL_DATA = {
       "tiers": {
         "lean": {
           "label": "LEAN",
-          "netWeight": "Enter packed weight",
+          "netWeight": "12.3 oz (350 g)",
           "ingredients": "split chicken wings, raw bone-in (49-piece purchased lot average), G Hughes Zero Sugar Mango Habanero Wing Sauce (water, distilled vinegar, modified corn starch, mango juice concentrate, salt, canola and/or soybean oil, habanero pepper puree, dried habanero pepper, paprika extract, citric acid, dried garlic, dried onion, potassium sorbate, sucralose, caramel color), Bolthouse Farms Classic Ranch (buttermilk, water, soybean oil, yogurt, whey protein concentrate, vinegar, pineapple juice concentrate, salt, egg yolks, xanthan gum, buttermilk powder, onion powder, natural flavors, garlic powder, mustard seed, dill, citric acid), avocado oil, salt, paprika, garlic powder, onion powder.",
           "allergens": "CONTAINS: EGG, MILK.",
           "allergenAdvisory": "",
@@ -872,14 +876,15 @@ window.PRPD_NEXT_LABEL_DATA = {
           "confidence": "planning-unmeasured",
           "nutritionBasis": "Owner-approved Batch 19 wings and coating estimate; separate sauce cups excluded",
           "inputMassGrams": 577,
-          "netWeightVerified": false,
-          "netWeightStatus": "packout-required",
-          "requiresPackoutWeight": true,
-          "netWeightBasis": "Enter the actual packed net weight before printing."
+          "netWeightStatus": "estimated",
+          "requiresPackoutWeight": false,
+          "netWeightBasis": "Owner-approved conservative finished-food estimate",
+          "netWeightMeasured": false,
+          "estimatedNetWeightGrams": 350
         },
         "bulk": {
           "label": "BULK",
-          "netWeight": "Enter packed weight",
+          "netWeight": "16.8 oz (475 g)",
           "ingredients": "split chicken wings, raw bone-in (49-piece purchased lot average), G Hughes Zero Sugar Mango Habanero Wing Sauce (water, distilled vinegar, modified corn starch, mango juice concentrate, salt, canola and/or soybean oil, habanero pepper puree, dried habanero pepper, paprika extract, citric acid, dried garlic, dried onion, potassium sorbate, sucralose, caramel color), Bolthouse Farms Classic Ranch (buttermilk, water, soybean oil, yogurt, whey protein concentrate, vinegar, pineapple juice concentrate, salt, egg yolks, xanthan gum, buttermilk powder, onion powder, natural flavors, garlic powder, mustard seed, dill, citric acid), avocado oil, salt, paprika, garlic powder, onion powder.",
           "allergens": "CONTAINS: EGG, MILK.",
           "allergenAdvisory": "",
@@ -920,10 +925,11 @@ window.PRPD_NEXT_LABEL_DATA = {
           "confidence": "planning-unmeasured",
           "nutritionBasis": "Owner-approved Batch 19 wings and coating estimate; separate sauce cups excluded",
           "inputMassGrams": 750,
-          "netWeightVerified": false,
-          "netWeightStatus": "packout-required",
-          "requiresPackoutWeight": true,
-          "netWeightBasis": "Enter the actual packed net weight before printing."
+          "netWeightStatus": "estimated",
+          "requiresPackoutWeight": false,
+          "netWeightBasis": "Owner-approved conservative finished-food estimate",
+          "netWeightMeasured": false,
+          "estimatedNetWeightGrams": 475
         }
       }
     },

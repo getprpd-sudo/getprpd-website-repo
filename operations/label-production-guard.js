@@ -367,6 +367,10 @@
       if (made && delivery && isoDate(made) !== isoDate(delivery)) {
         errors.push('The controlled made date must match delivery day for a midnight-completion batch.');
       }
+    } else if (configured.dateBasis === 'owner-approved-advance-print') {
+      if (configured.advancePrintApproved !== true || !made || !delivery || isoDate(made) !== isoDate(delivery)) {
+        errors.push('Advance printing requires owner approval and a planned made date matching delivery day.');
+      }
     } else if (configured.dateBasis === 'earliest-prepared-component') {
       if (!made || !delivery || made > delivery || made < addDays(delivery, -6)) {
         errors.push('The earliest prepared-component date must be within seven days ending on delivery.');

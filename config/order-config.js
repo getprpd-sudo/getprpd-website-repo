@@ -11,6 +11,8 @@ const ORDER_CONFIG = {
       "useByDate": "2026-11-18",
       "batchId": "B19-1114",
       "completedAt": null,
+      "dateBasis": "owner-approved-advance-print",
+      "advancePrintApproved": true,
       "refrigeratedDays": 5,
       "actualComponentDatesRequired": true
     }
