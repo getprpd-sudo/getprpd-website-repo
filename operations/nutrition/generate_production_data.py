@@ -497,14 +497,14 @@ def generate(*, include_archived_custom: bool = False) -> dict:
                             line['minimumPieces'] = private_wings.PIECES[tier]
                             line['pieceCountBasis'] = 'individual split flats/drumettes'
                             line['estimatedWeight'] = True
-                            line['note'] += '; ESTIMATED mass from old400 g / about 6-piece pilot; count and weigh actual lot.'
+                            line['note'] += '; Batch 19 lot average: 3768 g / 49 split pieces; weigh actual portion pulls.'
             meals[item['id']] = {'name':name,'category':category,'aliases':item.get('aliases',[]),
                 'status':f"Batch {config['batch']['number']} controlled planning recipe",
                 'recommendation':current.QUALITY_CHECKS.get(name, 'Confirm actual purchased panels and measured yields.'),
                 'tiers':builds,'plannerOnly':section == 'plannerOnly'}
             if name == private_wings.NAME:
                 meals[item['id']].update({
-                    'status': 'Private family wing planning recipe; measured weights and package panels pending',
+                    'status': 'Batch 19 purchased wing lot measured; approved sauce products identified; exact package panels, cooked yield, and published macro reconciliation pending',
                     'labelsEnabled': False, 'nutritionComplete': False,
                     'finalLabelReady': False, 'nutritionReleaseHold': private_wings.LABEL_RELEASE_HOLD,
                 })

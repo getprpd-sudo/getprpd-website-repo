@@ -307,6 +307,21 @@
     .label-copy b { color: var(--green); }
     .allergen { font-weight: 900; }
 
+    .meal-label.dense-copy .category-line { margin-top: 0.04in; }
+    .meal-label.dense-copy .meal-name { margin-top: 0.02in; }
+    .meal-label.dense-copy .meal-identity,
+    .meal-label.dense-copy .personality-note { display: none; }
+    .meal-label.dense-copy .quick-facts {
+      margin-top: 0.04in;
+      padding: 0.03in 0;
+    }
+    .meal-label.dense-copy .label-copy {
+      margin-top: 0.035in;
+      gap: 0.012in;
+      font-size: 4.8pt;
+      line-height: 1.08;
+    }
+
     .brand-footer {
       display: flex;
       justify-content: space-between;
@@ -695,7 +710,7 @@
       const potassium = Number($('potassium').value || 0);
 
       return `
-        <article class="meal-label">
+        <article class="meal-label ${$('ingredients').value.length > 440 ? 'dense-copy' : ''}">
           <section class="brand-panel">
             <div class="brand-top">
               <div class="brand-lockup"><span class="brand-name">PRPD</span><span class="brand-tagline">MEALS. PREPPED.</span></div>

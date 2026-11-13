@@ -2949,8 +2949,8 @@ const PRPD_PRODUCTION_DATA = {
       "name": "Mango Habanero Chicken Wings",
       "category": "Main",
       "aliases": [],
-      "status": "Batch 19 purchased wing lot measured; cooked yield and sauce panels pending",
-      "recommendation": "Pack six individual split flats/drumettes for Lean and eight for Bulk, plus one separate 40 g NET bottled-ranch planning cup and a separate 20 g clean mango-habanero dip per box. No rice or vegetable side. Owner-measured Batch 19 purchase lot: 49 split pieces, 3768 g raw bone-in, averaging 76.9 g per piece. Lean and Bulk raw gram allocations use that lot average for planning; weigh actual portions because pieces vary. Verify both sauce panels, record cooked output and fit, and measure 165 F away from bone. Keep ranch cold and separate. Cooked/edible yield, sauce/ranch panels and container fit are unverified. No consumer macros or complete Nutrition Facts may be released.",
+      "status": "Batch 19 purchased wing lot measured; approved sauce products identified; exact package panels, cooked yield, and published macro reconciliation pending",
+      "recommendation": "Pack six individual split flats/drumettes for Lean and eight for Bulk, plus one separate 40 g NET bottled-ranch planning cup and a separate 20 g clean mango-habanero dip per box. No rice or vegetable side. Owner-measured purchased lot: 49 split pieces / 3768 g raw bone-in, averaging 76.9 g per piece. Actual portion and cooked yields remain unmeasured. Verify both purchased package panels and stock, record raw/cooked output and fit, and measure 165 F away from bone. Keep ranch cold and separate. Actual portion weights and cooked/edible yields, the purchased G Hughes and Bolthouse package panels/costs, and container fit are unverified. No complete Nutrition Facts may be released.",
       "tiers": {
         "lean": {
           "ingredients": [
@@ -2961,7 +2961,7 @@ const PRPD_PRODUCTION_DATA = {
               "amount": 461.3878,
               "unit": "g",
               "station": "Poultry",
-              "note": "component:wings-seasoning; 6 pieces x measured purchased-lot average 3768 g / 49 pieces; weigh actual portion.",
+              "note": "component:wings-seasoning; Batch 19 lot average: 3768 g / 49 split pieces; weigh actual portion pulls.",
               "confidence": "planning-unmeasured",
               "allocations": {
                 "wings-seasoning": 461.3878
@@ -3063,7 +3063,7 @@ const PRPD_PRODUCTION_DATA = {
             {
               "key": "mango_habanero_sauce",
               "sourceKey": "mango_habanero_sauce",
-              "name": "Purchased mango-habanero wing sauce (exact bottle panel pending)",
+              "name": "G Hughes Zero Sugar Mango Habanero Wing Sauce (12 fl oz bottle)",
               "amount": 65.0,
               "unit": "g",
               "station": "Sauces & Dairy",
@@ -3077,7 +3077,7 @@ const PRPD_PRODUCTION_DATA = {
             {
               "key": "bottled_ranch",
               "sourceKey": "bottled_ranch",
-              "name": "Purchased bottled ranch (40 g net planning cup; exact product pending)",
+              "name": "Bolthouse Farms Classic Ranch yogurt dressing (40 g net planning cup)",
               "amount": 40.0,
               "unit": "g",
               "station": "Sauces & Dairy",
@@ -3091,14 +3091,14 @@ const PRPD_PRODUCTION_DATA = {
           "confidence": "planning-unmeasured",
           "assumptions": [
             "Owner-confirmed Lean box: at least 6 INDIVIDUAL flats/drumettes, not whole unsplit wings.",
-            "Batch 19 purchased lot measured 3768 g across 49 split pieces (76.9 g/piece average); six pieces project to 461.4 g raw bone-in. Weigh actual portions; cooked/edible yield is unmeasured.",
-            "Oil, dry seasoning and finishing sauce retain the controlled recipe amounts. Confirm coating coverage against the larger measured wing size on Cook Day.",
+            "Batch 19 purchased lot is 3768 g / 49 split pieces; 6 pieces average 461.4 g raw bone-in. Weigh each actual portion; cooked/edible yield is unmeasured.",
+            "Oil, dry seasoning and finishing sauce retain the controlled piece-based recipe amounts. Confirm coating coverage with the measured larger wings.",
             "Count usable individual split pieces as a separate purchase/pack floor. The normal 5% raw-mass shopping reserve does not replace the required piece count.",
-            "Pack ONE separate 40 g NET bottled-ranch planning cup and ONE separate 20 g clean mango-habanero dip per box. Product ingredients, allergens, package cost and exact filled recovery remain unverified.",
+            "Pack ONE separate 40 g NET Bolthouse Classic Ranch planning cup and ONE separate 20 g clean G Hughes mango-habanero dip per box. Verify the purchased product panels, package costs, and exact filled recovery.",
             "No rice, starch or vegetable side is included. Keep bones accounted for; bone-in packed mass is not edible meat.",
             "Cook uncrowded air-fryer batches to 165 F in thick meat away from bone. Keep clean finishing sauce separate from raw poultry; ranch stays cold.",
             "Record raw count/mass, cooked count/mass, sauce used, final net weight and container fit. Cool protected in shallow pans and keep at 41 F or below.",
-            "Wing size, actual raw/cooked/edible weights, mango-habanero and bottled-ranch product panels/costs and container fit are unverified. No consumer macros or complete Nutrition Facts may be released."
+            "Actual portion weights and cooked/edible yields, the purchased G Hughes and Bolthouse package panels/costs, and container fit are unverified. No complete Nutrition Facts may be released."
           ],
           "portionControl": {
             "wingPiecesPerMeal": 6,
@@ -3106,7 +3106,7 @@ const PRPD_PRODUCTION_DATA = {
             "minimumPieces": 6,
             "rawMassPlanningGrams": 461.3878,
             "rawWeightVerified": false,
-            "rawMassBasis": "Owner-measured Batch 19 purchase lot: 3768 g / 49 split pieces x 6; actual portion weight varies.",
+            "rawMassBasis": "Owner-measured Batch 19 purchase lot: 3768 g / 49 split pieces; weigh actual portion pulls.",
             "cookedYieldVerified": false,
             "edibleMeatYieldVerified": false,
             "ranchCupsPerMeal": 1,
@@ -3120,7 +3120,7 @@ const PRPD_PRODUCTION_DATA = {
           "labelsEnabled": false,
           "nutritionComplete": false,
           "finalLabelReady": false,
-          "nutritionReleaseHold": "Wing size, actual raw/cooked/edible weights, mango-habanero and bottled-ranch product panels/costs and container fit are unverified. No consumer macros or complete Nutrition Facts may be released."
+          "nutritionReleaseHold": "Actual portion weights and cooked/edible yields, the purchased G Hughes and Bolthouse package panels/costs, and container fit are unverified. No complete Nutrition Facts may be released."
         },
         "bulk": {
           "ingredients": [
@@ -3131,7 +3131,7 @@ const PRPD_PRODUCTION_DATA = {
               "amount": 615.1837,
               "unit": "g",
               "station": "Poultry",
-              "note": "component:wings-seasoning; 8 pieces x measured purchased-lot average 3768 g / 49 pieces; weigh actual portion.",
+              "note": "component:wings-seasoning; Batch 19 lot average: 3768 g / 49 split pieces; weigh actual portion pulls.",
               "confidence": "planning-unmeasured",
               "allocations": {
                 "wings-seasoning": 615.1837
@@ -3233,7 +3233,7 @@ const PRPD_PRODUCTION_DATA = {
             {
               "key": "mango_habanero_sauce",
               "sourceKey": "mango_habanero_sauce",
-              "name": "Purchased mango-habanero wing sauce (exact bottle panel pending)",
+              "name": "G Hughes Zero Sugar Mango Habanero Wing Sauce (12 fl oz bottle)",
               "amount": 80.0,
               "unit": "g",
               "station": "Sauces & Dairy",
@@ -3247,7 +3247,7 @@ const PRPD_PRODUCTION_DATA = {
             {
               "key": "bottled_ranch",
               "sourceKey": "bottled_ranch",
-              "name": "Purchased bottled ranch (40 g net planning cup; exact product pending)",
+              "name": "Bolthouse Farms Classic Ranch yogurt dressing (40 g net planning cup)",
               "amount": 40.0,
               "unit": "g",
               "station": "Sauces & Dairy",
@@ -3261,14 +3261,14 @@ const PRPD_PRODUCTION_DATA = {
           "confidence": "planning-unmeasured",
           "assumptions": [
             "Owner-confirmed Bulk box: at least 8 INDIVIDUAL flats/drumettes, not whole unsplit wings.",
-            "Batch 19 purchased lot measured 3768 g across 49 split pieces (76.9 g/piece average); eight pieces project to 615.2 g raw bone-in. Weigh actual portions; cooked/edible yield is unmeasured.",
-            "Oil, dry seasoning and finishing sauce retain the controlled recipe amounts. Confirm coating coverage against the larger measured wing size on Cook Day.",
+            "Batch 19 purchased lot is 3768 g / 49 split pieces; 8 pieces average 615.2 g raw bone-in. Weigh each actual portion; cooked/edible yield is unmeasured.",
+            "Oil, dry seasoning and finishing sauce retain the controlled piece-based recipe amounts. Confirm coating coverage with the measured larger wings.",
             "Count usable individual split pieces as a separate purchase/pack floor. The normal 5% raw-mass shopping reserve does not replace the required piece count.",
-            "Pack ONE separate 40 g NET bottled-ranch planning cup and ONE separate 20 g clean mango-habanero dip per box. Product ingredients, allergens, package cost and exact filled recovery remain unverified.",
+            "Pack ONE separate 40 g NET Bolthouse Classic Ranch planning cup and ONE separate 20 g clean G Hughes mango-habanero dip per box. Verify the purchased product panels, package costs, and exact filled recovery.",
             "No rice, starch or vegetable side is included. Keep bones accounted for; bone-in packed mass is not edible meat.",
             "Cook uncrowded air-fryer batches to 165 F in thick meat away from bone. Keep clean finishing sauce separate from raw poultry; ranch stays cold.",
             "Record raw count/mass, cooked count/mass, sauce used, final net weight and container fit. Cool protected in shallow pans and keep at 41 F or below.",
-            "Wing size, actual raw/cooked/edible weights, mango-habanero and bottled-ranch product panels/costs and container fit are unverified. No consumer macros or complete Nutrition Facts may be released."
+            "Actual portion weights and cooked/edible yields, the purchased G Hughes and Bolthouse package panels/costs, and container fit are unverified. No complete Nutrition Facts may be released."
           ],
           "portionControl": {
             "wingPiecesPerMeal": 8,
@@ -3276,7 +3276,7 @@ const PRPD_PRODUCTION_DATA = {
             "minimumPieces": 8,
             "rawMassPlanningGrams": 615.1837,
             "rawWeightVerified": false,
-            "rawMassBasis": "Owner-measured Batch 19 purchase lot: 3768 g / 49 split pieces x 8; actual portion weight varies.",
+            "rawMassBasis": "Owner-measured Batch 19 purchase lot: 3768 g / 49 split pieces; weigh actual portion pulls.",
             "cookedYieldVerified": false,
             "edibleMeatYieldVerified": false,
             "ranchCupsPerMeal": 1,
@@ -3290,18 +3290,18 @@ const PRPD_PRODUCTION_DATA = {
           "labelsEnabled": false,
           "nutritionComplete": false,
           "finalLabelReady": false,
-          "nutritionReleaseHold": "Wing size, actual raw/cooked/edible weights, mango-habanero and bottled-ranch product panels/costs and container fit are unverified. No consumer macros or complete Nutrition Facts may be released."
+          "nutritionReleaseHold": "Actual portion weights and cooked/edible yields, the purchased G Hughes and Bolthouse package panels/costs, and container fit are unverified. No complete Nutrition Facts may be released."
         }
       },
       "plannerOnly": false,
       "labelsEnabled": false,
       "nutritionComplete": false,
       "finalLabelReady": false,
-      "nutritionReleaseHold": "Wing size, actual raw/cooked/edible weights, mango-habanero and bottled-ranch product panels/costs and container fit are unverified. No consumer macros or complete Nutrition Facts may be released.",
+      "nutritionReleaseHold": "Actual portion weights and cooked/edible yields, the purchased G Hughes and Bolthouse package panels/costs, and container fit are unverified. No complete Nutrition Facts may be released.",
       "service": {
         "sideCupComponents": [
           {
-            "name": "Purchased bottled ranch",
+            "name": "Bolthouse Farms Classic Ranch yogurt dressing",
             "batchGroup": "bottled-ranch",
             "componentRef": "bottled-ranch",
             "cupsPerMeal": 1,
@@ -3311,7 +3311,7 @@ const PRPD_PRODUCTION_DATA = {
             "productPanelVerified": false
           },
           {
-            "name": "Mango habanero dip",
+            "name": "G Hughes Zero Sugar Mango Habanero Wing Sauce dip",
             "batchGroup": "wings-extra-dip",
             "componentRef": "wings-extra-dip",
             "cupsPerMeal": 1,
@@ -3322,7 +3322,7 @@ const PRPD_PRODUCTION_DATA = {
           }
         ]
       },
-      "qualityChecks": "Owner-measured Batch 19 purchase lot: 49 individual split pieces, 3768 g raw bone-in (76.9 g each on average). Compare the current customer and owner piece demand with this purchased count before cooking. Weigh each allocated portion because piece sizes vary. Pack one separate 40 g bottled-ranch cup and one 20 g clean mango-habanero dip per box. Confirm sauce panels, cooked and edible yields, container fit and 165 F in thick meat away from bone. No consumer macros or complete Nutrition Facts may be released."
+      "qualityChecks": "Pack six individual split flats/drumettes for Lean and eight for Bulk, plus one separate 40 g NET bottled-ranch planning cup and a separate 20 g clean mango-habanero dip per box. No rice or vegetable side. Owner-measured purchased lot: 49 split pieces / 3768 g raw bone-in, averaging 76.9 g per piece. Actual portion and cooked yields remain unmeasured. Verify both purchased package panels and stock, record raw/cooked output and fit, and measure 165 F away from bone. Keep ranch cold and separate. Actual portion weights and cooked/edible yields, the purchased G Hughes and Bolthouse package panels/costs, and container fit are unverified. No complete Nutrition Facts may be released."
     },
     "m7": {
       "name": "Braised Beef Short Rib",

@@ -62,12 +62,20 @@ ESTIMATED_NET_WEIGHTS = {
 MEAL_ONLY_LABEL_NUTRITION = {
     "High-Protein Beef Kofta & Roasted Vegetables",
     "Custom Lean Chicken Mince",
+    "Mango Habanero Chicken Wings",
+    "Beef Bacon Breakfast Pizza",
+    "BBQ Chicken Mac & Cheese",
+    "Garlic Butter Wild Argentine Shrimp + Rice",
 }
 
 # These recipes have controlled component targets but no defensible finished
 # package weight yet. Label Studio must collect the actual packed net weight
 # instead of printing a dry-input or pre-cook ingredient sum as the net weight.
-PACKOUT_WEIGHT_REQUIRED = {"Lemon Herb Chicken Orzo", "Chicken Tikka Snack Wrap"}
+PACKOUT_WEIGHT_REQUIRED = {
+    "Lemon Herb Chicken Orzo", "Chicken Tikka Snack Wrap",
+    "Beef Bacon Breakfast Pizza", "Mango Habanero Chicken Wings",
+    "Mexican Streetcorn Chicken Bowl",
+}
 
 DISPLAY_INGREDIENTS = {
     "barilla_orzo_dry": "Barilla Classic Orzo (semolina [wheat], durum wheat flour, niacin, iron [ferrous sulfate], thiamin mononitrate, riboflavin, folic acid)",
@@ -146,6 +154,9 @@ DISPLAY_INGREDIENTS = {
 # identities where the formulation affects an allergen declaration. These names
 # do not reconstruct unverified supplier sub-ingredient panels.
 DISPLAY_INGREDIENTS.update({
+    "sharifa_beef_bacon": "Sharifa halal beef bacon (beef, water, sea salt, cane sugar, sodium phosphate, sodium nitrate, vinegar, sodium erythorbate)",
+    "mango_habanero_sauce": "G Hughes Zero Sugar Mango Habanero Wing Sauce (water, distilled vinegar, modified corn starch, mango juice concentrate, salt, canola and/or soybean oil, habanero pepper puree, dried habanero pepper, paprika extract, citric acid, dried garlic, dried onion, potassium sorbate, sucralose, caramel color)",
+    "bottled_ranch": "Bolthouse Farms Classic Ranch (buttermilk, water, soybean oil, yogurt, whey protein concentrate, vinegar, pineapple juice concentrate, salt, egg yolks, xanthan gum, buttermilk powder, onion powder, natural flavors, garlic powder, mustard seed, dill, citric acid)",
     "buffalo_sauce": "Sweet Baby Ray's Mild Buffalo Wing Sauce",
     "fage": "FAGE Total 0% nonfat Greek yogurt",
     "light_mayo": "Great Value light mayonnaise",
@@ -201,6 +212,7 @@ ALLERGENS = {
     "biscoff_cookie": ("soy", "wheat"),
     "english_muffin": "wheat",
     "beef_bacon": "soy",
+    "bottled_ranch": ("egg", "milk"),
     "tilapia_cooked": "fish",
     "pink_salmon_raw": "fish",
     "parmesan": "milk",
@@ -260,6 +272,7 @@ META = {
     "Blueberry Cheesecake Protein Pancakes": ("Protein pancakes with blueberry compote, cheesecake-yogurt topping, and sugar-free maple syrup.", "Pancakes dressed like cheesecake.", "fridge"),
     "PRPD Beef Bacon Breakfast Sandwich": ("Beef bacon, an egg-and-egg-white patty, cheese, and PRPD Sweet Heat Sauce. Lean includes one sandwich with breakfast potatoes; Bulk includes two sandwiches with no potatoes.", "The breakfast sandwich cleaned up its macros.", "fridge"),
     "Grilled Cheese Breakfast Burrito": ("Seasoned beef, eggs, egg whites, cheese, and onion in grilled high-fiber tortillas.", "Breakfast understood the assignment.", "fridge"),
+    "Beef Bacon Breakfast Pizza": ("Rectangular breakfast pizza with Sharifa halal beef bacon, eggs, vegetables, house tomato sauce and H-E-B fat-free mozzarella.", "A savory breakfast, baked to fit the box.", "fridge"),
     "Loaded Beef Cottage Pie": ("Betty Crocker mashed potatoes topped with seasoned beef, vegetables, mozzarella, and cilantro, with PRPD Sweet Heat sauce.", "Comfort food with the numbers handled.", "freezer"),
     "Loaded Buffalo Chicken Potato": ("Buffalo chicken over a loaded roasted potato with broccoli.", "Loaded potato, handled.", "freezer"),
     "Beef Seekh Kabab Shawarma": ("Seasoned beef seekh, fresh salad, house refrigerator pickles, and garlic yogurt sauce in shawarma bread.", "Kebab rolled up with somewhere to be.", "fridge"),
@@ -272,6 +285,7 @@ META = {
     "Chicken Biryani": ("Spiced halal chicken and fragrant basmati rice.", "Rice with range. Chicken with receipts.", "freezer"),
     "Butter Chicken": ("Broth-free butter chicken in a tomato, yogurt, garlic, and ginger sauce with basmati rice.", "Comfort food with the numbers handled.", "freezer"),
     "BBQ Chicken Mac & Cheese": ("BBQ chicken, high-protein mac and cheese, fat-free mozzarella, and a matching BBQ sauce cup.", "Mac and cheese finally joined the program.", "freezer"),
+    "Mango Habanero Chicken Wings": ("Split bone-in wings coated with G Hughes Zero Sugar Mango Habanero Wing Sauce, with separate mango dip and Bolthouse Classic Ranch cups.", "Counted split wings, sweet heat, and two dips.", "fridge"),
     "Custom Lebanese Chicken + Fattoush-Style Salad": ("Lebanese-style chicken breast with lettuce, cucumber, tomato, red onion, parsley, and measured lemon dressing.", "A custom lean-protein pilot with the hot and cold components kept separate.", "fridge"),
     "Korean Bulgogi Beef Bowl": ("Marinated beef, rice, and stir-fried broccoli, peppers, and carrots.", "Sticky, savory, and worth every bite.", "freezer"),
     "Garlic Butter Shrimp + Rice": ("Garlic-butter shrimp, basmati rice, peas and carrots, zucchini, and lemon.", "Garlic butter did what it had to do.", "freezer"),
@@ -335,6 +349,7 @@ REHEAT = {
     "Blueberry Cheesecake Protein Pancakes": "Remove cold toppings and syrup. Microwave pancakes 45-75 seconds; add toppings after heating.",
     "PRPD Beef Bacon Breakfast Sandwich": "Microwave 45-60 seconds. For a toasted finish, air fry at 350 F for 3-5 minutes.",
     "Grilled Cheese Breakfast Burrito": "Microwave 60-90 seconds, or air fry at 350 F for 3-5 minutes, until hot throughout.",
+    "Beef Bacon Breakfast Pizza": "Remove from plastic container. Reheat on an oven-safe tray at 350 F until hot throughout, or microwave until hot.",
     "Loaded Beef Cottage Pie": "Remove sauce cup. Vent lid and microwave 2-3 minutes, or until hot throughout. Rest 1 minute.",
     "Hot Honey Chicken Sliders": "Microwave 45-75 seconds, or air fry at 350 F for 3-5 minutes, until hot throughout.",
     "Loaded Buffalo Chicken Potato": "Vent lid and microwave 2-3 minutes, stirring halfway, until hot throughout.",
@@ -343,6 +358,7 @@ REHEAT = {
     "Korean Bulgogi Beef Bowl": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout.",
     "Garlic Butter Shrimp + Rice": "Vent lid and microwave at 50% power for 1-2 minutes, stirring halfway, to avoid overcooking shrimp.",
     "BBQ Chicken Mac & Cheese": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout. Add the matching BBQ sauce from the customer bag after heating.",
+    "Mango Habanero Chicken Wings": "Remove both cold sauce cups. Reheat wings in an oven or air fryer until 165 F throughout; add cold dips after heating.",
     "Custom Lebanese Chicken + Fattoush-Style Salad": "Remove the cold salad and dressing. Vent the chicken container and microwave 1-2 minutes, or until hot throughout. Add the cold salad and dressing after heating.",
     "Mexican Streetcorn Chicken Bowl": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout.",
     "Halal Cart Chicken + Yellow Rice": "Remove the cold lettuce and tomato. Microwave chicken and rice 1.5-2 minutes until hot throughout, then add the cold vegetables.",
@@ -455,7 +471,12 @@ def tier_data(build: draft.Build, label: str, meal_name: str = "") -> dict:
         "confidence": build.confidence,
     }
     if meal_name in MEAL_ONLY_LABEL_NUTRITION:
-        result["nutritionBasis"] = "Main meal only; separate sauce cup excluded"
+        result["nutritionBasis"] = (
+            "Served pizza only; unserved dough reserve excluded" if meal_name == "Beef Bacon Breakfast Pizza"
+            else "Wings and coating only; separate sauce cups excluded" if meal_name == "Mango Habanero Chicken Wings"
+            else "Main meal only; separate sauce cup excluded" if meal_name in {"BBQ Chicken Mac & Cheese", "Garlic Butter Wild Argentine Shrimp + Rice"}
+            else "Main meal only; separate sauce cup excluded"
+        )
     if meal_name in PACKOUT_WEIGHT_REQUIRED:
         result.update({
             "inputMassGrams": grams,
@@ -533,7 +554,7 @@ def load_order_config() -> dict:
 
 
 def assert_macro_parity(item: dict, tier_key: str, build: draft.Build) -> None:
-    if item.get("name") == "Braised Beef Short Rib":
+    if item.get("name") in {"Braised Beef Short Rib", "Beef Bacon Breakfast Pizza", "Mango Habanero Chicken Wings", "Strawberry Protein Shake"}:
         return
     configured = item.get("bulkMacros") if tier_key == "bulk" else item.get("macros")
     if not isinstance(configured, dict):
@@ -619,7 +640,7 @@ def generate_payload(order_config: dict | None = None) -> dict:
                 tier: tier_data(build, "Single" if tier == "single" else tier.title(), meal_name)
                 for tier, build in builds.items()
             }
-            if meal_name == "Braised Beef Short Rib":
+            if meal_name in {"Braised Beef Short Rib", "Beef Bacon Breakfast Pizza", "Mango Habanero Chicken Wings", "Strawberry Protein Shake"}:
                 for tier_key, tier_record in tiers.items():
                     configured = item.get("bulkMacros") if tier_key == "bulk" else item.get("macros")
                     controlled = dict(tier_record["nutrition"])
@@ -632,7 +653,14 @@ def generate_payload(order_config: dict | None = None) -> dict:
                     })
                     tier_record["menuNutrition"] = controlled
                     tier_record["nutrition"] = controlled
-                    tier_record["nutritionBasis"] = "Owner-approved Batch 15 recipe estimate"
+                    if meal_name == "Braised Beef Short Rib":
+                        tier_record["nutritionBasis"] = "Owner-approved Batch 15 recipe estimate"
+                    elif meal_name == "Beef Bacon Breakfast Pizza":
+                        tier_record["nutritionBasis"] = "Owner-approved Batch 19 served-pizza recipe estimate; unserved dough excluded"
+                    elif meal_name == "Strawberry Protein Shake":
+                        tier_record["nutritionBasis"] = "Published Batch 19 330 g bottle recipe estimate; five-calorie model rounding difference"
+                    else:
+                        tier_record["nutritionBasis"] = "Owner-approved Batch 19 wings and coating estimate; separate sauce cups excluded"
             for tier_key, build_record in builds.items():
                 assert_macro_parity(item, tier_key, build_record)
             try:

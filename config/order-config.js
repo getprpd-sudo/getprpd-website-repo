@@ -7,8 +7,8 @@ const ORDER_CONFIG = {
     "cutoffIso": "2026-11-11T18:00:00-06:00",
     "cutoffLabel": "Wednesday at 6:00 PM CT",
     "labelProduction": {
-      "madeDate": "",
-      "useByDate": "",
+      "madeDate": "2026-11-14",
+      "useByDate": "2026-11-18",
       "batchId": "B19-1114",
       "completedAt": null,
       "refrigeratedDays": 5,
@@ -424,18 +424,18 @@ const ORDER_CONFIG = {
         "category": "standard",
         "description": "Chicken, basmati rice, and creamy Mexican street corn.",
         "macros": {
-          "cal": 590,
-          "protein": 48,
-          "carbs": 53,
-          "fiber": 3,
-          "fat": 21
+          "cal": 640,
+          "protein": 51,
+          "carbs": 61,
+          "fiber": 4,
+          "fat": 22
         },
         "bulkMacros": {
-          "cal": 785,
-          "protein": 65,
-          "carbs": 70,
-          "fiber": 4,
-          "fat": 27
+          "cal": 830,
+          "protein": 67,
+          "carbs": 80,
+          "fiber": 5,
+          "fat": 28
         },
         "image": "/assets/images/meals/menu/mexican-streetcorn-chicken-bowl-v2.jpg",
         "newThisWeek": false,

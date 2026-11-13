@@ -229,7 +229,7 @@
     const provisional = CURRENT_REVIEW ? ' (provisional)' : '';
 
     return `
-      <article class="meal-label">
+      <article class="meal-label${draft.ingredients.length > 440 ? ' dense-copy' : ''}">
         ${PROOF_MODE ? '<div class="label-proof-mark">DRAFT - NOT FOR FOOD LABELING</div>' : ''}
         <section class="brand-panel">
           <div class="brand-top">

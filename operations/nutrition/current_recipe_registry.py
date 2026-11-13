@@ -53,10 +53,12 @@ r.add_ingredient("rosemary", "Fresh rosemary", r.n(131, 3.31, 20.7, 14.1, 5.86, 
 r.add_ingredient("bay_leaf", "Bay leaf", r.n(313, 7.6, 75, 26, 8.36, 2.28, 0, 0, 23, 0), source="USDA FoodData Central", confidence="high")
 r.add_ingredient(
     "sharifa_beef_bacon", "Sharifa Halal beef bacon, as packaged",
-    r.n(45 * 100 / 28, 5 * 100 / 28, 0, 0, 3 * 100 / 28, 0, 0, 0, 0, 0),
-    source="Sharifa online listing: 45 kcal, 5 g protein and 3 g fat per 28 g; purchased package still controls",
-    confidence="planning", nutrition_complete=False,
-    note="Planning profile only. Sodium and remaining panel fields were not verified; weigh bacon before cooking and inspect the purchased Sharifa package before final labels.",
+    r.n(45 * 100 / 28, 5 * 100 / 28, 1 * 100 / 28, 0, 3 * 100 / 28,
+        1 * 100 / 28, 1 * 100 / 28, 1 * 100 / 28,
+        270 * 100 / 28, 15 * 100 / 28, 0, 0, 0, 0, 58 * 100 / 28),
+    source="Sharifa product ingredients at saadmeats.com; 28 g panel transcribed by MyNetDiary and Endless Market",
+    confidence="medium", nutrition_complete=True,
+    note="Online 28 g estimate: 45 kcal, 5 g protein, 1 g carbs, 3 g fat, 1 g saturated fat, 270 mg sodium, 15 mg cholesterol. Confirm purchased Sharifa package before final labels; online retailers disagree slightly on fat.",
 )
 r.add_ingredient(
     "red_chili_flakes", "Crushed red chili flakes",
@@ -720,7 +722,7 @@ QUALITY_CHECKS = {
 
 SERVICE = {
     private_wings.NAME: [{
-        "name": "Purchased bottled ranch",
+        "name": "Bolthouse Farms Classic Ranch yogurt dressing",
         "batchGroup": private_wings.RANCH_COMPONENT,
         "componentRef": private_wings.RANCH_COMPONENT,
         "cupsPerMeal": 1,
@@ -729,7 +731,7 @@ SERVICE = {
         "planningOnly": True,
         "productPanelVerified": False,
     }, {
-        "name": "Mango habanero dip",
+        "name": "G Hughes Zero Sugar Mango Habanero Wing Sauce dip",
         "batchGroup": "wings-extra-dip",
         "componentRef": "wings-extra-dip",
         "cupsPerMeal": 1,
