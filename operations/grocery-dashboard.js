@@ -76,7 +76,7 @@
     const plan = engine.compileProduction({orders:selection.orders,data,methods,config,...settings});
     const customerOrders=cook.confirmedOrders(selection.orders).filter(order =>
       (order.items||[]).some(item => !methods.meals[item.id]?.prepDayOnly));
-    const cookiePlan=cookies.plan(customerOrders.length,configuredBatch);
+    const cookiePlan=cookies.plan(customerOrders,configuredBatch);
     const shoppingRequirements=withCookieGroceries(plan.requirements,cookiePlan);
     const snapshot = run.snapshotStatus(plan, record);
     const blocked = selection.changed || !plan.diagnostics.ok || (!snapshot.ok && !snapshot.legacy);

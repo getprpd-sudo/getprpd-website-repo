@@ -25,6 +25,19 @@ test('complimentary cookies are limited to the approved batch', () => {
   assert.equal(cookies.plan(0, 19).batches, 0);
 });
 
+test('Muhammad receives two cookies while every other confirmed order receives one', () => {
+  const orders = [
+    {customer:'Faiz Kidwai'}, {customer:'Taha Ibrahim'}, {customer:'Aleena Sajan'},
+    {customer:'Zain Ali'}, {customer:'Sparsh Kumar'}, {customer:'Muhammad mahmood'},
+    {customer:'Duaa Khan'}, {customer:'Zee Hamoda'}, {customer:'Chad'},
+  ];
+  const plan = cookies.plan(orders,19);
+  assert.deepEqual([plan.needed,plan.produced,plan.spare],[10,20,10]);
+  assert.deepEqual(plan.allocations.map(item=>item.cookies),[1,1,1,1,1,2,1,1,1]);
+  const rows = groceryDashboard.withCookieGroceries([],plan);
+  assert.equal(rows.find(row=>row.key==='cookie_sleeve').required,10);
+});
+
 test('grocery builder adds cookie demand once to shared shopping requirements', () => {
   const mealFlour = {key:'flour',name:'All-purpose flour',unit:'g',section:'Pantry & Sauces',required:200,sources:['Recipes']};
   const cookiePlan = cookies.plan(9,19);

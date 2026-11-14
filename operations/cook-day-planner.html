@@ -949,7 +949,7 @@
   <script src="/operations/grocery-list-core.js?v=20261112-b19-grocery"></script>
   <script src="/operations/production-engine.js?v=20261005-shared-run"></script>
   <script src="/operations/production-run.js?v=20261005-shared-run"></script>
-  <script src="/operations/complimentary-cookie-plan.js?v=20261112-b19-20"></script>
+  <script src="/operations/complimentary-cookie-plan.js?v=20261113-b19-two-for-muhammad"></script>
   <script src="/operations/kitchen-dashboard.js?v=20261112-b19-grocery"></script>
   <script src="/operations/recurring-customers.js?v=20260908.2"></script>
   <script>
@@ -1198,20 +1198,21 @@
     }
 
     function complimentaryCookiePlan() {
-      return COOKIES.plan(customerPackoutOrders().length, CONFIG.batch.number);
+      return COOKIES.plan(customerPackoutOrders(), CONFIG.batch.number);
     }
 
     function complimentaryCookieCard(plan) {
       if (!plan.needed) return '';
       const quantities = plan.ingredients.map(item => `<tr><td>${esc(item.name)}</td><td class="amount"><strong>${esc(String(item.amount))} ${esc(item.unit)}</strong></td></tr>`).join('');
       return `<article class="card section-card complimentary-cookie-card"><h3>Cook Day · bake ${plan.produced} full-size chocolate chip cookies</h3>
-        <p><strong>${plan.needed} confirmed customer orders need one cookie each; ${plan.spare} are spare.</strong> Scale the original 12-cookie recipe to ${plan.produced} full-size cookies. One separately wrapped cookie goes in each customer bag, including pickup. Internal meals do not get one.</p>
+        <p><strong>${plan.needed} cookies for ${plan.allocations.length} confirmed customer orders; ${plan.spare} are spare.</strong> Scale the original 12-cookie recipe to ${plan.produced} full-size cookies. Pack one separately wrapped cookie per order, including pickup, except Muhammad Mahmood receives two for his household. Internal meals do not get one.</p>
+        <p><strong>Bag allocations:</strong> ${plan.allocations.map(item => `${esc(item.customer)} ${item.cookies}`).join(' · ')}.</p>
         <div class="table-wrap"><table><thead><tr><th>Ingredient</th><th>For ${plan.produced} cookies</th></tr></thead><tbody>${quantities}</tbody></table></div>
         <p><strong>Eggs:</strong> ${plan.produced===20?'3 whole eggs plus 4 extra yolks, from 7 shell eggs':`${plan.batches*2} whole eggs plus ${plan.batches*2} extra yolks, from ${plan.eggsToBuy} shell eggs`}.</p>
         <ol><li><strong>Prep Day:</strong> Beat softened butter and sugars for 2–3 minutes. Mix in eggs, extra yolks and vanilla. Add whisked flour, baking soda, baking powder and salt; fold in chocolate chips.</li>
         <li><strong>Prep Day:</strong> Weigh the finished dough and divide into ${plan.produced} equal, tall balls. Record each ball's raw weight; cover and refrigerate at 40°F or below overnight.</li>
         <li><strong>Cook Day, after raw-meat cleanup:</strong> Bake one tray at a time at 365°F. Check at 10 minutes; expect roughly 10–12 minutes. Remove when edges are golden and centers are set but soft.</li>
-        <li><strong>Before pack-out:</strong> Cool 10 minutes on the sheet, then completely on a clean rack. Wrap separately; put exactly one in each customer bag. Store the ${plan.spare} spares covered separately.</li></ol>
+        <li><strong>Before pack-out:</strong> Cool 10 minutes on the sheet, then completely on a clean rack. Wrap separately; pack the customer counts shown above. Store the ${plan.spare} spares covered separately.</li></ol>
         <p><strong>Allergen check:</strong> wheat, milk and egg; check the purchased chocolate package for soy and nut statements. Keep cookies separate from meals. No cookie nutrition claim is approved.</p></article>`;
     }
     function complimentaryCookiePrepCard(plan) {

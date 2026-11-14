@@ -22,13 +22,28 @@
     { name: 'Chocolate chips', amount: 260, unit: 'g' },
   ];
 
-  function plan(orderCount, batchNumber) {
-    const needed = Number(batchNumber) === BATCH ? Math.max(0, Math.floor(Number(orderCount) || 0)) : 0;
+  function plan(ordersOrCount, batchNumber) {
+    const orders = Array.isArray(ordersOrCount) ? ordersOrCount : null;
+    const allocations = [];
+    let extraForMuhammad = false;
+    if (orders && Number(batchNumber) === BATCH) {
+      for (const order of orders) {
+        const customer = String(order.customer || '').trim();
+        const secondCookie = !extraForMuhammad && customer.toLowerCase() === 'muhammad mahmood';
+        allocations.push({ customer, cookies: secondCookie ? 2 : 1 });
+        if (secondCookie) extraForMuhammad = true;
+      }
+    }
+    const needed = Number(batchNumber) === BATCH
+      ? orders ? allocations.reduce((total, item) => total + item.cookies, 0)
+        : Math.max(0, Math.floor(Number(ordersOrCount) || 0))
+      : 0;
     const produced = needed ? needed <= ONE_TIME_MINIMUM
       ? ONE_TIME_MINIMUM : Math.ceil(needed / YIELD_PER_BATCH) * YIELD_PER_BATCH : 0;
     const batches = produced / YIELD_PER_BATCH;
     return {
       needed,
+      allocations,
       batches,
       produced,
       spare: produced - needed,
