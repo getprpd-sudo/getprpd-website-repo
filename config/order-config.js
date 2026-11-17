@@ -650,7 +650,8 @@ const ORDER_CONFIG = {
     "desserts": [
       {
         "id": "d1",
-        "name": "Classic Chocolate Chip Cookie",
+        "name": "Chocolate Chip Cookie Drop",
+        "aliases": ["Classic Chocolate Chip Cookie"],
         "category": "dessert",
       "price": 2.99,
         "description": "Our classic chocolate chip cookie, baked from a 70 g dough portion. Choose 1, 3, or 6.",

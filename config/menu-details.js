@@ -475,7 +475,7 @@ const PRPD_MENU_DETAILS = {
       },
       "d1": {
         "type": "meal",
-        "name": "Classic Chocolate Chip Cookie",
+        "name": "Chocolate Chip Cookie Drop",
         "description": "Classic chocolate chip cookie baked from a 70 g raw dough portion; available in 1, 3, or 6.",
         "storageMode": "ambient",
         "reheat": "Enjoy at room temperature. Keep dry and sealed.",

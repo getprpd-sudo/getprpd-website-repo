@@ -73,8 +73,10 @@
     const byId = new Map(dishes.map(dish => [dish.id, dish]));
     return dishes.reduce((map, dish) => {
       if (Array.isArray(dish.variants) && dish.variants.length) {
-        for (const variant of dish.variants) {
-          map[normalize(`${dish.name} (${variant.label})`)] = { bundle: dish, variant, byId };
+        for (const baseName of [dish.name, ...(dish.aliases || [])]) {
+          for (const variant of dish.variants) {
+            map[normalize(`${baseName} (${variant.label})`)] = { bundle: dish, variant, byId };
+          }
         }
         return map;
       }
