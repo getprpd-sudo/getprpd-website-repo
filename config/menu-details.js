@@ -1,149 +1,41 @@
+// Generated customer-facing meal details. Do not hand-edit.
 const PRPD_MENU_DETAILS = {
-  "version": "2026-11-09-b19",
+  "version": "2026-10-19.7",
   "batches": {
-    "19": {
+    "20": {
       "b1": {
         "type": "meal",
-        "name": "Grilled Cheese Breakfast Burrito",
-        "description": "Seasoned beef, eggs, egg whites, cheese, and onion in grilled high-fiber tortillas, with no added salt.",
-        "storageMode": "fridge",
-        "reheat": "Microwave 60-90 seconds, or air fry at 350 F for 3-5 minutes, until hot throughout.",
-        "tiers": {
-          "lean": {
-            "label": "LEAN",
-            "netWeight": "10.8 oz (305 g)",
-            "ingredients": "Mission Carb Balance wheat tortilla, 90/10 ground beef, whole egg, egg whites, onion, H-E-B fat-free mozzarella, tomato paste.",
-            "allergens": "CONTAINS: EGG, MILK, WHEAT.",
-            "allergenAdvisory": "",
-            "nutrition": {
-              "calories": 465,
-              "protein": 52,
-              "carbs": 45,
-              "fiber": 31,
-              "fat": 20,
-              "satFat": 5.5,
-              "sugars": 3,
-              "sodium": 980,
-              "cholesterol": 265
-            }
-          },
-          "bulk": {
-            "label": "BULK",
-            "netWeight": "14.0 oz (397 g)",
-            "ingredients": "Mission Carb Balance wheat tortilla, 90/10 ground beef, whole egg, H-E-B fat-free mozzarella, egg whites, onion, tomato paste.",
-            "allergens": "CONTAINS: EGG, MILK, WHEAT.",
-            "allergenAdvisory": "",
-            "nutrition": {
-              "calories": 645,
-              "protein": 72,
-              "carbs": 64,
-              "fiber": 46,
-              "fat": 27,
-              "satFat": 7.4,
-              "sugars": 3,
-              "sodium": 1400,
-              "cholesterol": 300
-            }
-          }
-        }
-      },
-      "b2": {
-        "type": "meal",
-        "name": "Beef Breakfast Skillet",
-        "description": "Seasoned ground beef, eggs, mozzarella and potato hash.",
-        "storageMode": "fridge",
-        "reheat": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout.",
-        "tiers": {
-          "lean": {
-            "label": "LEAN",
-            "netWeight": "",
-            "ingredients": "90/10 ground beef, potato, whole egg, H-E-B fat-free mozzarella, red onion, garlic, avocado oil, salt.",
-            "allergens": "CONTAINS: EGG, MILK.",
-            "allergenAdvisory": "",
-            "nutritionBasis": "Per complete serving.",
-            "nutrition": {
-              "calories": 565,
-              "protein": 59,
-              "carbs": 23,
-              "fiber": 3,
-              "fat": 25,
-              "satFat": 8.8,
-              "transFat": 0.5,
-              "cholesterol": 320,
-              "sodium": 710,
-              "sugars": 2,
-              "addedSugar": 0,
-              "vitaminD": 1,
-              "calcium": 340,
-              "iron": 6.3,
-              "potassium": 1180
-            }
-          },
-          "bulk": {
-            "label": "BULK",
-            "netWeight": "",
-            "ingredients": "90/10 ground beef, potato, whole egg, H-E-B fat-free mozzarella, red onion, garlic, avocado oil, salt.",
-            "allergens": "CONTAINS: EGG, MILK.",
-            "allergenAdvisory": "",
-            "nutritionBasis": "Per complete serving.",
-            "nutrition": {
-              "calories": 790,
-              "protein": 83,
-              "carbs": 24,
-              "fiber": 3,
-              "fat": 39,
-              "satFat": 13.4,
-              "transFat": 0.8,
-              "cholesterol": 560,
-              "sodium": 930,
-              "sugars": 2,
-              "addedSugar": 0,
-              "vitaminD": 2,
-              "calcium": 380,
-              "iron": 9.1,
-              "potassium": 1510
-            }
-          }
-        }
-      },
-      "b3": {
-        "type": "meal",
         "name": "Beef Bacon Breakfast Pizza",
-        "description": "One rectangular breakfast pizza per meal with Sharifa halal beef bacon, eggs, peppers, house tomato sauce and H-E-B fat-free mozzarella. Bulk is larger with extra toppings.",
+        "description": "Rectangular breakfast pizza with Sharifa halal beef bacon, eggs, vegetables, house tomato sauce and H-E-B fat-free mozzarella.",
         "storageMode": "fridge",
-        "reheat": "Heat until fully hot throughout; crisp crust in oven or air fryer if desired.",
+        "reheat": "Remove from plastic container. Reheat on an oven-safe tray at 350 F until hot throughout, or microwave until hot.",
         "tiers": {
           "lean": {
             "label": "LEAN",
-            "netWeight": "",
-            "ingredients": "Pizza dough (wheat flour, water, yeast, olive oil, salt), egg whites, whole egg, Sharifa halal beef bacon, H-E-B fat-free mozzarella, bell pepper, onion, house tomato sauce (canned tomatoes, olive oil, garlic, Italian seasoning, red chili flakes).",
+            "netWeight": "9.7 oz (275 g)",
+            "ingredients": "egg whites, all-purpose flour, Sharifa halal beef bacon (beef, water, sea salt, cane sugar, sodium phosphate, sodium nitrate, vinegar, sodium erythorbate), water, fat-free mozzarella cheese, whole egg, green bell pepper, onion, crushed tomatoes, olive oil, salt, instant baker's yeast, garlic, italian seasoning, crushed red chili flakes.",
             "allergens": "CONTAINS: EGG, MILK, WHEAT.",
-            "nutritionBasis": "Per one Lean rectangular pizza portion.",
+            "allergenAdvisory": "",
+            "nutritionBasis": "Owner-approved Batch 19 served-pizza recipe estimate; unserved dough excluded",
             "nutrition": {
               "calories": 450,
               "protein": 36,
               "carbs": 54,
               "fiber": 3,
               "fat": 10,
-              "satFat": 3,
-              "transFat": 0,
-              "cholesterol": 115,
-              "sodium": 1400,
+              "satFat": 3.0,
               "sugars": 4,
-              "addedSugar": 2,
-              "vitaminD": 0.5,
-              "calcium": 320,
-              "iron": 0.8,
-              "potassium": 370
-            },
-            "allergenAdvisory": ""
+              "sodium": 1400,
+              "cholesterol": 115
+            }
           },
           "bulk": {
             "label": "BULK",
-            "netWeight": "",
-            "ingredients": "Pizza dough (wheat flour, water, yeast, olive oil, salt), egg whites, whole egg, Sharifa halal beef bacon, H-E-B fat-free mozzarella, bell pepper, onion, house tomato sauce (canned tomatoes, olive oil, garlic, Italian seasoning, red chili flakes).",
+            "netWeight": "12.3 oz (350 g)",
+            "ingredients": "egg whites, all-purpose flour, Sharifa halal beef bacon (beef, water, sea salt, cane sugar, sodium phosphate, sodium nitrate, vinegar, sodium erythorbate), fat-free mozzarella cheese, water, whole egg, green bell pepper, onion, crushed tomatoes, olive oil, salt, instant baker's yeast, garlic, italian seasoning, crushed red chili flakes.",
             "allergens": "CONTAINS: EGG, MILK, WHEAT.",
-            "nutritionBasis": "Per one larger, extra-topped Bulk rectangular pizza.",
+            "allergenAdvisory": "",
+            "nutritionBasis": "Owner-approved Batch 19 served-pizza recipe estimate; unserved dough excluded",
             "nutrition": {
               "calories": 580,
               "protein": 51,
@@ -151,332 +43,385 @@ const PRPD_MENU_DETAILS = {
               "fiber": 3,
               "fat": 12,
               "satFat": 3.6,
-              "transFat": 0,
-              "cholesterol": 145,
-              "sodium": 1860,
               "sugars": 5,
-              "addedSugar": 2,
-              "vitaminD": 0.6,
-              "calcium": 590,
-              "iron": 1,
-              "potassium": 450
-            },
-            "allergenAdvisory": ""
+              "sodium": 1860,
+              "cholesterol": 145
+            }
+          }
+        }
+      },
+      "b2": {
+        "type": "meal",
+        "name": "Beef Breakfast Skillet",
+        "description": "Seasoned beef, potato, egg, red onion, and fat-free cheese.",
+        "storageMode": "fridge",
+        "reheat": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout.",
+        "tiers": {
+          "lean": {
+            "label": "LEAN",
+            "netWeight": "12.6 oz (358 g)",
+            "ingredients": "90/10 ground beef, potato, whole egg, fat-free mozzarella cheese, red onion, garlic, avocado oil, salt.",
+            "allergens": "CONTAINS: EGG, MILK.",
+            "allergenAdvisory": "",
+            "nutritionBasis": "",
+            "nutrition": {
+              "calories": 565,
+              "protein": 59,
+              "carbs": 23,
+              "fiber": 3,
+              "fat": 25,
+              "satFat": 8.8,
+              "sugars": 2,
+              "sodium": 710,
+              "cholesterol": 320
+            }
+          },
+          "bulk": {
+            "label": "BULK",
+            "netWeight": "16.6 oz (471 g)",
+            "ingredients": "90/10 ground beef, potato, whole egg, fat-free mozzarella cheese, red onion, garlic, avocado oil, salt.",
+            "allergens": "CONTAINS: EGG, MILK.",
+            "allergenAdvisory": "",
+            "nutritionBasis": "",
+            "nutrition": {
+              "calories": 790,
+              "protein": 83,
+              "carbs": 24,
+              "fiber": 3,
+              "fat": 39,
+              "satFat": 13.4,
+              "sugars": 2,
+              "sodium": 930,
+              "cholesterol": 560
+            }
+          }
+        }
+      },
+      "b3": {
+        "type": "meal",
+        "name": "Strawberry Cheesecake Protein Pancakes",
+        "description": "Protein pancakes with strawberry compote and cheesecake-yogurt topping.",
+        "storageMode": "fridge",
+        "reheat": "Remove cold toppings. Microwave pancakes 45-75 seconds; add toppings after heating.",
+        "tiers": {
+          "lean": {
+            "label": "LEAN",
+            "netWeight": "17.2 oz (487 g)",
+            "ingredients": "FAGE Total 0% nonfat Greek yogurt, egg whites, strawberries, fat-free milk, whole egg, all-purpose flour, sugar-free maple syrup, reduced-fat cream cheese, vanilla whey protein powder, powdered sugar, baking powder, vanilla extract, avocado oil, cinnamon, salt.",
+            "allergens": "CONTAINS: EGG, MILK, WHEAT.",
+            "allergenAdvisory": "",
+            "nutritionBasis": "",
+            "nutrition": {
+              "calories": 505,
+              "protein": 43,
+              "carbs": 54,
+              "fiber": 3,
+              "fat": 12,
+              "satFat": 5.0,
+              "sugars": 15,
+              "sodium": 900,
+              "cholesterol": 220
+            }
+          },
+          "bulk": {
+            "label": "BULK",
+            "netWeight": "21.5 oz (610 g)",
+            "ingredients": "egg whites, FAGE Total 0% nonfat Greek yogurt, strawberries, fat-free milk, all-purpose flour, whole egg, sugar-free maple syrup, reduced-fat cream cheese, vanilla whey protein powder, baking powder, powdered sugar, avocado oil, vanilla extract, cinnamon, salt.",
+            "allergens": "CONTAINS: EGG, MILK, WHEAT.",
+            "allergenAdvisory": "",
+            "nutritionBasis": "",
+            "nutrition": {
+              "calories": 645,
+              "protein": 56,
+              "carbs": 69,
+              "fiber": 4,
+              "fat": 15,
+              "satFat": 6.0,
+              "sugars": 18,
+              "sodium": 1230,
+              "cholesterol": 235
+            }
           }
         }
       },
       "m1": {
         "type": "meal",
-        "name": "BBQ Chicken Mac & Cheese",
-        "description": "BBQ chicken thighs with high-protein macaroni and cheese, H-E-B fat-free mozzarella, and one included matching 30 g BBQ sauce cup.",
+        "name": "Hot Honey Chicken Sliders",
+        "description": "Hot-honey chicken, mozzarella, and onion on King's Hawaiian Original Sweet Rolls.",
         "storageMode": "freezer",
-        "reheat": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout. Add the matching BBQ sauce from the customer bag after heating.",
+        "reheat": "Microwave 45-75 seconds, or air fry at 350 F for 3-5 minutes, until hot throughout.",
         "tiers": {
           "lean": {
             "label": "LEAN",
-            "netWeight": "9.7 oz (276 g)",
-            "ingredients": "boneless skinless chicken thigh, Muscle Mac high-protein macaroni and cheese, G Hughes Original Sugar-Free BBQ Sauce, H-E-B fat-free mozzarella, apple cider vinegar, water, garlic powder, onion powder, paprika, ground black pepper.",
-            "allergens": "CONTAINS: MILK, WHEAT.",
+            "netWeight": "8.8 oz (250 g)",
+            "ingredients": "King's Hawaiian Original Sweet Roll, boneless skinless chicken thigh, fat-free mozzarella cheese, onion, house refrigerator-pickled vegetables, ketchup, honey, Great Value light mayonnaise, sriracha sauce, avocado oil, garlic powder, salt, onion powder, paprika, ground black pepper.",
+            "allergens": "CONTAINS: EGG, MILK, SOY, WHEAT.",
             "allergenAdvisory": "",
+            "nutritionBasis": "",
             "nutrition": {
-              "calories": 495,
-              "protein": 56,
-              "carbs": 37,
-              "fiber": 3,
-              "fat": 14,
-              "satFat": 4.1,
-              "sugars": 3,
-              "sodium": 840,
-              "cholesterol": 190
+              "calories": 525,
+              "protein": 37,
+              "carbs": 60,
+              "fiber": 2,
+              "fat": 15,
+              "satFat": 5.1,
+              "sugars": 26,
+              "sodium": 1080,
+              "cholesterol": 150
             }
           },
           "bulk": {
             "label": "BULK",
-            "netWeight": "12.0 oz (339 g)",
-            "ingredients": "boneless skinless chicken thigh, Muscle Mac high-protein macaroni and cheese, G Hughes Original Sugar-Free BBQ Sauce, H-E-B fat-free mozzarella, apple cider vinegar, water, garlic powder, onion powder, paprika, ground black pepper.",
-            "allergens": "CONTAINS: MILK, WHEAT.",
+            "netWeight": "11.4 oz (324 g)",
+            "ingredients": "King's Hawaiian Original Sweet Roll, boneless skinless chicken thigh, fat-free mozzarella cheese, onion, house refrigerator-pickled vegetables, ketchup, honey, Great Value light mayonnaise, sriracha sauce, avocado oil, garlic powder, salt, onion powder, paprika, ground black pepper.",
+            "allergens": "CONTAINS: EGG, MILK, SOY, WHEAT.",
             "allergenAdvisory": "",
+            "nutritionBasis": "",
             "nutrition": {
-              "calories": 635,
-              "protein": 72,
-              "carbs": 44,
-              "fiber": 4,
-              "fat": 19,
-              "satFat": 5.6,
-              "sugars": 3,
-              "sodium": 960,
-              "cholesterol": 260
+              "calories": 685,
+              "protein": 46,
+              "carbs": 80,
+              "fiber": 3,
+              "fat": 20,
+              "satFat": 6.8,
+              "sugars": 34,
+              "sodium": 1370,
+              "cholesterol": 200
             }
           }
         }
       },
       "m2": {
-        "name": "Mexican Streetcorn Chicken Bowl",
-        "category": "Main",
-        "description": "Chicken, basmati rice, and creamy Mexican street corn.",
-        "note": "Sweet corn, smoky chicken, zero boring bites.",
-        "storageMode": "freezer",
-        "tiers": {
-          "lean": {
-            "label": "LEAN",
-            "netWeight": "",
-            "ingredients": "boneless skinless chicken thigh, sweet corn, basmati rice, green bell pepper, nonfat Greek yogurt, onion, Cotija cheese, lime juice, light mayonnaise, jalapeno, cilantro, avocado oil, garlic powder, onion powder, paprika, black pepper, salt.",
-            "allergens": "CONTAINS: EGG, MILK.",
-            "nutrition": {
-              "calories": 640,
-              "protein": 51,
-              "carbs": 61,
-              "fiber": 4,
-              "fat": 22,
-              "satFat": 6.3,
-              "transFat": 0.2,
-              "cholesterol": 225,
-              "sodium": 1110,
-              "sugars": 7,
-              "addedSugar": 0,
-              "vitaminD": 0.4,
-              "calcium": 140,
-              "iron": 2.9,
-              "potassium": 790
-            },
-            "allergenAdvisory": ""
-          },
-          "bulk": {
-            "label": "BULK",
-            "netWeight": "",
-            "ingredients": "boneless skinless chicken thigh, sweet corn, basmati rice, green bell pepper, nonfat Greek yogurt, onion, Cotija cheese, lime juice, light mayonnaise, jalapeno, cilantro, avocado oil, garlic powder, onion powder, paprika, black pepper, salt.",
-            "allergens": "CONTAINS: EGG, MILK.",
-            "nutrition": {
-              "calories": 830,
-              "protein": 67,
-              "carbs": 80,
-              "fiber": 5,
-              "fat": 28,
-              "satFat": 8,
-              "transFat": 0.2,
-              "cholesterol": 295,
-              "sodium": 1420,
-              "sugars": 8,
-              "addedSugar": 0,
-              "vitaminD": 0.5,
-              "calcium": 170,
-              "iron": 3.7,
-              "potassium": 1010
-            },
-            "allergenAdvisory": ""
-          }
-        },
         "type": "meal",
-        "reheat": "Reheat until hot throughout, following the package label."
-      },
-      "m3": {
-        "type": "meal",
-        "name": "Cheesy Achiote Chicken Tacos",
-        "description": "Achiote-citrus chicken thighs, melted cheese, pickled onion, Cotija, and cilantro in 6-inch white corn tortillas.",
+        "name": "Creamy Cajun Chicken Pasta",
+        "description": "Cajun chicken thighs and protein spaghetti in a creamy crushed-tomato sauce, made without broth.",
         "storageMode": "fridge",
-        "reheat": "Reheat tacos until hot throughout.",
+        "reheat": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout. Add a small splash of water if needed.",
         "tiers": {
           "lean": {
             "label": "LEAN",
-            "netWeight": "Est. 13.8 oz (391 g)",
-            "ingredients": "boneless skinless chicken thigh, Great Value 6-inch white corn tortilla, H-E-B fat-free mozzarella, red onion, Cotija cheese, el yucateco seasoned achiote paste, lime juice, apple cider vinegar, water, garlic, avocado oil, cilantro, salt, honey, cumin, paprika.",
-            "allergens": "CONTAINS: MILK.",
+            "netWeight": "16.5 oz (468 g)",
+            "ingredients": "boneless skinless chicken thigh, water, crushed tomatoes, protein pasta, onion, Philadelphia Original cream cheese, green onion, butter, olive oil, smoked paprika, salt, garlic powder, onion powder, paprika, dried oregano, dried thyme, ground black pepper, ground cayenne.",
+            "allergens": "CONTAINS: MILK, WHEAT.",
             "allergenAdvisory": "",
             "nutritionBasis": "",
             "nutrition": {
-              "calories": 585,
-              "protein": 56,
-              "carbs": 43,
-              "fiber": 5,
+              "calories": 570,
+              "protein": 52,
+              "carbs": 38,
+              "fiber": 9,
+              "fat": 25,
+              "satFat": 8.6,
+              "sugars": 7,
+              "sodium": 990,
+              "cholesterol": 220
+            }
+          },
+          "bulk": {
+            "label": "BULK",
+            "netWeight": "21.9 oz (620 g)",
+            "ingredients": "boneless skinless chicken thigh, water, crushed tomatoes, protein pasta, onion, Philadelphia Original cream cheese, green onion, butter, olive oil, smoked paprika, salt, garlic powder, onion powder, paprika, dried oregano, dried thyme, ground black pepper, ground cayenne.",
+            "allergens": "CONTAINS: MILK, WHEAT.",
+            "allergenAdvisory": "",
+            "nutritionBasis": "",
+            "nutrition": {
+              "calories": 765,
+              "protein": 71,
+              "carbs": 50,
+              "fiber": 12,
+              "fat": 34,
+              "satFat": 11.4,
+              "sugars": 9,
+              "sodium": 1350,
+              "cholesterol": 300
+            }
+          }
+        }
+      },
+      "m3": {
+        "type": "meal",
+        "name": "Chicken Enchilada Bake",
+        "description": "Layered chicken, high-fiber tortillas, corn, red enchilada sauce, and cheese.",
+        "storageMode": "freezer",
+        "reheat": "Vent lid and microwave 2-3 minutes, until hot throughout. Rest 1 minute.",
+        "tiers": {
+          "lean": {
+            "label": "LEAN",
+            "netWeight": "15.7 oz (446 g)",
+            "ingredients": "boneless skinless chicken thigh, red enchilada sauce, Mission Carb Balance wheat tortilla, sweet corn, fat-free mozzarella cheese, red onion, avocado oil, salt, garlic powder, onion powder, paprika, ground black pepper.",
+            "allergens": "CONTAINS: MILK, WHEAT.",
+            "allergenAdvisory": "",
+            "nutritionBasis": "",
+            "nutrition": {
+              "calories": 565,
+              "protein": 61,
+              "carbs": 60,
+              "fiber": 34,
               "fat": 20,
-              "satFat": 6.1,
-              "sugars": 5,
-              "sodium": 1510,
+              "satFat": 3.8,
+              "sugars": 6,
+              "sodium": 2030,
               "cholesterol": 205
             }
           },
           "bulk": {
             "label": "BULK",
-            "netWeight": "Est. 17.6 oz (499 g)",
-            "ingredients": "boneless skinless chicken thigh, Great Value 6-inch white corn tortilla, H-E-B fat-free mozzarella, red onion, Cotija cheese, el yucateco seasoned achiote paste, lime juice, apple cider vinegar, water, garlic, avocado oil, cilantro, salt, honey, cumin, paprika.",
-            "allergens": "CONTAINS: MILK.",
+            "netWeight": "22.5 oz (639 g)",
+            "ingredients": "boneless skinless chicken thigh, Mission Carb Balance wheat tortilla, red enchilada sauce, sweet corn, fat-free mozzarella cheese, red onion, avocado oil, salt, garlic powder, onion powder, paprika, ground black pepper.",
+            "allergens": "CONTAINS: MILK, WHEAT.",
             "allergenAdvisory": "",
             "nutritionBasis": "",
             "nutrition": {
-              "calories": 780,
-              "protein": 74,
-              "carbs": 58,
-              "fiber": 7,
-              "fat": 26,
-              "satFat": 8.1,
-              "sugars": 7,
-              "sodium": 2020,
-              "cholesterol": 270
+              "calories": 830,
+              "protein": 91,
+              "carbs": 90,
+              "fiber": 52,
+              "fat": 30,
+              "satFat": 5.6,
+              "sugars": 8,
+              "sodium": 2960,
+              "cholesterol": 295
             }
           }
         }
       },
       "m4": {
         "type": "meal",
-        "name": "High-Protein Beef Lasagna",
-        "description": "Halal 90/10 beef, house tomato sauce, ricotta, mozzarella, Parmesan, and classic lasagna pasta.",
-        "storageMode": "freezer",
-        "reheat": "Vent lid and microwave 2-3 minutes until hot throughout; rest 1 minute.",
+        "name": "Southwest Beef Taco Bowl",
+        "description": "Seasoned beef, cilantro-lime rice, black beans, corn and peppers, lettuce, and cotija.",
+        "storageMode": "fridge",
+        "reheat": "Remove lettuce. Vent lid and microwave the hot components 1.5-2.5 minutes, then add cold toppings.",
         "tiers": {
           "lean": {
             "label": "LEAN",
-            "netWeight": "",
-            "ingredients": "Halal 90/10 ground beef, house tomato sauce, boiled wheat lasagna pasta, part-skim ricotta, H-E-B fat-free mozzarella, Parmesan, seasonings.",
-            "allergens": "CONTAINS: MILK, WHEAT.",
-            "nutritionBasis": "Recipe-calculated estimate per complete serving.",
+            "netWeight": "14.2 oz (403 g)",
+            "ingredients": "90/10 ground beef, sweet corn, black beans, basmati rice, green bell pepper, lettuce, onion, Cotija cheese, lime juice, cilantro, avocado oil, garlic, salt.",
+            "allergens": "CONTAINS: MILK.",
+            "allergenAdvisory": "",
+            "nutritionBasis": "",
             "nutrition": {
-              "calories": 530,
-              "protein": 51,
-              "carbs": 38,
-              "fiber": 5,
-              "fat": 19,
-              "satFat": 8.9,
-              "transFat": 0.4,
-              "cholesterol": 170,
-              "sodium": 1060,
-              "sugars": 11,
-              "addedSugar": 0,
-              "vitaminD": 0.2,
-              "calcium": 350,
-              "iron": 5.4,
-              "potassium": 1120
-            },
-            "allergenAdvisory": ""
+              "calories": 685,
+              "protein": 53,
+              "carbs": 62,
+              "fiber": 7,
+              "fat": 24,
+              "satFat": 9.5,
+              "sugars": 5,
+              "sodium": 730,
+              "cholesterol": 140
+            }
           },
           "bulk": {
             "label": "BULK",
-            "netWeight": "",
-            "ingredients": "Halal 90/10 ground beef, house tomato sauce, boiled wheat lasagna pasta, part-skim ricotta, H-E-B fat-free mozzarella, Parmesan, seasonings.",
-            "allergens": "CONTAINS: MILK, WHEAT.",
-            "nutritionBasis": "Recipe-calculated estimate per complete serving.",
+            "netWeight": "18.8 oz (533 g)",
+            "ingredients": "90/10 ground beef, sweet corn, black beans, basmati rice, green bell pepper, onion, lettuce, Cotija cheese, lime juice, avocado oil, cilantro, garlic, salt.",
+            "allergens": "CONTAINS: MILK.",
+            "allergenAdvisory": "",
+            "nutritionBasis": "",
             "nutrition": {
-              "calories": 710,
-              "protein": 67,
-              "carbs": 51,
-              "fiber": 7,
-              "fat": 26,
-              "satFat": 11.9,
-              "transFat": 0.5,
-              "cholesterol": 225,
-              "sodium": 1420,
-              "sugars": 15,
-              "addedSugar": 0,
-              "vitaminD": 0.3,
-              "calcium": 460,
-              "iron": 7.2,
-              "potassium": 1490
-            },
-            "allergenAdvisory": ""
+              "calories": 935,
+              "protein": 74,
+              "carbs": 81,
+              "fiber": 9,
+              "fat": 35,
+              "satFat": 13.3,
+              "sugars": 6,
+              "sodium": 980,
+              "cholesterol": 200
+            }
           }
         }
       },
       "m5": {
         "type": "meal",
-        "name": "Garlic Butter Wild Argentine Shrimp + Rice",
-        "description": "Garlic-butter Wild Argentine red shrimp with basmati rice, zucchini, and peas and carrots.",
+        "name": "Thai Basil Beef + Jasmine Rice",
+        "description": "Garlic-chili beef with fresh basil, jasmine rice, and roasted green beans.",
         "storageMode": "fridge",
-        "reheat": "Remove cold sauce. Vent lid and microwave at 50% power for 1-2 minutes, stirring halfway, until hot throughout.",
+        "reheat": "Vent lid and microwave until hot throughout, stirring halfway.",
         "tiers": {
           "lean": {
             "label": "LEAN",
-            "netWeight": "15.9 oz (451 g)",
-            "ingredients": "shrimp, zucchini, peas and carrots, basmati rice, FAGE Total 0% nonfat Greek yogurt, garlic, lemon juice, butter, lime juice, Great Value light mayonnaise, cornstarch, cilantro, jalapeno, salt, flat-leaf parsley, cumin.",
-            "allergens": "CONTAINS: EGG, MILK, SHELLFISH.",
+            "netWeight": "13.7 oz (388 g)",
+            "ingredients": "90/10 ground beef, green beans, trimmed raw, jasmine rice, dry (unenriched long-grain white-rice equivalent), mild red bell pepper, trimmed raw, water, fresh basil (usda comparable profile), red boat40n fish sauce (anchovy, sea salt), garlic, avocado oil, granulated sugar, thai chili (usda raw green hot-chili equivalent), black pepper, ground, salt.",
+            "allergens": "CONTAINS: FISH (ANCHOVY).",
             "allergenAdvisory": "",
             "nutritionBasis": "",
             "nutrition": {
-              "calories": 455,
-              "protein": 43,
-              "carbs": 57,
+              "calories": 610,
+              "protein": 49,
+              "carbs": 48,
               "fiber": 4,
-              "fat": 7,
-              "satFat": 4,
-              "sugars": 7,
-              "sodium": 570,
-              "cholesterol": 300
+              "fat": 24,
+              "satFat": 7.7,
+              "sugars": 8,
+              "sodium": 1020,
+              "cholesterol": 130
             }
           },
           "bulk": {
             "label": "BULK",
-            "netWeight": "20.7 oz (586 g)",
-            "ingredients": "shrimp, zucchini, peas and carrots, basmati rice, FAGE Total 0% nonfat Greek yogurt, garlic, lemon juice, butter, lime juice, cornstarch, cilantro, Great Value light mayonnaise, salt, jalapeno, flat-leaf parsley, cumin.",
-            "allergens": "CONTAINS: EGG, MILK, SHELLFISH.",
+            "netWeight": "19.9 oz (564 g)",
+            "ingredients": "90/10 ground beef, green beans, trimmed raw, jasmine rice, dry (unenriched long-grain white-rice equivalent), mild red bell pepper, trimmed raw, water, fresh basil (usda comparable profile), red boat40n fish sauce (anchovy, sea salt), garlic, avocado oil, granulated sugar, thai chili (usda raw green hot-chili equivalent), black pepper, ground, salt.",
+            "allergens": "CONTAINS: FISH (ANCHOVY).",
             "allergenAdvisory": "",
             "nutritionBasis": "",
             "nutrition": {
-              "calories": 615,
-              "protein": 58,
-              "carbs": 75,
-              "fiber": 6,
-              "fat": 10,
-              "satFat": 5.6,
-              "sugars": 9,
-              "sodium": 800,
-              "cholesterol": 405
+              "calories": 890,
+              "protein": 71,
+              "carbs": 72,
+              "fiber": 7,
+              "fat": 34,
+              "satFat": 11.0,
+              "sugars": 12,
+              "sodium": 1460,
+              "cholesterol": 185
             }
           }
         }
       },
       "m6": {
         "type": "meal",
-        "name": "Mango Habanero Chicken Wings",
-        "description": "Six split wings in Lean or eight in Bulk, with mango habanero glaze, an extra mango dip and a low-calorie ranch cup included.",
-        "storageMode": "fridge",
-        "reheat": "Remove cold ranch. Reheat wings until hot throughout, then add ranch and extra mango dip.",
+        "name": "Halal Cart Chicken + Yellow Rice",
+        "description": "Seasoned chicken thighs, yellow basmati rice, lettuce, and tomato.",
+        "storageMode": "freezer",
+        "reheat": "Remove the cold lettuce and tomato. Microwave chicken and rice 1.5-2 minutes until hot throughout, then add the cold vegetables.",
         "tiers": {
           "lean": {
             "label": "LEAN",
-            "netWeight": "",
-            "ingredients": "Six bone-in split chicken wings, G Hughes Zero Sugar Mango Habanero Wing Sauce (coating and separate dip), Bolthouse Farms Classic Ranch (separate cup), avocado oil, seasoning.",
-            "allergens": "CONTAINS: EGG, MILK.",
-            "allergenAdvisory": "Contains mustard seed in the ranch. Check the exact purchased bottle labels before pack-out.",
-            "nutritionBasis": "Wings and coating only; separate ranch and mango dip cups excluded.",
+            "netWeight": "10.6 oz (300 g)",
+            "ingredients": "chicken thighs, basmati rice, tomato, lettuce, lemon juice, garlic powder, paprika, cumin, dried oregano, salt, ground turmeric.",
+            "allergens": "No major allergens identified from the recorded recipe.",
+            "allergenAdvisory": "",
+            "nutritionBasis": "",
             "nutrition": {
-              "calories": 585,
-              "protein": 43,
-              "carbs": 14,
-              "fiber": 1,
-              "fat": 38,
-              "satFat": 10.7,
-              "transFat": 0,
-              "cholesterol": 320,
-              "sodium": 1330,
-              "sugars": 0,
-              "addedSugar": 0,
-              "vitaminD": 0.3,
-              "calcium": 40,
-              "iron": 1.7,
-              "potassium": 580
+              "calories": 490,
+              "protein": 45,
+              "carbs": 44,
+              "fiber": 3,
+              "fat": 14,
+              "satFat": 3.9,
+              "sugars": 2,
+              "sodium": 490,
+              "cholesterol": 215
             }
           },
           "bulk": {
             "label": "BULK",
-            "netWeight": "",
-            "ingredients": "Eight bone-in split chicken wings, G Hughes Zero Sugar Mango Habanero Wing Sauce (coating and separate dip), Bolthouse Farms Classic Ranch (separate cup), avocado oil, seasoning.",
-            "allergens": "CONTAINS: EGG, MILK.",
-            "allergenAdvisory": "Contains mustard seed in the ranch. Check the exact purchased bottle labels before pack-out.",
-            "nutritionBasis": "Wings and coating only; separate ranch and mango dip cups excluded.",
+            "netWeight": "14.0 oz (396 g)",
+            "ingredients": "chicken thighs, basmati rice, tomato, lettuce, lemon juice, garlic powder, paprika, cumin, dried oregano, salt, ground turmeric.",
+            "allergens": "No major allergens identified from the recorded recipe.",
+            "allergenAdvisory": "",
+            "nutritionBasis": "",
             "nutrition": {
-              "calories": 750,
-              "protein": 58,
-              "carbs": 15,
-              "fiber": 1,
-              "fat": 49,
-              "satFat": 14.3,
-              "transFat": 0,
-              "cholesterol": 425,
-              "sodium": 1770,
-              "sugars": 0,
-              "addedSugar": 0,
-              "vitaminD": 0.4,
-              "calcium": 50,
-              "iron": 2.3,
-              "potassium": 770
+              "calories": 645,
+              "protein": 59,
+              "carbs": 58,
+              "fiber": 4,
+              "fat": 19,
+              "satFat": 5.1,
+              "sugars": 3,
+              "sodium": 640,
+              "cholesterol": 280
             }
           }
         }
@@ -484,16 +429,17 @@ const PRPD_MENU_DETAILS = {
       "m7": {
         "type": "meal",
         "name": "Braised Beef Short Rib",
-        "description": "Boneless slow-braised beef short rib with garlic-rosemary Idahoan Original mash, roasted garlic green beans, and reduced pan jus.",
+        "description": "Boneless portions of slow-braised beef short rib with garlic-rosemary mashed potatoes, roasted garlic green beans, and reduced pan jus.",
         "storageMode": "fridge",
         "reheat": "Loosen the lid and microwave 2 minutes. Turn the beef, stir the potatoes, then heat in 30-second intervals until the center reaches 165 F. Rest covered 1 minute.",
         "tiers": {
           "lean": {
             "label": "LEAN",
-            "netWeight": "Est. 16.4 oz (465 g)",
+            "netWeight": "16.4 oz (465 g)",
             "ingredients": "water, boneless beef short rib, green beans, onion, fat-free milk, carrots, Idahoan Original mashed potato flakes (potatoes, monoglycerides, sodium acid pyrophosphate, sodium bisulfite, citric acid, mixed tocopherols), celery, tomato paste, butter, balsamic vinegar, garlic, avocado oil, salt, ground black pepper, dried thyme, garlic powder, fresh rosemary, ground coriander, bay leaf.",
             "allergens": "CONTAINS: MILK.",
             "allergenAdvisory": "Contains sulfites (sodium bisulfite).",
+            "nutritionBasis": "Owner-approved Batch 15 recipe estimate",
             "nutrition": {
               "calories": 760,
               "protein": 39,
@@ -508,10 +454,11 @@ const PRPD_MENU_DETAILS = {
           },
           "bulk": {
             "label": "BULK",
-            "netWeight": "Est. 21.3 oz (605 g)",
+            "netWeight": "21.3 oz (605 g)",
             "ingredients": "water, boneless beef short rib, green beans, onion, fat-free milk, carrots, Idahoan Original mashed potato flakes (potatoes, monoglycerides, sodium acid pyrophosphate, sodium bisulfite, citric acid, mixed tocopherols), celery, tomato paste, butter, balsamic vinegar, garlic, avocado oil, salt, ground black pepper, dried thyme, garlic powder, fresh rosemary, ground coriander, bay leaf.",
             "allergens": "CONTAINS: MILK.",
             "allergenAdvisory": "Contains sulfites (sodium bisulfite).",
+            "nutritionBasis": "Owner-approved Batch 15 recipe estimate",
             "nutrition": {
               "calories": 1015,
               "protein": 52,
@@ -526,54 +473,48 @@ const PRPD_MENU_DETAILS = {
           }
         }
       },
-      "a1": {
+      "d1": {
         "type": "meal",
-        "name": "Oven-Baked Popcorn Chicken",
-        "description": "Bite-size chicken thighs in a seasoned cornflake coating, oven-baked. Choose any dip separately.",
-        "storageMode": "fridge",
-        "reheat": "Transfer to an oven-safe tray and reheat in an oven or air fryer until 165 F throughout. Remove any cold dip. Microwave reheating gives a softer coating.",
+        "name": "Classic Chocolate Chip Cookie",
+        "description": "Classic chocolate chip cookie baked from a 70 g raw dough portion; available in 1, 3, or 6.",
+        "storageMode": "ambient",
+        "reheat": "Enjoy at room temperature. Keep dry and sealed.",
         "tiers": {
           "single": {
             "label": "SINGLE",
             "netWeight": "",
-            "ingredients": "boneless skinless chicken thigh, Kellogg's Corn Flakes (milled corn, sugar, malt flavor, salt, iron [ferric phosphate], niacinamide, vitamin B6 [pyridoxine hydrochloride], vitamin B2 [riboflavin], vitamin B1 [thiamin hydrochloride], folic acid, vitamin D3, vitamin B12), egg whites, wheat flour, avocado oil, garlic powder, salt, paprika, ground black pepper.",
-            "allergens": "CONTAINS: EGG, WHEAT.",
-            "allergenAdvisory": "Contains barley malt flavor, a source of gluten.",
-            "nutritionBasis": "Per serving; optional dip excluded.",
+            "ingredients": "all-purpose flour, semisweet chocolate chips, butter, brown sugar, granulated sugar, whole egg, egg yolk, vanilla extract, baking soda, salt, baking powder.",
+            "allergens": "CONTAINS: EGG, MILK, SOY, WHEAT.",
+            "allergenAdvisory": "",
+            "nutritionBasis": "Per cookie, estimated from 70 g raw dough; purchased chip panel and baked weight pending.",
             "nutrition": {
-              "calories": 360,
-              "protein": 34,
-              "carbs": 26,
+              "calories": 315,
+              "protein": 4,
+              "carbs": 39,
               "fiber": 1,
-              "fat": 13,
-              "satFat": 3,
-              "transFat": 0,
-              "cholesterol": 160,
-              "sodium": 630,
-              "sugars": 3,
-              "addedSugar": 2,
-              "vitaminD": 2,
-              "calcium": 20,
-              "iron": 8.9,
-              "potassium": 410
+              "fat": 16,
+              "satFat": 9.7,
+              "sugars": 25,
+              "sodium": 240,
+              "cholesterol": 65
             }
           }
         }
       },
-      "a2": {
+      "a1": {
         "type": "meal",
         "name": "Chicken Tikka Snack Wrap",
-        "description": "Chicken tikka, crisp salad and incorporated Garlic Herb Yogurt in one tortilla.",
+        "description": "One high-fiber medium wrap with yogurt-spiced chicken thigh, crisp vegetables, and a chilled yogurt-herb finish.",
         "storageMode": "fridge",
         "reheat": "Enjoy chilled. Do not heat the assembled wrap.",
         "tiers": {
           "single": {
             "label": "SINGLE",
-            "netWeight": "",
+            "netWeight": "6.5 oz (185 g)",
             "ingredients": "boneless skinless chicken thigh, Mission Carb Balance wheat tortilla, FAGE Total 0% nonfat Greek yogurt, lettuce, cucumber, red onion, tomato, lemon juice, Great Value light mayonnaise, garlic, cilantro, jalapeno, paprika, flat-leaf parsley, avocado oil, cumin, salt, ground coriander, chili powder.",
             "allergens": "CONTAINS: EGG, MILK, WHEAT.",
             "allergenAdvisory": "",
-            "nutritionBasis": "Per complete serving.",
+            "nutritionBasis": "",
             "nutrition": {
               "calories": 220,
               "protein": 25,
@@ -581,318 +522,291 @@ const PRPD_MENU_DETAILS = {
               "fiber": 16,
               "fat": 8,
               "satFat": 1.5,
-              "transFat": 0,
-              "cholesterol": 80,
-              "sodium": 510,
               "sugars": 2,
-              "addedSugar": 0,
-              "vitaminD": 0.1,
-              "calcium": 140,
-              "iron": 2.4,
-              "potassium": 350
+              "sodium": 510,
+              "cholesterol": 80
             }
           }
         }
       },
-      "a3": {
+      "a2": {
         "type": "meal",
-        "name": "Mediterranean Chicken Hummus Box",
-        "description": "Chilled chicken thighs, hummus, flatbread, cucumber, tomato, feta, olives, and onion.",
+        "name": "Oven-Baked Popcorn Chicken",
+        "description": "Bite-size chicken thighs with a seasoned plain cornflake coating, oven-baked with measured oil. Dip selected separately.",
         "storageMode": "fridge",
-        "reheat": "Enjoy chilled. Do not heat the assembled box.",
+        "reheat": "Transfer to an oven-safe tray and reheat in an oven or air fryer until 165 F throughout. Remove any cold dip. Microwave reheating gives a softer coating.",
         "tiers": {
           "single": {
             "label": "SINGLE",
-            "netWeight": "11.4 oz (322 g)",
-            "ingredients": "boneless skinless chicken thigh, hummus, cucumber, tomato, shawarma bread, black olives, feta cheese, onion, lemon juice, avocado oil, garlic powder, salt, onion powder, paprika, ground black pepper.",
-            "allergens": "CONTAINS: MILK, SESAME, WHEAT.",
-            "allergenAdvisory": "",
+            "netWeight": "5.8 oz (165 g)",
+            "ingredients": "boneless skinless chicken thigh, Kellogg's Corn Flakes (milled corn, sugar, malt flavor, salt, iron [ferric phosphate], niacinamide, vitamin B6 [pyridoxine hydrochloride], vitamin B2 [riboflavin], vitamin B1 [thiamin hydrochloride], folic acid, vitamin D3, vitamin B12), egg whites, wheat flour, avocado oil, garlic powder, salt, paprika, ground black pepper.",
+            "allergens": "CONTAINS: EGG, WHEAT.",
+            "allergenAdvisory": "Corn Flakes contain malt flavor, a source of gluten. This recipe is not gluten free. Verify the actual purchased package.",
+            "nutritionBasis": "Complete serving; dip excluded.",
             "nutrition": {
-              "calories": 445,
-              "protein": 31,
-              "carbs": 40,
-              "fiber": 5,
-              "fat": 18,
-              "satFat": 5.2,
-              "sugars": 4,
-              "sodium": 940,
-              "cholesterol": 110
+              "calories": 360,
+              "protein": 34,
+              "carbs": 26,
+              "fiber": 1,
+              "fat": 13,
+              "satFat": 3.0,
+              "sugars": 3,
+              "sodium": 630,
+              "cholesterol": 160
             }
           }
         }
       },
       "dr1": {
         "type": "meal",
-        "name": "Strawberry Protein Shake",
-        "description": "Strawberry, banana, fat-free milk, Greek yogurt and unflavored whey, finished with strawberry pieces.",
+        "name": "Classic Mango Lassi",
+        "description": "Deep Alphonso mango pulp, FAGE Total 0% yogurt, Fairlife fat-free milk, and honey in the existing bottle.",
         "storageMode": "fridge",
-        "reheat": "Keep refrigerated. Shake well and enjoy chilled. Do not heat.",
+        "reheat": "Keep chilled. Shake gently before drinking. Do not heat.",
         "tiers": {
           "single": {
             "label": "SINGLE",
-            "netWeight": "330 g",
-            "ingredients": "Nonfat ultra-filtered milk (nonfat ultra-filtered milk, lactase enzyme, vitamin A palmitate, vitamin D3), strawberries, banana, nonfat Greek yogurt (pasteurized skimmed milk, live active yogurt cultures), protein blend (whey protein concentrate, whey protein isolate, micellar casein, sunflower lecithin), honey, vanilla.",
+            "netWeight": "",
+            "ingredients": "Deep Alphonso mango pulp, fat-free milk, FAGE Total 0% nonfat Greek yogurt, honey.",
             "allergens": "CONTAINS: MILK.",
             "allergenAdvisory": "",
-            "nutritionBasis": "Per 330 g serving.",
+            "nutritionBasis": "Per 330 g homogeneous recipe estimate; purchased Deep can panel and actual bottle fill pending.",
             "nutrition": {
-              "calories": 240,
-              "protein": 25,
-              "carbs": 32,
-              "fiber": 3,
-              "fat": 2,
-              "satFat": 0.9,
-              "transFat": 0,
-              "cholesterol": 40,
-              "sodium": 120,
-              "sugars": 24,
-              "addedSugar": 11,
-              "vitaminD": 3,
-              "calcium": 360,
-              "iron": 0.5,
-              "potassium": 640
+              "calories": 255,
+              "protein": 16,
+              "carbs": 48,
+              "fiber": 1,
+              "fat": 0,
+              "satFat": 0.0,
+              "sugars": 45,
+              "sodium": 80,
+              "cholesterol": 5
             }
           }
         }
       },
       "x0": {
         "type": "bundle",
-        "name": "Weekly Five: BBQ Mac + Mexican Streetcorn",
-        "description": "Five chicken meals: BBQ Chicken Mac & Cheese and Mexican Streetcorn Chicken Bowl. Pick Lean or Bulk, then choose your 3/2 split. No substitutions.",
+        "name": "Weekly Five: Cajun + Harissa Honey",
+        "description": "Five meals featuring Creamy Cajun Chicken Pasta and bundle-exclusive Harissa Honey Chicken. Choose Lean or Bulk and your 3/2 split. No substitutions.",
         "variants": {
-          "lean-mac3-corn2": {
-            "label": "Lean: 3 BBQ Mac + 2 Streetcorn Chicken",
+          "lean-cajun3-harissa2": {
+            "label": "Lean: 3 Cajun Pasta + 2 Harissa Honey Chicken",
             "components": [
               {
-                "id": "m1",
-                "name": "BBQ Chicken Mac & Cheese",
+                "id": "m2",
+                "name": "Creamy Cajun Chicken Pasta",
                 "qty": 3,
                 "tier": "lean",
-                "storageMode": "freezer",
-                "reheat": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout. Add the matching BBQ sauce from the customer bag after heating.",
+                "storageMode": "fridge",
+                "reheat": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout. Add a small splash of water if needed.",
                 "label": "LEAN",
-                "netWeight": "9.7 oz (276 g)",
-                "ingredients": "boneless skinless chicken thigh, Muscle Mac high-protein macaroni and cheese, G Hughes Original Sugar-Free BBQ Sauce, H-E-B fat-free mozzarella, apple cider vinegar, water, garlic powder, onion powder, paprika, ground black pepper.",
+                "netWeight": "16.5 oz (468 g)",
+                "ingredients": "boneless skinless chicken thigh, water, crushed tomatoes, protein pasta, onion, Philadelphia Original cream cheese, green onion, butter, olive oil, smoked paprika, salt, garlic powder, onion powder, paprika, dried oregano, dried thyme, ground black pepper, ground cayenne.",
                 "allergens": "CONTAINS: MILK, WHEAT.",
                 "allergenAdvisory": "",
+                "nutritionBasis": "",
                 "nutrition": {
-                  "calories": 495,
-                  "protein": 56,
-                  "carbs": 37,
-                  "fiber": 3,
-                  "fat": 14,
-                  "satFat": 4.1,
-                  "sugars": 3,
-                  "sodium": 840,
-                  "cholesterol": 190
+                  "calories": 570,
+                  "protein": 52,
+                  "carbs": 38,
+                  "fiber": 9,
+                  "fat": 25,
+                  "satFat": 8.6,
+                  "sugars": 7,
+                  "sodium": 990,
+                  "cholesterol": 220
                 }
               },
               {
-                "id": "m2",
-                "name": "Mexican Streetcorn Chicken Bowl",
+                "id": "bw1",
+                "name": "Harissa Honey Chicken",
                 "qty": 2,
                 "tier": "lean",
                 "storageMode": "freezer",
-                "reheat": "Reheat until hot throughout, following the package label.",
+                "reheat": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout.",
                 "label": "LEAN",
-                "netWeight": "",
-                "ingredients": "boneless skinless chicken thigh, sweet corn, basmati rice, green bell pepper, nonfat Greek yogurt, onion, Cotija cheese, lime juice, light mayonnaise, jalapeno, cilantro, avocado oil, garlic powder, onion powder, paprika, black pepper, salt.",
-                "allergens": "CONTAINS: EGG, MILK.",
-                "nutrition": {
-                  "calories": 640,
-                  "protein": 51,
-                  "carbs": 61,
-                  "fiber": 4,
-                  "fat": 22,
-                  "satFat": 6.3,
-                  "transFat": 0.2,
-                  "cholesterol": 225,
-                  "sodium": 1110,
-                  "sugars": 7,
-                  "addedSugar": 0,
-                  "vitaminD": 0.4,
-                  "calcium": 140,
-                  "iron": 2.9,
-                  "potassium": 790
-                },
-                "allergenAdvisory": ""
-              }
-            ]
-          },
-          "lean-mac2-corn3": {
-            "label": "Lean: 2 BBQ Mac + 3 Streetcorn Chicken",
-            "components": [
-              {
-                "id": "m1",
-                "name": "BBQ Chicken Mac & Cheese",
-                "qty": 2,
-                "tier": "lean",
-                "storageMode": "freezer",
-                "reheat": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout. Add the matching BBQ sauce from the customer bag after heating.",
-                "label": "LEAN",
-                "netWeight": "9.7 oz (276 g)",
-                "ingredients": "boneless skinless chicken thigh, Muscle Mac high-protein macaroni and cheese, G Hughes Original Sugar-Free BBQ Sauce, H-E-B fat-free mozzarella, apple cider vinegar, water, garlic powder, onion powder, paprika, ground black pepper.",
-                "allergens": "CONTAINS: MILK, WHEAT.",
+                "netWeight": "12.5 oz (354 g)",
+                "ingredients": "chicken thighs, broccoli, basmati rice, harissa paste, honey, tomato paste, lemon juice, avocado oil, garlic, salt, paprika, ground coriander.",
+                "allergens": "No major allergens identified from the recorded recipe.",
                 "allergenAdvisory": "",
+                "nutritionBasis": "",
                 "nutrition": {
-                  "calories": 495,
-                  "protein": 56,
-                  "carbs": 37,
-                  "fiber": 3,
-                  "fat": 14,
-                  "satFat": 4.1,
-                  "sugars": 3,
-                  "sodium": 840,
-                  "cholesterol": 190
-                }
-              },
-              {
-                "id": "m2",
-                "name": "Mexican Streetcorn Chicken Bowl",
-                "qty": 3,
-                "tier": "lean",
-                "storageMode": "freezer",
-                "reheat": "Reheat until hot throughout, following the package label.",
-                "label": "LEAN",
-                "netWeight": "",
-                "ingredients": "boneless skinless chicken thigh, sweet corn, basmati rice, green bell pepper, nonfat Greek yogurt, onion, Cotija cheese, lime juice, light mayonnaise, jalapeno, cilantro, avocado oil, garlic powder, onion powder, paprika, black pepper, salt.",
-                "allergens": "CONTAINS: EGG, MILK.",
-                "nutrition": {
-                  "calories": 640,
-                  "protein": 51,
-                  "carbs": 61,
-                  "fiber": 4,
-                  "fat": 22,
-                  "satFat": 6.3,
-                  "transFat": 0.2,
-                  "cholesterol": 225,
-                  "sodium": 1110,
-                  "sugars": 7,
-                  "addedSugar": 0,
-                  "vitaminD": 0.4,
-                  "calcium": 140,
-                  "iron": 2.9,
-                  "potassium": 790
-                },
-                "allergenAdvisory": ""
-              }
-            ]
-          },
-          "bulk-mac3-corn2": {
-            "label": "Bulk: 3 BBQ Mac + 2 Streetcorn Chicken",
-            "components": [
-              {
-                "id": "m1",
-                "name": "BBQ Chicken Mac & Cheese",
-                "qty": 3,
-                "tier": "bulk",
-                "storageMode": "freezer",
-                "reheat": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout. Add the matching BBQ sauce from the customer bag after heating.",
-                "label": "BULK",
-                "netWeight": "12.0 oz (339 g)",
-                "ingredients": "boneless skinless chicken thigh, Muscle Mac high-protein macaroni and cheese, G Hughes Original Sugar-Free BBQ Sauce, H-E-B fat-free mozzarella, apple cider vinegar, water, garlic powder, onion powder, paprika, ground black pepper.",
-                "allergens": "CONTAINS: MILK, WHEAT.",
-                "allergenAdvisory": "",
-                "nutrition": {
-                  "calories": 635,
-                  "protein": 72,
-                  "carbs": 44,
+                  "calories": 575,
+                  "protein": 46,
+                  "carbs": 54,
                   "fiber": 4,
                   "fat": 19,
-                  "satFat": 5.6,
-                  "sugars": 3,
-                  "sodium": 960,
-                  "cholesterol": 260
+                  "satFat": 4.5,
+                  "sugars": 11,
+                  "sodium": 1050,
+                  "cholesterol": 215
                 }
-              },
-              {
-                "id": "m2",
-                "name": "Mexican Streetcorn Chicken Bowl",
-                "qty": 2,
-                "tier": "bulk",
-                "storageMode": "freezer",
-                "reheat": "Reheat until hot throughout, following the package label.",
-                "label": "BULK",
-                "netWeight": "",
-                "ingredients": "boneless skinless chicken thigh, sweet corn, basmati rice, green bell pepper, nonfat Greek yogurt, onion, Cotija cheese, lime juice, light mayonnaise, jalapeno, cilantro, avocado oil, garlic powder, onion powder, paprika, black pepper, salt.",
-                "allergens": "CONTAINS: EGG, MILK.",
-                "nutrition": {
-                  "calories": 830,
-                  "protein": 67,
-                  "carbs": 80,
-                  "fiber": 5,
-                  "fat": 28,
-                  "satFat": 8,
-                  "transFat": 0.2,
-                  "cholesterol": 295,
-                  "sodium": 1420,
-                  "sugars": 8,
-                  "addedSugar": 0,
-                  "vitaminD": 0.5,
-                  "calcium": 170,
-                  "iron": 3.7,
-                  "potassium": 1010
-                },
-                "allergenAdvisory": ""
               }
             ]
           },
-          "bulk-mac2-corn3": {
-            "label": "Bulk: 2 BBQ Mac + 3 Streetcorn Chicken",
+          "lean-cajun2-harissa3": {
+            "label": "Lean: 2 Cajun Pasta + 3 Harissa Honey Chicken",
             "components": [
               {
-                "id": "m1",
-                "name": "BBQ Chicken Mac & Cheese",
+                "id": "m2",
+                "name": "Creamy Cajun Chicken Pasta",
                 "qty": 2,
-                "tier": "bulk",
-                "storageMode": "freezer",
-                "reheat": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout. Add the matching BBQ sauce from the customer bag after heating.",
-                "label": "BULK",
-                "netWeight": "12.0 oz (339 g)",
-                "ingredients": "boneless skinless chicken thigh, Muscle Mac high-protein macaroni and cheese, G Hughes Original Sugar-Free BBQ Sauce, H-E-B fat-free mozzarella, apple cider vinegar, water, garlic powder, onion powder, paprika, ground black pepper.",
+                "tier": "lean",
+                "storageMode": "fridge",
+                "reheat": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout. Add a small splash of water if needed.",
+                "label": "LEAN",
+                "netWeight": "16.5 oz (468 g)",
+                "ingredients": "boneless skinless chicken thigh, water, crushed tomatoes, protein pasta, onion, Philadelphia Original cream cheese, green onion, butter, olive oil, smoked paprika, salt, garlic powder, onion powder, paprika, dried oregano, dried thyme, ground black pepper, ground cayenne.",
                 "allergens": "CONTAINS: MILK, WHEAT.",
                 "allergenAdvisory": "",
+                "nutritionBasis": "",
                 "nutrition": {
-                  "calories": 635,
-                  "protein": 72,
-                  "carbs": 44,
-                  "fiber": 4,
-                  "fat": 19,
-                  "satFat": 5.6,
-                  "sugars": 3,
-                  "sodium": 960,
-                  "cholesterol": 260
+                  "calories": 570,
+                  "protein": 52,
+                  "carbs": 38,
+                  "fiber": 9,
+                  "fat": 25,
+                  "satFat": 8.6,
+                  "sugars": 7,
+                  "sodium": 990,
+                  "cholesterol": 220
                 }
               },
               {
+                "id": "bw1",
+                "name": "Harissa Honey Chicken",
+                "qty": 3,
+                "tier": "lean",
+                "storageMode": "freezer",
+                "reheat": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout.",
+                "label": "LEAN",
+                "netWeight": "12.5 oz (354 g)",
+                "ingredients": "chicken thighs, broccoli, basmati rice, harissa paste, honey, tomato paste, lemon juice, avocado oil, garlic, salt, paprika, ground coriander.",
+                "allergens": "No major allergens identified from the recorded recipe.",
+                "allergenAdvisory": "",
+                "nutritionBasis": "",
+                "nutrition": {
+                  "calories": 575,
+                  "protein": 46,
+                  "carbs": 54,
+                  "fiber": 4,
+                  "fat": 19,
+                  "satFat": 4.5,
+                  "sugars": 11,
+                  "sodium": 1050,
+                  "cholesterol": 215
+                }
+              }
+            ]
+          },
+          "bulk-cajun3-harissa2": {
+            "label": "Bulk: 3 Cajun Pasta + 2 Harissa Honey Chicken",
+            "components": [
+              {
                 "id": "m2",
-                "name": "Mexican Streetcorn Chicken Bowl",
+                "name": "Creamy Cajun Chicken Pasta",
+                "qty": 3,
+                "tier": "bulk",
+                "storageMode": "fridge",
+                "reheat": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout. Add a small splash of water if needed.",
+                "label": "BULK",
+                "netWeight": "21.9 oz (620 g)",
+                "ingredients": "boneless skinless chicken thigh, water, crushed tomatoes, protein pasta, onion, Philadelphia Original cream cheese, green onion, butter, olive oil, smoked paprika, salt, garlic powder, onion powder, paprika, dried oregano, dried thyme, ground black pepper, ground cayenne.",
+                "allergens": "CONTAINS: MILK, WHEAT.",
+                "allergenAdvisory": "",
+                "nutritionBasis": "",
+                "nutrition": {
+                  "calories": 765,
+                  "protein": 71,
+                  "carbs": 50,
+                  "fiber": 12,
+                  "fat": 34,
+                  "satFat": 11.4,
+                  "sugars": 9,
+                  "sodium": 1350,
+                  "cholesterol": 300
+                }
+              },
+              {
+                "id": "bw1",
+                "name": "Harissa Honey Chicken",
+                "qty": 2,
+                "tier": "bulk",
+                "storageMode": "freezer",
+                "reheat": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout.",
+                "label": "BULK",
+                "netWeight": "16.4 oz (464 g)",
+                "ingredients": "chicken thighs, broccoli, basmati rice, harissa paste, honey, tomato paste, lemon juice, avocado oil, garlic, salt, paprika, ground coriander.",
+                "allergens": "No major allergens identified from the recorded recipe.",
+                "allergenAdvisory": "",
+                "nutritionBasis": "",
+                "nutrition": {
+                  "calories": 760,
+                  "protein": 61,
+                  "carbs": 72,
+                  "fiber": 5,
+                  "fat": 25,
+                  "satFat": 5.9,
+                  "sugars": 14,
+                  "sodium": 1380,
+                  "cholesterol": 280
+                }
+              }
+            ]
+          },
+          "bulk-cajun2-harissa3": {
+            "label": "Bulk: 2 Cajun Pasta + 3 Harissa Honey Chicken",
+            "components": [
+              {
+                "id": "m2",
+                "name": "Creamy Cajun Chicken Pasta",
+                "qty": 2,
+                "tier": "bulk",
+                "storageMode": "fridge",
+                "reheat": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout. Add a small splash of water if needed.",
+                "label": "BULK",
+                "netWeight": "21.9 oz (620 g)",
+                "ingredients": "boneless skinless chicken thigh, water, crushed tomatoes, protein pasta, onion, Philadelphia Original cream cheese, green onion, butter, olive oil, smoked paprika, salt, garlic powder, onion powder, paprika, dried oregano, dried thyme, ground black pepper, ground cayenne.",
+                "allergens": "CONTAINS: MILK, WHEAT.",
+                "allergenAdvisory": "",
+                "nutritionBasis": "",
+                "nutrition": {
+                  "calories": 765,
+                  "protein": 71,
+                  "carbs": 50,
+                  "fiber": 12,
+                  "fat": 34,
+                  "satFat": 11.4,
+                  "sugars": 9,
+                  "sodium": 1350,
+                  "cholesterol": 300
+                }
+              },
+              {
+                "id": "bw1",
+                "name": "Harissa Honey Chicken",
                 "qty": 3,
                 "tier": "bulk",
                 "storageMode": "freezer",
-                "reheat": "Reheat until hot throughout, following the package label.",
+                "reheat": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout.",
                 "label": "BULK",
-                "netWeight": "",
-                "ingredients": "boneless skinless chicken thigh, sweet corn, basmati rice, green bell pepper, nonfat Greek yogurt, onion, Cotija cheese, lime juice, light mayonnaise, jalapeno, cilantro, avocado oil, garlic powder, onion powder, paprika, black pepper, salt.",
-                "allergens": "CONTAINS: EGG, MILK.",
+                "netWeight": "16.4 oz (464 g)",
+                "ingredients": "chicken thighs, broccoli, basmati rice, harissa paste, honey, tomato paste, lemon juice, avocado oil, garlic, salt, paprika, ground coriander.",
+                "allergens": "No major allergens identified from the recorded recipe.",
+                "allergenAdvisory": "",
+                "nutritionBasis": "",
                 "nutrition": {
-                  "calories": 830,
-                  "protein": 67,
-                  "carbs": 80,
+                  "calories": 760,
+                  "protein": 61,
+                  "carbs": 72,
                   "fiber": 5,
-                  "fat": 28,
-                  "satFat": 8,
-                  "transFat": 0.2,
-                  "cholesterol": 295,
-                  "sodium": 1420,
-                  "sugars": 8,
-                  "addedSugar": 0,
-                  "vitaminD": 0.5,
-                  "calcium": 170,
-                  "iron": 3.7,
-                  "potassium": 1010
-                },
-                "allergenAdvisory": ""
+                  "fat": 25,
+                  "satFat": 5.9,
+                  "sugars": 14,
+                  "sodium": 1380,
+                  "cholesterol": 280
+                }
               }
             ]
           }
@@ -901,5 +815,6 @@ const PRPD_MENU_DETAILS = {
     }
   }
 };
-if (typeof window !== "undefined") window.PRPD_MENU_DETAILS = PRPD_MENU_DETAILS;
-if (typeof module !== "undefined" && module.exports) module.exports = PRPD_MENU_DETAILS;
+
+if (typeof window !== 'undefined') window.PRPD_MENU_DETAILS = PRPD_MENU_DETAILS;
+if (typeof module !== 'undefined' && module.exports) module.exports = PRPD_MENU_DETAILS;

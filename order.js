@@ -451,7 +451,7 @@ const ORDER_API_URL = '/api/order';
     function placeholderLabel(dish, section) {
       if (section === 'exclusives') return 'Weekly exclusive';
       if (section === 'breakfasts') return 'Breakfast';
-      if (section === 'desserts') return 'High-protein dessert';
+      if (section === 'desserts') return 'Classic dessert';
       if (section === 'addons') return 'Grab & Sip';
       if (dish.displayCategory) return dish.displayCategory;
       if (dish.category === 'beef') return 'Beef';
@@ -543,9 +543,11 @@ const ORDER_API_URL = '/api/order';
 
     function detailFactsHtml(detail, tier) {
       const freezerFriendly = detail.storageMode === 'freezer';
-      const storage = freezerFriendly
-        ? 'Freezer-friendly. Freeze when delivered for later-week meals, then thaw overnight in the refrigerator.'
-        : 'Keep refrigerated and follow the use-by date on the meal label.';
+      const storage = detail.storageMode === 'ambient'
+        ? 'Keep sealed and dry. Follow the package date.'
+        : freezerFriendly
+          ? 'Freezer-friendly. Freeze when delivered for later-week meals, then thaw overnight in the refrigerator.'
+          : 'Keep refrigerated and follow the use-by date on the meal label.';
       return `
         <section class="meal-detail-section meal-detail-allergen">
           <span>Major allergens</span>
@@ -567,7 +569,7 @@ const ORDER_API_URL = '/api/order';
             <p>${escapeMealDetail(storage)}</p>
           </section>
           <section class="meal-detail-section">
-            <h3>Reheating</h3>
+            <h3>${detail.storageMode === 'ambient' ? 'Serving' : 'Reheating'}</h3>
             <p>${escapeMealDetail(detail.reheat || 'Follow the reheating directions on the meal label.')}</p>
           </section>
         </div>`;
@@ -609,7 +611,7 @@ const ORDER_API_URL = '/api/order';
       dialog.dataset.detailType = details.type;
       document.getElementById('mealDetailTitle').textContent = details.name;
       document.getElementById('mealDetailDescription').textContent = details.description || '';
-      document.getElementById('mealDetailEyebrow').textContent = details.type === 'bundle' ? 'Weekly Five details' : 'Meal details';
+      document.getElementById('mealDetailEyebrow').textContent = details.type === 'bundle' ? 'Weekly Five details' : details.storageMode === 'ambient' ? 'Dessert details' : 'Meal details';
       if (details.type === 'bundle') renderBundleDetail(details);
       else renderMealDetail(details, details.tiers?.lean ? 'lean' : Object.keys(details.tiers || {})[0]);
       document.body.classList.add('meal-detail-open');
@@ -682,7 +684,7 @@ const ORDER_API_URL = '/api/order';
 
     function variantOrderRowHtml(dish, variant) {
       const price = getPrice(dish, variant.id);
-      const servingCount = Number(dish.servingCount) || 5;
+      const servingCount = Number(variant.unitCount) || Number(dish.servingCount) || 1;
       const compareAtPrice = Number(variant.compareAtPrice);
       const savings = Number.isFinite(compareAtPrice) && compareAtPrice > price
         ? Math.round((compareAtPrice - price) * 100) / 100
@@ -694,7 +696,7 @@ const ORDER_API_URL = '/api/order';
         <div class="tier-order-info">
           <strong>${variant.label}</strong>
           ${variant.detail ? `<span>${variant.detail}</span>` : ''}
-          <span><strong>${servingCount} meals</strong> &middot; $${price.toFixed(2)} total ${savingsLabel}</span>
+          <span>${dish.category === 'dessert' ? `$${price.toFixed(2)} total` : `<strong>${servingCount} meals</strong> &middot; $${price.toFixed(2)} total ${savingsLabel}`}</span>
         </div>
         <div class="qty-ctrl">
           <button class="qty-btn" data-dish-id="${dish.id}" data-order-tier="${variant.id}" data-qty-delta="-1" aria-label="Remove one ${dish.name}, ${variant.label}">−</button>
@@ -796,7 +798,7 @@ const ORDER_API_URL = '/api/order';
           const orderRows = !available
             ? '<div class="sold-out-note">Sold out for this batch</div>'
             : isVariantDish(dish)
-              ? bundleOrderGroupsHtml(dish)
+              ? dish.category === 'bundle' ? bundleOrderGroupsHtml(dish) : dish.variants.map(variant => variantOrderRowHtml(dish, variant)).join('')
             : isSingleSize(dish)
               ? tierOrderRowHtml(dish, null)
               : tierOrderRowHtml(dish, 'lean') + tierOrderRowHtml(dish, 'bulk');
@@ -804,7 +806,7 @@ const ORDER_API_URL = '/api/order';
             ? orderRows.replace(/<div class="qty-ctrl">[\s\S]*?<\/div>/g, '')
             : orderRows;
           return `
-            <div class="dish-card${available ? '' : ' is-unavailable'}${defaultPhoto ? '' : ' no-photo'}${dish.category === 'addon' ? ' is-addon' : ''}${isVariantDish(dish) ? ' is-exclusive' : ''}${browseOnly ? ' is-browse-only' : ''}" id="card-${dish.id}" data-menu-dish="${dish.id}">
+            <div class="dish-card${available ? '' : ' is-unavailable'}${defaultPhoto ? '' : ' no-photo'}${dish.category === 'addon' ? ' is-addon' : ''}${dish.category === 'bundle' ? ' is-exclusive' : ''}${browseOnly ? ' is-browse-only' : ''}" id="card-${dish.id}" data-menu-dish="${dish.id}">
               <div class="dish-img" role="button" tabindex="0" data-open-meal-details="${dish.id}" aria-label="View ingredients, allergens and nutrition for ${dish.name}">
                 ${defaultPhoto ? '<div class="dish-img__bg"><span>PRPD</span></div>' : photoPlaceholderHtml(dish, section)}
                 ${dish.laterWeek ? '<span class="later-week-badge">Freezer-friendly</span>' : ''}

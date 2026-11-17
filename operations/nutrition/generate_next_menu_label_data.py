@@ -81,12 +81,19 @@ MEAL_ONLY_LABEL_NUTRITION = {
 # package weight yet. Label Studio must collect the actual packed net weight
 # instead of printing a dry-input or pre-cook ingredient sum as the net weight.
 PACKOUT_WEIGHT_REQUIRED = {
+    "Classic Chocolate Chip Cookie",
+    "Classic Mango Lassi",
     "Lemon Herb Chicken Orzo", "Chicken Tikka Snack Wrap",
     "Beef Bacon Breakfast Pizza", "Mango Habanero Chicken Wings",
     "Mexican Streetcorn Chicken Bowl",
 }
 
 DISPLAY_INGREDIENTS = {
+    "cookie_white_sugar": "granulated sugar",
+    "cookie_egg_yolk": "egg yolk",
+    "cookie_baking_soda": "baking soda",
+    "cookie_chips": "semisweet chocolate chips",
+    "deep_alphonso_pulp": "Deep Alphonso mango pulp",
     "barilla_orzo_dry": "Barilla Classic Orzo (semolina [wheat], durum wheat flour, niacin, iron [ferrous sulfate], thiamin mononitrate, riboflavin, folic acid)",
     **active_labels.DISPLAY_INGREDIENTS,
     "mushroom": "white mushrooms",
@@ -196,6 +203,9 @@ DISPLAY_INGREDIENTS.update({
 })
 
 ALLERGENS = {
+    "cookie_egg_yolk": "egg",
+    "cookie_chips": ("milk", "soy"),
+    "deep_alphonso_pulp": (),
     "barilla_orzo_dry": "wheat",
     "kikkoman_panko": "wheat",
     "shan_biryani": "soy",
@@ -261,6 +271,8 @@ ALLERGEN_ADVISORIES = {
 }
 
 META = {
+    "Classic Chocolate Chip Cookie": ("Classic chocolate chip cookie baked from a 70 g raw dough portion; available in 1, 3, or 6.", "Nutrition is a per-cookie recipe estimate. Baked weight and purchased chip panel are pending.", "ambient"),
+    "Classic Mango Lassi": ("Deep Alphonso mango pulp, FAGE Total 0% yogurt, Fairlife fat-free milk, and honey in the existing bottle.", "330 g homogeneous bottle estimate; exact pulp panel and filled weight are pending.", "fridge"),
     "Oven-Baked Popcorn Chicken": ("Bite-size chicken thighs with a seasoned plain cornflake coating, oven-baked with measured oil. Dip selected separately.", "Crunchy bites. Big flavor.", "fridge"),
     "Lemon Herb Chicken Orzo": ("Chicken thighs, lemon-herb orzo, and roasted zucchini and carrots.", "Lemon, herbs, and a complete chicken meal.", "fridge"),
     "Blueberry Vanilla Protein Baked Oatmeal Squares": ("Blueberry-vanilla baked oatmeal squares with egg whites, Greek yogurt, banana, and protein powder.", "Keep chilled. Reheat only when ready to eat.", "fridge"),
@@ -339,6 +351,8 @@ META = {
 }
 
 REHEAT = {
+    "Classic Chocolate Chip Cookie": "Enjoy at room temperature. Keep dry and sealed.",
+    "Classic Mango Lassi": "Keep chilled. Shake gently before drinking. Do not heat.",
     "Oven-Baked Popcorn Chicken": "Transfer to an oven-safe tray and reheat in an oven or air fryer until 165 F throughout. Remove any cold dip. Microwave reheating gives a softer coating.",
     "Lemon Herb Chicken Orzo": "Vent lid and microwave until hot throughout, stirring the orzo halfway.",
     "Blueberry Vanilla Protein Baked Oatmeal Squares": "Microwave 30-60 seconds, or enjoy chilled. Keep refrigerated.",
@@ -479,6 +493,10 @@ def tier_data(build: draft.Build, label: str, meal_name: str = "") -> dict:
         "nutrition": menu_nutrition if meal_name in MEAL_ONLY_LABEL_NUTRITION else complete_nutrition,
         "confidence": build.confidence,
     }
+    if meal_name == "Classic Chocolate Chip Cookie":
+        result["nutritionBasis"] = "Per cookie, estimated from 70 g raw dough; purchased chip panel and baked weight pending."
+    elif meal_name == "Classic Mango Lassi":
+        result["nutritionBasis"] = "Per 330 g homogeneous recipe estimate; purchased Deep can panel and actual bottle fill pending."
     if meal_name in MEAL_ONLY_LABEL_NUTRITION:
         result["nutritionBasis"] = (
             "Served pizza only; unserved dough reserve excluded" if meal_name == "Beef Bacon Breakfast Pizza"

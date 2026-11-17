@@ -6004,7 +6004,7 @@
 
   }
 
-  if (Number(data.batch) === 19) {
+  if ([19, 20].includes(Number(data.batch))) {
     const byName = name => Object.values(data.meals).find(meal => meal.recipeName === name);
     const removeSalt = task => {
       if (!task) return;
@@ -6121,6 +6121,54 @@
       pizza.cookDayReservations = pizza.steps;
       pizza.prepSteps = pizza.prepBatches.map(task => task.instruction);
     }
+  }
+
+  if (Number(data.batch) === 20) {
+    const cookie = data.meals.d1;
+    cookie.phase = 4;
+    cookie.order = 120;
+    cookie.equipment = ['digital scale', 'mixing bowls', 'oven', 'cooling rack'];
+    cookie.temperature = 'Bake until the proven Batch 19 finish; record the actual time and baked weight.';
+    cookie.prepBatches = [prep('dessert', 'Mix and portion classic cookie dough',
+      'Use the successful full-batch formula with 300 g chocolate chips and the original 100 g white sugar.',
+      ['butter','brown_sugar','cookie_white_sugar','egg','cookie_egg_yolk','vanilla','flour','cookie_baking_soda','baking_powder','salt','cookie_chips'], [
+        'Weigh every ingredient and use the successful Batch 19 mixing and baking method.',
+        'Portion exactly 70 g raw dough per cookie; count full saleable portions and record any remainder.',
+        'Bake and cool completely on a rack before sleeving or boxing.',
+      ], {includeAllRecipeIngredients:true})];
+    cookie.prepSteps = cookie.prepBatches.map(task => task.instruction);
+    cookie.steps = [
+      'Bake the 70 g portions using the successful Batch 19 method; record oven setting, time and finished count.',
+      'Cool fully and weigh at least one representative baked cookie.',
+      'Pack customer orders as one sleeve, one three-cookie box, or one six-cookie box with food-safe parchment and a count label.',
+    ];
+    cookie.cookPackSteps = cookie.steps;
+    cookie.cookDayReservations = cookie.steps;
+    cookie.hold = 'Keep finished cookies dry and sealed, away from chilled-meal condensation.';
+    cookie.packBuildByTier = {single:[{amount:'1',name:'70 g raw-portion baked cookie; weigh finished net'}]};
+
+    const lassi = data.meals.dr1;
+    lassi.phase = 4;
+    lassi.order = 140;
+    lassi.equipment = ['digital scale', 'blender', 'chilled NYHI bottles'];
+    lassi.temperature = 'Keep all ingredients and finished lassi chilled at 41 F or below.';
+    lassi.prepBatches = [prep('cold-kit', 'Stage classic mango lassi ingredients',
+      'Chill and weigh 90 g FAGE 0%, 125 g Fairlife fat-free milk, 180 g Deep Alphonso pulp, and 15 g honey per 410 g input.',
+      ['fage','fairlife_milk','deep_alphonso_pulp','honey'], [
+        'Record the exact can and dairy labels. Keep the ingredients covered and cold.',
+        'Blend just until smooth; allow foam to settle and weigh recovered drink.',
+        'Tare the purchased bottle and fill to 330 g net, then cap and refrigerate upright.',
+      ], {includeAllRecipeIngredients:true})];
+    lassi.prepSteps = lassi.prepBatches.map(task => task.instruction);
+    lassi.steps = [
+      'Blend the measured chilled yogurt, milk, Alphonso pulp and honey until smooth; no fresh mango or whey.',
+      'Let foam settle; record recovered mass and number of full 330 g bottles.',
+      'Tare and fill each NYHI bottle to 330 g net, cap, label, and refrigerate upright.',
+    ];
+    lassi.cookPackSteps = lassi.steps;
+    lassi.cookDayReservations = lassi.steps;
+    lassi.hold = 'Keep sealed bottles at 41 F or below during storage and delivery.';
+    lassi.packBuildByTier = {single:[{amount:'330 g net',name:'classic mango lassi in purchased bottle'}]};
   }
 
   return data;

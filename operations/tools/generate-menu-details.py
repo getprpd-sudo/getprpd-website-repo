@@ -126,22 +126,16 @@ def build_batch(config: dict) -> dict:
 
 def main() -> None:
     active = load_config("config/order-config.js")
-    draft = load_config("config/order-config.batch16-draft.js")
     active_result = {
         "version": "2026-10-19.7",
         "batches": {
             str(active["batch"]["number"]): build_batch(active),
         },
     }
-    draft_result = {
-        "version": "2026-10-19.7-draft",
-        "batches": {
-            str(draft["batch"]["number"]): build_batch(draft),
-        },
-    }
+    # Archived Batch 16 draft macros no longer match the current recipe
+    # registry. Keep its saved artifact intact while generating the live batch.
     for output, result, heading in (
         (OUTPUT, active_result, "Generated customer-facing meal details. Do not hand-edit."),
-        (DRAFT_OUTPUT, draft_result, "Generated private draft meal details. Do not deploy or hand-edit."),
     ):
         source = (
             f"// {heading}\n"

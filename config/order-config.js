@@ -1,15 +1,15 @@
 const ORDER_CONFIG = {
   "batch": {
-    "number": 19,
+    "number": 20,
     "published": true,
     "remindersEnabled": false,
-    "deliveryDate": "Saturday, November 14, 2026",
-    "cutoffIso": "2026-11-11T18:00:00-06:00",
+    "deliveryDate": "Saturday, November 21, 2026",
+    "cutoffIso": "2026-11-18T18:00:00-06:00",
     "cutoffLabel": "Wednesday at 6:00 PM CT",
     "labelProduction": {
-      "madeDate": "2026-11-14",
-      "useByDate": "2026-11-18",
-      "batchId": "B19-1114",
+      "madeDate": "2026-11-21",
+      "useByDate": "2026-11-25",
+      "batchId": "B20-1121",
       "completedAt": null,
       "dateBasis": "owner-approved-advance-print",
       "advancePrintApproved": true,
@@ -304,36 +304,41 @@ const ORDER_CONFIG = {
       ],
       "category": "standard",
       "plannerOnly": true
+    },
+    {
+      "id": "bw1",
+      "name": "Harissa Honey Chicken",
+      "category": "standard",
+      "plannerOnly": true,
+      "bundleOnly": true,
+      "description": "Harissa-honey chicken thighs with basmati rice and roasted broccoli. Available only in the Weekly Five."
     }
   ],
   "menu": {
     "breakfasts": [
       {
         "id": "b1",
-        "name": "Grilled Cheese Breakfast Burrito",
+        "name": "Beef Bacon Breakfast Pizza",
         "category": "beef",
-        "laterWeek": true,
-        "description": "Seasoned beef, eggs, egg whites, cheese, and onion in grilled high-fiber tortillas, with no added salt.",
+        "description": "One rectangular breakfast pizza per meal with Sharifa halal beef bacon, eggs, peppers, house tomato sauce and H-E-B fat-free mozzarella. Bulk is larger with extra toppings.",
         "macros": {
-          "cal": 465,
-          "protein": 52,
-          "carbs": 45,
-          "fiber": 31,
-          "fat": 20
+          "cal": 450,
+          "protein": 36,
+          "carbs": 54,
+          "fiber": 3,
+          "fat": 10
         },
         "bulkMacros": {
-          "cal": 645,
-          "protein": 72,
-          "carbs": 64,
-          "fiber": 46,
-          "fat": 27
+          "cal": 580,
+          "protein": 51,
+          "carbs": 68,
+          "fiber": 3,
+          "fat": 12
         },
-        "nutritionReview": true,
-        "nutritionStatus": "source-generated-medium-confidence-pending-actual-90-10-yield-current-tortilla-panels-and-container-fit",
-        "taxClass": "exempt-reheatable-meal",
-        "image": "/assets/images/meals/menu/batch-6-2026-08-15/grilled-cheese-breakfast-burrito.webp",
-        "ownerApproved": true,
-        "newThisWeek": false
+        "image": "",
+        "newThisWeek": false,
+        "sauceEligible": true,
+        "taxClass": "exempt-reheatable-meal"
       },
       {
         "id": "b2",
@@ -361,200 +366,181 @@ const ORDER_CONFIG = {
       },
       {
         "id": "b3",
-        "name": "Beef Bacon Breakfast Pizza",
-        "category": "beef",
-        "description": "One rectangular breakfast pizza per meal with Sharifa halal beef bacon, eggs, peppers, house tomato sauce and H-E-B fat-free mozzarella. Bulk is larger with extra toppings.",
+        "name": "Strawberry Cheesecake Protein Pancakes",
+        "category": "standard",
+        "description": "Protein pancakes with strawberries, cheesecake-yogurt topping, and sugar-free maple syrup.",
         "macros": {
-          "cal": 450,
-          "protein": 36,
+          "cal": 505,
+          "protein": 43,
           "carbs": 54,
-          "fiber": 3,
-          "fat": 10
-        },
-        "bulkMacros": {
-          "cal": 580,
-          "protein": 51,
-          "carbs": 68,
           "fiber": 3,
           "fat": 12
         },
-        "image": "",
-        "newThisWeek": true,
-        "sauceEligible": true,
-        "taxClass": "exempt-reheatable-meal"
+        "bulkMacros": {
+          "cal": 645,
+          "protein": 56,
+          "carbs": 69,
+          "fiber": 4,
+          "fat": 15
+        },
+        "nutritionStatus": "Recipe estimate; package and physical yield verification pending",
+        "taxClass": "exempt-reheatable-meal",
+        "image": "/assets/images/meals/menu/batch-8-2026-08-29/strawberry-cheesecake-protein-pancakes.webp",
+        "newThisWeek": false,
+        "nutritionReview": true
       }
     ],
     "mains": [
       {
         "id": "m1",
-        "name": "BBQ Chicken Mac & Cheese",
+        "name": "Hot Honey Chicken Sliders",
         "category": "standard",
-        "laterWeek": true,
-        "description": "BBQ chicken thighs with high-protein macaroni and cheese, H-E-B fat-free mozzarella, and one included matching 30 g BBQ sauce cup.",
+        "description": "Seasoned chicken thighs, mozzarella, onion, one pickle chip per slider, and PRPD Sweet Heat on King's Hawaiian Original Sweet Rolls.",
         "macros": {
-          "cal": 495,
-          "protein": 56,
-          "carbs": 37,
+          "cal": 525,
+          "protein": 37,
+          "carbs": 60,
+          "fiber": 2,
+          "fat": 15
+        },
+        "bulkMacros": {
+          "cal": 685,
+          "protein": 46,
+          "carbs": 80,
+          "fiber": 3,
+          "fat": 20
+        },
+        "nutritionReview": true,
+        "nutritionStatus": "source-generated-high-confidence-pending-slider-method-75-percent-yield-current-roll-panel-container-fit-and-photo-service-reconciliation",
+        "taxClass": "exempt-reheatable-meal",
+        "image": "/assets/images/meals/menu/batch-6-2026-08-15/hot-honey-chicken-sliders.webp",
+        "ownerApproved": true,
+        "newThisWeek": false
+      },
+      {
+        "id": "m2",
+        "name": "Creamy Cajun Chicken Pasta",
+        "category": "standard",
+        "description": "Cajun-spiced chicken thighs and protein spaghetti in a creamy crushed-tomato sauce.",
+        "macros": {
+          "cal": 570,
+          "protein": 52,
+          "carbs": 38,
+          "fiber": 9,
+          "fat": 25
+        },
+        "bulkMacros": {
+          "cal": 765,
+          "protein": 71,
+          "carbs": 50,
+          "fiber": 12,
+          "fat": 34
+        },
+        "nutritionStatus": "Recipe estimate; package and physical yield verification pending",
+        "taxClass": "exempt-reheatable-meal",
+        "image": "/assets/images/meals/menu/batch-15-2026-10-17/creamy-cajun-chicken-pasta.jpg",
+        "newThisWeek": false,
+        "nutritionReview": true,
+        "imageStatus": "Owner actual Batch15 photo"
+      },
+      {
+        "id": "m3",
+        "name": "Chicken Enchilada Bake",
+        "category": "enchilada",
+        "description": "Chicken, corn and tortillas baked in enchilada sauce with cheese.",
+        "macros": {
+          "cal": 565,
+          "protein": 61,
+          "carbs": 60,
+          "fiber": 34,
+          "fat": 20
+        },
+        "bulkMacros": {
+          "cal": 830,
+          "protein": 91,
+          "carbs": 90,
+          "fiber": 52,
+          "fat": 30
+        },
+        "image": "/assets/images/meals/menu/batch-15-2026-10-17/chicken-enchilada-bake.jpg",
+        "sauceEligible": true,
+        "taxClass": "exempt-reheatable-meal",
+        "newThisWeek": false,
+        "imageCrop": "landscape-meal-close"
+      },
+      {
+        "id": "m4",
+        "name": "Southwest Beef Taco Bowl",
+        "category": "beef",
+        "macros": {
+          "cal": 685,
+          "protein": 53,
+          "carbs": 62,
+          "fiber": 7,
+          "fat": 24
+        },
+        "bulkMacros": {
+          "cal": 935,
+          "protein": 74,
+          "carbs": 81,
+          "fiber": 9,
+          "fat": 35
+        },
+        "description": "Seasoned beef, cilantro-lime rice, black beans, corn and peppers, lettuce, and cotija.",
+        "image": "/assets/images/meals/menu/batch-15-2026-10-17/southwest-beef-taco-bowl.jpg",
+        "newThisWeek": false,
+        "nutritionReview": true,
+        "nutritionStatus": "Controlled calculation; physical yield and finished-weight verification remain open",
+        "imageCrop": "rotate-180"
+      },
+      {
+        "id": "m5",
+        "name": "Thai Basil Beef + Jasmine Rice",
+        "category": "thai",
+        "description": "Garlic-chili minced beef with basil, jasmine rice and roasted green beans. Contains fish from anchovy fish sauce.",
+        "macros": {
+          "cal": 610,
+          "protein": 49,
+          "carbs": 48,
+          "fiber": 4,
+          "fat": 24
+        },
+        "bulkMacros": {
+          "cal": 890,
+          "protein": 71,
+          "carbs": 72,
+          "fiber": 7,
+          "fat": 34
+        },
+        "image": "/assets/images/meals/menu/batch-18-2026-11-07/thai-basil-beef-jasmine-rice.jpg",
+        "sauceEligible": true,
+        "taxClass": "exempt-reheatable-meal",
+        "newThisWeek": false
+      },
+      {
+        "id": "m6",
+        "name": "Halal Cart Chicken + Yellow Rice",
+        "category": "standard",
+        "macros": {
+          "cal": 490,
+          "protein": 45,
+          "carbs": 44,
           "fiber": 3,
           "fat": 14
         },
         "bulkMacros": {
-          "cal": 635,
-          "protein": 72,
-          "carbs": 44,
-          "fiber": 4,
-          "fat": 19
-        },
-        "nutritionReview": true,
-        "nutritionStatus": "source-generated-medium-confidence-pending-chicken-and-mac-yields",
-        "taxClass": "exempt-reheatable-meal",
-        "image": "/assets/images/meals/menu/bbq-chicken-mac-and-cheese-lean.jpg",
-        "ownerApproved": true,
-        "newThisWeek": false,
-        "sideCupComponents": [
-          {
-            "name": "Matching BBQ sauce",
-            "batchGroup": "bbq-sauce",
-            "cupsPerMeal": 1,
-            "gramsPerMeal": 30
-          }
-        ]
-      },
-      {
-        "id": "m2",
-        "name": "Mexican Streetcorn Chicken Bowl",
-        "category": "standard",
-        "description": "Chicken, basmati rice, and creamy Mexican street corn.",
-        "macros": {
-          "cal": 640,
-          "protein": 51,
-          "carbs": 61,
-          "fiber": 4,
-          "fat": 22
-        },
-        "bulkMacros": {
-          "cal": 830,
-          "protein": 67,
-          "carbs": 80,
-          "fiber": 5,
-          "fat": 28
-        },
-        "image": "/assets/images/meals/menu/mexican-streetcorn-chicken-bowl-v2.jpg",
-        "newThisWeek": false,
-        "sauceEligible": true,
-        "taxClass": "exempt-reheatable-meal"
-      },
-      {
-        "id": "m3",
-        "name": "Cheesy Achiote Chicken Tacos",
-        "category": "standard",
-        "macros": {
-          "cal": 585,
-          "protein": 56,
-          "carbs": 43,
-          "fiber": 5,
-          "fat": 20
-        },
-        "bulkMacros": {
-          "cal": 780,
-          "protein": 74,
+          "cal": 645,
+          "protein": 59,
           "carbs": 58,
-          "fiber": 7,
-          "fat": 26
-        },
-        "description": "Achiote-citrus chicken thighs, melted cheese, pickled onion, Cotija, and cilantro in 6-inch white corn tortillas.",
-        "image": "",
-        "newThisWeek": false,
-        "nutritionReview": true,
-        "nutritionStatus": "Controlled calculation; physical yield and finished-weight verification remain open"
-      },
-      {
-        "id": "m4",
-        "name": "High-Protein Beef Lasagna",
-        "category": "beef",
-        "laterWeek": true,
-        "description": "Halal 90/10 beef, house tomato sauce, ricotta, mozzarella, Parmesan, and classic lasagna pasta.",
-        "macros": {
-          "cal": 530,
-          "protein": 51,
-          "carbs": 38,
-          "fiber": 5,
+          "fiber": 4,
           "fat": 19
         },
-        "bulkMacros": {
-          "cal": 710,
-          "protein": 67,
-          "carbs": 51,
-          "fiber": 7,
-          "fat": 26
-        },
-        "nutritionStatus": "controlled-12-sheet-recipe-calculation",
-        "taxClass": "exempt-reheatable-meal",
-        "image": "/assets/images/meals/menu/high-protein-beef-lasagna.webp",
-        "newThisWeek": false
-      },
-      {
-        "id": "m5",
-        "name": "Garlic Butter Wild Argentine Shrimp + Rice",
-        "category": "seafood",
-        "macros": {
-          "cal": 455,
-          "protein": 43,
-          "carbs": 57,
-          "fiber": 4,
-          "fat": 7
-        },
-        "bulkMacros": {
-          "cal": 615,
-          "protein": 58,
-          "carbs": 75,
-          "fiber": 6,
-          "fat": 10
-        },
-        "description": "Garlic-butter Wild Argentine red shrimp with basmati rice, zucchini, and peas and carrots.",
-        "image": "/assets/images/meals/menu/batch-6-2026-08-15/garlic-butter-shrimp-and-rice.jpg",
+        "description": "Seasoned chicken thighs, yellow basmati rice, lettuce, and tomato.",
+        "image": "/assets/images/meals/menu/halal-cart-chicken-yellow-rice.jpg",
         "newThisWeek": false,
         "nutritionReview": true,
         "nutritionStatus": "Controlled calculation; physical yield and finished-weight verification remain open",
-        "imageStatus": "Historical library photo; updated Wild Argentine plating photo pending"
-      },
-      {
-        "id": "m6",
-        "name": "Mango Habanero Chicken Wings",
-        "category": "wings",
-        "description": "Six split wings in Lean or eight in Bulk, with mango habanero glaze, an extra mango dip and a low-calorie ranch cup included.",
-        "macros": {
-          "cal": 585,
-          "protein": 43,
-          "carbs": 14,
-          "fiber": 1,
-          "fat": 38
-        },
-        "bulkMacros": {
-          "cal": 750,
-          "protein": 58,
-          "carbs": 15,
-          "fiber": 1,
-          "fat": 49
-        },
-        "image": "",
-        "newThisWeek": true,
-        "sauceEligible": true,
-        "taxClass": "exempt-reheatable-meal",
-        "sideCupComponents": [
-          {
-            "name": "Low-calorie ranch",
-            "batchGroup": "wing-ranch",
-            "cupsPerMeal": 1,
-            "gramsPerMeal": 40
-          },
-          {
-            "name": "Mango habanero dip",
-            "batchGroup": "mango-habanero-dip",
-            "cupsPerMeal": 1,
-            "gramsPerMeal": 20
-          }
-        ]
+        "imageStatus": "Existing library photo"
       }
     ],
     "premium": [
@@ -590,26 +576,6 @@ const ORDER_CONFIG = {
     "addons": [
       {
         "id": "a1",
-        "name": "Oven-Baked Popcorn Chicken",
-        "category": "addon",
-        "description": "Bite-size chicken thighs in a seasoned cornflake coating, oven-baked. Choose any dip separately.",
-        "macros": {
-          "cal": 360,
-          "protein": 34,
-          "carbs": 26,
-          "fiber": 1,
-          "fat": 13
-        },
-        "bulkMacros": null,
-        "image": "/assets/images/meals/menu/batch-18-2026-11-07/oven-baked-popcorn-chicken.jpg",
-        "imageCrop": "landscape-tight",
-        "sauceEligible": true,
-        "taxClass": "taxable-prepared-food",
-        "newThisWeek": false,
-        "price": 7.99
-      },
-      {
-        "id": "a2",
         "name": "Chicken Tikka Snack Wrap",
         "category": "addon",
         "description": "Chicken tikka, crisp salad and incorporated Garlic Herb Yogurt in one tortilla.",
@@ -637,130 +603,174 @@ const ORDER_CONFIG = {
         "imageCrop": "landscape-wrap-raised"
       },
       {
-        "id": "a3",
-        "name": "Mediterranean Chicken Hummus Box",
+        "id": "a2",
+        "name": "Oven-Baked Popcorn Chicken",
         "category": "addon",
-        "price": 7.99,
-        "description": "Chilled chicken thighs, hummus, flatbread, cucumber, tomato, feta, olives, and onion.",
+        "description": "Bite-size chicken thighs in a seasoned cornflake coating, oven-baked. Choose any dip separately.",
         "macros": {
-          "cal": 445,
-          "protein": 31,
-          "carbs": 40,
-          "fiber": 5,
-          "fat": 18
+          "cal": 360,
+          "protein": 34,
+          "carbs": 26,
+          "fiber": 1,
+          "fat": 13
         },
-        "nutritionReview": true,
-        "nutritionStatus": "source-generated-medium-confidence-pending-current-package-and-hold-review",
+        "bulkMacros": null,
+        "image": "/assets/images/meals/menu/batch-18-2026-11-07/oven-baked-popcorn-chicken.jpg",
+        "imageCrop": "landscape-tight",
+        "sauceEligible": true,
         "taxClass": "taxable-prepared-food",
-        "image": "/assets/images/meals/menu/batch-8-2026-08-29/mediterranean-chicken-hummus-box.webp",
-        "imageCrop": "portrait-low",
-        "ownerApproved": true,
-        "newThisWeek": false
+        "newThisWeek": false,
+        "price": 7.99
       },
       {
         "id": "dr1",
-        "name": "Strawberry Protein Shake",
+        "name": "Classic Mango Lassi",
         "category": "addon",
-        "price": 7.99,
-        "description": "Strawberry, banana, fat-free milk, Greek yogurt and unflavored whey, finished with strawberry pieces.",
+        "price": 6.99,
+        "description": "Alphonso mango pulp, yogurt, milk, and honey. Chilled in our 12 oz bottle.",
         "servingGrams": 330,
         "macros": {
-          "cal": 240,
-          "protein": 25,
-          "carbs": 32,
-          "fiber": 3,
-          "fat": 2
+          "cal": 255,
+          "protein": 16,
+          "carbs": 48,
+          "fat": 0
         },
         "bulkMacros": null,
-        "image": "/assets/images/meals/menu/batch-19-2026-11-14/strawberry-protein-shake.webp",
-        "newThisWeek": false,
+        "image": "",
+        "newThisWeek": true,
         "sauceEligible": false,
-        "taxClass": "taxable-prepared-food",
-        "allergens": "CONTAINS: MILK."
+        "taxClass": "classification-pending",
+        "allergens": "CONTAINS: MILK.",
+        "nutritionReview": true,
+        "nutritionStatus": "330 g homogeneous recipe estimate; actual Deep can panel and fill weight pending"
       }
     ],
-    "desserts": [],
+    "desserts": [
+      {
+        "id": "d1",
+        "name": "Classic Chocolate Chip Cookie",
+        "category": "dessert",
+      "price": 2.99,
+        "description": "Our classic chocolate chip cookie, baked from a 70 g dough portion. Choose 1, 3, or 6.",
+        "image": "",
+        "newThisWeek": true,
+        "sauceEligible": false,
+        "taxClass": "exempt-bakery-item",
+        "macros": {
+          "cal": 315,
+          "protein": 4,
+          "carbs": 39,
+          "fat": 16
+        },
+        "bulkMacros": null,
+        "nutritionReview": true,
+        "nutritionStatus": "Per-cookie recipe estimate; ingredient panels pending",
+        "variants": [
+          {
+            "id": "one",
+            "label": "1 cookie",
+            "price": 2.99,
+            "unitCount": 1
+          },
+          {
+            "id": "three",
+            "label": "3 cookies",
+            "price": 7.99,
+            "unitCount": 3
+          },
+          {
+            "id": "six",
+            "label": "6 cookies",
+            "price": 13.99,
+            "unitCount": 6
+          }
+        ]
+      }
+    ],
     "exclusives": [
       {
         "id": "x0",
-        "name": "Weekly Five: BBQ Mac + Mexican Streetcorn",
+        "name": "Weekly Five: Cajun + Harissa Honey",
         "category": "bundle",
         "price": 49.95,
         "servingCount": 5,
-        "sauceEligible": true,
-        "description": "Five chicken meals: BBQ Chicken Mac & Cheese and Mexican Streetcorn Chicken Bowl. Pick Lean or Bulk, then choose your 3/2 split. No substitutions.",
+        "description": "Five meals featuring Creamy Cajun Chicken Pasta and bundle-exclusive Harissa Honey Chicken. Choose Lean or Bulk and your 3/2 split. No substitutions.",
         "taxClass": "exempt-reheatable-meal",
-        "image": "",
         "variants": [
           {
-            "id": "lean-mac3-corn2",
-            "label": "Lean: 3 BBQ Mac + 2 Streetcorn Chicken",
+            "id": "lean-cajun3-harissa2",
+            "label": "Lean: 3 Cajun Pasta + 2 Harissa Honey Chicken",
             "price": 49.95,
+            "compareAtPrice": 54.95,
             "components": [
               {
-                "id": "m1",
+                "id": "m2",
                 "tier": "lean",
                 "qty": 3
               },
               {
-                "id": "m2",
+                "id": "bw1",
                 "tier": "lean",
                 "qty": 2
               }
             ]
           },
           {
-            "id": "lean-mac2-corn3",
-            "label": "Lean: 2 BBQ Mac + 3 Streetcorn Chicken",
+            "id": "lean-cajun2-harissa3",
+            "label": "Lean: 2 Cajun Pasta + 3 Harissa Honey Chicken",
             "price": 49.95,
+            "compareAtPrice": 54.95,
             "components": [
               {
-                "id": "m1",
+                "id": "m2",
                 "tier": "lean",
                 "qty": 2
               },
               {
-                "id": "m2",
+                "id": "bw1",
                 "tier": "lean",
                 "qty": 3
               }
             ]
           },
           {
-            "id": "bulk-mac3-corn2",
-            "label": "Bulk: 3 BBQ Mac + 2 Streetcorn Chicken",
+            "id": "bulk-cajun3-harissa2",
+            "label": "Bulk: 3 Cajun Pasta + 2 Harissa Honey Chicken",
             "price": 59.95,
+            "compareAtPrice": 64.95,
             "components": [
               {
-                "id": "m1",
+                "id": "m2",
                 "tier": "bulk",
                 "qty": 3
               },
               {
-                "id": "m2",
+                "id": "bw1",
                 "tier": "bulk",
                 "qty": 2
               }
             ]
           },
           {
-            "id": "bulk-mac2-corn3",
-            "label": "Bulk: 2 BBQ Mac + 3 Streetcorn Chicken",
+            "id": "bulk-cajun2-harissa3",
+            "label": "Bulk: 2 Cajun Pasta + 3 Harissa Honey Chicken",
             "price": 59.95,
+            "compareAtPrice": 64.95,
             "components": [
               {
-                "id": "m1",
+                "id": "m2",
                 "tier": "bulk",
                 "qty": 2
               },
               {
-                "id": "m2",
+                "id": "bw1",
                 "tier": "bulk",
                 "qty": 3
               }
             ]
           }
-        ]
+        ],
+        "image": ""
       }
     ]
   },
@@ -776,13 +786,12 @@ const ORDER_CONFIG = {
   "release": {
     "status": "published",
     "websiteApproved": true,
-    "recipeTestWaiverDate": "2026-11-09",
-    "nutritionBasis": "Owner-authorized recipe-calculated estimates; physical taste and yield observations may prompt revisions.",
-    "actualComponentDatesVerified": false,
     "approvedByOwner": true,
-    "approvalRecordedAt": "2026-11-09",
-    "approvalScope": "Owner selected the full menu and explicitly directed immediate publication while pizza and drink photographs are in progress; mango lassi deferred to next week.",
-    "adsActivationAuthorized": true
+    "approvalRecordedAt": "2026-11-16",
+    "approvalScope": "Owner approved the Batch 20 full lineup, Weekly Five, $6.99 lassi, and $2.99/$7.99/$13.99 cookie packs and directed publication without new bottle or box tests.",
+    "nutritionBasis": "Recipe-calculated estimates; exact packaged ingredient panels and physical packout may change numbers.",
+    "actualComponentDatesVerified": false,
+    "adsActivationAuthorized": false
   }
 };
 if(typeof window!=="undefined")window.PRPD_ORDER_CONFIG=ORDER_CONFIG;

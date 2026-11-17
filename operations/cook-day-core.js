@@ -114,6 +114,21 @@
         continue;
       }
       if (matchEntry.bundle) {
+        if (matchEntry.bundle.category === 'dessert') {
+          const unitCount = Number(matchEntry.variant.unitCount);
+          if (!Number.isInteger(unitCount) || unitCount < 1) {
+            warnings.push(`Cookie pack has no valid unit count: ${name}`);
+            continue;
+          }
+          items.push({
+            id: matchEntry.bundle.id,
+            name: matchEntry.bundle.name,
+            tier: 'single',
+            qty: qty * unitCount,
+            packageType: matchEntry.variant.label,
+          });
+          continue;
+        }
         const components = Array.isArray(matchEntry.variant.components) ? matchEntry.variant.components : [];
         if (!components.length) {
           warnings.push(`Weekly exclusive has no production split: ${name}`);

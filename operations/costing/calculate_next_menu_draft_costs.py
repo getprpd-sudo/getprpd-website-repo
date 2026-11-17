@@ -57,7 +57,7 @@ def configured_items(config):
 def load_nutrition_module(config=None):
     config = current_config() if config is None else config
     batch_number = config["batch"]["number"]
-    if batch_number not in {13, 14, 15, 16, 17}:
+    if batch_number not in {13, 14, 15, 16, 17, 18, 19, 20}:
         raise ValueError(f"No cost recipe registry configured for Batch {batch_number}")
     configured_items(config)
     sys.path.insert(0, str(NEXT_NUTRITION_PATH.parent))
@@ -70,7 +70,7 @@ def load_nutrition_module(config=None):
     meals = []
     for section, items in config["menu"].items():
         for item in items:
-            if item.get("variants"):
+            if item.get("variants") and item.get("category") == "bundle":
                 continue
             name = item["name"]
             if name not in registry.RECIPES:
@@ -91,6 +91,14 @@ def load_nutrition_module(config=None):
 # Only next-menu-specific products are added here.
 COSTS = dict(active_costs.COSTS)
 COSTS.update({
+    "sharifa_beef_bacon": per_g(51.06, 2268, "planning", "Existing beef-bacon case allowance; verify Sharifa purchase receipt"),
+    "red_chili_flakes": per_g(1.24, 57, "planning", "Generic crushed-red-pepper jar allowance"),
+    "thai_redboat_40n": per_g(14.99, 626.667, "planning", "Red Boat 500 mL manufacturer price and modeled density; confirm bottle receipt"),
+    "thai_basil_fresh": per_g(1.78, 14.175, "planning", "Fresh basil half-ounce clamshell estimate"),
+    "thai_black_pepper": per_g(3.98, 85, "planning", "Ground pepper jar estimate"),
+    "thai_granulated_sugar": per_g(3.24, 1814, "planning", "Four-pound sugar estimate"),
+    "thai_hot_chili": per_g(2.00, 100, "planning", "Hot chili produce estimate"),
+    "thai_red_bell_pepper": per_g(1.50, 160, "planning", "One red bell pepper produce estimate"),
     "kelloggs_corn_flakes_plain": per_g(4.98,510.291,"planning","Walmart web18oz Kellogg's Corn Flakes product10818608 reference checked2026-10-28, not local stock or receipt; weigh25g BEFORE crushing"),
     "kikkoman_panko": per_g(3.00,227,"planning","Unverified $3 allowance for227g Kikkoman Panko; not a supplier quote or receipt"),
     "barilla_orzo_dry": per_g(1.88, 453.592, "planning", "Barilla US Classic Orzo16oz GTIN00076808513981, Walmart product10309188 $1.88 reference checked2026-10-26; exact local store stock and receipt unverified"),
@@ -143,6 +151,11 @@ COSTS.update({
     "ny_strip_cooked": per_g(10.49, 453.592, "verified", "$10.49/lb current NY strip purchase"),
     "peanut_butter": per_g(3.00, 510, "legacy", "Earlier PRPD ingredient-price document"),
     "chocolate_chips": per_g(4.96, 340, "verified", "Walmart receipt 2026-07-23, 12 oz bag"),
+    "cookie_chips": per_g(4.96, 340, "planning", "Prior Walmart chip purchase; confirm current Great Value bag"),
+    "cookie_white_sugar": per_g(3.24, 1814, "planning", "Four-pound granulated sugar planning reference"),
+    "cookie_egg_yolk": per_g(3.00, 600, "planning", "Approximate yolk allocation from one dozen eggs"),
+    "cookie_baking_soda": per_g(1.00, 454, "planning", "One-pound baking soda planning allowance"),
+    "deep_alphonso_pulp": per_g(4.99, 850, "planning", "India Bazaar Frisco listing; replace with actual can receipt"),
     "biscoff_spread": per_g(5.00, 400, "legacy", "Earlier PRPD ingredient-price document"),
     "biscoff_cookie": each(4.00, 32, "legacy", "Earlier PRPD ingredient-price document"),
     "banana_pudding_mix": per_g(2.06, 144, "verified", "Walmart receipt 2026-07-23, 5.1 oz box"),
@@ -190,6 +203,8 @@ COSTS.update({
     "chicken_mince_cooked": per_g(5.99, 453.592, "verified", "EPIC Market receipt 2026-08-27: owner-identified halal lean chicken-breast mince at $5.99/lb raw"),
     "lavash": each(3.99, 4, "planning", "Joseph's lavash four-count planning estimate; replace with receipt"),
 })
+COSTS["thai_jasmine_rice_dry"] = COSTS["rice_dry"]
+COSTS["thai_green_beans"] = COSTS["green_beans"]
 
 # Batch 13 receipt evidence. Prices without an established package weight stay
 # planning-grade. The receipt's 80/20 beef is NOT a 90/10 or 96/4 price match.
@@ -261,6 +276,11 @@ def packaging_cost(meal_name: str, tier: str, registry=None) -> float:
 
 
 def packaging_cost_lines(meal_name: str, tier: str, registry=None) -> list[dict]:
+    if meal_name == "Classic Chocolate Chip Cookie":
+        return [{"item": "Food-safe sleeve and label allowance", "quantity": 1, "unit_cost": 0.15}]
+    if meal_name == "Classic Mango Lassi":
+        return [{"item": "Purchased NYHI bottle and cap", "quantity": 1, "unit_cost": 0.9735},
+                {"item": "Bottle label and consumables allowance", "quantity": 1, "unit_cost": 0.30}]
     registry = load_current_registry() if registry is None else registry
     container_cost = 43.49 / 150 if getattr(registry, "_cost_batch_number", None) == 17 else active_costs.MEAL_CONTAINER_COST
     shared = active_costs.SHARED_CONSUMABLE_ALLOWANCE
@@ -302,7 +322,7 @@ def packaging_cost_lines(meal_name: str, tier: str, registry=None) -> list[dict]
 def load_current_registry():
     sys.path.insert(0, str(NEXT_NUTRITION_PATH.parent))
     batch_number = current_config()["batch"]["number"]
-    if batch_number not in {13, 14, 15, 16, 17}:
+    if batch_number not in {13, 14, 15, 16, 17, 18, 19, 20}:
         raise ValueError(f"No packaging registry configured for Batch {batch_number}")
     path = NEXT_NUTRITION_PATH.with_name(
         "batch13_recipes.py" if batch_number == 13 else "current_recipe_registry.py"
@@ -567,6 +587,21 @@ def generated_cost_payload(module) -> dict:
         for row in rows
         if row["confidence"] != "verified"
     )
+    cookie_name = "Classic Chocolate Chip Cookie"
+    cookie_item = next((item for item in module.config["menu"].get("desserts", []) if item["name"] == cookie_name), None)
+    if cookie_item is not None:
+        base_key = f"{cookie_name.lower()}|single"
+        direct_costs.pop(base_key, None)
+        provisional = [key for key in provisional if key != base_key]
+        cookie_row = next(row for row in rows if row["meal"] == cookie_name)
+        for variant in cookie_item["variants"]:
+            count = variant.get("unitCount")
+            if count not in {1, 3, 6}:
+                raise ValueError("Cookie variant must contain 1, 3, or 6 cookies")
+            pack_cost = {1: 0.15, 3: 0.67, 6: 0.70}[count]
+            key = f"{cookie_name.lower()}|{variant['label'].strip().lower()}"
+            direct_costs[key] = round(cookie_row["food"] * count + pack_cost + 1e-9, 2)
+            provisional.append(key)
     for row in bundle_rows(module):
         key = f"{row['meal'].strip().lower()}|{row['tier'].strip().lower()}"
         direct_costs[key] = round(row["direct"] + 1e-9, 2)

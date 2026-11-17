@@ -67,6 +67,7 @@ function catalogForConfig(config) {
             id: safeText(variant.id, 40),
             label: safeText(variant.label, 100),
             price: Number.isFinite(Number(variant.price)) ? Number(variant.price) : null,
+            unitCount: Number.isInteger(Number(variant.unitCount)) ? Number(variant.unitCount) : null,
           })).filter(variant => variant.id && variant.label)
         : [],
     };
@@ -190,11 +191,13 @@ function normalizeItems(rawItems, catalog = CATALOG) {
     if (!available) throw new Error(`${name} is sold out for this batch.`);
     let tier;
     let variantLabel = '';
+    let variantUnitCount = 1;
     if (variants.length > 0) {
       const variant = variants.find(option => option.id === raw.tier);
       if (!variant) throw new Error(`Choose a valid weekly split for ${name}.`);
       tier = variant.id;
       variantLabel = variant.label;
+      variantUnitCount = variant.unitCount || 1;
       if (Number.isFinite(variant.price)) selectedPrice = variant.price;
     } else if (category === 'dessert' || category === 'addon') {
       if (raw.tier !== null && raw.tier !== undefined && raw.tier !== '' && raw.tier !== 'single') {
@@ -211,7 +214,7 @@ function normalizeItems(rawItems, catalog = CATALOG) {
     const key = `${id}:${tier}`;
     const nextQty = (combined.get(key)?.qty || 0) + qty;
     if (nextQty > maxQty) throw new Error(`Too many servings of ${name}.`);
-    combined.set(key, { id, name, category, price: selectedPrice, tier, variantLabel, servingCount, taxClass,
+    combined.set(key, { id, name, category, price: selectedPrice, tier, variantLabel, variantUnitCount, servingCount, taxClass,
       ...(typeof sauceEligible === 'boolean' ? { sauceEligible } : {}), qty: nextQty });
   }
 
@@ -620,6 +623,10 @@ function itemLines(order) {
 
 function paymentCounts(items) {
   return items.reduce((counts, item) => {
+    if (item.variantLabel && item.category === 'dessert') {
+      counts.dessert += item.qty * (Number(item.variantUnitCount) || 1);
+      return counts;
+    }
     if (item.variantLabel) {
       counts.standard += item.qty * (Number(item.servingCount) || 1);
       return counts;
@@ -635,7 +642,7 @@ function paymentCounts(items) {
 }
 
 function tierSummary(items) {
-  const hasExclusive = items.some(item => item.variantLabel);
+  const hasExclusive = items.some(item => item.variantLabel && item.category === 'bundle');
   const tieredItems = items.filter(item => item.category !== 'dessert' && item.category !== 'addon' && !item.variantLabel);
   const tiers = new Set(tieredItems.map(item => item.tier));
   if (tiers.size === 0) {
