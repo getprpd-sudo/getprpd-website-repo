@@ -492,7 +492,7 @@ const ORDER_CONFIG = {
         "newThisWeek": false,
         "nutritionReview": true,
         "nutritionStatus": "Controlled calculation; physical yield and finished-weight verification remain open",
-        "imageCrop": "landscape-bowl-close"
+        "imageCrop": "landscape-bowl-inverted-close"
       },
       {
         "id": "m5",

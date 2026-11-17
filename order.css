@@ -747,7 +747,7 @@
       width: 100%; height: 100%;
       object-fit: cover;
       object-position: center center;
-      transform: translateY(var(--photo-shift-y, 0px)) rotate(var(--photo-rotate, 0deg)) scale(var(--photo-zoom, 1));
+      transform: translate(var(--photo-shift-x, 0px), var(--photo-shift-y, 0px)) rotate(var(--photo-rotate, 0deg)) scale(var(--photo-zoom, 1));
       transform-origin: var(--photo-x, 50%) var(--photo-y, 50%);
       position: absolute; inset: 0;
       display: block;
@@ -774,12 +774,13 @@
     .dish-img img.photo-crop--landscape-wrap-close { --photo-rotate: 180deg; --photo-zoom: 2.2; --photo-x: 50%; --photo-y: 50%; }
     .dish-img img.photo-crop--landscape-wrap-raised { --photo-rotate: 180deg; --photo-zoom: 2.2; --photo-x: 50%; --photo-y: 50%; --photo-shift-y: -12px; }
     .dish-img img.photo-crop--landscape-meal-close { --photo-rotate: 180deg; --photo-zoom: 1.25; --photo-x: 50%; --photo-y: 50%; }
-    .dish-img img.photo-crop--landscape-wrap-lower { --photo-zoom: 1.38; --photo-x: 58%; --photo-y: 44%; --photo-shift-y: 3%; }
+    .dish-img img.photo-crop--landscape-wrap-lower { --photo-rotate: 180deg; --photo-zoom: 1.38; --photo-x: 50%; --photo-y: 50%; --photo-shift-y: -10%; }
     .dish-img img.photo-crop--landscape-snack-close { --photo-zoom: 1.48; --photo-x: 55%; --photo-y: 55%; --photo-shift-y: 5%; }
-    .dish-img img.photo-crop--landscape-pasta-inverted-close { --photo-rotate: 180deg; --photo-zoom: 1.48; --photo-x: 62%; --photo-y: 47%; --photo-shift-y: 5%; }
-    .dish-img img.photo-crop--landscape-meal-inverted-close { --photo-rotate: 180deg; --photo-zoom: 1.45; --photo-x: 63%; --photo-y: 49%; --photo-shift-y: 6%; }
+    .dish-img img.photo-crop--landscape-pasta-inverted-close { --photo-rotate: 180deg; --photo-zoom: 1.58; --photo-x: 50%; --photo-y: 50%; --photo-shift-x: 15%; --photo-shift-y: -7%; }
+    .dish-img img.photo-crop--landscape-meal-inverted-close { --photo-rotate: 180deg; --photo-zoom: 1.5; --photo-x: 50%; --photo-y: 50%; --photo-shift-x: 15%; --photo-shift-y: -6%; }
     .dish-img img.photo-crop--landscape-bowl-close { --photo-zoom: 1.45; --photo-x: 62%; --photo-y: 53%; --photo-shift-y: 5%; }
-    .dish-img img.photo-crop--landscape-short-rib-low { --photo-zoom: 1.36; --photo-x: 64%; --photo-y: 48%; --photo-shift-y: 9%; }
+    .dish-img img.photo-crop--landscape-bowl-inverted-close { --photo-rotate: 180deg; --photo-zoom: 1.45; --photo-x: 50%; --photo-y: 50%; --photo-shift-x: 12%; --photo-shift-y: -6%; }
+    .dish-img img.photo-crop--landscape-short-rib-low { --photo-rotate: 180deg; --photo-zoom: 1.45; --photo-x: 50%; --photo-y: 50%; --photo-shift-x: 12%; --photo-shift-y: -15%; }
     .dish-img img.dish-photo--bright-low {
       object-position: center 36%;
       filter: brightness(1.18) saturate(1.06) contrast(1.02);
@@ -1909,7 +1910,7 @@
     .dish-img img.dish-photo--soft {
       filter: brightness(1.02) saturate(.97);
     }
-    .dish-card:hover .dish-img img { transform: translateY(var(--photo-shift-y, 0px)) rotate(var(--photo-rotate, 0deg)) scale(calc(var(--photo-zoom, 1) * 1.025)); }
+    .dish-card:hover .dish-img img { transform: translate(var(--photo-shift-x, 0px), var(--photo-shift-y, 0px)) rotate(var(--photo-rotate, 0deg)) scale(calc(var(--photo-zoom, 1) * 1.025)); }
     .dish-photo-overlay {
       position: absolute;
       z-index: 3;

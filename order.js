@@ -752,7 +752,7 @@ const ORDER_API_URL = '/api/order';
     // ════════════════════════════════════════
     function photoCropClass(dish) {
       // Reusable composition presets, not weekly dish IDs. External CSS respects CSP.
-      return ['portrait-low', 'portrait-low-soft', 'portrait-low-wide', 'portrait-center', 'portrait-tight', 'landscape-low', 'landscape-tight', 'landscape-closer', 'landscape-tikka-close', 'landscape-meal-close', 'landscape-wrap-close', 'landscape-wrap-raised', 'landscape-wrap-lower', 'landscape-snack-close', 'landscape-pasta-inverted-close', 'landscape-meal-inverted-close', 'landscape-bowl-close', 'landscape-short-rib-low', 'square-raised', 'square-low', 'rotate-180', 'rotate-180-close', 'rotate-180-low'].includes(dish.imageCrop)
+      return ['portrait-low', 'portrait-low-soft', 'portrait-low-wide', 'portrait-center', 'portrait-tight', 'landscape-low', 'landscape-tight', 'landscape-closer', 'landscape-tikka-close', 'landscape-meal-close', 'landscape-wrap-close', 'landscape-wrap-raised', 'landscape-wrap-lower', 'landscape-snack-close', 'landscape-pasta-inverted-close', 'landscape-meal-inverted-close', 'landscape-bowl-close', 'landscape-bowl-inverted-close', 'landscape-short-rib-low', 'square-raised', 'square-low', 'rotate-180', 'rotate-180-close', 'rotate-180-low'].includes(dish.imageCrop)
         ? `photo-crop--${dish.imageCrop}` : '';
     }
 
