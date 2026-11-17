@@ -439,6 +439,7 @@ const ORDER_CONFIG = {
         "nutritionStatus": "Recipe estimate; package and physical yield verification pending",
         "taxClass": "exempt-reheatable-meal",
         "image": "/assets/images/meals/menu/batch-15-2026-10-17/creamy-cajun-chicken-pasta.jpg",
+        "imageCrop": "landscape-pasta-inverted-close",
         "newThisWeek": false,
         "nutritionReview": true,
         "imageStatus": "Owner actual Batch15 photo"
@@ -466,7 +467,7 @@ const ORDER_CONFIG = {
         "sauceEligible": true,
         "taxClass": "exempt-reheatable-meal",
         "newThisWeek": false,
-        "imageCrop": "landscape-meal-close"
+        "imageCrop": "landscape-meal-inverted-close"
       },
       {
         "id": "m4",
@@ -491,7 +492,7 @@ const ORDER_CONFIG = {
         "newThisWeek": false,
         "nutritionReview": true,
         "nutritionStatus": "Controlled calculation; physical yield and finished-weight verification remain open",
-        "imageCrop": "rotate-180"
+        "imageCrop": "landscape-bowl-close"
       },
       {
         "id": "m5",
@@ -513,6 +514,7 @@ const ORDER_CONFIG = {
           "fat": 34
         },
         "image": "/assets/images/meals/menu/batch-18-2026-11-07/thai-basil-beef-jasmine-rice.jpg",
+        "imageCrop": "landscape-bowl-close",
         "sauceEligible": true,
         "taxClass": "exempt-reheatable-meal",
         "newThisWeek": false
@@ -568,7 +570,7 @@ const ORDER_CONFIG = {
         "nutritionStatus": "source-generated-medium-confidence-pending-reviewed-actual-raw-bone-in-to-edible-yield",
         "taxClass": "exempt-reheatable-meal",
         "image": "/assets/images/meals/menu/batch-15-2026-10-17/braised-beef-short-rib.jpg",
-        "imageCrop": "rotate-180-low",
+        "imageCrop": "landscape-short-rib-low",
         "ownerApproved": true,
         "newThisWeek": false
       }
@@ -600,7 +602,7 @@ const ORDER_CONFIG = {
             "delivery": "incorporated"
           }
         ],
-        "imageCrop": "landscape-wrap-raised"
+        "imageCrop": "landscape-wrap-lower"
       },
       {
         "id": "a2",
@@ -616,7 +618,7 @@ const ORDER_CONFIG = {
         },
         "bulkMacros": null,
         "image": "/assets/images/meals/menu/batch-18-2026-11-07/oven-baked-popcorn-chicken.jpg",
-        "imageCrop": "landscape-tight",
+        "imageCrop": "landscape-snack-close",
         "sauceEligible": true,
         "taxClass": "taxable-prepared-food",
         "newThisWeek": false,

@@ -266,6 +266,10 @@ const ORDER_API_URL = '/api/order';
     }
 
     const MENU_SECTIONS = ['exclusives', 'breakfasts', 'addons', 'mains', 'premium', 'desserts'];
+    const VISIBLE_MENU_SECTIONS = ['exclusives', 'breakfasts', 'addons', 'mains', 'premium'];
+    const menuCardsForSection = section => section === 'addons'
+      ? [...(MENU.addons || []), ...(MENU.desserts || [])]
+      : (MENU[section] || []);
     const isSingleSize = dish => dish.category === 'dessert' || dish.category === 'addon';
     const isVariantDish = dish => Array.isArray(dish.variants) && dish.variants.length > 0;
 
@@ -451,8 +455,8 @@ const ORDER_API_URL = '/api/order';
     function placeholderLabel(dish, section) {
       if (section === 'exclusives') return 'Weekly exclusive';
       if (section === 'breakfasts') return 'Breakfast';
-      if (section === 'desserts') return 'Classic dessert';
-      if (section === 'addons') return 'Grab & Sip';
+      if (dish.category === 'dessert') return 'Dessert';
+      if (section === 'addons') return 'Add-on';
       if (dish.displayCategory) return dish.displayCategory;
       if (dish.category === 'beef') return 'Beef';
       if (dish.category === 'premium') return 'Premium meal';
@@ -748,7 +752,7 @@ const ORDER_API_URL = '/api/order';
     // ════════════════════════════════════════
     function photoCropClass(dish) {
       // Reusable composition presets, not weekly dish IDs. External CSS respects CSP.
-      return ['portrait-low', 'portrait-low-soft', 'portrait-low-wide', 'portrait-center', 'portrait-tight', 'landscape-low', 'landscape-tight', 'landscape-closer', 'landscape-tikka-close', 'landscape-meal-close', 'landscape-wrap-close', 'landscape-wrap-raised', 'square-raised', 'square-low', 'rotate-180', 'rotate-180-close', 'rotate-180-low'].includes(dish.imageCrop)
+      return ['portrait-low', 'portrait-low-soft', 'portrait-low-wide', 'portrait-center', 'portrait-tight', 'landscape-low', 'landscape-tight', 'landscape-closer', 'landscape-tikka-close', 'landscape-meal-close', 'landscape-wrap-close', 'landscape-wrap-raised', 'landscape-wrap-lower', 'landscape-snack-close', 'landscape-pasta-inverted-close', 'landscape-meal-inverted-close', 'landscape-bowl-close', 'landscape-short-rib-low', 'square-raised', 'square-low', 'rotate-180', 'rotate-180-close', 'rotate-180-low'].includes(dish.imageCrop)
         ? `photo-crop--${dish.imageCrop}` : '';
     }
 
@@ -761,7 +765,7 @@ const ORDER_API_URL = '/api/order';
         document.getElementById('batchMeta').textContent = 'Fresh weekly menu opens every Monday.';
         document.getElementById('orderCutoff').textContent = 'See this week\'s published cutoff';
         document.getElementById('successDelivery').textContent = '';
-        MENU_SECTIONS.forEach(section => {
+        VISIBLE_MENU_SECTIONS.forEach(section => {
           document.getElementById('grid-' + section).replaceChildren();
         });
         return;
@@ -787,9 +791,9 @@ const ORDER_API_URL = '/api/order';
       document.getElementById('closedDeliveryCopy').textContent = `${displayDeliveryDay} delivery`;
       document.getElementById('closedDeliveryDay').textContent = displayDeliveryDay;
 
-      MENU_SECTIONS.forEach(section => {
+      VISIBLE_MENU_SECTIONS.forEach(section => {
         const grid = document.getElementById('grid-' + section);
-        const dishes = MENU[section] || [];
+        const dishes = menuCardsForSection(section);
         const menuLink = document.querySelector(`.menu-jump a[data-menu-section="${section}"]`);
         if (menuLink) menuLink.hidden = dishes.length === 0;
         grid.innerHTML = dishes.map(dish => {
@@ -837,7 +841,7 @@ const ORDER_API_URL = '/api/order';
         && (archive.published === true || archive.batch?.published === true));
 
       const buttons = Array.from(bar.querySelectorAll('[data-menu-filter]'));
-      const sections = MENU_SECTIONS
+      const sections = VISIBLE_MENU_SECTIONS
         .map(section => document.getElementById(`menu-${section}`))
         .filter(Boolean);
 
@@ -852,9 +856,9 @@ const ORDER_API_URL = '/api/order';
 
       function applyFilter(filter) {
         let visibleCount = 0;
-        MENU_SECTIONS.forEach(sectionName => {
+        VISIBLE_MENU_SECTIONS.forEach(sectionName => {
           const section = document.getElementById(`menu-${sectionName}`);
-          const dishes = Array.isArray(MENU[sectionName]) ? MENU[sectionName] : [];
+          const dishes = menuCardsForSection(sectionName);
           let sectionCount = 0;
           dishes.forEach(dish => {
             const card = document.getElementById(`card-${dish.id}`);
@@ -908,7 +912,7 @@ const ORDER_API_URL = '/api/order';
         Array.from(document.querySelectorAll('.menu-jump a[data-menu-section]'))
           .map(link => [link.dataset.menuSection, link])
       );
-      const sections = MENU_SECTIONS
+      const sections = VISIBLE_MENU_SECTIONS
         .map(section => document.getElementById(`menu-${section}`))
         .filter(Boolean);
 
@@ -941,7 +945,7 @@ const ORDER_API_URL = '/api/order';
         sections.forEach(section => observer.observe(section));
       }
 
-      const firstConfiguredSection = MENU_SECTIONS.find(section => (MENU[section] || []).length > 0) || 'breakfasts';
+      const firstConfiguredSection = VISIBLE_MENU_SECTIONS.find(section => menuCardsForSection(section).length > 0) || 'breakfasts';
       setActiveSection(firstConfiguredSection);
     }
 
@@ -1960,12 +1964,13 @@ const ORDER_API_URL = '/api/order';
       if (dish) priceNode.textContent = `$${getPrice(dish, 'lean').toFixed(2)} Lean · $${getPrice(dish, 'bulk').toFixed(2)} Bulk`;
     });
     const addonPriceGuide = document.getElementById('addonPriceGuide');
-    const addonPrices = (MENU.addons || []).filter(dish => dish.available !== false)
-      .map(dish => getPrice(dish, 'single'));
+    const addonPrices = menuCardsForSection('addons').filter(dish => dish.available !== false)
+      .flatMap(dish => isVariantDish(dish)
+        ? dish.variants.map(variant => getPrice(dish, variant.id))
+        : [getPrice(dish, 'single')]);
     if (addonPriceGuide && addonPrices.length) {
       const lowest = Math.min(...addonPrices).toFixed(2);
-      const highest = Math.max(...addonPrices).toFixed(2);
-      addonPriceGuide.textContent = lowest === highest ? `$${lowest} each` : `$${lowest}–$${highest} each`;
+      addonPriceGuide.textContent = `From $${lowest} · see options`;
     }
     const restoredItems = restoreCart();
     restoreSauceSelections();

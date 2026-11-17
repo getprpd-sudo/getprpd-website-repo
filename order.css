@@ -774,6 +774,12 @@
     .dish-img img.photo-crop--landscape-wrap-close { --photo-rotate: 180deg; --photo-zoom: 2.2; --photo-x: 50%; --photo-y: 50%; }
     .dish-img img.photo-crop--landscape-wrap-raised { --photo-rotate: 180deg; --photo-zoom: 2.2; --photo-x: 50%; --photo-y: 50%; --photo-shift-y: -12px; }
     .dish-img img.photo-crop--landscape-meal-close { --photo-rotate: 180deg; --photo-zoom: 1.25; --photo-x: 50%; --photo-y: 50%; }
+    .dish-img img.photo-crop--landscape-wrap-lower { --photo-zoom: 1.38; --photo-x: 58%; --photo-y: 44%; --photo-shift-y: 3%; }
+    .dish-img img.photo-crop--landscape-snack-close { --photo-zoom: 1.48; --photo-x: 55%; --photo-y: 55%; --photo-shift-y: 5%; }
+    .dish-img img.photo-crop--landscape-pasta-inverted-close { --photo-rotate: 180deg; --photo-zoom: 1.48; --photo-x: 62%; --photo-y: 47%; --photo-shift-y: 5%; }
+    .dish-img img.photo-crop--landscape-meal-inverted-close { --photo-rotate: 180deg; --photo-zoom: 1.45; --photo-x: 63%; --photo-y: 49%; --photo-shift-y: 6%; }
+    .dish-img img.photo-crop--landscape-bowl-close { --photo-zoom: 1.45; --photo-x: 62%; --photo-y: 53%; --photo-shift-y: 5%; }
+    .dish-img img.photo-crop--landscape-short-rib-low { --photo-zoom: 1.36; --photo-x: 64%; --photo-y: 48%; --photo-shift-y: 9%; }
     .dish-img img.dish-photo--bright-low {
       object-position: center 36%;
       filter: brightness(1.18) saturate(1.06) contrast(1.02);
