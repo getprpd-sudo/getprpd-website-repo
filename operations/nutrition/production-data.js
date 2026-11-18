@@ -4098,9 +4098,11 @@ const PRPD_PRODUCTION_DATA = {
       "plannerOnly": false
     },
     "d1": {
-      "name": "Classic Chocolate Chip Cookie",
+      "name": "Chocolate Chip Cookie Drop",
       "category": "Dessert",
-      "aliases": [],
+      "aliases": [
+        "Classic Chocolate Chip Cookie"
+      ],
       "status": "Batch 20 controlled planning recipe",
       "recommendation": "Confirm actual purchased panels and measured yields.",
       "tiers": {

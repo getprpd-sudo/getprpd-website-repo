@@ -6124,6 +6124,37 @@
   }
 
   if (Number(data.batch) === 20) {
+    const sliders = data.meals.m1;
+    const sliderSeasoning = sliders.prepBatches.find(task => task.name === 'Hot Honey Slider chicken seasoning');
+    if (sliderSeasoning) {
+      sliderSeasoning.instruction = 'Weigh and season the exact slider chicken pull using the controlled Batch 20 aromatic base.';
+      sliderSeasoning.steps = [
+        'Weigh the slider chicken before seasoning; keep its recipe allocation separate from other dishes.',
+        'Apply the controlled garlic, onion, paprika, pepper and 5 g salt per kg raw chicken, then label the slider pull.',
+        'Cover and refrigerate at 41 F or below until Cook Day.',
+      ];
+      sliderSeasoning.formulaIngredients = (sliderSeasoning.formulaIngredients || []).map(item =>
+        item.key === 'neutral_chicken_salt' ? {...item, lean:0.5, bulk:0.665} : item);
+    }
+    const sliderAssembly = sliders.prepBatches.find(task => task.name === 'Hot Honey Slider assembly');
+    if (sliderAssembly) {
+      sliderAssembly.ingredientKeys = ['kings_hawaiian_roll','mozzarella','light_mayo','ketchup','honey','sriracha','onion','pickles'];
+      sliderAssembly.instruction = 'Count King\'s Hawaiian rolls and stage the exact cheese, Sweet Heat sauce, onion and pickle pull.';
+      sliderAssembly.steps = [
+        'Count three King\'s Hawaiian rolls and three drained pickle chips per Lean meal, or four rolls and four chips per Bulk meal.',
+        'Mix the displayed mayonnaise, ketchup, honey and Sriracha into the incorporated Sweet Heat share; do not pack a separate sauce cup.',
+        'Keep rolls sealed and dry; cover and refrigerate cheese, sauce, onion and pickles.',
+      ];
+    }
+    sliders.prepSteps = sliders.prepBatches.map(task => task.instruction);
+    sliders.steps = [
+      'Cook the seasoned chicken to 165 F and record its cooked yield.',
+      'Divide the chicken among three King\'s Hawaiian rolls per Lean meal or four per Bulk meal; add the measured mozzarella, onion, one drained pickle chip per slider and incorporated Sweet Heat.',
+      'Warm only until the cheese melts; do not dry the rolls. Count three sliders per Lean container or four per Bulk container.',
+    ];
+    sliders.cookPackSteps = sliders.steps;
+    sliders.cookDayReservations = sliders.steps;
+
     const cookie = data.meals.d1;
     cookie.phase = 4;
     cookie.order = 120;

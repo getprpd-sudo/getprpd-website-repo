@@ -597,10 +597,10 @@
     .save-state { min-width: 190px; color: var(--muted); font-size: .7rem; font-weight: 800; text-align: right; align-self: center; }
     .save-state.ok { color: var(--ok); }
     .save-state.warn { color: var(--warn); }
-    .log-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; padding: 14px 16px; }
-    .log-toolbar p { margin: 0; color: var(--muted); font-size: .73rem; line-height: 1.45; }
-    .log-actions { display: flex; gap: 8px; flex-wrap: wrap; flex: 0 0 auto; }
-    .dictation-state { flex: 1 1 100%; color: var(--muted); font-size: .66rem; line-height: 1.4; }
+    .log-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; min-width: 0; margin-bottom: 14px; padding: 14px 16px; }
+    .log-toolbar p { flex: 1 1 220px; min-width: 0; margin: 0; color: var(--muted); font-size: .73rem; line-height: 1.45; }
+    .log-actions { display: flex; gap: 8px; flex-wrap: wrap; flex: 1 1 620px; min-width: 0; }
+    .dictation-state { flex: 1 1 100%; min-width: 0; overflow-wrap: anywhere; color: var(--muted); font-size: .66rem; line-height: 1.4; }
     .dictation-state.listening { color: var(--ok); font-weight: 800; }
     .log-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 10px; }
     .log-grid.compact { grid-template-columns: repeat(6,minmax(0,1fr)); }
@@ -611,8 +611,8 @@
     .cook-log-intro { margin-bottom: 14px; padding: 18px; border-left: 4px solid var(--sage); }
     .cook-log-intro h3 { margin: 0 0 6px; font-size: .95rem; }
     .cook-log-intro p { margin: 0; color: var(--muted); font-size: .76rem; line-height: 1.5; }
-    .dish-log-grid { display: grid; gap: 14px; }
-    .dish-log { padding: 19px; }
+    .dish-log-grid { display: grid; grid-template-columns: minmax(0,1fr); gap: 14px; }
+    .dish-log { min-width: 0; padding: 19px; }
     .dish-log-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 14px; }
     .dish-log-head h3 { margin: 0 0 4px; font-size: 1rem; }
     .dish-log-head p { margin: 0; color: var(--muted); font-size: .72rem; }
@@ -1764,8 +1764,12 @@
           }
         }
         const built=await generatePacket(options);
-        if(!built) showPacketStatus($('importStatus').textContent || 'Packet could not be generated. Review the orders and recipe checks.',true);
-        else if (!state.productionPlan.diagnostics.releaseReady) showPacketStatus('Planning view is ready. Recipe checks remain open before production or final labels.');
+        if(!built) {
+          if(!$('packetStatus').textContent.startsWith('Plan needs correction:'))
+            showPacketStatus($('importStatus').textContent || 'Packet could not be generated. Review the orders and recipe checks.',true);
+          return;
+        }
+        if (!state.productionPlan.diagnostics.releaseReady) showPacketStatus('Planning view is ready. Recipe checks remain open before production or final labels.');
         else showPacketStatus(options.preview?'Kitchen preview is ready.':batchPlanLock().locked?'Production packet is locked and ready.':'Editable kitchen plan is ready. Re-run it after any order or quantity change.');
       } catch(error) {
         console.error('[planner:generate]',error);

@@ -651,6 +651,7 @@ batch20_products.install_profiles()
 
 RECIPES = {
     "Classic Chocolate Chip Cookie": (batch20_products.classic_cookie, True),
+    "Chocolate Chip Cookie Drop": (batch20_products.classic_cookie, True),
     "Classic Mango Lassi": (batch20_products.mango_lassi, True),
     private_wings.NAME: (private_wings.mango_habanero_wings, False),
     "High Protein Omelette": (r.omelette, False),
