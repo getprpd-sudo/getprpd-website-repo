@@ -10,7 +10,7 @@ window.PRPD_NEXT_LABEL_DATA = {
     "batchId": "B20-1121",
     "refrigeratedDays": 5
   },
-  "recipeFingerprint": "1c7bca1543af44bcda8e2021090829fd48897735bf8ca757d8ad6d07500cafcc",
+  "recipeFingerprint": "02994eaebfb07058274ad0a60e8e2ed1d29865bcdf26467ad1a456f6a0f8a9d9",
   "notice": "Batch 20 calculated label data generated from the active customer menu and controlled recipes. Resolve every listed physical validation gate before final printing.",
   "meals": {
     "b1": {
@@ -44,7 +44,7 @@ window.PRPD_NEXT_LABEL_DATA = {
             "vitaminD": 0.5,
             "calcium": 320,
             "iron": 0.8,
-            "potassium": 370
+            "potassium": 390
           },
           "nutrition": {
             "calories": 450,
@@ -61,7 +61,7 @@ window.PRPD_NEXT_LABEL_DATA = {
             "vitaminD": 0.5,
             "calcium": 320,
             "iron": 0.8,
-            "potassium": 370
+            "potassium": 390
           },
           "confidence": "planning-owner-tested",
           "nutritionBasis": "Owner-approved Batch 19 served-pizza recipe estimate; unserved dough excluded",
@@ -93,7 +93,7 @@ window.PRPD_NEXT_LABEL_DATA = {
             "vitaminD": 0.6,
             "calcium": 590,
             "iron": 1.0,
-            "potassium": 450
+            "potassium": 480
           },
           "nutrition": {
             "calories": 580,
@@ -110,7 +110,7 @@ window.PRPD_NEXT_LABEL_DATA = {
             "vitaminD": 0.6,
             "calcium": 590,
             "iron": 1.0,
-            "potassium": 450
+            "potassium": 480
           },
           "confidence": "planning-owner-tested",
           "nutritionBasis": "Owner-approved Batch 19 served-pizza recipe estimate; unserved dough excluded",
@@ -633,8 +633,8 @@ window.PRPD_NEXT_LABEL_DATA = {
             "addedSugar": 0,
             "vitaminD": 0.1,
             "calcium": 140,
-            "iron": 5.5,
-            "potassium": 920
+            "iron": 5.6,
+            "potassium": 970
           },
           "nutrition": {
             "calories": 685,
@@ -650,8 +650,8 @@ window.PRPD_NEXT_LABEL_DATA = {
             "addedSugar": 0,
             "vitaminD": 0.1,
             "calcium": 140,
-            "iron": 5.5,
-            "potassium": 920
+            "iron": 5.6,
+            "potassium": 970
           },
           "confidence": "medium"
         },
@@ -674,9 +674,9 @@ window.PRPD_NEXT_LABEL_DATA = {
             "sugars": 6,
             "addedSugar": 0,
             "vitaminD": 0.1,
-            "calcium": 180,
-            "iron": 7.6,
-            "potassium": 1260
+            "calcium": 190,
+            "iron": 7.8,
+            "potassium": 1330
           },
           "nutrition": {
             "calories": 935,
@@ -691,9 +691,9 @@ window.PRPD_NEXT_LABEL_DATA = {
             "sugars": 6,
             "addedSugar": 0,
             "vitaminD": 0.1,
-            "calcium": 180,
-            "iron": 7.6,
-            "potassium": 1260
+            "calcium": 190,
+            "iron": 7.8,
+            "potassium": 1330
           },
           "confidence": "medium"
         }
@@ -712,7 +712,7 @@ window.PRPD_NEXT_LABEL_DATA = {
         "lean": {
           "label": "LEAN",
           "netWeight": "13.7 oz (388 g)",
-          "ingredients": "90/10 ground beef, green beans, trimmed raw, jasmine rice, dry (unenriched long-grain white-rice equivalent), mild red bell pepper, trimmed raw, water, fresh basil (usda comparable profile), red boat40n fish sauce (anchovy, sea salt), garlic, avocado oil, granulated sugar, thai chili (usda raw green hot-chili equivalent), black pepper, ground, salt.",
+          "ingredients": "90/10 ground beef, green beans, jasmine rice, dry (unenriched long-grain white-rice equivalent), green bell pepper, water, fresh basil (usda comparable profile), red boat40n fish sauce (anchovy, sea salt), garlic, avocado oil, granulated sugar, thai chili (usda raw green hot-chili equivalent), black pepper, ground, salt.",
           "allergens": "CONTAINS: FISH (ANCHOVY).",
           "allergenAdvisory": "",
           "menuNutrition": {
@@ -724,13 +724,13 @@ window.PRPD_NEXT_LABEL_DATA = {
             "satFat": 7.7,
             "transFat": 0.5,
             "cholesterol": 130,
-            "sodium": 1020,
+            "sodium": 1010,
             "sugars": 8,
             "addedSugar": 3,
             "vitaminD": 0.0,
             "calcium": 120,
             "iron": 6.7,
-            "potassium": 1100
+            "potassium": 1090
           },
           "nutrition": {
             "calories": 610,
@@ -741,55 +741,55 @@ window.PRPD_NEXT_LABEL_DATA = {
             "satFat": 7.7,
             "transFat": 0.5,
             "cholesterol": 130,
-            "sodium": 1020,
+            "sodium": 1010,
             "sugars": 8,
             "addedSugar": 3,
             "vitaminD": 0.0,
             "calcium": 120,
             "iron": 6.7,
-            "potassium": 1100
+            "potassium": 1090
           },
           "confidence": "owner-authorized-recipe-estimate"
         },
         "bulk": {
           "label": "BULK",
           "netWeight": "19.9 oz (564 g)",
-          "ingredients": "90/10 ground beef, green beans, trimmed raw, jasmine rice, dry (unenriched long-grain white-rice equivalent), mild red bell pepper, trimmed raw, water, fresh basil (usda comparable profile), red boat40n fish sauce (anchovy, sea salt), garlic, avocado oil, granulated sugar, thai chili (usda raw green hot-chili equivalent), black pepper, ground, salt.",
+          "ingredients": "90/10 ground beef, green beans, jasmine rice, dry (unenriched long-grain white-rice equivalent), green bell pepper, water, fresh basil (usda comparable profile), red boat40n fish sauce (anchovy, sea salt), garlic, avocado oil, granulated sugar, thai chili (usda raw green hot-chili equivalent), black pepper, ground, salt.",
           "allergens": "CONTAINS: FISH (ANCHOVY).",
           "allergenAdvisory": "",
           "menuNutrition": {
-            "calories": 890,
+            "calories": 885,
             "protein": 71,
-            "carbs": 72,
-            "fiber": 7,
+            "carbs": 71,
+            "fiber": 6,
             "fat": 34,
             "satFat": 11.0,
             "transFat": 0.7,
             "cholesterol": 185,
             "sodium": 1460,
-            "sugars": 12,
+            "sugars": 11,
             "addedSugar": 5,
             "vitaminD": 0.0,
             "calcium": 170,
             "iron": 9.7,
-            "potassium": 1590
+            "potassium": 1570
           },
           "nutrition": {
-            "calories": 890,
+            "calories": 885,
             "protein": 71,
-            "carbs": 72,
-            "fiber": 7,
+            "carbs": 71,
+            "fiber": 6,
             "fat": 34,
             "satFat": 11.0,
             "transFat": 0.7,
             "cholesterol": 185,
             "sodium": 1460,
-            "sugars": 12,
+            "sugars": 11,
             "addedSugar": 5,
             "vitaminD": 0.0,
             "calcium": 170,
             "iron": 9.7,
-            "potassium": 1590
+            "potassium": 1570
           },
           "confidence": "owner-authorized-recipe-estimate"
         }
@@ -920,9 +920,9 @@ window.PRPD_NEXT_LABEL_DATA = {
             "sugars": 11,
             "addedSugar": 0,
             "vitaminD": 1.2,
-            "calcium": 140,
-            "iron": 1.0,
-            "potassium": 500
+            "calcium": 180,
+            "iron": 2.0,
+            "potassium": 710
           },
           "nutrition": {
             "calories": 760,
@@ -937,9 +937,9 @@ window.PRPD_NEXT_LABEL_DATA = {
             "sugars": 11,
             "addedSugar": 0,
             "vitaminD": 1.2,
-            "calcium": 140,
-            "iron": 1.0,
-            "potassium": 500
+            "calcium": 180,
+            "iron": 2.0,
+            "potassium": 710
           },
           "confidence": "medium",
           "inputMassGrams": 762,
@@ -969,9 +969,9 @@ window.PRPD_NEXT_LABEL_DATA = {
             "sugars": 15,
             "addedSugar": 0,
             "vitaminD": 1.7,
-            "calcium": 190,
-            "iron": 1.3,
-            "potassium": 670
+            "calcium": 240,
+            "iron": 2.7,
+            "potassium": 950
           },
           "nutrition": {
             "calories": 1015,
@@ -986,9 +986,9 @@ window.PRPD_NEXT_LABEL_DATA = {
             "sugars": 15,
             "addedSugar": 0,
             "vitaminD": 1.7,
-            "calcium": 190,
-            "iron": 1.3,
-            "potassium": 670
+            "calcium": 240,
+            "iron": 2.7,
+            "potassium": 950
           },
           "confidence": "medium",
           "inputMassGrams": 1016,
@@ -1002,7 +1002,7 @@ window.PRPD_NEXT_LABEL_DATA = {
       }
     },
     "d1": {
-      "name": "Classic Chocolate Chip Cookie",
+      "name": "Chocolate Chip Cookie Drop",
       "category": "Dessert",
       "description": "Classic chocolate chip cookie baked from a 70 g raw dough portion; available in 1, 3, or 6.",
       "note": "Nutrition is a per-cookie recipe estimate. Baked weight and purchased chip panel are pending.",

@@ -109,7 +109,7 @@
     protein_pasta: g(411, 2.88, '14.5 oz box', 'Walmart receipt 2026-10-15; 3 Barilla Protein Plus spaghetti boxes at $2.88 each', 'verified', 'Barilla Protein Plus spaghetti'),
     kroger_protein_pasta: g(340.194, 3.00, '12 oz legacy planning unit; exact current package pending', 'Earlier PRPD ingredient-price document; exact Kroger SKU, package size and receipt still required', 'legacy', 'Kroger protein pasta'),
     barilla_protein_plus_rotini: g(411, 2.88, '14.5 oz box; GTIN 00076808533583', 'Official Barilla package identity; $2.88 is a historical Barilla pasta receipt reference, not a verified Rotini receipt', 'planning', 'Barilla Protein+ Rotini 14.5 oz GTIN 00076808533583', 'https://www.barilla.com/en-us/products/pasta/protein-plus/proteinplus-rotini'),
-    crushed_tomatoes: g(2891.65,5.85,'102 oz Isabella diced tomatoes #10 can','Restaurant Depot receipt 2026-10-15; blend smooth for Butter Chicken','verified','Isabella diced tomatoes in juice #10 can 102 oz'),
+    crushed_tomatoes: g(750,1.57,'28 oz Great Value crushed tomatoes; allow 750 g usable per can','Walmart online 2026-11-18; 750 g usable is a conservative kitchen allowance, verify shelf price','planning','Great Value Crushed Tomatoes with Tomato Puree 28 oz','https://www.walmart.com/ip/10415230'),
     breadcrumbs: g(425, 1.77, '15 oz canister', 'Local planning price', 'planning'),
     sweet_chili: g(510, 3.58, '18 oz bottle', 'Earlier PRPD price', 'legacy'),
     soy_sauce: g(444, 3, '15 fl oz bottle', 'Earlier PRPD price', 'legacy'),

@@ -82,6 +82,7 @@ MEAL_ONLY_LABEL_NUTRITION = {
 # instead of printing a dry-input or pre-cook ingredient sum as the net weight.
 PACKOUT_WEIGHT_REQUIRED = {
     "Classic Chocolate Chip Cookie",
+    "Chocolate Chip Cookie Drop",
     "Classic Mango Lassi",
     "Lemon Herb Chicken Orzo", "Chicken Tikka Snack Wrap",
     "Beef Bacon Breakfast Pizza", "Mango Habanero Chicken Wings",
@@ -272,6 +273,7 @@ ALLERGEN_ADVISORIES = {
 
 META = {
     "Classic Chocolate Chip Cookie": ("Classic chocolate chip cookie baked from a 70 g raw dough portion; available in 1, 3, or 6.", "Nutrition is a per-cookie recipe estimate. Baked weight and purchased chip panel are pending.", "ambient"),
+    "Chocolate Chip Cookie Drop": ("Classic chocolate chip cookie baked from a 70 g raw dough portion; available in 1, 3, or 6.", "Nutrition is a per-cookie recipe estimate. Baked weight and purchased chip panel are pending.", "ambient"),
     "Classic Mango Lassi": ("Deep Alphonso mango pulp, FAGE Total 0% yogurt, Fairlife fat-free milk, and honey in the existing bottle.", "330 g homogeneous bottle estimate; exact pulp panel and filled weight are pending.", "fridge"),
     "Oven-Baked Popcorn Chicken": ("Bite-size chicken thighs with a seasoned plain cornflake coating, oven-baked with measured oil. Dip selected separately.", "Crunchy bites. Big flavor.", "fridge"),
     "Lemon Herb Chicken Orzo": ("Chicken thighs, lemon-herb orzo, and roasted zucchini and carrots.", "Lemon, herbs, and a complete chicken meal.", "fridge"),
@@ -352,6 +354,7 @@ META = {
 
 REHEAT = {
     "Classic Chocolate Chip Cookie": "Enjoy at room temperature. Keep dry and sealed.",
+    "Chocolate Chip Cookie Drop": "Enjoy at room temperature. Keep dry and sealed.",
     "Classic Mango Lassi": "Keep chilled. Shake gently before drinking. Do not heat.",
     "Oven-Baked Popcorn Chicken": "Transfer to an oven-safe tray and reheat in an oven or air fryer until 165 F throughout. Remove any cold dip. Microwave reheating gives a softer coating.",
     "Lemon Herb Chicken Orzo": "Vent lid and microwave until hot throughout, stirring the orzo halfway.",
@@ -493,7 +496,7 @@ def tier_data(build: draft.Build, label: str, meal_name: str = "") -> dict:
         "nutrition": menu_nutrition if meal_name in MEAL_ONLY_LABEL_NUTRITION else complete_nutrition,
         "confidence": build.confidence,
     }
-    if meal_name == "Classic Chocolate Chip Cookie":
+    if meal_name in {"Classic Chocolate Chip Cookie", "Chocolate Chip Cookie Drop"}:
         result["nutritionBasis"] = "Per cookie, estimated from 70 g raw dough; purchased chip panel and baked weight pending."
     elif meal_name == "Classic Mango Lassi":
         result["nutritionBasis"] = "Per 330 g homogeneous recipe estimate; purchased Deep can panel and actual bottle fill pending."

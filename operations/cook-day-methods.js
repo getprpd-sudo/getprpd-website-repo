@@ -5901,12 +5901,12 @@
 
       const thai = 'Thai Basil Beef + Jasmine Rice';
       const thaiFinish = 'Measure the Thai basil beef finish';
-      const thaiKeys = ['beef_90_raw','garlic','thai_red_bell_pepper','thai_hot_chili','thai_basil_fresh','avocado_oil','thai_redboat_40n','thai_granulated_sugar','water','thai_black_pepper'];
+      const thaiKeys = ['beef_90_raw','garlic','green_bell_pepper','thai_hot_chili','thai_basil_fresh','avocado_oil','thai_redboat_40n','thai_granulated_sugar','water','thai_black_pepper'];
       update(thai,{
         tasks:[
           task('protein-portion','Weigh Thai basil beef',['beef_90_raw'],['Weigh and refrigerate the 90/10 ground beef. Keep it separate from the sauce and produce.']),
           byComponent(thai,'measured-prep',thaiFinish,'thai-basil-beef_finish',[
-            'Mince the garlic and Thai chili, chop the red bell pepper, and pick the sweet basil leaves. Hold the basil separately.',
+            'Mince the garlic and Thai chili, chop the green bell pepper, and pick the sweet basil leaves. Hold the basil separately.',
             'Measure the fish sauce, sugar, water and pepper into one labeled Cook Day set. Keep the beef cooking oil separate.',
           ],{aheadWorkstation:'cold-kits'}),
           byComponent(thai,'starch-ahead','Cook Thai Basil Beef jasmine rice','thai-basil-rice',[
@@ -5921,7 +5921,7 @@
         cookIngredientPrepName:thaiFinish, cookIngredientKeys:thaiKeys, proteinSteps:2,
         finish:[
           'Brown the measured minced 90/10 beef to 160°F in uncrowded batches. Drain and record the cooked beef weight.',
-          'Use the displayed beef oil to cook the garlic, Thai chili and red bell pepper. Return the beef, add the measured fish sauce, sugar, water and pepper, and reduce until the mixture is coated. Fold in sweet basil at the end.',
+          'Use the displayed beef oil to cook the garlic, Thai chili and green bell pepper. Return the beef, add the measured fish sauce, sugar, water and pepper, and reduce until the mixture is coated. Fold in sweet basil at the end.',
           'Weigh the finished beef mixture and split it by 210 g Lean and 300 g Bulk raw-beef shares. Use the separately prepared jasmine rice and roasted green beans.',
         ],
         pack:{lean:[portion('Share from 210 g raw', 'finished Thai basil beef'),portion('Share from 40 g dry','cooked jasmine rice'),portion('Share from 100 g raw','roasted green beans')],

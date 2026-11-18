@@ -125,7 +125,7 @@ const PRPD_PRODUCTION_DATA = {
               "unit": "g",
               "station": "Cold Prep & Produce",
               "note": "component:pizza-vegetables",
-              "confidence": "high",
+              "confidence": "controlled-comparable-profile",
               "allocations": {
                 "pizza-vegetables": 15
               }
@@ -341,7 +341,7 @@ const PRPD_PRODUCTION_DATA = {
               "unit": "g",
               "station": "Cold Prep & Produce",
               "note": "component:pizza-vegetables",
-              "confidence": "high",
+              "confidence": "controlled-comparable-profile",
               "allocations": {
                 "pizza-vegetables": 15
               }
@@ -2504,7 +2504,7 @@ const PRPD_PRODUCTION_DATA = {
               "unit": "g",
               "station": "Cold Prep & Produce",
               "note": "",
-              "confidence": "high"
+              "confidence": "controlled-comparable-profile"
             },
             {
               "key": "onion",
@@ -2672,7 +2672,7 @@ const PRPD_PRODUCTION_DATA = {
               "unit": "g",
               "station": "Cold Prep & Produce",
               "note": "",
-              "confidence": "high"
+              "confidence": "controlled-comparable-profile"
             },
             {
               "key": "onion",
@@ -2781,12 +2781,12 @@ const PRPD_PRODUCTION_DATA = {
               }
             },
             {
-              "key": "thai_red_bell_pepper",
-              "sourceKey": "thai_red_bell_pepper",
-              "name": "Mild red bell pepper, trimmed raw",
+              "key": "green_bell_pepper",
+              "sourceKey": "green_bell_pepper",
+              "name": "Green bell pepper, raw",
               "amount": 33.6,
               "unit": "g",
-              "station": "Other",
+              "station": "Cold Prep & Produce",
               "note": "component:thai-basil-beef_finish",
               "confidence": "controlled-comparable-profile",
               "allocations": {
@@ -2904,12 +2904,12 @@ const PRPD_PRODUCTION_DATA = {
               }
             },
             {
-              "key": "thai_green_beans",
-              "sourceKey": "thai_green_beans",
+              "key": "green_beans",
+              "sourceKey": "green_beans",
               "name": "Green beans, trimmed raw",
               "amount": 100,
               "unit": "g",
-              "station": "Other",
+              "station": "Cold Prep & Produce",
               "note": "component:thai-basil-beans",
               "confidence": "controlled-comparable-profile",
               "allocations": {
@@ -2941,7 +2941,7 @@ const PRPD_PRODUCTION_DATA = {
             "All finish ingredients and measured oils are counted retained; beef nutrition uses cooked/drained USDA90/10 crumbles. Purchase-only5% raw reserve is not eaten nutrition.",
             "Owner selected regular fresh sweet basil on November 2. Use the existing leaf quantities; no specialty basil purchase is required. This is a PRPD adaptation. The existing USDA ordinary fresh basil profile already matches this choice; chili remains a comparable profile.",
             "Rice uses a complete USDA unenriched long-grain white-rice equivalent; confirm actual jasmine package when bought. Fresh produce nutrients use raw-input profiles with no claimed measured retention.",
-            "Red Boat manufacturer ingredients are anchovy and sea salt; no certification claim. Fish allergen remains present in this beef dish. No required cup, optional sauce, fried egg or additional garnish is included in this builder.",
+            "Green bell pepper is shared with the breakfast pizza and Southwest bowl so one pepper color is purchased. Red Boat manufacturer ingredients are anchovy and sea salt; no certification claim. Fish allergen remains present in this beef dish. No required cup, optional sauce, fried egg or additional garnish is included in this builder.",
             "One combined batch per component across tiers; portion finished beef/finish by210:300 raw-beef shares. Finished cooked/sauced weights have not been physically measured."
           ]
         },
@@ -2975,12 +2975,12 @@ const PRPD_PRODUCTION_DATA = {
               }
             },
             {
-              "key": "thai_red_bell_pepper",
-              "sourceKey": "thai_red_bell_pepper",
-              "name": "Mild red bell pepper, trimmed raw",
+              "key": "green_bell_pepper",
+              "sourceKey": "green_bell_pepper",
+              "name": "Green bell pepper, raw",
               "amount": 48.0,
               "unit": "g",
-              "station": "Other",
+              "station": "Cold Prep & Produce",
               "note": "component:thai-basil-beef_finish",
               "confidence": "controlled-comparable-profile",
               "allocations": {
@@ -3098,12 +3098,12 @@ const PRPD_PRODUCTION_DATA = {
               }
             },
             {
-              "key": "thai_green_beans",
-              "sourceKey": "thai_green_beans",
+              "key": "green_beans",
+              "sourceKey": "green_beans",
               "name": "Green beans, trimmed raw",
               "amount": 150,
               "unit": "g",
-              "station": "Other",
+              "station": "Cold Prep & Produce",
               "note": "component:thai-basil-beans",
               "confidence": "controlled-comparable-profile",
               "allocations": {
@@ -3135,7 +3135,7 @@ const PRPD_PRODUCTION_DATA = {
             "All finish ingredients and measured oils are counted retained; beef nutrition uses cooked/drained USDA90/10 crumbles. Purchase-only5% raw reserve is not eaten nutrition.",
             "Owner selected regular fresh sweet basil on November 2. Use the existing leaf quantities; no specialty basil purchase is required. This is a PRPD adaptation. The existing USDA ordinary fresh basil profile already matches this choice; chili remains a comparable profile.",
             "Rice uses a complete USDA unenriched long-grain white-rice equivalent; confirm actual jasmine package when bought. Fresh produce nutrients use raw-input profiles with no claimed measured retention.",
-            "Red Boat manufacturer ingredients are anchovy and sea salt; no certification claim. Fish allergen remains present in this beef dish. No required cup, optional sauce, fried egg or additional garnish is included in this builder.",
+            "Green bell pepper is shared with the breakfast pizza and Southwest bowl so one pepper color is purchased. Red Boat manufacturer ingredients are anchovy and sea salt; no certification claim. Fish allergen remains present in this beef dish. No required cup, optional sauce, fried egg or additional garnish is included in this builder.",
             "One combined batch per component across tiers; portion finished beef/finish by210:300 raw-beef shares. Finished cooked/sauced weights have not been physically measured."
           ]
         }
@@ -3757,12 +3757,12 @@ const PRPD_PRODUCTION_DATA = {
             {
               "key": "green_beans",
               "sourceKey": "green_beans",
-              "name": "Green beans, raw",
+              "name": "Green beans, trimmed raw",
               "amount": 100.0,
               "unit": "g",
               "station": "Cold Prep & Produce",
               "note": "component:short-rib-green-beans",
-              "confidence": "high",
+              "confidence": "controlled-comparable-profile",
               "allocations": {
                 "short-rib-green-beans": 100.0
               }
@@ -4072,12 +4072,12 @@ const PRPD_PRODUCTION_DATA = {
             {
               "key": "green_beans",
               "sourceKey": "green_beans",
-              "name": "Green beans, raw",
+              "name": "Green beans, trimmed raw",
               "amount": 133.3333,
               "unit": "g",
               "station": "Cold Prep & Produce",
               "note": "component:short-rib-green-beans",
-              "confidence": "high",
+              "confidence": "controlled-comparable-profile",
               "allocations": {
                 "short-rib-green-beans": 133.3333
               }

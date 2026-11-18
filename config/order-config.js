@@ -507,10 +507,10 @@ const ORDER_CONFIG = {
           "fat": 24
         },
         "bulkMacros": {
-          "cal": 890,
+          "cal": 885,
           "protein": 71,
-          "carbs": 72,
-          "fiber": 7,
+          "carbs": 71,
+          "fiber": 6,
           "fat": 34
         },
         "image": "/assets/images/meals/menu/batch-18-2026-11-07/thai-basil-beef-jasmine-rice.jpg",

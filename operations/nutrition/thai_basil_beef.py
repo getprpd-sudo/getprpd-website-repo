@@ -13,9 +13,9 @@ RAW_BEEF_G = {"lean": 210, "bulk": 300}
 PILOT_RAW_BEEF_G = 500
 FISH_SAUCE_KEY = "thai_redboat_40n"
 RICE_KEY = "thai_jasmine_rice_dry"
-BEANS_KEY = "thai_green_beans"
+BEANS_KEY = "green_beans"
 BASIL_KEY = "thai_basil_fresh"
-PEPPER_KEY = "thai_red_bell_pepper"
+PEPPER_KEY = "green_bell_pepper"
 CHILI_KEY = "thai_hot_chili"
 SUGAR_KEY = "thai_granulated_sugar"
 BLACK_PEPPER_KEY = "thai_black_pepper"
@@ -47,8 +47,8 @@ PROFILES = {
         r.n(31,1.83,6.97,2.7,.22,.05,3.26,0,6,0,0,0,37,1.03,211)),
     BASIL_KEY: ("Fresh basil (USDA comparable profile)",172232,
         r.n(23,3.15,2.65,1.6,.64,.041,.3,0,4,0,0,0,177,3.17,295)),
-    PEPPER_KEY: ("Mild red bell pepper, trimmed raw",170108,
-        r.n(26,.99,6.03,2.1,.3,.059,4.2,0,4,0,0,0,7,.43,211)),
+    PEPPER_KEY: ("Green bell pepper, raw",170427,
+        r.n(20,.86,4.64,1.7,.17,.058,2.4,0,3,0,0,0,10,.34,175)),
     CHILI_KEY: ("Thai chili (USDA raw green hot-chili equivalent)",170497,
         r.n(40,2,9.46,1.5,.2,.021,5.1,0,7,0,0,0,18,1.2,340)),
     SUGAR_KEY: ("Granulated sugar",169655,
@@ -110,7 +110,7 @@ def thai_basil_beef(tier):
         "All finish ingredients and measured oils are counted retained; beef nutrition uses cooked/drained USDA90/10 crumbles. Purchase-only5% raw reserve is not eaten nutrition.",
         "Owner selected regular fresh sweet basil on November 2. Use the existing leaf quantities; no specialty basil purchase is required. This is a PRPD adaptation. The existing USDA ordinary fresh basil profile already matches this choice; chili remains a comparable profile.",
         "Rice uses a complete USDA unenriched long-grain white-rice equivalent; confirm actual jasmine package when bought. Fresh produce nutrients use raw-input profiles with no claimed measured retention.",
-        "Red Boat manufacturer ingredients are anchovy and sea salt; no certification claim. Fish allergen remains present in this beef dish. No required cup, optional sauce, fried egg or additional garnish is included in this builder.",
+        "Green bell pepper is shared with the breakfast pizza and Southwest bowl so one pepper color is purchased. Red Boat manufacturer ingredients are anchovy and sea salt; no certification claim. Fish allergen remains present in this beef dish. No required cup, optional sauce, fried egg or additional garnish is included in this builder.",
         "One combined batch per component across tiers; portion finished beef/finish by210:300 raw-beef shares. Finished cooked/sauced weights have not been physically measured.",
     ],"owner-authorized-recipe-estimate")
 

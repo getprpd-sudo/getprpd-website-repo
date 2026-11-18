@@ -342,7 +342,7 @@ const PRPD_MENU_DETAILS = {
           "lean": {
             "label": "LEAN",
             "netWeight": "13.7 oz (388 g)",
-            "ingredients": "90/10 ground beef, green beans, trimmed raw, jasmine rice, dry (unenriched long-grain white-rice equivalent), mild red bell pepper, trimmed raw, water, fresh basil (usda comparable profile), red boat40n fish sauce (anchovy, sea salt), garlic, avocado oil, granulated sugar, thai chili (usda raw green hot-chili equivalent), black pepper, ground, salt.",
+            "ingredients": "90/10 ground beef, green beans, jasmine rice, dry (unenriched long-grain white-rice equivalent), green bell pepper, water, fresh basil (usda comparable profile), red boat40n fish sauce (anchovy, sea salt), garlic, avocado oil, granulated sugar, thai chili (usda raw green hot-chili equivalent), black pepper, ground, salt.",
             "allergens": "CONTAINS: FISH (ANCHOVY).",
             "allergenAdvisory": "",
             "nutritionBasis": "",
@@ -354,25 +354,25 @@ const PRPD_MENU_DETAILS = {
               "fat": 24,
               "satFat": 7.7,
               "sugars": 8,
-              "sodium": 1020,
+              "sodium": 1010,
               "cholesterol": 130
             }
           },
           "bulk": {
             "label": "BULK",
             "netWeight": "19.9 oz (564 g)",
-            "ingredients": "90/10 ground beef, green beans, trimmed raw, jasmine rice, dry (unenriched long-grain white-rice equivalent), mild red bell pepper, trimmed raw, water, fresh basil (usda comparable profile), red boat40n fish sauce (anchovy, sea salt), garlic, avocado oil, granulated sugar, thai chili (usda raw green hot-chili equivalent), black pepper, ground, salt.",
+            "ingredients": "90/10 ground beef, green beans, jasmine rice, dry (unenriched long-grain white-rice equivalent), green bell pepper, water, fresh basil (usda comparable profile), red boat40n fish sauce (anchovy, sea salt), garlic, avocado oil, granulated sugar, thai chili (usda raw green hot-chili equivalent), black pepper, ground, salt.",
             "allergens": "CONTAINS: FISH (ANCHOVY).",
             "allergenAdvisory": "",
             "nutritionBasis": "",
             "nutrition": {
-              "calories": 890,
+              "calories": 885,
               "protein": 71,
-              "carbs": 72,
-              "fiber": 7,
+              "carbs": 71,
+              "fiber": 6,
               "fat": 34,
               "satFat": 11.0,
-              "sugars": 12,
+              "sugars": 11,
               "sodium": 1460,
               "cholesterol": 185
             }
