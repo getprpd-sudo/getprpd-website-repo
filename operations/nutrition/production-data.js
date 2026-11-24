@@ -1,13 +1,13 @@
 const PRPD_PRODUCTION_DATA = {
-  "version": "batch-20-current-v2",
-  "batch": 20,
+  "version": "batch-21-current-v2",
+  "batch": 21,
   "notice": "Generated from the effective current order configuration. Missing current recipes stop generation instead of loading an archived batch. Recipe-required side cups come from the current structured service records; weekly promotional sauce rules must be added separately and explicitly. Owner-released production-run quality checks remain visible.",
   "meals": {
     "b1": {
       "name": "Beef Bacon Breakfast Pizza",
       "category": "Breakfast",
       "aliases": [],
-      "status": "Batch 20 controlled planning recipe",
+      "status": "Batch 21 controlled planning recipe",
       "recommendation": "Confirm actual purchased panels and measured yields.",
       "tiers": {
         "lean": {
@@ -446,269 +446,19 @@ const PRPD_PRODUCTION_DATA = {
       "plannerOnly": false
     },
     "b2": {
-      "name": "Beef Breakfast Skillet",
+      "name": "French Toast",
       "category": "Breakfast",
       "aliases": [],
-      "status": "Batch 20 controlled planning recipe",
+      "status": "Batch 21 controlled planning recipe",
       "recommendation": "Confirm actual purchased panels and measured yields.",
       "tiers": {
         "lean": {
           "ingredients": [
             {
-              "key": "beef_90_raw",
-              "sourceKey": "beef_90_pan",
-              "name": "Ground beef 90/10, raw",
-              "amount": 210.0,
-              "unit": "g",
-              "station": "Beef",
-              "note": "Raw purchasing/prep quantity; modeled 69% cooked yield.",
-              "confidence": "high",
-              "measure": {
-                "type": "meat"
-              }
-            },
-            {
-              "key": "potato",
-              "sourceKey": "potato",
-              "name": "Potato, flesh and skin, raw",
-              "amount": 100,
-              "unit": "g",
-              "station": "Starches & Hot Sides",
-              "note": "",
-              "confidence": "high"
-            },
-            {
               "key": "egg",
               "sourceKey": "egg",
               "name": "Whole egg",
-              "amount": 1,
-              "unit": "each",
-              "station": "Breakfast & Desserts",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "mozzarella",
-              "sourceKey": "mozzarella",
-              "name": "H-E-B fat-free mozzarella",
-              "amount": 28,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "red_onion",
-              "sourceKey": "red_onion",
-              "name": "Red onion, raw",
-              "amount": 25,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "garlic",
-              "sourceKey": "garlic",
-              "name": "Garlic, raw",
-              "amount": 6,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "avocado_oil",
-              "sourceKey": "avocado_oil",
-              "name": "Avocado oil",
-              "amount": 3,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "medium",
-              "measure": {
-                "type": "liquid",
-                "density": 0.91
-              }
-            },
-            {
-              "key": "salt",
-              "sourceKey": "salt",
-              "name": "Table salt",
               "amount": 0.75,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "high",
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 6.0
-              }
-            }
-          ],
-          "confidence": "medium",
-          "assumptions": [
-            "All rendered beef fat is drained.",
-            "Use exactly 210g raw 90/10 beef; working finished seasoned-component target is 175g pending measured 90/10 yield.",
-            "Owner-approved component standard: 120g cooked starch and 75g vegetables; 45g/60g dry basmati is the controlled rice equivalent until rice yield is measured.",
-            "Breakfast-skillet potato is a translated starch and keeps its recipe-specific input until its cooked yield is measured.",
-            "Salsa is not plated on the skillet."
-          ]
-        },
-        "bulk": {
-          "ingredients": [
-            {
-              "key": "beef_90_raw",
-              "sourceKey": "beef_90_pan",
-              "name": "Ground beef 90/10, raw",
-              "amount": 300.0,
-              "unit": "g",
-              "station": "Beef",
-              "note": "Raw purchasing/prep quantity; modeled 69% cooked yield.",
-              "confidence": "high",
-              "measure": {
-                "type": "meat"
-              }
-            },
-            {
-              "key": "potato",
-              "sourceKey": "potato",
-              "name": "Potato, flesh and skin, raw",
-              "amount": 100,
-              "unit": "g",
-              "station": "Starches & Hot Sides",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "egg",
-              "sourceKey": "egg",
-              "name": "Whole egg",
-              "amount": 2,
-              "unit": "each",
-              "station": "Breakfast & Desserts",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "mozzarella",
-              "sourceKey": "mozzarella",
-              "name": "H-E-B fat-free mozzarella",
-              "amount": 28,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "red_onion",
-              "sourceKey": "red_onion",
-              "name": "Red onion, raw",
-              "amount": 25,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "garlic",
-              "sourceKey": "garlic",
-              "name": "Garlic, raw",
-              "amount": 6,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "avocado_oil",
-              "sourceKey": "avocado_oil",
-              "name": "Avocado oil",
-              "amount": 4,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "medium",
-              "measure": {
-                "type": "liquid",
-                "density": 0.91
-              }
-            },
-            {
-              "key": "salt",
-              "sourceKey": "salt",
-              "name": "Table salt",
-              "amount": 1,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "high",
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 6.0
-              }
-            }
-          ],
-          "confidence": "medium",
-          "assumptions": [
-            "All rendered beef fat is drained.",
-            "Use exactly 300g raw 90/10 beef; working finished seasoned-component target is 250g pending measured 90/10 yield.",
-            "Owner-approved component standard: 160g cooked starch and 100g vegetables; 45g/60g dry basmati is the controlled rice equivalent until rice yield is measured.",
-            "Breakfast-skillet potato is a translated starch and keeps its recipe-specific input until its cooked yield is measured.",
-            "Salsa is not plated on the skillet."
-          ]
-        }
-      },
-      "plannerOnly": false
-    },
-    "b3": {
-      "name": "Strawberry Cheesecake Protein Pancakes",
-      "category": "Breakfast",
-      "aliases": [],
-      "status": "Batch 20 controlled planning recipe",
-      "recommendation": "Confirm actual purchased panels and measured yields.",
-      "tiers": {
-        "lean": {
-          "ingredients": [
-            {
-              "key": "flour",
-              "sourceKey": "flour",
-              "name": "All-purpose flour",
-              "amount": 45,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "baking_powder",
-              "sourceKey": "baking_powder",
-              "name": "Baking powder",
-              "amount": 3,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "medium",
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 4.0
-              }
-            },
-            {
-              "key": "whey_vanilla",
-              "sourceKey": "whey_vanilla",
-              "name": "Premier Protein powder, vanilla",
-              "amount": 9.75,
-              "unit": "g",
-              "station": "Breakfast & Desserts",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "egg",
-              "sourceKey": "egg",
-              "name": "Whole egg",
-              "amount": 1,
               "unit": "each",
               "station": "Breakfast & Desserts",
               "note": "",
@@ -718,17 +468,17 @@ const PRPD_PRODUCTION_DATA = {
               "key": "egg_white",
               "sourceKey": "egg_white",
               "name": "Liquid egg white",
-              "amount": 80,
+              "amount": 56.25,
               "unit": "g",
               "station": "Breakfast & Desserts",
               "note": "",
               "confidence": "high"
             },
             {
-              "key": "fage",
-              "sourceKey": "fage",
-              "name": "FAGE Total 0%",
-              "amount": 100,
+              "key": "cottage",
+              "sourceKey": "cottage",
+              "name": "H-E-B fat-free cottage cheese",
+              "amount": 56.25,
               "unit": "g",
               "station": "Sauces & Dairy",
               "note": "",
@@ -738,7 +488,7 @@ const PRPD_PRODUCTION_DATA = {
               "key": "fairlife_milk",
               "sourceKey": "fairlife_milk",
               "name": "Fairlife fat-free ultra-filtered milk",
-              "amount": 60,
+              "amount": 30.0,
               "unit": "g",
               "station": "Sauces & Dairy",
               "note": "",
@@ -749,58 +499,34 @@ const PRPD_PRODUCTION_DATA = {
               }
             },
             {
-              "key": "strawberry",
-              "sourceKey": "strawberry",
-              "name": "Strawberries, raw",
-              "amount": 80,
+              "key": "whey_vanilla",
+              "sourceKey": "whey_vanilla",
+              "name": "Premier Protein powder, vanilla",
+              "amount": 6.525,
               "unit": "g",
-              "station": "Cold Prep & Produce",
+              "station": "Breakfast & Desserts",
               "note": "",
               "confidence": "high"
             },
             {
-              "key": "reduced_cream_cheese",
-              "sourceKey": "reduced_cream_cheese",
-              "name": "Reduced-fat cream cheese",
-              "amount": 20,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "",
-              "confidence": "medium"
-            },
-            {
-              "key": "powdered_sugar",
-              "sourceKey": "powdered_sugar",
-              "name": "Powdered sugar",
-              "amount": 4,
+              "key": "brown_sugar",
+              "sourceKey": "brown_sugar",
+              "name": "Brown sugar",
+              "amount": 9.0,
               "unit": "g",
               "station": "Breakfast & Desserts",
               "note": "",
               "confidence": "high",
               "measure": {
                 "type": "spice",
-                "gramsPerTsp": 2.5
-              }
-            },
-            {
-              "key": "maple_syrup",
-              "sourceKey": "maple_syrup",
-              "name": "Great Value reduced-calorie sugar-free syrup",
-              "amount": 30,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "separate syrup cup",
-              "confidence": "medium",
-              "measure": {
-                "type": "liquid",
-                "density": 1.3
+                "gramsPerTsp": 4.0
               }
             },
             {
               "key": "vanilla",
               "sourceKey": "vanilla",
               "name": "Vanilla extract",
-              "amount": 2,
+              "amount": 1.875,
               "unit": "g",
               "station": "Breakfast & Desserts",
               "note": "",
@@ -814,7 +540,7 @@ const PRPD_PRODUCTION_DATA = {
               "key": "cinnamon",
               "sourceKey": "cinnamon",
               "name": "Ground cinnamon",
-              "amount": 0.5,
+              "amount": 0.975,
               "unit": "g",
               "station": "Breakfast & Desserts",
               "note": "",
@@ -825,79 +551,69 @@ const PRPD_PRODUCTION_DATA = {
               }
             },
             {
-              "key": "avocado_oil",
-              "sourceKey": "avocado_oil",
-              "name": "Avocado oil",
-              "amount": 2,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
+              "key": "bread_slice",
+              "sourceKey": "bread_slice",
+              "name": "French toast bread",
+              "amount": 3,
+              "unit": "each",
+              "station": "Breakfast & Desserts",
               "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "strawberry",
+              "sourceKey": "strawberry",
+              "name": "Strawberries, raw",
+              "amount": 50,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "banana",
+              "sourceKey": "banana",
+              "name": "Banana, raw",
+              "amount": 40,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "whipped_cream",
+              "sourceKey": "whipped_cream",
+              "name": "Sugar-free whipped cream",
+              "amount": 10,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "medium"
+            },
+            {
+              "key": "maple_syrup",
+              "sourceKey": "maple_syrup",
+              "name": "Great Value reduced-calorie sugar-free syrup",
+              "amount": 30,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "one 30g side cup",
               "confidence": "medium",
               "measure": {
                 "type": "liquid",
-                "density": 0.91
-              }
-            },
-            {
-              "key": "salt",
-              "sourceKey": "salt",
-              "name": "Table salt",
-              "amount": 0.5,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "high",
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 6.0
+                "density": 1.3
               }
             }
           ],
           "confidence": "medium",
           "assumptions": [
-            "Lean targets three medium pancakes; Bulk targets four.",
-            "The FAGE total is split between batter and cheesecake topping; reduced-fat cream cheese replaces the retired Philadelphia no-bake filling gram-for-gram.",
-            "Strawberry compote and cheesecake topping share one side cup; sugar-free syrup uses a second cup.",
-            "This is a first-test build. Record finished pancake count, batter yield, topping yield, taste, and day-three reheat quality.",
-            "Strawberries replace blueberries gram-for-gram in the compote."
+            "Lean receives 3 slices and its controlled share of the protein custard.",
+            "Fruit, whipped cream, and one 30g sugar-free maple syrup cup are included in nutrition and packing.",
+            "Cook on a clean nonstick surface with no added oil."
           ]
         },
         "bulk": {
           "ingredients": [
-            {
-              "key": "flour",
-              "sourceKey": "flour",
-              "name": "All-purpose flour",
-              "amount": 60,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "baking_powder",
-              "sourceKey": "baking_powder",
-              "name": "Baking powder",
-              "amount": 4,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "medium",
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 4.0
-              }
-            },
-            {
-              "key": "whey_vanilla",
-              "sourceKey": "whey_vanilla",
-              "name": "Premier Protein powder, vanilla",
-              "amount": 14.625,
-              "unit": "g",
-              "station": "Breakfast & Desserts",
-              "note": "",
-              "confidence": "high"
-            },
             {
               "key": "egg",
               "sourceKey": "egg",
@@ -912,17 +628,17 @@ const PRPD_PRODUCTION_DATA = {
               "key": "egg_white",
               "sourceKey": "egg_white",
               "name": "Liquid egg white",
-              "amount": 120,
+              "amount": 75,
               "unit": "g",
               "station": "Breakfast & Desserts",
               "note": "",
               "confidence": "high"
             },
             {
-              "key": "fage",
-              "sourceKey": "fage",
-              "name": "FAGE Total 0%",
-              "amount": 120,
+              "key": "cottage",
+              "sourceKey": "cottage",
+              "name": "H-E-B fat-free cottage cheese",
+              "amount": 75,
               "unit": "g",
               "station": "Sauces & Dairy",
               "note": "",
@@ -932,7 +648,7 @@ const PRPD_PRODUCTION_DATA = {
               "key": "fairlife_milk",
               "sourceKey": "fairlife_milk",
               "name": "Fairlife fat-free ultra-filtered milk",
-              "amount": 75,
+              "amount": 40,
               "unit": "g",
               "station": "Sauces & Dairy",
               "note": "",
@@ -943,51 +659,27 @@ const PRPD_PRODUCTION_DATA = {
               }
             },
             {
-              "key": "strawberry",
-              "sourceKey": "strawberry",
-              "name": "Strawberries, raw",
-              "amount": 100,
+              "key": "whey_vanilla",
+              "sourceKey": "whey_vanilla",
+              "name": "Premier Protein powder, vanilla",
+              "amount": 8.7,
               "unit": "g",
-              "station": "Cold Prep & Produce",
+              "station": "Breakfast & Desserts",
               "note": "",
               "confidence": "high"
             },
             {
-              "key": "reduced_cream_cheese",
-              "sourceKey": "reduced_cream_cheese",
-              "name": "Reduced-fat cream cheese",
-              "amount": 25,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "",
-              "confidence": "medium"
-            },
-            {
-              "key": "powdered_sugar",
-              "sourceKey": "powdered_sugar",
-              "name": "Powdered sugar",
-              "amount": 4,
+              "key": "brown_sugar",
+              "sourceKey": "brown_sugar",
+              "name": "Brown sugar",
+              "amount": 12,
               "unit": "g",
               "station": "Breakfast & Desserts",
               "note": "",
               "confidence": "high",
               "measure": {
                 "type": "spice",
-                "gramsPerTsp": 2.5
-              }
-            },
-            {
-              "key": "maple_syrup",
-              "sourceKey": "maple_syrup",
-              "name": "Great Value reduced-calorie sugar-free syrup",
-              "amount": 30,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "separate syrup cup",
-              "confidence": "medium",
-              "measure": {
-                "type": "liquid",
-                "density": 1.3
+                "gramsPerTsp": 4.0
               }
             },
             {
@@ -1008,7 +700,7 @@ const PRPD_PRODUCTION_DATA = {
               "key": "cinnamon",
               "sourceKey": "cinnamon",
               "name": "Ground cinnamon",
-              "amount": 0.75,
+              "amount": 1.3,
               "unit": "g",
               "station": "Breakfast & Desserts",
               "note": "",
@@ -1019,6 +711,524 @@ const PRPD_PRODUCTION_DATA = {
               }
             },
             {
+              "key": "bread_slice",
+              "sourceKey": "bread_slice",
+              "name": "French toast bread",
+              "amount": 4,
+              "unit": "each",
+              "station": "Breakfast & Desserts",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "strawberry",
+              "sourceKey": "strawberry",
+              "name": "Strawberries, raw",
+              "amount": 50,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "banana",
+              "sourceKey": "banana",
+              "name": "Banana, raw",
+              "amount": 40,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "whipped_cream",
+              "sourceKey": "whipped_cream",
+              "name": "Sugar-free whipped cream",
+              "amount": 10,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "medium"
+            },
+            {
+              "key": "maple_syrup",
+              "sourceKey": "maple_syrup",
+              "name": "Great Value reduced-calorie sugar-free syrup",
+              "amount": 30,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "one 30g side cup",
+              "confidence": "medium",
+              "measure": {
+                "type": "liquid",
+                "density": 1.3
+              }
+            }
+          ],
+          "confidence": "medium",
+          "assumptions": [
+            "Bulk receives 4 slices and its controlled share of the protein custard.",
+            "Fruit, whipped cream, and one 30g sugar-free maple syrup cup are included in nutrition and packing.",
+            "Cook on a clean nonstick surface with no added oil."
+          ]
+        }
+      },
+      "plannerOnly": false,
+      "service": {
+        "sideCupComponents": [
+          {
+            "name": "Sugar-free maple syrup",
+            "batchGroup": "maple-syrup",
+            "cupsPerMeal": 1,
+            "gramsPerMeal": 30
+          }
+        ]
+      }
+    },
+    "b3": {
+      "name": "Grilled Cheese Breakfast Burrito",
+      "category": "Breakfast",
+      "aliases": [],
+      "status": "Batch 21 controlled planning recipe",
+      "recommendation": "Confirm actual purchased panels and measured yields.",
+      "tiers": {
+        "lean": {
+          "ingredients": [
+            {
+              "key": "beef_90_raw",
+              "sourceKey": "beef_90_pan",
+              "name": "Ground beef 90/10, raw",
+              "amount": 120.0,
+              "unit": "g",
+              "station": "Beef",
+              "note": "Raw purchasing/prep quantity; modeled 69% cooked yield.",
+              "confidence": "high",
+              "measure": {
+                "type": "meat"
+              }
+            },
+            {
+              "key": "small_tortilla",
+              "sourceKey": "small_tortilla",
+              "name": "Mission Carb Balance medium soft-taco tortilla",
+              "amount": 2,
+              "unit": "each",
+              "station": "Bread & Packaging",
+              "note": "",
+              "confidence": "medium"
+            },
+            {
+              "key": "egg",
+              "sourceKey": "egg",
+              "name": "Whole egg",
+              "amount": 1,
+              "unit": "each",
+              "station": "Breakfast & Desserts",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "egg_white",
+              "sourceKey": "egg_white",
+              "name": "Liquid egg white",
+              "amount": 25,
+              "unit": "g",
+              "station": "Breakfast & Desserts",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "mozzarella",
+              "sourceKey": "mozzarella",
+              "name": "H-E-B fat-free mozzarella",
+              "amount": 20,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "tomato_paste",
+              "sourceKey": "tomato_paste",
+              "name": "Tomato paste",
+              "amount": 16,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "onion",
+              "sourceKey": "onion",
+              "name": "Onion, raw",
+              "amount": 25,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high"
+            }
+          ],
+          "confidence": "medium",
+          "assumptions": [
+            "Broth is intentionally removed from the PRPD recipe system.",
+            "The egg component uses the shared breakfast base of one whole egg plus 25g liquid egg whites per order.",
+            "Cook the beef-and-onion filling down until dry enough to wrap cleanly; dry-pan grill after assembly.",
+            "October 19 second-pass sodium correction: add no salt to the filling and use 20g Lean / 28g Bulk mozzarella because the tortillas and cheese already provide seasoning.",
+            "October 21 owner-approved tortilla format: Lean uses two medium tortillas and Bulk uses three medium tortillas. Large tortillas are no longer used for this meal."
+          ]
+        },
+        "bulk": {
+          "ingredients": [
+            {
+              "key": "beef_90_raw",
+              "sourceKey": "beef_90_pan",
+              "name": "Ground beef 90/10, raw",
+              "amount": 180.0,
+              "unit": "g",
+              "station": "Beef",
+              "note": "Raw purchasing/prep quantity; modeled 69% cooked yield.",
+              "confidence": "high",
+              "measure": {
+                "type": "meat"
+              }
+            },
+            {
+              "key": "small_tortilla",
+              "sourceKey": "small_tortilla",
+              "name": "Mission Carb Balance medium soft-taco tortilla",
+              "amount": 3,
+              "unit": "each",
+              "station": "Bread & Packaging",
+              "note": "",
+              "confidence": "medium"
+            },
+            {
+              "key": "egg",
+              "sourceKey": "egg",
+              "name": "Whole egg",
+              "amount": 1,
+              "unit": "each",
+              "station": "Breakfast & Desserts",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "egg_white",
+              "sourceKey": "egg_white",
+              "name": "Liquid egg white",
+              "amount": 25,
+              "unit": "g",
+              "station": "Breakfast & Desserts",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "mozzarella",
+              "sourceKey": "mozzarella",
+              "name": "H-E-B fat-free mozzarella",
+              "amount": 28,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "tomato_paste",
+              "sourceKey": "tomato_paste",
+              "name": "Tomato paste",
+              "amount": 16,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "onion",
+              "sourceKey": "onion",
+              "name": "Onion, raw",
+              "amount": 25,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high"
+            }
+          ],
+          "confidence": "medium",
+          "assumptions": [
+            "Broth is intentionally removed from the PRPD recipe system.",
+            "The egg component uses the shared breakfast base of one whole egg plus 25g liquid egg whites per order.",
+            "Cook the beef-and-onion filling down until dry enough to wrap cleanly; dry-pan grill after assembly.",
+            "October 19 second-pass sodium correction: add no salt to the filling and use 20g Lean / 28g Bulk mozzarella because the tortillas and cheese already provide seasoning.",
+            "October 21 owner-approved tortilla format: Lean uses two medium tortillas and Bulk uses three medium tortillas. Large tortillas are no longer used for this meal."
+          ]
+        }
+      },
+      "plannerOnly": false
+    },
+    "m1": {
+      "name": "Chicken Biryani",
+      "category": "Main",
+      "aliases": [],
+      "status": "Batch 21 controlled planning recipe",
+      "recommendation": "Confirm actual purchased panels and measured yields.",
+      "tiers": {
+        "lean": {
+          "ingredients": [
+            {
+              "key": "chicken_thigh_raw",
+              "sourceKey": "chicken_thigh_cooked",
+              "name": "Boneless skinless chicken thighs, raw",
+              "amount": 200.0,
+              "unit": "g",
+              "station": "Poultry",
+              "note": "Raw purchasing/prep quantity; modeled 75% cooked yield.",
+              "confidence": "high",
+              "measure": {
+                "type": "meat"
+              }
+            },
+            {
+              "key": "rice_dry",
+              "sourceKey": "rice_dry",
+              "name": "PRPD basmati/white rice, dry",
+              "amount": 40,
+              "unit": "g",
+              "station": "Starches & Hot Sides",
+              "note": "",
+              "confidence": "medium"
+            },
+            {
+              "key": "fage",
+              "sourceKey": "fage",
+              "name": "FAGE Total 0%",
+              "amount": 50.5479,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "component:green-garlic",
+              "confidence": "high",
+              "allocations": {
+                "green-garlic": 20.5479
+              }
+            },
+            {
+              "key": "onion",
+              "sourceKey": "onion",
+              "name": "Onion, raw",
+              "amount": 50,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "tomato",
+              "sourceKey": "tomato",
+              "name": "Tomato, raw",
+              "amount": 50,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "garlic",
+              "sourceKey": "garlic",
+              "name": "Garlic, raw",
+              "amount": 9.2329,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "component:green-garlic",
+              "confidence": "high",
+              "allocations": {
+                "green-garlic": 1.2329
+              }
+            },
+            {
+              "key": "ginger",
+              "sourceKey": "ginger",
+              "name": "Ginger root, raw",
+              "amount": 5,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "lemon",
+              "sourceKey": "lemon",
+              "name": "Bottled lemon juice",
+              "amount": 18.0822,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "component:green-garlic",
+              "confidence": "medium",
+              "measure": {
+                "type": "liquid",
+                "density": 1.03
+              },
+              "allocations": {
+                "green-garlic": 3.0822
+              }
+            },
+            {
+              "key": "avocado_oil",
+              "sourceKey": "avocado_oil",
+              "name": "Avocado oil",
+              "amount": 2,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "",
+              "confidence": "medium",
+              "measure": {
+                "type": "liquid",
+                "density": 0.91
+              }
+            },
+            {
+              "key": "shan_biryani",
+              "sourceKey": "shan_biryani",
+              "name": "Shan Biryani Recipe Mix (standard powder)",
+              "amount": 10.0,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "",
+              "confidence": "medium"
+            },
+            {
+              "key": "light_mayo",
+              "sourceKey": "light_mayo",
+              "name": "Great Value light mayonnaise",
+              "amount": 3.0822,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "component:green-garlic",
+              "confidence": "high",
+              "allocations": {
+                "green-garlic": 3.0822
+              }
+            },
+            {
+              "key": "jalapeno",
+              "sourceKey": "jalapeno",
+              "name": "Jalapeno, raw",
+              "amount": 2.0548,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "component:green-garlic",
+              "confidence": "high",
+              "allocations": {
+                "green-garlic": 2.0548
+              }
+            }
+          ],
+          "confidence": "medium",
+          "assumptions": [
+            "Owner confirmed Shan standard Biryani powder. Manufacturer reference: one 50g packet per 1kg meat. PRPD adapts that dose to boneless thighs and its existing lower-rice portions, not the full packet recipe.",
+            "Weigh 10g mix for Lean / 15g Bulk. No separate added salt; the mix already contains salt. Check the actual purchased packet variant and nutrition panel.",
+            "All 30g yogurt per meal and all masala enter the cooking pot and nutrition calculation. Do not scrape off or assume an unmeasured 75% marinade loss.",
+            "The discontinued cucumber salad is excluded from production and nutrition.",
+            "Serve 30g green jalapeno garlic sauce with mayonnaise cold, separately from the cooked marinade. Its full nutrition is included."
+          ]
+        },
+        "bulk": {
+          "ingredients": [
+            {
+              "key": "chicken_thigh_raw",
+              "sourceKey": "chicken_thigh_cooked",
+              "name": "Boneless skinless chicken thighs, raw",
+              "amount": 300.0,
+              "unit": "g",
+              "station": "Poultry",
+              "note": "Raw purchasing/prep quantity; modeled 75% cooked yield.",
+              "confidence": "high",
+              "measure": {
+                "type": "meat"
+              }
+            },
+            {
+              "key": "rice_dry",
+              "sourceKey": "rice_dry",
+              "name": "PRPD basmati/white rice, dry",
+              "amount": 40,
+              "unit": "g",
+              "station": "Starches & Hot Sides",
+              "note": "",
+              "confidence": "medium"
+            },
+            {
+              "key": "fage",
+              "sourceKey": "fage",
+              "name": "FAGE Total 0%",
+              "amount": 50.5479,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "component:green-garlic",
+              "confidence": "high",
+              "allocations": {
+                "green-garlic": 20.5479
+              }
+            },
+            {
+              "key": "onion",
+              "sourceKey": "onion",
+              "name": "Onion, raw",
+              "amount": 50,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "tomato",
+              "sourceKey": "tomato",
+              "name": "Tomato, raw",
+              "amount": 50,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "garlic",
+              "sourceKey": "garlic",
+              "name": "Garlic, raw",
+              "amount": 9.2329,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "component:green-garlic",
+              "confidence": "high",
+              "allocations": {
+                "green-garlic": 1.2329
+              }
+            },
+            {
+              "key": "ginger",
+              "sourceKey": "ginger",
+              "name": "Ginger root, raw",
+              "amount": 5,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "lemon",
+              "sourceKey": "lemon",
+              "name": "Bottled lemon juice",
+              "amount": 18.0822,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "component:green-garlic",
+              "confidence": "medium",
+              "measure": {
+                "type": "liquid",
+                "density": 1.03
+              },
+              "allocations": {
+                "green-garlic": 3.0822
+              }
+            },
+            {
               "key": "avocado_oil",
               "sourceKey": "avocado_oil",
               "name": "Avocado oil",
@@ -1033,14 +1243,656 @@ const PRPD_PRODUCTION_DATA = {
               }
             },
             {
-              "key": "salt",
-              "sourceKey": "salt",
-              "name": "Table salt",
+              "key": "shan_biryani",
+              "sourceKey": "shan_biryani",
+              "name": "Shan Biryani Recipe Mix (standard powder)",
+              "amount": 15.0,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "",
+              "confidence": "medium"
+            },
+            {
+              "key": "light_mayo",
+              "sourceKey": "light_mayo",
+              "name": "Great Value light mayonnaise",
+              "amount": 3.0822,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "component:green-garlic",
+              "confidence": "high",
+              "allocations": {
+                "green-garlic": 3.0822
+              }
+            },
+            {
+              "key": "jalapeno",
+              "sourceKey": "jalapeno",
+              "name": "Jalapeno, raw",
+              "amount": 2.0548,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "component:green-garlic",
+              "confidence": "high",
+              "allocations": {
+                "green-garlic": 2.0548
+              }
+            }
+          ],
+          "confidence": "medium",
+          "assumptions": [
+            "Owner confirmed Shan standard Biryani powder. Manufacturer reference: one 50g packet per 1kg meat. PRPD adapts that dose to boneless thighs and its existing lower-rice portions, not the full packet recipe.",
+            "Weigh 10g mix for Lean / 15g Bulk. No separate added salt; the mix already contains salt. Check the actual purchased packet variant and nutrition panel.",
+            "All 30g yogurt per meal and all masala enter the cooking pot and nutrition calculation. Do not scrape off or assume an unmeasured 75% marinade loss.",
+            "The discontinued cucumber salad is excluded from production and nutrition.",
+            "Serve 30g green jalapeno garlic sauce with mayonnaise cold, separately from the cooked marinade. Its full nutrition is included."
+          ]
+        }
+      },
+      "plannerOnly": false,
+      "service": {
+        "sideCupComponents": [
+          {
+            "name": "PRPD Green Garlic Sauce",
+            "batchGroup": "green-garlic",
+            "componentRef": "green-garlic",
+            "cupsPerMeal": 1,
+            "gramsPerMeal": 30
+          }
+        ]
+      }
+    },
+    "m2": {
+      "name": "Butter Chicken",
+      "category": "Main",
+      "aliases": [],
+      "status": "Batch 21 controlled planning recipe",
+      "recommendation": "Confirm actual purchased panels and measured yields.",
+      "tiers": {
+        "lean": {
+          "ingredients": [
+            {
+              "key": "chicken_thigh_raw",
+              "sourceKey": "chicken_thigh_cooked",
+              "name": "Boneless skinless chicken thighs, raw",
+              "amount": 200.0,
+              "unit": "g",
+              "station": "Poultry",
+              "note": "Raw purchasing/prep quantity; modeled 75% cooked yield.",
+              "confidence": "high",
+              "measure": {
+                "type": "meat"
+              }
+            },
+            {
+              "key": "rice_dry",
+              "sourceKey": "rice_dry",
+              "name": "PRPD basmati/white rice, dry",
+              "amount": 40,
+              "unit": "g",
+              "station": "Starches & Hot Sides",
+              "note": "",
+              "confidence": "medium"
+            },
+            {
+              "key": "onion",
+              "sourceKey": "onion",
+              "name": "Onion, raw",
+              "amount": 50,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "tomato_paste",
+              "sourceKey": "tomato_paste",
+              "name": "Tomato paste",
+              "amount": 10,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "crushed_tomatoes",
+              "sourceKey": "crushed_tomatoes",
+              "name": "Canned crushed tomatoes",
+              "amount": 130,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "medium"
+            },
+            {
+              "key": "butter",
+              "sourceKey": "butter",
+              "name": "Butter",
+              "amount": 5,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "fage",
+              "sourceKey": "fage",
+              "name": "FAGE Total 0%",
+              "amount": 45,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "lemon",
+              "sourceKey": "lemon",
+              "name": "Bottled lemon juice",
+              "amount": 3.75,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "medium",
+              "measure": {
+                "type": "liquid",
+                "density": 1.03
+              }
+            },
+            {
+              "key": "garlic",
+              "sourceKey": "garlic",
+              "name": "Garlic, raw",
+              "amount": 3,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "ginger",
+              "sourceKey": "ginger",
+              "name": "Ginger root, raw",
+              "amount": 2.5,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "shan_butter_chicken",
+              "sourceKey": "shan_butter_chicken",
+              "name": "Shan Butter Chicken Recipe Mix (powder)",
+              "amount": 5.0,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "",
+              "confidence": "medium",
+              "measure": {
+                "type": "packet",
+                "gramsPerPacket": 50.0
+              }
+            },
+            {
+              "key": "paprika",
+              "sourceKey": "paprika",
+              "name": "Paprika",
+              "amount": 0.8,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "",
+              "confidence": "high",
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 2.3
+              }
+            },
+            {
+              "key": "cumin",
+              "sourceKey": "cumin",
+              "name": "Ground cumin",
+              "amount": 0.6,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "",
+              "confidence": "high",
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 2.1
+              }
+            },
+            {
+              "key": "coriander",
+              "sourceKey": "coriander",
+              "name": "Ground coriander",
+              "amount": 0.4,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "",
+              "confidence": "high",
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 1.8
+              }
+            },
+            {
+              "key": "turmeric",
+              "sourceKey": "turmeric",
+              "name": "Ground turmeric",
+              "amount": 0.2,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "",
+              "confidence": "medium",
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 3.0
+              }
+            },
+            {
+              "key": "black_pepper",
+              "sourceKey": "black_pepper",
+              "name": "Ground black pepper",
+              "amount": 0.2,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "",
+              "confidence": "high",
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 2.3
+              }
+            },
+            {
+              "key": "cayenne",
+              "sourceKey": "cayenne",
+              "name": "Ground cayenne",
+              "amount": 0.1,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "",
+              "confidence": "medium",
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 1.8
+              }
+            }
+          ],
+          "confidence": "medium",
+          "assumptions": [
+            "Owner corrected the raw chicken portion to 200g Lean and 250g Bulk on October 21, 2026 after prior production left excess chicken that did not fit the intended meal balance.",
+            "Use canned crushed tomatoes for a consistent tomato-forward sauce. Broth and recipe water are excluded; loosen only with a measured splash during production if the recorded pan needs it.",
+            "Use 25g Shan Butter Chicken powder per 1kg raw chicken, split 15g/kg into the marinade and 10g/kg into the browned onion sauce. Add the measured salt-free paprika, cumin, coriander, turmeric, black pepper and cayenne to the sauce. Add no salt.",
+            "Use 15g yogurt per meal in the marinade and reserve 30g/45g for the Lean/Bulk sauce finish. Brown onion, bloom the sauce spices, brown the small tomato-paste amount, add crushed tomatoes, simmer, then blend completely smooth before the off-heat yogurt finish.",
+            "Record finished sauce and chicken yield before final labels."
+          ]
+        },
+        "bulk": {
+          "ingredients": [
+            {
+              "key": "chicken_thigh_raw",
+              "sourceKey": "chicken_thigh_cooked",
+              "name": "Boneless skinless chicken thighs, raw",
+              "amount": 250.0,
+              "unit": "g",
+              "station": "Poultry",
+              "note": "Raw purchasing/prep quantity; modeled 75% cooked yield.",
+              "confidence": "high",
+              "measure": {
+                "type": "meat"
+              }
+            },
+            {
+              "key": "rice_dry",
+              "sourceKey": "rice_dry",
+              "name": "PRPD basmati/white rice, dry",
+              "amount": 55,
+              "unit": "g",
+              "station": "Starches & Hot Sides",
+              "note": "",
+              "confidence": "medium"
+            },
+            {
+              "key": "onion",
+              "sourceKey": "onion",
+              "name": "Onion, raw",
+              "amount": 70,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "tomato_paste",
+              "sourceKey": "tomato_paste",
+              "name": "Tomato paste",
+              "amount": 15,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "crushed_tomatoes",
+              "sourceKey": "crushed_tomatoes",
+              "name": "Canned crushed tomatoes",
+              "amount": 190,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "medium"
+            },
+            {
+              "key": "butter",
+              "sourceKey": "butter",
+              "name": "Butter",
+              "amount": 7,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "fage",
+              "sourceKey": "fage",
+              "name": "FAGE Total 0%",
+              "amount": 60,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "lemon",
+              "sourceKey": "lemon",
+              "name": "Bottled lemon juice",
+              "amount": 5,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "medium",
+              "measure": {
+                "type": "liquid",
+                "density": 1.03
+              }
+            },
+            {
+              "key": "garlic",
+              "sourceKey": "garlic",
+              "name": "Garlic, raw",
+              "amount": 4,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "ginger",
+              "sourceKey": "ginger",
+              "name": "Ginger root, raw",
+              "amount": 3.5,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "shan_butter_chicken",
+              "sourceKey": "shan_butter_chicken",
+              "name": "Shan Butter Chicken Recipe Mix (powder)",
+              "amount": 6.25,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "",
+              "confidence": "medium",
+              "measure": {
+                "type": "packet",
+                "gramsPerPacket": 50.0
+              }
+            },
+            {
+              "key": "paprika",
+              "sourceKey": "paprika",
+              "name": "Paprika",
+              "amount": 1.0,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "",
+              "confidence": "high",
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 2.3
+              }
+            },
+            {
+              "key": "cumin",
+              "sourceKey": "cumin",
+              "name": "Ground cumin",
               "amount": 0.75,
               "unit": "g",
               "station": "Dry Prep & Seasonings",
               "note": "",
               "confidence": "high",
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 2.1
+              }
+            },
+            {
+              "key": "coriander",
+              "sourceKey": "coriander",
+              "name": "Ground coriander",
+              "amount": 0.5,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "",
+              "confidence": "high",
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 1.8
+              }
+            },
+            {
+              "key": "turmeric",
+              "sourceKey": "turmeric",
+              "name": "Ground turmeric",
+              "amount": 0.25,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "",
+              "confidence": "medium",
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 3.0
+              }
+            },
+            {
+              "key": "black_pepper",
+              "sourceKey": "black_pepper",
+              "name": "Ground black pepper",
+              "amount": 0.25,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "",
+              "confidence": "high",
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 2.3
+              }
+            },
+            {
+              "key": "cayenne",
+              "sourceKey": "cayenne",
+              "name": "Ground cayenne",
+              "amount": 0.125,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "",
+              "confidence": "medium",
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 1.8
+              }
+            }
+          ],
+          "confidence": "medium",
+          "assumptions": [
+            "Owner corrected the raw chicken portion to 200g Lean and 250g Bulk on October 21, 2026 after prior production left excess chicken that did not fit the intended meal balance.",
+            "Use canned crushed tomatoes for a consistent tomato-forward sauce. Broth and recipe water are excluded; loosen only with a measured splash during production if the recorded pan needs it.",
+            "Use 25g Shan Butter Chicken powder per 1kg raw chicken, split 15g/kg into the marinade and 10g/kg into the browned onion sauce. Add the measured salt-free paprika, cumin, coriander, turmeric, black pepper and cayenne to the sauce. Add no salt.",
+            "Use 15g yogurt per meal in the marinade and reserve 30g/45g for the Lean/Bulk sauce finish. Brown onion, bloom the sauce spices, brown the small tomato-paste amount, add crushed tomatoes, simmer, then blend completely smooth before the off-heat yogurt finish.",
+            "Record finished sauce and chicken yield before final labels."
+          ]
+        }
+      },
+      "plannerOnly": false
+    },
+    "m3": {
+      "name": "Loaded Buffalo Chicken Potato",
+      "category": "Main",
+      "aliases": [],
+      "status": "Batch 21 controlled planning recipe",
+      "recommendation": "Confirm actual purchased panels and measured yields.",
+      "tiers": {
+        "lean": {
+          "ingredients": [
+            {
+              "key": "chicken_thigh_raw",
+              "sourceKey": "chicken_thigh_cooked",
+              "name": "Boneless skinless chicken thighs, raw",
+              "amount": 200.0,
+              "unit": "g",
+              "station": "Poultry",
+              "note": "Raw purchasing/prep quantity; modeled 75% cooked yield.",
+              "confidence": "high",
+              "measure": {
+                "type": "meat"
+              }
+            },
+            {
+              "key": "potato",
+              "sourceKey": "potato",
+              "name": "Potato, flesh and skin, raw",
+              "amount": 200,
+              "unit": "g",
+              "station": "Starches & Hot Sides",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "broccoli",
+              "sourceKey": "broccoli",
+              "name": "Broccoli, raw",
+              "amount": 75.0,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "buffalo_sauce",
+              "sourceKey": "buffalo_sauce",
+              "name": "Sweet Baby Ray's Mild Buffalo Wing Sauce",
+              "amount": 15,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "component:reduced-sodium-buffalo-finish",
+              "confidence": "medium",
+              "allocations": {
+                "reduced-sodium-buffalo-finish": 15
+              },
+              "measure": {
+                "type": "liquid",
+                "density": 1.05
+              }
+            },
+            {
+              "key": "avocado_oil",
+              "sourceKey": "avocado_oil",
+              "name": "Avocado oil",
+              "amount": 4,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "",
+              "confidence": "medium",
+              "measure": {
+                "type": "liquid",
+                "density": 0.91
+              }
+            },
+            {
+              "key": "water",
+              "sourceKey": "water",
+              "name": "Water",
+              "amount": 10,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "component:reduced-sodium-buffalo-finish",
+              "confidence": "high",
+              "allocations": {
+                "reduced-sodium-buffalo-finish": 10
+              }
+            },
+            {
+              "key": "apple_cider_vinegar",
+              "sourceKey": "apple_cider_vinegar",
+              "name": "Apple cider vinegar",
+              "amount": 3,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "component:reduced-sodium-buffalo-finish",
+              "confidence": "medium",
+              "allocations": {
+                "reduced-sodium-buffalo-finish": 3
+              }
+            },
+            {
+              "key": "garlic_powder",
+              "sourceKey": "garlic_powder",
+              "name": "Garlic powder",
+              "amount": 2.375,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "component:reduced-sodium-buffalo-finish; component:potato-roast",
+              "confidence": "medium",
+              "allocations": {
+                "reduced-sodium-buffalo-finish": 1,
+                "potato-roast": 1.375
+              },
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 3.1
+              }
+            },
+            {
+              "key": "paprika",
+              "sourceKey": "paprika",
+              "name": "Paprika",
+              "amount": 2.375,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "component:reduced-sodium-buffalo-finish; component:potato-roast",
+              "confidence": "high",
+              "allocations": {
+                "reduced-sodium-buffalo-finish": 1,
+                "potato-roast": 1.375
+              },
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 2.3
+              }
+            },
+            {
+              "key": "salt",
+              "sourceKey": "salt",
+              "name": "Table salt",
+              "amount": 0.46,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "component:potato-roast",
+              "confidence": "high",
+              "allocations": {
+                "potato-roast": 0.46
+              },
               "measure": {
                 "type": "spice",
                 "gramsPerTsp": 6.0
@@ -1049,52 +1901,139 @@ const PRPD_PRODUCTION_DATA = {
           ],
           "confidence": "medium",
           "assumptions": [
-            "Lean targets three medium pancakes; Bulk targets four.",
-            "The FAGE total is split between batter and cheesecake topping; reduced-fat cream cheese replaces the retired Philadelphia no-bake filling gram-for-gram.",
-            "Strawberry compote and cheesecake topping share one side cup; sugar-free syrup uses a second cup.",
-            "This is a first-test build. Record finished pancake count, batter yield, topping yield, taste, and day-three reheat quality.",
-            "Strawberries replace blueberries gram-for-gram in the compote."
+            "October 22 owner correction: allocate 200g raw chicken before cooking; record the actual cooked yield.",
+            "The potato allocation is reduced from 300g to 200g per meal after the Batch 6 overproduction report.",
+            "Potato is a translated starch and retains its recipe-specific input until its cooked yield is measured.",
+            "Use a 30g Lean / 40g Bulk incorporated finish made with 15g/20g Buffalo sauce, water, apple-cider vinegar, garlic and paprika. Add no salt to the chicken or Buffalo finish.",
+            "October 22 owner correction: season the complete shared potato-and-broccoli roast with the measured salt, garlic powder, and paprika before dividing it between Egg Bites and Loaded Buffalo."
           ]
-        }
-      },
-      "plannerOnly": false,
-      "service": {
-        "sideCupComponents": [
-          {
-            "name": "Strawberry-cheesecake topping",
-            "batchGroup": "strawberry-cheesecake",
-            "cupsPerMeal": 1,
-            "weightBasis": "measured-yield"
-          },
-          {
-            "name": "Sugar-free maple syrup",
-            "batchGroup": "pancake-syrup",
-            "cupsPerMeal": 1,
-            "gramsPerMeal": 30
-          }
-        ]
-      }
-    },
-    "m1": {
-      "name": "Hot Honey Chicken Sliders",
-      "category": "Main",
-      "aliases": [],
-      "status": "Batch 20 controlled planning recipe",
-      "recommendation": "Use the exact King's Hawaiian Original Sweet Roll build with three Lean or four Bulk sliders and incorporated reduced-Sriracha hot-honey mayo. The source's 75% chicken-yield assumption is method-specific and still needs an exact-method capture; do not silently replace it with the separate 68.8% standard-chicken run. Verify the current roll panel and container fit. The historical photo's visible cup is stale presentation and does not authorize a recipe-required cup.",
-      "tiers": {
-        "lean": {
+        },
+        "bulk": {
           "ingredients": [
             {
               "key": "chicken_thigh_raw",
               "sourceKey": "chicken_thigh_cooked",
               "name": "Boneless skinless chicken thighs, raw",
-              "amount": 100.0,
+              "amount": 250.0,
               "unit": "g",
               "station": "Poultry",
               "note": "Raw purchasing/prep quantity; modeled 75% cooked yield.",
               "confidence": "high",
               "measure": {
                 "type": "meat"
+              }
+            },
+            {
+              "key": "potato",
+              "sourceKey": "potato",
+              "name": "Potato, flesh and skin, raw",
+              "amount": 200,
+              "unit": "g",
+              "station": "Starches & Hot Sides",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "broccoli",
+              "sourceKey": "broccoli",
+              "name": "Broccoli, raw",
+              "amount": 100.0,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "buffalo_sauce",
+              "sourceKey": "buffalo_sauce",
+              "name": "Sweet Baby Ray's Mild Buffalo Wing Sauce",
+              "amount": 20,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "component:reduced-sodium-buffalo-finish",
+              "confidence": "medium",
+              "allocations": {
+                "reduced-sodium-buffalo-finish": 20
+              },
+              "measure": {
+                "type": "liquid",
+                "density": 1.05
+              }
+            },
+            {
+              "key": "avocado_oil",
+              "sourceKey": "avocado_oil",
+              "name": "Avocado oil",
+              "amount": 4,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "",
+              "confidence": "medium",
+              "measure": {
+                "type": "liquid",
+                "density": 0.91
+              }
+            },
+            {
+              "key": "water",
+              "sourceKey": "water",
+              "name": "Water",
+              "amount": 14,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "component:reduced-sodium-buffalo-finish",
+              "confidence": "high",
+              "allocations": {
+                "reduced-sodium-buffalo-finish": 14
+              }
+            },
+            {
+              "key": "apple_cider_vinegar",
+              "sourceKey": "apple_cider_vinegar",
+              "name": "Apple cider vinegar",
+              "amount": 4,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "component:reduced-sodium-buffalo-finish",
+              "confidence": "medium",
+              "allocations": {
+                "reduced-sodium-buffalo-finish": 4
+              }
+            },
+            {
+              "key": "garlic_powder",
+              "sourceKey": "garlic_powder",
+              "name": "Garlic powder",
+              "amount": 2.5,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "component:reduced-sodium-buffalo-finish; component:potato-roast",
+              "confidence": "medium",
+              "allocations": {
+                "reduced-sodium-buffalo-finish": 1,
+                "potato-roast": 1.5
+              },
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 3.1
+              }
+            },
+            {
+              "key": "paprika",
+              "sourceKey": "paprika",
+              "name": "Paprika",
+              "amount": 2.5,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "component:reduced-sodium-buffalo-finish; component:potato-roast",
+              "confidence": "high",
+              "allocations": {
+                "reduced-sodium-buffalo-finish": 1,
+                "potato-roast": 1.5
+              },
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 2.3
               }
             },
             {
@@ -1104,1069 +2043,105 @@ const PRPD_PRODUCTION_DATA = {
               "amount": 0.5,
               "unit": "g",
               "station": "Dry Prep & Seasonings",
-              "note": "component:shared-chicken-base",
+              "note": "component:potato-roast",
               "confidence": "high",
               "allocations": {
-                "shared-chicken-base": 0.5
+                "potato-roast": 0.5
               },
               "measure": {
                 "type": "spice",
                 "gramsPerTsp": 6.0
-              }
-            },
-            {
-              "key": "garlic_powder",
-              "sourceKey": "garlic_powder",
-              "name": "Garlic powder",
-              "amount": 0.675,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:shared-chicken-base",
-              "confidence": "medium",
-              "allocations": {
-                "shared-chicken-base": 0.675
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 3.1
-              }
-            },
-            {
-              "key": "onion_powder",
-              "sourceKey": "onion_powder",
-              "name": "Onion powder",
-              "amount": 0.4,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:shared-chicken-base",
-              "confidence": "medium",
-              "allocations": {
-                "shared-chicken-base": 0.4
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 2.4
-              }
-            },
-            {
-              "key": "paprika",
-              "sourceKey": "paprika",
-              "name": "Paprika",
-              "amount": 0.3,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:shared-chicken-base",
-              "confidence": "high",
-              "allocations": {
-                "shared-chicken-base": 0.3
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 2.3
-              }
-            },
-            {
-              "key": "black_pepper",
-              "sourceKey": "black_pepper",
-              "name": "Ground black pepper",
-              "amount": 0.2,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:shared-chicken-base",
-              "confidence": "high",
-              "allocations": {
-                "shared-chicken-base": 0.2
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 2.3
-              }
-            },
-            {
-              "key": "kings_hawaiian_roll",
-              "sourceKey": "kings_hawaiian_roll",
-              "name": "King's Hawaiian Original Sweet Roll",
-              "amount": 3,
-              "unit": "each",
-              "station": "Bread & Packaging",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "mozzarella",
-              "sourceKey": "mozzarella",
-              "name": "H-E-B fat-free mozzarella",
-              "amount": 28,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "light_mayo",
-              "sourceKey": "light_mayo",
-              "name": "Great Value light mayonnaise",
-              "amount": 7.3333,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "component:batch13-sweet-heat",
-              "confidence": "high",
-              "allocations": {
-                "batch13-sweet-heat": 7.3333
-              }
-            },
-            {
-              "key": "ketchup",
-              "sourceKey": "ketchup",
-              "name": "Ketchup",
-              "amount": 8.8,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "component:batch13-sweet-heat",
-              "confidence": "low",
-              "allocations": {
-                "batch13-sweet-heat": 8.8
-              },
-              "measure": {
-                "type": "liquid",
-                "density": 1.14
-              }
-            },
-            {
-              "key": "honey",
-              "sourceKey": "honey",
-              "name": "Honey",
-              "amount": 8.8,
-              "unit": "g",
-              "station": "Breakfast & Desserts",
-              "note": "component:batch13-sweet-heat",
-              "confidence": "high",
-              "allocations": {
-                "batch13-sweet-heat": 8.8
-              },
-              "measure": {
-                "type": "liquid",
-                "density": 1.42
-              }
-            },
-            {
-              "key": "sriracha",
-              "sourceKey": "sriracha",
-              "name": "Sriracha sauce",
-              "amount": 5.0667,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "component:batch13-sweet-heat",
-              "confidence": "medium",
-              "allocations": {
-                "batch13-sweet-heat": 5.0667
-              },
-              "measure": {
-                "type": "liquid",
-                "density": 1.1
-              }
-            },
-            {
-              "key": "onion",
-              "sourceKey": "onion",
-              "name": "Onion, raw",
-              "amount": 15,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "pickles",
-              "sourceKey": "pickles",
-              "name": "House refrigerator-pickled vegetables",
-              "amount": 15,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "one drained pickle chip per slider; plan 5g per chip and record the actual drained weight",
-              "confidence": "medium"
-            },
-            {
-              "key": "avocado_oil",
-              "sourceKey": "avocado_oil",
-              "name": "Avocado oil",
-              "amount": 1,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "medium",
-              "measure": {
-                "type": "liquid",
-                "density": 0.91
-              }
-            }
-          ],
-          "confidence": "high",
-          "assumptions": [
-            "Lean is three sliders; Bulk is four.",
-            "Each slider targets approximately 25g cooked chicken, modeled from raw chicken thighs at a 75% cooked yield and corrected from Batch 6 overproduction.",
-            "Uses King's Hawaiian Original Sweet Rolls, the current PRPD Sweet Heat ratio, onion, and one drained pickle chip per slider. There is no separate hot-sauce cup.",
-            "Season the slider chicken at the moderate 5g salt per kg raw-chicken rate after the compatible aromatic base is divided."
-          ]
-        },
-        "bulk": {
-          "ingredients": [
-            {
-              "key": "chicken_thigh_raw",
-              "sourceKey": "chicken_thigh_cooked",
-              "name": "Boneless skinless chicken thighs, raw",
-              "amount": 133.0,
-              "unit": "g",
-              "station": "Poultry",
-              "note": "Raw purchasing/prep quantity; modeled 75% cooked yield.",
-              "confidence": "high",
-              "measure": {
-                "type": "meat"
-              }
-            },
-            {
-              "key": "salt",
-              "sourceKey": "salt",
-              "name": "Table salt",
-              "amount": 0.665,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:shared-chicken-base",
-              "confidence": "high",
-              "allocations": {
-                "shared-chicken-base": 0.665
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 6.0
-              }
-            },
-            {
-              "key": "garlic_powder",
-              "sourceKey": "garlic_powder",
-              "name": "Garlic powder",
-              "amount": 0.8978,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:shared-chicken-base",
-              "confidence": "medium",
-              "allocations": {
-                "shared-chicken-base": 0.8978
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 3.1
-              }
-            },
-            {
-              "key": "onion_powder",
-              "sourceKey": "onion_powder",
-              "name": "Onion powder",
-              "amount": 0.532,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:shared-chicken-base",
-              "confidence": "medium",
-              "allocations": {
-                "shared-chicken-base": 0.532
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 2.4
-              }
-            },
-            {
-              "key": "paprika",
-              "sourceKey": "paprika",
-              "name": "Paprika",
-              "amount": 0.399,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:shared-chicken-base",
-              "confidence": "high",
-              "allocations": {
-                "shared-chicken-base": 0.399
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 2.3
-              }
-            },
-            {
-              "key": "black_pepper",
-              "sourceKey": "black_pepper",
-              "name": "Ground black pepper",
-              "amount": 0.266,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:shared-chicken-base",
-              "confidence": "high",
-              "allocations": {
-                "shared-chicken-base": 0.266
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 2.3
-              }
-            },
-            {
-              "key": "kings_hawaiian_roll",
-              "sourceKey": "kings_hawaiian_roll",
-              "name": "King's Hawaiian Original Sweet Roll",
-              "amount": 4,
-              "unit": "each",
-              "station": "Bread & Packaging",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "mozzarella",
-              "sourceKey": "mozzarella",
-              "name": "H-E-B fat-free mozzarella",
-              "amount": 28,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "light_mayo",
-              "sourceKey": "light_mayo",
-              "name": "Great Value light mayonnaise",
-              "amount": 9.7778,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "component:batch13-sweet-heat",
-              "confidence": "high",
-              "allocations": {
-                "batch13-sweet-heat": 9.7778
-              }
-            },
-            {
-              "key": "ketchup",
-              "sourceKey": "ketchup",
-              "name": "Ketchup",
-              "amount": 11.7333,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "component:batch13-sweet-heat",
-              "confidence": "low",
-              "allocations": {
-                "batch13-sweet-heat": 11.7333
-              },
-              "measure": {
-                "type": "liquid",
-                "density": 1.14
-              }
-            },
-            {
-              "key": "honey",
-              "sourceKey": "honey",
-              "name": "Honey",
-              "amount": 11.7333,
-              "unit": "g",
-              "station": "Breakfast & Desserts",
-              "note": "component:batch13-sweet-heat",
-              "confidence": "high",
-              "allocations": {
-                "batch13-sweet-heat": 11.7333
-              },
-              "measure": {
-                "type": "liquid",
-                "density": 1.42
-              }
-            },
-            {
-              "key": "sriracha",
-              "sourceKey": "sriracha",
-              "name": "Sriracha sauce",
-              "amount": 6.7556,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "component:batch13-sweet-heat",
-              "confidence": "medium",
-              "allocations": {
-                "batch13-sweet-heat": 6.7556
-              },
-              "measure": {
-                "type": "liquid",
-                "density": 1.1
-              }
-            },
-            {
-              "key": "onion",
-              "sourceKey": "onion",
-              "name": "Onion, raw",
-              "amount": 20,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "pickles",
-              "sourceKey": "pickles",
-              "name": "House refrigerator-pickled vegetables",
-              "amount": 20,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "one drained pickle chip per slider; plan 5g per chip and record the actual drained weight",
-              "confidence": "medium"
-            },
-            {
-              "key": "avocado_oil",
-              "sourceKey": "avocado_oil",
-              "name": "Avocado oil",
-              "amount": 1.5,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "medium",
-              "measure": {
-                "type": "liquid",
-                "density": 0.91
-              }
-            }
-          ],
-          "confidence": "high",
-          "assumptions": [
-            "Lean is three sliders; Bulk is four.",
-            "Each slider targets approximately 25g cooked chicken, modeled from raw chicken thighs at a 75% cooked yield and corrected from Batch 6 overproduction.",
-            "Uses King's Hawaiian Original Sweet Rolls, the current PRPD Sweet Heat ratio, onion, and one drained pickle chip per slider. There is no separate hot-sauce cup.",
-            "Season the slider chicken at the moderate 5g salt per kg raw-chicken rate after the compatible aromatic base is divided."
-          ]
-        }
-      },
-      "plannerOnly": false,
-      "qualityChecks": "Use the exact King's Hawaiian Original Sweet Roll build with three Lean or four Bulk sliders and incorporated reduced-Sriracha hot-honey mayo. The source's 75% chicken-yield assumption is method-specific and still needs an exact-method capture; do not silently replace it with the separate 68.8% standard-chicken run. Verify the current roll panel and container fit. The historical photo's visible cup is stale presentation and does not authorize a recipe-required cup."
-    },
-    "m2": {
-      "name": "Creamy Cajun Chicken Pasta",
-      "category": "Main",
-      "aliases": [],
-      "status": "Batch 20 controlled planning recipe",
-      "recommendation": "Confirm actual purchased panels and measured yields.",
-      "tiers": {
-        "lean": {
-          "ingredients": [
-            {
-              "key": "chicken_thigh_raw",
-              "sourceKey": "chicken_thigh_cooked",
-              "name": "Boneless skinless chicken thighs, raw",
-              "amount": 200.0,
-              "unit": "g",
-              "station": "Poultry",
-              "note": "Raw purchasing/prep quantity; modeled 75% cooked yield.",
-              "confidence": "high",
-              "measure": {
-                "type": "meat"
-              }
-            },
-            {
-              "key": "salt",
-              "sourceKey": "salt",
-              "name": "Table salt",
-              "amount": 1.6,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:shared-chicken-base",
-              "confidence": "high",
-              "allocations": {
-                "shared-chicken-base": 1.6
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 6.0
-              }
-            },
-            {
-              "key": "garlic_powder",
-              "sourceKey": "garlic_powder",
-              "name": "Garlic powder",
-              "amount": 1.35,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:shared-chicken-base",
-              "confidence": "medium",
-              "allocations": {
-                "shared-chicken-base": 1.35
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 3.1
-              }
-            },
-            {
-              "key": "onion_powder",
-              "sourceKey": "onion_powder",
-              "name": "Onion powder",
-              "amount": 0.8,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:shared-chicken-base",
-              "confidence": "medium",
-              "allocations": {
-                "shared-chicken-base": 0.8
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 2.4
-              }
-            },
-            {
-              "key": "paprika",
-              "sourceKey": "paprika",
-              "name": "Paprika",
-              "amount": 0.6,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:shared-chicken-base",
-              "confidence": "high",
-              "allocations": {
-                "shared-chicken-base": 0.6
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 2.3
-              }
-            },
-            {
-              "key": "black_pepper",
-              "sourceKey": "black_pepper",
-              "name": "Ground black pepper",
-              "amount": 0.4,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:shared-chicken-base",
-              "confidence": "high",
-              "allocations": {
-                "shared-chicken-base": 0.4
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 2.3
-              }
-            },
-            {
-              "key": "protein_pasta",
-              "sourceKey": "protein_pasta",
-              "name": "Kroger protein pasta",
-              "amount": 50.0,
-              "unit": "g",
-              "station": "Starches & Hot Sides",
-              "note": "",
-              "confidence": "medium"
-            },
-            {
-              "key": "crushed_tomatoes",
-              "sourceKey": "crushed_tomatoes",
-              "name": "Canned crushed tomatoes",
-              "amount": 93.6123,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "",
-              "confidence": "medium"
-            },
-            {
-              "key": "water",
-              "sourceKey": "water",
-              "name": "Water",
-              "amount": 104.6256,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "regular_cream_cheese",
-              "sourceKey": "regular_cream_cheese",
-              "name": "Philadelphia Original cream cheese",
-              "amount": 12.5551,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "onion",
-              "sourceKey": "onion",
-              "name": "Onion, raw",
-              "amount": 33.0396,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "green_onion",
-              "sourceKey": "green_onion",
-              "name": "Green onion",
-              "amount": 9.9119,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "",
-              "confidence": "medium"
-            },
-            {
-              "key": "olive_oil",
-              "sourceKey": "olive_oil",
-              "name": "Olive oil",
-              "amount": 2.9736,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "medium",
-              "measure": {
-                "type": "liquid",
-                "density": 0.91
-              }
-            },
-            {
-              "key": "butter",
-              "sourceKey": "butter",
-              "name": "Butter",
-              "amount": 3.0837,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "smoked_paprika",
-              "sourceKey": "smoked_paprika",
-              "name": "Smoked paprika",
-              "amount": 2.0264,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "medium"
-            },
-            {
-              "key": "oregano",
-              "sourceKey": "oregano",
-              "name": "Dried oregano",
-              "amount": 0.4405,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "medium",
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 1.0
-              }
-            },
-            {
-              "key": "thyme",
-              "sourceKey": "thyme",
-              "name": "Dried thyme",
-              "amount": 0.4405,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "medium",
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 1.0
-              }
-            },
-            {
-              "key": "cayenne",
-              "sourceKey": "cayenne",
-              "name": "Ground cayenne",
-              "amount": 0.1982,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "medium",
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 1.8
               }
             }
           ],
           "confidence": "medium",
           "assumptions": [
-            "Budget Bytes Cajun pasta adapted to owner-requested thighs, regular crushed tomatoes, usual protein spaghetti, and water instead of broth. US quantities converted to grams.",
-            "Lean: 200g raw thighs and 50g dry protein spaghetti. Bulk: 275g raw thighs and 65g dry protein spaghetti. Source sauce proportions scale with dry pasta; Cajun seasoning scales with chicken. Owner requested Lean in the 500-calorie range and a lighter Bulk.",
-            "Do not use the source website's breast-and-broth nutrition or the withdrawn PRPD prototype macros.",
-            "Working produce conversion: one yellow onion = 150g; three green onions = 45g. Record actual usable weight.",
-            "Apply the shared savory base to whole thighs, split the Cajun pull, then cut it into 1.5-2cm cubes and add the measured smoked-paprika, oregano, thyme, and cayenne finish.",
-            "Protein spaghetti replaces short penne. Use a wide deep pan, submerge the strands as they soften, and stir to prevent clumping; adjust water in measured additions until the pasta is tender. Do not assume penne's cook time applies.",
-            "Water is a cooking input, not a verified final net weight. Weigh the finished pan before printing final net-weight labels."
-          ]
-        },
-        "bulk": {
-          "ingredients": [
-            {
-              "key": "chicken_thigh_raw",
-              "sourceKey": "chicken_thigh_cooked",
-              "name": "Boneless skinless chicken thighs, raw",
-              "amount": 275.0,
-              "unit": "g",
-              "station": "Poultry",
-              "note": "Raw purchasing/prep quantity; modeled 75% cooked yield.",
-              "confidence": "high",
-              "measure": {
-                "type": "meat"
-              }
-            },
-            {
-              "key": "salt",
-              "sourceKey": "salt",
-              "name": "Table salt",
-              "amount": 2.2,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:shared-chicken-base",
-              "confidence": "high",
-              "allocations": {
-                "shared-chicken-base": 2.2
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 6.0
-              }
-            },
-            {
-              "key": "garlic_powder",
-              "sourceKey": "garlic_powder",
-              "name": "Garlic powder",
-              "amount": 1.8562,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:shared-chicken-base",
-              "confidence": "medium",
-              "allocations": {
-                "shared-chicken-base": 1.8562
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 3.1
-              }
-            },
-            {
-              "key": "onion_powder",
-              "sourceKey": "onion_powder",
-              "name": "Onion powder",
-              "amount": 1.1,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:shared-chicken-base",
-              "confidence": "medium",
-              "allocations": {
-                "shared-chicken-base": 1.1
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 2.4
-              }
-            },
-            {
-              "key": "paprika",
-              "sourceKey": "paprika",
-              "name": "Paprika",
-              "amount": 0.825,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:shared-chicken-base",
-              "confidence": "high",
-              "allocations": {
-                "shared-chicken-base": 0.825
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 2.3
-              }
-            },
-            {
-              "key": "black_pepper",
-              "sourceKey": "black_pepper",
-              "name": "Ground black pepper",
-              "amount": 0.55,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:shared-chicken-base",
-              "confidence": "high",
-              "allocations": {
-                "shared-chicken-base": 0.55
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 2.3
-              }
-            },
-            {
-              "key": "protein_pasta",
-              "sourceKey": "protein_pasta",
-              "name": "Kroger protein pasta",
-              "amount": 65.0,
-              "unit": "g",
-              "station": "Starches & Hot Sides",
-              "note": "",
-              "confidence": "medium"
-            },
-            {
-              "key": "crushed_tomatoes",
-              "sourceKey": "crushed_tomatoes",
-              "name": "Canned crushed tomatoes",
-              "amount": 121.696,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "",
-              "confidence": "medium"
-            },
-            {
-              "key": "water",
-              "sourceKey": "water",
-              "name": "Water",
-              "amount": 136.0132,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "regular_cream_cheese",
-              "sourceKey": "regular_cream_cheese",
-              "name": "Philadelphia Original cream cheese",
-              "amount": 16.3216,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "onion",
-              "sourceKey": "onion",
-              "name": "Onion, raw",
-              "amount": 42.9515,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "green_onion",
-              "sourceKey": "green_onion",
-              "name": "Green onion",
-              "amount": 12.8855,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "",
-              "confidence": "medium"
-            },
-            {
-              "key": "olive_oil",
-              "sourceKey": "olive_oil",
-              "name": "Olive oil",
-              "amount": 3.8656,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "medium",
-              "measure": {
-                "type": "liquid",
-                "density": 0.91
-              }
-            },
-            {
-              "key": "butter",
-              "sourceKey": "butter",
-              "name": "Butter",
-              "amount": 4.0088,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "smoked_paprika",
-              "sourceKey": "smoked_paprika",
-              "name": "Smoked paprika",
-              "amount": 2.7863,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "medium"
-            },
-            {
-              "key": "oregano",
-              "sourceKey": "oregano",
-              "name": "Dried oregano",
-              "amount": 0.6057,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "medium",
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 1.0
-              }
-            },
-            {
-              "key": "thyme",
-              "sourceKey": "thyme",
-              "name": "Dried thyme",
-              "amount": 0.6057,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "medium",
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 1.0
-              }
-            },
-            {
-              "key": "cayenne",
-              "sourceKey": "cayenne",
-              "name": "Ground cayenne",
-              "amount": 0.2726,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "medium",
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 1.8
-              }
-            }
-          ],
-          "confidence": "medium",
-          "assumptions": [
-            "Budget Bytes Cajun pasta adapted to owner-requested thighs, regular crushed tomatoes, usual protein spaghetti, and water instead of broth. US quantities converted to grams.",
-            "Lean: 200g raw thighs and 50g dry protein spaghetti. Bulk: 275g raw thighs and 65g dry protein spaghetti. Source sauce proportions scale with dry pasta; Cajun seasoning scales with chicken. Owner requested Lean in the 500-calorie range and a lighter Bulk.",
-            "Do not use the source website's breast-and-broth nutrition or the withdrawn PRPD prototype macros.",
-            "Working produce conversion: one yellow onion = 150g; three green onions = 45g. Record actual usable weight.",
-            "Apply the shared savory base to whole thighs, split the Cajun pull, then cut it into 1.5-2cm cubes and add the measured smoked-paprika, oregano, thyme, and cayenne finish.",
-            "Protein spaghetti replaces short penne. Use a wide deep pan, submerge the strands as they soften, and stir to prevent clumping; adjust water in measured additions until the pasta is tender. Do not assume penne's cook time applies.",
-            "Water is a cooking input, not a verified final net weight. Weigh the finished pan before printing final net-weight labels."
+            "October 22 owner correction: allocate 250g raw chicken before cooking; record the actual cooked yield.",
+            "The potato allocation is reduced from 300g to 200g per meal after the Batch 6 overproduction report.",
+            "Potato is a translated starch and retains its recipe-specific input until its cooked yield is measured.",
+            "Use a 30g Lean / 40g Bulk incorporated finish made with 15g/20g Buffalo sauce, water, apple-cider vinegar, garlic and paprika. Add no salt to the chicken or Buffalo finish.",
+            "October 22 owner correction: season the complete shared potato-and-broccoli roast with the measured salt, garlic powder, and paprika before dividing it between Egg Bites and Loaded Buffalo."
           ]
         }
       },
       "plannerOnly": false
     },
-    "m3": {
-      "name": "Chicken Enchilada Bake",
+    "m4": {
+      "name": "Meatball Arrabbiata Pasta",
       "category": "Main",
       "aliases": [],
-      "status": "Batch 20 controlled planning recipe",
+      "status": "Batch 21 controlled planning recipe",
       "recommendation": "Confirm actual purchased panels and measured yields.",
       "tiers": {
         "lean": {
           "ingredients": [
             {
-              "key": "chicken_thigh_raw",
-              "sourceKey": "chicken_thigh_cooked",
-              "name": "Boneless skinless chicken thighs, raw",
-              "amount": 200.0,
+              "key": "beef_90_raw",
+              "sourceKey": "beef_90_baked",
+              "name": "Ground beef 90/10, raw",
+              "amount": 165.0,
               "unit": "g",
-              "station": "Poultry",
-              "note": "Raw purchasing/prep quantity; modeled 75% cooked yield.",
+              "station": "Beef",
+              "note": "Raw purchasing/prep quantity; modeled 72% cooked yield.",
               "confidence": "high",
               "measure": {
                 "type": "meat"
               }
             },
             {
-              "key": "salt",
-              "sourceKey": "salt",
-              "name": "Table salt",
-              "amount": 1.6,
+              "key": "kroger_protein_pasta",
+              "sourceKey": "kroger_protein_pasta",
+              "name": "Kroger protein pasta",
+              "amount": 65,
               "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:shared-chicken-base",
-              "confidence": "high",
-              "allocations": {
-                "shared-chicken-base": 1.6
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 6.0
-              }
-            },
-            {
-              "key": "garlic_powder",
-              "sourceKey": "garlic_powder",
-              "name": "Garlic powder",
-              "amount": 1.35,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:shared-chicken-base",
-              "confidence": "medium",
-              "allocations": {
-                "shared-chicken-base": 1.35
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 3.1
-              }
-            },
-            {
-              "key": "onion_powder",
-              "sourceKey": "onion_powder",
-              "name": "Onion powder",
-              "amount": 0.8,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:shared-chicken-base",
-              "confidence": "medium",
-              "allocations": {
-                "shared-chicken-base": 0.8
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 2.4
-              }
-            },
-            {
-              "key": "paprika",
-              "sourceKey": "paprika",
-              "name": "Paprika",
-              "amount": 0.6,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:shared-chicken-base",
-              "confidence": "high",
-              "allocations": {
-                "shared-chicken-base": 0.6
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 2.3
-              }
-            },
-            {
-              "key": "black_pepper",
-              "sourceKey": "black_pepper",
-              "name": "Ground black pepper",
-              "amount": 0.4,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:shared-chicken-base",
-              "confidence": "high",
-              "allocations": {
-                "shared-chicken-base": 0.4
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 2.3
-              }
-            },
-            {
-              "key": "small_tortilla",
-              "sourceKey": "small_tortilla",
-              "name": "Mission Carb Balance medium soft-taco tortilla",
-              "amount": 2,
-              "unit": "each",
-              "station": "Bread & Packaging",
+              "station": "Starches & Hot Sides",
               "note": "",
               "confidence": "medium"
             },
             {
-              "key": "corn",
-              "sourceKey": "corn",
-              "name": "Sweet yellow corn, cooked, no salt",
+              "key": "crushed_tomatoes",
+              "sourceKey": "crushed_tomatoes",
+              "name": "Canned crushed tomatoes",
+              "amount": 150,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "medium"
+            },
+            {
+              "key": "garlic",
+              "sourceKey": "garlic",
+              "name": "Garlic, raw",
+              "amount": 18,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "tomato_paste",
+              "sourceKey": "tomato_paste",
+              "name": "Tomato paste",
+              "amount": 16,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "mozzarella",
+              "sourceKey": "mozzarella",
+              "name": "H-E-B fat-free mozzarella",
+              "amount": 28,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "onion",
+              "sourceKey": "onion",
+              "name": "Onion, raw",
               "amount": 50,
               "unit": "g",
               "station": "Cold Prep & Produce",
@@ -2174,14 +2149,102 @@ const PRPD_PRODUCTION_DATA = {
               "confidence": "high"
             },
             {
-              "key": "enchilada_sauce",
-              "sourceKey": "enchilada_sauce",
-              "name": "Red enchilada sauce",
-              "amount": 100,
+              "key": "egg",
+              "sourceKey": "egg",
+              "name": "Whole egg",
+              "amount": 0.4125,
+              "unit": "each",
+              "station": "Breakfast & Desserts",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "breadcrumbs",
+              "sourceKey": "breadcrumbs",
+              "name": "Seasoned dry breadcrumbs",
+              "amount": 6.1875,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "",
+              "confidence": "low"
+            },
+            {
+              "key": "salt",
+              "sourceKey": "salt",
+              "name": "Table salt",
+              "amount": 0.75,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "",
+              "confidence": "high",
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 6.0
+              }
+            }
+          ],
+          "confidence": "medium",
+          "assumptions": [
+            "One garlic clove is treated as 3g.",
+            "Half tablespoon breadcrumbs treated as 3.75g per 100g beef.",
+            "No cooking oil is counted; 0.75g/1g Lean/Bulk salt is modeled.",
+            "Use the exact Kroger protein pasta identity; do not substitute the historical Barilla spaghetti or Caprese Rotini records."
+          ]
+        },
+        "bulk": {
+          "ingredients": [
+            {
+              "key": "beef_90_raw",
+              "sourceKey": "beef_90_baked",
+              "name": "Ground beef 90/10, raw",
+              "amount": 220.0,
+              "unit": "g",
+              "station": "Beef",
+              "note": "Raw purchasing/prep quantity; modeled 72% cooked yield.",
+              "confidence": "high",
+              "measure": {
+                "type": "meat"
+              }
+            },
+            {
+              "key": "kroger_protein_pasta",
+              "sourceKey": "kroger_protein_pasta",
+              "name": "Kroger protein pasta",
+              "amount": 76,
+              "unit": "g",
+              "station": "Starches & Hot Sides",
+              "note": "",
+              "confidence": "medium"
+            },
+            {
+              "key": "crushed_tomatoes",
+              "sourceKey": "crushed_tomatoes",
+              "name": "Canned crushed tomatoes",
+              "amount": 150,
               "unit": "g",
               "station": "Sauces & Dairy",
               "note": "",
               "confidence": "medium"
+            },
+            {
+              "key": "garlic",
+              "sourceKey": "garlic",
+              "name": "Garlic, raw",
+              "amount": 18,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "tomato_paste",
+              "sourceKey": "tomato_paste",
+              "name": "Tomato paste",
+              "amount": 16,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "high"
             },
             {
               "key": "mozzarella",
@@ -2194,353 +2257,146 @@ const PRPD_PRODUCTION_DATA = {
               "confidence": "high"
             },
             {
-              "key": "red_onion",
-              "sourceKey": "red_onion",
-              "name": "Red onion, raw",
-              "amount": 25,
+              "key": "onion",
+              "sourceKey": "onion",
+              "name": "Onion, raw",
+              "amount": 50,
               "unit": "g",
               "station": "Cold Prep & Produce",
               "note": "",
               "confidence": "high"
             },
             {
-              "key": "avocado_oil",
-              "sourceKey": "avocado_oil",
-              "name": "Avocado oil",
-              "amount": 2,
+              "key": "egg",
+              "sourceKey": "egg",
+              "name": "Whole egg",
+              "amount": 0.55,
+              "unit": "each",
+              "station": "Breakfast & Desserts",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "breadcrumbs",
+              "sourceKey": "breadcrumbs",
+              "name": "Seasoned dry breadcrumbs",
+              "amount": 8.25,
               "unit": "g",
               "station": "Dry Prep & Seasonings",
               "note": "",
-              "confidence": "medium",
-              "measure": {
-                "type": "liquid",
-                "density": 0.91
-              }
-            }
-          ],
-          "confidence": "medium",
-          "assumptions": [
-            "Chicken, corn, tortillas, sauce, and cheese are layered and baked as one controlled casserole. Beans are excluded by the September 16 owner decision after customer feedback.",
-            "Record finished pan weight and equal serving weights before final labels."
-          ]
-        },
-        "bulk": {
-          "ingredients": [
-            {
-              "key": "chicken_thigh_raw",
-              "sourceKey": "chicken_thigh_cooked",
-              "name": "Boneless skinless chicken thighs, raw",
-              "amount": 290.0,
-              "unit": "g",
-              "station": "Poultry",
-              "note": "Raw purchasing/prep quantity; modeled 75% cooked yield.",
-              "confidence": "high",
-              "measure": {
-                "type": "meat"
-              }
+              "confidence": "low"
             },
             {
               "key": "salt",
               "sourceKey": "salt",
               "name": "Table salt",
-              "amount": 2.32,
+              "amount": 1,
               "unit": "g",
               "station": "Dry Prep & Seasonings",
-              "note": "component:shared-chicken-base",
+              "note": "",
               "confidence": "high",
-              "allocations": {
-                "shared-chicken-base": 2.32
-              },
               "measure": {
                 "type": "spice",
                 "gramsPerTsp": 6.0
-              }
-            },
-            {
-              "key": "garlic_powder",
-              "sourceKey": "garlic_powder",
-              "name": "Garlic powder",
-              "amount": 1.9575,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:shared-chicken-base",
-              "confidence": "medium",
-              "allocations": {
-                "shared-chicken-base": 1.9575
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 3.1
-              }
-            },
-            {
-              "key": "onion_powder",
-              "sourceKey": "onion_powder",
-              "name": "Onion powder",
-              "amount": 1.16,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:shared-chicken-base",
-              "confidence": "medium",
-              "allocations": {
-                "shared-chicken-base": 1.16
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 2.4
-              }
-            },
-            {
-              "key": "paprika",
-              "sourceKey": "paprika",
-              "name": "Paprika",
-              "amount": 0.87,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:shared-chicken-base",
-              "confidence": "high",
-              "allocations": {
-                "shared-chicken-base": 0.87
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 2.3
-              }
-            },
-            {
-              "key": "black_pepper",
-              "sourceKey": "black_pepper",
-              "name": "Ground black pepper",
-              "amount": 0.58,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:shared-chicken-base",
-              "confidence": "high",
-              "allocations": {
-                "shared-chicken-base": 0.58
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 2.3
-              }
-            },
-            {
-              "key": "small_tortilla",
-              "sourceKey": "small_tortilla",
-              "name": "Mission Carb Balance medium soft-taco tortilla",
-              "amount": 3.125,
-              "unit": "each",
-              "station": "Bread & Packaging",
-              "note": "",
-              "confidence": "medium"
-            },
-            {
-              "key": "corn",
-              "sourceKey": "corn",
-              "name": "Sweet yellow corn, cooked, no salt",
-              "amount": 70,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "enchilada_sauce",
-              "sourceKey": "enchilada_sauce",
-              "name": "Red enchilada sauce",
-              "amount": 130,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "",
-              "confidence": "medium"
-            },
-            {
-              "key": "mozzarella",
-              "sourceKey": "mozzarella",
-              "name": "H-E-B fat-free mozzarella",
-              "amount": 42,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "red_onion",
-              "sourceKey": "red_onion",
-              "name": "Red onion, raw",
-              "amount": 35,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "avocado_oil",
-              "sourceKey": "avocado_oil",
-              "name": "Avocado oil",
-              "amount": 3,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "medium",
-              "measure": {
-                "type": "liquid",
-                "density": 0.91
               }
             }
           ],
           "confidence": "medium",
           "assumptions": [
-            "Chicken, corn, tortillas, sauce, and cheese are layered and baked as one controlled casserole. Beans are excluded by the September 16 owner decision after customer feedback.",
-            "Record finished pan weight and equal serving weights before final labels."
+            "One garlic clove is treated as 3g.",
+            "Half tablespoon breadcrumbs treated as 3.75g per 100g beef.",
+            "No cooking oil is counted; 0.75g/1g Lean/Bulk salt is modeled.",
+            "Use the exact Kroger protein pasta identity; do not substitute the historical Barilla spaghetti or Caprese Rotini records."
           ]
         }
       },
       "plannerOnly": false
     },
-    "m4": {
-      "name": "Southwest Beef Taco Bowl",
+    "m5": {
+      "name": "Lemon Pepper Tilapia with Garlic Potatoes",
       "category": "Main",
       "aliases": [],
-      "status": "Batch 20 controlled planning recipe",
+      "status": "Batch 21 controlled planning recipe",
       "recommendation": "Confirm actual purchased panels and measured yields.",
       "tiers": {
         "lean": {
           "ingredients": [
             {
-              "key": "beef_90_raw",
-              "sourceKey": "beef_90_pan",
-              "name": "Ground beef 90/10, raw",
-              "amount": 210.0,
+              "key": "tilapia_raw",
+              "sourceKey": "tilapia_cooked",
+              "name": "Tilapia fillets, raw",
+              "amount": 220.0,
               "unit": "g",
-              "station": "Beef",
-              "note": "Raw purchasing/prep quantity; modeled 69% cooked yield.",
-              "confidence": "high",
+              "station": "Seafood",
+              "note": "Raw purchasing/prep quantity; modeled 80% cooked yield.",
+              "confidence": "medium",
               "measure": {
                 "type": "meat"
               }
             },
             {
-              "key": "rice_dry",
-              "sourceKey": "rice_dry",
-              "name": "PRPD basmati/white rice, dry",
-              "amount": 45.0,
+              "key": "potato",
+              "sourceKey": "potato",
+              "name": "Potato, flesh and skin, raw",
+              "amount": 250,
               "unit": "g",
               "station": "Starches & Hot Sides",
-              "note": "component:shared-cilantro-garlic-lime-rice",
-              "confidence": "medium",
-              "allocations": {
-                "shared-cilantro-garlic-lime-rice": 45.0
-              }
+              "note": "",
+              "confidence": "high"
             },
             {
-              "key": "cilantro",
-              "sourceKey": "cilantro",
-              "name": "Cilantro, raw",
-              "amount": 2.0,
+              "key": "broccoli",
+              "sourceKey": "broccoli",
+              "name": "Broccoli, raw",
+              "amount": 100,
               "unit": "g",
               "station": "Cold Prep & Produce",
-              "note": "component:shared-cilantro-garlic-lime-rice",
-              "confidence": "high",
-              "allocations": {
-                "shared-cilantro-garlic-lime-rice": 2.0
-              }
+              "note": "",
+              "confidence": "high"
             },
             {
               "key": "garlic",
               "sourceKey": "garlic",
               "name": "Garlic, raw",
-              "amount": 1.0,
+              "amount": 5,
               "unit": "g",
               "station": "Cold Prep & Produce",
-              "note": "component:shared-cilantro-garlic-lime-rice",
-              "confidence": "high",
-              "allocations": {
-                "shared-cilantro-garlic-lime-rice": 1.0
-              }
+              "note": "",
+              "confidence": "high"
             },
             {
-              "key": "lime",
-              "sourceKey": "lime",
-              "name": "Lime juice, raw",
-              "amount": 5.0,
+              "key": "lemon",
+              "sourceKey": "lemon",
+              "name": "Bottled lemon juice",
+              "amount": 10,
               "unit": "g",
               "station": "Cold Prep & Produce",
-              "note": "component:shared-cilantro-garlic-lime-rice",
-              "confidence": "high",
-              "allocations": {
-                "shared-cilantro-garlic-lime-rice": 5.0
-              },
+              "note": "",
+              "confidence": "medium",
               "measure": {
                 "type": "liquid",
                 "density": 1.03
               }
             },
             {
-              "key": "black_beans",
-              "sourceKey": "black_beans",
-              "name": "Black beans, canned, drained",
-              "amount": 55,
+              "key": "black_pepper",
+              "sourceKey": "black_pepper",
+              "name": "Ground black pepper",
+              "amount": 1.5,
               "unit": "g",
-              "station": "Cold Prep & Produce",
+              "station": "Dry Prep & Seasonings",
               "note": "",
-              "confidence": "medium"
-            },
-            {
-              "key": "corn",
-              "sourceKey": "corn",
-              "name": "Sweet yellow corn, cooked, no salt",
-              "amount": 60,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "green_bell_pepper",
-              "sourceKey": "green_bell_pepper",
-              "name": "Green bell pepper, raw",
-              "amount": 30,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "",
-              "confidence": "controlled-comparable-profile"
-            },
-            {
-              "key": "onion",
-              "sourceKey": "onion",
-              "name": "Onion, raw",
-              "amount": 20,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "lettuce",
-              "sourceKey": "lettuce",
-              "name": "Green leaf lettuce, raw",
-              "amount": 25,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "cotija",
-              "sourceKey": "cotija",
-              "name": "Cotija cheese",
-              "amount": 12,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "",
-              "confidence": "low"
+              "confidence": "high",
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 2.3
+              }
             },
             {
               "key": "avocado_oil",
               "sourceKey": "avocado_oil",
               "name": "Avocado oil",
-              "amount": 2,
+              "amount": 5,
               "unit": "g",
               "station": "Dry Prep & Seasonings",
               "note": "",
@@ -2567,148 +2423,89 @@ const PRPD_PRODUCTION_DATA = {
           ],
           "confidence": "medium",
           "assumptions": [
-            "Use exactly 210g raw 90/10 beef; working finished seasoned-component target is 175g pending measured 90/10 yield.",
-            "Owner-approved component standard: 120g cooked starch and 75g vegetables; 45g/60g dry basmati is the controlled rice equivalent until rice yield is measured.",
-            "Ground beef is browned to 160 F and drained before taco seasoning is added.",
-            "Record the first filled weights and day-three texture before treating the formula as final."
+            "Tilapia is seasoned with a measured 10g Lean/12g Bulk lemon allocation and cracked black pepper; garlic is assigned to the roasted potatoes. It is not marketed as blackened.",
+            "Tilapia uses a provisional 80% cooked yield; record the first raw and cooked batch weights.",
+            "Garlic potatoes use 5g Lean/6g Bulk garlic plus their controlled oil and salt allocations."
           ]
         },
         "bulk": {
           "ingredients": [
             {
-              "key": "beef_90_raw",
-              "sourceKey": "beef_90_pan",
-              "name": "Ground beef 90/10, raw",
+              "key": "tilapia_raw",
+              "sourceKey": "tilapia_cooked",
+              "name": "Tilapia fillets, raw",
               "amount": 300.0,
               "unit": "g",
-              "station": "Beef",
-              "note": "Raw purchasing/prep quantity; modeled 69% cooked yield.",
-              "confidence": "high",
+              "station": "Seafood",
+              "note": "Raw purchasing/prep quantity; modeled 80% cooked yield.",
+              "confidence": "medium",
               "measure": {
                 "type": "meat"
               }
             },
             {
-              "key": "rice_dry",
-              "sourceKey": "rice_dry",
-              "name": "PRPD basmati/white rice, dry",
-              "amount": 60.0,
+              "key": "potato",
+              "sourceKey": "potato",
+              "name": "Potato, flesh and skin, raw",
+              "amount": 320,
               "unit": "g",
               "station": "Starches & Hot Sides",
-              "note": "component:shared-cilantro-garlic-lime-rice",
-              "confidence": "medium",
-              "allocations": {
-                "shared-cilantro-garlic-lime-rice": 60.0
-              }
+              "note": "",
+              "confidence": "high"
             },
             {
-              "key": "cilantro",
-              "sourceKey": "cilantro",
-              "name": "Cilantro, raw",
-              "amount": 2.6667,
+              "key": "broccoli",
+              "sourceKey": "broccoli",
+              "name": "Broccoli, raw",
+              "amount": 130,
               "unit": "g",
               "station": "Cold Prep & Produce",
-              "note": "component:shared-cilantro-garlic-lime-rice",
-              "confidence": "high",
-              "allocations": {
-                "shared-cilantro-garlic-lime-rice": 2.6667
-              }
+              "note": "",
+              "confidence": "high"
             },
             {
               "key": "garlic",
               "sourceKey": "garlic",
               "name": "Garlic, raw",
-              "amount": 1.3333,
+              "amount": 6,
               "unit": "g",
               "station": "Cold Prep & Produce",
-              "note": "component:shared-cilantro-garlic-lime-rice",
-              "confidence": "high",
-              "allocations": {
-                "shared-cilantro-garlic-lime-rice": 1.3333
-              }
+              "note": "",
+              "confidence": "high"
             },
             {
-              "key": "lime",
-              "sourceKey": "lime",
-              "name": "Lime juice, raw",
-              "amount": 6.6667,
+              "key": "lemon",
+              "sourceKey": "lemon",
+              "name": "Bottled lemon juice",
+              "amount": 12,
               "unit": "g",
               "station": "Cold Prep & Produce",
-              "note": "component:shared-cilantro-garlic-lime-rice",
-              "confidence": "high",
-              "allocations": {
-                "shared-cilantro-garlic-lime-rice": 6.6667
-              },
+              "note": "",
+              "confidence": "medium",
               "measure": {
                 "type": "liquid",
                 "density": 1.03
               }
             },
             {
-              "key": "black_beans",
-              "sourceKey": "black_beans",
-              "name": "Black beans, canned, drained",
-              "amount": 70,
+              "key": "black_pepper",
+              "sourceKey": "black_pepper",
+              "name": "Ground black pepper",
+              "amount": 2,
               "unit": "g",
-              "station": "Cold Prep & Produce",
+              "station": "Dry Prep & Seasonings",
               "note": "",
-              "confidence": "medium"
-            },
-            {
-              "key": "corn",
-              "sourceKey": "corn",
-              "name": "Sweet yellow corn, cooked, no salt",
-              "amount": 75,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "green_bell_pepper",
-              "sourceKey": "green_bell_pepper",
-              "name": "Green bell pepper, raw",
-              "amount": 40,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "",
-              "confidence": "controlled-comparable-profile"
-            },
-            {
-              "key": "onion",
-              "sourceKey": "onion",
-              "name": "Onion, raw",
-              "amount": 25,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "lettuce",
-              "sourceKey": "lettuce",
-              "name": "Green leaf lettuce, raw",
-              "amount": 25,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "cotija",
-              "sourceKey": "cotija",
-              "name": "Cotija cheese",
-              "amount": 16,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "",
-              "confidence": "low"
+              "confidence": "high",
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 2.3
+              }
             },
             {
               "key": "avocado_oil",
               "sourceKey": "avocado_oil",
               "name": "Avocado oil",
-              "amount": 3,
+              "amount": 7,
               "unit": "g",
               "station": "Dry Prep & Seasonings",
               "note": "",
@@ -2735,419 +2532,19 @@ const PRPD_PRODUCTION_DATA = {
           ],
           "confidence": "medium",
           "assumptions": [
-            "Use exactly 300g raw 90/10 beef; working finished seasoned-component target is 250g pending measured 90/10 yield.",
-            "Owner-approved component standard: 160g cooked starch and 100g vegetables; 45g/60g dry basmati is the controlled rice equivalent until rice yield is measured.",
-            "Ground beef is browned to 160 F and drained before taco seasoning is added.",
-            "Record the first filled weights and day-three texture before treating the formula as final."
+            "Tilapia is seasoned with a measured 10g Lean/12g Bulk lemon allocation and cracked black pepper; garlic is assigned to the roasted potatoes. It is not marketed as blackened.",
+            "Tilapia uses a provisional 80% cooked yield; record the first raw and cooked batch weights.",
+            "Garlic potatoes use 5g Lean/6g Bulk garlic plus their controlled oil and salt allocations."
           ]
         }
       },
       "plannerOnly": false
     },
-    "m5": {
-      "name": "Thai Basil Beef + Jasmine Rice",
-      "category": "Main",
-      "aliases": [],
-      "status": "Batch 20 controlled planning recipe",
-      "recommendation": "Owner-approved minced format. Recipe-based15-field estimate uses210/300g raw90/10,69% existing cooked/drained model, identified RedBoat fish sauce and measured finish. Contains fish. No physical test or new yield is claimed.",
-      "tiers": {
-        "lean": {
-          "ingredients": [
-            {
-              "key": "beef_90_raw",
-              "sourceKey": "beef_90_pan",
-              "name": "Ground beef 90/10, raw",
-              "amount": 210.0,
-              "unit": "g",
-              "station": "Beef",
-              "note": "Raw purchasing/prep quantity; modeled 69% cooked yield.",
-              "confidence": "high",
-              "measure": {
-                "type": "meat"
-              }
-            },
-            {
-              "key": "garlic",
-              "sourceKey": "garlic",
-              "name": "Garlic, raw",
-              "amount": 9.9,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "component:thai-basil-beef_finish; component:thai-basil-beans",
-              "confidence": "high",
-              "allocations": {
-                "thai-basil-beef_finish": 8.4,
-                "thai-basil-beans": 1.5
-              }
-            },
-            {
-              "key": "green_bell_pepper",
-              "sourceKey": "green_bell_pepper",
-              "name": "Green bell pepper, raw",
-              "amount": 33.6,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "component:thai-basil-beef_finish",
-              "confidence": "controlled-comparable-profile",
-              "allocations": {
-                "thai-basil-beef_finish": 33.6
-              }
-            },
-            {
-              "key": "thai_hot_chili",
-              "sourceKey": "thai_hot_chili",
-              "name": "Thai chili (USDA raw green hot-chili equivalent)",
-              "amount": 1.26,
-              "unit": "g",
-              "station": "Other",
-              "note": "component:thai-basil-beef_finish",
-              "confidence": "controlled-comparable-profile",
-              "allocations": {
-                "thai-basil-beef_finish": 1.26
-              }
-            },
-            {
-              "key": "thai_basil_fresh",
-              "sourceKey": "thai_basil_fresh",
-              "name": "Fresh basil (USDA comparable profile)",
-              "amount": 12.6,
-              "unit": "g",
-              "station": "Other",
-              "note": "component:thai-basil-beef_finish",
-              "confidence": "controlled-comparable-profile",
-              "allocations": {
-                "thai-basil-beef_finish": 12.6
-              }
-            },
-            {
-              "key": "avocado_oil",
-              "sourceKey": "avocado_oil",
-              "name": "Avocado oil",
-              "amount": 5.86,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:thai-basil-beef_finish; component:thai-basil-beans",
-              "confidence": "medium",
-              "allocations": {
-                "thai-basil-beef_finish": 3.36,
-                "thai-basil-beans": 2.5
-              },
-              "measure": {
-                "type": "liquid",
-                "density": 0.91
-              }
-            },
-            {
-              "key": "thai_redboat_40n",
-              "sourceKey": "thai_redboat_40n",
-              "name": "Red Boat40N fish sauce (anchovy, sea salt)",
-              "amount": 10.5,
-              "unit": "g",
-              "station": "Other",
-              "note": "component:thai-basil-beef_finish",
-              "confidence": "manufacturer-panel-physical-pending",
-              "allocations": {
-                "thai-basil-beef_finish": 10.5
-              }
-            },
-            {
-              "key": "thai_granulated_sugar",
-              "sourceKey": "thai_granulated_sugar",
-              "name": "Granulated sugar",
-              "amount": 3.36,
-              "unit": "g",
-              "station": "Other",
-              "note": "component:thai-basil-beef_finish",
-              "confidence": "controlled-comparable-profile",
-              "allocations": {
-                "thai-basil-beef_finish": 3.36
-              }
-            },
-            {
-              "key": "water",
-              "sourceKey": "water",
-              "name": "Water",
-              "amount": 25.2,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "component:thai-basil-beef_finish",
-              "confidence": "high",
-              "allocations": {
-                "thai-basil-beef_finish": 25.2
-              }
-            },
-            {
-              "key": "thai_black_pepper",
-              "sourceKey": "thai_black_pepper",
-              "name": "Black pepper, ground",
-              "amount": 0.41,
-              "unit": "g",
-              "station": "Other",
-              "note": "component:thai-basil-beef_finish; component:thai-basil-beans",
-              "confidence": "controlled-comparable-profile",
-              "allocations": {
-                "thai-basil-beef_finish": 0.21,
-                "thai-basil-beans": 0.2
-              }
-            },
-            {
-              "key": "thai_jasmine_rice_dry",
-              "sourceKey": "thai_jasmine_rice_dry",
-              "name": "Jasmine rice, dry (unenriched long-grain white-rice equivalent)",
-              "amount": 40,
-              "unit": "g",
-              "station": "Other",
-              "note": "component:thai-basil-rice",
-              "confidence": "controlled-comparable-profile",
-              "allocations": {
-                "thai-basil-rice": 40
-              }
-            },
-            {
-              "key": "green_beans",
-              "sourceKey": "green_beans",
-              "name": "Green beans, trimmed raw",
-              "amount": 100,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "component:thai-basil-beans",
-              "confidence": "controlled-comparable-profile",
-              "allocations": {
-                "thai-basil-beans": 100
-              }
-            },
-            {
-              "key": "salt",
-              "sourceKey": "salt",
-              "name": "Table salt",
-              "amount": 0.2,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:thai-basil-beans",
-              "confidence": "high",
-              "allocations": {
-                "thai-basil-beans": 0.2
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 6.0
-              }
-            }
-          ],
-          "confidence": "owner-authorized-recipe-estimate",
-          "assumptions": [
-            "Owner-selected minced halal90/10 beef, not strips: 210g raw perlean;69% existing cooked/drained model gives144.9g plain cooked beef equivalent, not a new measurement.",
-            "November2 owner authorized completing recipe-based estimates.500g beef finish ratios are a PRPD adaptation inspired by Pailin's traditional Pad Kra Pao, not a verbatim original recipe or tasted result.",
-            "All finish ingredients and measured oils are counted retained; beef nutrition uses cooked/drained USDA90/10 crumbles. Purchase-only5% raw reserve is not eaten nutrition.",
-            "Owner selected regular fresh sweet basil on November 2. Use the existing leaf quantities; no specialty basil purchase is required. This is a PRPD adaptation. The existing USDA ordinary fresh basil profile already matches this choice; chili remains a comparable profile.",
-            "Rice uses a complete USDA unenriched long-grain white-rice equivalent; confirm actual jasmine package when bought. Fresh produce nutrients use raw-input profiles with no claimed measured retention.",
-            "Green bell pepper is shared with the breakfast pizza and Southwest bowl so one pepper color is purchased. Red Boat manufacturer ingredients are anchovy and sea salt; no certification claim. Fish allergen remains present in this beef dish. No required cup, optional sauce, fried egg or additional garnish is included in this builder.",
-            "One combined batch per component across tiers; portion finished beef/finish by210:300 raw-beef shares. Finished cooked/sauced weights have not been physically measured."
-          ]
-        },
-        "bulk": {
-          "ingredients": [
-            {
-              "key": "beef_90_raw",
-              "sourceKey": "beef_90_pan",
-              "name": "Ground beef 90/10, raw",
-              "amount": 300.0,
-              "unit": "g",
-              "station": "Beef",
-              "note": "Raw purchasing/prep quantity; modeled 69% cooked yield.",
-              "confidence": "high",
-              "measure": {
-                "type": "meat"
-              }
-            },
-            {
-              "key": "garlic",
-              "sourceKey": "garlic",
-              "name": "Garlic, raw",
-              "amount": 14.25,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "component:thai-basil-beef_finish; component:thai-basil-beans",
-              "confidence": "high",
-              "allocations": {
-                "thai-basil-beef_finish": 12.0,
-                "thai-basil-beans": 2.25
-              }
-            },
-            {
-              "key": "green_bell_pepper",
-              "sourceKey": "green_bell_pepper",
-              "name": "Green bell pepper, raw",
-              "amount": 48.0,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "component:thai-basil-beef_finish",
-              "confidence": "controlled-comparable-profile",
-              "allocations": {
-                "thai-basil-beef_finish": 48.0
-              }
-            },
-            {
-              "key": "thai_hot_chili",
-              "sourceKey": "thai_hot_chili",
-              "name": "Thai chili (USDA raw green hot-chili equivalent)",
-              "amount": 1.8,
-              "unit": "g",
-              "station": "Other",
-              "note": "component:thai-basil-beef_finish",
-              "confidence": "controlled-comparable-profile",
-              "allocations": {
-                "thai-basil-beef_finish": 1.8
-              }
-            },
-            {
-              "key": "thai_basil_fresh",
-              "sourceKey": "thai_basil_fresh",
-              "name": "Fresh basil (USDA comparable profile)",
-              "amount": 18.0,
-              "unit": "g",
-              "station": "Other",
-              "note": "component:thai-basil-beef_finish",
-              "confidence": "controlled-comparable-profile",
-              "allocations": {
-                "thai-basil-beef_finish": 18.0
-              }
-            },
-            {
-              "key": "avocado_oil",
-              "sourceKey": "avocado_oil",
-              "name": "Avocado oil",
-              "amount": 8.55,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:thai-basil-beef_finish; component:thai-basil-beans",
-              "confidence": "medium",
-              "allocations": {
-                "thai-basil-beef_finish": 4.8,
-                "thai-basil-beans": 3.75
-              },
-              "measure": {
-                "type": "liquid",
-                "density": 0.91
-              }
-            },
-            {
-              "key": "thai_redboat_40n",
-              "sourceKey": "thai_redboat_40n",
-              "name": "Red Boat40N fish sauce (anchovy, sea salt)",
-              "amount": 15.0,
-              "unit": "g",
-              "station": "Other",
-              "note": "component:thai-basil-beef_finish",
-              "confidence": "manufacturer-panel-physical-pending",
-              "allocations": {
-                "thai-basil-beef_finish": 15.0
-              }
-            },
-            {
-              "key": "thai_granulated_sugar",
-              "sourceKey": "thai_granulated_sugar",
-              "name": "Granulated sugar",
-              "amount": 4.8,
-              "unit": "g",
-              "station": "Other",
-              "note": "component:thai-basil-beef_finish",
-              "confidence": "controlled-comparable-profile",
-              "allocations": {
-                "thai-basil-beef_finish": 4.8
-              }
-            },
-            {
-              "key": "water",
-              "sourceKey": "water",
-              "name": "Water",
-              "amount": 36.0,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "component:thai-basil-beef_finish",
-              "confidence": "high",
-              "allocations": {
-                "thai-basil-beef_finish": 36.0
-              }
-            },
-            {
-              "key": "thai_black_pepper",
-              "sourceKey": "thai_black_pepper",
-              "name": "Black pepper, ground",
-              "amount": 0.6,
-              "unit": "g",
-              "station": "Other",
-              "note": "component:thai-basil-beef_finish; component:thai-basil-beans",
-              "confidence": "controlled-comparable-profile",
-              "allocations": {
-                "thai-basil-beef_finish": 0.3,
-                "thai-basil-beans": 0.3
-              }
-            },
-            {
-              "key": "thai_jasmine_rice_dry",
-              "sourceKey": "thai_jasmine_rice_dry",
-              "name": "Jasmine rice, dry (unenriched long-grain white-rice equivalent)",
-              "amount": 60,
-              "unit": "g",
-              "station": "Other",
-              "note": "component:thai-basil-rice",
-              "confidence": "controlled-comparable-profile",
-              "allocations": {
-                "thai-basil-rice": 60
-              }
-            },
-            {
-              "key": "green_beans",
-              "sourceKey": "green_beans",
-              "name": "Green beans, trimmed raw",
-              "amount": 150,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "component:thai-basil-beans",
-              "confidence": "controlled-comparable-profile",
-              "allocations": {
-                "thai-basil-beans": 150
-              }
-            },
-            {
-              "key": "salt",
-              "sourceKey": "salt",
-              "name": "Table salt",
-              "amount": 0.3,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:thai-basil-beans",
-              "confidence": "high",
-              "allocations": {
-                "thai-basil-beans": 0.3
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 6.0
-              }
-            }
-          ],
-          "confidence": "owner-authorized-recipe-estimate",
-          "assumptions": [
-            "Owner-selected minced halal90/10 beef, not strips: 300g raw perbulk;69% existing cooked/drained model gives207g plain cooked beef equivalent, not a new measurement.",
-            "November2 owner authorized completing recipe-based estimates.500g beef finish ratios are a PRPD adaptation inspired by Pailin's traditional Pad Kra Pao, not a verbatim original recipe or tasted result.",
-            "All finish ingredients and measured oils are counted retained; beef nutrition uses cooked/drained USDA90/10 crumbles. Purchase-only5% raw reserve is not eaten nutrition.",
-            "Owner selected regular fresh sweet basil on November 2. Use the existing leaf quantities; no specialty basil purchase is required. This is a PRPD adaptation. The existing USDA ordinary fresh basil profile already matches this choice; chili remains a comparable profile.",
-            "Rice uses a complete USDA unenriched long-grain white-rice equivalent; confirm actual jasmine package when bought. Fresh produce nutrients use raw-input profiles with no claimed measured retention.",
-            "Green bell pepper is shared with the breakfast pizza and Southwest bowl so one pepper color is purchased. Red Boat manufacturer ingredients are anchovy and sea salt; no certification claim. Fish allergen remains present in this beef dish. No required cup, optional sauce, fried egg or additional garnish is included in this builder.",
-            "One combined batch per component across tiers; portion finished beef/finish by210:300 raw-beef shares. Finished cooked/sauced weights have not been physically measured."
-          ]
-        }
-      },
-      "plannerOnly": false,
-      "qualityChecks": "Owner-approved minced format. Recipe-based15-field estimate uses210/300g raw90/10,69% existing cooked/drained model, identified RedBoat fish sauce and measured finish. Contains fish. No physical test or new yield is claimed."
-    },
     "m6": {
-      "name": "Halal Cart Chicken + Yellow Rice",
+      "name": "Mexican Streetcorn Chicken Bowl",
       "category": "Main",
       "aliases": [],
-      "status": "Batch 20 controlled planning recipe",
+      "status": "Batch 21 controlled planning recipe",
       "recommendation": "Confirm actual purchased panels and measured yields.",
       "tiers": {
         "lean": {
@@ -3176,130 +2573,211 @@ const PRPD_PRODUCTION_DATA = {
               "confidence": "medium"
             },
             {
-              "key": "lettuce",
-              "sourceKey": "lettuce",
-              "name": "Green leaf lettuce, raw",
-              "amount": 30,
+              "key": "corn",
+              "sourceKey": "corn",
+              "name": "Sweet yellow corn, cooked, no salt",
+              "amount": 88,
               "unit": "g",
               "station": "Cold Prep & Produce",
               "note": "",
               "confidence": "high"
             },
             {
-              "key": "tomato",
-              "sourceKey": "tomato",
-              "name": "Tomato, raw",
-              "amount": 45,
+              "key": "onion",
+              "sourceKey": "onion",
+              "name": "Onion, raw",
+              "amount": 10,
               "unit": "g",
               "station": "Cold Prep & Produce",
               "note": "",
               "confidence": "high"
             },
             {
-              "key": "salt",
-              "sourceKey": "salt",
-              "name": "Table salt",
-              "amount": 0.75,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "high",
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 6.0
-              }
-            },
-            {
-              "key": "oregano",
-              "sourceKey": "oregano",
-              "name": "Dried oregano",
-              "amount": 0.9896,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "Chicken marinade",
-              "confidence": "medium",
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 1.0
-              }
-            },
-            {
-              "key": "cumin",
-              "sourceKey": "cumin",
-              "name": "Ground cumin",
-              "amount": 2.3782,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "Chicken marinade; Yellow rice",
-              "confidence": "high",
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 2.1
-              }
-            },
-            {
-              "key": "paprika",
-              "sourceKey": "paprika",
-              "name": "Paprika",
-              "amount": 2.5761,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "Chicken marinade; Yellow rice",
-              "confidence": "high",
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 2.3
-              }
-            },
-            {
-              "key": "garlic_powder",
-              "sourceKey": "garlic_powder",
-              "name": "Garlic powder",
-              "amount": 3.0678,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "Chicken marinade",
-              "confidence": "medium",
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 3.1
-              }
-            },
-            {
-              "key": "lemon",
-              "sourceKey": "lemon",
-              "name": "Bottled lemon juice",
-              "amount": 9.8961,
+              "key": "jalapeno",
+              "sourceKey": "jalapeno",
+              "name": "Jalapeno, raw",
+              "amount": 4,
               "unit": "g",
               "station": "Cold Prep & Produce",
-              "note": "Chicken marinade",
-              "confidence": "medium",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "fage",
+              "sourceKey": "fage",
+              "name": "FAGE Total 0%",
+              "amount": 25,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "light_mayo",
+              "sourceKey": "light_mayo",
+              "name": "Great Value light mayonnaise",
+              "amount": 7,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "cotija",
+              "sourceKey": "cotija",
+              "name": "Cotija cheese",
+              "amount": 10,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "low"
+            },
+            {
+              "key": "cilantro",
+              "sourceKey": "cilantro",
+              "name": "Cilantro, raw",
+              "amount": 3,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "lime",
+              "sourceKey": "lime",
+              "name": "Lime juice, raw",
+              "amount": 10,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high",
               "measure": {
                 "type": "liquid",
                 "density": 1.03
               }
             },
             {
-              "key": "turmeric",
-              "sourceKey": "turmeric",
-              "name": "Ground turmeric",
-              "amount": 0.3,
+              "key": "avocado_oil",
+              "sourceKey": "avocado_oil",
+              "name": "Avocado oil",
+              "amount": 2,
               "unit": "g",
               "station": "Dry Prep & Seasonings",
-              "note": "Yellow rice",
+              "note": "component:chicken-cooking",
               "confidence": "medium",
+              "allocations": {
+                "chicken-cooking": 2
+              },
+              "measure": {
+                "type": "liquid",
+                "density": 0.91
+              }
+            },
+            {
+              "key": "salt",
+              "sourceKey": "salt",
+              "name": "Table salt",
+              "amount": 1.8605,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "component:shared-chicken-base",
+              "confidence": "high",
+              "allocations": {
+                "shared-chicken-base": 1.8605
+              },
               "measure": {
                 "type": "spice",
-                "gramsPerTsp": 3.0
+                "gramsPerTsp": 6.0
               }
+            },
+            {
+              "key": "garlic_powder",
+              "sourceKey": "garlic_powder",
+              "name": "Garlic powder",
+              "amount": 1.5698,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "component:shared-chicken-base",
+              "confidence": "medium",
+              "allocations": {
+                "shared-chicken-base": 1.5698
+              },
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 3.1
+              }
+            },
+            {
+              "key": "onion_powder",
+              "sourceKey": "onion_powder",
+              "name": "Onion powder",
+              "amount": 0.9302,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "component:shared-chicken-base",
+              "confidence": "medium",
+              "allocations": {
+                "shared-chicken-base": 0.9302
+              },
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 2.4
+              }
+            },
+            {
+              "key": "paprika",
+              "sourceKey": "paprika",
+              "name": "Paprika",
+              "amount": 0.6977,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "component:shared-chicken-base",
+              "confidence": "high",
+              "allocations": {
+                "shared-chicken-base": 0.6977
+              },
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 2.3
+              }
+            },
+            {
+              "key": "black_pepper",
+              "sourceKey": "black_pepper",
+              "name": "Ground black pepper",
+              "amount": 0.4651,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "component:shared-chicken-base",
+              "confidence": "high",
+              "allocations": {
+                "shared-chicken-base": 0.4651
+              },
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 2.3
+              }
+            },
+            {
+              "key": "green_bell_pepper",
+              "sourceKey": "green_bell_pepper",
+              "name": "Green bell pepper, raw",
+              "amount": 30,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "controlled-comparable-profile"
             }
           ],
           "confidence": "medium",
           "assumptions": [
-            "Rice oil is excluded; 0.75g/1g Lean/Bulk salt is modeled.",
+            "0.5g/0.75g Lean/Bulk salt is modeled; Tajin and garlic powder remain small working exclusions.",
+            "Draft corn formula has not been kitchen-tested.",
             "Plate exactly 160g cooked boneless skinless chicken thigh before sauce.",
             "Owner-approved component standard: 120g cooked starch and 75g vegetables; 45g/60g dry basmati is the controlled rice equivalent until rice yield is measured.",
-            "Original recipe page 8 specifies oregano, cumin, paprika, garlic powder and lemon for chicken, plus turmeric/cumin/paprika for rice. Chicken seasonings scale from the source's 235g raw reference; rice spices remain working kitchen-control amounts until the standardized rice cook is measured."
+            "The named street-corn vegetables exceed the baseline vegetable minimum and retain their recipe-specific quantities.",
+            "Green bell pepper is included in the controlled street-corn component.",
+            "The measured avocado oil is for cooking the chicken only. Dry-char the corn; do not add oil to the corn or finished bowl."
           ]
         },
         "bulk": {
@@ -3328,384 +2806,267 @@ const PRPD_PRODUCTION_DATA = {
               "confidence": "medium"
             },
             {
-              "key": "lettuce",
-              "sourceKey": "lettuce",
-              "name": "Green leaf lettuce, raw",
-              "amount": 40,
+              "key": "corn",
+              "sourceKey": "corn",
+              "name": "Sweet yellow corn, cooked, no salt",
+              "amount": 110,
               "unit": "g",
               "station": "Cold Prep & Produce",
               "note": "",
               "confidence": "high"
             },
             {
-              "key": "tomato",
-              "sourceKey": "tomato",
-              "name": "Tomato, raw",
-              "amount": 60,
+              "key": "onion",
+              "sourceKey": "onion",
+              "name": "Onion, raw",
+              "amount": 12,
               "unit": "g",
               "station": "Cold Prep & Produce",
               "note": "",
               "confidence": "high"
+            },
+            {
+              "key": "jalapeno",
+              "sourceKey": "jalapeno",
+              "name": "Jalapeno, raw",
+              "amount": 5,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "fage",
+              "sourceKey": "fage",
+              "name": "FAGE Total 0%",
+              "amount": 30,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "light_mayo",
+              "sourceKey": "light_mayo",
+              "name": "Great Value light mayonnaise",
+              "amount": 7,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "cotija",
+              "sourceKey": "cotija",
+              "name": "Cotija cheese",
+              "amount": 12,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "low"
+            },
+            {
+              "key": "cilantro",
+              "sourceKey": "cilantro",
+              "name": "Cilantro, raw",
+              "amount": 4,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "lime",
+              "sourceKey": "lime",
+              "name": "Lime juice, raw",
+              "amount": 12,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high",
+              "measure": {
+                "type": "liquid",
+                "density": 1.03
+              }
+            },
+            {
+              "key": "avocado_oil",
+              "sourceKey": "avocado_oil",
+              "name": "Avocado oil",
+              "amount": 3,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "component:chicken-cooking",
+              "confidence": "medium",
+              "allocations": {
+                "chicken-cooking": 3
+              },
+              "measure": {
+                "type": "liquid",
+                "density": 0.91
+              }
             },
             {
               "key": "salt",
               "sourceKey": "salt",
               "name": "Table salt",
-              "amount": 1,
+              "amount": 2.4419,
               "unit": "g",
               "station": "Dry Prep & Seasonings",
-              "note": "",
+              "note": "component:shared-chicken-base",
               "confidence": "high",
+              "allocations": {
+                "shared-chicken-base": 2.4419
+              },
               "measure": {
                 "type": "spice",
                 "gramsPerTsp": 6.0
               }
             },
             {
-              "key": "oregano",
-              "sourceKey": "oregano",
-              "name": "Dried oregano",
-              "amount": 1.2989,
+              "key": "garlic_powder",
+              "sourceKey": "garlic_powder",
+              "name": "Garlic powder",
+              "amount": 2.0603,
               "unit": "g",
               "station": "Dry Prep & Seasonings",
-              "note": "Chicken marinade",
+              "note": "component:shared-chicken-base",
               "confidence": "medium",
+              "allocations": {
+                "shared-chicken-base": 2.0603
+              },
               "measure": {
                 "type": "spice",
-                "gramsPerTsp": 1.0
+                "gramsPerTsp": 3.1
               }
             },
             {
-              "key": "cumin",
-              "sourceKey": "cumin",
-              "name": "Ground cumin",
-              "amount": 3.0276,
+              "key": "onion_powder",
+              "sourceKey": "onion_powder",
+              "name": "Onion powder",
+              "amount": 1.2209,
               "unit": "g",
               "station": "Dry Prep & Seasonings",
-              "note": "Chicken marinade; Yellow rice",
-              "confidence": "high",
+              "note": "component:shared-chicken-base",
+              "confidence": "medium",
+              "allocations": {
+                "shared-chicken-base": 1.2209
+              },
               "measure": {
                 "type": "spice",
-                "gramsPerTsp": 2.1
+                "gramsPerTsp": 2.4
               }
             },
             {
               "key": "paprika",
               "sourceKey": "paprika",
               "name": "Paprika",
-              "amount": 3.2874,
+              "amount": 0.9157,
               "unit": "g",
               "station": "Dry Prep & Seasonings",
-              "note": "Chicken marinade; Yellow rice",
+              "note": "component:shared-chicken-base",
               "confidence": "high",
+              "allocations": {
+                "shared-chicken-base": 0.9157
+              },
               "measure": {
                 "type": "spice",
                 "gramsPerTsp": 2.3
               }
             },
             {
-              "key": "garlic_powder",
-              "sourceKey": "garlic_powder",
-              "name": "Garlic powder",
-              "amount": 4.0265,
+              "key": "black_pepper",
+              "sourceKey": "black_pepper",
+              "name": "Ground black pepper",
+              "amount": 0.6105,
               "unit": "g",
               "station": "Dry Prep & Seasonings",
-              "note": "Chicken marinade",
-              "confidence": "medium",
+              "note": "component:shared-chicken-base",
+              "confidence": "high",
+              "allocations": {
+                "shared-chicken-base": 0.6105
+              },
               "measure": {
                 "type": "spice",
-                "gramsPerTsp": 3.1
+                "gramsPerTsp": 2.3
               }
             },
             {
-              "key": "lemon",
-              "sourceKey": "lemon",
-              "name": "Bottled lemon juice",
-              "amount": 12.9886,
+              "key": "green_bell_pepper",
+              "sourceKey": "green_bell_pepper",
+              "name": "Green bell pepper, raw",
+              "amount": 40,
               "unit": "g",
               "station": "Cold Prep & Produce",
-              "note": "Chicken marinade",
-              "confidence": "medium",
-              "measure": {
-                "type": "liquid",
-                "density": 1.03
-              }
-            },
-            {
-              "key": "turmeric",
-              "sourceKey": "turmeric",
-              "name": "Ground turmeric",
-              "amount": 0.3,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "Yellow rice",
-              "confidence": "medium",
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 3.0
-              }
+              "note": "",
+              "confidence": "controlled-comparable-profile"
             }
           ],
           "confidence": "medium",
           "assumptions": [
-            "Rice oil is excluded; 0.75g/1g Lean/Bulk salt is modeled.",
+            "0.5g/0.75g Lean/Bulk salt is modeled; Tajin and garlic powder remain small working exclusions.",
+            "Draft corn formula has not been kitchen-tested.",
             "Plate exactly 210g cooked boneless skinless chicken thigh before sauce.",
             "Owner-approved component standard: 160g cooked starch and 100g vegetables; 45g/60g dry basmati is the controlled rice equivalent until rice yield is measured.",
-            "Original recipe page 8 specifies oregano, cumin, paprika, garlic powder and lemon for chicken, plus turmeric/cumin/paprika for rice. Chicken seasonings scale from the source's 235g raw reference; rice spices remain working kitchen-control amounts until the standardized rice cook is measured."
+            "The named street-corn vegetables exceed the baseline vegetable minimum and retain their recipe-specific quantities.",
+            "Green bell pepper is included in the controlled street-corn component.",
+            "The measured avocado oil is for cooking the chicken only. Dry-char the corn; do not add oil to the corn or finished bowl."
           ]
         }
       },
       "plannerOnly": false
     },
     "m7": {
-      "name": "Braised Beef Short Rib",
+      "name": "Premium NY Strip Steak",
       "category": "Premium meal",
       "aliases": [],
-      "status": "Batch 20 controlled planning recipe",
+      "status": "Batch 21 controlled planning recipe",
       "recommendation": "Confirm actual purchased panels and measured yields.",
       "tiers": {
         "lean": {
           "ingredients": [
             {
-              "key": "short_rib_cooked",
-              "sourceKey": "short_rib_cooked",
-              "name": "Beef short rib, cooked edible meat after deboning",
-              "amount": 150,
+              "key": "ny_strip_raw",
+              "sourceKey": "ny_strip_cooked",
+              "name": "NY strip steak, raw",
+              "amount": 240.0,
               "unit": "g",
               "station": "Beef",
-              "note": "302.4g raw bone-in planning pull at 49.6% cooked-edible yield",
-              "confidence": "medium"
-            },
-            {
-              "key": "onion",
-              "sourceKey": "onion",
-              "name": "Onion, raw",
-              "amount": 60.4839,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "component:short-rib-jus",
-              "confidence": "high",
-              "allocations": {
-                "short-rib-jus": 60.4839
-              }
-            },
-            {
-              "key": "carrot",
-              "sourceKey": "carrot",
-              "name": "Carrot, raw",
-              "amount": 30.2419,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "component:short-rib-jus",
-              "confidence": "high",
-              "allocations": {
-                "short-rib-jus": 30.2419
-              }
-            },
-            {
-              "key": "celery",
-              "sourceKey": "celery",
-              "name": "Celery, raw",
-              "amount": 18.1452,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "component:short-rib-jus",
-              "confidence": "high",
-              "allocations": {
-                "short-rib-jus": 18.1452
-              }
-            },
-            {
-              "key": "garlic",
-              "sourceKey": "garlic",
-              "name": "Garlic, raw",
-              "amount": 7.5484,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "component:short-rib-jus; component:short-rib-green-beans",
-              "confidence": "high",
-              "allocations": {
-                "short-rib-jus": 6.0484,
-                "short-rib-green-beans": 1.5
-              }
-            },
-            {
-              "key": "tomato_paste",
-              "sourceKey": "tomato_paste",
-              "name": "Tomato paste",
-              "amount": 9.0726,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "component:short-rib-jus",
-              "confidence": "high",
-              "allocations": {
-                "short-rib-jus": 9.0726
-              }
-            },
-            {
-              "key": "water",
-              "sourceKey": "water",
-              "name": "Water",
-              "amount": 275.3087,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "component:short-rib-jus; component:short-rib-mash",
-              "confidence": "high",
-              "allocations": {
-                "short-rib-jus": 181.4516,
-                "short-rib-mash": 93.8571
-              }
-            },
-            {
-              "key": "balsamic_vinegar",
-              "sourceKey": "balsamic_vinegar",
-              "name": "Balsamic vinegar",
-              "amount": 7.5605,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "component:short-rib-jus",
+              "note": "Raw purchasing/prep quantity; modeled 75% cooked yield.",
               "confidence": "medium",
-              "allocations": {
-                "short-rib-jus": 7.5605
-              },
               "measure": {
-                "type": "liquid",
-                "density": 1.06
-              }
-            },
-            {
-              "key": "thyme",
-              "sourceKey": "thyme",
-              "name": "Dried thyme",
-              "amount": 0.4536,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:short-rib-jus",
-              "confidence": "medium",
-              "allocations": {
-                "short-rib-jus": 0.4536
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 1.0
-              }
-            },
-            {
-              "key": "coriander",
-              "sourceKey": "coriander",
-              "name": "Ground coriander",
-              "amount": 0.2419,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:short-rib-jus",
-              "confidence": "high",
-              "allocations": {
-                "short-rib-jus": 0.2419
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 1.8
-              }
-            },
-            {
-              "key": "bay_leaf",
-              "sourceKey": "bay_leaf",
-              "name": "Bay leaf",
-              "amount": 0.121,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:short-rib-jus",
-              "confidence": "high",
-              "allocations": {
-                "short-rib-jus": 0.121
-              },
-              "measure": {
-                "type": "piece",
-                "gramsPerPiece": 0.2,
-                "pieceName": "bay leaf",
-                "pieceNamePlural": "bay leaves"
-              }
-            },
-            {
-              "key": "avocado_oil",
-              "sourceKey": "avocado_oil",
-              "name": "Avocado oil",
-              "amount": 6.129,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:short-rib-jus; component:short-rib-green-beans",
-              "confidence": "medium",
-              "allocations": {
-                "short-rib-jus": 3.629,
-                "short-rib-green-beans": 2.5
-              },
-              "measure": {
-                "type": "liquid",
-                "density": 0.91
-              }
-            },
-            {
-              "key": "salt",
-              "sourceKey": "salt",
-              "name": "Table salt",
-              "amount": 1.5359,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:short-rib-jus; component:short-rib-mash; component:short-rib-green-beans",
-              "confidence": "high",
-              "allocations": {
-                "short-rib-jus": 0.9073,
-                "short-rib-mash": 0.4286,
-                "short-rib-green-beans": 0.2
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 6.0
-              }
-            },
-            {
-              "key": "black_pepper",
-              "sourceKey": "black_pepper",
-              "name": "Ground black pepper",
-              "amount": 1.1073,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:short-rib-jus; component:short-rib-green-beans",
-              "confidence": "high",
-              "allocations": {
-                "short-rib-jus": 0.9073,
-                "short-rib-green-beans": 0.2
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 2.3
+                "type": "meat"
               }
             },
             {
               "key": "instant_potato_flakes",
               "sourceKey": "instant_potato_flakes",
               "name": "Idahoan Original mashed potato flakes",
-              "amount": 25.2857,
+              "amount": 29.0396,
               "unit": "g",
               "station": "Starches & Hot Sides",
-              "note": "component:short-rib-mash",
-              "confidence": "high",
-              "allocations": {
-                "short-rib-mash": 25.2857
-              }
+              "note": "200g prepared Idahoan Original mash allocation",
+              "confidence": "high"
+            },
+            {
+              "key": "water",
+              "sourceKey": "water",
+              "name": "Water",
+              "amount": 105.9684,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "Idahoan Original package preparation",
+              "confidence": "high"
             },
             {
               "key": "fairlife_milk",
               "sourceKey": "fairlife_milk",
               "name": "Fairlife fat-free ultra-filtered milk",
-              "amount": 60.0,
+              "amount": 54.578,
               "unit": "g",
               "station": "Sauces & Dairy",
-              "note": "component:short-rib-mash",
+              "note": "Idahoan Original package preparation",
               "confidence": "high",
-              "allocations": {
-                "short-rib-mash": 60.0
-              },
               "measure": {
                 "type": "liquid",
                 "density": 1.03
@@ -3715,26 +3076,120 @@ const PRPD_PRODUCTION_DATA = {
               "key": "butter",
               "sourceKey": "butter",
               "name": "Butter",
-              "amount": 8.1429,
+              "amount": 9.4061,
               "unit": "g",
               "station": "Sauces & Dairy",
-              "note": "component:short-rib-mash",
+              "note": "Idahoan Original package preparation",
+              "confidence": "high"
+            },
+            {
+              "key": "salt",
+              "sourceKey": "salt",
+              "name": "Table salt",
+              "amount": 1.9578,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "Idahoan Original package preparation; component:honey-barbecue-mustard",
+              "confidence": "high",
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 6.0
+              },
+              "allocations": {
+                "honey-barbecue-mustard": 0.2
+              }
+            },
+            {
+              "key": "broccoli",
+              "sourceKey": "broccoli",
+              "name": "Broccoli, raw",
+              "amount": 100,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "garlic",
+              "sourceKey": "garlic",
+              "name": "Garlic, raw",
+              "amount": 6,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "mustard",
+              "sourceKey": "mustard",
+              "name": "Prepared Dijon mustard",
+              "amount": 18.0,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "component:honey-barbecue-mustard",
+              "confidence": "medium",
+              "allocations": {
+                "honey-barbecue-mustard": 18.0
+              },
+              "measure": {
+                "type": "liquid",
+                "density": 1.04
+              }
+            },
+            {
+              "key": "bbq_sauce",
+              "sourceKey": "bbq_sauce",
+              "name": "G Hughes sugar-free BBQ sauce",
+              "amount": 15.0,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "component:honey-barbecue-mustard",
               "confidence": "high",
               "allocations": {
-                "short-rib-mash": 8.1429
+                "honey-barbecue-mustard": 15.0
+              }
+            },
+            {
+              "key": "honey",
+              "sourceKey": "honey",
+              "name": "Honey",
+              "amount": 8.0,
+              "unit": "g",
+              "station": "Breakfast & Desserts",
+              "note": "component:honey-barbecue-mustard",
+              "confidence": "high",
+              "allocations": {
+                "honey-barbecue-mustard": 8.0
+              },
+              "measure": {
+                "type": "liquid",
+                "density": 1.42
+              }
+            },
+            {
+              "key": "apple_cider_vinegar",
+              "sourceKey": "apple_cider_vinegar",
+              "name": "Apple cider vinegar",
+              "amount": 3.0,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "component:honey-barbecue-mustard",
+              "confidence": "medium",
+              "allocations": {
+                "honey-barbecue-mustard": 3.0
               }
             },
             {
               "key": "garlic_powder",
               "sourceKey": "garlic_powder",
               "name": "Garlic powder",
-              "amount": 0.4286,
+              "amount": 0.3,
               "unit": "g",
               "station": "Dry Prep & Seasonings",
-              "note": "component:short-rib-mash",
+              "note": "component:honey-barbecue-mustard",
               "confidence": "medium",
               "allocations": {
-                "short-rib-mash": 0.4286
+                "honey-barbecue-mustard": 0.3
               },
               "measure": {
                 "type": "spice",
@@ -3742,285 +3197,88 @@ const PRPD_PRODUCTION_DATA = {
               }
             },
             {
-              "key": "rosemary",
-              "sourceKey": "rosemary",
-              "name": "Fresh rosemary",
-              "amount": 0.4286,
+              "key": "smoked_paprika",
+              "sourceKey": "smoked_paprika",
+              "name": "Smoked paprika",
+              "amount": 0.3,
               "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "component:short-rib-mash",
-              "confidence": "high",
+              "station": "Dry Prep & Seasonings",
+              "note": "component:honey-barbecue-mustard",
+              "confidence": "medium",
               "allocations": {
-                "short-rib-mash": 0.4286
+                "honey-barbecue-mustard": 0.3
               }
             },
             {
-              "key": "green_beans",
-              "sourceKey": "green_beans",
-              "name": "Green beans, trimmed raw",
-              "amount": 100.0,
+              "key": "black_pepper",
+              "sourceKey": "black_pepper",
+              "name": "Ground black pepper",
+              "amount": 0.2,
               "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "component:short-rib-green-beans",
-              "confidence": "controlled-comparable-profile",
+              "station": "Dry Prep & Seasonings",
+              "note": "component:honey-barbecue-mustard",
+              "confidence": "high",
               "allocations": {
-                "short-rib-green-beans": 100.0
+                "honey-barbecue-mustard": 0.2
+              },
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 2.3
               }
             }
           ],
           "confidence": "medium",
           "assumptions": [
-            "Pack 150g finished deboned short-rib meat, 45g reduced jus, 180g finished Idahoan Original garlic-rosemary mash and 90g finished roasted garlic green beans.",
-            "Pull 302.4g raw bone-in short rib per sold meal before the separate five-percent purchase reserve.",
-            "Braise at 325 F until tender, remove every bone and cartilage fragment, defat and reduce the jus, and weigh edible cooked meat before portioning.",
-            "Use water and the browned pan fond for the braising liquid. Do not use beef broth, bouillon, or stock.",
-            "Prepare the October 20 owner-tested Idahoan Original mash on Prep Day with the controlled extra-milk ratio, 1g salt and 1g garlic powder per 420g packed Lean-plus-Bulk target. Do not use chopped fresh garlic or fresh potatoes for mash.",
-            "October 20 mash correction: use 3g salt per kg raw short-rib pull in the braise, 2g salt per kg green beans, and the controlled low-salt mash formula rather than the rejected salt-free version.",
-            "The public nutrition values are the owner-approved Batch 15 recipe estimates. Production still records actual raw pull and finished edible yield."
+            "Lean uses 240g raw steak; Bulk uses 300g.",
+            "Dry-sear the steak on a properly preheated surface; no added oil is included.",
+            "The 200g mashed-potato side uses Idahoan Original unflavored mashed potato flakes prepared to the controlled package ratio; broccoli is the green vegetable. Do not use fresh potatoes.",
+            "Pack one separate 45g PRPD Honey Barbecue Mustard cup."
           ]
         },
         "bulk": {
           "ingredients": [
             {
-              "key": "short_rib_cooked",
-              "sourceKey": "short_rib_cooked",
-              "name": "Beef short rib, cooked edible meat after deboning",
-              "amount": 200,
+              "key": "ny_strip_raw",
+              "sourceKey": "ny_strip_cooked",
+              "name": "NY strip steak, raw",
+              "amount": 300.0,
               "unit": "g",
               "station": "Beef",
-              "note": "403.2g raw bone-in planning pull at 49.6% cooked-edible yield",
-              "confidence": "medium"
-            },
-            {
-              "key": "onion",
-              "sourceKey": "onion",
-              "name": "Onion, raw",
-              "amount": 80.6452,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "component:short-rib-jus",
-              "confidence": "high",
-              "allocations": {
-                "short-rib-jus": 80.6452
-              }
-            },
-            {
-              "key": "carrot",
-              "sourceKey": "carrot",
-              "name": "Carrot, raw",
-              "amount": 40.3226,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "component:short-rib-jus",
-              "confidence": "high",
-              "allocations": {
-                "short-rib-jus": 40.3226
-              }
-            },
-            {
-              "key": "celery",
-              "sourceKey": "celery",
-              "name": "Celery, raw",
-              "amount": 24.1935,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "component:short-rib-jus",
-              "confidence": "high",
-              "allocations": {
-                "short-rib-jus": 24.1935
-              }
-            },
-            {
-              "key": "garlic",
-              "sourceKey": "garlic",
-              "name": "Garlic, raw",
-              "amount": 10.0645,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "component:short-rib-jus; component:short-rib-green-beans",
-              "confidence": "high",
-              "allocations": {
-                "short-rib-jus": 8.0645,
-                "short-rib-green-beans": 2.0
-              }
-            },
-            {
-              "key": "tomato_paste",
-              "sourceKey": "tomato_paste",
-              "name": "Tomato paste",
-              "amount": 12.0968,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "component:short-rib-jus",
-              "confidence": "high",
-              "allocations": {
-                "short-rib-jus": 12.0968
-              }
-            },
-            {
-              "key": "water",
-              "sourceKey": "water",
-              "name": "Water",
-              "amount": 367.0784,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "component:short-rib-jus; component:short-rib-mash",
-              "confidence": "high",
-              "allocations": {
-                "short-rib-jus": 241.9355,
-                "short-rib-mash": 125.1429
-              }
-            },
-            {
-              "key": "balsamic_vinegar",
-              "sourceKey": "balsamic_vinegar",
-              "name": "Balsamic vinegar",
-              "amount": 10.0806,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "component:short-rib-jus",
+              "note": "Raw purchasing/prep quantity; modeled 75% cooked yield.",
               "confidence": "medium",
-              "allocations": {
-                "short-rib-jus": 10.0806
-              },
               "measure": {
-                "type": "liquid",
-                "density": 1.06
-              }
-            },
-            {
-              "key": "thyme",
-              "sourceKey": "thyme",
-              "name": "Dried thyme",
-              "amount": 0.6048,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:short-rib-jus",
-              "confidence": "medium",
-              "allocations": {
-                "short-rib-jus": 0.6048
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 1.0
-              }
-            },
-            {
-              "key": "coriander",
-              "sourceKey": "coriander",
-              "name": "Ground coriander",
-              "amount": 0.3226,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:short-rib-jus",
-              "confidence": "high",
-              "allocations": {
-                "short-rib-jus": 0.3226
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 1.8
-              }
-            },
-            {
-              "key": "bay_leaf",
-              "sourceKey": "bay_leaf",
-              "name": "Bay leaf",
-              "amount": 0.1613,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:short-rib-jus",
-              "confidence": "high",
-              "allocations": {
-                "short-rib-jus": 0.1613
-              },
-              "measure": {
-                "type": "piece",
-                "gramsPerPiece": 0.2,
-                "pieceName": "bay leaf",
-                "pieceNamePlural": "bay leaves"
-              }
-            },
-            {
-              "key": "avocado_oil",
-              "sourceKey": "avocado_oil",
-              "name": "Avocado oil",
-              "amount": 8.172,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:short-rib-jus; component:short-rib-green-beans",
-              "confidence": "medium",
-              "allocations": {
-                "short-rib-jus": 4.8387,
-                "short-rib-green-beans": 3.3333
-              },
-              "measure": {
-                "type": "liquid",
-                "density": 0.91
-              }
-            },
-            {
-              "key": "salt",
-              "sourceKey": "salt",
-              "name": "Table salt",
-              "amount": 2.0478,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:short-rib-jus; component:short-rib-mash; component:short-rib-green-beans",
-              "confidence": "high",
-              "allocations": {
-                "short-rib-jus": 1.2097,
-                "short-rib-mash": 0.5714,
-                "short-rib-green-beans": 0.2667
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 6.0
-              }
-            },
-            {
-              "key": "black_pepper",
-              "sourceKey": "black_pepper",
-              "name": "Ground black pepper",
-              "amount": 1.4764,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:short-rib-jus; component:short-rib-green-beans",
-              "confidence": "high",
-              "allocations": {
-                "short-rib-jus": 1.2097,
-                "short-rib-green-beans": 0.2667
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 2.3
+                "type": "meat"
               }
             },
             {
               "key": "instant_potato_flakes",
               "sourceKey": "instant_potato_flakes",
               "name": "Idahoan Original mashed potato flakes",
-              "amount": 33.7143,
+              "amount": 29.0396,
               "unit": "g",
               "station": "Starches & Hot Sides",
-              "note": "component:short-rib-mash",
-              "confidence": "high",
-              "allocations": {
-                "short-rib-mash": 33.7143
-              }
+              "note": "200g prepared Idahoan Original mash allocation",
+              "confidence": "high"
+            },
+            {
+              "key": "water",
+              "sourceKey": "water",
+              "name": "Water",
+              "amount": 105.9684,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "Idahoan Original package preparation",
+              "confidence": "high"
             },
             {
               "key": "fairlife_milk",
               "sourceKey": "fairlife_milk",
               "name": "Fairlife fat-free ultra-filtered milk",
-              "amount": 80.0,
+              "amount": 54.578,
               "unit": "g",
               "station": "Sauces & Dairy",
-              "note": "component:short-rib-mash",
+              "note": "Idahoan Original package preparation",
               "confidence": "high",
-              "allocations": {
-                "short-rib-mash": 80.0
-              },
               "measure": {
                 "type": "liquid",
                 "density": 1.03
@@ -4030,26 +3288,120 @@ const PRPD_PRODUCTION_DATA = {
               "key": "butter",
               "sourceKey": "butter",
               "name": "Butter",
-              "amount": 10.8571,
+              "amount": 9.4061,
               "unit": "g",
               "station": "Sauces & Dairy",
-              "note": "component:short-rib-mash",
+              "note": "Idahoan Original package preparation",
+              "confidence": "high"
+            },
+            {
+              "key": "salt",
+              "sourceKey": "salt",
+              "name": "Table salt",
+              "amount": 2.2078,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "Idahoan Original package preparation; component:honey-barbecue-mustard",
+              "confidence": "high",
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 6.0
+              },
+              "allocations": {
+                "honey-barbecue-mustard": 0.2
+              }
+            },
+            {
+              "key": "broccoli",
+              "sourceKey": "broccoli",
+              "name": "Broccoli, raw",
+              "amount": 125,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "garlic",
+              "sourceKey": "garlic",
+              "name": "Garlic, raw",
+              "amount": 8,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "mustard",
+              "sourceKey": "mustard",
+              "name": "Prepared Dijon mustard",
+              "amount": 18.0,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "component:honey-barbecue-mustard",
+              "confidence": "medium",
+              "allocations": {
+                "honey-barbecue-mustard": 18.0
+              },
+              "measure": {
+                "type": "liquid",
+                "density": 1.04
+              }
+            },
+            {
+              "key": "bbq_sauce",
+              "sourceKey": "bbq_sauce",
+              "name": "G Hughes sugar-free BBQ sauce",
+              "amount": 15.0,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "component:honey-barbecue-mustard",
               "confidence": "high",
               "allocations": {
-                "short-rib-mash": 10.8571
+                "honey-barbecue-mustard": 15.0
+              }
+            },
+            {
+              "key": "honey",
+              "sourceKey": "honey",
+              "name": "Honey",
+              "amount": 8.0,
+              "unit": "g",
+              "station": "Breakfast & Desserts",
+              "note": "component:honey-barbecue-mustard",
+              "confidence": "high",
+              "allocations": {
+                "honey-barbecue-mustard": 8.0
+              },
+              "measure": {
+                "type": "liquid",
+                "density": 1.42
+              }
+            },
+            {
+              "key": "apple_cider_vinegar",
+              "sourceKey": "apple_cider_vinegar",
+              "name": "Apple cider vinegar",
+              "amount": 3.0,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "component:honey-barbecue-mustard",
+              "confidence": "medium",
+              "allocations": {
+                "honey-barbecue-mustard": 3.0
               }
             },
             {
               "key": "garlic_powder",
               "sourceKey": "garlic_powder",
               "name": "Garlic powder",
-              "amount": 0.5714,
+              "amount": 0.3,
               "unit": "g",
               "station": "Dry Prep & Seasonings",
-              "note": "component:short-rib-mash",
+              "note": "component:honey-barbecue-mustard",
               "confidence": "medium",
               "allocations": {
-                "short-rib-mash": 0.5714
+                "honey-barbecue-mustard": 0.3
               },
               "measure": {
                 "type": "spice",
@@ -4057,45 +3409,57 @@ const PRPD_PRODUCTION_DATA = {
               }
             },
             {
-              "key": "rosemary",
-              "sourceKey": "rosemary",
-              "name": "Fresh rosemary",
-              "amount": 0.5714,
+              "key": "smoked_paprika",
+              "sourceKey": "smoked_paprika",
+              "name": "Smoked paprika",
+              "amount": 0.3,
               "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "component:short-rib-mash",
-              "confidence": "high",
+              "station": "Dry Prep & Seasonings",
+              "note": "component:honey-barbecue-mustard",
+              "confidence": "medium",
               "allocations": {
-                "short-rib-mash": 0.5714
+                "honey-barbecue-mustard": 0.3
               }
             },
             {
-              "key": "green_beans",
-              "sourceKey": "green_beans",
-              "name": "Green beans, trimmed raw",
-              "amount": 133.3333,
+              "key": "black_pepper",
+              "sourceKey": "black_pepper",
+              "name": "Ground black pepper",
+              "amount": 0.2,
               "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "component:short-rib-green-beans",
-              "confidence": "controlled-comparable-profile",
+              "station": "Dry Prep & Seasonings",
+              "note": "component:honey-barbecue-mustard",
+              "confidence": "high",
               "allocations": {
-                "short-rib-green-beans": 133.3333
+                "honey-barbecue-mustard": 0.2
+              },
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 2.3
               }
             }
           ],
           "confidence": "medium",
           "assumptions": [
-            "Pack 200g finished deboned short-rib meat, 45g reduced jus, 240g finished Idahoan Original garlic-rosemary mash and 120g finished roasted garlic green beans.",
-            "Pull 403.2g raw bone-in short rib per sold meal before the separate five-percent purchase reserve.",
-            "Braise at 325 F until tender, remove every bone and cartilage fragment, defat and reduce the jus, and weigh edible cooked meat before portioning.",
-            "Use water and the browned pan fond for the braising liquid. Do not use beef broth, bouillon, or stock.",
-            "Prepare the October 20 owner-tested Idahoan Original mash on Prep Day with the controlled extra-milk ratio, 1g salt and 1g garlic powder per 420g packed Lean-plus-Bulk target. Do not use chopped fresh garlic or fresh potatoes for mash.",
-            "October 20 mash correction: use 3g salt per kg raw short-rib pull in the braise, 2g salt per kg green beans, and the controlled low-salt mash formula rather than the rejected salt-free version.",
-            "The public nutrition values are the owner-approved Batch 15 recipe estimates. Production still records actual raw pull and finished edible yield."
+            "Lean uses 240g raw steak; Bulk uses 300g.",
+            "Dry-sear the steak on a properly preheated surface; no added oil is included.",
+            "The 200g mashed-potato side uses Idahoan Original unflavored mashed potato flakes prepared to the controlled package ratio; broccoli is the green vegetable. Do not use fresh potatoes.",
+            "Pack one separate 45g PRPD Honey Barbecue Mustard cup."
           ]
         }
       },
-      "plannerOnly": false
+      "plannerOnly": false,
+      "service": {
+        "sideCupComponents": [
+          {
+            "name": "PRPD Honey Barbecue Mustard",
+            "batchGroup": "honey-barbecue-mustard",
+            "componentRef": "honey-barbecue-mustard",
+            "cupsPerMeal": 1,
+            "gramsPerMeal": 45
+          }
+        ]
+      }
     },
     "d1": {
       "name": "Chocolate Chip Cookie Drop",
@@ -4103,7 +3467,7 @@ const PRPD_PRODUCTION_DATA = {
       "aliases": [
         "Classic Chocolate Chip Cookie"
       ],
-      "status": "Batch 20 controlled planning recipe",
+      "status": "Batch 21 controlled planning recipe",
       "recommendation": "Confirm actual purchased panels and measured yields.",
       "tiers": {
         "single": {
@@ -4246,10 +3610,10 @@ const PRPD_PRODUCTION_DATA = {
       "plannerOnly": false
     },
     "a1": {
-      "name": "Chicken Tikka Snack Wrap",
+      "name": "Buffalo Chicken Pinwheels",
       "category": "Add-on",
       "aliases": [],
-      "status": "Batch 20 controlled planning recipe",
+      "status": "Batch 21 controlled planning recipe",
       "recommendation": "Confirm actual purchased panels and measured yields.",
       "tiers": {
         "single": {
@@ -4258,13 +3622,81 @@ const PRPD_PRODUCTION_DATA = {
               "key": "chicken_thigh_raw",
               "sourceKey": "chicken_thigh_cooked",
               "name": "Boneless skinless chicken thighs, raw",
-              "amount": 78.0,
+              "amount": 100.0,
               "unit": "g",
               "station": "Poultry",
               "note": "Raw purchasing/prep quantity; modeled 75% cooked yield.",
               "confidence": "high",
               "measure": {
                 "type": "meat"
+              }
+            },
+            {
+              "key": "garlic_powder",
+              "sourceKey": "garlic_powder",
+              "name": "Garlic powder",
+              "amount": 0.675,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "component:shared-chicken-base",
+              "confidence": "medium",
+              "allocations": {
+                "shared-chicken-base": 0.675
+              },
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 3.1
+              }
+            },
+            {
+              "key": "onion_powder",
+              "sourceKey": "onion_powder",
+              "name": "Onion powder",
+              "amount": 0.4,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "component:shared-chicken-base",
+              "confidence": "medium",
+              "allocations": {
+                "shared-chicken-base": 0.4
+              },
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 2.4
+              }
+            },
+            {
+              "key": "paprika",
+              "sourceKey": "paprika",
+              "name": "Paprika",
+              "amount": 0.3,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "component:shared-chicken-base",
+              "confidence": "high",
+              "allocations": {
+                "shared-chicken-base": 0.3
+              },
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 2.3
+              }
+            },
+            {
+              "key": "black_pepper",
+              "sourceKey": "black_pepper",
+              "name": "Ground black pepper",
+              "amount": 0.2,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "component:shared-chicken-base",
+              "confidence": "high",
+              "allocations": {
+                "shared-chicken-base": 0.2
+              },
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 2.3
               }
             },
             {
@@ -4278,171 +3710,73 @@ const PRPD_PRODUCTION_DATA = {
               "confidence": "medium"
             },
             {
-              "key": "fage",
-              "sourceKey": "fage",
-              "name": "FAGE Total 0%",
-              "amount": 30.3333,
+              "key": "regular_cream_cheese",
+              "sourceKey": "regular_cream_cheese",
+              "name": "Philadelphia Original cream cheese",
+              "amount": 20,
               "unit": "g",
               "station": "Sauces & Dairy",
-              "note": "component:tikka-marinade; component:garlic-herb-yogurt",
-              "confidence": "high",
-              "allocations": {
-                "tikka-marinade": 12.0,
-                "garlic-herb-yogurt": 18.3333
-              }
+              "note": "",
+              "confidence": "high"
             },
             {
-              "key": "lemon",
-              "sourceKey": "lemon",
-              "name": "Bottled lemon juice",
-              "amount": 4.1111,
+              "key": "mozzarella",
+              "sourceKey": "mozzarella",
+              "name": "H-E-B fat-free mozzarella",
+              "amount": 14,
               "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "component:tikka-marinade; component:garlic-herb-yogurt",
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "buffalo_sauce",
+              "sourceKey": "buffalo_sauce",
+              "name": "Sweet Baby Ray's Mild Buffalo Wing Sauce",
+              "amount": 5,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "",
               "confidence": "medium",
-              "allocations": {
-                "tikka-marinade": 3.0,
-                "garlic-herb-yogurt": 1.1111
-              },
               "measure": {
                 "type": "liquid",
-                "density": 1.03
+                "density": 1.05
               }
             },
             {
-              "key": "garlic",
-              "sourceKey": "garlic",
-              "name": "Garlic, raw",
-              "amount": 1.5333,
+              "key": "apple_cider_vinegar",
+              "sourceKey": "apple_cider_vinegar",
+              "name": "Apple cider vinegar",
+              "amount": 2,
               "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "component:tikka-marinade; component:garlic-herb-yogurt",
-              "confidence": "high",
-              "allocations": {
-                "tikka-marinade": 1.2,
-                "garlic-herb-yogurt": 0.3333
-              }
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "medium"
             },
             {
-              "key": "paprika",
-              "sourceKey": "paprika",
-              "name": "Paprika",
-              "amount": 0.36,
+              "key": "water",
+              "sourceKey": "water",
+              "name": "Water",
+              "amount": 3,
               "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:tikka-marinade",
-              "confidence": "high",
-              "allocations": {
-                "tikka-marinade": 0.36
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 2.3
-              }
-            },
-            {
-              "key": "cumin",
-              "sourceKey": "cumin",
-              "name": "Ground cumin",
-              "amount": 0.2311,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:tikka-marinade; component:garlic-herb-yogurt",
-              "confidence": "high",
-              "allocations": {
-                "tikka-marinade": 0.12,
-                "garlic-herb-yogurt": 0.1111
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 2.1
-              }
-            },
-            {
-              "key": "coriander",
-              "sourceKey": "coriander",
-              "name": "Ground coriander",
-              "amount": 0.18,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:tikka-marinade",
-              "confidence": "high",
-              "allocations": {
-                "tikka-marinade": 0.18
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 1.8
-              }
-            },
-            {
-              "key": "chili_powder",
-              "sourceKey": "chili_powder",
-              "name": "Chili powder",
-              "amount": 0.09,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:tikka-marinade",
-              "confidence": "high",
-              "allocations": {
-                "tikka-marinade": 0.09
-              },
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 2.7
-              }
-            },
-            {
-              "key": "avocado_oil",
-              "sourceKey": "avocado_oil",
-              "name": "Avocado oil",
-              "amount": 0.3,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "component:tikka-marinade",
-              "confidence": "medium",
-              "allocations": {
-                "tikka-marinade": 0.3
-              },
-              "measure": {
-                "type": "liquid",
-                "density": 0.91
-              }
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "high"
             },
             {
               "key": "lettuce",
               "sourceKey": "lettuce",
               "name": "Green leaf lettuce, raw",
-              "amount": 25,
+              "amount": 20,
               "unit": "g",
               "station": "Cold Prep & Produce",
               "note": "",
               "confidence": "high"
             },
             {
-              "key": "red_onion",
-              "sourceKey": "red_onion",
-              "name": "Red onion, raw",
-              "amount": 12,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "cucumber",
-              "sourceKey": "cucumber",
-              "name": "Cucumber with peel, raw",
-              "amount": 15,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "tomato",
-              "sourceKey": "tomato",
-              "name": "Tomato, raw",
+              "key": "onion",
+              "sourceKey": "onion",
+              "name": "Onion, raw",
               "amount": 10,
               "unit": "g",
               "station": "Cold Prep & Produce",
@@ -4450,83 +3784,25 @@ const PRPD_PRODUCTION_DATA = {
               "confidence": "high"
             },
             {
-              "key": "light_mayo",
-              "sourceKey": "light_mayo",
-              "name": "Great Value light mayonnaise",
-              "amount": 2.7778,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "component:garlic-herb-yogurt",
-              "confidence": "high",
-              "allocations": {
-                "garlic-herb-yogurt": 2.7778
-              }
-            },
-            {
-              "key": "cilantro",
-              "sourceKey": "cilantro",
-              "name": "Cilantro, raw",
-              "amount": 1.1111,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "component:garlic-herb-yogurt",
-              "confidence": "high",
-              "allocations": {
-                "garlic-herb-yogurt": 1.1111
-              }
-            },
-            {
-              "key": "jalapeno",
-              "sourceKey": "jalapeno",
-              "name": "Jalapeno, raw",
-              "amount": 0.6667,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "component:garlic-herb-yogurt",
-              "confidence": "high",
-              "allocations": {
-                "garlic-herb-yogurt": 0.6667
-              }
-            },
-            {
-              "key": "parsley",
-              "sourceKey": "parsley",
-              "name": "Flat-leaf parsley, raw",
-              "amount": 0.3333,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "component:garlic-herb-yogurt",
-              "confidence": "high",
-              "allocations": {
-                "garlic-herb-yogurt": 0.3333
-              }
-            },
-            {
-              "key": "salt",
-              "sourceKey": "salt",
-              "name": "Table salt",
-              "amount": 0.2222,
+              "key": "avocado_oil",
+              "sourceKey": "avocado_oil",
+              "name": "Avocado oil",
+              "amount": 1,
               "unit": "g",
               "station": "Dry Prep & Seasonings",
-              "note": "component:garlic-herb-yogurt",
-              "confidence": "high",
-              "allocations": {
-                "garlic-herb-yogurt": 0.2222
-              },
+              "note": "",
+              "confidence": "medium",
               "measure": {
-                "type": "spice",
-                "gramsPerTsp": 6.0
+                "type": "liquid",
+                "density": 0.91
               }
             }
           ],
           "confidence": "medium",
           "assumptions": [
-            "Marinate 78g boneless skinless chicken thigh only in the ingredients marked tikka-marinade. Cook chicken to 165 F; cool promptly before wrapping.",
-            "No rice, cheese, cashews, or side sauce cup is included. The unchanged25g current Garlic Herb Yogurt finish contains its controlled light mayonnaise.",
-            "October 19 second-pass sodium correction: add no salt to the tikka marinade because the tortilla and chicken provide the remaining sodium.",
-            "October 20 owner formula: incorporate exactly 25g PRPD Garlic Herb Yogurt per meal. The sauce uses the controlled yogurt, light-mayo, reduced-lemon, cilantro and jalapeno formula with no added water.",
-            "October28 owner approved40% less chicken:78g raw thigh per SINGLE wrap, with only its raw-contact marinade scaled to60%. Keep one tortilla,25g current Garlic Herb Yogurt and all salad unchanged.",
-            "The75% cooked-yield model is not a new measured result. Record actual cooked meat and final wrap net weight; no retrospective Tikka leftovers remain for weighing."
+            "One chilled Grab & Go order uses one 70-calorie Mission Carb Balance medium flour tortilla, rolled tightly and sliced into four pinwheel pieces.",
+            "Cool chicken fully before assembly; record pinwheel count, 12 oz box fit, and 72-hour hold quality.",
+            "Use Sweet Baby Ray's Mild Buffalo Wing Sauce. Add no chicken salt and use a 10g incorporated finish made from 5g sauce, 2g apple-cider vinegar and 3g water."
           ]
         }
       },
@@ -4536,7 +3812,7 @@ const PRPD_PRODUCTION_DATA = {
       "name": "Oven-Baked Popcorn Chicken",
       "category": "Add-on",
       "aliases": [],
-      "status": "Batch 20 controlled planning recipe",
+      "status": "Batch 21 controlled planning recipe",
       "recommendation": "October29 owner authorized complete recipe-based nutrient and net-weight estimates for final labels. Formula unchanged:160g raw thigh model,25g plain unfrosted Kellogg's Corn Flakes before crushing,5g flour,15g eggwhite,3g oil and measured spices/salt. Nutrients count all issued coating/oil retained; no dip. USDA flour/garlic/pepper micronutrients supplement the complete cereal panel. Physical panels, recovery, retained coating/oil, bake load,165F endpoint, net weight,12oz fit, cooling and24/72-hour reheat remain unmeasured checks, not invented results. Malt supplies gluten; contains wheat/egg.",
       "tiers": {
         "single": {
@@ -4707,7 +3983,7 @@ const PRPD_PRODUCTION_DATA = {
       "name": "Classic Mango Lassi",
       "category": "Add-on",
       "aliases": [],
-      "status": "Batch 20 controlled planning recipe",
+      "status": "Batch 21 controlled planning recipe",
       "recommendation": "Confirm actual purchased panels and measured yields.",
       "tiers": {
         "single": {
@@ -4771,6 +4047,222 @@ const PRPD_PRODUCTION_DATA = {
       },
       "plannerOnly": false
     },
+    "a3": {
+      "name": "Mediterranean Chicken Hummus Box",
+      "category": "Add-on",
+      "aliases": [],
+      "status": "Batch 21 controlled planning recipe",
+      "recommendation": "Confirm actual purchased panels and measured yields.",
+      "tiers": {
+        "single": {
+          "ingredients": [
+            {
+              "key": "chicken_thigh_raw",
+              "sourceKey": "chicken_thigh_cooked",
+              "name": "Boneless skinless chicken thighs, raw",
+              "amount": 100.0,
+              "unit": "g",
+              "station": "Poultry",
+              "note": "Raw purchasing/prep quantity; modeled 75% cooked yield.",
+              "confidence": "high",
+              "measure": {
+                "type": "meat"
+              }
+            },
+            {
+              "key": "garlic_powder",
+              "sourceKey": "garlic_powder",
+              "name": "Garlic powder",
+              "amount": 0.675,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "component:shared-chicken-base",
+              "confidence": "medium",
+              "allocations": {
+                "shared-chicken-base": 0.675
+              },
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 3.1
+              }
+            },
+            {
+              "key": "onion_powder",
+              "sourceKey": "onion_powder",
+              "name": "Onion powder",
+              "amount": 0.4,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "component:shared-chicken-base",
+              "confidence": "medium",
+              "allocations": {
+                "shared-chicken-base": 0.4
+              },
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 2.4
+              }
+            },
+            {
+              "key": "paprika",
+              "sourceKey": "paprika",
+              "name": "Paprika",
+              "amount": 0.3,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "component:shared-chicken-base",
+              "confidence": "high",
+              "allocations": {
+                "shared-chicken-base": 0.3
+              },
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 2.3
+              }
+            },
+            {
+              "key": "black_pepper",
+              "sourceKey": "black_pepper",
+              "name": "Ground black pepper",
+              "amount": 0.2,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "component:shared-chicken-base",
+              "confidence": "high",
+              "allocations": {
+                "shared-chicken-base": 0.2
+              },
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 2.3
+              }
+            },
+            {
+              "key": "salt",
+              "sourceKey": "salt",
+              "name": "Table salt",
+              "amount": 0.5,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "component:shared-chicken-base",
+              "confidence": "high",
+              "allocations": {
+                "shared-chicken-base": 0.5
+              },
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 6.0
+              }
+            },
+            {
+              "key": "hummus",
+              "sourceKey": "hummus",
+              "name": "Prepared hummus",
+              "amount": 60,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "medium"
+            },
+            {
+              "key": "shawarma_bread",
+              "sourceKey": "shawarma_bread",
+              "name": "Shawarma bread",
+              "amount": 0.5,
+              "unit": "each",
+              "station": "Bread & Packaging",
+              "note": "",
+              "confidence": "medium"
+            },
+            {
+              "key": "cucumber",
+              "sourceKey": "cucumber",
+              "name": "Cucumber with peel, raw",
+              "amount": 50,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "tomato",
+              "sourceKey": "tomato",
+              "name": "Tomato, raw",
+              "amount": 50,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "feta",
+              "sourceKey": "feta",
+              "name": "Feta cheese",
+              "amount": 14,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "medium"
+            },
+            {
+              "key": "olives",
+              "sourceKey": "olives",
+              "name": "Black olives, drained",
+              "amount": 15,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "medium"
+            },
+            {
+              "key": "onion",
+              "sourceKey": "onion",
+              "name": "Onion, raw",
+              "amount": 10,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "lemon",
+              "sourceKey": "lemon",
+              "name": "Bottled lemon juice",
+              "amount": 5,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "medium",
+              "measure": {
+                "type": "liquid",
+                "density": 1.03
+              }
+            },
+            {
+              "key": "avocado_oil",
+              "sourceKey": "avocado_oil",
+              "name": "Avocado oil",
+              "amount": 1,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "",
+              "confidence": "medium",
+              "measure": {
+                "type": "liquid",
+                "density": 0.91
+              }
+            }
+          ],
+          "confidence": "medium",
+          "assumptions": [
+            "One chilled Grab & Go box with cooked chicken, hummus, half a flatbread, vegetables, feta, and olives.",
+            "Record the 12 oz box fit and 72-hour cold hold before final labels.",
+            "October 22 owner correction: season the shared chicken base at 0.5% salt by raw chicken weight. Do not add a second salt dose after the Hummus Box pull is divided."
+          ]
+        }
+      },
+      "plannerOnly": false
+    },
     "p1": {
       "name": "High-Protein Beef Kofta & Roasted Vegetables",
       "category": "Internal custom meal",
@@ -4782,7 +4274,7 @@ const PRPD_PRODUCTION_DATA = {
         "Custom Drained Ground Beef Mince",
         "Custom Drained Ground Beef Mince Meal"
       ],
-      "status": "Batch 20 controlled planning recipe",
+      "status": "Batch 21 controlled planning recipe",
       "recommendation": "Preserve Nouman's successful five-log actual-96/4 house formula with drained onion and jalapeno mixed into the beef. Pack the kachumber separately.",
       "tiers": {
         "lean": {
@@ -5070,7 +4562,7 @@ const PRPD_PRODUCTION_DATA = {
         "Custom Chicken Breast Mince",
         "Chicken Breast Mince"
       ],
-      "status": "Batch 20 controlled planning recipe",
+      "status": "Batch 21 controlled planning recipe",
       "recommendation": "Confirm actual purchased panels and measured yields.",
       "tiers": {
         "lean": {
@@ -5406,7 +4898,7 @@ const PRPD_PRODUCTION_DATA = {
         "Custom Lebanese-Style Chicken Breast Meal",
         "Custom Lebanese Chicken + Fattoush-Style Salad"
       ],
-      "status": "Batch 20 controlled planning recipe",
+      "status": "Batch 21 controlled planning recipe",
       "recommendation": "Confirm actual purchased panels and measured yields.",
       "tiers": {
         "lean": {
@@ -5589,337 +5081,6 @@ const PRPD_PRODUCTION_DATA = {
           }
         ]
       }
-    },
-    "bw1": {
-      "name": "Harissa Honey Chicken",
-      "category": "Internal custom meal",
-      "aliases": [],
-      "status": "Batch 20 controlled planning recipe",
-      "recommendation": "Returning controlled PRPD adaptation with an incorporated harissa-honey glaze and no recipe-required sauce cup. Verify the actual purchased harissa jar panel and record finished glaze, chicken, rice, broccoli and packed weights; the Mina-style harissa profile and jar price remain planning placeholders.",
-      "tiers": {
-        "lean": {
-          "ingredients": [
-            {
-              "key": "chicken_thigh_raw",
-              "sourceKey": "chicken_thigh_standard_cooked",
-              "name": "Boneless skinless chicken thighs, raw",
-              "amount": 232.5581,
-              "unit": "g",
-              "station": "Poultry",
-              "note": "Raw purchasing/prep quantity; measured 68.8% cooked yield from the October 7 component test.",
-              "confidence": "medium",
-              "measure": {
-                "type": "meat"
-              }
-            },
-            {
-              "key": "rice_dry",
-              "sourceKey": "rice_dry",
-              "name": "PRPD basmati/white rice, dry",
-              "amount": 45.0,
-              "unit": "g",
-              "station": "Starches & Hot Sides",
-              "note": "owner standard; targets 120g/160g cooked pending measured rice yield",
-              "confidence": "medium"
-            },
-            {
-              "key": "broccoli",
-              "sourceKey": "broccoli",
-              "name": "Broccoli, raw",
-              "amount": 100,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "harissa",
-              "sourceKey": "harissa",
-              "name": "Harissa paste",
-              "amount": 13.9535,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "",
-              "confidence": "low"
-            },
-            {
-              "key": "honey",
-              "sourceKey": "honey",
-              "name": "Honey",
-              "amount": 9.3023,
-              "unit": "g",
-              "station": "Breakfast & Desserts",
-              "note": "",
-              "confidence": "high",
-              "measure": {
-                "type": "liquid",
-                "density": 1.42
-              }
-            },
-            {
-              "key": "tomato_paste",
-              "sourceKey": "tomato_paste",
-              "name": "Tomato paste",
-              "amount": 6.9767,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "lemon",
-              "sourceKey": "lemon",
-              "name": "Bottled lemon juice",
-              "amount": 6.9767,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "",
-              "confidence": "medium",
-              "measure": {
-                "type": "liquid",
-                "density": 1.03
-              }
-            },
-            {
-              "key": "garlic",
-              "sourceKey": "garlic",
-              "name": "Garlic, raw",
-              "amount": 3.4884,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "avocado_oil",
-              "sourceKey": "avocado_oil",
-              "name": "Avocado oil",
-              "amount": 4.6512,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "medium",
-              "measure": {
-                "type": "liquid",
-                "density": 0.91
-              }
-            },
-            {
-              "key": "paprika",
-              "sourceKey": "paprika",
-              "name": "Paprika",
-              "amount": 0.6977,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "high",
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 2.3
-              }
-            },
-            {
-              "key": "coriander",
-              "sourceKey": "coriander",
-              "name": "Ground coriander",
-              "amount": 0.6977,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "high",
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 1.8
-              }
-            },
-            {
-              "key": "salt",
-              "sourceKey": "salt",
-              "name": "Table salt",
-              "amount": 1.8605,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "high",
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 6.0
-              }
-            }
-          ],
-          "confidence": "medium",
-          "assumptions": [
-            "Plate exactly 160g cooked boneless skinless chicken thigh before sauce.",
-            "Owner-approved component standard: 120g cooked starch and 75g vegetables; 45g/60g dry basmati is the controlled rice equivalent until rice yield is measured.",
-            "The named broccoli side exceeds the baseline vegetable minimum and retains its recipe-specific quantity.",
-            "Chicken uses the shared neutral savory base, then receives the exact measured harissa-honey finish.",
-            "Glaze is incorporated; there is no duplicate sauce cup.",
-            "Harissa package data and the first finished glaze/chicken yield must be recorded before label printing."
-          ]
-        },
-        "bulk": {
-          "ingredients": [
-            {
-              "key": "chicken_thigh_raw",
-              "sourceKey": "chicken_thigh_standard_cooked",
-              "name": "Boneless skinless chicken thighs, raw",
-              "amount": 305.2326,
-              "unit": "g",
-              "station": "Poultry",
-              "note": "Raw purchasing/prep quantity; measured 68.8% cooked yield from the October 7 component test.",
-              "confidence": "medium",
-              "measure": {
-                "type": "meat"
-              }
-            },
-            {
-              "key": "rice_dry",
-              "sourceKey": "rice_dry",
-              "name": "PRPD basmati/white rice, dry",
-              "amount": 60.0,
-              "unit": "g",
-              "station": "Starches & Hot Sides",
-              "note": "owner standard; targets 120g/160g cooked pending measured rice yield",
-              "confidence": "medium"
-            },
-            {
-              "key": "broccoli",
-              "sourceKey": "broccoli",
-              "name": "Broccoli, raw",
-              "amount": 130,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "harissa",
-              "sourceKey": "harissa",
-              "name": "Harissa paste",
-              "amount": 18.314,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "",
-              "confidence": "low"
-            },
-            {
-              "key": "honey",
-              "sourceKey": "honey",
-              "name": "Honey",
-              "amount": 12.2093,
-              "unit": "g",
-              "station": "Breakfast & Desserts",
-              "note": "",
-              "confidence": "high",
-              "measure": {
-                "type": "liquid",
-                "density": 1.42
-              }
-            },
-            {
-              "key": "tomato_paste",
-              "sourceKey": "tomato_paste",
-              "name": "Tomato paste",
-              "amount": 9.157,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "lemon",
-              "sourceKey": "lemon",
-              "name": "Bottled lemon juice",
-              "amount": 9.157,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "",
-              "confidence": "medium",
-              "measure": {
-                "type": "liquid",
-                "density": 1.03
-              }
-            },
-            {
-              "key": "garlic",
-              "sourceKey": "garlic",
-              "name": "Garlic, raw",
-              "amount": 4.5785,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "avocado_oil",
-              "sourceKey": "avocado_oil",
-              "name": "Avocado oil",
-              "amount": 6.1047,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "medium",
-              "measure": {
-                "type": "liquid",
-                "density": 0.91
-              }
-            },
-            {
-              "key": "paprika",
-              "sourceKey": "paprika",
-              "name": "Paprika",
-              "amount": 0.9157,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "high",
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 2.3
-              }
-            },
-            {
-              "key": "coriander",
-              "sourceKey": "coriander",
-              "name": "Ground coriander",
-              "amount": 0.9157,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "high",
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 1.8
-              }
-            },
-            {
-              "key": "salt",
-              "sourceKey": "salt",
-              "name": "Table salt",
-              "amount": 2.4419,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "high",
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 6.0
-              }
-            }
-          ],
-          "confidence": "medium",
-          "assumptions": [
-            "Plate exactly 210g cooked boneless skinless chicken thigh before sauce.",
-            "Owner-approved component standard: 160g cooked starch and 100g vegetables; 45g/60g dry basmati is the controlled rice equivalent until rice yield is measured.",
-            "The named broccoli side exceeds the baseline vegetable minimum and retains its recipe-specific quantity.",
-            "Chicken uses the shared neutral savory base, then receives the exact measured harissa-honey finish.",
-            "Glaze is incorporated; there is no duplicate sauce cup.",
-            "Harissa package data and the first finished glaze/chicken yield must be recorded before label printing."
-          ]
-        }
-      },
-      "plannerOnly": true,
-      "qualityChecks": "Returning controlled PRPD adaptation with an incorporated harissa-honey glaze and no recipe-required sauce cup. Verify the actual purchased harissa jar panel and record finished glaze, chicken, rice, broccoli and packed weights; the Mina-style harissa profile and jar price remain planning placeholders."
     }
   },
   "recipeLibrary": {},

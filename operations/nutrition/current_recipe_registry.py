@@ -698,6 +698,7 @@ RECIPES = {
     "Caprese Protein Pasta Box": (r.caprese_protein_pasta_box, True),
     "Chicken Shakshuka": (lambda tier: _without_component(r.chicken_shakshuka(tier), WHITE_GARLIC_JALAPENO_COMPONENT, "white garlic-jalapeno"), False),
     "Sweet Chili Chicken with Rice": (r.sweet_chili_chicken_plain_rice, False),
+    "Chicken Biryani": (r.biryani, False),
     "Butter Chicken": (r.butter_chicken_no_broth, False),
     "Loaded Buffalo Chicken Potato": (r.loaded_buffalo_revised, False),
     "Beef Seekh Kabab Shawarma": (r.shan_seekh_shawarma, False),
@@ -754,6 +755,9 @@ SERVICE = {
     ],
     "Sweet Chili Chicken with Rice": [
         {"name": "G Hughes Sugar-Free Sweet Chili Sauce", "batchGroup": "sweet-chili-side-cup", "componentRef": "sweet-chili-side-cup", "cupsPerMeal": 1, "gramsPerMeal": 30},
+    ],
+    "Chicken Biryani": [
+        {"name": "PRPD Green Garlic Sauce", "batchGroup": "green-garlic", "componentRef": "green-garlic", "cupsPerMeal": 1, "gramsPerMeal": 30},
     ],
     "Strawberry Cheesecake Protein Pancakes": [
         {"name": "Strawberry-cheesecake topping", "batchGroup": "strawberry-cheesecake", "cupsPerMeal": 1, "weightBasis": "measured-yield"},

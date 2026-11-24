@@ -6004,7 +6004,7 @@
 
   }
 
-  if ([19, 20].includes(Number(data.batch))) {
+  if ([19, 20, 21].includes(Number(data.batch))) {
     const byName = name => Object.values(data.meals).find(meal => meal.recipeName === name);
     const removeSalt = task => {
       if (!task) return;
@@ -6200,6 +6200,50 @@
     lassi.cookDayReservations = lassi.steps;
     lassi.hold = 'Keep sealed bottles at 41 F or below during storage and delivery.';
     lassi.packBuildByTier = {single:[{amount:'330 g net',name:'classic mango lassi in purchased bottle'}]};
+  }
+
+  if (Number(data.batch) === 21) {
+    const biryani = Object.values(data.meals).find(method => method.recipeName === 'Chicken Biryani');
+    if (biryani) {
+      biryani.prepBatches = biryani.prepBatches.filter(task => task.name !== 'Biryani garnish');
+      biryani.prepSteps = biryani.prepBatches.map(task => task.instruction);
+      biryani.steps = [
+        'Soften the measured onion in the assigned avocado oil. Add the chicken with all its Shan-yogurt marinade and the measured tomato; cook every chicken piece to 165 F.',
+        'Cook the separately staged basmati rice to three-quarters done, drain it, layer over the chicken masala, cover and steam until the rice is tender.',
+        'Record finished yield and divide by tier. Pack one separate, cold 30 g green garlic sauce cup per meal; no cilantro garnish or cucumber salad is in the current recipe.',
+      ];
+      biryani.cookPackSteps = biryani.steps;
+      biryani.cookDayReservations = biryani.steps;
+    }
+    const butterChicken = Object.values(data.meals).find(method => method.recipeName === 'Butter Chicken');
+    if (butterChicken) {
+      const marinade = butterChicken.prepBatches.find(task => task.name === 'Shan Butter Chicken marinade');
+      if (marinade) {
+        marinade.steps = [
+          'Reserve 15 g of the measured Greek yogurt per meal for the marinade; keep the remaining 30 g Lean or 45 g Bulk cold for the sauce finish.',
+          'Coat the exact raw thigh pull with the displayed Shan mix, lemon, garlic, ginger and marinade yogurt. The recipe allocates 5 g Shan Lean or 6.25 g Bulk, equal to 25 g per kg raw chicken.',
+          'Cover, label and refrigerate the chicken separately. Cook all raw-contact marinade with the chicken to 165 F.',
+        ];
+        marinade.instruction = marinade.steps[0];
+      }
+      const sauce = butterChicken.prepBatches.find(task => task.name === 'Butter Chicken sauce');
+      if (sauce) {
+        sauce.ingredientKeys = ['onion', 'tomato_paste', 'crushed_tomatoes', 'butter', 'paprika', 'cumin', 'coriander', 'turmeric', 'black_pepper', 'cayenne'];
+        sauce.steps = [
+          'Brown the measured onion in the measured butter. Add tomato paste, crushed tomatoes and every displayed dry spice. The controlled recipe has no added water or broth.',
+          'Simmer and blend the sauce until smooth; record finished sauce yield. Keep the reserved yogurt cold and separate until the cooked-chicken finish.',
+        ];
+        sauce.instruction = sauce.steps[0];
+      }
+      butterChicken.prepSteps = butterChicken.prepBatches.map(task => task.instruction);
+      butterChicken.steps = [
+        'Cook the separately marinated chicken and all its raw-contact marinade with the measured tomato sauce until every chicken piece reaches 165 F.',
+        'Record the finished chicken and sauce yield. Off high heat, stir in the reserved Greek yogurt until smooth; do not add water or broth.',
+        'Pack the exact tier chicken, sauce and basmati rice shares. Cool promptly and refrigerate.',
+      ];
+      butterChicken.cookPackSteps = butterChicken.steps;
+      butterChicken.cookDayReservations = butterChicken.steps;
+    }
   }
 
   return data;

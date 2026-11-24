@@ -35,6 +35,8 @@ Collin_Fall_2026_Degree_and_Registration_Plan.docx
 # matching files are also ignored by Git and must never be uploaded.
 .env*
 .vercel/
+node_modules/
+work/
 *-website-*.json
 service-account*.json
 *API*KEY*.txt

@@ -57,7 +57,7 @@ def configured_items(config):
 def load_nutrition_module(config=None):
     config = current_config() if config is None else config
     batch_number = config["batch"]["number"]
-    if batch_number not in {13, 14, 15, 16, 17, 18, 19, 20}:
+    if batch_number not in {13, 14, 15, 16, 17, 18, 19, 20, 21}:
         raise ValueError(f"No cost recipe registry configured for Batch {batch_number}")
     configured_items(config)
     sys.path.insert(0, str(NEXT_NUTRITION_PATH.parent))
@@ -276,7 +276,7 @@ def packaging_cost(meal_name: str, tier: str, registry=None) -> float:
 
 
 def packaging_cost_lines(meal_name: str, tier: str, registry=None) -> list[dict]:
-    if meal_name == "Classic Chocolate Chip Cookie":
+    if meal_name in {"Classic Chocolate Chip Cookie", "Chocolate Chip Cookie Drop"}:
         return [{"item": "Food-safe sleeve and label allowance", "quantity": 1, "unit_cost": 0.15}]
     if meal_name == "Classic Mango Lassi":
         return [{"item": "Purchased NYHI bottle and cap", "quantity": 1, "unit_cost": 0.9735},
@@ -322,7 +322,7 @@ def packaging_cost_lines(meal_name: str, tier: str, registry=None) -> list[dict]
 def load_current_registry():
     sys.path.insert(0, str(NEXT_NUTRITION_PATH.parent))
     batch_number = current_config()["batch"]["number"]
-    if batch_number not in {13, 14, 15, 16, 17, 18, 19, 20}:
+    if batch_number not in {13, 14, 15, 16, 17, 18, 19, 20, 21}:
         raise ValueError(f"No packaging registry configured for Batch {batch_number}")
     path = NEXT_NUTRITION_PATH.with_name(
         "batch13_recipes.py" if batch_number == 13 else "current_recipe_registry.py"
@@ -587,9 +587,9 @@ def generated_cost_payload(module) -> dict:
         for row in rows
         if row["confidence"] != "verified"
     )
-    cookie_name = "Classic Chocolate Chip Cookie"
-    cookie_item = next((item for item in module.config["menu"].get("desserts", []) if item["name"] == cookie_name), None)
+    cookie_item = next((item for item in module.config["menu"].get("desserts", []) if item["name"] in {"Classic Chocolate Chip Cookie", "Chocolate Chip Cookie Drop"}), None)
     if cookie_item is not None:
+        cookie_name = cookie_item["name"]
         base_key = f"{cookie_name.lower()}|single"
         direct_costs.pop(base_key, None)
         provisional = [key for key in provisional if key != base_key]

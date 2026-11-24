@@ -270,8 +270,8 @@ const ORDER_API_URL = '/api/order';
     const menuCardsForSection = section => section === 'addons'
       ? [...(MENU.addons || []), ...(MENU.desserts || [])]
       : (MENU[section] || []);
-    const isSingleSize = dish => dish.category === 'dessert' || dish.category === 'addon';
     const isVariantDish = dish => Array.isArray(dish.variants) && dish.variants.length > 0;
+    const isSingleSize = dish => (dish.category === 'dessert' || dish.category === 'addon') && !isVariantDish(dish);
 
     function orderOptions(dish) {
       if (isVariantDish(dish)) return dish.variants.map(variant => variant.id);
