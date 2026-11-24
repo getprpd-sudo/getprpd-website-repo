@@ -2,7 +2,7 @@ const ORDER_CONFIG = {
   "batch": {
     "number": 21,
     "published": true,
-    "remindersEnabled": false,
+    "remindersEnabled": true,
     "deliveryDate": "Saturday, November 28, 2026",
     "cutoffIso": "2026-11-25T18:00:00-06:00",
     "cutoffLabel": "Wednesday at 6:00 PM CT",
@@ -566,7 +566,7 @@ const ORDER_CONFIG = {
         "newThisWeek": false,
         "nutritionReview": true,
         "nutritionStatus": "Controlled calculation; physical yield and finished-weight verification remain open",
-        "imageCrop": "rotate-180"
+        "imageCrop": "rotate-180-close"
       }
     ],
     "addons": [
@@ -801,7 +801,7 @@ const ORDER_CONFIG = {
     "websiteApproved": true,
     "approvedByOwner": true,
     "approvalRecordedAt": "2026-11-23T18:08:41-06:00",
-    "approvalScope": "Owner approved the displayed Batch 21 menu with the Batch 20 cookie retained, website publication, and Google Ads resumption once the live menu is ready; Instagram post and story are for review, customer outreach later.",
+    "approvalScope": "Owner approved the displayed Batch 21 menu with cookies, website publication, Google Ads activation, Instagram feed and story publication, and Batch 21 order reminders on November 23, 2026.",
     "nutritionBasis": "Returning controlled recipe estimates; physical packout remains to be checked.",
     "actualComponentDatesVerified": false,
     "adsActivationAuthorized": true
