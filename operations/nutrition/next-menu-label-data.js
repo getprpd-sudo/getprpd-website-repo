@@ -10,7 +10,7 @@ window.PRPD_NEXT_LABEL_DATA = {
     "batchId": "B21-1127",
     "refrigeratedDays": 4
   },
-  "recipeFingerprint": "def2c21b1f696f8ff593ed01e5123c1cd3ddf36e08d676c976a96cc7b718136f",
+  "recipeFingerprint": "2770bd2f9c11c3e030b01bf921cf95e1c50fbf25065b13478cdc01338a5d8c29",
   "notice": "Batch 21 calculated label data generated from the active customer menu and controlled recipes. Resolve every listed physical validation gate before final printing.",
   "meals": {
     "b1": {
@@ -1074,7 +1074,7 @@ window.PRPD_NEXT_LABEL_DATA = {
       "name": "Chocolate Chip Cookie Drop",
       "category": "Dessert",
       "description": "Classic chocolate chip cookie baked from a 70 g raw dough portion; available in 1, 3, or 6.",
-      "note": "Nutrition is a per-cookie recipe estimate. Baked weight and purchased chip panel are pending.",
+      "note": "Classic cookie with semisweet chocolate chips.",
       "storageMode": "ambient",
       "reheat": "Enjoy at room temperature. Keep dry and sealed.",
       "validation": "Verify the purchased semisweet chocolate chip ingredient and allergen panel, then weigh the cooled baked cookie before final label release.",
@@ -1281,7 +1281,7 @@ window.PRPD_NEXT_LABEL_DATA = {
       "name": "Classic Mango Lassi",
       "category": "Add-on",
       "description": "Deep Alphonso mango pulp, FAGE Total 0% yogurt, Fairlife fat-free milk, and honey in the existing bottle.",
-      "note": "330 g homogeneous bottle estimate; exact pulp panel and filled weight are pending.",
+      "note": "Mango lassi with yogurt, milk, and honey.",
       "storageMode": "fridge",
       "reheat": "Keep chilled. Shake gently before drinking. Do not heat.",
       "validation": "Verify the purchased Deep Alphonso pulp, FAGE yogurt and Fairlife milk ingredient and allergen panels, and the actual 330 g bottle fill before final label release.",

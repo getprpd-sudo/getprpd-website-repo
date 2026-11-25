@@ -38,10 +38,10 @@ test('all current labels require an actual packed net weight', () => {
   }
 });
 
-test('private customer label copy contains no internal status wording', () => {
-  for (const meal of Object.values(labels.meals).filter(item => item.plannerOnly)) {
-    const customerCopy = [meal.customerLabelName, meal.description, meal.note, meal.reheat].join(' ');
-    assert.ok(meal.customerLabelName, `${meal.name} has a customer label name`);
+test('customer label copy contains no internal status wording', () => {
+  for (const meal of Object.values(labels.meals)) {
+    const customerCopy = [meal.customerLabelName || meal.name, meal.description, meal.note, meal.reheat].join(' ');
+    if (meal.plannerOnly) assert.ok(meal.customerLabelName, `${meal.name} has a customer label name`);
     assert.doesNotMatch(customerCopy, /\b(?:custom|private|Barry-only|draft|review|verify|confirm|pending)\b/i,
       `${meal.name} has no internal status in customer copy`);
   }

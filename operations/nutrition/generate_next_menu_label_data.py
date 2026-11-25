@@ -288,8 +288,8 @@ ALLERGEN_ADVISORIES = {
 
 META = {
     "Classic Chocolate Chip Cookie": ("Classic chocolate chip cookie baked from a 70 g raw dough portion; available in 1, 3, or 6.", "Nutrition is a per-cookie recipe estimate. Baked weight and purchased chip panel are pending.", "ambient"),
-    "Chocolate Chip Cookie Drop": ("Classic chocolate chip cookie baked from a 70 g raw dough portion; available in 1, 3, or 6.", "Nutrition is a per-cookie recipe estimate. Baked weight and purchased chip panel are pending.", "ambient"),
-    "Classic Mango Lassi": ("Deep Alphonso mango pulp, FAGE Total 0% yogurt, Fairlife fat-free milk, and honey in the existing bottle.", "330 g homogeneous bottle estimate; exact pulp panel and filled weight are pending.", "fridge"),
+    "Chocolate Chip Cookie Drop": ("Classic chocolate chip cookie baked from a 70 g raw dough portion; available in 1, 3, or 6.", "Classic cookie with semisweet chocolate chips.", "ambient"),
+    "Classic Mango Lassi": ("Deep Alphonso mango pulp, FAGE Total 0% yogurt, Fairlife fat-free milk, and honey in the existing bottle.", "Mango lassi with yogurt, milk, and honey.", "fridge"),
     "Oven-Baked Popcorn Chicken": ("Bite-size chicken thighs with a seasoned plain cornflake coating, oven-baked with measured oil. Dip selected separately.", "Crunchy bites. Big flavor.", "fridge"),
     "Lemon Herb Chicken Orzo": ("Chicken thighs, lemon-herb orzo, and roasted zucchini and carrots.", "Lemon, herbs, and a complete chicken meal.", "fridge"),
     "Blueberry Vanilla Protein Baked Oatmeal Squares": ("Blueberry-vanilla baked oatmeal squares with egg whites, Greek yogurt, banana, and protein powder.", "Keep chilled. Reheat only when ready to eat.", "fridge"),
