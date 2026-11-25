@@ -993,6 +993,33 @@ img[src*="halal-cart-chicken"] { filter: brightness(1.28) saturate(1.1) contrast
   gap: 24px;
   margin-bottom: 36px;
 }
+.menu-box-preview[hidden] { display: none; }
+.menu-box-preview {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(220px, .8fr) auto;
+  align-items: center;
+  gap: 28px;
+  margin: 0 0 32px;
+  padding: 25px 28px;
+  border: 1px solid rgba(185, 219, 157, .34);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(120deg, rgba(127, 168, 130, .19), rgba(255, 255, 255, .04));
+}
+.menu-box-preview__eyebrow {
+  color: var(--sage-light);
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.menu-box-preview h3 { margin: 6px 0 8px; color: var(--cream); font-size: clamp(1.35rem, 2.3vw, 1.9rem); }
+.menu-box-preview p { margin: 0; color: rgba(236, 231, 223, .72); font-size: .86rem; line-height: 1.5; }
+.menu-box-preview__numbers { display: grid; grid-template-columns: repeat(3, auto); align-items: baseline; gap: 8px 14px; }
+.menu-box-preview__numbers span { color: rgba(236, 231, 223, .74); font-size: .75rem; white-space: nowrap; }
+.menu-box-preview__numbers strong { display: block; color: var(--cream); font-size: 1.22rem; }
+.menu-box-preview__numbers small { grid-column: 1 / -1; color: rgba(236, 231, 223, .56); font-size: .67rem; }
+@media (max-width: 980px) { .menu-box-preview { grid-template-columns: 1fr 1fr; } .menu-box-preview > .btn { grid-column: 1 / -1; justify-self: start; } }
+@media (max-width: 650px) { .menu-box-preview { grid-template-columns: 1fr; padding: 21px; } .menu-box-preview > .btn { grid-column: 1; } }
 
 .menu-card {
   background: rgba(255,255,255,0.05);

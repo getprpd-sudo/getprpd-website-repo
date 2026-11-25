@@ -10,7 +10,7 @@ window.PRPD_NEXT_LABEL_DATA = {
     "batchId": "B21-1127",
     "refrigeratedDays": 4
   },
-  "recipeFingerprint": "20c98988348357ab7e41b29e1861e694431d5ea6632718ba066e3fd71b860bd0",
+  "recipeFingerprint": "def2c21b1f696f8ff593ed01e5123c1cd3ddf36e08d676c976a96cc7b718136f",
   "notice": "Batch 21 calculated label data generated from the active customer menu and controlled recipes. Resolve every listed physical validation gate before final printing.",
   "meals": {
     "b1": {
@@ -25,7 +25,7 @@ window.PRPD_NEXT_LABEL_DATA = {
       "tiers": {
         "lean": {
           "label": "LEAN",
-          "netWeight": "9.7 oz (275 g)",
+          "netWeight": "Enter packed weight",
           "ingredients": "egg whites, all-purpose flour, Sharifa halal beef bacon (beef, water, sea salt, cane sugar, sodium phosphate, sodium nitrate, vinegar, sodium erythorbate), water, fat-free mozzarella cheese, whole egg, green bell pepper, onion, crushed tomatoes, olive oil, salt, instant baker's yeast, garlic, italian seasoning, crushed red chili flakes.",
           "allergens": "CONTAINS: EGG, MILK, WHEAT.",
           "allergenAdvisory": "",
@@ -67,14 +67,16 @@ window.PRPD_NEXT_LABEL_DATA = {
           "nutritionBasis": "Owner-approved Batch 19 served-pizza recipe estimate; unserved dough excluded",
           "inputMassGrams": 333,
           "netWeightStatus": "estimated",
-          "requiresPackoutWeight": false,
+          "requiresPackoutWeight": true,
           "netWeightBasis": "Owner-approved conservative finished-food estimate",
           "netWeightMeasured": false,
-          "estimatedNetWeightGrams": 275
+          "estimatedNetWeightGrams": 275,
+          "estimatedNetWeight": "9.7 oz (275 g)",
+          "netWeightVerified": false
         },
         "bulk": {
           "label": "BULK",
-          "netWeight": "12.3 oz (350 g)",
+          "netWeight": "Enter packed weight",
           "ingredients": "egg whites, all-purpose flour, Sharifa halal beef bacon (beef, water, sea salt, cane sugar, sodium phosphate, sodium nitrate, vinegar, sodium erythorbate), fat-free mozzarella cheese, water, whole egg, green bell pepper, onion, crushed tomatoes, olive oil, salt, instant baker's yeast, garlic, italian seasoning, crushed red chili flakes.",
           "allergens": "CONTAINS: EGG, MILK, WHEAT.",
           "allergenAdvisory": "",
@@ -116,10 +118,12 @@ window.PRPD_NEXT_LABEL_DATA = {
           "nutritionBasis": "Owner-approved Batch 19 served-pizza recipe estimate; unserved dough excluded",
           "inputMassGrams": 417,
           "netWeightStatus": "estimated",
-          "requiresPackoutWeight": false,
+          "requiresPackoutWeight": true,
           "netWeightBasis": "Owner-approved conservative finished-food estimate",
           "netWeightMeasured": false,
-          "estimatedNetWeightGrams": 350
+          "estimatedNetWeightGrams": 350,
+          "estimatedNetWeight": "12.3 oz (350 g)",
+          "netWeightVerified": false
         }
       }
     },
@@ -135,20 +139,20 @@ window.PRPD_NEXT_LABEL_DATA = {
       "tiers": {
         "lean": {
           "label": "LEAN",
-          "netWeight": "15.0 oz (424 g)",
+          "netWeight": "Enter packed weight",
           "ingredients": "D'Italiano bread, egg whites, fat-free cottage cheese, strawberries, banana, whole egg, fat-free milk, sugar-free maple syrup, sugar-free whipped cream, brown sugar, vanilla whey protein powder, vanilla extract, cinnamon.",
           "allergens": "CONTAINS: EGG, MILK, WHEAT.",
           "allergenAdvisory": "",
           "menuNutrition": {
-            "calories": 505,
+            "calories": 515,
             "protein": 34,
-            "carbs": 73,
+            "carbs": 76,
             "fiber": 6,
             "fat": 8,
             "satFat": 2.2,
             "transFat": 0.1,
             "cholesterol": 155,
-            "sodium": 1100,
+            "sodium": 1160,
             "sugars": 22,
             "addedSugar": 10,
             "vitaminD": 1.4,
@@ -173,24 +177,27 @@ window.PRPD_NEXT_LABEL_DATA = {
             "iron": 3.9,
             "potassium": 580
           },
-          "confidence": "medium"
+          "confidence": "medium",
+          "estimatedNetWeight": "15.0 oz (424 g)",
+          "netWeightVerified": false,
+          "requiresPackoutWeight": true
         },
         "bulk": {
           "label": "BULK",
-          "netWeight": "18.4 oz (522 g)",
+          "netWeight": "Enter packed weight",
           "ingredients": "D'Italiano bread, egg whites, fat-free cottage cheese, whole egg, strawberries, fat-free milk, banana, sugar-free maple syrup, brown sugar, sugar-free whipped cream, vanilla whey protein powder, vanilla extract, cinnamon.",
           "allergens": "CONTAINS: EGG, MILK, WHEAT.",
           "allergenAdvisory": "",
           "menuNutrition": {
-            "calories": 655,
+            "calories": 660,
             "protein": 45,
-            "carbs": 93,
+            "carbs": 96,
             "fiber": 7,
             "fat": 11,
             "satFat": 2.7,
             "transFat": 0.1,
             "cholesterol": 205,
-            "sodium": 1460,
+            "sodium": 1520,
             "sugars": 26,
             "addedSugar": 14,
             "vitaminD": 1.9,
@@ -215,7 +222,10 @@ window.PRPD_NEXT_LABEL_DATA = {
             "iron": 5.0,
             "potassium": 690
           },
-          "confidence": "medium"
+          "confidence": "medium",
+          "estimatedNetWeight": "18.4 oz (522 g)",
+          "netWeightVerified": false,
+          "requiresPackoutWeight": true
         }
       }
     },
@@ -231,7 +241,7 @@ window.PRPD_NEXT_LABEL_DATA = {
       "tiers": {
         "lean": {
           "label": "LEAN",
-          "netWeight": "10.8 oz (305 g)",
+          "netWeight": "Enter packed weight",
           "ingredients": "Mission Carb Balance wheat tortilla, 90/10 ground beef, whole egg, egg whites, onion, fat-free mozzarella cheese, tomato paste.",
           "allergens": "CONTAINS: EGG, MILK, WHEAT.",
           "allergenAdvisory": "",
@@ -269,11 +279,14 @@ window.PRPD_NEXT_LABEL_DATA = {
             "iron": 6.4,
             "potassium": 770
           },
-          "confidence": "medium"
+          "confidence": "medium",
+          "estimatedNetWeight": "10.8 oz (305 g)",
+          "netWeightVerified": false,
+          "requiresPackoutWeight": true
         },
         "bulk": {
           "label": "BULK",
-          "netWeight": "14.0 oz (397 g)",
+          "netWeight": "Enter packed weight",
           "ingredients": "Mission Carb Balance wheat tortilla, 90/10 ground beef, whole egg, fat-free mozzarella cheese, egg whites, onion, tomato paste.",
           "allergens": "CONTAINS: EGG, MILK, WHEAT.",
           "allergenAdvisory": "",
@@ -311,7 +324,10 @@ window.PRPD_NEXT_LABEL_DATA = {
             "iron": 8.9,
             "potassium": 1000
           },
-          "confidence": "medium"
+          "confidence": "medium",
+          "estimatedNetWeight": "14.0 oz (397 g)",
+          "netWeightVerified": false,
+          "requiresPackoutWeight": true
         }
       }
     },
@@ -322,190 +338,212 @@ window.PRPD_NEXT_LABEL_DATA = {
       "note": "Rice with range. Chicken with receipts.",
       "storageMode": "freezer",
       "reheat": "Remove the green sauce cup. Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout. Add the cold sauce after heating.",
-      "validation": "Confirm actual finished yield and package weight before printing.",
+      "validation": "Verify the purchased dairy-free yogurt and Shan packet, then test the chicken marinade and separate green sauce before final label release.",
       "decision": "Current controlled registry",
       "tiers": {
         "lean": {
           "label": "LEAN",
-          "netWeight": "13.8 oz (390 g)",
-          "ingredients": "boneless skinless chicken thigh, FAGE Total 0% nonfat Greek yogurt, onion, tomato, basmati rice, lemon juice, shan biryani recipe mix (standard powder), garlic, ginger, Great Value light mayonnaise, jalapeno, avocado oil.",
-          "allergens": "CONTAINS: EGG, MILK, SOY.",
+          "netWeight": "Enter packed weight",
+          "ingredients": "boneless skinless chicken thigh, So Delicious unsweetened plain coconutmilk yogurt alternative, onion, tomato, basmati rice, lemon juice, shan biryani recipe mix (standard powder), garlic, ginger, Great Value light mayonnaise, jalapeno, avocado oil.",
+          "allergens": "CONTAINS: EGG, SOY.",
           "allergenAdvisory": "",
           "menuNutrition": {
-            "calories": 525,
-            "protein": 46,
-            "carbs": 47,
-            "fiber": 3,
-            "fat": 16,
-            "satFat": 3.8,
+            "calories": 545,
+            "protein": 43,
+            "carbs": 50,
+            "fiber": 4,
+            "fat": 19,
+            "satFat": 5.4,
             "transFat": 0.1,
             "cholesterol": 200,
-            "sodium": 1850,
+            "sodium": 1880,
             "sugars": 7,
             "addedSugar": 2,
-            "vitaminD": 0.3,
-            "calcium": 90,
-            "iron": 2.4,
-            "potassium": 750
+            "vitaminD": 1.2,
+            "calcium": 190,
+            "iron": 2.6,
+            "potassium": 720
           },
           "nutrition": {
             "calories": 545,
-            "protein": 48,
-            "carbs": 49,
+            "protein": 43,
+            "carbs": 50,
             "fiber": 4,
-            "fat": 17,
-            "satFat": 3.9,
+            "fat": 19,
+            "satFat": 5.4,
             "transFat": 0.1,
-            "cholesterol": 205,
+            "cholesterol": 200,
             "sodium": 1880,
-            "sugars": 8,
+            "sugars": 7,
             "addedSugar": 2,
-            "vitaminD": 0.3,
-            "calcium": 120,
-            "iron": 2.5,
-            "potassium": 790
+            "vitaminD": 1.2,
+            "calcium": 190,
+            "iron": 2.6,
+            "potassium": 720
           },
-          "confidence": "medium"
+          "confidence": "planning",
+          "estimatedNetWeight": "13.8 oz (390 g)",
+          "netWeightVerified": false,
+          "requiresPackoutWeight": true,
+          "nutritionComplete": false,
+          "releaseHold": "Verify the purchased dairy-free yogurt and Shan packet, then test the chicken marinade and separate green sauce before final label release."
         },
         "bulk": {
           "label": "BULK",
-          "netWeight": "16.6 oz (471 g)",
-          "ingredients": "boneless skinless chicken thigh, FAGE Total 0% nonfat Greek yogurt, onion, tomato, basmati rice, lemon juice, shan biryani recipe mix (standard powder), garlic, ginger, Great Value light mayonnaise, avocado oil, jalapeno.",
-          "allergens": "CONTAINS: EGG, MILK, SOY.",
+          "netWeight": "Enter packed weight",
+          "ingredients": "boneless skinless chicken thigh, So Delicious unsweetened plain coconutmilk yogurt alternative, onion, tomato, basmati rice, lemon juice, shan biryani recipe mix (standard powder), garlic, ginger, Great Value light mayonnaise, avocado oil, jalapeno.",
+          "allergens": "CONTAINS: EGG, SOY.",
           "allergenAdvisory": "",
           "menuNutrition": {
-            "calories": 685,
-            "protein": 65,
-            "carbs": 49,
-            "fiber": 4,
-            "fat": 24,
-            "satFat": 5.7,
+            "calories": 705,
+            "protein": 62,
+            "carbs": 52,
+            "fiber": 5,
+            "fat": 26,
+            "satFat": 7.3,
             "transFat": 0.1,
             "cholesterol": 300,
-            "sodium": 2770,
-            "sugars": 9,
+            "sodium": 2790,
+            "sugars": 8,
             "addedSugar": 4,
-            "vitaminD": 0.5,
-            "calcium": 100,
-            "iron": 3.3,
-            "potassium": 950
+            "vitaminD": 1.3,
+            "calcium": 190,
+            "iron": 3.4,
+            "potassium": 930
           },
           "nutrition": {
             "calories": 705,
-            "protein": 67,
-            "carbs": 50,
-            "fiber": 4,
-            "fat": 24,
-            "satFat": 5.8,
+            "protein": 62,
+            "carbs": 52,
+            "fiber": 5,
+            "fat": 26,
+            "satFat": 7.3,
             "transFat": 0.1,
-            "cholesterol": 305,
-            "sodium": 2800,
-            "sugars": 9,
+            "cholesterol": 300,
+            "sodium": 2790,
+            "sugars": 8,
             "addedSugar": 4,
-            "vitaminD": 0.5,
-            "calcium": 130,
-            "iron": 3.3,
-            "potassium": 1000
+            "vitaminD": 1.3,
+            "calcium": 190,
+            "iron": 3.4,
+            "potassium": 930
           },
-          "confidence": "medium"
+          "confidence": "planning",
+          "estimatedNetWeight": "16.6 oz (471 g)",
+          "netWeightVerified": false,
+          "requiresPackoutWeight": true,
+          "nutritionComplete": false,
+          "releaseHold": "Verify the purchased dairy-free yogurt and Shan packet, then test the chicken marinade and separate green sauce before final label release."
         }
-      }
+      },
+      "productionHold": "Verify the purchased dairy-free yogurt and Shan packet, then test the chicken marinade and separate green sauce before final label release."
     },
     "m2": {
       "name": "Butter Chicken",
       "category": "Main",
-      "description": "Broth-free butter chicken in a tomato, yogurt, garlic, and ginger sauce with basmati rice.",
-      "note": "Comfort food with the numbers handled.",
+      "description": "Shan-spiced chicken in a measured tomato, butter and heavy-cream sauce with basmati rice.",
+      "note": "Classic sauce, measured portions.",
       "storageMode": "freezer",
       "reheat": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout.",
-      "validation": "Confirm actual finished yield and package weight before printing.",
+      "validation": "New butter-and-cream sauce is a measured planning recipe. Verify the purchased cream, Shan mix and butter panels, then taste-test and record cooked chicken, sauce and rice yields before final label release.",
       "decision": "Current controlled registry",
       "tiers": {
         "lean": {
           "label": "LEAN",
-          "netWeight": "15.8 oz (447 g)",
-          "ingredients": "boneless skinless chicken thigh, crushed tomatoes, onion, FAGE Total 0% nonfat Greek yogurt, basmati rice, tomato paste, butter, Shan Butter Chicken Recipe Mix (powder), lemon juice, garlic, ginger, paprika, cumin, ground coriander, ground turmeric, ground black pepper, ground cayenne.",
+          "netWeight": "Enter packed weight",
+          "ingredients": "crushed tomatoes, boneless skinless chicken thigh, basmati rice, Great Value heavy whipping cream, FAGE Total 0% nonfat Greek yogurt, Shan Butter Chicken Recipe Mix (powder), butter, lemon juice, garlic, ginger, avocado oil.",
           "allergens": "CONTAINS: MILK, SOY.",
           "allergenAdvisory": "Supplier advisory: may contain sesame and tree nuts. The supplier also flags gluten, sulfites, and mustard.",
           "menuNutrition": {
-            "calories": 560,
-            "protein": 48,
-            "carbs": 50,
-            "fiber": 5,
-            "fat": 18,
-            "satFat": 6.2,
-            "transFat": 0.2,
-            "cholesterol": 215,
-            "sodium": 850,
-            "sugars": 9,
+            "calories": 635,
+            "protein": 44,
+            "carbs": 46,
+            "fiber": 4,
+            "fat": 29,
+            "satFat": 12.6,
+            "transFat": 0.3,
+            "cholesterol": 245,
+            "sodium": 1350,
+            "sugars": 7,
             "addedSugar": 0,
             "vitaminD": 0.3,
-            "calcium": 140,
-            "iron": 4.4,
-            "potassium": 1130
+            "calcium": 90,
+            "iron": 3.7,
+            "potassium": 980
           },
           "nutrition": {
-            "calories": 560,
-            "protein": 48,
-            "carbs": 50,
-            "fiber": 5,
-            "fat": 18,
-            "satFat": 6.2,
-            "transFat": 0.2,
-            "cholesterol": 215,
-            "sodium": 850,
-            "sugars": 9,
+            "calories": 635,
+            "protein": 44,
+            "carbs": 46,
+            "fiber": 4,
+            "fat": 29,
+            "satFat": 12.6,
+            "transFat": 0.3,
+            "cholesterol": 245,
+            "sodium": 1350,
+            "sugars": 7,
             "addedSugar": 0,
             "vitaminD": 0.3,
-            "calcium": 140,
-            "iron": 4.4,
-            "potassium": 1130
+            "calcium": 90,
+            "iron": 3.7,
+            "potassium": 980
           },
-          "confidence": "medium"
+          "confidence": "planning",
+          "estimatedNetWeight": "14.6 oz (414 g)",
+          "netWeightVerified": false,
+          "requiresPackoutWeight": true,
+          "nutritionComplete": false,
+          "releaseHold": "New butter-and-cream sauce is a measured planning recipe. Verify the purchased cream, Shan mix and butter panels, then taste-test and record cooked chicken, sauce and rice yields before final label release."
         },
         "bulk": {
           "label": "BULK",
-          "netWeight": "21.4 oz (606 g)",
-          "ingredients": "crushed tomatoes, boneless skinless chicken thigh, onion, FAGE Total 0% nonfat Greek yogurt, basmati rice, tomato paste, butter, Shan Butter Chicken Recipe Mix (powder), lemon juice, garlic, ginger, paprika, cumin, ground coriander, ground turmeric, ground black pepper, ground cayenne.",
+          "netWeight": "Enter packed weight",
+          "ingredients": "crushed tomatoes, boneless skinless chicken thigh, basmati rice, Great Value heavy whipping cream, FAGE Total 0% nonfat Greek yogurt, Shan Butter Chicken Recipe Mix (powder), butter, lemon juice, garlic, ginger, avocado oil.",
           "allergens": "CONTAINS: MILK, SOY.",
           "allergenAdvisory": "Supplier advisory: may contain sesame and tree nuts. The supplier also flags gluten, sulfites, and mustard.",
           "menuNutrition": {
-            "calories": 735,
-            "protein": 61,
-            "carbs": 69,
-            "fiber": 6,
-            "fat": 23,
-            "satFat": 8.1,
-            "transFat": 0.3,
-            "cholesterol": 270,
-            "sodium": 1110,
-            "sugars": 13,
+            "calories": 815,
+            "protein": 56,
+            "carbs": 62,
+            "fiber": 5,
+            "fat": 36,
+            "satFat": 15.7,
+            "transFat": 0.4,
+            "cholesterol": 305,
+            "sodium": 1690,
+            "sugars": 9,
             "addedSugar": 0,
             "vitaminD": 0.4,
-            "calcium": 190,
-            "iron": 5.9,
-            "potassium": 1550
+            "calcium": 120,
+            "iron": 4.7,
+            "potassium": 1230
           },
           "nutrition": {
-            "calories": 735,
-            "protein": 61,
-            "carbs": 69,
-            "fiber": 6,
-            "fat": 23,
-            "satFat": 8.1,
-            "transFat": 0.3,
-            "cholesterol": 270,
-            "sodium": 1110,
-            "sugars": 13,
+            "calories": 815,
+            "protein": 56,
+            "carbs": 62,
+            "fiber": 5,
+            "fat": 36,
+            "satFat": 15.7,
+            "transFat": 0.4,
+            "cholesterol": 305,
+            "sodium": 1690,
+            "sugars": 9,
             "addedSugar": 0,
             "vitaminD": 0.4,
-            "calcium": 190,
-            "iron": 5.9,
-            "potassium": 1550
+            "calcium": 120,
+            "iron": 4.7,
+            "potassium": 1230
           },
-          "confidence": "medium"
+          "confidence": "planning",
+          "estimatedNetWeight": "18.5 oz (525 g)",
+          "netWeightVerified": false,
+          "requiresPackoutWeight": true,
+          "nutritionComplete": false,
+          "releaseHold": "New butter-and-cream sauce is a measured planning recipe. Verify the purchased cream, Shan mix and butter panels, then taste-test and record cooked chicken, sauce and rice yields before final label release."
         }
-      }
+      },
+      "productionHold": "New butter-and-cream sauce is a measured planning recipe. Verify the purchased cream, Shan mix and butter panels, then taste-test and record cooked chicken, sauce and rice yields before final label release."
     },
     "m3": {
       "name": "Loaded Buffalo Chicken Potato",
@@ -514,25 +552,25 @@ window.PRPD_NEXT_LABEL_DATA = {
       "note": "Loaded potato, handled.",
       "storageMode": "freezer",
       "reheat": "Vent lid and microwave 2-3 minutes, stirring halfway, until hot throughout.",
-      "validation": "Confirm actual finished yield and package weight before printing.",
+      "validation": "Verify the purchased Frank's Buffalo bottle and the revised finished sauce portion before final label release.",
       "decision": "Current controlled registry",
       "tiers": {
         "lean": {
           "label": "LEAN",
-          "netWeight": "16.3 oz (462 g)",
-          "ingredients": "potato, boneless skinless chicken thigh, broccoli, Sweet Baby Ray's Mild Buffalo Wing Sauce, water, avocado oil, apple cider vinegar, garlic powder, paprika, salt.",
-          "allergens": "CONTAINS: MILK.",
+          "netWeight": "Enter packed weight",
+          "ingredients": "potato, boneless skinless chicken thigh, broccoli, Frank's RedHot Buffalo Wings Sauce, water, avocado oil, apple cider vinegar, garlic powder, paprika, salt.",
+          "allergens": "No major allergens identified from the recorded recipe.",
           "allergenAdvisory": "",
           "menuNutrition": {
-            "calories": 520,
+            "calories": 500,
             "protein": 44,
             "carbs": 44,
             "fiber": 7,
-            "fat": 19,
+            "fat": 17,
             "satFat": 4.1,
             "transFat": 0.1,
             "cholesterol": 200,
-            "sodium": 790,
+            "sodium": 740,
             "sugars": 3,
             "addedSugar": 0,
             "vitaminD": 0.3,
@@ -541,15 +579,15 @@ window.PRPD_NEXT_LABEL_DATA = {
             "potassium": 1540
           },
           "nutrition": {
-            "calories": 520,
+            "calories": 500,
             "protein": 44,
             "carbs": 44,
             "fiber": 7,
-            "fat": 19,
+            "fat": 17,
             "satFat": 4.1,
             "transFat": 0.1,
             "cholesterol": 200,
-            "sodium": 790,
+            "sodium": 740,
             "sugars": 3,
             "addedSugar": 0,
             "vitaminD": 0.3,
@@ -557,24 +595,29 @@ window.PRPD_NEXT_LABEL_DATA = {
             "iron": 4.4,
             "potassium": 1540
           },
-          "confidence": "medium"
+          "confidence": "planning",
+          "estimatedNetWeight": "16.3 oz (462 g)",
+          "netWeightVerified": false,
+          "requiresPackoutWeight": true,
+          "nutritionComplete": false,
+          "releaseHold": "Verify the purchased Frank's Buffalo bottle and the revised finished sauce portion before final label release."
         },
         "bulk": {
           "label": "BULK",
-          "netWeight": "18.9 oz (535 g)",
-          "ingredients": "potato, boneless skinless chicken thigh, broccoli, Sweet Baby Ray's Mild Buffalo Wing Sauce, water, avocado oil, apple cider vinegar, garlic powder, paprika, salt.",
-          "allergens": "CONTAINS: MILK.",
+          "netWeight": "Enter packed weight",
+          "ingredients": "potato, boneless skinless chicken thigh, broccoli, Frank's RedHot Buffalo Wings Sauce, water, avocado oil, apple cider vinegar, garlic powder, paprika, salt.",
+          "allergens": "No major allergens identified from the recorded recipe.",
           "allergenAdvisory": "",
           "menuNutrition": {
-            "calories": 600,
+            "calories": 580,
             "protein": 54,
             "carbs": 46,
             "fiber": 8,
-            "fat": 23,
+            "fat": 21,
             "satFat": 5.0,
             "transFat": 0.1,
             "cholesterol": 250,
-            "sodium": 990,
+            "sodium": 930,
             "sugars": 4,
             "addedSugar": 0,
             "vitaminD": 0.4,
@@ -583,15 +626,15 @@ window.PRPD_NEXT_LABEL_DATA = {
             "potassium": 1730
           },
           "nutrition": {
-            "calories": 600,
+            "calories": 580,
             "protein": 54,
             "carbs": 46,
             "fiber": 8,
-            "fat": 23,
+            "fat": 21,
             "satFat": 5.0,
             "transFat": 0.1,
             "cholesterol": 250,
-            "sodium": 990,
+            "sodium": 930,
             "sugars": 4,
             "addedSugar": 0,
             "vitaminD": 0.4,
@@ -599,9 +642,15 @@ window.PRPD_NEXT_LABEL_DATA = {
             "iron": 5.0,
             "potassium": 1730
           },
-          "confidence": "medium"
+          "confidence": "planning",
+          "estimatedNetWeight": "18.9 oz (535 g)",
+          "netWeightVerified": false,
+          "requiresPackoutWeight": true,
+          "nutritionComplete": false,
+          "releaseHold": "Verify the purchased Frank's Buffalo bottle and the revised finished sauce portion before final label release."
         }
-      }
+      },
+      "productionHold": "Verify the purchased Frank's Buffalo bottle and the revised finished sauce portion before final label release."
     },
     "m4": {
       "name": "Meatball Arrabbiata Pasta",
@@ -615,7 +664,7 @@ window.PRPD_NEXT_LABEL_DATA = {
       "tiers": {
         "lean": {
           "label": "LEAN",
-          "netWeight": "16.7 oz (473 g)",
+          "netWeight": "Enter packed weight",
           "ingredients": "crushed tomatoes, 90/10 ground beef, Kroger protein pasta, onion, fat-free mozzarella cheese, whole egg, garlic, tomato paste, seasoned breadcrumbs, salt.",
           "allergens": "CONTAINS: EGG, MILK, WHEAT.",
           "allergenAdvisory": "",
@@ -653,11 +702,14 @@ window.PRPD_NEXT_LABEL_DATA = {
             "iron": 8.2,
             "potassium": 1380
           },
-          "confidence": "medium"
+          "confidence": "medium",
+          "estimatedNetWeight": "16.7 oz (473 g)",
+          "netWeightVerified": false,
+          "requiresPackoutWeight": true
         },
         "bulk": {
           "label": "BULK",
-          "netWeight": "18.8 oz (533 g)",
+          "netWeight": "Enter packed weight",
           "ingredients": "90/10 ground beef, crushed tomatoes, Kroger protein pasta, onion, fat-free mozzarella cheese, whole egg, garlic, tomato paste, seasoned breadcrumbs, salt.",
           "allergens": "CONTAINS: EGG, MILK, WHEAT.",
           "allergenAdvisory": "",
@@ -695,7 +747,10 @@ window.PRPD_NEXT_LABEL_DATA = {
             "iron": 9.8,
             "potassium": 1550
           },
-          "confidence": "medium"
+          "confidence": "medium",
+          "estimatedNetWeight": "18.8 oz (533 g)",
+          "netWeightVerified": false,
+          "requiresPackoutWeight": true
         }
       }
     },
@@ -711,7 +766,7 @@ window.PRPD_NEXT_LABEL_DATA = {
       "tiers": {
         "lean": {
           "label": "LEAN",
-          "netWeight": "19.3 oz (548 g)",
+          "netWeight": "Enter packed weight",
           "ingredients": "potato, tilapia, broccoli, lemon juice, garlic, avocado oil, ground black pepper, salt.",
           "allergens": "CONTAINS: FISH.",
           "allergenAdvisory": "",
@@ -749,11 +804,14 @@ window.PRPD_NEXT_LABEL_DATA = {
             "iron": 2.8,
             "potassium": 1410
           },
-          "confidence": "medium"
+          "confidence": "medium",
+          "estimatedNetWeight": "19.3 oz (548 g)",
+          "netWeightVerified": false,
+          "requiresPackoutWeight": true
         },
         "bulk": {
           "label": "BULK",
-          "netWeight": "25.3 oz (718 g)",
+          "netWeight": "Enter packed weight",
           "ingredients": "potato, tilapia, broccoli, lemon juice, avocado oil, garlic, ground black pepper, salt.",
           "allergens": "CONTAINS: FISH.",
           "allergenAdvisory": "",
@@ -791,7 +849,10 @@ window.PRPD_NEXT_LABEL_DATA = {
             "iron": 3.7,
             "potassium": 1810
           },
-          "confidence": "medium"
+          "confidence": "medium",
+          "estimatedNetWeight": "25.3 oz (718 g)",
+          "netWeightVerified": false,
+          "requiresPackoutWeight": true
         }
       }
     },
@@ -807,7 +868,7 @@ window.PRPD_NEXT_LABEL_DATA = {
       "tiers": {
         "lean": {
           "label": "LEAN",
-          "netWeight": "14.8 oz (420 g)",
+          "netWeight": "Enter packed weight",
           "ingredients": "chicken thighs, sweet corn, basmati rice, green bell pepper, FAGE Total 0% nonfat Greek yogurt, onion, Cotija cheese, lime juice, Great Value light mayonnaise, jalapeno, cilantro, avocado oil, salt, garlic powder, onion powder, paprika, ground black pepper.",
           "allergens": "CONTAINS: EGG, MILK.",
           "allergenAdvisory": "",
@@ -848,14 +909,16 @@ window.PRPD_NEXT_LABEL_DATA = {
           "confidence": "medium",
           "inputMassGrams": 400,
           "netWeightStatus": "estimated",
-          "requiresPackoutWeight": false,
+          "requiresPackoutWeight": true,
           "netWeightBasis": "Owner-approved conservative finished-food estimate",
           "netWeightMeasured": false,
-          "estimatedNetWeightGrams": 420
+          "estimatedNetWeightGrams": 420,
+          "estimatedNetWeight": "14.8 oz (420 g)",
+          "netWeightVerified": false
         },
         "bulk": {
           "label": "BULK",
-          "netWeight": "18.3 oz (520 g)",
+          "netWeight": "Enter packed weight",
           "ingredients": "chicken thighs, sweet corn, basmati rice, green bell pepper, FAGE Total 0% nonfat Greek yogurt, onion, Cotija cheese, lime juice, Great Value light mayonnaise, jalapeno, cilantro, avocado oil, salt, garlic powder, onion powder, paprika, ground black pepper.",
           "allergens": "CONTAINS: EGG, MILK.",
           "allergenAdvisory": "",
@@ -896,10 +959,12 @@ window.PRPD_NEXT_LABEL_DATA = {
           "confidence": "medium",
           "inputMassGrams": 512,
           "netWeightStatus": "estimated",
-          "requiresPackoutWeight": false,
+          "requiresPackoutWeight": true,
           "netWeightBasis": "Owner-approved conservative finished-food estimate",
           "netWeightMeasured": false,
-          "estimatedNetWeightGrams": 520
+          "estimatedNetWeightGrams": 520,
+          "estimatedNetWeight": "18.3 oz (520 g)",
+          "netWeightVerified": false
         }
       }
     },
@@ -915,26 +980,26 @@ window.PRPD_NEXT_LABEL_DATA = {
       "tiers": {
         "lean": {
           "label": "LEAN",
-          "netWeight": "18.8 oz (532 g)",
+          "netWeight": "Enter packed weight",
           "ingredients": "New York strip steak, water, broccoli, fat-free milk, Idahoan Original mashed potato flakes (potatoes, monoglycerides, sodium acid pyrophosphate, sodium bisulfite, citric acid, mixed tocopherols), prepared Dijon mustard, G Hughes Original Sugar-Free BBQ Sauce, butter, honey, garlic, apple cider vinegar, salt, garlic powder, smoked paprika, ground black pepper.",
           "allergens": "CONTAINS: MILK.",
           "allergenAdvisory": "Contains sulfites (sodium bisulfite).",
           "menuNutrition": {
-            "calories": 640,
-            "protein": 57,
-            "carbs": 32,
-            "fiber": 4,
-            "fat": 31,
+            "calories": 685,
+            "protein": 58,
+            "carbs": 42,
+            "fiber": 5,
+            "fat": 32,
             "satFat": 14.0,
             "transFat": 0.3,
             "cholesterol": 165,
-            "sodium": 920,
-            "sugars": 3,
-            "addedSugar": 0,
+            "sodium": 1300,
+            "sugars": 10,
+            "addedSugar": 7,
             "vitaminD": 1.1,
-            "calcium": 160,
-            "iron": 1.4,
-            "potassium": 670
+            "calcium": 170,
+            "iron": 1.7,
+            "potassium": 710
           },
           "nutrition": {
             "calories": 685,
@@ -953,30 +1018,33 @@ window.PRPD_NEXT_LABEL_DATA = {
             "iron": 1.7,
             "potassium": 710
           },
-          "confidence": "medium"
+          "confidence": "medium",
+          "estimatedNetWeight": "18.8 oz (532 g)",
+          "netWeightVerified": false,
+          "requiresPackoutWeight": true
         },
         "bulk": {
           "label": "BULK",
-          "netWeight": "21.3 oz (604 g)",
+          "netWeight": "Enter packed weight",
           "ingredients": "New York strip steak, broccoli, water, fat-free milk, Idahoan Original mashed potato flakes (potatoes, monoglycerides, sodium acid pyrophosphate, sodium bisulfite, citric acid, mixed tocopherols), prepared Dijon mustard, G Hughes Original Sugar-Free BBQ Sauce, butter, garlic, honey, apple cider vinegar, salt, garlic powder, smoked paprika, ground black pepper.",
           "allergens": "CONTAINS: MILK.",
           "allergenAdvisory": "Contains sulfites (sodium bisulfite).",
           "menuNutrition": {
-            "calories": 755,
-            "protein": 70,
-            "carbs": 35,
-            "fiber": 5,
-            "fat": 37,
-            "satFat": 16.2,
+            "calories": 800,
+            "protein": 71,
+            "carbs": 44,
+            "fiber": 6,
+            "fat": 38,
+            "satFat": 16.3,
             "transFat": 0.3,
             "cholesterol": 200,
-            "sodium": 1050,
-            "sugars": 4,
-            "addedSugar": 0,
+            "sodium": 1430,
+            "sugars": 10,
+            "addedSugar": 7,
             "vitaminD": 1.1,
-            "calcium": 180,
-            "iron": 1.6,
-            "potassium": 760
+            "calcium": 190,
+            "iron": 2.0,
+            "potassium": 800
           },
           "nutrition": {
             "calories": 800,
@@ -995,7 +1063,10 @@ window.PRPD_NEXT_LABEL_DATA = {
             "iron": 2.0,
             "potassium": 800
           },
-          "confidence": "medium"
+          "confidence": "medium",
+          "estimatedNetWeight": "21.3 oz (604 g)",
+          "netWeightVerified": false,
+          "requiresPackoutWeight": true
         }
       }
     },
@@ -1006,7 +1077,7 @@ window.PRPD_NEXT_LABEL_DATA = {
       "note": "Nutrition is a per-cookie recipe estimate. Baked weight and purchased chip panel are pending.",
       "storageMode": "ambient",
       "reheat": "Enjoy at room temperature. Keep dry and sealed.",
-      "validation": "Confirm actual finished yield and package weight before printing.",
+      "validation": "Verify the purchased semisweet chocolate chip ingredient and allergen panel, then weigh the cooled baked cookie before final label release.",
       "decision": "Current controlled registry",
       "tiers": {
         "single": {
@@ -1055,9 +1126,13 @@ window.PRPD_NEXT_LABEL_DATA = {
           "netWeightVerified": false,
           "netWeightStatus": "packout-required",
           "requiresPackoutWeight": true,
-          "netWeightBasis": "Enter the actual packed net weight before printing."
+          "netWeightBasis": "Enter the actual packed net weight before printing.",
+          "estimatedNetWeight": "Enter packed weight",
+          "nutritionComplete": false,
+          "releaseHold": "Verify the purchased semisweet chocolate chip ingredient and allergen panel, then weigh the cooled baked cookie before final label release."
         }
-      }
+      },
+      "productionHold": "Verify the purchased semisweet chocolate chip ingredient and allergen panel, then weigh the cooled baked cookie before final label release."
     },
     "a1": {
       "name": "Buffalo Chicken Pinwheels",
@@ -1066,25 +1141,25 @@ window.PRPD_NEXT_LABEL_DATA = {
       "note": "Buffalo chicken in its snack era.",
       "storageMode": "fridge",
       "reheat": "Enjoy chilled. Do not heat the assembled box.",
-      "validation": "Confirm actual finished yield and package weight before printing.",
+      "validation": "Verify the purchased Frank's Buffalo bottle and the pinwheel's dairy-containing cheese and cream-cheese panels before final label release.",
       "decision": "Current controlled registry",
       "tiers": {
         "single": {
           "label": "SINGLE",
-          "netWeight": "6.9 oz (195 g)",
-          "ingredients": "boneless skinless chicken thigh, Mission Carb Balance wheat tortilla, Philadelphia Original cream cheese, lettuce, fat-free mozzarella cheese, onion, Sweet Baby Ray's Mild Buffalo Wing Sauce, water, apple cider vinegar, avocado oil, garlic powder, onion powder, paprika, ground black pepper.",
+          "netWeight": "Enter packed weight",
+          "ingredients": "boneless skinless chicken thigh, Mission Carb Balance wheat tortilla, Philadelphia Original cream cheese, lettuce, fat-free mozzarella cheese, onion, Frank's RedHot Buffalo Wings Sauce, water, apple cider vinegar, avocado oil, garlic powder, onion powder, paprika, ground black pepper.",
           "allergens": "CONTAINS: MILK, WHEAT.",
           "allergenAdvisory": "",
           "menuNutrition": {
-            "calories": 325,
+            "calories": 320,
             "protein": 31,
             "carbs": 23,
             "fiber": 16,
-            "fat": 18,
+            "fat": 17,
             "satFat": 6.2,
             "transFat": 0.0,
             "cholesterol": 125,
-            "sodium": 730,
+            "sodium": 710,
             "sugars": 1,
             "addedSugar": 0,
             "vitaminD": 0.2,
@@ -1093,15 +1168,15 @@ window.PRPD_NEXT_LABEL_DATA = {
             "potassium": 320
           },
           "nutrition": {
-            "calories": 325,
+            "calories": 320,
             "protein": 31,
             "carbs": 23,
             "fiber": 16,
-            "fat": 18,
+            "fat": 17,
             "satFat": 6.2,
             "transFat": 0.0,
             "cholesterol": 125,
-            "sodium": 730,
+            "sodium": 710,
             "sugars": 1,
             "addedSugar": 0,
             "vitaminD": 0.2,
@@ -1109,9 +1184,15 @@ window.PRPD_NEXT_LABEL_DATA = {
             "iron": 2.4,
             "potassium": 320
           },
-          "confidence": "medium"
+          "confidence": "planning",
+          "estimatedNetWeight": "6.9 oz (195 g)",
+          "netWeightVerified": false,
+          "requiresPackoutWeight": true,
+          "nutritionComplete": false,
+          "releaseHold": "Verify the purchased Frank's Buffalo bottle and the pinwheel's dairy-containing cheese and cream-cheese panels before final label release."
         }
-      }
+      },
+      "productionHold": "Verify the purchased Frank's Buffalo bottle and the pinwheel's dairy-containing cheese and cream-cheese panels before final label release."
     },
     "a2": {
       "name": "Oven-Baked Popcorn Chicken",
@@ -1125,7 +1206,7 @@ window.PRPD_NEXT_LABEL_DATA = {
       "tiers": {
         "single": {
           "label": "SINGLE",
-          "netWeight": "5.8 oz (165 g)",
+          "netWeight": "Enter packed weight",
           "ingredients": "boneless skinless chicken thigh, Kellogg's Corn Flakes (milled corn, sugar, malt flavor, salt, iron [ferric phosphate], niacinamide, vitamin B6 [pyridoxine hydrochloride], vitamin B2 [riboflavin], vitamin B1 [thiamin hydrochloride], folic acid, vitamin D3, vitamin B12), egg whites, wheat flour, avocado oil, garlic powder, salt, paprika, ground black pepper.",
           "allergens": "CONTAINS: EGG, WHEAT.",
           "allergenAdvisory": "Corn Flakes contain malt flavor, a source of gluten. This recipe is not gluten free. Verify the actual purchased package.",
@@ -1163,7 +1244,7 @@ window.PRPD_NEXT_LABEL_DATA = {
             "iron": 8.9,
             "potassium": 410
           },
-          "requiresPackoutWeight": false,
+          "requiresPackoutWeight": true,
           "finalLabelReady": false,
           "nutritionComplete": true,
           "nutritionStatus": "owner-authorized-complete-recipe-estimate",
@@ -1190,7 +1271,9 @@ window.PRPD_NEXT_LABEL_DATA = {
           "netWeightStatus": "estimated",
           "netWeightMeasured": false,
           "estimatedNetWeightGrams": 165,
-          "netWeightBasis": "October 29 owner-approved recipe-based finished-food estimate; no measured packout claimed"
+          "netWeightBasis": "October 29 owner-approved recipe-based finished-food estimate; no measured packout claimed",
+          "estimatedNetWeight": "5.8 oz (165 g)",
+          "netWeightVerified": false
         }
       }
     },
@@ -1201,7 +1284,7 @@ window.PRPD_NEXT_LABEL_DATA = {
       "note": "330 g homogeneous bottle estimate; exact pulp panel and filled weight are pending.",
       "storageMode": "fridge",
       "reheat": "Keep chilled. Shake gently before drinking. Do not heat.",
-      "validation": "Confirm actual finished yield and package weight before printing.",
+      "validation": "Verify the purchased Deep Alphonso pulp, FAGE yogurt and Fairlife milk ingredient and allergen panels, and the actual 330 g bottle fill before final label release.",
       "decision": "Current controlled registry",
       "tiers": {
         "single": {
@@ -1250,9 +1333,13 @@ window.PRPD_NEXT_LABEL_DATA = {
           "netWeightVerified": false,
           "netWeightStatus": "packout-required",
           "requiresPackoutWeight": true,
-          "netWeightBasis": "Enter the actual packed net weight before printing."
+          "netWeightBasis": "Enter the actual packed net weight before printing.",
+          "estimatedNetWeight": "Enter packed weight",
+          "nutritionComplete": false,
+          "releaseHold": "Verify the purchased Deep Alphonso pulp, FAGE yogurt and Fairlife milk ingredient and allergen panels, and the actual 330 g bottle fill before final label release."
         }
-      }
+      },
+      "productionHold": "Verify the purchased Deep Alphonso pulp, FAGE yogurt and Fairlife milk ingredient and allergen panels, and the actual 330 g bottle fill before final label release."
     },
     "a3": {
       "name": "Mediterranean Chicken Hummus Box",
@@ -1266,7 +1353,7 @@ window.PRPD_NEXT_LABEL_DATA = {
       "tiers": {
         "single": {
           "label": "SINGLE",
-          "netWeight": "11.4 oz (322 g)",
+          "netWeight": "Enter packed weight",
           "ingredients": "boneless skinless chicken thigh, hummus, cucumber, tomato, shawarma bread, black olives, feta cheese, onion, lemon juice, avocado oil, garlic powder, salt, onion powder, paprika, ground black pepper.",
           "allergens": "CONTAINS: MILK, SESAME, WHEAT.",
           "allergenAdvisory": "",
@@ -1304,12 +1391,16 @@ window.PRPD_NEXT_LABEL_DATA = {
             "iron": 2.3,
             "potassium": 400
           },
-          "confidence": "medium"
+          "confidence": "medium",
+          "estimatedNetWeight": "11.4 oz (322 g)",
+          "netWeightVerified": false,
+          "requiresPackoutWeight": true
         }
       }
     },
     "p1": {
       "name": "High-Protein Beef Kofta & Roasted Vegetables",
+      "customerLabelName": "Beef Kofta & Roasted Vegetables",
       "category": "Internal custom meal",
       "description": "Oven-baked 96/4 beef kofta with a separate cucumber-tomato kachumber and two separate PRPD Sweet Heat cups.",
       "note": "Five measured kofta, fresh kachumber, and both sauce cups packed separately.",
@@ -1321,7 +1412,7 @@ window.PRPD_NEXT_LABEL_DATA = {
       "tiers": {
         "lean": {
           "label": "LEAN",
-          "netWeight": "23.6 oz (669 g)",
+          "netWeight": "Enter packed weight",
           "ingredients": "96/4 lean ground beef, cucumber, tomato, onion, red onion, ketchup, honey, Great Value light mayonnaise, Shan Seekh Kabab Recipe Mix, sriracha sauce, jalapeno, lemon juice, cilantro, salt, paprika, ground black pepper.",
           "allergens": "CONTAINS: EGG, SOY.",
           "allergenAdvisory": "Supplier advisory: may contain sesame and tree nuts. The supplier also flags gluten, sulfites, and mustard.",
@@ -1343,29 +1434,36 @@ window.PRPD_NEXT_LABEL_DATA = {
             "potassium": 280
           },
           "nutrition": {
-            "calories": 530,
+            "calories": 680,
             "protein": 75,
-            "carbs": 21,
+            "carbs": 51,
             "fiber": 7,
-            "fat": 16,
-            "satFat": 6.0,
+            "fat": 20,
+            "satFat": 6.7,
             "transFat": 0.0,
-            "cholesterol": 205,
-            "sodium": 2320,
-            "sugars": 10,
-            "addedSugar": 4,
+            "cholesterol": 210,
+            "sodium": 2980,
+            "sugars": 37,
+            "addedSugar": 30,
             "vitaminD": 0.0,
-            "calcium": 20,
-            "iron": 0.5,
-            "potassium": 280
+            "calcium": 30,
+            "iron": 0.8,
+            "potassium": 360
           },
           "confidence": "medium",
-          "nutritionBasis": "Main meal only; separate sauce cup excluded"
+          "nutritionBasis": "Complete serving including the separately packed salad and sauce cups.",
+          "estimatedNetWeight": "23.6 oz (669 g)",
+          "netWeightVerified": false,
+          "requiresPackoutWeight": true,
+          "nutritionComplete": false,
+          "releaseHold": "Verify the purchased Shan Seekh mix, mayonnaise, ketchup and sriracha ingredient and allergen panels, then confirm the complete packed serving weight before final label release."
         }
-      }
+      },
+      "productionHold": "Verify the purchased Shan Seekh mix, mayonnaise, ketchup and sriracha ingredient and allergen panels, then confirm the complete packed serving weight before final label release."
     },
     "p2": {
       "name": "Custom Lean Chicken Mince",
+      "customerLabelName": "Lean Chicken Qeema",
       "category": "Internal custom meal",
       "description": "Moist lean chicken qeema with a separate cucumber-tomato kachumber, lemon-mustard-garlic dressing, and PRPD Sweet Heat.",
       "note": "Moist chicken qeema with fresh kachumber and two measured cups.",
@@ -1377,7 +1475,7 @@ window.PRPD_NEXT_LABEL_DATA = {
       "tiers": {
         "lean": {
           "label": "LEAN",
-          "netWeight": "21.2 oz (600 g)",
+          "netWeight": "Enter packed weight",
           "ingredients": "pure chicken-breast mince, cucumber, tomato, red onion, water, lemon juice, ketchup, honey, Great Value light mayonnaise, avocado oil, sriracha sauce, garlic, flat-leaf parsley, cilantro, jalapeno, salt, paprika, prepared Dijon mustard, ground black pepper, cumin.",
           "allergens": "CONTAINS: EGG.",
           "allergenAdvisory": "",
@@ -1399,32 +1497,36 @@ window.PRPD_NEXT_LABEL_DATA = {
             "potassium": 250
           },
           "nutrition": {
-            "calories": 445,
+            "calories": 600,
             "protein": 73,
-            "carbs": 16,
-            "fiber": 3,
-            "fat": 9,
-            "satFat": 2.4,
+            "carbs": 32,
+            "fiber": 4,
+            "fat": 20,
+            "satFat": 3.8,
             "transFat": 0.0,
-            "cholesterol": 190,
-            "sodium": 780,
-            "sugars": 7,
-            "addedSugar": 0,
+            "cholesterol": 195,
+            "sodium": 1240,
+            "sugars": 20,
+            "addedSugar": 13,
             "vitaminD": 0.0,
             "calcium": 30,
-            "iron": 0.9,
-            "potassium": 250
+            "iron": 1.0,
+            "potassium": 300
           },
           "confidence": "medium",
-          "nutritionBasis": "Main meal only; separate sauce cup excluded"
+          "nutritionBasis": "Complete serving including the separately packed salad and sauce cups.",
+          "estimatedNetWeight": "21.2 oz (600 g)",
+          "netWeightVerified": false,
+          "requiresPackoutWeight": true
         }
       }
     },
     "p3": {
       "name": "Custom Lebanese-Style Chicken Breast",
+      "customerLabelName": "Lebanese-Style Chicken Breast",
       "category": "Internal custom meal",
       "description": "Lebanese-style chicken breast with a cold fattoush-style salad and measured lemon-mustard-garlic dressing packed separately.",
-      "note": "Hot chicken, crisp salad, one complete custom meal.",
+      "note": "Hot chicken, crisp salad, and tangy dressing.",
       "storageMode": "fridge",
       "reheat": "Remove the cold salad and dressing. Vent the chicken container and microwave 1-2 minutes, or until hot throughout. Add the cold salad and dressing after heating.",
       "validation": "Verify the locked customer tier, finished yield, and first filled weight before printing.",
@@ -1433,7 +1535,7 @@ window.PRPD_NEXT_LABEL_DATA = {
       "tiers": {
         "lean": {
           "label": "LEAN",
-          "netWeight": "9.5 oz (270 g)",
+          "netWeight": "Enter packed weight",
           "ingredients": "boneless skinless chicken breast, avocado oil, lemon juice, garlic, salt, paprika, prepared Dijon mustard, ground black pepper, cumin.",
           "allergens": "No major allergens identified from the recorded recipe.",
           "allergenAdvisory": "",
@@ -1471,9 +1573,230 @@ window.PRPD_NEXT_LABEL_DATA = {
             "iron": 0.6,
             "potassium": 60
           },
-          "confidence": "medium"
+          "confidence": "medium",
+          "estimatedNetWeight": "9.5 oz (270 g)",
+          "netWeightVerified": false,
+          "requiresPackoutWeight": true
         }
       }
+    },
+    "p4": {
+      "name": "Private Dairy-Free Breakfast Pizza",
+      "customerLabelName": "Dairy-Free Breakfast Pizza",
+      "category": "Internal custom meal",
+      "description": "Rectangular beef-bacon breakfast pizza with eggs, vegetables, tomato sauce and dairy-free mozzarella-style shreds.",
+      "note": "Beef bacon breakfast pizza with dairy-free cheese.",
+      "storageMode": "fridge",
+      "reheat": "Remove from plastic container. Reheat on an oven-safe tray at 350 F until hot throughout, or microwave until hot.",
+      "validation": "Verify the locked customer tier, finished yield, and first filled weight before printing.",
+      "decision": "Planner-only locked production item",
+      "plannerOnly": true,
+      "tiers": {
+        "lean": {
+          "label": "LEAN",
+          "netWeight": "Enter packed weight",
+          "ingredients": "egg whites, all-purpose flour, Sharifa halal beef bacon (beef, water, sea salt, cane sugar, sodium phosphate, sodium nitrate, vinegar, sodium erythorbate), water, Daiya dairy-free mozzarella shreds, whole egg, green bell pepper, onion, crushed tomatoes, olive oil, salt, instant baker's yeast, garlic, italian seasoning, crushed red chili flakes.",
+          "allergens": "CONTAINS: EGG, WHEAT.",
+          "allergenAdvisory": "",
+          "menuNutrition": {
+            "calories": 490,
+            "protein": 27,
+            "carbs": 59,
+            "fiber": 3,
+            "fat": 16,
+            "satFat": 6.0,
+            "transFat": 0.0,
+            "cholesterol": 110,
+            "sodium": 1400,
+            "sugars": 4,
+            "addedSugar": 2,
+            "vitaminD": 0.5,
+            "calcium": 180,
+            "iron": 0.7,
+            "potassium": 380
+          },
+          "nutrition": {
+            "calories": 500,
+            "protein": 28,
+            "carbs": 62,
+            "fiber": 3,
+            "fat": 16,
+            "satFat": 6.0,
+            "transFat": 0.0,
+            "cholesterol": 110,
+            "sodium": 1420,
+            "sugars": 4,
+            "addedSugar": 2,
+            "vitaminD": 0.5,
+            "calcium": 180,
+            "iron": 0.7,
+            "potassium": 380
+          },
+          "confidence": "planning",
+          "estimatedNetWeight": "11.7 oz (333 g)",
+          "netWeightVerified": false,
+          "requiresPackoutWeight": true,
+          "nutritionComplete": false,
+          "releaseHold": "Barry-only planning variant. Dairy-free cheese has less protein than the standard milk mozzarella. Confirm Daiya package, egg set, melt/reheat, container fit, finished weight and dairy-free prep before production or labeling."
+        },
+        "bulk": {
+          "label": "BULK",
+          "netWeight": "Enter packed weight",
+          "ingredients": "egg whites, all-purpose flour, Sharifa halal beef bacon (beef, water, sea salt, cane sugar, sodium phosphate, sodium nitrate, vinegar, sodium erythorbate), Daiya dairy-free mozzarella shreds, water, whole egg, green bell pepper, onion, crushed tomatoes, olive oil, salt, instant baker's yeast, garlic, italian seasoning, crushed red chili flakes.",
+          "allergens": "CONTAINS: EGG, WHEAT.",
+          "allergenAdvisory": "",
+          "menuNutrition": {
+            "calories": 655,
+            "protein": 33,
+            "carbs": 79,
+            "fiber": 3,
+            "fat": 23,
+            "satFat": 9.4,
+            "transFat": 0.0,
+            "cholesterol": 135,
+            "sodium": 1870,
+            "sugars": 5,
+            "addedSugar": 2,
+            "vitaminD": 0.6,
+            "calcium": 330,
+            "iron": 0.8,
+            "potassium": 450
+          },
+          "nutrition": {
+            "calories": 670,
+            "protein": 33,
+            "carbs": 81,
+            "fiber": 3,
+            "fat": 23,
+            "satFat": 9.4,
+            "transFat": 0.0,
+            "cholesterol": 135,
+            "sodium": 1900,
+            "sugars": 5,
+            "addedSugar": 2,
+            "vitaminD": 0.6,
+            "calcium": 330,
+            "iron": 0.8,
+            "potassium": 450
+          },
+          "confidence": "planning",
+          "estimatedNetWeight": "14.7 oz (417 g)",
+          "netWeightVerified": false,
+          "requiresPackoutWeight": true,
+          "nutritionComplete": false,
+          "releaseHold": "Barry-only planning variant. Dairy-free cheese has less protein than the standard milk mozzarella. Confirm Daiya package, egg set, melt/reheat, container fit, finished weight and dairy-free prep before production or labeling."
+        }
+      },
+      "productionHold": "Barry-only planning variant. Dairy-free cheese has less protein than the standard milk mozzarella. Confirm Daiya package, egg set, melt/reheat, container fit, finished weight and dairy-free prep before production or labeling."
+    },
+    "p5": {
+      "name": "Private Dairy-Free Meatball Arrabbiata",
+      "customerLabelName": "Dairy-Free Meatball Arrabbiata",
+      "category": "Internal custom meal",
+      "description": "Beef meatballs and protein pasta in arrabbiata sauce with dairy-free mozzarella-style shreds.",
+      "note": "Beef meatballs with pasta and dairy-free cheese.",
+      "storageMode": "freezer",
+      "reheat": "Vent lid and microwave 2-3 minutes, stirring halfway, until hot throughout.",
+      "validation": "Verify the locked customer tier, finished yield, and first filled weight before printing.",
+      "decision": "Planner-only locked production item",
+      "plannerOnly": true,
+      "tiers": {
+        "lean": {
+          "label": "LEAN",
+          "netWeight": "Enter packed weight",
+          "ingredients": "crushed tomatoes, 90/10 ground beef, Kroger protein pasta, onion, Daiya dairy-free mozzarella shreds, whole egg, garlic, tomato paste, seasoned breadcrumbs, salt.",
+          "allergens": "CONTAINS: EGG, WHEAT.",
+          "allergenAdvisory": "",
+          "menuNutrition": {
+            "calories": 670,
+            "protein": 54,
+            "carbs": 66,
+            "fiber": 11,
+            "fat": 24,
+            "satFat": 9.2,
+            "transFat": 0.5,
+            "cholesterol": 180,
+            "sodium": 930,
+            "sugars": 11,
+            "addedSugar": 0,
+            "vitaminD": 0.4,
+            "calcium": 300,
+            "iron": 8.1,
+            "potassium": 1370
+          },
+          "nutrition": {
+            "calories": 670,
+            "protein": 54,
+            "carbs": 66,
+            "fiber": 11,
+            "fat": 24,
+            "satFat": 9.2,
+            "transFat": 0.5,
+            "cholesterol": 180,
+            "sodium": 930,
+            "sugars": 11,
+            "addedSugar": 0,
+            "vitaminD": 0.4,
+            "calcium": 300,
+            "iron": 8.1,
+            "potassium": 1370
+          },
+          "confidence": "planning",
+          "estimatedNetWeight": "16.7 oz (473 g)",
+          "netWeightVerified": false,
+          "requiresPackoutWeight": true,
+          "nutritionComplete": false,
+          "releaseHold": "Barry-only planning variant. Confirm Daiya, breadcrumb and pasta packages, finished weight and dairy-free prep before production or labeling."
+        },
+        "bulk": {
+          "label": "BULK",
+          "netWeight": "Enter packed weight",
+          "ingredients": "90/10 ground beef, crushed tomatoes, Kroger protein pasta, onion, Daiya dairy-free mozzarella shreds, whole egg, garlic, tomato paste, seasoned breadcrumbs, salt.",
+          "allergens": "CONTAINS: EGG, WHEAT.",
+          "allergenAdvisory": "",
+          "menuNutrition": {
+            "calories": 810,
+            "protein": 68,
+            "carbs": 73,
+            "fiber": 12,
+            "fat": 29,
+            "satFat": 11.2,
+            "transFat": 0.6,
+            "cholesterol": 240,
+            "sodium": 1090,
+            "sugars": 11,
+            "addedSugar": 0,
+            "vitaminD": 0.6,
+            "calcium": 310,
+            "iron": 9.7,
+            "potassium": 1540
+          },
+          "nutrition": {
+            "calories": 810,
+            "protein": 68,
+            "carbs": 73,
+            "fiber": 12,
+            "fat": 29,
+            "satFat": 11.2,
+            "transFat": 0.6,
+            "cholesterol": 240,
+            "sodium": 1090,
+            "sugars": 11,
+            "addedSugar": 0,
+            "vitaminD": 0.6,
+            "calcium": 310,
+            "iron": 9.7,
+            "potassium": 1540
+          },
+          "confidence": "planning",
+          "estimatedNetWeight": "18.8 oz (533 g)",
+          "netWeightVerified": false,
+          "requiresPackoutWeight": true,
+          "nutritionComplete": false,
+          "releaseHold": "Barry-only planning variant. Confirm Daiya, breadcrumb and pasta packages, finished weight and dairy-free prep before production or labeling."
+        }
+      },
+      "productionHold": "Barry-only planning variant. Confirm Daiya, breadcrumb and pasta packages, finished weight and dairy-free prep before production or labeling."
     }
   }
 };

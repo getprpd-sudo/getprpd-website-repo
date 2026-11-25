@@ -69,12 +69,19 @@ ESTIMATED_NET_WEIGHTS = {
 # Owner-approved benchmark for the main meal only. The separate Sweet Heat cup
 # is not included in the displayed kofta calories or macros.
 MEAL_ONLY_LABEL_NUTRITION = {
-    "High-Protein Beef Kofta & Roasted Vegetables",
-    "Custom Lean Chicken Mince",
     "Mango Habanero Chicken Wings",
     "Beef Bacon Breakfast Pizza",
     "BBQ Chicken Mac & Cheese",
     "Garlic Butter Wild Argentine Shrimp + Rice",
+}
+
+# These separately packed cups are part of the purchased serving. Customer
+# cards, cart totals, meal details, and the label must use the same complete
+# serving rather than the entree without its required cup.
+REQUIRED_CUP_SERVINGS = {
+    "French Toast",
+    "Chicken Biryani",
+    "Premium NY Strip Steak",
 }
 
 # These recipes have controlled component targets but no defensible finished
@@ -175,7 +182,9 @@ DISPLAY_INGREDIENTS.update({
     "mango_habanero_sauce": "G Hughes Zero Sugar Mango Habanero Wing Sauce (water, distilled vinegar, modified corn starch, mango juice concentrate, salt, canola and/or soybean oil, habanero pepper puree, dried habanero pepper, paprika extract, citric acid, dried garlic, dried onion, potassium sorbate, sucralose, caramel color)",
     "bottled_ranch": "Bolthouse Farms Classic Ranch (buttermilk, water, soybean oil, yogurt, whey protein concentrate, vinegar, pineapple juice concentrate, salt, egg yolks, xanthan gum, buttermilk powder, onion powder, natural flavors, garlic powder, mustard seed, dill, citric acid)",
     "buffalo_sauce": "Sweet Baby Ray's Mild Buffalo Wing Sauce",
+    "franks_buffalo_wings": "Frank's RedHot Buffalo Wings Sauce",
     "fage": "FAGE Total 0% nonfat Greek yogurt",
+    "so_delicious_plain_yogurt": "So Delicious unsweetened plain coconutmilk yogurt alternative",
     "light_mayo": "Great Value light mayonnaise",
     "regular_cream_cheese": "Philadelphia Original cream cheese",
     "shan_butter_chicken": "Shan Butter Chicken Recipe Mix (powder)",
@@ -184,6 +193,8 @@ DISPLAY_INGREDIENTS.update({
     "short_rib_cooked": "boneless beef short rib",
     "celery": "celery",
     "mozzarella": "fat-free mozzarella cheese",
+    "daiya_mozzarella": "Daiya dairy-free mozzarella shreds",
+    "heavy_cream": "Great Value heavy whipping cream",
     "cottage": "fat-free cottage cheese",
     "fairlife_milk": "fat-free milk",
     "whey": "whey protein powder",
@@ -224,6 +235,10 @@ ALLERGENS = {
     # ingredient panel lists Parmesan, nonfat milk, whey protein concentrate,
     # and natural flavor derived from milk.
     "buffalo_sauce": "milk",
+    "franks_buffalo_wings": (),
+    "so_delicious_plain_yogurt": (),
+    "daiya_mozzarella": (),
+    "heavy_cream": "milk",
     "hoisin": ("soy", "wheat"),
     "shrimp_cooked": "shellfish",
     "peanut_butter": "peanut",
@@ -296,6 +311,7 @@ META = {
     "PRPD Beef Bacon Breakfast Sandwich": ("Beef bacon, an egg-and-egg-white patty, cheese, and PRPD Sweet Heat Sauce. Lean includes one sandwich with breakfast potatoes; Bulk includes two sandwiches with no potatoes.", "The breakfast sandwich cleaned up its macros.", "fridge"),
     "Grilled Cheese Breakfast Burrito": ("Seasoned beef, eggs, egg whites, cheese, and onion in grilled high-fiber tortillas.", "Breakfast understood the assignment.", "fridge"),
     "Beef Bacon Breakfast Pizza": ("Rectangular breakfast pizza with Sharifa halal beef bacon, eggs, vegetables, house tomato sauce and H-E-B fat-free mozzarella.", "A savory breakfast, baked to fit the box.", "fridge"),
+    "Private Dairy-Free Breakfast Pizza": ("Rectangular beef-bacon breakfast pizza with eggs, vegetables, tomato sauce and dairy-free mozzarella-style shreds.", "Beef bacon breakfast pizza with dairy-free cheese.", "fridge"),
     "Loaded Beef Cottage Pie": ("Betty Crocker mashed potatoes topped with seasoned beef, vegetables, mozzarella, and cilantro, with PRPD Sweet Heat sauce.", "Comfort food with the numbers handled.", "freezer"),
     "Loaded Buffalo Chicken Potato": ("Buffalo chicken over a loaded roasted potato with broccoli.", "Loaded potato, handled.", "freezer"),
     "Beef Seekh Kabab Shawarma": ("Seasoned beef seekh, fresh salad, house refrigerator pickles, and garlic yogurt sauce in shawarma bread.", "Kebab rolled up with somewhere to be.", "fridge"),
@@ -306,7 +322,7 @@ META = {
     "Lemon Pepper Tilapia with Garlic Potatoes": ("Lemon-pepper tilapia with roasted garlic potatoes and broccoli.", "Bright lemon, cracked pepper, and a full meal-prep build.", "fridge"),
     "Hot Honey Chicken Sliders": ("Hot-honey chicken, mozzarella, and onion on King's Hawaiian Original Sweet Rolls.", "Sweet heat. Very little chance of leftovers.", "freezer"),
     "Chicken Biryani": ("Spiced halal chicken and fragrant basmati rice.", "Rice with range. Chicken with receipts.", "freezer"),
-    "Butter Chicken": ("Broth-free butter chicken in a tomato, yogurt, garlic, and ginger sauce with basmati rice.", "Comfort food with the numbers handled.", "freezer"),
+    "Butter Chicken": ("Shan-spiced chicken in a measured tomato, butter and heavy-cream sauce with basmati rice.", "Classic sauce, measured portions.", "freezer"),
     "BBQ Chicken Mac & Cheese": ("BBQ chicken, high-protein mac and cheese, fat-free mozzarella, and a matching BBQ sauce cup.", "Mac and cheese finally joined the program.", "freezer"),
     "Mango Habanero Chicken Wings": ("Split bone-in wings coated with G Hughes Zero Sugar Mango Habanero Wing Sauce, with separate mango dip and Bolthouse Classic Ranch cups.", "Counted split wings, sweet heat, and two dips.", "fridge"),
     "Custom Lebanese Chicken + Fattoush-Style Salad": ("Lebanese-style chicken breast with lettuce, cucumber, tomato, red onion, parsley, and measured lemon dressing.", "A custom lean-protein pilot with the hot and cold components kept separate.", "fridge"),
@@ -316,6 +332,7 @@ META = {
     "Sweet Chili Chicken with Vegetable Rice": ("Sweet-chili chicken with basmati vegetable rice.", "Sweet heat without the sugar crash.", "freezer"),
     "Sweet Chili Chicken with Rice": ("Sweet-chili glazed chicken thighs with plain basmati rice and a matching Sweet Chili sauce cup.", "Sweet heat without the sugar crash.", "freezer"),
     "Meatball Arrabbiata Pasta": ("Beef meatballs and protein pasta in a slow-simmered arrabbiata sauce.", "A pasta night that still tracks.", "freezer"),
+    "Private Dairy-Free Meatball Arrabbiata": ("Beef meatballs and protein pasta in arrabbiata sauce with dairy-free mozzarella-style shreds.", "Beef meatballs with pasta and dairy-free cheese.", "freezer"),
     "Cajun Garlic Salmon": ("Cajun-garlic wild pink salmon with lemon-herb quinoa and roasted green beans.", "A seafood meal with sides that actually bring something new.", "fridge"),
     "Southwest Beef Taco Bowl": ("Seasoned beef, cilantro-lime rice, black beans, corn and peppers, lettuce, and cotija.", "Taco night, bowl format, macros handled.", "fridge"),
     "Creamy Garlic Parmesan Chicken Pasta": ("Seasoned chicken thighs, protein pasta, and broccoli in a lighter garlic-Parmesan sauce made without heavy cream.", "Creamy pasta with a measured high-protein build.", "freezer"),
@@ -349,7 +366,7 @@ META = {
     "Mediterranean Chicken Hummus Box": ("Chicken, hummus, flatbread, cucumber, tomato, feta, olives, and red onion.", "Dip happens. Bring hummus.", "fridge"),
     "High-Protein Beef Kofta & Roasted Vegetables": ("Oven-baked 96/4 beef kofta with a separate cucumber-tomato kachumber and two separate PRPD Sweet Heat cups.", "Five measured kofta, fresh kachumber, and both sauce cups packed separately.", "fridge"),
     "Custom Lean Chicken Mince": ("Moist lean chicken qeema with a separate cucumber-tomato kachumber, lemon-mustard-garlic dressing, and PRPD Sweet Heat.", "Moist chicken qeema with fresh kachumber and two measured cups.", "fridge"),
-    "Custom Lebanese-Style Chicken Breast": ("Lebanese-style chicken breast with a cold fattoush-style salad and measured lemon-mustard-garlic dressing packed separately.", "Hot chicken, crisp salad, one complete custom meal.", "fridge"),
+    "Custom Lebanese-Style Chicken Breast": ("Lebanese-style chicken breast with a cold fattoush-style salad and measured lemon-mustard-garlic dressing packed separately.", "Hot chicken, crisp salad, and tangy dressing.", "fridge"),
 }
 
 REHEAT = {
@@ -376,6 +393,7 @@ REHEAT = {
     "PRPD Beef Bacon Breakfast Sandwich": "Microwave 45-60 seconds. For a toasted finish, air fry at 350 F for 3-5 minutes.",
     "Grilled Cheese Breakfast Burrito": "Microwave 60-90 seconds, or air fry at 350 F for 3-5 minutes, until hot throughout.",
     "Beef Bacon Breakfast Pizza": "Remove from plastic container. Reheat on an oven-safe tray at 350 F until hot throughout, or microwave until hot.",
+    "Private Dairy-Free Breakfast Pizza": "Remove from plastic container. Reheat on an oven-safe tray at 350 F until hot throughout, or microwave until hot.",
     "Loaded Beef Cottage Pie": "Remove sauce cup. Vent lid and microwave 2-3 minutes, or until hot throughout. Rest 1 minute.",
     "Hot Honey Chicken Sliders": "Microwave 45-75 seconds, or air fry at 350 F for 3-5 minutes, until hot throughout.",
     "Loaded Buffalo Chicken Potato": "Vent lid and microwave 2-3 minutes, stirring halfway, until hot throughout.",
@@ -394,6 +412,7 @@ REHEAT = {
     "Sweet Chili Chicken with Vegetable Rice": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout.",
     "Sweet Chili Chicken with Rice": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout. Add the matching Sweet Chili sauce from the customer bag after heating.",
     "Meatball Arrabbiata Pasta": "Vent lid and microwave 2-3 minutes, stirring halfway, until hot throughout.",
+    "Private Dairy-Free Meatball Arrabbiata": "Vent lid and microwave 2-3 minutes, stirring halfway, until hot throughout.",
     "Chicken Biryani": "Remove the green sauce cup. Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout. Add the cold sauce after heating.",
     "Butter Chicken": "Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout.",
     "Cajun Garlic Salmon": "Vent lid and microwave at 50% power for 1-2 minutes, or until hot, to avoid overcooking the salmon.",
@@ -484,8 +503,9 @@ def tier_data(build: draft.Build, label: str, meal_name: str = "") -> dict:
         result.pop("netWeightVerified", None)
         return result
     grams = round(sum(grams_for(portion) for portion in build.portions))
-    menu_nutrition = active_labels.nutrition(draft.menu_total(build))
     complete_nutrition = active_labels.nutrition(draft.total(build))
+    menu_nutrition = (complete_nutrition if meal_name in REQUIRED_CUP_SERVINGS
+                      else active_labels.nutrition(draft.menu_total(build)))
     result = {
         "label": label.upper(),
         "netWeight": f"{grams / 28.3495:.1f} oz ({grams} g)",
@@ -507,6 +527,8 @@ def tier_data(build: draft.Build, label: str, meal_name: str = "") -> dict:
             else "Main meal only; separate sauce cup excluded" if meal_name in {"BBQ Chicken Mac & Cheese", "Garlic Butter Wild Argentine Shrimp + Rice"}
             else "Main meal only; separate sauce cup excluded"
         )
+    elif meal_name in {"High-Protein Beef Kofta & Roasted Vegetables", "Custom Lean Chicken Mince"}:
+        result["nutritionBasis"] = "Complete serving including the separately packed salad and sauce cups."
     if meal_name in PACKOUT_WEIGHT_REQUIRED:
         result.update({
             "inputMassGrams": grams,
@@ -593,6 +615,8 @@ def assert_macro_parity(item: dict, tier_key: str, build: draft.Build) -> None:
     if item.get("name") == "Oven-Baked Popcorn Chicken":
         from oven_baked_popcorn_chicken import website_tier
         menu_nutrition = website_tier(tier_key)["menuNutrition"]
+    elif item.get("name") in REQUIRED_CUP_SERVINGS:
+        menu_nutrition = active_labels.nutrition(draft.total(build))
     else:
         menu_nutrition = active_labels.nutrition(draft.menu_total(build))
     for config_key, label_key in fields.items():
@@ -670,6 +694,12 @@ def generate_payload(order_config: dict | None = None) -> dict:
                 tier: tier_data(build, "Single" if tier == "single" else tier.title(), meal_name)
                 for tier, build in builds.items()
             }
+            if batch_number >= 21:
+                for tier_record in tiers.values():
+                    tier_record["estimatedNetWeight"] = tier_record["netWeight"]
+                    tier_record["netWeight"] = "Enter packed weight"
+                    tier_record["netWeightVerified"] = False
+                    tier_record["requiresPackoutWeight"] = True
             if meal_name in {"Braised Beef Short Rib", "Beef Bacon Breakfast Pizza", "Mango Habanero Chicken Wings", "Strawberry Protein Shake"}:
                 for tier_key, tier_record in tiers.items():
                     configured = item.get("bulkMacros") if tier_key == "bulk" else item.get("macros")
@@ -710,6 +740,11 @@ def generate_payload(order_config: dict | None = None) -> dict:
                 "decision": ("Current controlled registry" if current_registry is not None else meal.decision),
                 "tiers": tiers,
             }
+            if current_registry is not None and meal_name in current_registry.HOLDS:
+                meals[meal_id]["productionHold"] = current_registry.HOLDS[meal_name]
+                for tier_record in tiers.values():
+                    tier_record["nutritionComplete"] = False
+                    tier_record["releaseHold"] = current_registry.HOLDS[meal_name]
 
     unused_recipes = set(recipes_by_name) - configured_names
     if unused_recipes and current_registry is None:
@@ -719,6 +754,13 @@ def generate_payload(order_config: dict | None = None) -> dict:
         )
 
     planner_builds = PLANNER_ONLY_LABEL_MEALS
+    customer_label_names = {
+        "High-Protein Beef Kofta & Roasted Vegetables": "Beef Kofta & Roasted Vegetables",
+        "Custom Lean Chicken Mince": "Lean Chicken Qeema",
+        "Custom Lebanese-Style Chicken Breast": "Lebanese-Style Chicken Breast",
+        "Private Dairy-Free Breakfast Pizza": "Dairy-Free Breakfast Pizza",
+        "Private Dairy-Free Meatball Arrabbiata": "Dairy-Free Meatball Arrabbiata",
+    }
     if current_registry is not None:
         planner_builds = []
         for item in order_config.get("plannerOnly", []):
@@ -745,6 +787,12 @@ def generate_payload(order_config: dict | None = None) -> dict:
         }
         if bulk_build is not None:
             tiers["bulk"] = tier_data(bulk_build, "Bulk", meal_name)
+        if batch_number >= 21:
+            for tier_record in tiers.values():
+                tier_record["estimatedNetWeight"] = tier_record["netWeight"]
+                tier_record["netWeight"] = "Enter packed weight"
+                tier_record["netWeightVerified"] = False
+                tier_record["requiresPackoutWeight"] = True
         if tuple(tiers) != expected_tiers:
             raise ValueError(f"Planner-only label {meal_id} has tiers {tuple(tiers)}, expected {expected_tiers}.")
         try:
@@ -758,6 +806,7 @@ def generate_payload(order_config: dict | None = None) -> dict:
             reheat = "Remove the kachumber and sauce cup. Vent lid and microwave 1.5-2.5 minutes, until hot throughout. Add sauce after heating and serve with the cold kachumber."
         meals[meal_id] = {
             "name": meal_name,
+            "customerLabelName": customer_label_names.get(meal_name, meal_name),
             "category": category,
             "description": description,
             "note": note,
@@ -768,6 +817,11 @@ def generate_payload(order_config: dict | None = None) -> dict:
             "plannerOnly": True,
             "tiers": tiers,
         }
+        if current_registry is not None and meal_name in current_registry.HOLDS:
+            meals[meal_id]["productionHold"] = current_registry.HOLDS[meal_name]
+            for tier_record in tiers.values():
+                tier_record["nutritionComplete"] = False
+                tier_record["releaseHold"] = current_registry.HOLDS[meal_name]
 
     recipe_fingerprint = hashlib.sha256(
         json.dumps(meals, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode("utf-8")

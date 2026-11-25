@@ -12,6 +12,9 @@ import mango_habanero_wings as private_wings
 
 
 STATIONS = {
+    "franks_buffalo_wings": "Sauces & Dairy",
+    "so_delicious_plain_yogurt": "Sauces & Dairy",
+    "daiya_mozzarella": "Sauces & Dairy",
     "kelloggs_corn_flakes_plain": "Dry Prep & Seasonings",
     "chicken_wings_raw": "Poultry",
     "mango_habanero_sauce": "Sauces & Dairy",

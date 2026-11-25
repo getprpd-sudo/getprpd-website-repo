@@ -6,6 +6,7 @@ const production = require('../nutrition/production-data');
 const methods = require('../cook-day-methods');
 const core = require('../cook-day-core');
 const kitchen = require('../kitchen-dashboard');
+const recurring = require('../recurring-customers');
 
 async function main() {
   const origin = process.env.PRPD_LOCAL_ORIGIN || 'http://127.0.0.1:4173';
@@ -18,7 +19,8 @@ async function main() {
 
   const parsed = core.arrayRowsToOrders(source.rows, config);
   assert.deepEqual(parsed.warnings, [], 'unparsed order lines');
-  const orders = core.includedOrders(parsed.orders);
+  const orders = core.includedOrders(recurring.materialize(parsed.orders,
+    recurring.defaultSelections(config.batch),config.batch,production).orders);
   const counts = core.aggregateCounts(orders);
   const buffer = {rawProteinBufferPct:5,riceBufferPct:15,riceYieldFactor:2.75,rawProteinReserveByDish:methods.rawProteinReserveByDish || {}};
   const model = kitchen.build(counts, production, methods, core, buffer, orders);
@@ -40,7 +42,10 @@ async function main() {
     }
   }
   assert.ok(seasoningRows.length > 0, 'controlled seasoning rows exist');
-  assert.deepEqual(seasoningRows.filter(row => !row.measure || /\s+g$/i.test(row.display)), [], 'all small seasonings use spoon, packet, or piece measures');
+  // Some controlled mixes, yeast and tiny herb additions must be weighed as a
+  // combined batch. A per-portion spoon estimate would round them upward.
+  assert.deepEqual(seasoningRows.filter(row => !/^(?:\d+(?:\.\d+)?\s+g|.*\s+(?:tsp|Tbsp|packets?|pieces?))$/i.test(row.display)), [],
+    'each seasoning has a usable weight, spoon, packet, or piece measure');
   const releaseHolds = model.review.errors.filter(note => /production release hold:/i.test(note));
   const structuralErrors = model.review.errors.filter(note => !/production release hold:/i.test(note));
   assert.deepEqual(structuralErrors, [], 'recipe, component, and method coverage');
@@ -61,6 +66,7 @@ async function main() {
     productionReleased:releaseHolds.length===0 && model.review.decisions.length===0,
     softwareCoverage:'Counts conserved; all five kitchen views render without structural errors.',
     seasoningRowsVerified:seasoningRows.length,
+    scaleWeighedSeasoningRows:seasoningRows.filter(row => /\s+g$/i.test(row.display)).length,
     releaseHolds,
     decisions:model.review.decisions,
     warnings:model.review.warnings,

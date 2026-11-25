@@ -67,6 +67,37 @@ r.add_ingredient(
     confidence="planning",
 )
 
+# Batch 21 dairy-free transition. Manufacturer panels are planning sources;
+# purchased packages and finished yields control customer labels.
+r.add_ingredient(
+    "franks_buffalo_wings", "Frank's RedHot Buffalo Wings Sauce",
+    r.n(25, .67, 3.33, 0, 1.67, 0, 0, 0, 2433, 0),
+    source="McCormick US ingredient list; Canadian 60 ml nutrition panel used provisionally for macros",
+    confidence="planning",
+    note="No milk is listed in the current US ingredients. Confirm the purchased US bottle, nutrition panel, and any allergen statement before release.",
+)
+r.add_ingredient(
+    "so_delicious_plain_yogurt", "So Delicious Unsweetened Plain Coconutmilk Yogurt Alternative",
+    r.n(52.94, 0, 5.29, 1.18, 3.53, 2.94, .59, 0, 20.59, 0, 0, 1.71, 247.06, .18, 0),
+    source="So Delicious current manufacturer panel: 90 kcal, 9g carbs, 6g fat per 170g",
+    confidence="planning",
+    note="Use only the unsweetened plain 24oz tub. Confirm purchased panel and test in the Biryani marinade and cold sauce.",
+)
+r.add_ingredient(
+    "daiya_mozzarella", "Daiya Dairy-Free Mozzarella Shreds",
+    r.n(266.67, 0, 26.67, 0, 16.67, 10, 0, 0, 766.67, 0, 0, 0, 506.67, 0, 63.33),
+    source="Current H-E-B Daiya 7.1oz listing: 80 kcal, 0g protein, 8g carbs, 5g fat per 30g; purchased bag controls",
+    confidence="planning",
+    note="Barry-only cheese replacement. Confirm purchased 7.1oz bag and test melt/reheat; regular menu cheese remains unchanged.",
+)
+r.add_ingredient(
+    "heavy_cream", "Great Value Heavy Whipping Cream",
+    r.n(333.33, 0, 6.67, 0, 33.33, 23.33, 6.67, 0, 33.33, 133.33),
+    source="Great Value 32oz Walmart product panel: 50 kcal, 5g fat, 1g carbohydrate per 1 tbsp (15mL); per-100g conversion is provisional",
+    confidence="planning",
+    note="Batch 21 Butter Chicken only. Weigh cream in grams; confirm purchased carton panel and density before final label release.",
+)
+
 
 GARLIC_HERB_COMPONENT = "garlic-herb-yogurt"
 HONEY_BBQ_MUSTARD_COMPONENT = "honey-barbecue-mustard"
@@ -90,6 +121,73 @@ def meatball_arrabbiata(tier: str):
         [*record.assumptions, "Use the exact Kroger protein pasta identity; do not substitute the historical Barilla spaghetti or Caprese Rotini records."],
         record.confidence,
     )
+
+
+def _substitute(record, replacements: dict[str, str], reason: str):
+    return r.build(
+        [replace(portion, ingredient=replacements.get(portion.ingredient, portion.ingredient))
+         for portion in record.portions],
+        [*record.assumptions, reason],
+        "planning",
+    )
+
+
+def biryani_dairy_free(tier: str):
+    return _substitute(
+        r.biryani(tier), {"fage": "so_delicious_plain_yogurt"},
+        "For every Batch 21 Biryani, use unsweetened plain dairy-free yogurt in both the cooked chicken marinade and the separate 30g green garlic sauce. Keep the two components identified and test the finished flavor before release.",
+    )
+
+
+def loaded_buffalo_dairy_free(tier: str):
+    return _substitute(
+        r.loaded_buffalo_revised(tier), {"buffalo_sauce": "franks_buffalo_wings"},
+        "For every Batch 21 Buffalo Chicken Potato, use the purchased Frank's Buffalo Wings Sauce in the same measured incorporated finish. No dairy sauce is added.",
+    )
+
+
+def buffalo_pinwheels_franks():
+    return _substitute(
+        r.buffalo_chicken_pinwheels(), {"buffalo_sauce": "franks_buffalo_wings"},
+        "Use the same Frank's Buffalo Wings Sauce as the potato. Pinwheels still contain milk from cream cheese and mozzarella.",
+    )
+
+
+def barry_dairy_free_pizza(tier: str):
+    return _substitute(
+        beef_bacon_breakfast_pizza(tier), {"mozzarella": "daiya_mozzarella"},
+        "Barry-only pizza: substitute Daiya dairy-free mozzarella gram for gram. This lowers protein versus milk mozzarella. Bake separately and verify egg set, melt, fit and reheat. The standard Breakfast Pizza keeps dairy mozzarella.",
+    )
+
+
+def barry_dairy_free_meatball(tier: str):
+    return _substitute(
+        meatball_arrabbiata(tier), {"mozzarella": "daiya_mozzarella"},
+        "Barry-only pasta: substitute Daiya dairy-free mozzarella gram for gram. Check the actual breadcrumb and protein-pasta packages for milk before preparing it.",
+    )
+
+
+def butter_chicken_cream(tier: str):
+    """Shan-inspired tomato, butter and cream build with controlled portions."""
+    lean = tier == "lean"
+    raw_chicken = 200 if lean else 250
+    return r.build([
+        r.chicken_thigh(raw_chicken), r.p("rice_dry", 40 if lean else 55),
+        r.p("crushed_tomatoes", 160 if lean else 200),
+        r.p("fage", 15 if lean else 20, note="chicken marinade only"),
+        r.p("butter", 8 if lean else 10, note="tomato sauce finish"),
+        r.p("heavy_cream", 20 if lean else 25, note="stir in off heat"),
+        r.p("avocado_oil", 2 if lean else 2.5, note="chicken sear"),
+        r.p("lemon", 4 if lean else 5),
+        r.p("garlic", 3 if lean else 4),
+        r.p("ginger", 2.5 if lean else 3.5),
+        r.p("shan_butter_chicken", raw_chicken * .05),
+    ], [
+        "Batch 21 Shan-inspired butter chicken: yogurt is limited to the chicken marinade; the cooked tomato sauce is finished with measured unsalted butter and heavy cream.",
+        "Use 50g Shan Butter Chicken powder per kg raw chicken, following the manufacturer's packet ratio. Do not add the former onion, tomato paste, extra dry spices, extra salt, broth or recipe water.",
+        "Marinate chicken with Shan mix, 15g/20g yogurt, lemon, garlic and ginger. Sear in the measured oil; simmer with crushed tomatoes to 165F. Melt butter into the reduced tomato sauce, then stir cream in off heat.",
+        "Weigh sauce and chicken after cooking and check 24-hour reheat before approving net weights and labels. The manufacturer uses much more butter; PRPD intentionally measures a smaller portion for macro control.",
+    ], "planning")
 
 
 STANDALONE_SAUCE_FORMULAS = {
@@ -691,25 +789,37 @@ RECIPES = {
     "Banana Cream Pie Cup": (r.banana_cream, True),
     "Oven-Baked Popcorn Chicken": (oven_baked_popcorn_chicken, True),
     "Chicken Tikka Snack Wrap": (_tikka, True),
-    "Buffalo Chicken Pinwheels": (r.buffalo_chicken_pinwheels, True),
+    "Buffalo Chicken Pinwheels": (buffalo_pinwheels_franks, True),
     "Mediterranean Chicken Hummus Box": (r.mediterranean_chicken_hummus_box, True),
     "PRPD Protein Box": (lambda: _without_component(r.protein_box(), MUSTARD_BBQ_COMPONENT, "Mustard BBQ", "jalapeno-yogurt", "sauce in its own sealed well or cup"), True),
     "BBQ Chicken Lavash Flatbread": (r.bbq_chicken_lavash_flatbread, True),
     "Caprese Protein Pasta Box": (r.caprese_protein_pasta_box, True),
     "Chicken Shakshuka": (lambda tier: _without_component(r.chicken_shakshuka(tier), WHITE_GARLIC_JALAPENO_COMPONENT, "white garlic-jalapeno"), False),
     "Sweet Chili Chicken with Rice": (r.sweet_chili_chicken_plain_rice, False),
-    "Chicken Biryani": (r.biryani, False),
-    "Butter Chicken": (r.butter_chicken_no_broth, False),
-    "Loaded Buffalo Chicken Potato": (r.loaded_buffalo_revised, False),
+    "Chicken Biryani": (biryani_dairy_free, False),
+    "Butter Chicken": (butter_chicken_cream, False),
+    "Loaded Buffalo Chicken Potato": (loaded_buffalo_dairy_free, False),
     "Beef Seekh Kabab Shawarma": (r.shan_seekh_shawarma, False),
     "Chocolate-Dipped Cookie Dough Balls": (r.cookie_dough, True),
     "High-Protein Beef Kofta & Roasted Vegetables": (_nouman_kofta, True),
     "Custom Lean Chicken Mince": (custom_lean_chicken_mince, True),
     "Custom Lebanese-Style Chicken Breast": (_nouman_lebanese_current, True),
+    "Private Dairy-Free Breakfast Pizza": (barry_dairy_free_pizza, False),
+    "Private Dairy-Free Meatball Arrabbiata": (barry_dairy_free_meatball, False),
 }
 
 
-HOLDS = {}
+HOLDS = {
+    "Chocolate Chip Cookie Drop": "Verify the purchased semisweet chocolate chip ingredient and allergen panel, then weigh the cooled baked cookie before final label release.",
+    "Classic Mango Lassi": "Verify the purchased Deep Alphonso pulp, FAGE yogurt and Fairlife milk ingredient and allergen panels, and the actual 330 g bottle fill before final label release.",
+    "High-Protein Beef Kofta & Roasted Vegetables": "Verify the purchased Shan Seekh mix, mayonnaise, ketchup and sriracha ingredient and allergen panels, then confirm the complete packed serving weight before final label release.",
+    "Butter Chicken": "New butter-and-cream sauce is a measured planning recipe. Verify the purchased cream, Shan mix and butter panels, then taste-test and record cooked chicken, sauce and rice yields before final label release.",
+    "Chicken Biryani": "Verify the purchased dairy-free yogurt and Shan packet, then test the chicken marinade and separate green sauce before final label release.",
+    "Loaded Buffalo Chicken Potato": "Verify the purchased Frank's Buffalo bottle and the revised finished sauce portion before final label release.",
+    "Buffalo Chicken Pinwheels": "Verify the purchased Frank's Buffalo bottle and the pinwheel's dairy-containing cheese and cream-cheese panels before final label release.",
+    "Private Dairy-Free Breakfast Pizza": "Barry-only planning variant. Dairy-free cheese has less protein than the standard milk mozzarella. Confirm Daiya package, egg set, melt/reheat, container fit, finished weight and dairy-free prep before production or labeling.",
+    "Private Dairy-Free Meatball Arrabbiata": "Barry-only planning variant. Confirm Daiya, breadcrumb and pasta packages, finished weight and dairy-free prep before production or labeling.",
+}
 
 
 QUALITY_CHECKS = {
@@ -792,6 +902,8 @@ def tiers_for(name: str):
     if name == private_wings.NAME:
         return ["lean", "bulk"]
     if name in {"Chicken Shakshuka", "Halal Cart Chicken + Yellow Rice", "Sweet Chili Chicken with Rice", "Harissa Honey Chicken"}:
+        return ["lean", "bulk"]
+    if name in {"Private Dairy-Free Breakfast Pizza", "Private Dairy-Free Meatball Arrabbiata"}:
         return ["lean", "bulk"]
     if name in {"High-Protein Beef Kofta & Roasted Vegetables", "Custom Lean Chicken Mince", "Custom Lebanese-Style Chicken Breast"}:
         return ["lean"]

@@ -11,6 +11,11 @@
   const normalize=s=>String(s||'').toLowerCase().replace(/[^a-z0-9]/g,'');
   const match=(p,o)=>[p.name,...(p.aliases||[])].some(n=>normalize(n)===normalize(o.customer));
   const noumanKofta='High-Protein Beef Kofta & Roasted Vegetables';
+  function defaultSelections(batch) {
+    return Number(batch?.number) === 21 ? {
+      nouman: {status:'confirmed',quantities:{[`${noumanKofta}|lean`]:10}},
+    } : {};
+  }
   const batch18Samples=[
     {id:'cucumber-dill-tzatziki',name:'Cucumber Dill Tzatziki'},
     {id:'mango-chipotle-lime',name:'Mango Chipotle Lime'},
@@ -75,5 +80,5 @@
     for(const order of orders) applyNoumanKoftaPlan(order,batch);
     return {orders,warnings};
   }
-  return {profiles,recipeOptions,materialize,match};
+  return {profiles,recipeOptions,materialize,match,defaultSelections};
 });

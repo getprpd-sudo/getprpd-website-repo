@@ -223,27 +223,27 @@
     const meal = LABEL_DATA.meals[mealId];
     const tier = meal.tiers[tierKey];
     const nutrition = tier.nutrition;
+    const customerName = meal.customerLabelName || meal.name;
     const number = (key) => Number(draft[key] || 0);
     const weightUnverified = PROOF_MODE && (CURRENT_REVIEW || tier.netWeightVerified !== true);
     const incompleteNutrition = CURRENT_REVIEW && tier.nutritionComplete === false;
     const provisional = CURRENT_REVIEW ? ' (provisional)' : '';
 
     return `
-      <article class="meal-label${draft.ingredients.length > 440 ? ' dense-copy' : ''}">
+      <article class="meal-label${customerName.length > 25 || draft.ingredients.length > 250 ? ' dense-copy' : ''}">
         ${PROOF_MODE ? '<div class="label-proof-mark">DRAFT - NOT FOR FOOD LABELING</div>' : ''}
         <section class="brand-panel">
           <div class="brand-top">
             <div class="brand-lockup"><span class="brand-name">PRPD</span><span class="brand-tagline">MEALS. PREPPED.</span></div>
             <span class="tier-pill ${tierKey}">${escapeHtml(tier.label)}</span>
           </div>
-          <div class="category-line">${escapeHtml(meal.category)} &middot; High Protein &middot; Halal</div>
-          <h2 class="meal-name ${meal.name.length > 20 ? 'long' : ''}">${escapeHtml(meal.name)}</h2>
+          <div class="category-line">${escapeHtml(meal.plannerOnly ? 'Prepared meal' : meal.category)} &middot; Halal</div>
+          <h2 class="meal-name ${customerName.length > 20 ? 'long' : ''}">${escapeHtml(customerName)}</h2>
           <p class="meal-identity">${escapeHtml(meal.description)}</p>
           <div class="quick-facts">
             <span><b>Made${provisional}</b>${escapeHtml(displayDate($('madeDate').value))}</span>
             <span><b>Refrigerate through${provisional}</b>${escapeHtml(displayDate($('useBy').value))}</span>
             <span><b>Batch</b>${escapeHtml($('batchId').value)}</span>
-            <span><b>${weightUnverified ? 'Net wt. (unverified)' : 'Net wt.'}</b>${escapeHtml(draft.netWeight || (PROOF_MODE ? 'Not measured' : ''))}</span>
           </div>
           <p class="personality-note">&ldquo;${escapeHtml(draft.personality)}&rdquo;</p>
           <div class="label-copy">
@@ -252,7 +252,8 @@
             <p><b>Storage:</b> ${CURRENT_REVIEW ? 'Keep refrigerated. Planned dates and holding window require actual component-date and cold-chain verification. DRAFT ONLY.' : escapeHtml(draft.storage)}</p>
             <p><b>Reheat:</b> ${escapeHtml(draft.reheat)}</p>
           </div>
-          <div class="brand-footer"><span>PRPD LLC &middot; DFW, Texas</span><span>getprpd.com &middot; @getprpd</span></div>
+          <div class="net-weight-declaration"><strong>${weightUnverified ? 'Net wt. (unverified)' : 'Net wt.'}</strong> ${escapeHtml(draft.netWeight || (PROOF_MODE ? 'Not measured' : ''))}</div>
+          <div class="brand-footer"><span>PRPD LLC &middot; ${escapeHtml(ACTIVE_BATCH?.labelProduction?.manufacturerAddress || '')}</span><span>getprpd.com</span></div>
         </section>
         ${incompleteNutrition ? `<aside class="nutrition-panel nutrition-review">
           <h3 class="nutrition-title">Nutrition review</h3>

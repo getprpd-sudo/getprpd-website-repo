@@ -939,19 +939,19 @@
       window.location.replace(`http://127.0.0.1:4173/operations/cook-day-planner${window.location.search}${window.location.hash}`);
     }
   </script>
-  <script src="/config/order-config.js?v=20261112-b19-grocery"></script>
-  <script src="/operations/nutrition/production-data.js?v=20261112-b19-grocery"></script>
-  <script src="/operations/label-production-guard.js?v=20260930-b13"></script>
-  <script src="/operations/nutrition/next-menu-label-data.js?v=20260917-prep"></script>
+  <script src="/config/order-config.js?v=20261124-b21-recipes-3"></script>
+  <script src="/operations/nutrition/production-data.js?v=20261124-b21-recipes-4"></script>
+  <script src="/operations/label-production-guard.js?v=20261124-labels-1"></script>
+  <script src="/operations/nutrition/next-menu-label-data.js?v=20261124-b21-recipes-4"></script>
   <script src="/operations/cook-day-core.js?v=20261112-b19-grocery"></script>
-  <script src="/operations/cook-day-methods.js?v=20261112-b19-grocery"></script>
+  <script src="/operations/cook-day-methods.js?v=20261124-b21-recipes-3"></script>
   <script src="/operations/kitchen-workflow.js?v=20261012-final-console-2"></script>
   <script src="/operations/grocery-list-core.js?v=20261112-b19-grocery"></script>
   <script src="/operations/production-engine.js?v=20261005-shared-run"></script>
   <script src="/operations/production-run.js?v=20261005-shared-run"></script>
   <script src="/operations/complimentary-cookie-plan.js?v=20261113-b19-two-for-muhammad"></script>
   <script src="/operations/kitchen-dashboard.js?v=20261112-b19-grocery"></script>
-  <script src="/operations/recurring-customers.js?v=20260908.2"></script>
+  <script src="/operations/recurring-customers.js?v=20261124-b21-1"></script>
   <script>
     const BASE_CONFIG = window.PRPD_ORDER_CONFIG;
     const DATA = window.PRPD_PRODUCTION_DATA;
@@ -1128,7 +1128,10 @@
 
     function activeOrders() { return CORE.includedOrders(state.orders); }
     function recurringSelections() {
-      try { return JSON.parse(state.cookLog.fields['recurring:selections'] || '{}'); }
+      try {
+        const saved = JSON.parse(state.cookLog.fields['recurring:selections'] || '{}');
+        return {...PRPD_RECURRING_CUSTOMERS.defaultSelections(CONFIG.batch),...saved};
+      }
       catch { return {}; }
     }
     function mergeRecurringOrders() {

@@ -10,6 +10,8 @@ const ORDER_CONFIG = {
       "madeDate": "2026-11-27",
       "useByDate": "2026-11-30",
       "batchId": "B21-1127",
+      "manufacturerAddress": "",
+      "purchasedPanelsVerified": false,
       "completedAt": null,
       "dateBasis": "planned-standard",
       "advancePrintApproved": false,
@@ -304,6 +306,18 @@ const ORDER_CONFIG = {
       ],
       "category": "standard",
       "plannerOnly": true
+    },
+    {
+      "id": "p4",
+      "name": "Private Dairy-Free Breakfast Pizza",
+      "category": "beef",
+      "plannerOnly": true
+    },
+    {
+      "id": "p5",
+      "name": "Private Dairy-Free Meatball Arrabbiata",
+      "category": "beef",
+      "plannerOnly": true
     }
   ],
   "menu": {
@@ -338,16 +352,16 @@ const ORDER_CONFIG = {
         "category": "standard",
         "description": "Protein French toast with strawberries, banana, whipped cream and a separate syrup cup.",
         "macros": {
-          "cal": 505,
+          "cal": 515,
           "protein": 34,
-          "carbs": 73,
+          "carbs": 76,
           "fiber": 6,
           "fat": 8
         },
         "bulkMacros": {
-          "cal": 655,
+          "cal": 660,
           "protein": 45,
-          "carbs": 93,
+          "carbs": 96,
           "fiber": 7,
           "fat": 11
         },
@@ -396,23 +410,23 @@ const ORDER_CONFIG = {
         "id": "m1",
         "name": "Chicken Biryani",
         "category": "standard",
-        "description": "Shan-spiced chicken thighs and fragrant basmati rice with a separate 30 g green garlic-yogurt sauce cup.",
+        "description": "Shan-spiced chicken thighs and fragrant basmati rice with a separate 30 g green garlic sauce made with dairy-free yogurt.",
         "macros": {
-          "cal": 525,
-          "protein": 46,
-          "carbs": 47,
-          "fiber": 3,
-          "fat": 16
+          "cal": 545,
+          "protein": 43,
+          "carbs": 50,
+          "fiber": 4,
+          "fat": 19
         },
         "bulkMacros": {
-          "cal": 685,
-          "protein": 65,
-          "carbs": 49,
-          "fiber": 4,
-          "fat": 24
+          "cal": 705,
+          "protein": 62,
+          "carbs": 52,
+          "fiber": 5,
+          "fat": 26
         },
         "nutritionReview": true,
-        "nutritionStatus": "Controlled Batch 13 recipe estimate; current Shan packet and finished yields pending review",
+        "nutritionStatus": "Dairy-free yogurt transition pending purchased package, kitchen test and finished yields",
         "taxClass": "exempt-reheatable-meal",
         "image": "/assets/images/meals/menu/chicken-biryani.jpg",
         "newThisWeek": false
@@ -421,23 +435,23 @@ const ORDER_CONFIG = {
         "id": "m2",
         "name": "Butter Chicken",
         "category": "standard",
-        "description": "Chicken thighs in a blended browned-onion, Shan, tomato and Greek-yogurt butter sauce with basmati rice.",
+        "description": "Shan-spiced chicken thighs in a measured tomato, butter and cream sauce with basmati rice.",
         "macros": {
-          "cal": 560,
-          "protein": 48,
-          "carbs": 50,
-          "fiber": 5,
-          "fat": 18
+          "cal": 635,
+          "protein": 44,
+          "carbs": 46,
+          "fiber": 4,
+          "fat": 29
         },
         "bulkMacros": {
-          "cal": 735,
-          "protein": 61,
-          "carbs": 69,
-          "fiber": 6,
-          "fat": 23
+          "cal": 815,
+          "protein": 56,
+          "carbs": 62,
+          "fiber": 5,
+          "fat": 36
         },
         "nutritionReview": true,
-        "nutritionStatus": "Controlled recipe estimate; finished sauce and chicken yields pending",
+        "nutritionStatus": "New measured butter-and-cream recipe; purchased cream panel, taste and finished yields pending",
         "taxClass": "exempt-reheatable-meal",
         "image": "/assets/images/meals/menu/butter-chicken-lean.jpg",
         "newThisWeek": false
@@ -446,21 +460,23 @@ const ORDER_CONFIG = {
         "id": "m3",
         "name": "Loaded Buffalo Chicken Potato",
         "category": "standard",
-        "description": "Buffalo chicken thighs over a loaded potato with broccoli.",
+        "description": "Chicken thighs with Frank's dairy-free Buffalo sauce over a loaded potato with broccoli.",
         "macros": {
-          "cal": 520,
+          "cal": 500,
           "protein": 44,
           "carbs": 44,
           "fiber": 7,
-          "fat": 19
+          "fat": 17
         },
         "bulkMacros": {
-          "cal": 600,
+          "cal": 580,
           "protein": 54,
           "carbs": 46,
           "fiber": 8,
-          "fat": 23
+          "fat": 21
         },
+        "nutritionReview": true,
+        "nutritionStatus": "Frank's Buffalo sauce transition pending purchased bottle and finished portion verification",
         "image": "/assets/images/meals/menu/batch-13-2026-10-03/loaded-buffalo-chicken-potato-batch-13.jpg",
         "sauceEligible": true,
         "taxClass": "exempt-reheatable-meal",
@@ -548,18 +564,18 @@ const ORDER_CONFIG = {
         "name": "Premium NY Strip Steak",
         "category": "premium",
         "macros": {
-          "cal": 640,
-          "protein": 57,
-          "carbs": 32,
-          "fiber": 4,
-          "fat": 31
+          "cal": 685,
+          "protein": 58,
+          "carbs": 42,
+          "fiber": 5,
+          "fat": 32
         },
         "bulkMacros": {
-          "cal": 755,
-          "protein": 70,
-          "carbs": 35,
-          "fiber": 5,
-          "fat": 37
+          "cal": 800,
+          "protein": 71,
+          "carbs": 44,
+          "fiber": 6,
+          "fat": 38
         },
         "description": "New York strip steak with Idahoan Original garlic mash, broccoli, and Honey Barbecue Mustard sauce.",
         "image": "/assets/images/meals/menu/batch-13-2026-10-03/premium-ny-strip-steak-mashed-potatoes-batch-13.jpg",
@@ -577,14 +593,14 @@ const ORDER_CONFIG = {
         "price": 7.99,
         "description": "Four chilled pinwheel pieces made from one 70-calorie Mission tortilla with Buffalo chicken, cream cheese, mozzarella, lettuce, and onion.",
         "macros": {
-          "cal": 325,
+          "cal": 320,
           "protein": 31,
           "carbs": 23,
           "fiber": 16,
-          "fat": 18
+          "fat": 17
         },
         "nutritionReview": true,
-        "nutritionStatus": "Recipe estimate; package and physical yield verification pending",
+        "nutritionStatus": "Frank's Buffalo sauce and pinwheel package/yield verification pending",
         "taxClass": "taxable-prepared-food",
         "image": "/assets/images/meals/menu/batch-8-2026-08-29/buffalo-chicken-pinwheels.webp",
         "ownerApproved": true,

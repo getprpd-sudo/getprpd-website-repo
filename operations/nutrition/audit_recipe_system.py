@@ -149,7 +149,10 @@ def audit():
             errors = checks(name, tier, record, lines)
             result['errors'].extend(errors)
             if m.active.nutrition_is_complete(record):
-                public_values = dict(zip(NUTRIENTS, m.display(m.menu_total(record))))
+                serving = (m.total(record) if name in {
+                    'French Toast', 'Chicken Biryani', 'Premium NY Strip Steak'
+                } else m.menu_total(record))
+                public_values = dict(zip(NUTRIENTS, m.display(serving)))
                 full_values = dict(zip(NUTRIENTS, m.display(m.total(record))))
             else:
                 blocked = [m.active.INGREDIENTS[p.ingredient] for p in record.portions

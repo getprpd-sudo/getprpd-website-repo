@@ -326,13 +326,21 @@
       display: flex;
       justify-content: space-between;
       gap: 10px;
-      margin-top: auto;
+      margin-top: 0;
       margin-right: -0.08in;
       padding: 0.035in 0.06in;
       color: var(--cream);
       background: var(--green);
       font-size: 5.5pt;
       font-weight: 700;
+    }
+    .net-weight-declaration {
+      margin-top: auto;
+      padding: 0.035in 0;
+      border-top: 1px solid var(--sage);
+      font-size: 7pt;
+      font-weight: 800;
+      line-height: 1.15;
     }
 
     .nutrition-review p {
@@ -593,9 +601,9 @@
   <section class="print-sheet" id="bagPrintSheet" aria-hidden="true"></section>
   <section class="print-blocked-message">PRINT BLOCKED: this queue is not released for final food labeling. Open the current Label Studio and resolve its displayed production checks.</section>
 
-  <script src="/config/order-config.js?v=20260917-grocery"></script>
-  <script src="/operations/label-production-guard.js?v=20261005-proof-safety"></script>
-  <script src="nutrition/next-menu-label-data.js?v=20260917-grocery"></script>
+  <script src="/config/order-config.js?v=20261124-b21-recipes-3"></script>
+  <script src="/operations/label-production-guard.js?v=20261124-labels-1"></script>
+  <script src="nutrition/next-menu-label-data.js?v=20261124-b21-recipes-4"></script>
   <script src="nutrition/batch13-label-proof-data.js?v=20261005-proof-safety"></script>
   <script>
     (() => {
@@ -776,6 +784,6 @@
     document.querySelectorAll('input, textarea').forEach((field) => field.addEventListener('input', render));
     loadMeal();
   </script>
-  <script src="/operations/label-studio-app.js?v=20261026-rewards-visual-1"></script>
+  <script src="/operations/label-studio-app.js?v=20261124-labels-2"></script>
 </body>
 </html>

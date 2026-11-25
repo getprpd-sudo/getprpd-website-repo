@@ -344,6 +344,21 @@
     const menuValidation = validateLabelMenu(activeMenu, labelData, { selectedVariants, netWeightOverrides });
     errors.push(...menuValidation.errors);
 
+    // Public menu parity does not cover private saved-customer recipes. The
+    // exact selected private label needs the same release and weight checks.
+    if (selectedVariants instanceof Set) {
+      for (const key of selectedVariants) {
+        const [mealId, tierKey] = String(key).split(':');
+        const meal = labelData?.meals?.[mealId];
+        if (!meal?.plannerOnly) continue;
+        errors.push(...generatedTierErrors(mealId, meal, tierKey));
+        const tier = meal.tiers?.[tierKey];
+        if (tier?.requiresPackoutWeight && !hasPrintableNetWeight({
+          ...tier, netWeight: netWeightOverrides?.[key], netWeightVerified: true,
+        })) errors.push(`${meal.name} ${tierKey} needs the actual packed net weight before printing.`);
+      }
+    }
+
     if (errors.length) return { ok: false, errors };
 
     const made = utcDate(configured.madeDate);
@@ -355,6 +370,13 @@
     if (!made) errors.push('The controlled made date is not a valid ISO date.');
     if (!useBy) errors.push('The controlled refrigerate-through date is not a valid ISO date.');
     if (!delivery) errors.push('The active delivery date is invalid.');
+    if (!/\bTX\s+\d{5}(?:-\d{4})?\b/.test(String(configured.manufacturerAddress || ''))
+      || !/\d/.test(String(configured.manufacturerAddress || '').split(',')[0])) {
+      errors.push('Enter the verified PRPD street address, city, TX and ZIP for the customer label footer.');
+    }
+    if (batchNumber >= 21 && configured.purchasedPanelsVerified !== true) {
+      errors.push('Verify the purchased ingredient and allergen panels, including every compound ingredient, before printing customer labels.');
+    }
     if (!Number.isInteger(refrigeratedDays) || refrigeratedDays < 1 || refrigeratedDays > 7) {
       errors.push('The controlled refrigerated-day count must be a whole number from 1 through 7.');
     }

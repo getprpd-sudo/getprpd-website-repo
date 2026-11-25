@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=20261102-sauce-photos-2" />
+  <link rel="stylesheet" href="style.css?v=20261124-macro-1" />
   <script src="/analytics.js" defer></script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18371492048"></script>
   <script src="/google-ads.js" defer></script>
@@ -255,6 +255,21 @@
       </div>
 
       <div class="menu__grid" id="homeMenuGrid" aria-live="polite"></div>
+
+      <div class="menu-box-preview" id="homeMacroPreview" hidden>
+        <div>
+          <span class="menu-box-preview__eyebrow">Build your week</span>
+          <h3>See the macros in your box.</h3>
+          <p id="homeMacroExample">Choose meals on the order page to see your full box and average per meal.</p>
+        </div>
+        <div class="menu-box-preview__numbers" aria-label="Example box nutrition">
+          <span><strong id="homeMacroMeals">5</strong> meals</span>
+          <span><strong id="homeMacroProtein">0g</strong> protein</span>
+          <span><strong id="homeMacroCalories">0</strong> calories</span>
+          <small>Recipe estimates across the selected portions, not a daily total.</small>
+        </div>
+        <a href="/order" class="btn btn--cream">Build My Box →</a>
+      </div>
 
       <p class="menu__note">Lean and Bulk portions are priced per container. See the full weekly menu for every dish and current availability. ✦</p>
     </div>
@@ -658,7 +673,8 @@
   </footer>
 
   <script src="/phone-validation.js"></script>
-  <script src="/config/order-config.js?v=20261123-b21-steak-2"></script>
-  <script src="script.js?v=20261102-menu-crops"></script>
+  <script src="/config/order-config.js?v=20261124-b21-recipes-3"></script>
+  <script src="/order-nutrition.js?v=20261124-macro-1"></script>
+  <script src="script.js?v=20261124-macro-1"></script>
 </body>
 </html>

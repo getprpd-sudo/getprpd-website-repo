@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="/order.css?v=20261116-b20-cookie-rib-1" />
+  <link rel="stylesheet" href="/order.css?v=20261124-macro-1" />
   <script src="/analytics.js" defer></script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18371492048"></script>
   <script src="/google-ads.js" defer></script>
@@ -363,6 +363,19 @@
         <div class="summary-items" id="summaryItems">
           <p class="summary-empty">Add items from the menu.</p>
         </div>
+        <div class="summary-nutrition" id="summaryNutrition" hidden aria-live="polite">
+          <span class="summary-nutrition__eyebrow">Nutrition in your box</span>
+          <strong id="summaryNutritionMeals">0 meals</strong>
+          <div class="summary-nutrition__metrics">
+            <span><strong id="summaryNutritionCalories">0</strong> cal</span>
+            <span><strong id="summaryNutritionProtein">0g</strong> protein</span>
+            <span><strong id="summaryNutritionCarbs">0g</strong> carbs</span>
+            <span><strong id="summaryNutritionFat">0g</strong> fat</span>
+          </div>
+          <p id="summaryNutritionAverage">Average per meal: 0 cal, 0g protein</p>
+          <p id="summaryNutritionExtras" hidden></p>
+          <small>Recipe estimates for selected portions. Snacks and desserts are separate. Optional sauce cups are not included.</small>
+        </div>
         <hr class="summary-divider" />
         <div class="summary-fee-row">
           <span>Meals subtotal</span>
@@ -444,6 +457,7 @@
     <p id="successFulfillmentText">Rida will confirm payment and Saturday delivery by text shortly.</p>
     <p class="success-reference">Order reference: <span id="successOrderId"></span></p>
     <p class="success-storage-note" id="successStorageNote" hidden><strong>For meals marked Freezer-friendly:</strong> freeze them when delivered and thaw overnight in the refrigerator before reheating.</p>
+    <div class="success-nutrition" id="successNutrition" hidden></div>
     <div class="success-order">
       <div id="successOrderItems"></div>
       <div id="successSauceItems"></div>
@@ -475,9 +489,10 @@
   </footer>
 
   <script src="/phone-validation.js"></script>
-  <script src="/config/order-config.js?v=20261123-b21-steak-2"></script>
-  <script src="/config/menu-details.js?v=20261123-b21-menu-1"></script>
+  <script src="/config/order-config.js?v=20261124-b21-recipes-3"></script>
+  <script src="/config/menu-details.js?v=20261124-b21-recipes-3"></script>
   <script src="/sauce-program.js?v=20261109-sauce-policy-1"></script>
-  <script src="/order.js?v=20261123-b21-cookie-1"></script>
+  <script src="/order-nutrition.js?v=20261124-macro-1"></script>
+  <script src="/order.js?v=20261124-macro-1"></script>
 </body>
 </html>

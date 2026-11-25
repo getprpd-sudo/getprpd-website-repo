@@ -1036,6 +1036,12 @@ const ORDER_API_URL = '/api/order';
       document.getElementById('successSalesTax').textContent = '$' + salesTax.toFixed(2);
       document.getElementById('successTotal').textContent = '$' + roundedTotal.toFixed(2);
       document.getElementById('successStorageNote').hidden = !orderLines.some(({ dish }) => dish.laterWeek);
+      const nutrition = window.PRPD_ORDER_NUTRITION.summarizeOrder(orderLines, MENU);
+      const successNutrition = document.getElementById('successNutrition');
+      successNutrition.hidden = nutrition.mealCount + nutrition.extraCount === 0;
+      successNutrition.textContent = nutrition.mealCount + nutrition.extraCount
+        ? `${nutrition.mealCount} meals selected: ${nutrition.meals.cal} cal, ${nutrition.meals.protein}g protein, ${nutrition.meals.carbs}g carbs, ${nutrition.meals.fat}g fat. Average per meal: ${nutrition.average.cal} cal, ${nutrition.average.protein}g protein, ${nutrition.average.carbs}g carbs, ${nutrition.average.fat}g fat.${nutrition.extraCount ? ` ${nutrition.extraCount} snacks or desserts are counted separately.` : ''} Recipe estimates; optional sauce cups are separate.`
+        : '';
     }
 
     function changeQty(id, tier, delta) {
@@ -1076,6 +1082,20 @@ const ORDER_API_URL = '/api/order';
       const ordered = getOrderLines();
       const sauceQuote = sauceCreditSummary(ordered);
       const container = document.getElementById('summaryItems');
+      const nutrition = window.PRPD_ORDER_NUTRITION.summarizeOrder(ordered, MENU);
+      const nutritionPanel = document.getElementById('summaryNutrition');
+      nutritionPanel.hidden = nutrition.mealCount + nutrition.extraCount === 0;
+      document.getElementById('summaryNutritionMeals').textContent = `${nutrition.mealCount} ${nutrition.mealCount === 1 ? 'meal' : 'meals'}`;
+      document.getElementById('summaryNutritionCalories').textContent = nutrition.meals.cal.toLocaleString();
+      document.getElementById('summaryNutritionProtein').textContent = `${nutrition.meals.protein}g`;
+      document.getElementById('summaryNutritionCarbs').textContent = `${nutrition.meals.carbs}g`;
+      document.getElementById('summaryNutritionFat').textContent = `${nutrition.meals.fat}g`;
+      document.getElementById('summaryNutritionAverage').textContent = nutrition.mealCount
+        ? `Average per meal: ${nutrition.average.cal} cal · ${nutrition.average.protein}g protein · ${nutrition.average.carbs}g carbs · ${nutrition.average.fat}g fat`
+        : 'Add a meal to see average meal macros.';
+      const extrasSummary = document.getElementById('summaryNutritionExtras');
+      extrasSummary.hidden = nutrition.extraCount === 0;
+      extrasSummary.textContent = `${nutrition.extraCount} ${nutrition.extraCount === 1 ? 'snack or dessert' : 'snacks or desserts'}: ${nutrition.extras.cal} cal · ${nutrition.extras.protein}g protein · ${nutrition.extras.carbs}g carbs · ${nutrition.extras.fat}g fat`;
 
       if (ordered.length === 0) {
         container.innerHTML = '<p class="summary-empty">Add items from the menu.</p>';

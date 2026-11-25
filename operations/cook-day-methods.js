@@ -6154,7 +6154,10 @@
     ];
     sliders.cookPackSteps = sliders.steps;
     sliders.cookDayReservations = sliders.steps;
+  }
 
+  // These proven dessert and drink methods also apply to the unchanged Batch 21 builds.
+  if ([20, 21].includes(Number(data.batch))) {
     const cookie = data.meals.d1;
     cookie.phase = 4;
     cookie.order = 120;
@@ -6203,46 +6206,106 @@
   }
 
   if (Number(data.batch) === 21) {
+    const cloneForBarry = (sourceId, targetId, substitutions) => {
+      const source = data.meals[sourceId];
+      const target = data.meals[targetId];
+      if (!source || !target) return;
+      const change = value => {
+        if (typeof value === 'string') {
+          return substitutions.reduce((result, [from, to]) => result.replaceAll(from, to), value);
+        }
+        if (Array.isArray(value)) return value.map(change);
+        if (value && typeof value === 'object') {
+          return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, change(item)]));
+        }
+        return value;
+      };
+      const originalName = source.recipeName;
+      data.meals[targetId] = change(JSON.parse(JSON.stringify(source)));
+      data.meals[targetId].recipeName = target.recipeName;
+      data.meals[targetId].validation = target.validation;
+      data.meals[targetId].order = 200 + Number(targetId.slice(1));
+      data.meals[targetId].prepBatches.forEach(task => {
+        task.name = `Barry only: ${task.name}`;
+        task.steps = [`Keep the ${target.recipeName} allocation separate and labeled.`, ...(task.steps || [])];
+      });
+      data.meals[targetId].prepSteps = data.meals[targetId].prepBatches.map(task => task.instruction);
+      data.meals[targetId].steps.unshift(`Barry only: prepare and pack ${target.recipeName} separately from the standard ${originalName}. Check the purchased ingredient panels before production.`);
+      data.meals[targetId].cookPackSteps = data.meals[targetId].steps;
+      data.meals[targetId].cookDayReservations = data.meals[targetId].steps;
+      if (data.meals[targetId].proteinCook) data.meals[targetId].proteinCook.name = `${target.recipeName} protein`;
+    };
     const biryani = Object.values(data.meals).find(method => method.recipeName === 'Chicken Biryani');
     if (biryani) {
       biryani.prepBatches = biryani.prepBatches.filter(task => task.name !== 'Biryani garnish');
+      const marinade = biryani.prepBatches.find(task => task.name === 'Shan Biryani marinade');
+      if (marinade) {
+        marinade.ingredientKeys = marinade.ingredientKeys.map(key => key === 'fage' ? 'so_delicious_plain_yogurt' : key);
+        marinade.instruction = 'Coat the chicken with measured Shan mix, unsweetened dairy-free yogurt, lemon, garlic and ginger. Keep this raw-contact marinade separate from the clean green garlic sauce.';
+        marinade.steps[0] = marinade.instruction;
+      }
       biryani.prepSteps = biryani.prepBatches.map(task => task.instruction);
       biryani.steps = [
-        'Soften the measured onion in the assigned avocado oil. Add the chicken with all its Shan-yogurt marinade and the measured tomato; cook every chicken piece to 165 F.',
+        'Soften the measured onion in the assigned avocado oil. Add the chicken with all its Shan and dairy-free yogurt marinade and the measured tomato; cook every chicken piece to 165 F.',
         'Cook the separately staged basmati rice to three-quarters done, drain it, layer over the chicken masala, cover and steam until the rice is tender.',
-        'Record finished yield and divide by tier. Pack one separate, cold 30 g green garlic sauce cup per meal; no cilantro garnish or cucumber salad is in the current recipe.',
+        'Record finished yield and divide by tier. Pack one separate, cold 30 g green garlic sauce cup made with dairy-free yogurt per meal; no cilantro garnish or cucumber salad is in the current recipe.',
       ];
       biryani.cookPackSteps = biryani.steps;
       biryani.cookDayReservations = biryani.steps;
+      if (biryani.proteinCook) biryani.proteinCook.recipeSteps = biryani.steps;
+    }
+    const buffalo = data.meals.m3;
+    if (buffalo?.recipeName === 'Loaded Buffalo Chicken Potato') {
+      const seasoning = buffalo.prepBatches.find(task => task.name === 'Loaded Buffalo chicken seasoning');
+      if (seasoning) seasoning.ingredientKeys = seasoning.ingredientKeys.map(key => key === 'buffalo_sauce' ? 'franks_buffalo_wings' : key);
+      buffalo.steps[0] = 'Roast the chicken to 165 F, record the yield, and coat it with the measured Frank\'s Buffalo Wings Sauce.';
+      buffalo.cookPackSteps = buffalo.steps;
+      buffalo.cookDayReservations = buffalo.steps;
+      if (buffalo.proteinCook) buffalo.proteinCook.recipeSteps = [buffalo.steps[0]];
+    }
+    const pinwheels = data.meals.a1;
+    if (pinwheels?.recipeName === 'Buffalo Chicken Pinwheels') {
+      const filling = pinwheels.prepBatches.find(task => task.name === 'Buffalo filling base');
+      if (filling) filling.ingredientKeys = filling.ingredientKeys.map(key => key === 'buffalo_sauce' ? 'franks_buffalo_wings' : key);
+    }
+    cloneForBarry('b1', 'p4', [['mozzarella', 'daiya_mozzarella'], ['H-E-B fat-free daiya_mozzarella', 'Daiya dairy-free mozzarella']]);
+    cloneForBarry('m4', 'p5', [['mozzarella', 'daiya_mozzarella'], ['measured daiya_mozzarella', 'measured Daiya dairy-free mozzarella']]);
+    if (data.meals.p4) {
+      data.meals.p4.steps[5] = 'Bake the Barry-only pizza separately on the hot stone; check the crust and Daiya melt from 8 minutes onward and record the actual time. Do not assume the regular-cheese trial time applies.';
+      data.meals.p4.cookPackSteps = data.meals.p4.steps;
+      data.meals.p4.cookDayReservations = data.meals.p4.steps;
     }
     const butterChicken = Object.values(data.meals).find(method => method.recipeName === 'Butter Chicken');
     if (butterChicken) {
       const marinade = butterChicken.prepBatches.find(task => task.name === 'Shan Butter Chicken marinade');
       if (marinade) {
+        marinade.ingredientKeys = ['chicken_thigh_raw', 'shan_butter_chicken', 'fage', 'lemon', 'garlic', 'ginger', 'avocado_oil'];
         marinade.steps = [
-          'Reserve 15 g of the measured Greek yogurt per meal for the marinade; keep the remaining 30 g Lean or 45 g Bulk cold for the sauce finish.',
-          'Coat the exact raw thigh pull with the displayed Shan mix, lemon, garlic, ginger and marinade yogurt. The recipe allocates 5 g Shan Lean or 6.25 g Bulk, equal to 25 g per kg raw chicken.',
-          'Cover, label and refrigerate the chicken separately. Cook all raw-contact marinade with the chicken to 165 F.',
+          'Weigh 200 g raw chicken per Lean or 250 g per Bulk and keep it separate from the dairy-free Biryani chicken.',
+          'Coat the chicken with 10 g Shan mix and 15 g Greek yogurt Lean, or 12.5 g Shan mix and 20 g yogurt Bulk, plus the exact lemon, garlic and ginger. The yogurt is only for the marinade.',
+          'Keep the measured avocado oil separate for the sear. Cover, label, refrigerate, and cook all raw-contact marinade with the chicken to 165 F.',
         ];
         marinade.instruction = marinade.steps[0];
       }
       const sauce = butterChicken.prepBatches.find(task => task.name === 'Butter Chicken sauce');
       if (sauce) {
-        sauce.ingredientKeys = ['onion', 'tomato_paste', 'crushed_tomatoes', 'butter', 'paprika', 'cumin', 'coriander', 'turmeric', 'black_pepper', 'cayenne'];
+        sauce.ingredientKeys = ['crushed_tomatoes', 'butter', 'heavy_cream'];
         sauce.steps = [
-          'Brown the measured onion in the measured butter. Add tomato paste, crushed tomatoes and every displayed dry spice. The controlled recipe has no added water or broth.',
-          'Simmer and blend the sauce until smooth; record finished sauce yield. Keep the reserved yogurt cold and separate until the cooked-chicken finish.',
+          'Weigh 160 g crushed tomatoes, 8 g butter and 20 g heavy cream per Lean meal, or 200 g tomatoes, 10 g butter and 25 g cream per Bulk meal.',
+          'Reduce the tomatoes, then melt in the butter. Keep the cream cold and separate until the chicken is fully cooked; stir cream into the sauce off high heat.',
+          'Record the finished sauce yield. This recipe has no onion, tomato paste, extra spice mix, broth or unmeasured water.',
         ];
         sauce.instruction = sauce.steps[0];
       }
       butterChicken.prepSteps = butterChicken.prepBatches.map(task => task.instruction);
       butterChicken.steps = [
-        'Cook the separately marinated chicken and all its raw-contact marinade with the measured tomato sauce until every chicken piece reaches 165 F.',
-        'Record the finished chicken and sauce yield. Off high heat, stir in the reserved Greek yogurt until smooth; do not add water or broth.',
-        'Pack the exact tier chicken, sauce and basmati rice shares. Cool promptly and refrigerate.',
+        'Sear the separately marinated chicken in its measured oil. Add all raw-contact marinade and the measured crushed tomatoes; simmer until every chicken piece reaches 165 F.',
+        'Reduce the tomato sauce, melt in the measured butter, then turn off high heat and stir in the measured heavy cream. Do not add more Shan mix, salt, broth or water.',
+        'Record finished chicken, sauce and basmati rice yields separately. Pack by tier, cool promptly, refrigerate and test one 24-hour reheat before release.',
       ];
       butterChicken.cookPackSteps = butterChicken.steps;
       butterChicken.cookDayReservations = butterChicken.steps;
+      if (butterChicken.proteinCook) butterChicken.proteinCook.recipeSteps = butterChicken.steps;
     }
   }
 

@@ -998,14 +998,14 @@ const PRPD_PRODUCTION_DATA = {
               "confidence": "medium"
             },
             {
-              "key": "fage",
-              "sourceKey": "fage",
-              "name": "FAGE Total 0%",
+              "key": "so_delicious_plain_yogurt",
+              "sourceKey": "so_delicious_plain_yogurt",
+              "name": "So Delicious Unsweetened Plain Coconutmilk Yogurt Alternative",
               "amount": 50.5479,
               "unit": "g",
               "station": "Sauces & Dairy",
               "note": "component:green-garlic",
-              "confidence": "high",
+              "confidence": "planning",
               "allocations": {
                 "green-garlic": 20.5479
               }
@@ -1121,13 +1121,14 @@ const PRPD_PRODUCTION_DATA = {
               }
             }
           ],
-          "confidence": "medium",
+          "confidence": "planning",
           "assumptions": [
             "Owner confirmed Shan standard Biryani powder. Manufacturer reference: one 50g packet per 1kg meat. PRPD adapts that dose to boneless thighs and its existing lower-rice portions, not the full packet recipe.",
             "Weigh 10g mix for Lean / 15g Bulk. No separate added salt; the mix already contains salt. Check the actual purchased packet variant and nutrition panel.",
             "All 30g yogurt per meal and all masala enter the cooking pot and nutrition calculation. Do not scrape off or assume an unmeasured 75% marinade loss.",
             "The discontinued cucumber salad is excluded from production and nutrition.",
-            "Serve 30g green jalapeno garlic sauce with mayonnaise cold, separately from the cooked marinade. Its full nutrition is included."
+            "Serve 30g green jalapeno garlic sauce with mayonnaise cold, separately from the cooked marinade. Its full nutrition is included.",
+            "For every Batch 21 Biryani, use unsweetened plain dairy-free yogurt in both the cooked chicken marinade and the separate 30g green garlic sauce. Keep the two components identified and test the finished flavor before release."
           ]
         },
         "bulk": {
@@ -1156,14 +1157,14 @@ const PRPD_PRODUCTION_DATA = {
               "confidence": "medium"
             },
             {
-              "key": "fage",
-              "sourceKey": "fage",
-              "name": "FAGE Total 0%",
+              "key": "so_delicious_plain_yogurt",
+              "sourceKey": "so_delicious_plain_yogurt",
+              "name": "So Delicious Unsweetened Plain Coconutmilk Yogurt Alternative",
               "amount": 50.5479,
               "unit": "g",
               "station": "Sauces & Dairy",
               "note": "component:green-garlic",
-              "confidence": "high",
+              "confidence": "planning",
               "allocations": {
                 "green-garlic": 20.5479
               }
@@ -1279,13 +1280,14 @@ const PRPD_PRODUCTION_DATA = {
               }
             }
           ],
-          "confidence": "medium",
+          "confidence": "planning",
           "assumptions": [
             "Owner confirmed Shan standard Biryani powder. Manufacturer reference: one 50g packet per 1kg meat. PRPD adapts that dose to boneless thighs and its existing lower-rice portions, not the full packet recipe.",
             "Weigh 10g mix for Lean / 15g Bulk. No separate added salt; the mix already contains salt. Check the actual purchased packet variant and nutrition panel.",
             "All 30g yogurt per meal and all masala enter the cooking pot and nutrition calculation. Do not scrape off or assume an unmeasured 75% marinade loss.",
             "The discontinued cucumber salad is excluded from production and nutrition.",
-            "Serve 30g green jalapeno garlic sauce with mayonnaise cold, separately from the cooked marinade. Its full nutrition is included."
+            "Serve 30g green jalapeno garlic sauce with mayonnaise cold, separately from the cooked marinade. Its full nutrition is included.",
+            "For every Batch 21 Biryani, use unsweetened plain dairy-free yogurt in both the cooked chicken marinade and the separate 30g green garlic sauce. Keep the two components identified and test the finished flavor before release."
           ]
         }
       },
@@ -1300,7 +1302,8 @@ const PRPD_PRODUCTION_DATA = {
             "gramsPerMeal": 30
           }
         ]
-      }
+      },
+      "productionHold": "Verify the purchased dairy-free yogurt and Shan packet, then test the chicken marinade and separate green sauce before final label release."
     },
     "m2": {
       "name": "Butter Chicken",
@@ -1335,60 +1338,64 @@ const PRPD_PRODUCTION_DATA = {
               "confidence": "medium"
             },
             {
-              "key": "onion",
-              "sourceKey": "onion",
-              "name": "Onion, raw",
-              "amount": 50,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "tomato_paste",
-              "sourceKey": "tomato_paste",
-              "name": "Tomato paste",
-              "amount": 10,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "",
-              "confidence": "high"
-            },
-            {
               "key": "crushed_tomatoes",
               "sourceKey": "crushed_tomatoes",
               "name": "Canned crushed tomatoes",
-              "amount": 130,
+              "amount": 160,
               "unit": "g",
               "station": "Sauces & Dairy",
               "note": "",
               "confidence": "medium"
             },
             {
-              "key": "butter",
-              "sourceKey": "butter",
-              "name": "Butter",
-              "amount": 5,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "",
-              "confidence": "high"
-            },
-            {
               "key": "fage",
               "sourceKey": "fage",
               "name": "FAGE Total 0%",
-              "amount": 45,
+              "amount": 15,
               "unit": "g",
               "station": "Sauces & Dairy",
-              "note": "",
+              "note": "chicken marinade only",
               "confidence": "high"
+            },
+            {
+              "key": "butter",
+              "sourceKey": "butter",
+              "name": "Butter",
+              "amount": 8,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "tomato sauce finish",
+              "confidence": "high"
+            },
+            {
+              "key": "heavy_cream",
+              "sourceKey": "heavy_cream",
+              "name": "Great Value Heavy Whipping Cream",
+              "amount": 20,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "stir in off heat",
+              "confidence": "planning"
+            },
+            {
+              "key": "avocado_oil",
+              "sourceKey": "avocado_oil",
+              "name": "Avocado oil",
+              "amount": 2,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "chicken sear",
+              "confidence": "medium",
+              "measure": {
+                "type": "liquid",
+                "density": 0.91
+              }
             },
             {
               "key": "lemon",
               "sourceKey": "lemon",
               "name": "Bottled lemon juice",
-              "amount": 3.75,
+              "amount": 4,
               "unit": "g",
               "station": "Cold Prep & Produce",
               "note": "",
@@ -1422,7 +1429,7 @@ const PRPD_PRODUCTION_DATA = {
               "key": "shan_butter_chicken",
               "sourceKey": "shan_butter_chicken",
               "name": "Shan Butter Chicken Recipe Mix (powder)",
-              "amount": 5.0,
+              "amount": 10.0,
               "unit": "g",
               "station": "Dry Prep & Seasonings",
               "note": "",
@@ -1431,99 +1438,14 @@ const PRPD_PRODUCTION_DATA = {
                 "type": "packet",
                 "gramsPerPacket": 50.0
               }
-            },
-            {
-              "key": "paprika",
-              "sourceKey": "paprika",
-              "name": "Paprika",
-              "amount": 0.8,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "high",
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 2.3
-              }
-            },
-            {
-              "key": "cumin",
-              "sourceKey": "cumin",
-              "name": "Ground cumin",
-              "amount": 0.6,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "high",
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 2.1
-              }
-            },
-            {
-              "key": "coriander",
-              "sourceKey": "coriander",
-              "name": "Ground coriander",
-              "amount": 0.4,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "high",
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 1.8
-              }
-            },
-            {
-              "key": "turmeric",
-              "sourceKey": "turmeric",
-              "name": "Ground turmeric",
-              "amount": 0.2,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "medium",
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 3.0
-              }
-            },
-            {
-              "key": "black_pepper",
-              "sourceKey": "black_pepper",
-              "name": "Ground black pepper",
-              "amount": 0.2,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "high",
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 2.3
-              }
-            },
-            {
-              "key": "cayenne",
-              "sourceKey": "cayenne",
-              "name": "Ground cayenne",
-              "amount": 0.1,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "medium",
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 1.8
-              }
             }
           ],
-          "confidence": "medium",
+          "confidence": "planning",
           "assumptions": [
-            "Owner corrected the raw chicken portion to 200g Lean and 250g Bulk on October 21, 2026 after prior production left excess chicken that did not fit the intended meal balance.",
-            "Use canned crushed tomatoes for a consistent tomato-forward sauce. Broth and recipe water are excluded; loosen only with a measured splash during production if the recorded pan needs it.",
-            "Use 25g Shan Butter Chicken powder per 1kg raw chicken, split 15g/kg into the marinade and 10g/kg into the browned onion sauce. Add the measured salt-free paprika, cumin, coriander, turmeric, black pepper and cayenne to the sauce. Add no salt.",
-            "Use 15g yogurt per meal in the marinade and reserve 30g/45g for the Lean/Bulk sauce finish. Brown onion, bloom the sauce spices, brown the small tomato-paste amount, add crushed tomatoes, simmer, then blend completely smooth before the off-heat yogurt finish.",
-            "Record finished sauce and chicken yield before final labels."
+            "Batch 21 Shan-inspired butter chicken: yogurt is limited to the chicken marinade; the cooked tomato sauce is finished with measured unsalted butter and heavy cream.",
+            "Use 50g Shan Butter Chicken powder per kg raw chicken, following the manufacturer's packet ratio. Do not add the former onion, tomato paste, extra dry spices, extra salt, broth or recipe water.",
+            "Marinate chicken with Shan mix, 15g/20g yogurt, lemon, garlic and ginger. Sear in the measured oil; simmer with crushed tomatoes to 165F. Melt butter into the reduced tomato sauce, then stir cream in off heat.",
+            "Weigh sauce and chicken after cooking and check 24-hour reheat before approving net weights and labels. The manufacturer uses much more butter; PRPD intentionally measures a smaller portion for macro control."
           ]
         },
         "bulk": {
@@ -1552,54 +1474,58 @@ const PRPD_PRODUCTION_DATA = {
               "confidence": "medium"
             },
             {
-              "key": "onion",
-              "sourceKey": "onion",
-              "name": "Onion, raw",
-              "amount": 70,
-              "unit": "g",
-              "station": "Cold Prep & Produce",
-              "note": "",
-              "confidence": "high"
-            },
-            {
-              "key": "tomato_paste",
-              "sourceKey": "tomato_paste",
-              "name": "Tomato paste",
-              "amount": 15,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "",
-              "confidence": "high"
-            },
-            {
               "key": "crushed_tomatoes",
               "sourceKey": "crushed_tomatoes",
               "name": "Canned crushed tomatoes",
-              "amount": 190,
+              "amount": 200,
               "unit": "g",
               "station": "Sauces & Dairy",
               "note": "",
               "confidence": "medium"
             },
             {
-              "key": "butter",
-              "sourceKey": "butter",
-              "name": "Butter",
-              "amount": 7,
-              "unit": "g",
-              "station": "Sauces & Dairy",
-              "note": "",
-              "confidence": "high"
-            },
-            {
               "key": "fage",
               "sourceKey": "fage",
               "name": "FAGE Total 0%",
-              "amount": 60,
+              "amount": 20,
               "unit": "g",
               "station": "Sauces & Dairy",
-              "note": "",
+              "note": "chicken marinade only",
               "confidence": "high"
+            },
+            {
+              "key": "butter",
+              "sourceKey": "butter",
+              "name": "Butter",
+              "amount": 10,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "tomato sauce finish",
+              "confidence": "high"
+            },
+            {
+              "key": "heavy_cream",
+              "sourceKey": "heavy_cream",
+              "name": "Great Value Heavy Whipping Cream",
+              "amount": 25,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "stir in off heat",
+              "confidence": "planning"
+            },
+            {
+              "key": "avocado_oil",
+              "sourceKey": "avocado_oil",
+              "name": "Avocado oil",
+              "amount": 2.5,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "chicken sear",
+              "confidence": "medium",
+              "measure": {
+                "type": "liquid",
+                "density": 0.91
+              }
             },
             {
               "key": "lemon",
@@ -1639,7 +1565,7 @@ const PRPD_PRODUCTION_DATA = {
               "key": "shan_butter_chicken",
               "sourceKey": "shan_butter_chicken",
               "name": "Shan Butter Chicken Recipe Mix (powder)",
-              "amount": 6.25,
+              "amount": 12.5,
               "unit": "g",
               "station": "Dry Prep & Seasonings",
               "note": "",
@@ -1648,103 +1574,19 @@ const PRPD_PRODUCTION_DATA = {
                 "type": "packet",
                 "gramsPerPacket": 50.0
               }
-            },
-            {
-              "key": "paprika",
-              "sourceKey": "paprika",
-              "name": "Paprika",
-              "amount": 1.0,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "high",
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 2.3
-              }
-            },
-            {
-              "key": "cumin",
-              "sourceKey": "cumin",
-              "name": "Ground cumin",
-              "amount": 0.75,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "high",
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 2.1
-              }
-            },
-            {
-              "key": "coriander",
-              "sourceKey": "coriander",
-              "name": "Ground coriander",
-              "amount": 0.5,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "high",
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 1.8
-              }
-            },
-            {
-              "key": "turmeric",
-              "sourceKey": "turmeric",
-              "name": "Ground turmeric",
-              "amount": 0.25,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "medium",
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 3.0
-              }
-            },
-            {
-              "key": "black_pepper",
-              "sourceKey": "black_pepper",
-              "name": "Ground black pepper",
-              "amount": 0.25,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "high",
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 2.3
-              }
-            },
-            {
-              "key": "cayenne",
-              "sourceKey": "cayenne",
-              "name": "Ground cayenne",
-              "amount": 0.125,
-              "unit": "g",
-              "station": "Dry Prep & Seasonings",
-              "note": "",
-              "confidence": "medium",
-              "measure": {
-                "type": "spice",
-                "gramsPerTsp": 1.8
-              }
             }
           ],
-          "confidence": "medium",
+          "confidence": "planning",
           "assumptions": [
-            "Owner corrected the raw chicken portion to 200g Lean and 250g Bulk on October 21, 2026 after prior production left excess chicken that did not fit the intended meal balance.",
-            "Use canned crushed tomatoes for a consistent tomato-forward sauce. Broth and recipe water are excluded; loosen only with a measured splash during production if the recorded pan needs it.",
-            "Use 25g Shan Butter Chicken powder per 1kg raw chicken, split 15g/kg into the marinade and 10g/kg into the browned onion sauce. Add the measured salt-free paprika, cumin, coriander, turmeric, black pepper and cayenne to the sauce. Add no salt.",
-            "Use 15g yogurt per meal in the marinade and reserve 30g/45g for the Lean/Bulk sauce finish. Brown onion, bloom the sauce spices, brown the small tomato-paste amount, add crushed tomatoes, simmer, then blend completely smooth before the off-heat yogurt finish.",
-            "Record finished sauce and chicken yield before final labels."
+            "Batch 21 Shan-inspired butter chicken: yogurt is limited to the chicken marinade; the cooked tomato sauce is finished with measured unsalted butter and heavy cream.",
+            "Use 50g Shan Butter Chicken powder per kg raw chicken, following the manufacturer's packet ratio. Do not add the former onion, tomato paste, extra dry spices, extra salt, broth or recipe water.",
+            "Marinate chicken with Shan mix, 15g/20g yogurt, lemon, garlic and ginger. Sear in the measured oil; simmer with crushed tomatoes to 165F. Melt butter into the reduced tomato sauce, then stir cream in off heat.",
+            "Weigh sauce and chicken after cooking and check 24-hour reheat before approving net weights and labels. The manufacturer uses much more butter; PRPD intentionally measures a smaller portion for macro control."
           ]
         }
       },
-      "plannerOnly": false
+      "plannerOnly": false,
+      "productionHold": "New butter-and-cream sauce is a measured planning recipe. Verify the purchased cream, Shan mix and butter panels, then taste-test and record cooked chicken, sauce and rice yields before final label release."
     },
     "m3": {
       "name": "Loaded Buffalo Chicken Potato",
@@ -1789,20 +1631,16 @@ const PRPD_PRODUCTION_DATA = {
               "confidence": "high"
             },
             {
-              "key": "buffalo_sauce",
-              "sourceKey": "buffalo_sauce",
-              "name": "Sweet Baby Ray's Mild Buffalo Wing Sauce",
+              "key": "franks_buffalo_wings",
+              "sourceKey": "franks_buffalo_wings",
+              "name": "Frank's RedHot Buffalo Wings Sauce",
               "amount": 15,
               "unit": "g",
               "station": "Sauces & Dairy",
               "note": "component:reduced-sodium-buffalo-finish",
-              "confidence": "medium",
+              "confidence": "planning",
               "allocations": {
                 "reduced-sodium-buffalo-finish": 15
-              },
-              "measure": {
-                "type": "liquid",
-                "density": 1.05
               }
             },
             {
@@ -1899,13 +1737,14 @@ const PRPD_PRODUCTION_DATA = {
               }
             }
           ],
-          "confidence": "medium",
+          "confidence": "planning",
           "assumptions": [
             "October 22 owner correction: allocate 200g raw chicken before cooking; record the actual cooked yield.",
             "The potato allocation is reduced from 300g to 200g per meal after the Batch 6 overproduction report.",
             "Potato is a translated starch and retains its recipe-specific input until its cooked yield is measured.",
             "Use a 30g Lean / 40g Bulk incorporated finish made with 15g/20g Buffalo sauce, water, apple-cider vinegar, garlic and paprika. Add no salt to the chicken or Buffalo finish.",
-            "October 22 owner correction: season the complete shared potato-and-broccoli roast with the measured salt, garlic powder, and paprika before dividing it between Egg Bites and Loaded Buffalo."
+            "October 22 owner correction: season the complete shared potato-and-broccoli roast with the measured salt, garlic powder, and paprika before dividing it between Egg Bites and Loaded Buffalo.",
+            "For every Batch 21 Buffalo Chicken Potato, use the purchased Frank's Buffalo Wings Sauce in the same measured incorporated finish. No dairy sauce is added."
           ]
         },
         "bulk": {
@@ -1944,20 +1783,16 @@ const PRPD_PRODUCTION_DATA = {
               "confidence": "high"
             },
             {
-              "key": "buffalo_sauce",
-              "sourceKey": "buffalo_sauce",
-              "name": "Sweet Baby Ray's Mild Buffalo Wing Sauce",
+              "key": "franks_buffalo_wings",
+              "sourceKey": "franks_buffalo_wings",
+              "name": "Frank's RedHot Buffalo Wings Sauce",
               "amount": 20,
               "unit": "g",
               "station": "Sauces & Dairy",
               "note": "component:reduced-sodium-buffalo-finish",
-              "confidence": "medium",
+              "confidence": "planning",
               "allocations": {
                 "reduced-sodium-buffalo-finish": 20
-              },
-              "measure": {
-                "type": "liquid",
-                "density": 1.05
               }
             },
             {
@@ -2054,17 +1889,19 @@ const PRPD_PRODUCTION_DATA = {
               }
             }
           ],
-          "confidence": "medium",
+          "confidence": "planning",
           "assumptions": [
             "October 22 owner correction: allocate 250g raw chicken before cooking; record the actual cooked yield.",
             "The potato allocation is reduced from 300g to 200g per meal after the Batch 6 overproduction report.",
             "Potato is a translated starch and retains its recipe-specific input until its cooked yield is measured.",
             "Use a 30g Lean / 40g Bulk incorporated finish made with 15g/20g Buffalo sauce, water, apple-cider vinegar, garlic and paprika. Add no salt to the chicken or Buffalo finish.",
-            "October 22 owner correction: season the complete shared potato-and-broccoli roast with the measured salt, garlic powder, and paprika before dividing it between Egg Bites and Loaded Buffalo."
+            "October 22 owner correction: season the complete shared potato-and-broccoli roast with the measured salt, garlic powder, and paprika before dividing it between Egg Bites and Loaded Buffalo.",
+            "For every Batch 21 Buffalo Chicken Potato, use the purchased Frank's Buffalo Wings Sauce in the same measured incorporated finish. No dairy sauce is added."
           ]
         }
       },
-      "plannerOnly": false
+      "plannerOnly": false,
+      "productionHold": "Verify the purchased Frank's Buffalo bottle and the revised finished sauce portion before final label release."
     },
     "m4": {
       "name": "Meatball Arrabbiata Pasta",
@@ -3607,7 +3444,8 @@ const PRPD_PRODUCTION_DATA = {
           ]
         }
       },
-      "plannerOnly": false
+      "plannerOnly": false,
+      "productionHold": "Verify the purchased semisweet chocolate chip ingredient and allergen panel, then weigh the cooled baked cookie before final label release."
     },
     "a1": {
       "name": "Buffalo Chicken Pinwheels",
@@ -3730,18 +3568,14 @@ const PRPD_PRODUCTION_DATA = {
               "confidence": "high"
             },
             {
-              "key": "buffalo_sauce",
-              "sourceKey": "buffalo_sauce",
-              "name": "Sweet Baby Ray's Mild Buffalo Wing Sauce",
+              "key": "franks_buffalo_wings",
+              "sourceKey": "franks_buffalo_wings",
+              "name": "Frank's RedHot Buffalo Wings Sauce",
               "amount": 5,
               "unit": "g",
               "station": "Sauces & Dairy",
               "note": "",
-              "confidence": "medium",
-              "measure": {
-                "type": "liquid",
-                "density": 1.05
-              }
+              "confidence": "planning"
             },
             {
               "key": "apple_cider_vinegar",
@@ -3798,15 +3632,17 @@ const PRPD_PRODUCTION_DATA = {
               }
             }
           ],
-          "confidence": "medium",
+          "confidence": "planning",
           "assumptions": [
             "One chilled Grab & Go order uses one 70-calorie Mission Carb Balance medium flour tortilla, rolled tightly and sliced into four pinwheel pieces.",
             "Cool chicken fully before assembly; record pinwheel count, 12 oz box fit, and 72-hour hold quality.",
-            "Use Sweet Baby Ray's Mild Buffalo Wing Sauce. Add no chicken salt and use a 10g incorporated finish made from 5g sauce, 2g apple-cider vinegar and 3g water."
+            "Use Sweet Baby Ray's Mild Buffalo Wing Sauce. Add no chicken salt and use a 10g incorporated finish made from 5g sauce, 2g apple-cider vinegar and 3g water.",
+            "Use the same Frank's Buffalo Wings Sauce as the potato. Pinwheels still contain milk from cream cheese and mozzarella."
           ]
         }
       },
-      "plannerOnly": false
+      "plannerOnly": false,
+      "productionHold": "Verify the purchased Frank's Buffalo bottle and the pinwheel's dairy-containing cheese and cream-cheese panels before final label release."
     },
     "a2": {
       "name": "Oven-Baked Popcorn Chicken",
@@ -4045,7 +3881,8 @@ const PRPD_PRODUCTION_DATA = {
           ]
         }
       },
-      "plannerOnly": false
+      "plannerOnly": false,
+      "productionHold": "Verify the purchased Deep Alphonso pulp, FAGE yogurt and Fairlife milk ingredient and allergen panels, and the actual 330 g bottle fill before final label release."
     },
     "a3": {
       "name": "Mediterranean Chicken Hummus Box",
@@ -4552,6 +4389,7 @@ const PRPD_PRODUCTION_DATA = {
           }
         ]
       },
+      "productionHold": "Verify the purchased Shan Seekh mix, mayonnaise, ketchup and sriracha ingredient and allergen panels, then confirm the complete packed serving weight before final label release.",
       "qualityChecks": "Preserve Nouman's successful five-log actual-96/4 house formula with drained onion and jalapeno mixed into the beef. Pack the kachumber separately."
     },
     "p2": {
@@ -5081,6 +4919,700 @@ const PRPD_PRODUCTION_DATA = {
           }
         ]
       }
+    },
+    "p4": {
+      "name": "Private Dairy-Free Breakfast Pizza",
+      "category": "Internal custom meal",
+      "aliases": [],
+      "status": "Batch 21 controlled planning recipe",
+      "recommendation": "Confirm actual purchased panels and measured yields.",
+      "tiers": {
+        "lean": {
+          "ingredients": [
+            {
+              "key": "flour",
+              "sourceKey": "flour",
+              "name": "All-purpose flour",
+              "amount": 62.2223,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "component:pizza-dough; component:pizza-dough-spare",
+              "confidence": "high",
+              "allocations": {
+                "pizza-dough": 59.5745,
+                "pizza-dough-spare": 2.6478
+              }
+            },
+            {
+              "key": "water",
+              "sourceKey": "water",
+              "name": "Water",
+              "amount": 37.7778,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "component:pizza-dough; component:pizza-dough-spare",
+              "confidence": "high",
+              "allocations": {
+                "pizza-dough": 36.1702,
+                "pizza-dough-spare": 1.6076
+              }
+            },
+            {
+              "key": "instant_yeast",
+              "sourceKey": "instant_yeast",
+              "name": "Instant baker's yeast",
+              "amount": 0.8889,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "component:pizza-dough; component:pizza-dough-spare",
+              "confidence": "low",
+              "allocations": {
+                "pizza-dough": 0.8511,
+                "pizza-dough-spare": 0.0378
+              }
+            },
+            {
+              "key": "salt",
+              "sourceKey": "salt",
+              "name": "Table salt",
+              "amount": 1.3333,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "component:pizza-dough; component:pizza-dough-spare",
+              "confidence": "high",
+              "allocations": {
+                "pizza-dough": 1.2766,
+                "pizza-dough-spare": 0.0567
+              },
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 6.0
+              }
+            },
+            {
+              "key": "olive_oil",
+              "sourceKey": "olive_oil",
+              "name": "Olive oil",
+              "amount": 2.7223,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "component:pizza-dough; component:pizza-dough-spare; component:pizza-house-sauce",
+              "confidence": "medium",
+              "allocations": {
+                "pizza-dough": 2.1277,
+                "pizza-dough-spare": 0.0946,
+                "pizza-house-sauce": 0.5
+              },
+              "measure": {
+                "type": "liquid",
+                "density": 0.91
+              }
+            },
+            {
+              "key": "egg",
+              "sourceKey": "egg",
+              "name": "Whole egg",
+              "amount": 0.45,
+              "unit": "each",
+              "station": "Breakfast & Desserts",
+              "note": "component:pizza-eggs",
+              "confidence": "high",
+              "allocations": {
+                "pizza-eggs": 0.45
+              }
+            },
+            {
+              "key": "egg_white",
+              "sourceKey": "egg_white",
+              "name": "Liquid egg white",
+              "amount": 80,
+              "unit": "g",
+              "station": "Breakfast & Desserts",
+              "note": "component:pizza-eggs",
+              "confidence": "high",
+              "allocations": {
+                "pizza-eggs": 80
+              }
+            },
+            {
+              "key": "green_bell_pepper",
+              "sourceKey": "green_bell_pepper",
+              "name": "Green bell pepper, raw",
+              "amount": 15,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "component:pizza-vegetables",
+              "confidence": "controlled-comparable-profile",
+              "allocations": {
+                "pizza-vegetables": 15
+              }
+            },
+            {
+              "key": "onion",
+              "sourceKey": "onion",
+              "name": "Onion, raw",
+              "amount": 15,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "component:pizza-vegetables",
+              "confidence": "high",
+              "allocations": {
+                "pizza-vegetables": 15
+              }
+            },
+            {
+              "key": "crushed_tomatoes",
+              "sourceKey": "crushed_tomatoes",
+              "name": "Canned crushed tomatoes",
+              "amount": 15,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "component:pizza-house-sauce",
+              "confidence": "medium",
+              "allocations": {
+                "pizza-house-sauce": 15
+              }
+            },
+            {
+              "key": "garlic",
+              "sourceKey": "garlic",
+              "name": "Garlic, raw",
+              "amount": 0.5,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "component:pizza-house-sauce",
+              "confidence": "high",
+              "allocations": {
+                "pizza-house-sauce": 0.5
+              }
+            },
+            {
+              "key": "italian_seasoning",
+              "sourceKey": "italian_seasoning",
+              "name": "Italian seasoning",
+              "amount": 0.2,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "component:pizza-house-sauce",
+              "confidence": "medium",
+              "allocations": {
+                "pizza-house-sauce": 0.2
+              }
+            },
+            {
+              "key": "red_chili_flakes",
+              "sourceKey": "red_chili_flakes",
+              "name": "Crushed red chili flakes",
+              "amount": 0.1,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "component:pizza-house-sauce",
+              "confidence": "planning",
+              "allocations": {
+                "pizza-house-sauce": 0.1
+              }
+            },
+            {
+              "key": "daiya_mozzarella",
+              "sourceKey": "daiya_mozzarella",
+              "name": "Daiya Dairy-Free Mozzarella Shreds",
+              "amount": 30,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "planning"
+            },
+            {
+              "key": "sharifa_beef_bacon",
+              "sourceKey": "sharifa_beef_bacon",
+              "name": "Sharifa Halal beef bacon, as packaged",
+              "amount": 50,
+              "unit": "g",
+              "station": "Beef",
+              "note": "",
+              "confidence": "medium"
+            }
+          ],
+          "confidence": "planning",
+          "assumptions": [
+            "Shape one 100 g raw dough rectangle for this Lean meal; no cut after baking.",
+            "The full 235 g dough batch makes one 100 g Lean and one 125 g Bulk rectangle; the unserved 10 g is included in purchasing but excluded from served nutrition.",
+            "The one-medium-egg plus 175 g whites pair is a planning basis. Lean uses an estimated 45% of the egg and 80 g whites; Bulk 55% and 95 g. Record actual cooked egg allocations on Cook Day.",
+            "Use only H-E-B fat-free mozzarella: 30 g Lean or 58 g Bulk. Use 50 g or 60 g Sharifa bacon by raw package weight, cook it before topping, then add crisp bits after baking.",
+            "Each pizza gets 30 g peppers/onion and 15 g finished house tomato sauce. Sauce input and olive-oil yield remain estimates; record the finished sauce batch and actual portion weight.",
+            "Bake on a preheated 425 F stone on the second-lowest rack. The owner's ground-beef placeholder trial finished in 9\u201310 minutes; customer production uses Sharifa bacon.",
+            "Barry-only pizza: substitute Daiya dairy-free mozzarella gram for gram. This lowers protein versus milk mozzarella. Bake separately and verify egg set, melt, fit and reheat. The standard Breakfast Pizza keeps dairy mozzarella."
+          ]
+        },
+        "bulk": {
+          "ingredients": [
+            {
+              "key": "flour",
+              "sourceKey": "flour",
+              "name": "All-purpose flour",
+              "amount": 77.7778,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "component:pizza-dough; component:pizza-dough-spare",
+              "confidence": "high",
+              "allocations": {
+                "pizza-dough": 74.4681,
+                "pizza-dough-spare": 3.3097
+              }
+            },
+            {
+              "key": "water",
+              "sourceKey": "water",
+              "name": "Water",
+              "amount": 47.2223,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "component:pizza-dough; component:pizza-dough-spare",
+              "confidence": "high",
+              "allocations": {
+                "pizza-dough": 45.2128,
+                "pizza-dough-spare": 2.0095
+              }
+            },
+            {
+              "key": "instant_yeast",
+              "sourceKey": "instant_yeast",
+              "name": "Instant baker's yeast",
+              "amount": 1.1111,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "component:pizza-dough; component:pizza-dough-spare",
+              "confidence": "low",
+              "allocations": {
+                "pizza-dough": 1.0638,
+                "pizza-dough-spare": 0.0473
+              }
+            },
+            {
+              "key": "salt",
+              "sourceKey": "salt",
+              "name": "Table salt",
+              "amount": 1.6666,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "component:pizza-dough; component:pizza-dough-spare",
+              "confidence": "high",
+              "allocations": {
+                "pizza-dough": 1.5957,
+                "pizza-dough-spare": 0.0709
+              },
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 6.0
+              }
+            },
+            {
+              "key": "olive_oil",
+              "sourceKey": "olive_oil",
+              "name": "Olive oil",
+              "amount": 3.2778,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "component:pizza-dough; component:pizza-dough-spare; component:pizza-house-sauce",
+              "confidence": "medium",
+              "allocations": {
+                "pizza-dough": 2.6596,
+                "pizza-dough-spare": 0.1182,
+                "pizza-house-sauce": 0.5
+              },
+              "measure": {
+                "type": "liquid",
+                "density": 0.91
+              }
+            },
+            {
+              "key": "egg",
+              "sourceKey": "egg",
+              "name": "Whole egg",
+              "amount": 0.55,
+              "unit": "each",
+              "station": "Breakfast & Desserts",
+              "note": "component:pizza-eggs",
+              "confidence": "high",
+              "allocations": {
+                "pizza-eggs": 0.55
+              }
+            },
+            {
+              "key": "egg_white",
+              "sourceKey": "egg_white",
+              "name": "Liquid egg white",
+              "amount": 95,
+              "unit": "g",
+              "station": "Breakfast & Desserts",
+              "note": "component:pizza-eggs",
+              "confidence": "high",
+              "allocations": {
+                "pizza-eggs": 95
+              }
+            },
+            {
+              "key": "green_bell_pepper",
+              "sourceKey": "green_bell_pepper",
+              "name": "Green bell pepper, raw",
+              "amount": 15,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "component:pizza-vegetables",
+              "confidence": "controlled-comparable-profile",
+              "allocations": {
+                "pizza-vegetables": 15
+              }
+            },
+            {
+              "key": "onion",
+              "sourceKey": "onion",
+              "name": "Onion, raw",
+              "amount": 15,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "component:pizza-vegetables",
+              "confidence": "high",
+              "allocations": {
+                "pizza-vegetables": 15
+              }
+            },
+            {
+              "key": "crushed_tomatoes",
+              "sourceKey": "crushed_tomatoes",
+              "name": "Canned crushed tomatoes",
+              "amount": 15,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "component:pizza-house-sauce",
+              "confidence": "medium",
+              "allocations": {
+                "pizza-house-sauce": 15
+              }
+            },
+            {
+              "key": "garlic",
+              "sourceKey": "garlic",
+              "name": "Garlic, raw",
+              "amount": 0.5,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "component:pizza-house-sauce",
+              "confidence": "high",
+              "allocations": {
+                "pizza-house-sauce": 0.5
+              }
+            },
+            {
+              "key": "italian_seasoning",
+              "sourceKey": "italian_seasoning",
+              "name": "Italian seasoning",
+              "amount": 0.2,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "component:pizza-house-sauce",
+              "confidence": "medium",
+              "allocations": {
+                "pizza-house-sauce": 0.2
+              }
+            },
+            {
+              "key": "red_chili_flakes",
+              "sourceKey": "red_chili_flakes",
+              "name": "Crushed red chili flakes",
+              "amount": 0.1,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "component:pizza-house-sauce",
+              "confidence": "planning",
+              "allocations": {
+                "pizza-house-sauce": 0.1
+              }
+            },
+            {
+              "key": "daiya_mozzarella",
+              "sourceKey": "daiya_mozzarella",
+              "name": "Daiya Dairy-Free Mozzarella Shreds",
+              "amount": 58,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "planning"
+            },
+            {
+              "key": "sharifa_beef_bacon",
+              "sourceKey": "sharifa_beef_bacon",
+              "name": "Sharifa Halal beef bacon, as packaged",
+              "amount": 60,
+              "unit": "g",
+              "station": "Beef",
+              "note": "",
+              "confidence": "medium"
+            }
+          ],
+          "confidence": "planning",
+          "assumptions": [
+            "Shape one 125 g raw dough rectangle for this Bulk meal; no cut after baking.",
+            "The full 235 g dough batch makes one 100 g Lean and one 125 g Bulk rectangle; the unserved 10 g is included in purchasing but excluded from served nutrition.",
+            "The one-medium-egg plus 175 g whites pair is a planning basis. Lean uses an estimated 45% of the egg and 80 g whites; Bulk 55% and 95 g. Record actual cooked egg allocations on Cook Day.",
+            "Use only H-E-B fat-free mozzarella: 30 g Lean or 58 g Bulk. Use 50 g or 60 g Sharifa bacon by raw package weight, cook it before topping, then add crisp bits after baking.",
+            "Each pizza gets 30 g peppers/onion and 15 g finished house tomato sauce. Sauce input and olive-oil yield remain estimates; record the finished sauce batch and actual portion weight.",
+            "Bake on a preheated 425 F stone on the second-lowest rack. The owner's ground-beef placeholder trial finished in 9\u201310 minutes; customer production uses Sharifa bacon.",
+            "Barry-only pizza: substitute Daiya dairy-free mozzarella gram for gram. This lowers protein versus milk mozzarella. Bake separately and verify egg set, melt, fit and reheat. The standard Breakfast Pizza keeps dairy mozzarella."
+          ]
+        }
+      },
+      "plannerOnly": true,
+      "productionHold": "Barry-only planning variant. Dairy-free cheese has less protein than the standard milk mozzarella. Confirm Daiya package, egg set, melt/reheat, container fit, finished weight and dairy-free prep before production or labeling."
+    },
+    "p5": {
+      "name": "Private Dairy-Free Meatball Arrabbiata",
+      "category": "Internal custom meal",
+      "aliases": [],
+      "status": "Batch 21 controlled planning recipe",
+      "recommendation": "Confirm actual purchased panels and measured yields.",
+      "tiers": {
+        "lean": {
+          "ingredients": [
+            {
+              "key": "beef_90_raw",
+              "sourceKey": "beef_90_baked",
+              "name": "Ground beef 90/10, raw",
+              "amount": 165.0,
+              "unit": "g",
+              "station": "Beef",
+              "note": "Raw purchasing/prep quantity; modeled 72% cooked yield.",
+              "confidence": "high",
+              "measure": {
+                "type": "meat"
+              }
+            },
+            {
+              "key": "kroger_protein_pasta",
+              "sourceKey": "kroger_protein_pasta",
+              "name": "Kroger protein pasta",
+              "amount": 65,
+              "unit": "g",
+              "station": "Starches & Hot Sides",
+              "note": "",
+              "confidence": "medium"
+            },
+            {
+              "key": "crushed_tomatoes",
+              "sourceKey": "crushed_tomatoes",
+              "name": "Canned crushed tomatoes",
+              "amount": 150,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "medium"
+            },
+            {
+              "key": "garlic",
+              "sourceKey": "garlic",
+              "name": "Garlic, raw",
+              "amount": 18,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "tomato_paste",
+              "sourceKey": "tomato_paste",
+              "name": "Tomato paste",
+              "amount": 16,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "daiya_mozzarella",
+              "sourceKey": "daiya_mozzarella",
+              "name": "Daiya Dairy-Free Mozzarella Shreds",
+              "amount": 28,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "planning"
+            },
+            {
+              "key": "onion",
+              "sourceKey": "onion",
+              "name": "Onion, raw",
+              "amount": 50,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "egg",
+              "sourceKey": "egg",
+              "name": "Whole egg",
+              "amount": 0.4125,
+              "unit": "each",
+              "station": "Breakfast & Desserts",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "breadcrumbs",
+              "sourceKey": "breadcrumbs",
+              "name": "Seasoned dry breadcrumbs",
+              "amount": 6.1875,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "",
+              "confidence": "low"
+            },
+            {
+              "key": "salt",
+              "sourceKey": "salt",
+              "name": "Table salt",
+              "amount": 0.75,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "",
+              "confidence": "high",
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 6.0
+              }
+            }
+          ],
+          "confidence": "planning",
+          "assumptions": [
+            "One garlic clove is treated as 3g.",
+            "Half tablespoon breadcrumbs treated as 3.75g per 100g beef.",
+            "No cooking oil is counted; 0.75g/1g Lean/Bulk salt is modeled.",
+            "Use the exact Kroger protein pasta identity; do not substitute the historical Barilla spaghetti or Caprese Rotini records.",
+            "Barry-only pasta: substitute Daiya dairy-free mozzarella gram for gram. Check the actual breadcrumb and protein-pasta packages for milk before preparing it."
+          ]
+        },
+        "bulk": {
+          "ingredients": [
+            {
+              "key": "beef_90_raw",
+              "sourceKey": "beef_90_baked",
+              "name": "Ground beef 90/10, raw",
+              "amount": 220.0,
+              "unit": "g",
+              "station": "Beef",
+              "note": "Raw purchasing/prep quantity; modeled 72% cooked yield.",
+              "confidence": "high",
+              "measure": {
+                "type": "meat"
+              }
+            },
+            {
+              "key": "kroger_protein_pasta",
+              "sourceKey": "kroger_protein_pasta",
+              "name": "Kroger protein pasta",
+              "amount": 76,
+              "unit": "g",
+              "station": "Starches & Hot Sides",
+              "note": "",
+              "confidence": "medium"
+            },
+            {
+              "key": "crushed_tomatoes",
+              "sourceKey": "crushed_tomatoes",
+              "name": "Canned crushed tomatoes",
+              "amount": 150,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "medium"
+            },
+            {
+              "key": "garlic",
+              "sourceKey": "garlic",
+              "name": "Garlic, raw",
+              "amount": 18,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "tomato_paste",
+              "sourceKey": "tomato_paste",
+              "name": "Tomato paste",
+              "amount": 16,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "daiya_mozzarella",
+              "sourceKey": "daiya_mozzarella",
+              "name": "Daiya Dairy-Free Mozzarella Shreds",
+              "amount": 28,
+              "unit": "g",
+              "station": "Sauces & Dairy",
+              "note": "",
+              "confidence": "planning"
+            },
+            {
+              "key": "onion",
+              "sourceKey": "onion",
+              "name": "Onion, raw",
+              "amount": 50,
+              "unit": "g",
+              "station": "Cold Prep & Produce",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "egg",
+              "sourceKey": "egg",
+              "name": "Whole egg",
+              "amount": 0.55,
+              "unit": "each",
+              "station": "Breakfast & Desserts",
+              "note": "",
+              "confidence": "high"
+            },
+            {
+              "key": "breadcrumbs",
+              "sourceKey": "breadcrumbs",
+              "name": "Seasoned dry breadcrumbs",
+              "amount": 8.25,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "",
+              "confidence": "low"
+            },
+            {
+              "key": "salt",
+              "sourceKey": "salt",
+              "name": "Table salt",
+              "amount": 1,
+              "unit": "g",
+              "station": "Dry Prep & Seasonings",
+              "note": "",
+              "confidence": "high",
+              "measure": {
+                "type": "spice",
+                "gramsPerTsp": 6.0
+              }
+            }
+          ],
+          "confidence": "planning",
+          "assumptions": [
+            "One garlic clove is treated as 3g.",
+            "Half tablespoon breadcrumbs treated as 3.75g per 100g beef.",
+            "No cooking oil is counted; 0.75g/1g Lean/Bulk salt is modeled.",
+            "Use the exact Kroger protein pasta identity; do not substitute the historical Barilla spaghetti or Caprese Rotini records.",
+            "Barry-only pasta: substitute Daiya dairy-free mozzarella gram for gram. Check the actual breadcrumb and protein-pasta packages for milk before preparing it."
+          ]
+        }
+      },
+      "plannerOnly": true,
+      "productionHold": "Barry-only planning variant. Confirm Daiya, breadcrumb and pasta packages, finished weight and dairy-free prep before production or labeling."
     }
   },
   "recipeLibrary": {},

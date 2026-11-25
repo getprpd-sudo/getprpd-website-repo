@@ -161,6 +161,22 @@ function renderWeeklyHomepage() {
     card.append(imageWrap, body);
     grid.append(card);
   });
+
+  const macroPreview = document.getElementById('homeMacroPreview');
+  const featuredBundle = (menu.exclusives || []).find(dish => dish.category === 'bundle' && dish.variants?.length);
+  const exampleVariant = featuredBundle?.variants.find(variant => variant.id.startsWith('lean-'));
+  if (macroPreview && open && exampleVariant && window.PRPD_ORDER_NUTRITION) {
+    const example = window.PRPD_ORDER_NUTRITION.summarizeOrder([
+      {dish: featuredBundle, tier: exampleVariant.id, qty: 1},
+    ], menu);
+    if (example.mealCount > 0 && example.missing.length === 0) {
+      document.getElementById('homeMacroExample').textContent = `Example: ${exampleVariant.label}. Your own selection updates as you build your box.`;
+      document.getElementById('homeMacroMeals').textContent = example.mealCount;
+      document.getElementById('homeMacroProtein').textContent = `${example.meals.protein}g`;
+      document.getElementById('homeMacroCalories').textContent = example.meals.cal.toLocaleString();
+      macroPreview.hidden = false;
+    }
+  }
 }
 
 renderWeeklyHomepage();
