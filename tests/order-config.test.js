@@ -668,15 +668,15 @@ test('public order form collects delivery details and requests an emailed confir
   assert.match(orderJs, /field\.required = !pickup/);
 });
 
-test('public order form captures referral attribution and explicit menu-email consent', () => {
+test('public order form captures referral attribution without automated menu-email consent', () => {
   const orderHtml = fs.readFileSync(path.join(__dirname, '..', 'order.html'), 'utf8');
   const orderJs = fs.readFileSync(path.join(__dirname, '..', 'order.js'), 'utf8');
   assert.match(orderHtml, /id="promoCode"/);
   assert.match(orderHtml, /id="pickupPromoVerification"[^>]*hidden/);
   assert.match(orderHtml, /id="pickupVerificationAddress"[^>]*disabled/);
   assert.match(orderHtml, /id="pickupVerificationZip"[^>]*disabled/);
-  assert.match(orderHtml, /id="menuEmailOptIn"/);
-  assert.doesNotMatch(orderHtml, /id="menuEmailOptIn"[^>]*checked/i);
+  assert.doesNotMatch(orderHtml, /id="menuEmailOptIn"/);
+  assert.match(orderJs, /menuEmailOptIn: false/);
   assert.match(orderJs, /utmSource/);
   assert.match(orderJs, /captureAttribution/);
   assert.match(orderJs, /PlaceAnOrder/);

@@ -1762,7 +1762,7 @@ const ORDER_API_URL = '/api/order';
         taxableDelivery: tax.taxableDelivery,
         taxRate: tax.taxRate,
         salesTax: tax.salesTax,
-        menuEmailOptIn: document.getElementById('menuEmailOptIn').checked,
+        menuEmailOptIn: false,
         notes,
         discoverySource,
         website: document.getElementById('orderWebsite')?.value || '',
