@@ -2,7 +2,7 @@ const ORDER_CONFIG = {
   "batch": {
     "number": 21,
     "published": true,
-    "remindersEnabled": true,
+    "remindersEnabled": false,
     "deliveryDate": "Saturday, November 28, 2026",
     "cutoffIso": "2026-11-25T18:00:00-06:00",
     "cutoffLabel": "Wednesday at 6:00 PM CT",
