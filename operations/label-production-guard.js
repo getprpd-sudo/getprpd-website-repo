@@ -407,6 +407,15 @@
       && isoDate(addDays(made, refrigeratedDays - 1)) !== isoDate(useBy)) {
       errors.push('The controlled refrigerate-through date does not match the inclusive refrigerated-day count.');
     }
+    if (configured.actualComponentDatesRequired === true) {
+      if (!utcDate(configured.actualEarliestComponentDate)
+        || configured.actualEarliestComponentDate !== configured.madeDate) {
+        errors.push('Record the actual earliest prepared-component date and align the made and use-by dates before printing.');
+      }
+      if (configured.coldChainVerified !== true) {
+        errors.push('Verify the Batch 21 cooling and refrigerated holding record before printing.');
+      }
+    }
     if (configured.batchId !== expectedBatchId(batchNumber, configured.madeDate)) {
       errors.push('The controlled label batch ID does not match the batch number and made date.');
     }

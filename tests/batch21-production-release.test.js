@@ -70,5 +70,8 @@ test('private kofta label needs its own measured weight and business address', (
   batch.labelProduction.manufacturerAddress = '123 Test Street, The Colony, TX 75056';
   assert.match(guard.validateLabelProduction(input).errors.join(' '), /purchased ingredient and allergen panels/);
   batch.labelProduction.purchasedPanelsVerified = true;
+  assert.match(guard.validateLabelProduction(input).errors.join(' '), /actual earliest prepared-component date/);
+  batch.labelProduction.actualEarliestComponentDate = batch.labelProduction.madeDate;
+  batch.labelProduction.coldChainVerified = true;
   assert.equal(guard.validateLabelProduction(input).ok, true);
 });

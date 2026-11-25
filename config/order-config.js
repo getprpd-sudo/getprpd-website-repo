@@ -16,7 +16,9 @@ const ORDER_CONFIG = {
       "dateBasis": "planned-standard",
       "advancePrintApproved": false,
       "refrigeratedDays": 4,
-      "actualComponentDatesRequired": true
+      "actualComponentDatesRequired": true,
+      "actualEarliestComponentDate": "",
+      "coldChainVerified": false
     }
   },
   "policies": {
