@@ -359,7 +359,7 @@
       }
     }
 
-    if (errors.length) return { ok: false, errors };
+    if (!configured || !generated) return { ok: false, errors };
 
     const made = utcDate(configured.madeDate);
     const useBy = utcDate(configured.useByDate);
