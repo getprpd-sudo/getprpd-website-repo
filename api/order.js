@@ -131,6 +131,10 @@ function orderMinimumReached(mealSubtotal, minimumOrder) {
   return roundedFoodSubtotal(mealSubtotal) >= Number(minimumOrder);
 }
 
+function freeDeliveryReached(mealSubtotal, freeDeliveryThreshold) {
+  return roundedFoodSubtotal(mealSubtotal) >= Number(freeDeliveryThreshold);
+}
+
 function deliveryPolicyForZip(zipCode, policies = ORDER_CONFIG.policies) {
   const quote = quoteDeliveryZone(zipCode, policies);
   return quote.supported ? quote.policy : null;
@@ -377,14 +381,14 @@ function validateAndBuildOrder(raw, availablePromotions = PROMOTIONS.codes || []
   if (!orderMinimumReached(mealSubtotal, deliveryPolicy.minimumOrder)) {
     throw new Error(`The $${deliveryPolicy.minimumOrder.toFixed(0)} ${deliveryPolicy.label} order minimum has not been met.`);
   }
-  const deliveryFee = mealSubtotal >= deliveryPolicy.freeDeliveryThreshold ? 0 : deliveryPolicy.deliveryFee;
+  const deliveryFee = freeDeliveryReached(mealSubtotal, deliveryPolicy.freeDeliveryThreshold) ? 0 : deliveryPolicy.deliveryFee;
   const discountAmount = discountForPromotion(promotion, mealSubtotal);
   const taxableItems = sauces.extraQty > 0
     ? items.concat([{ taxClass: sauceProgram.taxClass || 'classification-pending', subtotal: sauces.extraSubtotal }])
     : items;
   const tax = calculateSalesTax(taxableItems, mealSubtotal, deliveryFee, discountAmount, taxPolicy);
   const exactTotal = money(Math.max(0, mealSubtotal + deliveryFee - discountAmount + tax.salesTax));
-  const roundedTotal = taxPolicy?.enabled ? exactTotal : Math.ceil(exactTotal);
+  const roundedTotal = exactTotal;
   if (!Number.isFinite(roundedTotal) || roundedTotal <= 0 || roundedTotal > 5000) {
     throw new Error('Invalid order total.');
   }

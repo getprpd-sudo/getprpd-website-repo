@@ -23,7 +23,7 @@ const ORDER_CONFIG = {
   },
   "policies": {
     "minimumOrder": 60,
-    "freeDeliveryThreshold": 85,
+    "freeDeliveryThreshold": 90,
     "deliveryFee": 9.99,
     "deliveryZones": {
       "pickup": {
@@ -39,21 +39,21 @@ const ORDER_CONFIG = {
         "id": "core",
         "label": "Local Delivery",
         "minimumOrder": 60,
-        "freeDeliveryThreshold": 85,
+        "freeDeliveryThreshold": 90,
         "deliveryFee": 9.99
       },
       "regional": {
         "id": "regional",
         "label": "Regional Delivery",
         "minimumOrder": 70,
-        "freeDeliveryThreshold": 100,
+        "freeDeliveryThreshold": 125,
         "deliveryFee": 12.99
       },
       "extended": {
         "id": "extended",
         "label": "Extended Delivery",
         "minimumOrder": 100,
-        "freeDeliveryThreshold": 135,
+        "freeDeliveryThreshold": 150,
         "deliveryFee": 14.99
       }
     },

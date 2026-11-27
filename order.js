@@ -72,6 +72,10 @@ const ORDER_API_URL = '/api/order';
       return roundedFoodSubtotal(mealSubtotal) >= Number(minimumOrder);
     }
 
+    function freeDeliveryReached(mealSubtotal, freeDeliveryThreshold) {
+      return roundedFoodSubtotal(mealSubtotal) >= Number(freeDeliveryThreshold);
+    }
+
     function amountToOrderMinimum(mealSubtotal, minimumOrder) {
       const lowestQualifyingSubtotal = Number(minimumOrder) - 0.99;
       return Math.max(0, moneyAmount(lowestQualifyingSubtotal - moneyAmount(mealSubtotal)));
@@ -1133,7 +1137,7 @@ const ORDER_API_URL = '/api/order';
       const discountAmount = discountForPromotion(appliedPromotion, mealSubtotal);
       const tax = calculateSalesTax(ordered, mealSubtotal, deliveryFee, discountAmount);
       const exactTotal = Math.max(0, mealSubtotal + deliveryFee - discountAmount + tax.salesTax);
-      const roundedTotal = TAX_POLICY.enabled ? moneyAmount(exactTotal) : Math.ceil(exactTotal);
+      const roundedTotal = moneyAmount(exactTotal);
       document.getElementById('mealSubtotalDisplay').textContent = '$' + itemSubtotal.toFixed(2);
       document.getElementById('sauceExtrasRow').hidden = !SAUCE_PROGRAM.enabled || sauceQuote.extraQty === 0;
       document.getElementById('sauceExtrasCount').textContent = sauceQuote.extraQty > 0 ? `(${sauceQuote.extraQty})` : '';
@@ -1185,8 +1189,8 @@ const ORDER_API_URL = '/api/order';
           mobileStatus.textContent = 'Enter ZIP for exact delivery';
         } else if (!orderMinimumReached(mealSubtotal, minimumOrder)) {
           mobileStatus.textContent = `$${amountToOrderMinimum(mealSubtotal, minimumOrder).toFixed(2)} to ${pricingPolicy.label} minimum`;
-        } else if (mealSubtotal < freeDeliveryThreshold) {
-          mobileStatus.textContent = `$${(freeDeliveryThreshold - mealSubtotal).toFixed(2)} to free delivery`;
+        } else if (!freeDeliveryReached(mealSubtotal, freeDeliveryThreshold)) {
+          mobileStatus.textContent = `$${amountToOrderMinimum(mealSubtotal, freeDeliveryThreshold).toFixed(2)} to free delivery`;
         } else {
           mobileStatus.textContent = 'Free delivery unlocked';
         }
@@ -1322,7 +1326,7 @@ const ORDER_API_URL = '/api/order';
 
     function getDeliveryFee(mealSubtotal, deliveryPolicy = currentDeliveryPolicy() || CORE_DELIVERY_POLICY) {
       if (mealSubtotal <= 0) return 0;
-      return mealSubtotal >= Number(deliveryPolicy.freeDeliveryThreshold) ? 0 : Number(deliveryPolicy.deliveryFee);
+      return freeDeliveryReached(mealSubtotal, deliveryPolicy.freeDeliveryThreshold) ? 0 : Number(deliveryPolicy.deliveryFee);
     }
 
     function updateOrderPolicies(mealSubtotal, deliveryPolicy = currentDeliveryPolicy()) {
@@ -1395,13 +1399,14 @@ const ORDER_API_URL = '/api/order';
         return;
       }
 
-      deliveryEl.classList.toggle('is-good', mealSubtotal >= freeDeliveryThreshold);
-      deliveryEl.classList.toggle('is-warning', mealSubtotal > 0 && mealSubtotal < freeDeliveryThreshold);
-      const amountToFreeDelivery = Math.max(freeDeliveryThreshold - mealSubtotal, 0);
-      deliveryEl.querySelector('span').textContent = mealSubtotal >= freeDeliveryThreshold
+      const deliveryIsFree = freeDeliveryReached(mealSubtotal, freeDeliveryThreshold);
+      deliveryEl.classList.toggle('is-good', deliveryIsFree);
+      deliveryEl.classList.toggle('is-warning', mealSubtotal > 0 && !deliveryIsFree);
+      const amountToFreeDelivery = amountToOrderMinimum(mealSubtotal, freeDeliveryThreshold);
+      deliveryEl.querySelector('span').textContent = deliveryIsFree
         ? 'Free delivery applied'
         : 'Add $' + amountToFreeDelivery.toFixed(2) + ' more';
-      deliveryEl.querySelector('strong').textContent = mealSubtotal >= freeDeliveryThreshold
+      deliveryEl.querySelector('strong').textContent = deliveryIsFree
         ? 'You save $' + deliveryFee.toFixed(2) + ` · ${policy.label}`
         : `for free ${policy.label} delivery at $${freeDeliveryThreshold.toFixed(0)}`;
     }
@@ -1723,7 +1728,7 @@ const ORDER_API_URL = '/api/order';
       const discountAmount = discountForPromotion(appliedPromotion, mealSubtotal);
       const tax = calculateSalesTax(ordered, mealSubtotal, deliveryFee, discountAmount);
       const exactTotal = Math.max(0, mealSubtotal + deliveryFee - discountAmount + tax.salesTax);
-      const roundedTotal = TAX_POLICY.enabled ? moneyAmount(exactTotal) : Math.ceil(exactTotal);
+      const roundedTotal = moneyAmount(exactTotal);
       if (!orderMinimumReached(mealSubtotal, deliveryPolicy.minimumOrder)) {
         if (typeof window.trackPrpdFunnelEvent === 'function') {
           window.trackPrpdFunnelEvent('checkout_blocked', {

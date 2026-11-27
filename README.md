@@ -281,14 +281,14 @@ Bulk is always $2 more than lean. Desserts have no tier toggle.
 ### Order Minimum + Delivery
 
 - Minimum food subtotal: `$60`
-- Local delivery: `$60` minimum, `$9.99` delivery, free delivery at an `$85` food subtotal.
-- Regional delivery: `$70` minimum, `$12.99` delivery, free delivery at a `$100` food subtotal.
-- Extended delivery: `$100` minimum, `$14.99` delivery, free delivery at a `$135` food subtotal.
+- Local delivery: `$60` minimum, `$9.99` delivery, free delivery at a `$90` rounded food subtotal.
+- Regional delivery: `$70` minimum, `$12.99` delivery, free delivery at a `$125` rounded food subtotal.
+- Extended delivery: `$100` minimum, `$14.99` delivery, free delivery at a `$150` rounded food subtotal.
 - The server uses the five-digit delivery ZIP centroid and a controlled routing estimate: up to `25` one-way miles is local, more than `25` through `35` miles is regional, more than `35` through `60` miles is extended, and farther ZIPs cannot complete automatic checkout.
 - The public quote returns only eligibility and pricing; it does not expose the internal dispatch reference, city lookup, or calculated mileage.
 - The minimum and free-delivery threshold use the meal subtotal before any partner discount.
 - An approved partner discount is deducted after delivery is calculated.
-- Final amount due is rounded up to the nearest dollar after delivery and discount are applied.
+- The food subtotal is rounded up to the next dollar only for minimum-order and free-delivery eligibility. New order amounts due use exact cents; older saved invoices retain their original totals.
 - `/api/order` recomputes these totals server-side; do not trust browser-submitted totals.
 
 ### Partner Codes + Attribution
@@ -314,7 +314,7 @@ The scheduled cadence is Monday at 6:00 PM CT, Tuesday at 6:00 PM CT, and Wednes
 ### Order Cutoff + Confirmation
 
 - Orders automatically close at the batch `cutoffIso` time. The standard Wednesday 6:00 PM Central cutoff was restored after the one-time Batch 6 extension closed.
-- Delivery pricing is ZIP-based. The current Local / Regional / Extended policies are respectively: $60 / $70 / $100 food-order minimums; $9.99 / $12.99 / $14.99 delivery fees; and free delivery at $85 / $100 / $135 food subtotals. An order minimum and a free-delivery threshold are separate rules.
+- Delivery pricing is ZIP-based. The current Local / Regional / Extended policies are respectively: $60 / $70 / $100 food-order minimums; $9.99 / $12.99 / $14.99 delivery fees; and free delivery at $90 / $125 / $150 rounded food subtotals. An order minimum and a free-delivery threshold are separate rules.
 - The frontend replaces the menu with an orders-closed message after cutoff.
 - `/api/order` independently rejects late orders using the shared `batch.cutoffIso` value.
 - Successful confirmations show an itemized order, meal subtotal, delivery fee, total due, delivery date, and order reference.

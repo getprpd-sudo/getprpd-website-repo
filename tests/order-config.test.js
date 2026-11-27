@@ -343,7 +343,7 @@ test('server recalculates an approved discount and ignores client-submitted tota
     assert.equal(order.deliveryZoneLabel, 'Local Delivery');
     assert.equal(order.discountAmount, 15);
     assert.equal(order.exactTotal, 60.93);
-    assert.equal(order.roundedTotal, 61);
+    assert.equal(order.roundedTotal, 60.93);
     assert.equal(order.promoCode, 'TEST15');
     assert.equal(order.promotionPartner, 'Test Partner');
     assert.equal(order.menuEmailOptIn, true);
@@ -359,21 +359,21 @@ test('server selects local, regional, or extended pricing by ZIP and rejects out
     id: 'core',
     label: 'Local Delivery',
     minimumOrder: 60,
-    freeDeliveryThreshold: 85,
+    freeDeliveryThreshold: 90,
     deliveryFee: 9.99,
   });
   assert.deepEqual(orderApi._test.deliveryPolicyForZip('75063', config.policies), {
     id: 'regional',
     label: 'Regional Delivery',
     minimumOrder: 70,
-    freeDeliveryThreshold: 100,
+    freeDeliveryThreshold: 125,
     deliveryFee: 12.99,
   });
   assert.deepEqual(orderApi._test.deliveryPolicyForZip('76107', config.policies), {
     id: 'extended',
     label: 'Extended Delivery',
     minimumOrder: 100,
-    freeDeliveryThreshold: 135,
+    freeDeliveryThreshold: 150,
     deliveryFee: 14.99,
   });
   assert.equal(orderApi._test.deliveryPolicyForZip('77002', config.policies), null);
@@ -421,7 +421,7 @@ test('pickup is free, uses the approved lower food minimum, and never requires a
   assert.equal(order.deliveryFee, 0);
   assert.equal(order.mealSubtotal, 65.94);
   assert.equal(order.exactTotal, 65.94);
-  assert.equal(order.roundedTotal, 66);
+  assert.equal(order.roundedTotal, 65.94);
 });
 
 test('whole-dollar payment rounding satisfies order minimums without counting an exact lower dollar', () => {
@@ -456,7 +456,7 @@ test('whole-dollar payment rounding satisfies order minimums without counting an
   assert.equal(order.mealSubtotal, 49.99);
   assert.equal(order.deliveryFee, 0);
   assert.equal(order.exactTotal, 49.99);
-  assert.equal(order.roundedTotal, 50);
+  assert.equal(order.roundedTotal, 49.99);
 });
 
 test('browser checkout uses the pickup floor and method-aware rounded minimum checks', () => {
@@ -542,10 +542,14 @@ test('server enforces the extended minimum and applies its fee until the free-de
   assert.equal(paidDelivery.deliveryFee, 14.99);
   assert.equal(paidDelivery.exactTotal, 124.89);
 
-  const freeDelivery = orderApi._test.validateAndBuildOrder(payload(13, 'C1D2E3F4'), [], draftOrderContext);
-  assert.equal(freeDelivery.mealSubtotal, 142.87);
+  const nearThreshold = orderApi._test.validateAndBuildOrder(payload(13, 'C1D2E3F4'), [], draftOrderContext);
+  assert.equal(nearThreshold.mealSubtotal, 142.87);
+  assert.equal(nearThreshold.deliveryFee, 14.99);
+
+  const freeDelivery = orderApi._test.validateAndBuildOrder(payload(14, 'D1E2F3A4'), [], draftOrderContext);
+  assert.equal(freeDelivery.mealSubtotal, 153.86);
   assert.equal(freeDelivery.deliveryFee, 0);
-  assert.equal(freeDelivery.exactTotal, 142.87);
+  assert.equal(freeDelivery.exactTotal, 153.86);
 });
 
 test('server enforces the regional minimum and applies its fee until the regional free-delivery threshold', () => {
@@ -581,13 +585,17 @@ test('server enforces the regional minimum and applies its fee until the regiona
   assert.equal(paidDelivery.deliveryFee, 12.99);
   assert.equal(paidDelivery.exactTotal, 89.92);
 
-  const freeDelivery = orderApi._test.validateAndBuildOrder(payload(10, 'F1A2B3C4'), [], draftOrderContext);
-  assert.equal(freeDelivery.mealSubtotal, 109.9);
+  const nearThreshold = orderApi._test.validateAndBuildOrder(payload(10, 'F1A2B3C4'), [], draftOrderContext);
+  assert.equal(nearThreshold.mealSubtotal, 109.9);
+  assert.equal(nearThreshold.deliveryFee, 12.99);
+
+  const freeDelivery = orderApi._test.validateAndBuildOrder(payload(12, 'A1B2C3D4'), [], draftOrderContext);
+  assert.equal(freeDelivery.mealSubtotal, 131.88);
   assert.equal(freeDelivery.deliveryFee, 0);
-  assert.equal(freeDelivery.exactTotal, 109.9);
+  assert.equal(freeDelivery.exactTotal, 131.88);
 });
 
-test('local delivery stays $9.99 below $85 and becomes free at the approved $85 threshold', () => {
+test('local delivery stays $9.99 below the $90 rounded threshold', () => {
   const payload = (qty, suffix) => ({
     action: 'order',
     orderId: `PRPD-B14-20261005-${suffix}`,
@@ -615,10 +623,14 @@ test('local delivery stays $9.99 below $85 and becomes free at the approved $85 
   assert.equal(paidDelivery.deliveryFee, 9.99);
   assert.equal(paidDelivery.exactTotal, 86.92);
 
-  const freeDelivery = orderApi._test.validateAndBuildOrder(payload(8, 'B6C7D8E9'), [], draftOrderContext);
-  assert.equal(freeDelivery.mealSubtotal, 87.92);
+  const nearThreshold = orderApi._test.validateAndBuildOrder(payload(8, 'B6C7D8E9'), [], draftOrderContext);
+  assert.equal(nearThreshold.mealSubtotal, 87.92);
+  assert.equal(nearThreshold.deliveryFee, 9.99);
+
+  const freeDelivery = orderApi._test.validateAndBuildOrder(payload(9, 'C6D7E8F9'), [], draftOrderContext);
+  assert.equal(freeDelivery.mealSubtotal, 98.91);
   assert.equal(freeDelivery.deliveryFee, 0);
-  assert.equal(freeDelivery.exactTotal, 87.92);
+  assert.equal(freeDelivery.exactTotal, 98.91);
 });
 
 test('server accepts new references and rejects other-batch references', () => {
@@ -778,7 +790,7 @@ test('order page provides menu filters and a minimum-aware sticky mobile cart', 
   assert.match(orderJs, /Free delivery unlocked/);
   assert.match(orderJs, /\/api\/delivery-quote\?zip=/);
   assert.match(orderHtml, /\$9\.99 local · \$12\.99 regional · \$14\.99 extended/);
-  assert.match(orderHtml, /<strong>Local<\/strong>\$60 minimum · \$9\.99 · free at \$85/);
+  assert.match(orderHtml, /<strong>Local<\/strong>\$60 minimum · \$9\.99 · free at \$90/);
   assert.match(orderJs, /\$9\.99 local · \$12\.99 regional · \$14\.99 extended/);
   assert.match(orderCss, /\.order-layout > aside \{ align-self: stretch; \}/);
   assert.match(orderCss, /max-height: calc\(100vh - var\(--banner-h\) - 112px\)/);
