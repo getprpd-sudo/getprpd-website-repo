@@ -132,11 +132,12 @@ def _substitute(record, replacements: dict[str, str], reason: str):
     )
 
 
-def biryani_dairy_free(tier: str):
-    return _substitute(
-        r.biryani(tier), {"fage": "so_delicious_plain_yogurt"},
-        "For every Batch 21 Biryani, use unsweetened plain dairy-free yogurt in both the cooked chicken marinade and the separate 30g green garlic sauce. Keep the two components identified and test the finished flavor before release.",
-    )
+def biryani_greek_yogurt(tier: str):
+    record = r.biryani(tier)
+    return replace(record, assumptions=[
+        *record.assumptions,
+        "Use FAGE Total 0% Greek yogurt in both the chicken marinade and the separate 30g green garlic sauce. Keep the two components identified and test the finished flavor before release.",
+    ])
 
 
 def loaded_buffalo_dairy_free(tier: str):
@@ -796,7 +797,7 @@ RECIPES = {
     "Caprese Protein Pasta Box": (r.caprese_protein_pasta_box, True),
     "Chicken Shakshuka": (lambda tier: _without_component(r.chicken_shakshuka(tier), WHITE_GARLIC_JALAPENO_COMPONENT, "white garlic-jalapeno"), False),
     "Sweet Chili Chicken with Rice": (r.sweet_chili_chicken_plain_rice, False),
-    "Chicken Biryani": (biryani_dairy_free, False),
+    "Chicken Biryani": (biryani_greek_yogurt, False),
     "Butter Chicken": (butter_chicken_cream, False),
     "Loaded Buffalo Chicken Potato": (loaded_buffalo_dairy_free, False),
     "Beef Seekh Kabab Shawarma": (r.shan_seekh_shawarma, False),
@@ -814,7 +815,7 @@ HOLDS = {
     "Classic Mango Lassi": "Verify the purchased Deep Alphonso pulp, FAGE yogurt and Fairlife milk ingredient and allergen panels, and the actual 330 g bottle fill before final label release.",
     "High-Protein Beef Kofta & Roasted Vegetables": "Verify the purchased Shan Seekh mix, mayonnaise, ketchup and sriracha ingredient and allergen panels, then confirm the complete packed serving weight before final label release.",
     "Butter Chicken": "New butter-and-cream sauce is a measured planning recipe. Verify the purchased cream, Shan mix and butter panels, then taste-test and record cooked chicken, sauce and rice yields before final label release.",
-    "Chicken Biryani": "Verify the purchased dairy-free yogurt and Shan packet, then test the chicken marinade and separate green sauce before final label release.",
+    "Chicken Biryani": "Verify the purchased FAGE Greek yogurt and Shan packet, then test the chicken marinade and separate green sauce before final label release.",
     "Loaded Buffalo Chicken Potato": "Verify the purchased Frank's Buffalo bottle and the revised finished sauce portion before final label release.",
     "Buffalo Chicken Pinwheels": "Verify the purchased Frank's Buffalo bottle and the pinwheel's dairy-containing cheese and cream-cheese panels before final label release.",
     "Private Dairy-Free Breakfast Pizza": "Barry-only planning variant. Dairy-free cheese has less protein than the standard milk mozzarella. Confirm Daiya package, egg set, melt/reheat, container fit, finished weight and dairy-free prep before production or labeling.",

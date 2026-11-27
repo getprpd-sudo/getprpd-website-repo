@@ -6240,15 +6240,14 @@
       biryani.prepBatches = biryani.prepBatches.filter(task => task.name !== 'Biryani garnish');
       const marinade = biryani.prepBatches.find(task => task.name === 'Shan Biryani marinade');
       if (marinade) {
-        marinade.ingredientKeys = marinade.ingredientKeys.map(key => key === 'fage' ? 'so_delicious_plain_yogurt' : key);
-        marinade.instruction = 'Coat the chicken with measured Shan mix, unsweetened dairy-free yogurt, lemon, garlic and ginger. Keep this raw-contact marinade separate from the clean green garlic sauce.';
+        marinade.instruction = 'Coat the chicken with measured Shan mix, FAGE Greek yogurt, lemon, garlic and ginger. Keep this raw-contact marinade separate from the clean green garlic sauce.';
         marinade.steps[0] = marinade.instruction;
       }
       biryani.prepSteps = biryani.prepBatches.map(task => task.instruction);
       biryani.steps = [
-        'Soften the measured onion in the assigned avocado oil. Add the chicken with all its Shan and dairy-free yogurt marinade and the measured tomato; cook every chicken piece to 165 F.',
+        'Soften the measured onion in the assigned avocado oil. Add the chicken with all its Shan and Greek yogurt marinade and the measured tomato; cook every chicken piece to 165 F.',
         'Cook the separately staged basmati rice to three-quarters done, drain it, layer over the chicken masala, cover and steam until the rice is tender.',
-        'Record finished yield and divide by tier. Pack one separate, cold 30 g green garlic sauce cup made with dairy-free yogurt per meal; no cilantro garnish or cucumber salad is in the current recipe.',
+        'Record finished yield and divide by tier. Pack one separate, cold 30 g green garlic sauce cup made with FAGE Greek yogurt per meal; no cilantro garnish or cucumber salad is in the current recipe.',
       ];
       biryani.cookPackSteps = biryani.steps;
       biryani.cookDayReservations = biryani.steps;

@@ -412,23 +412,23 @@ const ORDER_CONFIG = {
         "id": "m1",
         "name": "Chicken Biryani",
         "category": "standard",
-        "description": "Shan-spiced chicken thighs and fragrant basmati rice with a separate 30 g green garlic sauce made with dairy-free yogurt.",
+        "description": "Shan-spiced chicken thighs and fragrant basmati rice with a separate 30 g green garlic sauce made with Greek yogurt.",
         "macros": {
           "cal": 545,
-          "protein": 43,
-          "carbs": 50,
+          "protein": 48,
+          "carbs": 49,
           "fiber": 4,
-          "fat": 19
+          "fat": 17
         },
         "bulkMacros": {
           "cal": 705,
-          "protein": 62,
-          "carbs": 52,
-          "fiber": 5,
-          "fat": 26
+          "protein": 67,
+          "carbs": 50,
+          "fiber": 4,
+          "fat": 24
         },
         "nutritionReview": true,
-        "nutritionStatus": "Dairy-free yogurt transition pending purchased package, kitchen test and finished yields",
+        "nutritionStatus": "Greek yogurt recipe pending purchased package, kitchen test and finished yields",
         "taxClass": "exempt-reheatable-meal",
         "image": "/assets/images/meals/menu/chicken-biryani.jpg",
         "newThisWeek": false

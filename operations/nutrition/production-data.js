@@ -998,14 +998,14 @@ const PRPD_PRODUCTION_DATA = {
               "confidence": "medium"
             },
             {
-              "key": "so_delicious_plain_yogurt",
-              "sourceKey": "so_delicious_plain_yogurt",
-              "name": "So Delicious Unsweetened Plain Coconutmilk Yogurt Alternative",
+              "key": "fage",
+              "sourceKey": "fage",
+              "name": "FAGE Total 0%",
               "amount": 50.5479,
               "unit": "g",
               "station": "Sauces & Dairy",
               "note": "component:green-garlic",
-              "confidence": "planning",
+              "confidence": "high",
               "allocations": {
                 "green-garlic": 20.5479
               }
@@ -1121,14 +1121,14 @@ const PRPD_PRODUCTION_DATA = {
               }
             }
           ],
-          "confidence": "planning",
+          "confidence": "medium",
           "assumptions": [
             "Owner confirmed Shan standard Biryani powder. Manufacturer reference: one 50g packet per 1kg meat. PRPD adapts that dose to boneless thighs and its existing lower-rice portions, not the full packet recipe.",
             "Weigh 10g mix for Lean / 15g Bulk. No separate added salt; the mix already contains salt. Check the actual purchased packet variant and nutrition panel.",
             "All 30g yogurt per meal and all masala enter the cooking pot and nutrition calculation. Do not scrape off or assume an unmeasured 75% marinade loss.",
             "The discontinued cucumber salad is excluded from production and nutrition.",
             "Serve 30g green jalapeno garlic sauce with mayonnaise cold, separately from the cooked marinade. Its full nutrition is included.",
-            "For every Batch 21 Biryani, use unsweetened plain dairy-free yogurt in both the cooked chicken marinade and the separate 30g green garlic sauce. Keep the two components identified and test the finished flavor before release."
+            "Use FAGE Total 0% Greek yogurt in both the chicken marinade and the separate 30g green garlic sauce. Keep the two components identified and test the finished flavor before release."
           ]
         },
         "bulk": {
@@ -1157,14 +1157,14 @@ const PRPD_PRODUCTION_DATA = {
               "confidence": "medium"
             },
             {
-              "key": "so_delicious_plain_yogurt",
-              "sourceKey": "so_delicious_plain_yogurt",
-              "name": "So Delicious Unsweetened Plain Coconutmilk Yogurt Alternative",
+              "key": "fage",
+              "sourceKey": "fage",
+              "name": "FAGE Total 0%",
               "amount": 50.5479,
               "unit": "g",
               "station": "Sauces & Dairy",
               "note": "component:green-garlic",
-              "confidence": "planning",
+              "confidence": "high",
               "allocations": {
                 "green-garlic": 20.5479
               }
@@ -1280,14 +1280,14 @@ const PRPD_PRODUCTION_DATA = {
               }
             }
           ],
-          "confidence": "planning",
+          "confidence": "medium",
           "assumptions": [
             "Owner confirmed Shan standard Biryani powder. Manufacturer reference: one 50g packet per 1kg meat. PRPD adapts that dose to boneless thighs and its existing lower-rice portions, not the full packet recipe.",
             "Weigh 10g mix for Lean / 15g Bulk. No separate added salt; the mix already contains salt. Check the actual purchased packet variant and nutrition panel.",
             "All 30g yogurt per meal and all masala enter the cooking pot and nutrition calculation. Do not scrape off or assume an unmeasured 75% marinade loss.",
             "The discontinued cucumber salad is excluded from production and nutrition.",
             "Serve 30g green jalapeno garlic sauce with mayonnaise cold, separately from the cooked marinade. Its full nutrition is included.",
-            "For every Batch 21 Biryani, use unsweetened plain dairy-free yogurt in both the cooked chicken marinade and the separate 30g green garlic sauce. Keep the two components identified and test the finished flavor before release."
+            "Use FAGE Total 0% Greek yogurt in both the chicken marinade and the separate 30g green garlic sauce. Keep the two components identified and test the finished flavor before release."
           ]
         }
       },
@@ -1303,7 +1303,7 @@ const PRPD_PRODUCTION_DATA = {
           }
         ]
       },
-      "productionHold": "Verify the purchased dairy-free yogurt and Shan packet, then test the chicken marinade and separate green sauce before final label release."
+      "productionHold": "Verify the purchased FAGE Greek yogurt and Shan packet, then test the chicken marinade and separate green sauce before final label release."
     },
     "m2": {
       "name": "Butter Chicken",

@@ -16,10 +16,10 @@ const labels = context.window.PRPD_NEXT_LABEL_DATA.meals;
 
 const ingredient = (id, key, tier = 'lean') => production[id].tiers[tier].ingredients.find(item => item.key === key);
 
-test('sitewide Biryani uses plant yogurt in both chicken and its required cup', () => {
-  assert.ok(ingredient('m1', 'so_delicious_plain_yogurt').amount > 30);
-  assert.equal(ingredient('m1', 'fage'), undefined);
-  assert.equal(details.m1.tiers.lean.allergens.includes('MILK'), false);
+test('sitewide Biryani uses Greek yogurt in both chicken and its required cup', () => {
+  assert.ok(ingredient('m1', 'fage').amount > 30);
+  assert.equal(ingredient('m1', 'so_delicious_plain_yogurt'), undefined);
+  assert.equal(details.m1.tiers.lean.allergens.includes('MILK'), true);
   assert.equal(production.m1.service.sideCupComponents[0].gramsPerMeal, 30);
   assert.equal(labels.m1.tiers.lean.nutritionComplete, false);
   assert.equal(details.x0.variants['lean-biryani3-butter2'].components[1].allergens.includes('MILK'), true);
@@ -62,8 +62,8 @@ test('tilapia and popcorn chicken remain recorded without milk', () => {
 test('cook-day planner uses the new products and holds their labels for verification', () => {
   const taskKeys = id => methods.meals[id].prepBatches.flatMap(task => task.ingredientKeys || []);
   for (const id of ['m1']) {
-    assert.ok(taskKeys(id).includes('so_delicious_plain_yogurt'));
-    assert.equal(taskKeys(id).includes('fage'), false);
+    assert.ok(taskKeys(id).includes('fage'));
+    assert.equal(taskKeys(id).includes('so_delicious_plain_yogurt'), false);
   }
   for (const id of ['m3', 'a1']) {
     assert.ok(taskKeys(id).includes('franks_buffalo_wings'));

@@ -154,39 +154,39 @@ const PRPD_MENU_DETAILS = {
           "lean": {
             "label": "LEAN",
             "netWeight": "",
-            "ingredients": "boneless skinless chicken thigh, So Delicious unsweetened plain coconutmilk yogurt alternative, onion, tomato, basmati rice, lemon juice, shan biryani recipe mix (standard powder), garlic, ginger, Great Value light mayonnaise, jalapeno, avocado oil.",
-            "allergens": "CONTAINS: EGG, SOY.",
+            "ingredients": "boneless skinless chicken thigh, FAGE Total 0% nonfat Greek yogurt, onion, tomato, basmati rice, lemon juice, shan biryani recipe mix (standard powder), garlic, ginger, Great Value light mayonnaise, jalapeno, avocado oil.",
+            "allergens": "CONTAINS: EGG, MILK, SOY.",
             "allergenAdvisory": "",
             "nutritionBasis": "",
             "nutrition": {
               "calories": 545,
-              "protein": 43,
-              "carbs": 50,
+              "protein": 48,
+              "carbs": 49,
               "fiber": 4,
-              "fat": 19,
-              "satFat": 5.4,
-              "sugars": 7,
+              "fat": 17,
+              "satFat": 3.9,
+              "sugars": 8,
               "sodium": 1880,
-              "cholesterol": 200
+              "cholesterol": 205
             }
           },
           "bulk": {
             "label": "BULK",
             "netWeight": "",
-            "ingredients": "boneless skinless chicken thigh, So Delicious unsweetened plain coconutmilk yogurt alternative, onion, tomato, basmati rice, lemon juice, shan biryani recipe mix (standard powder), garlic, ginger, Great Value light mayonnaise, avocado oil, jalapeno.",
-            "allergens": "CONTAINS: EGG, SOY.",
+            "ingredients": "boneless skinless chicken thigh, FAGE Total 0% nonfat Greek yogurt, onion, tomato, basmati rice, lemon juice, shan biryani recipe mix (standard powder), garlic, ginger, Great Value light mayonnaise, avocado oil, jalapeno.",
+            "allergens": "CONTAINS: EGG, MILK, SOY.",
             "allergenAdvisory": "",
             "nutritionBasis": "",
             "nutrition": {
               "calories": 705,
-              "protein": 62,
-              "carbs": 52,
-              "fiber": 5,
-              "fat": 26,
-              "satFat": 7.3,
-              "sugars": 8,
-              "sodium": 2790,
-              "cholesterol": 300
+              "protein": 67,
+              "carbs": 50,
+              "fiber": 4,
+              "fat": 24,
+              "satFat": 5.8,
+              "sugars": 9,
+              "sodium": 2800,
+              "cholesterol": 305
             }
           }
         }
@@ -630,20 +630,20 @@ const PRPD_MENU_DETAILS = {
                 "reheat": "Remove the green sauce cup. Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout. Add the cold sauce after heating.",
                 "label": "LEAN",
                 "netWeight": "",
-                "ingredients": "boneless skinless chicken thigh, So Delicious unsweetened plain coconutmilk yogurt alternative, onion, tomato, basmati rice, lemon juice, shan biryani recipe mix (standard powder), garlic, ginger, Great Value light mayonnaise, jalapeno, avocado oil.",
-                "allergens": "CONTAINS: EGG, SOY.",
+                "ingredients": "boneless skinless chicken thigh, FAGE Total 0% nonfat Greek yogurt, onion, tomato, basmati rice, lemon juice, shan biryani recipe mix (standard powder), garlic, ginger, Great Value light mayonnaise, jalapeno, avocado oil.",
+                "allergens": "CONTAINS: EGG, MILK, SOY.",
                 "allergenAdvisory": "",
                 "nutritionBasis": "",
                 "nutrition": {
                   "calories": 545,
-                  "protein": 43,
-                  "carbs": 50,
+                  "protein": 48,
+                  "carbs": 49,
                   "fiber": 4,
-                  "fat": 19,
-                  "satFat": 5.4,
-                  "sugars": 7,
+                  "fat": 17,
+                  "satFat": 3.9,
+                  "sugars": 8,
                   "sodium": 1880,
-                  "cholesterol": 200
+                  "cholesterol": 205
                 }
               },
               {
@@ -685,20 +685,20 @@ const PRPD_MENU_DETAILS = {
                 "reheat": "Remove the green sauce cup. Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout. Add the cold sauce after heating.",
                 "label": "LEAN",
                 "netWeight": "",
-                "ingredients": "boneless skinless chicken thigh, So Delicious unsweetened plain coconutmilk yogurt alternative, onion, tomato, basmati rice, lemon juice, shan biryani recipe mix (standard powder), garlic, ginger, Great Value light mayonnaise, jalapeno, avocado oil.",
-                "allergens": "CONTAINS: EGG, SOY.",
+                "ingredients": "boneless skinless chicken thigh, FAGE Total 0% nonfat Greek yogurt, onion, tomato, basmati rice, lemon juice, shan biryani recipe mix (standard powder), garlic, ginger, Great Value light mayonnaise, jalapeno, avocado oil.",
+                "allergens": "CONTAINS: EGG, MILK, SOY.",
                 "allergenAdvisory": "",
                 "nutritionBasis": "",
                 "nutrition": {
                   "calories": 545,
-                  "protein": 43,
-                  "carbs": 50,
+                  "protein": 48,
+                  "carbs": 49,
                   "fiber": 4,
-                  "fat": 19,
-                  "satFat": 5.4,
-                  "sugars": 7,
+                  "fat": 17,
+                  "satFat": 3.9,
+                  "sugars": 8,
                   "sodium": 1880,
-                  "cholesterol": 200
+                  "cholesterol": 205
                 }
               },
               {
@@ -740,20 +740,20 @@ const PRPD_MENU_DETAILS = {
                 "reheat": "Remove the green sauce cup. Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout. Add the cold sauce after heating.",
                 "label": "BULK",
                 "netWeight": "",
-                "ingredients": "boneless skinless chicken thigh, So Delicious unsweetened plain coconutmilk yogurt alternative, onion, tomato, basmati rice, lemon juice, shan biryani recipe mix (standard powder), garlic, ginger, Great Value light mayonnaise, avocado oil, jalapeno.",
-                "allergens": "CONTAINS: EGG, SOY.",
+                "ingredients": "boneless skinless chicken thigh, FAGE Total 0% nonfat Greek yogurt, onion, tomato, basmati rice, lemon juice, shan biryani recipe mix (standard powder), garlic, ginger, Great Value light mayonnaise, avocado oil, jalapeno.",
+                "allergens": "CONTAINS: EGG, MILK, SOY.",
                 "allergenAdvisory": "",
                 "nutritionBasis": "",
                 "nutrition": {
                   "calories": 705,
-                  "protein": 62,
-                  "carbs": 52,
-                  "fiber": 5,
-                  "fat": 26,
-                  "satFat": 7.3,
-                  "sugars": 8,
-                  "sodium": 2790,
-                  "cholesterol": 300
+                  "protein": 67,
+                  "carbs": 50,
+                  "fiber": 4,
+                  "fat": 24,
+                  "satFat": 5.8,
+                  "sugars": 9,
+                  "sodium": 2800,
+                  "cholesterol": 305
                 }
               },
               {
@@ -795,20 +795,20 @@ const PRPD_MENU_DETAILS = {
                 "reheat": "Remove the green sauce cup. Vent lid and microwave 1.5-2.5 minutes, stirring halfway, until hot throughout. Add the cold sauce after heating.",
                 "label": "BULK",
                 "netWeight": "",
-                "ingredients": "boneless skinless chicken thigh, So Delicious unsweetened plain coconutmilk yogurt alternative, onion, tomato, basmati rice, lemon juice, shan biryani recipe mix (standard powder), garlic, ginger, Great Value light mayonnaise, avocado oil, jalapeno.",
-                "allergens": "CONTAINS: EGG, SOY.",
+                "ingredients": "boneless skinless chicken thigh, FAGE Total 0% nonfat Greek yogurt, onion, tomato, basmati rice, lemon juice, shan biryani recipe mix (standard powder), garlic, ginger, Great Value light mayonnaise, avocado oil, jalapeno.",
+                "allergens": "CONTAINS: EGG, MILK, SOY.",
                 "allergenAdvisory": "",
                 "nutritionBasis": "",
                 "nutrition": {
                   "calories": 705,
-                  "protein": 62,
-                  "carbs": 52,
-                  "fiber": 5,
-                  "fat": 26,
-                  "satFat": 7.3,
-                  "sugars": 8,
-                  "sodium": 2790,
-                  "cholesterol": 300
+                  "protein": 67,
+                  "carbs": 50,
+                  "fiber": 4,
+                  "fat": 24,
+                  "satFat": 5.8,
+                  "sugars": 9,
+                  "sodium": 2800,
+                  "cholesterol": 305
                 }
               },
               {
