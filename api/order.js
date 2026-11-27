@@ -123,16 +123,12 @@ function calculateSalesTax(items, mealSubtotal, deliveryFee, discountAmount, tax
   return { taxableSubtotal, taxableDelivery, taxRate: rate, salesTax };
 }
 
-function roundedFoodSubtotal(value) {
-  return Math.ceil(money(value));
-}
-
 function orderMinimumReached(mealSubtotal, minimumOrder) {
-  return roundedFoodSubtotal(mealSubtotal) >= Number(minimumOrder);
+  return money(mealSubtotal) >= money(minimumOrder);
 }
 
 function freeDeliveryReached(mealSubtotal, freeDeliveryThreshold) {
-  return roundedFoodSubtotal(mealSubtotal) >= Number(freeDeliveryThreshold);
+  return money(mealSubtotal) >= money(freeDeliveryThreshold);
 }
 
 function deliveryPolicyForZip(zipCode, policies = ORDER_CONFIG.policies) {
@@ -1266,8 +1262,8 @@ module.exports._test = {
   isMenuPublished,
   catalogForConfig,
   deliveryPolicyForZip,
-  roundedFoodSubtotal,
   orderMinimumReached,
+  freeDeliveryReached,
   calculateSalesTax,
   normalizeSauceSelections,
   SAUCE_SELECTION_KEYS,

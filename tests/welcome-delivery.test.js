@@ -22,10 +22,8 @@ for(const [zone,method,zip,min,free,fee] of [
   ['pickup','pickup','75035',50,50,0],['local','delivery','75035',60,90,9.99],
   ['regional','delivery','75063',70,125,12.99],['extended','delivery','76107',100,150,14.99],
 ]) {
-  test(`${zone}: rounded food subtotal qualifies for free delivery before discount`,()=>{
-    assert.throws(()=>quote(min-1,method,zip),/minimum has not been met/);
-    const roundedMinimum=quote(min-.01,method,zip);
-    assert.equal(roundedMinimum.roundedTotal,roundedMinimum.exactTotal);
+  test(`${zone}: exact food subtotal controls minimum and free delivery before discount`,()=>{
+    assert.throws(()=>quote(min-.01,method,zip),/minimum has not been met/);
     const atMinimum=quote(min,method,zip);
     assert.equal(atMinimum.deliveryFee,min>=free?0:fee);
     assert.equal(atMinimum.discountAmount,min>=60?10:0);
@@ -33,7 +31,7 @@ for(const [zone,method,zip,min,free,fee] of [
     assert.equal(atFree.deliveryFee,0);
     assert.equal(atFree.exactTotal,Math.max(60,free)-10);
     if(fee) {
-      assert.equal(quote(free-.01,method,zip).deliveryFee,0);
+      assert.equal(quote(free-.01,method,zip).deliveryFee,fee);
       assert.equal(quote(free-1,method,zip).deliveryFee,fee);
     }
   });
@@ -43,11 +41,12 @@ test('local $60 first order is billed at its exact $59.99 total',()=>{
   assert.equal(order.exactTotal,59.99);
   assert.equal(order.roundedTotal,59.99);
 });
-test('extended $149.90 receives free delivery at $150; $149.00 still pays the fee',()=>{
+test('extended $149.90 pays delivery; $150.00 receives free delivery',()=>{
   const near=quote(149.9,'delivery','76107');
-  assert.equal(near.deliveryFee,0);
-  assert.equal(near.roundedTotal,139.9);
+  assert.equal(near.deliveryFee,14.99);
+  assert.equal(near.roundedTotal,154.89);
   assert.equal(quote(149,'delivery','76107').deliveryFee,14.99);
+  assert.equal(quote(150,'delivery','76107').deliveryFee,0);
 });
 test('$60 does not meet regional or extended order minimums',()=>{
   assert.throws(()=>quote(60,'delivery','75063'),/minimum has not been met/);

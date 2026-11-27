@@ -64,21 +64,16 @@ const ORDER_API_URL = '/api/order';
       };
     }
 
-    function roundedFoodSubtotal(value) {
-      return Math.ceil(moneyAmount(value));
-    }
-
     function orderMinimumReached(mealSubtotal, minimumOrder) {
-      return roundedFoodSubtotal(mealSubtotal) >= Number(minimumOrder);
+      return moneyAmount(mealSubtotal) >= moneyAmount(minimumOrder);
     }
 
     function freeDeliveryReached(mealSubtotal, freeDeliveryThreshold) {
-      return roundedFoodSubtotal(mealSubtotal) >= Number(freeDeliveryThreshold);
+      return moneyAmount(mealSubtotal) >= moneyAmount(freeDeliveryThreshold);
     }
 
     function amountToOrderMinimum(mealSubtotal, minimumOrder) {
-      const lowestQualifyingSubtotal = Number(minimumOrder) - 0.99;
-      return Math.max(0, moneyAmount(lowestQualifyingSubtotal - moneyAmount(mealSubtotal)));
+      return Math.max(0, moneyAmount(moneyAmount(minimumOrder) - moneyAmount(mealSubtotal)));
     }
 
     function clearOrderError() {
@@ -1879,7 +1874,7 @@ const ORDER_API_URL = '/api/order';
             repeatable: true,
           });
         }
-        showOrderError(`Pickup orders require a $${checkoutMinimum} rounded food total. Add a few more items to continue.`);
+        showOrderError(`Pickup orders require a $${checkoutMinimum} food subtotal. Add a few more items to continue.`);
         return false;
       }
       return true;

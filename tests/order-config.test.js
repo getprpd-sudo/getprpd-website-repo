@@ -424,15 +424,15 @@ test('pickup is free, uses the approved lower food minimum, and never requires a
   assert.equal(order.roundedTotal, 65.94);
 });
 
-test('whole-dollar payment rounding satisfies order minimums without counting an exact lower dollar', () => {
-  assert.equal(orderApi._test.roundedFoodSubtotal(49.96), 50);
-  assert.equal(orderApi._test.orderMinimumReached(49.96, 50), true);
-  assert.equal(orderApi._test.orderMinimumReached(49.01, 50), true);
+test('food subtotal must meet order minimum in exact cents', () => {
+  assert.equal(orderApi._test.orderMinimumReached(49.96, 50), false);
+  assert.equal(orderApi._test.orderMinimumReached(49.01, 50), false);
   assert.equal(orderApi._test.orderMinimumReached(49, 50), false);
+  assert.equal(orderApi._test.orderMinimumReached(50, 50), true);
 
-  const order = orderApi._test.validateAndBuildOrder({
+  const orderPayload = {
     action: 'order',
-    orderId: 'PRPD-B14-20261005-B1C2D3E4',
+    orderId: `PRPD-B${config.batch.number}-20261127-B1C2D3E4`,
     firstName: 'Pickup',
     lastName: 'Rounding',
     phone: '9725550101',
@@ -445,21 +445,22 @@ test('whole-dollar payment rounding satisfies order minimums without counting an
     deliveryState: '',
     deliveryZip: '',
     deliveryInstructions: '',
-    items: [{ id: 'x0', tier: 'med3-shak2', qty: 1 }],
+    items: [{ id: 'test', tier: 'lean', qty: 1 }],
     promoCode: '',
     menuEmailOptIn: false,
     notes: '',
     website: '',
     formStartedAt: 1,
-  }, [], draftOrderContext);
+  };
 
-  assert.equal(order.mealSubtotal, 49.99);
-  assert.equal(order.deliveryFee, 0);
-  assert.equal(order.exactTotal, 49.99);
-  assert.equal(order.roundedTotal, 49.99);
+  const context = {
+    ...draftOrderContext,
+    catalog: { test: { name: 'Threshold test only', category: 'standard', price: 49.99, available: true, maxQty: 1 } },
+  };
+  assert.throws(() => orderApi._test.validateAndBuildOrder(orderPayload, [], context), /minimum has not been met/);
 });
 
-test('browser checkout uses the pickup floor and method-aware rounded minimum checks', () => {
+test('browser checkout uses the pickup floor and method-aware exact minimum checks', () => {
   const source = fs.readFileSync(path.join(__dirname, '..', 'order.js'), 'utf8');
   assert.match(source, /function orderMinimumReached\(mealSubtotal, minimumOrder\)/);
   assert.match(source, /const checkoutMinimum = Math\.min\(MIN_ORDER_TOTAL, Number\(PICKUP_POLICY\.minimumOrder\)\)/);
