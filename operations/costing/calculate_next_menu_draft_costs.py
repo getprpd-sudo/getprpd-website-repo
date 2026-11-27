@@ -181,7 +181,7 @@ COSTS.update({
     "black_beans": per_g(0.88, 425, "planning", "Generic 15 oz canned black beans"),
     "parmesan": per_g(4.98, 227, "planning", "Generic eight-ounce grated Parmesan estimate"),
     "croutons": per_g(1.98, 142, "planning", "Generic five-ounce crouton package estimate"),
-    "beef_96_raw": per_g(5.98, 453.592, "planning", "Working $5.98/lb 96/4 lean ground-beef estimate; replace with receipt"),
+    "beef_96_raw": per_g(5.70, 453.592, "planning", "Owner-confirmed $5.70/lb 96/4 lean ground beef; grocery catalog below supplies the current rate"),
     "black_pepper": per_g(3.98, 85, "planning", "Generic three-ounce ground black-pepper estimate"),
     "parsley": per_g(0.97, 60, "verified", "Walmart receipt 2026-08-26, one fresh parsley bunch"),
     "red_onion": per_g(1.28, 453.592, "planning", "Generic red-onion produce estimate"),
