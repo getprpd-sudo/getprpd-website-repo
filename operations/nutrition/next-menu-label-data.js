@@ -1,13 +1,13 @@
 window.PRPD_NEXT_LABEL_DATA = {
-  "version": "2026-11-27-generated.2",
+  "version": "2026-11-29-generated.2",
   "status": "batch-21-approved",
-  "menuLabel": "Batch 21 - Saturday, November 28, 2026",
+  "menuLabel": "Batch 21 - Sunday, November 29, 2026",
   "production": {
     "batchNumber": 21,
-    "deliveryDate": "Saturday, November 28, 2026",
-    "madeDate": "2026-11-27",
-    "useByDate": "2026-11-30",
-    "batchId": "B21-1127",
+    "deliveryDate": "Sunday, November 29, 2026",
+    "madeDate": "2026-11-29",
+    "useByDate": "2026-12-02",
+    "batchId": "B21-1129",
     "refrigeratedDays": 4
   },
   "recipeFingerprint": "4525f7f60afeafc3966709f8147f87db93b6056e335ea2e7dba5c52c0cac65b2",
