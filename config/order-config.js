@@ -437,19 +437,19 @@ const ORDER_CONFIG = {
         "id": "m2",
         "name": "Butter Chicken",
         "category": "standard",
-        "description": "Shan-spiced chicken thighs in a measured tomato, butter and cream sauce with basmati rice.",
+        "description": "Shan-spiced chicken thighs in a measured onion, tomato, butter and cream sauce with basmati rice.",
         "macros": {
-          "cal": 635,
-          "protein": 44,
-          "carbs": 46,
-          "fiber": 4,
+          "cal": 655,
+          "protein": 45,
+          "carbs": 51,
+          "fiber": 5,
           "fat": 29
         },
         "bulkMacros": {
-          "cal": 815,
-          "protein": 56,
-          "carbs": 62,
-          "fiber": 5,
+          "cal": 840,
+          "protein": 57,
+          "carbs": 68,
+          "fiber": 6,
           "fat": 36
         },
         "nutritionReview": true,
